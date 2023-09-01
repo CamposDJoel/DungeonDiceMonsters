@@ -1,0 +1,32 @@
+[
+  {
+    "diceinforaw": [
+      {
+        "level": 3,
+        "crest1": "star",
+        "value1": 3,
+        "crest2": "star",
+        "value2": 3,
+        "crest3": "star",
+        "value3": 3,
+        "crest4": "ATK",
+        "value4": 2,
+        "crest5": "MAG",
+        "value5": 2,
+        "crest6": "DEF",
+        "value6": 1
+      }
+    ],
+    "id": 1,
+    "name": "Pumpking King of The Ghost",
+    "level": 6,
+    "attribute": "DARK",
+    "type": "Zombie",
+    "category": "Monster",
+    "atk": 1800,
+    "def": 2000,
+    "lp": 1900,
+    "setpack": "tmp",
+    "rarity": "Super Rare"
+  }
+]

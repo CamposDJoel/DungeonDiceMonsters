@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardInfo.cs" />
+    <Compile Include="DiceInfo.cs" />
     <Compile Include="StartScreen.cs">
       <SubType>Form</SubType>
     </Compile>
