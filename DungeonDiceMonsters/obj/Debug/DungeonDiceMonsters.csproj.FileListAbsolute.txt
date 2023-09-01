@@ -1,0 +1,11 @@
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\DungeonDiceMonsters.exe.config
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\DungeonDiceMonsters.exe
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\DungeonDiceMonsters.pdb
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.AssemblyReference.cache
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.SuggestedBindingRedirects.cache
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.Properties.Resources.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.StartScreen.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.GenerateResource.cache
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.CoreCompileInputs.cache
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.exe
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.pdb
