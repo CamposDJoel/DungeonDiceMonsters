@@ -13,13 +13,13 @@ namespace DungeonDiceMonsters
 {
     public class DiceInfo
     {
-        public DiceInfo(int level, string[] crests, int[] values)
+        public DiceInfo(string level, string[] crests, string[] values)
         {
-            _Level = level;
+            _Level = Convert.ToInt32(level);
             for(int x = 0; x < 6; x++)
             {
                 _Crests[x] = crests[x];
-                _Values[x] = values[x];
+                _Values[x] = Convert.ToInt32(values[x]);
             }
         }
 

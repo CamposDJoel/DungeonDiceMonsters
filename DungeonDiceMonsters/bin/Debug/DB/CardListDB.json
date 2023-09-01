@@ -2,19 +2,19 @@
   {
     "diceinforaw": [
       {
-        "level": 3,
+        "level": "3",
         "crest1": "star",
-        "value1": 3,
+        "value1": "3",
         "crest2": "star",
-        "value2": 3,
+        "value2": "3",
         "crest3": "star",
-        "value3": 3,
+        "value3": "3",
         "crest4": "ATK",
-        "value4": 2,
+        "value4": "2",
         "crest5": "MAG",
-        "value5": 2,
+        "value5": "2",
         "crest6": "DEF",
-        "value6": 1
+        "value6": "1"
       }
     ],
     "id": 1,
@@ -26,6 +26,7 @@
     "atk": 1800,
     "def": 2000,
     "lp": 1900,
+    "cardtext": "tmp",
     "setpack": "tmp",
     "rarity": "Super Rare"
   }
