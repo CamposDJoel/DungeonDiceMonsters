@@ -20,14 +20,20 @@ namespace DungeonDiceMonsters
             //Initialize the DB Read raw data from json file
             string jsonFilePath = Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json";
             string rawdata = File.ReadAllText(jsonFilePath);
-            List<rawcardinfo> _RawCardList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<rawcardinfo>>(rawdata);
+            CardDataBase.rawCardList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<rawcardinfo>>(rawdata);
 
             //convert thre raw data base into the actual (and Clean) CardInfo object list
-            List<CardInfo> CardDataBase = new List<CardInfo>();
-            foreach (rawcardinfo rawcardinfo in _RawCardList)
+            CardDataBase.CardList = new List<CardInfo>();
+            foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
             {
-                CardDataBase.Add(new CardInfo(rawcardinfo));
+                CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
             }          
+        }
+
+        private void btnOpenDBManager_Click(object sender, EventArgs e)
+        {
+            JsonGenerator jsonGenerator = new JsonGenerator();
+            jsonGenerator.Show();
         }
     }
 }

@@ -25,8 +25,8 @@ namespace DungeonDiceMonsters
 
     public class rawdiceinfo
     {
-        public rawdiceinfo(string lv, string cr1, string va1, string cr2, string va2, string cr3, string va3,
-                                      string cr4, string va4, string cr5, string va5, string cr6, string va6)
+        public rawdiceinfo(string lv, string cr1, string cr2, string cr3, string cr4, string cr5, string cr6,
+                                      string va1, string va2, string va3, string va4, string va5, string va6)
         {
             level = lv;
             crest1 = cr1;

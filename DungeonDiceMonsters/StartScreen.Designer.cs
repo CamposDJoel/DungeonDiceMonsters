@@ -29,7 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
+            this.btnOpenDBManager = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnOpenDBManager
+            // 
+            this.btnOpenDBManager.Location = new System.Drawing.Point(12, 502);
+            this.btnOpenDBManager.Name = "btnOpenDBManager";
+            this.btnOpenDBManager.Size = new System.Drawing.Size(107, 47);
+            this.btnOpenDBManager.TabIndex = 0;
+            this.btnOpenDBManager.Text = "Open DB Manager";
+            this.btnOpenDBManager.UseVisualStyleBackColor = true;
+            this.btnOpenDBManager.Click += new System.EventHandler(this.btnOpenDBManager_Click);
             // 
             // StartScreen
             // 
@@ -38,6 +49,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.btnOpenDBManager);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "StartScreen";
@@ -47,6 +59,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnOpenDBManager;
     }
 }
 

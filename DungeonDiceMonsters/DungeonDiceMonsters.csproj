@@ -51,6 +51,13 @@
   <ItemGroup>
     <Compile Include="BDObjects\CardInfo.cs" />
     <Compile Include="BDObjects\DiceInfo.cs" />
+    <Compile Include="CardDataBase.cs" />
+    <Compile Include="JsonGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JsonGenerator.Designer.cs">
+      <DependentUpon>JsonGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
     <Compile Include="StartScreen.cs">
       <SubType>Form</SubType>
@@ -60,6 +67,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="JsonGenerator.resx">
+      <DependentUpon>JsonGenerator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
