@@ -190,5 +190,197 @@
     "setpack": "Beginner's Pack",
     "rarity": "Common",
     "fusion": true
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "2",
+        "crest1": "STAR",
+        "value1": "2",
+        "crest2": "STAR",
+        "value2": "2",
+        "crest3": "STAR",
+        "value3": "2",
+        "crest4": "STAR",
+        "value4": "2",
+        "crest5": "MAG",
+        "value5": "3",
+        "crest6": "MAG",
+        "value6": "3"
+      }
+    ],
+    "id": 7,
+    "name": "La Jinn the Mystical Genie of the Lamp",
+    "level": 4,
+    "attribute": "DARK",
+    "type": "Fiend",
+    "category": "Monster",
+    "atk": 1800,
+    "def": 100,
+    "lp": 1400,
+    "cardtext": "Dice Lv 2: [STAR] [STAR] [STAR] [STAR] [MAG3] [MAG3]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Super Rare",
+    "fusion": false
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "2",
+        "crest1": "STAR",
+        "value1": "2",
+        "crest2": "STAR",
+        "value2": "2",
+        "crest3": "STAR",
+        "value3": "2",
+        "crest4": "STAR",
+        "value4": "2",
+        "crest5": "DEF",
+        "value5": "2",
+        "crest6": "MOV",
+        "value6": "1"
+      }
+    ],
+    "id": 8,
+    "name": "Mystical Elf",
+    "level": 4,
+    "attribute": "LIGHT",
+    "type": "Spellcaster",
+    "category": "Monster",
+    "atk": 800,
+    "def": 2000,
+    "lp": 1400,
+    "cardtext": "Dice Lv 2: [STAR] [STAR] [STAR] [STAR] [DEF2] [MOV]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Rare",
+    "fusion": false
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "2",
+        "crest1": "STAR",
+        "value1": "2",
+        "crest2": "STAR",
+        "value2": "2",
+        "crest3": "STAR",
+        "value3": "2",
+        "crest4": "STAR",
+        "value4": "2",
+        "crest5": "TRAP",
+        "value5": "1",
+        "crest6": "TRAP",
+        "value6": "2"
+      }
+    ],
+    "id": 9,
+    "name": "Trap Hole",
+    "level": 1,
+    "attribute": "TRAP",
+    "type": "Normal",
+    "category": "Trap",
+    "atk": 0,
+    "def": 0,
+    "lp": 0,
+    "cardtext": "[TRAP] x2 - When your opponent summons a monster with 100o or less ATK: Target that monster; destroy it.\r\n\r\nDice Lv 2: [STAR] [STAR] [STAR] [STAR] [TRAP] [TRAP]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Ultra Rare",
+    "fusion": false
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "4",
+        "crest1": "STAR",
+        "value1": "4",
+        "crest2": "STAR",
+        "value2": "4",
+        "crest3": "TRAP",
+        "value3": "1",
+        "crest4": "TRAP",
+        "value4": "1",
+        "crest5": "DEF",
+        "value5": "2",
+        "crest6": "MOV",
+        "value6": "2"
+      }
+    ],
+    "id": 10,
+    "name": "Swords of Revealing Light",
+    "level": 1,
+    "attribute": "SPELL",
+    "type": "Normal",
+    "category": "Spell",
+    "atk": 0,
+    "def": 0,
+    "lp": 0,
+    "cardtext": "[MAG] x3 - Spellbound all of your opponent's cards for 3 turns.\r\n\r\nDice Lv 4: [STAR] [STAR] [TRAP] [TRAP] [DEF2] [MOV2]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Super Rare",
+    "fusion": false
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "1",
+        "crest1": "STAR",
+        "value1": "1",
+        "crest2": "STAR",
+        "value2": "1",
+        "crest3": "STAR",
+        "value3": "1",
+        "crest4": "STAR",
+        "value4": "1",
+        "crest5": "STAR",
+        "value5": "1",
+        "crest6": "MOV",
+        "value6": "2"
+      }
+    ],
+    "id": 11,
+    "name": "Yami",
+    "level": 1,
+    "attribute": "SPELL",
+    "type": "Field",
+    "category": "Spell",
+    "atk": 0,
+    "def": 0,
+    "lp": 0,
+    "cardtext": "[MAG] x1 - All Fiend and Spellcaster monsters on the board gain 200 ATK/DEF, also akk Fairy monsters on the board lose 200 ATK/DEF.\r\n\r\nDice Lv 1: [STAR] [STAR] [STAR] [STAR] [STAR] [MOV2]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common",
+    "fusion": false
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "3",
+        "crest1": "STAR",
+        "value1": "3",
+        "crest2": "STAR",
+        "value2": "3",
+        "crest3": "STAR",
+        "value3": "3",
+        "crest4": "MOV",
+        "value4": "2",
+        "crest5": "MOV",
+        "value5": "2",
+        "crest6": "TRAP",
+        "value6": "2"
+      }
+    ],
+    "id": 12,
+    "name": "Shield & Sword",
+    "level": 1,
+    "attribute": "SPELL",
+    "type": "Continuous",
+    "category": "Spell",
+    "atk": 0,
+    "def": 0,
+    "lp": 0,
+    "cardtext": "[MAG] x3 - Switch the original ATK and DEF of all monsters on the board.\r\n\r\nDice Lv 3: [STAR] [STAR] [STAR] [MOV2] [MOV2] [TRAP2]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common",
+    "fusion": false
   }
 ]
