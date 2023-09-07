@@ -1,1 +1,188 @@
-[{"diceinforaw":[{"level":"3","crest1":"STAR","value1":"3","crest2":"STAR","value2":"3","crest3":"STAR","value3":"3","crest4":"ATK","value4":"2","crest5":"DEF","value5":"1","crest6":"MOV","value6":"1"}],"id":1,"name":"Pumpking King of The Ghost","level":6,"attribute":"DARK","type":"Zombie","category":"Monster","atk":1800,"def":2000,"lp":1900,"cardtext":"[Mag] x1 - Increase the ATK/DEF of all your Zombie-Type Monsters on the field (except \"Pumpking the King of Ghosts\") by 100. Dice Lv 3: [STAR] [STAR] [STAR] [ATK2] [DEF] [MOV]","setpack":"Beginner's Pack","rarity":"Super Rare"}]
+[
+  {
+    "diceinforaw": [
+      {
+        "level": "3",
+        "crest1": "STAR",
+        "value1": "3",
+        "crest2": "STAR",
+        "value2": "3",
+        "crest3": "STAR",
+        "value3": "3",
+        "crest4": "ATK",
+        "value4": "2",
+        "crest5": "DEF",
+        "value5": "1",
+        "crest6": "MOV",
+        "value6": "1"
+      }
+    ],
+    "id": 1,
+    "name": "Pumpking King of The Ghost",
+    "level": 6,
+    "attribute": "DARK",
+    "type": "Zombie",
+    "category": "Monster",
+    "atk": 1800,
+    "def": 2000,
+    "lp": 1900,
+    "cardtext": "[MAG] x1 - Increase the ATK/DEF of all your Zombie-Type Monsters on the field (except \"Pumpking the King of Ghosts\") by 100. \r\n\r\nDice Lv 3: [STAR] [STAR] [STAR] [ATK2] [DEF] [MOV]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Super Rare"
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "4",
+        "crest1": "RITU",
+        "value1": "4",
+        "crest2": "RITU",
+        "value2": "4",
+        "crest3": "ATK",
+        "value3": "5",
+        "crest4": "ATK",
+        "value4": "1",
+        "crest5": "MAG",
+        "value5": "3",
+        "crest6": "MAG",
+        "value6": "1"
+      }
+    ],
+    "id": 2,
+    "name": "Black Luster Soldier",
+    "level": 8,
+    "attribute": "EARTH",
+    "type": "Warrior",
+    "category": "Monster",
+    "atk": 3000,
+    "def": 2500,
+    "lp": 2750,
+    "cardtext": "(Continuous): This card cannot be targetted by your opponent's card effects.\r\n\r\n[MAG] x3 - This card can move 3 spaces per each [MOV] use this turn.\r\n\r\nDice Lv 4: [RIT] [RIT] [ATK5] [ATK] [MAG3] [MAG]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Ultra Rare"
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "4",
+        "crest1": "RITU",
+        "value1": "4",
+        "crest2": "RITU",
+        "value2": "4",
+        "crest3": "TRAP",
+        "value3": "1",
+        "crest4": "TRAP",
+        "value4": "1",
+        "crest5": "DEF",
+        "value5": "1",
+        "crest6": "MOV",
+        "value6": "1"
+      }
+    ],
+    "id": 3,
+    "name": "Black Luster Ritual",
+    "level": 1,
+    "attribute": "SPELL",
+    "type": "Ritual",
+    "category": "Spell",
+    "atk": 0,
+    "def": 0,
+    "lp": 0,
+    "cardtext": "This rutual can only be used to summon \"Black Luster Soldier\"\r\n\r\nDice Lv 4: [RIT] [RIT] [TRAP] [TRAP] [DEF] [MOV]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common"
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "1",
+        "crest1": "STAR",
+        "value1": "1",
+        "crest2": "STAR",
+        "value2": "1",
+        "crest3": "STAR",
+        "value3": "1",
+        "crest4": "STAR",
+        "value4": "1",
+        "crest5": "STAR",
+        "value5": "1",
+        "crest6": "MOV",
+        "value6": "1"
+      }
+    ],
+    "id": 4,
+    "name": "Petit Dragon",
+    "level": 2,
+    "attribute": "WIND",
+    "type": "Dragon",
+    "category": "Monster",
+    "atk": 600,
+    "def": 700,
+    "lp": 600,
+    "cardtext": "Dice Lv 1: [STAR] [STAR] [STAR] [STAR] [STAR] [MOV]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common"
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "2",
+        "crest1": "STAR",
+        "value1": "2",
+        "crest2": "STAR",
+        "value2": "2",
+        "crest3": "STAR",
+        "value3": "2",
+        "crest4": "STAR",
+        "value4": "2",
+        "crest5": "TRAP",
+        "value5": "2",
+        "crest6": "DEF",
+        "value6": "2"
+      }
+    ],
+    "id": 5,
+    "name": "Masaki the Legendary Swordsman",
+    "level": 4,
+    "attribute": "EARTH",
+    "type": "Warrior",
+    "category": "Monster",
+    "atk": 1100,
+    "def": 1100,
+    "lp": 1100,
+    "cardtext": "[TRAP] x1 - Target 1 FIRE monster your opponent controls; Decrease its DEF by 500 until the end of this turn.\r\n\r\nDice Lv 2: [STAR] [STAR] [STAR] [STAR] [TRAP2] [DEF2]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common"
+  },
+  {
+    "diceinforaw": [
+      {
+        "level": "3",
+        "crest1": "STAR",
+        "value1": "3",
+        "crest2": "STAR",
+        "value2": "3",
+        "crest3": "STAR",
+        "value3": "3",
+        "crest4": "ATK",
+        "value4": "3",
+        "crest5": "DEF",
+        "value5": "2",
+        "crest6": "MOV",
+        "value6": "3"
+      }
+    ],
+    "id": 6,
+    "name": "Flame Swordsman",
+    "level": 5,
+    "attribute": "FIRE",
+    "type": "Warrior",
+    "category": "Monster",
+    "atk": 1800,
+    "def": 1600,
+    "lp": 1700,
+    "cardtext": "\"Flame Manipulator\" + \"Masaki the Legendary Swordsman\"\r\n\r\n(Continuous): Decrease the ATK of all your opponent's FIRE monsters by 500.\r\n\r\n[MAG] x2 - Increase the ATK of all your FIRE monsters by 500 until the end of this turn.\r\n\r\nDice Lv 3: [STAR] [STAR] [STAR] [ATK3] [DEF3] [MOV3]",
+    "setpack": "Beginner's Pack",
+    "rarity": "Common"
+  }
+]
