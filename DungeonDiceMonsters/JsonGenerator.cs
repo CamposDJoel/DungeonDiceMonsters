@@ -148,5 +148,79 @@ namespace DungeonDiceMonsters
             //Reload the DB list
             ReloadDBList();
         }
+
+        private void btnEditSelected_Click(object sender, EventArgs e)
+        {
+            //Extract the card info of the selected item
+            int index = listCardList.SelectedIndex;
+            rawcardinfo cardinfo = CardDataBase.rawCardList[index];
+
+            //Override the info with the current set in the UI
+            string id = numID.Value.ToString();
+            string name = txtCardName.Text;
+            string level = numLevel.Value.ToString();
+            string category = listCategory.SelectedItem.ToString();
+            string attribute = listAttribute.SelectedItem.ToString();
+            string type = listType.SelectedItem.ToString();
+            string atk = txtATK.Text.ToString();
+            string def = txtDef.Text.ToString();
+            string lp = txtLp.Text.ToString();
+            string cardtext = txtCardText.Text;
+            string setPack = listSet.SelectedItem.ToString();
+            string rarity = listRarity.SelectedItem.ToString();
+            string diceLevel = numDiceLevel.Value.ToString();
+            string face1Crest = listFace1Crest.Text.ToString();
+            string face2Crest = listFace2Crest.Text.ToString();
+            string face3Crest = listFace3Crest.Text.ToString();
+            string face4Crest = listFace4Crest.Text.ToString();
+            string face5Crest = listFace5Crest.Text.ToString();
+            string face6Crest = listFace6Crest.Text.ToString();
+            string face1Value = listFace1Value.Text.ToString();
+            string face2Value = listFace2Value.Text.ToString();
+            string face3Value = listFace3Value.Text.ToString();
+            string face4Value = listFace4Value.Text.ToString();
+            string face5Value = listFace5Value.Text.ToString();
+            string face6Value = listFace6Value.Text.ToString();
+
+            //override the data
+            cardinfo.id = Convert.ToInt32(id);
+            cardinfo.name = name;
+            cardinfo.level = Convert.ToInt32(level);
+            cardinfo.category = category;
+            cardinfo.attribute = attribute;
+            cardinfo.type = type;
+            cardinfo.atk = Convert.ToInt32(atk);
+            cardinfo.def = Convert.ToInt32(def);
+            cardinfo.lp = Convert.ToInt32(lp);
+            cardinfo.cardtext = cardtext;
+            cardinfo.setpack = setPack;
+            cardinfo.rarity = rarity;
+            cardinfo.diceinforaw.Clear();
+            cardinfo.diceinforaw.Add(new rawdiceinfo(diceLevel, face1Crest, face2Crest, face3Crest, face4Crest, face5Crest, face6Crest,
+                face1Value, face2Value, face3Value, face4Value, face5Value, face6Value));
+
+            //Override the JSON file based on the new rawlist
+            string output = JsonConvert.SerializeObject(CardDataBase.rawCardList);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json", output);
+
+            //Reload the DB list
+            ReloadDBList();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            //Extract the index of the selected item
+            int index = listCardList.SelectedIndex;
+
+            //remove card from the database
+            CardDataBase.rawCardList.RemoveAt(index);
+
+            //Override the JSON file based on the new rawlist
+            string output = JsonConvert.SerializeObject(CardDataBase.rawCardList);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json", output);
+
+            //Reload the DB list
+            ReloadDBList();
+        }
     }
 }

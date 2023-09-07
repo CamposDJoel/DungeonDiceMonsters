@@ -51,30 +51,32 @@
             this.label11 = new System.Windows.Forms.Label();
             this.listRarity = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.listFace1Crest = new System.Windows.Forms.ListBox();
-            this.listFace1Value = new System.Windows.Forms.ListBox();
-            this.numDiceLevel = new System.Windows.Forms.NumericUpDown();
-            this.listFace2Value = new System.Windows.Forms.ListBox();
-            this.listFace2Crest = new System.Windows.Forms.ListBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.listFace3Value = new System.Windows.Forms.ListBox();
-            this.listFace3Crest = new System.Windows.Forms.ListBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.listFace4Value = new System.Windows.Forms.ListBox();
-            this.listFace4Crest = new System.Windows.Forms.ListBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.listFace5Value = new System.Windows.Forms.ListBox();
-            this.listFace5Crest = new System.Windows.Forms.ListBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.listFace6Value = new System.Windows.Forms.ListBox();
             this.listFace6Crest = new System.Windows.Forms.ListBox();
             this.label18 = new System.Windows.Forms.Label();
+            this.listFace5Value = new System.Windows.Forms.ListBox();
+            this.listFace5Crest = new System.Windows.Forms.ListBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.listFace4Value = new System.Windows.Forms.ListBox();
+            this.listFace4Crest = new System.Windows.Forms.ListBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.listFace3Value = new System.Windows.Forms.ListBox();
+            this.listFace3Crest = new System.Windows.Forms.ListBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.listFace2Value = new System.Windows.Forms.ListBox();
+            this.listFace2Crest = new System.Windows.Forms.ListBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.numDiceLevel = new System.Windows.Forms.NumericUpDown();
+            this.listFace1Value = new System.Windows.Forms.ListBox();
+            this.listFace1Crest = new System.Windows.Forms.ListBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.listCardList = new System.Windows.Forms.ListBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtCardText = new System.Windows.Forms.TextBox();
             this.btnAddCard = new System.Windows.Forms.Button();
+            this.btnEditSelected = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLevel)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -360,28 +362,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Dice Info";
             // 
-            // label12
+            // listFace6Value
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(205, 16);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(61, 13);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Dice Level:";
+            this.listFace6Value.FormattingEnabled = true;
+            this.listFace6Value.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.listFace6Value.Location = new System.Drawing.Point(662, 54);
+            this.listFace6Value.Name = "listFace6Value";
+            this.listFace6Value.Size = new System.Drawing.Size(23, 95);
+            this.listFace6Value.TabIndex = 27;
             // 
-            // label13
+            // listFace6Crest
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 38);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(43, 13);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "Face 1:";
-            // 
-            // listFace1Crest
-            // 
-            this.listFace1Crest.FormattingEnabled = true;
-            this.listFace1Crest.Items.AddRange(new object[] {
+            this.listFace6Crest.FormattingEnabled = true;
+            this.listFace6Crest.Items.AddRange(new object[] {
             "STAR",
             "ATK",
             "DEF",
@@ -389,162 +388,19 @@
             "MAG",
             "TRAP",
             "RITU"});
-            this.listFace1Crest.Location = new System.Drawing.Point(5, 54);
-            this.listFace1Crest.Name = "listFace1Crest";
-            this.listFace1Crest.Size = new System.Drawing.Size(66, 95);
-            this.listFace1Crest.TabIndex = 10;
+            this.listFace6Crest.Location = new System.Drawing.Point(590, 54);
+            this.listFace6Crest.Name = "listFace6Crest";
+            this.listFace6Crest.Size = new System.Drawing.Size(66, 95);
+            this.listFace6Crest.TabIndex = 26;
             // 
-            // listFace1Value
+            // label18
             // 
-            this.listFace1Value.FormattingEnabled = true;
-            this.listFace1Value.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"});
-            this.listFace1Value.Location = new System.Drawing.Point(77, 54);
-            this.listFace1Value.Name = "listFace1Value";
-            this.listFace1Value.Size = new System.Drawing.Size(23, 95);
-            this.listFace1Value.TabIndex = 11;
-            // 
-            // numDiceLevel
-            // 
-            this.numDiceLevel.Location = new System.Drawing.Point(272, 13);
-            this.numDiceLevel.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numDiceLevel.Name = "numDiceLevel";
-            this.numDiceLevel.Size = new System.Drawing.Size(120, 20);
-            this.numDiceLevel.TabIndex = 12;
-            this.numDiceLevel.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // listFace2Value
-            // 
-            this.listFace2Value.FormattingEnabled = true;
-            this.listFace2Value.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"});
-            this.listFace2Value.Location = new System.Drawing.Point(196, 54);
-            this.listFace2Value.Name = "listFace2Value";
-            this.listFace2Value.Size = new System.Drawing.Size(23, 95);
-            this.listFace2Value.TabIndex = 15;
-            // 
-            // listFace2Crest
-            // 
-            this.listFace2Crest.FormattingEnabled = true;
-            this.listFace2Crest.Items.AddRange(new object[] {
-            "STAR",
-            "ATK",
-            "DEF",
-            "MOV",
-            "MAG",
-            "TRAP",
-            "RITU"});
-            this.listFace2Crest.Location = new System.Drawing.Point(124, 54);
-            this.listFace2Crest.Name = "listFace2Crest";
-            this.listFace2Crest.Size = new System.Drawing.Size(66, 95);
-            this.listFace2Crest.TabIndex = 14;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(129, 38);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(43, 13);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "Face 2:";
-            // 
-            // listFace3Value
-            // 
-            this.listFace3Value.FormattingEnabled = true;
-            this.listFace3Value.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"});
-            this.listFace3Value.Location = new System.Drawing.Point(313, 54);
-            this.listFace3Value.Name = "listFace3Value";
-            this.listFace3Value.Size = new System.Drawing.Size(23, 95);
-            this.listFace3Value.TabIndex = 18;
-            // 
-            // listFace3Crest
-            // 
-            this.listFace3Crest.FormattingEnabled = true;
-            this.listFace3Crest.Items.AddRange(new object[] {
-            "STAR",
-            "ATK",
-            "DEF",
-            "MOV",
-            "MAG",
-            "TRAP",
-            "RITU"});
-            this.listFace3Crest.Location = new System.Drawing.Point(241, 54);
-            this.listFace3Crest.Name = "listFace3Crest";
-            this.listFace3Crest.Size = new System.Drawing.Size(66, 95);
-            this.listFace3Crest.TabIndex = 17;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(246, 38);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(43, 13);
-            this.label15.TabIndex = 16;
-            this.label15.Text = "Face 3:";
-            // 
-            // listFace4Value
-            // 
-            this.listFace4Value.FormattingEnabled = true;
-            this.listFace4Value.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"});
-            this.listFace4Value.Location = new System.Drawing.Point(430, 54);
-            this.listFace4Value.Name = "listFace4Value";
-            this.listFace4Value.Size = new System.Drawing.Size(23, 95);
-            this.listFace4Value.TabIndex = 21;
-            // 
-            // listFace4Crest
-            // 
-            this.listFace4Crest.FormattingEnabled = true;
-            this.listFace4Crest.Items.AddRange(new object[] {
-            "STAR",
-            "ATK",
-            "DEF",
-            "MOV",
-            "MAG",
-            "TRAP",
-            "RITU"});
-            this.listFace4Crest.Location = new System.Drawing.Point(358, 54);
-            this.listFace4Crest.Name = "listFace4Crest";
-            this.listFace4Crest.Size = new System.Drawing.Size(66, 95);
-            this.listFace4Crest.TabIndex = 20;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(363, 38);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(43, 13);
-            this.label16.TabIndex = 19;
-            this.label16.Text = "Face 4:";
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(595, 38);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(43, 13);
+            this.label18.TabIndex = 25;
+            this.label18.Text = "Face 6:";
             // 
             // listFace5Value
             // 
@@ -586,25 +442,25 @@
             this.label17.TabIndex = 22;
             this.label17.Text = "Face 5:";
             // 
-            // listFace6Value
+            // listFace4Value
             // 
-            this.listFace6Value.FormattingEnabled = true;
-            this.listFace6Value.Items.AddRange(new object[] {
+            this.listFace4Value.FormattingEnabled = true;
+            this.listFace4Value.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
             "4",
             "5",
             "6"});
-            this.listFace6Value.Location = new System.Drawing.Point(662, 54);
-            this.listFace6Value.Name = "listFace6Value";
-            this.listFace6Value.Size = new System.Drawing.Size(23, 95);
-            this.listFace6Value.TabIndex = 27;
+            this.listFace4Value.Location = new System.Drawing.Point(430, 54);
+            this.listFace4Value.Name = "listFace4Value";
+            this.listFace4Value.Size = new System.Drawing.Size(23, 95);
+            this.listFace4Value.TabIndex = 21;
             // 
-            // listFace6Crest
+            // listFace4Crest
             // 
-            this.listFace6Crest.FormattingEnabled = true;
-            this.listFace6Crest.Items.AddRange(new object[] {
+            this.listFace4Crest.FormattingEnabled = true;
+            this.listFace4Crest.Items.AddRange(new object[] {
             "STAR",
             "ATK",
             "DEF",
@@ -612,19 +468,165 @@
             "MAG",
             "TRAP",
             "RITU"});
-            this.listFace6Crest.Location = new System.Drawing.Point(590, 54);
-            this.listFace6Crest.Name = "listFace6Crest";
-            this.listFace6Crest.Size = new System.Drawing.Size(66, 95);
-            this.listFace6Crest.TabIndex = 26;
+            this.listFace4Crest.Location = new System.Drawing.Point(358, 54);
+            this.listFace4Crest.Name = "listFace4Crest";
+            this.listFace4Crest.Size = new System.Drawing.Size(66, 95);
+            this.listFace4Crest.TabIndex = 20;
             // 
-            // label18
+            // label16
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(595, 38);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(43, 13);
-            this.label18.TabIndex = 25;
-            this.label18.Text = "Face 6:";
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(363, 38);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 13);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "Face 4:";
+            // 
+            // listFace3Value
+            // 
+            this.listFace3Value.FormattingEnabled = true;
+            this.listFace3Value.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.listFace3Value.Location = new System.Drawing.Point(313, 54);
+            this.listFace3Value.Name = "listFace3Value";
+            this.listFace3Value.Size = new System.Drawing.Size(23, 95);
+            this.listFace3Value.TabIndex = 18;
+            // 
+            // listFace3Crest
+            // 
+            this.listFace3Crest.FormattingEnabled = true;
+            this.listFace3Crest.Items.AddRange(new object[] {
+            "STAR",
+            "ATK",
+            "DEF",
+            "MOV",
+            "MAG",
+            "TRAP",
+            "RITU"});
+            this.listFace3Crest.Location = new System.Drawing.Point(241, 54);
+            this.listFace3Crest.Name = "listFace3Crest";
+            this.listFace3Crest.Size = new System.Drawing.Size(66, 95);
+            this.listFace3Crest.TabIndex = 17;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(246, 38);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(43, 13);
+            this.label15.TabIndex = 16;
+            this.label15.Text = "Face 3:";
+            // 
+            // listFace2Value
+            // 
+            this.listFace2Value.FormattingEnabled = true;
+            this.listFace2Value.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.listFace2Value.Location = new System.Drawing.Point(196, 54);
+            this.listFace2Value.Name = "listFace2Value";
+            this.listFace2Value.Size = new System.Drawing.Size(23, 95);
+            this.listFace2Value.TabIndex = 15;
+            // 
+            // listFace2Crest
+            // 
+            this.listFace2Crest.FormattingEnabled = true;
+            this.listFace2Crest.Items.AddRange(new object[] {
+            "STAR",
+            "ATK",
+            "DEF",
+            "MOV",
+            "MAG",
+            "TRAP",
+            "RITU"});
+            this.listFace2Crest.Location = new System.Drawing.Point(124, 54);
+            this.listFace2Crest.Name = "listFace2Crest";
+            this.listFace2Crest.Size = new System.Drawing.Size(66, 95);
+            this.listFace2Crest.TabIndex = 14;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(129, 38);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(43, 13);
+            this.label14.TabIndex = 13;
+            this.label14.Text = "Face 2:";
+            // 
+            // numDiceLevel
+            // 
+            this.numDiceLevel.Location = new System.Drawing.Point(272, 13);
+            this.numDiceLevel.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numDiceLevel.Name = "numDiceLevel";
+            this.numDiceLevel.Size = new System.Drawing.Size(120, 20);
+            this.numDiceLevel.TabIndex = 12;
+            this.numDiceLevel.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // listFace1Value
+            // 
+            this.listFace1Value.FormattingEnabled = true;
+            this.listFace1Value.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.listFace1Value.Location = new System.Drawing.Point(77, 54);
+            this.listFace1Value.Name = "listFace1Value";
+            this.listFace1Value.Size = new System.Drawing.Size(23, 95);
+            this.listFace1Value.TabIndex = 11;
+            // 
+            // listFace1Crest
+            // 
+            this.listFace1Crest.FormattingEnabled = true;
+            this.listFace1Crest.Items.AddRange(new object[] {
+            "STAR",
+            "ATK",
+            "DEF",
+            "MOV",
+            "MAG",
+            "TRAP",
+            "RITU"});
+            this.listFace1Crest.Location = new System.Drawing.Point(5, 54);
+            this.listFace1Crest.Name = "listFace1Crest";
+            this.listFace1Crest.Size = new System.Drawing.Size(66, 95);
+            this.listFace1Crest.TabIndex = 10;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 38);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(43, 13);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Face 1:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(205, 16);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(61, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Dice Level:";
             // 
             // listCardList
             // 
@@ -666,12 +668,36 @@
             this.btnAddCard.UseVisualStyleBackColor = false;
             this.btnAddCard.Click += new System.EventHandler(this.btnAddCard_Click);
             // 
+            // btnEditSelected
+            // 
+            this.btnEditSelected.BackColor = System.Drawing.Color.Yellow;
+            this.btnEditSelected.Location = new System.Drawing.Point(122, 257);
+            this.btnEditSelected.Name = "btnEditSelected";
+            this.btnEditSelected.Size = new System.Drawing.Size(106, 25);
+            this.btnEditSelected.TabIndex = 28;
+            this.btnEditSelected.Text = "Update";
+            this.btnEditSelected.UseVisualStyleBackColor = false;
+            this.btnEditSelected.Click += new System.EventHandler(this.btnEditSelected_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.DarkRed;
+            this.btnDelete.Location = new System.Drawing.Point(12, 257);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(106, 25);
+            this.btnDelete.TabIndex = 29;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // JsonGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnEditSelected);
             this.Controls.Add(this.btnAddCard);
             this.Controls.Add(this.txtCardText);
             this.Controls.Add(this.label19);
@@ -760,5 +786,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtCardText;
         private System.Windows.Forms.Button btnAddCard;
+        private System.Windows.Forms.Button btnEditSelected;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
