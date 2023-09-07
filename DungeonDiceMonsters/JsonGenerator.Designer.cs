@@ -77,6 +77,7 @@
             this.btnAddCard = new System.Windows.Forms.Button();
             this.btnEditSelected = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.checkIsFusion = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLevel)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -690,12 +691,23 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // checkIsFusion
+            // 
+            this.checkIsFusion.AutoSize = true;
+            this.checkIsFusion.Location = new System.Drawing.Point(465, 22);
+            this.checkIsFusion.Name = "checkIsFusion";
+            this.checkIsFusion.Size = new System.Drawing.Size(98, 17);
+            this.checkIsFusion.TabIndex = 30;
+            this.checkIsFusion.Text = "Fusion Monster";
+            this.checkIsFusion.UseVisualStyleBackColor = true;
+            // 
             // JsonGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkIsFusion);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditSelected);
             this.Controls.Add(this.btnAddCard);
@@ -788,5 +800,6 @@
         private System.Windows.Forms.Button btnAddCard;
         private System.Windows.Forms.Button btnEditSelected;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.CheckBox checkIsFusion;
     }
 }

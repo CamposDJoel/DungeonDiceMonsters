@@ -28,7 +28,8 @@
     "lp": 1900,
     "cardtext": "[MAG] x1 - Increase the ATK/DEF of all your Zombie-Type Monsters on the field (except \"Pumpking the King of Ghosts\") by 100. \r\n\r\nDice Lv 3: [STAR] [STAR] [STAR] [ATK2] [DEF] [MOV]",
     "setpack": "Beginner's Pack",
-    "rarity": "Super Rare"
+    "rarity": "Super Rare",
+    "fusion": false
   },
   {
     "diceinforaw": [
@@ -59,7 +60,8 @@
     "lp": 2750,
     "cardtext": "(Continuous): This card cannot be targetted by your opponent's card effects.\r\n\r\n[MAG] x3 - This card can move 3 spaces per each [MOV] use this turn.\r\n\r\nDice Lv 4: [RIT] [RIT] [ATK5] [ATK] [MAG3] [MAG]",
     "setpack": "Beginner's Pack",
-    "rarity": "Ultra Rare"
+    "rarity": "Ultra Rare",
+    "fusion": false
   },
   {
     "diceinforaw": [
@@ -90,7 +92,8 @@
     "lp": 0,
     "cardtext": "This rutual can only be used to summon \"Black Luster Soldier\"\r\n\r\nDice Lv 4: [RIT] [RIT] [TRAP] [TRAP] [DEF] [MOV]",
     "setpack": "Beginner's Pack",
-    "rarity": "Common"
+    "rarity": "Common",
+    "fusion": false
   },
   {
     "diceinforaw": [
@@ -121,7 +124,8 @@
     "lp": 600,
     "cardtext": "Dice Lv 1: [STAR] [STAR] [STAR] [STAR] [STAR] [MOV]",
     "setpack": "Beginner's Pack",
-    "rarity": "Common"
+    "rarity": "Common",
+    "fusion": false
   },
   {
     "diceinforaw": [
@@ -152,7 +156,8 @@
     "lp": 1100,
     "cardtext": "[TRAP] x1 - Target 1 FIRE monster your opponent controls; Decrease its DEF by 500 until the end of this turn.\r\n\r\nDice Lv 2: [STAR] [STAR] [STAR] [STAR] [TRAP2] [DEF2]",
     "setpack": "Beginner's Pack",
-    "rarity": "Common"
+    "rarity": "Common",
+    "fusion": false
   },
   {
     "diceinforaw": [
@@ -183,6 +188,7 @@
     "lp": 1700,
     "cardtext": "\"Flame Manipulator\" + \"Masaki the Legendary Swordsman\"\r\n\r\n(Continuous): Decrease the ATK of all your opponent's FIRE monsters by 500.\r\n\r\n[MAG] x2 - Increase the ATK of all your FIRE monsters by 500 until the end of this turn.\r\n\r\nDice Lv 3: [STAR] [STAR] [STAR] [ATK3] [DEF3] [MOV3]",
     "setpack": "Beginner's Pack",
-    "rarity": "Common"
+    "rarity": "Common",
+    "fusion": true
   }
 ]

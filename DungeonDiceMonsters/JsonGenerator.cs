@@ -61,6 +61,7 @@ namespace DungeonDiceMonsters
             listSet.SetSelected(indexofSet, true);
             int indexofRarity = listRarity.FindString(cardinfo.rarity);
             listRarity.SetSelected(indexofRarity, true);
+            checkIsFusion.Checked = cardinfo.fusion;
 
             //Update the UI of the Dice Info
             numDiceLevel.Value = Convert.ToInt32(cardinfo.diceinforaw[0].level);
@@ -108,6 +109,7 @@ namespace DungeonDiceMonsters
             string cardtext = txtCardText.Text;
             string setPack = listSet.SelectedItem.ToString();
             string rarity = listRarity.SelectedItem.ToString();
+            string isFusion = checkIsFusion.Checked.ToString();
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
             string face2Crest = listFace2Crest.Text.ToString();
@@ -136,6 +138,7 @@ namespace DungeonDiceMonsters
             newcard.cardtext = cardtext;
             newcard.setpack = setPack;
             newcard.rarity = rarity;
+            newcard.fusion = Convert.ToBoolean(isFusion);
             newcard.diceinforaw.Add(new rawdiceinfo(diceLevel, face1Crest, face2Crest, face3Crest, face4Crest, face5Crest, face6Crest,
                 face1Value, face2Value, face3Value, face4Value, face5Value, face6Value));
 
@@ -168,6 +171,7 @@ namespace DungeonDiceMonsters
             string cardtext = txtCardText.Text;
             string setPack = listSet.SelectedItem.ToString();
             string rarity = listRarity.SelectedItem.ToString();
+            string isFusion = checkIsFusion.Checked.ToString();
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
             string face2Crest = listFace2Crest.Text.ToString();
@@ -195,6 +199,7 @@ namespace DungeonDiceMonsters
             cardinfo.cardtext = cardtext;
             cardinfo.setpack = setPack;
             cardinfo.rarity = rarity;
+            cardinfo.fusion = Convert.ToBoolean(isFusion);
             cardinfo.diceinforaw.Clear();
             cardinfo.diceinforaw.Add(new rawdiceinfo(diceLevel, face1Crest, face2Crest, face3Crest, face4Crest, face5Crest, face6Crest,
                 face1Value, face2Value, face3Value, face4Value, face5Value, face6Value));

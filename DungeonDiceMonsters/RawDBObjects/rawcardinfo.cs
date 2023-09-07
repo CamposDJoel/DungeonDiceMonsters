@@ -20,6 +20,7 @@ namespace DungeonDiceMonsters
         public string cardtext { get; set; }
         public string setpack { get; set; }
         public string rarity { get; set; }
+        public bool fusion { get; set; }
         public List<rawdiceinfo> diceinforaw = new List<rawdiceinfo>();     
     }
 

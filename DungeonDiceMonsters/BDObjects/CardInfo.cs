@@ -26,6 +26,7 @@ namespace DungeonDiceMonsters
             _LP = rawdata.lp;
             _SetPack = rawdata.setpack;
             _Rarity = rawdata.rarity;
+            _IsFusion = rawdata.fusion;
 
             rawdiceinfo diceinfo = rawdata.diceinforaw[0];
             string[] crests = new string[6];
@@ -59,5 +60,6 @@ namespace DungeonDiceMonsters
         private DiceInfo _DiceInfo;
         private string _SetPack;
         private string _Rarity;
+        private bool _IsFusion;
     }
 }
