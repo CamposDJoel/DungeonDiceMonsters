@@ -35,5 +35,12 @@ namespace DungeonDiceMonsters
             JsonGenerator jsonGenerator = new JsonGenerator();
             jsonGenerator.Show();
         }
+
+        private void btnStartGame_Click(object sender, EventArgs e)
+        {
+            DeckBuilder DB = new DeckBuilder();
+            Hide();
+            DB.Show();
+        }
     }
 }
