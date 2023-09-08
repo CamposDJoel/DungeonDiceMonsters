@@ -171,6 +171,7 @@
             this.PicToStoArrow.TabIndex = 7;
             this.PicToStoArrow.TabStop = false;
             this.PicToStoArrow.Visible = false;
+            this.PicToStoArrow.Click += new System.EventHandler(this.PicToStoArrow_Click);
             // 
             // GroupDiceInfo
             // 

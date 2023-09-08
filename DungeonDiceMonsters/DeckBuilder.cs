@@ -4,14 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DungeonDiceMonsters
 {
@@ -122,7 +116,7 @@ namespace DungeonDiceMonsters
                     CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                     _DeckCardImageList.Add(CardImage);
                     CardImage.Tag = pictureIndex;
-                    //CardImage.Click += new EventHandler(StorageCard_click);
+                    CardImage.Click += new EventHandler(DeckCard_click);
 
                     X_Location += 58;
                     pictureIndex++;
@@ -310,9 +304,31 @@ namespace DungeonDiceMonsters
             {
                 _CardPanelList[x].BackColor = Color.Transparent;
             }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
 
             //Set the specific card selected
             _CardPanelList[index].BackColor = Color.Yellow;
+
+            //Reload the Card Info Panel UI
+            LoadCardInfoPanel();
+        }
+        private void SetDeckSelector(int index)
+        {
+            //Clear all cards from being marked as selected
+            for (int x = 0; x < 30; x++)
+            {
+                _CardPanelList[x].BackColor = Color.Transparent;
+            }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
+
+            //Set the specific card selected
+            _DeckCardPanelList[index].BackColor = Color.Yellow;
 
             //Reload the Card Info Panel UI
             LoadCardInfoPanel();
@@ -326,6 +342,7 @@ namespace DungeonDiceMonsters
         private CardInfo _CurrentCardSelected = null;
         private Deck _CurrentDeckSelected = null;
         private int _CurrentStorageIndexSelected = 0;
+        private int _CurrentDeckIndexSelected = 0;
 
 
         private void StorageCard_click(object sender, EventArgs e)
@@ -370,6 +387,33 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        private void DeckCard_click(object sender, EventArgs e)
+        {
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+
+            //Save the ref to this index number for outer use
+            _CurrentStorageIndexSelected = thiPictureBoxIndex;
+
+            int cardid = -1;
+            if (thiPictureBoxIndex >= 20)
+            {
+                int fusionIndex = thiPictureBoxIndex - 20;
+                cardid = _CurrentDeckSelected.GetFusionCardIDAtIndex(fusionIndex);
+            }
+            else
+            {
+                cardid = _CurrentDeckSelected.GetMainCardIDAtIndex(thiPictureBoxIndex);
+            }
+            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
+
+            SetDeckSelector(thiPictureBoxIndex);
+
+            //Setup the transfer arrow buttons
+            PicToStoArrow.Visible = true;
+            PicToDeckArrow.Visible = false;
+        }
         private void btnNext_Click(object sender, EventArgs e)
         {
             _CurrentPage++;
@@ -378,6 +422,20 @@ namespace DungeonDiceMonsters
             lblStorage.Text = "Storage Page: " + _CurrentPage;
             LoadStoragePage();
             SetStorageSelector(0);
+
+            //Clear all cards from being marked as selected
+            for (int x = 0; x < 30; x++)
+            {
+                _CardPanelList[x].BackColor = Color.Transparent;
+            }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
+
+            //hide the arrow buttons
+            PicToStoArrow.Visible = false;
+            PicToDeckArrow.Visible = false;
         }
         private void btnPrevious_Click(object sender, EventArgs e)
         {
@@ -387,12 +445,25 @@ namespace DungeonDiceMonsters
             lblStorage.Text = "Storage Page: " + _CurrentPage;
             LoadStoragePage();
             SetStorageSelector(0);
+
+            //Clear all cards from being marked as selected
+            for (int x = 0; x < 30; x++)
+            {
+                _CardPanelList[x].BackColor = Color.Transparent;
+            }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
+
+            //hide the arrow buttons
+            PicToStoArrow.Visible = false;
+            PicToDeckArrow.Visible = false;
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             //Application.Exit();
         }
-
         private void PicToDeckArrow_Click(object sender, EventArgs e)
         {
             //add the card in the current storage index selected
@@ -409,6 +480,31 @@ namespace DungeonDiceMonsters
 
             //Remove this one card from the storage
             StorageData.Cards.RemoveAt(_CurrentStorageIndexSelected);
+
+            //Reload both sides
+            LoadStoragePage();
+            LoadDeckPage();
+
+            //Hide both arrows until another selection is clicked
+            PicToDeckArrow.Visible = false;
+            PicToStoArrow.Visible = false;
+        }
+        private void PicToStoArrow_Click(object sender, EventArgs e)
+        {
+            //add the card in the current deck index selected
+            int cardid = _CurrentCardSelected.ID;
+            StorageData.AddCard(cardid);
+
+            //Remove this one card from the Deck
+            if (_CurrentCardSelected.IsFusion)
+            {
+                int fusionIndex = _CurrentDeckIndexSelected - 20;
+                _CurrentDeckSelected.RemoveFusionAtIndex(fusionIndex);
+            }
+            else
+            {
+                _CurrentDeckSelected.RemoveMainAtIndex(_CurrentDeckIndexSelected);
+            }
 
             //Reload both sides
             LoadStoragePage();
