@@ -14,5 +14,21 @@ namespace DungeonDiceMonsters
     {
         public static List<CardInfo> CardList;
         public static List<rawcardinfo> rawCardList;
+
+        public static CardInfo GetCardWithID(int id)
+        {
+            CardInfo cardtoreturn = null;
+
+            for(int x = 0; x < CardList.Count; x++) 
+            {
+                if (CardList[x].ID ==  id)
+                {
+                    cardtoreturn = CardList[x];
+                    break;
+                }
+            }
+
+            return cardtoreturn;
+        }
     }
 }

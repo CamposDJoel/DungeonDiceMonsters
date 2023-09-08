@@ -1,14 +1,10 @@
-﻿using Microsoft.Win32;
+﻿//Joel Campos
+//9/8/2023
+//JSONGenerator Class
+
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -226,6 +222,11 @@ namespace DungeonDiceMonsters
 
             //Reload the DB list
             ReloadDBList();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

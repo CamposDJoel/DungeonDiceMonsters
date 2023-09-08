@@ -36,6 +36,18 @@ namespace DungeonDiceMonsters
             return _Values[index];
         }
 
+        public bool HasRitualFaces()
+        {
+            bool hasRitualFaces = false;
+
+            for(int x = 0; x < 6; x++) 
+            {
+                if (_Crests[x] == "RITU") { hasRitualFaces = true; break; }
+            }
+
+            return hasRitualFaces;
+        }
+
         private int _Level;
         private string[] _Crests = new string[6];
         private int[] _Values = new int[6];

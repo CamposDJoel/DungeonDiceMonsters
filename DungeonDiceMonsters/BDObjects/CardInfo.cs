@@ -48,6 +48,23 @@ namespace DungeonDiceMonsters
             _DiceInfo = new DiceInfo(diceinfo.level, crests, values);
         }
 
+        public int ID { get { return _ID; } }
+        public string Name { get { return _Name; } }
+        public int Level {  get { return _Level; } }
+        public string Attribute { get { return _Attribute; } }
+        public string Type { get { return _Type; } }
+        public string Category { get { return _Category; } }
+        public int ATK { get { return _ATK; } }
+        public int DEF {  get { return _DEF; } }
+        public int LP {  get { return _LP; } }
+        public bool IsFusion {  get { return _IsFusion; } }
+        public bool IsRitual { get 
+            {
+                bool isritual = _DiceInfo.HasRitualFaces() && _Category == "Monster";
+                return isritual;
+            }
+        }
+
         private int _ID;
         private string _Name;
         private int _Level;
