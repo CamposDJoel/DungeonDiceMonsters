@@ -23,21 +23,35 @@ namespace DungeonDiceMonsters
 
 
             //TEST: Add cards to the storage
-            for(int x = 1; x <= 3; x++) 
+            for(int x = 1; x <= 4; x++) 
             {
                 for(int y = 1; y <= 12; y++) 
                 {
                     StorageData.AddCard(y);
                 }
             }
+            //TEST: Create the started deck
+            DecksData.Decks.Add(new Deck("Started Deck"));
+            DecksData.Decks.Add(new Deck("Secondary Deck"));
+            DecksData.Decks.Add(new Deck("Third Deck"));
 
+            //Initialize the Deck List Selector
+            listDeckList.Items.Clear();
+            foreach (Deck deck in DecksData.Decks)
+            {
+                listDeckList.Items.Add(deck.Name);
+            }
+            listDeckList.SetSelected(0, true);
+            _CurrentDeckSelected = DecksData.Decks[0];
 
             InitializeStorageComponents();
+            InitializeDeckComponents();
             LoadStoragePage();
+            LoadDeckPage();
             //Initialize the ref to the current card selected with the first card in the
             //the storgae. This action is done via user interaction, so trigger it via code
             _CurrentCardSelected = CardDataBase.GetCardWithID(StorageData.Cards[0]);
-            SetStorageSelector(0);
+            SetStorageSelector(0);            
         }
 
         private void InitializeStorageComponents()
@@ -79,6 +93,71 @@ namespace DungeonDiceMonsters
             }
 
         }
+        private void InitializeDeckComponents()
+        {
+            //Index will be save on the Image Object Tag value
+            //so when it is clicked it knows which index card is being clicked.
+            int pictureIndex = 0;
+
+            int Y_Location = 2;
+            for (int x = 0; x < 4; x++)
+            {
+                int X_Location = 2;
+                for (int y = 0; y < 5; y++)
+                {
+                    //Initialize the border box Image
+                    Panel CardBox = new Panel();
+                    PanelDeck.Controls.Add(CardBox);
+                    CardBox.Location = new Point(X_Location, Y_Location);
+                    CardBox.BorderStyle = BorderStyle.FixedSingle;
+                    CardBox.Size = new Size(58, 74);
+                    _DeckCardPanelList.Add(CardBox);
+
+                    //Initialize the card Image
+                    PictureBox CardImage = new PictureBox();
+                    CardBox.Controls.Add(CardImage);
+                    CardImage.Location = new Point(2, 2);
+                    CardImage.BorderStyle = BorderStyle.FixedSingle;
+                    CardImage.Size = new Size(52, 68);
+                    CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    _DeckCardImageList.Add(CardImage);
+                    CardImage.Tag = pictureIndex;
+                    //CardImage.Click += new EventHandler(StorageCard_click);
+
+                    X_Location += 58;
+                    pictureIndex++;
+                }
+                Y_Location += 73;
+            }
+
+            //Initialize the 3 Cards for the Fusion Deck
+            Y_Location = 314;
+            int X_Location2 = 2;
+            for (int x = 0; x < 3; x++)
+            {
+                //Initialize the border box Image
+                Panel CardBox = new Panel();
+                PanelDeck.Controls.Add(CardBox);
+                CardBox.Location = new Point(X_Location2, Y_Location);
+                CardBox.BorderStyle = BorderStyle.FixedSingle;
+                CardBox.Size = new Size(58, 74);
+                _DeckCardPanelList.Add(CardBox);
+
+                //Initialize the card Image
+                PictureBox CardImage = new PictureBox();
+                CardBox.Controls.Add(CardImage);
+                CardImage.Location = new Point(2, 2);
+                CardImage.BorderStyle = BorderStyle.FixedSingle;
+                CardImage.Size = new Size(52, 68);
+                CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                _DeckCardImageList.Add(CardImage);
+                CardImage.Tag = pictureIndex;
+                //CardImage.Click += new EventHandler(StorageCard_click);
+
+                X_Location2 += 58;
+                pictureIndex++;
+            }
+        }
         private void LoadStoragePage()
         {
             int startIndex = (_CurrentPage * 30) - 30;
@@ -108,6 +187,59 @@ namespace DungeonDiceMonsters
                     //Populate the card image with the card ID
                     _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
                    
+                }
+            }
+        }
+        private void LoadDeckPage()
+        {
+            int deckIndex = listDeckList.SelectedIndex;
+
+            for (int x = 0; x < 20; x++)
+            {
+                //If the itearator reached past the last card in the Card DB vanish the card from view
+                if (x >= DecksData.Decks[deckIndex].MainDeckSize)
+                {
+                    _DeckCardPanelList[x].Visible = false;
+                }
+                else
+                {
+                    //Make the card panel visible
+                    _DeckCardPanelList[x].Visible = true;
+
+                    //Get the card ID of the card to be displayed
+                    int cardID = DecksData.Decks[deckIndex].GetMainCardIDAtIndex(x);
+
+                    //Dispose the current image in this picture box (if there was one)
+                    //to clear memory
+                    if (_DeckCardImageList[x].Image != null) { _DeckCardImageList[x].Image.Dispose(); }
+
+                    //Populate the card image with the card ID
+                    _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                }
+            }
+
+            //Load the fusion deck
+            for (int x = 0; x < 3; x++)
+            {
+                //If the itearator reached past the last card in the Card DB vanish the card from view
+                if (x >= DecksData.Decks[deckIndex].FusionDeckSize)
+                {
+                    _DeckCardPanelList[x+20].Visible = false;
+                }
+                else
+                {
+                    //Make the card panel visible
+                    _DeckCardPanelList[x+20].Visible = true;
+
+                    //Get the card ID of the card to be displayed
+                    int cardID = DecksData.Decks[deckIndex].GetFusionCardIDAtIndex(x);
+
+                    //Dispose the current image in this picture box (if there was one)
+                    //to clear memory
+                    if (_DeckCardImageList[x + 20].Image != null) { _DeckCardImageList[x + 20].Image.Dispose(); }
+
+                    //Populate the card image with the card ID
+                    _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID);
                 }
             }
         }
@@ -189,27 +321,54 @@ namespace DungeonDiceMonsters
         private int _CurrentPage = 1;
         private List<Panel> _CardPanelList = new List<Panel>();
         private List<PictureBox> _CardImageList = new List<PictureBox>();
+        private List<Panel> _DeckCardPanelList = new List<Panel>();
+        private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
         private CardInfo _CurrentCardSelected = null;
+        private Deck _CurrentDeckSelected = null;
+        private int _CurrentStorageIndexSelected = 0;
 
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            //Application.Exit();
-        }
 
         private void StorageCard_click(object sender, EventArgs e)
         {
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
-
+        
             //Save a ref to the current card in view
             int startIndex = (_CurrentPage * 30) - 30;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
+
+            //Save the ref to this index number for outer use
+            _CurrentStorageIndexSelected = indexInStorasge;
+
             int cardid = StorageData.Cards[indexInStorasge];
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             SetStorageSelector(thiPictureBoxIndex);
+
+            //Setup the transfer arrow buttons
+            PicToStoArrow.Visible = false;
+            PicToDeckArrow.Visible = false;
+
+            if (_CurrentCardSelected.IsFusion)
+            {
+                if(_CurrentDeckSelected.FusionDeckSize < 3)                
+                {
+                    PicToDeckArrow.Visible = true;
+                }
+            }
+            else
+            {
+                if (_CurrentDeckSelected.MainDeckSize < 20)
+                {
+                    //Also validate that the deck doesnt have 3 copies of that card already
+                    int copies = _CurrentDeckSelected.GetCardCount(cardid);
+                    if (copies < 3)
+                    {
+                        PicToDeckArrow.Visible = true;
+                    }
+                }
+            }
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -229,6 +388,35 @@ namespace DungeonDiceMonsters
             LoadStoragePage();
             SetStorageSelector(0);
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            //Application.Exit();
+        }
 
+        private void PicToDeckArrow_Click(object sender, EventArgs e)
+        {
+            //add the card in the current storage index selected
+            int cardid = _CurrentCardSelected.ID;
+
+            if (_CurrentCardSelected.IsFusion)
+            {
+                _CurrentDeckSelected.AddFusionCard(cardid);
+            }
+            else
+            {
+                _CurrentDeckSelected.AddMainCard(cardid);
+            }
+
+            //Remove this one card from the storage
+            StorageData.Cards.RemoveAt(_CurrentStorageIndexSelected);
+
+            //Reload both sides
+            LoadStoragePage();
+            LoadDeckPage();
+
+            //Hide both arrows until another selection is clicked
+            PicToDeckArrow.Visible = false;
+            PicToStoArrow.Visible = false;
+        }
     }
 }

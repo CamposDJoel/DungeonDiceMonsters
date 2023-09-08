@@ -1,8 +1,8 @@
-﻿using System;
+﻿//Joel Campos
+//9/8/2023
+//Storage Data Class
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonDiceMonsters
 {

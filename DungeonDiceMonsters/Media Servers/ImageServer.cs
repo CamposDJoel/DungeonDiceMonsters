@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//Joel Campos
+//9/8/2023
+//ImageServer Class
+
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonDiceMonsters
 {

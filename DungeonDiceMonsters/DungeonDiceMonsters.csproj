@@ -49,20 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BDObjects\CardInfo.cs" />
-    <Compile Include="BDObjects\DiceInfo.cs" />
-    <Compile Include="CardDataBase.cs" />
+    <Compile Include="DB Objects\CardInfo.cs" />
+    <Compile Include="DB Objects\DiceInfo.cs" />
+    <Compile Include="DB Objects\CardDataBase.cs" />
     <Compile Include="DeckBuilder.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DeckBuilder.Designer.cs">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageServer.cs" />
-    <Compile Include="JsonGenerator.cs">
+    <Compile Include="DecksData.cs" />
+    <Compile Include="Media Servers\ImageServer.cs" />
+    <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JsonGenerator.Designer.cs">
+    <Compile Include="Utility Forms\JsonGenerator.Designer.cs">
       <DependentUpon>JsonGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
@@ -74,11 +75,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageData.cs" />
+    <Compile Include="Data\StorageData.cs" />
     <EmbeddedResource Include="DeckBuilder.resx">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JsonGenerator.resx">
+    <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
       <DependentUpon>JsonGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -107,5 +108,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

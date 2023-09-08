@@ -27,7 +27,7 @@ namespace DungeonDiceMonsters
             foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
             {
                 CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
-            }          
+            }             
         }
 
         private void btnOpenDBManager_Click(object sender, EventArgs e)
