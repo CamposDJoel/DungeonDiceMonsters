@@ -41,17 +41,18 @@
             this.PicToDeckArrow = new System.Windows.Forms.PictureBox();
             this.PicToStoArrow = new System.Windows.Forms.PictureBox();
             this.GroupDiceInfo = new System.Windows.Forms.GroupBox();
+            this.PanelCardText = new System.Windows.Forms.Panel();
+            this.lblCardText = new System.Windows.Forms.Label();
             this.lblID = new System.Windows.Forms.Label();
             this.lblAttribute = new System.Windows.Forms.Label();
-            this.lblCardText = new System.Windows.Forms.Label();
-            this.pictureBox109 = new System.Windows.Forms.PictureBox();
-            this.pictureBox110 = new System.Windows.Forms.PictureBox();
-            this.pictureBox107 = new System.Windows.Forms.PictureBox();
-            this.pictureBox108 = new System.Windows.Forms.PictureBox();
-            this.pictureBox106 = new System.Windows.Forms.PictureBox();
+            this.PicDiceFace6 = new System.Windows.Forms.PictureBox();
+            this.PicDiceFace5 = new System.Windows.Forms.PictureBox();
+            this.PicDiceFace4 = new System.Windows.Forms.PictureBox();
+            this.PicDiceFace3 = new System.Windows.Forms.PictureBox();
+            this.PicDiceFace2 = new System.Windows.Forms.PictureBox();
             this.PicDiceFace1 = new System.Windows.Forms.PictureBox();
             this.lblDiceLevel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblStats = new System.Windows.Forms.Label();
             this.lblCardType = new System.Windows.Forms.Label();
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
@@ -62,11 +63,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
             this.GroupDiceInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox109)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox110)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox107)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox108)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox106)).BeginInit();
+            this.PanelCardText.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).BeginInit();
             this.SuspendLayout();
@@ -194,28 +196,49 @@
             // GroupDiceInfo
             // 
             this.GroupDiceInfo.BackColor = System.Drawing.Color.Black;
+            this.GroupDiceInfo.Controls.Add(this.PanelCardText);
             this.GroupDiceInfo.Controls.Add(this.lblID);
             this.GroupDiceInfo.Controls.Add(this.lblAttribute);
-            this.GroupDiceInfo.Controls.Add(this.lblCardText);
-            this.GroupDiceInfo.Controls.Add(this.pictureBox109);
-            this.GroupDiceInfo.Controls.Add(this.pictureBox110);
-            this.GroupDiceInfo.Controls.Add(this.pictureBox107);
-            this.GroupDiceInfo.Controls.Add(this.pictureBox108);
-            this.GroupDiceInfo.Controls.Add(this.pictureBox106);
+            this.GroupDiceInfo.Controls.Add(this.PicDiceFace6);
+            this.GroupDiceInfo.Controls.Add(this.PicDiceFace5);
+            this.GroupDiceInfo.Controls.Add(this.PicDiceFace4);
+            this.GroupDiceInfo.Controls.Add(this.PicDiceFace3);
+            this.GroupDiceInfo.Controls.Add(this.PicDiceFace2);
             this.GroupDiceInfo.Controls.Add(this.PicDiceFace1);
             this.GroupDiceInfo.Controls.Add(this.lblDiceLevel);
-            this.GroupDiceInfo.Controls.Add(this.label1);
+            this.GroupDiceInfo.Controls.Add(this.lblStats);
             this.GroupDiceInfo.Controls.Add(this.lblCardType);
             this.GroupDiceInfo.Controls.Add(this.lblCardLevel);
             this.GroupDiceInfo.Controls.Add(this.lblCardName);
             this.GroupDiceInfo.Controls.Add(this.PicCardArtwork);
             this.GroupDiceInfo.ForeColor = System.Drawing.Color.White;
-            this.GroupDiceInfo.Location = new System.Drawing.Point(42, 437);
+            this.GroupDiceInfo.Location = new System.Drawing.Point(10, 437);
             this.GroupDiceInfo.Name = "GroupDiceInfo";
-            this.GroupDiceInfo.Size = new System.Drawing.Size(701, 119);
+            this.GroupDiceInfo.Size = new System.Drawing.Size(762, 119);
             this.GroupDiceInfo.TabIndex = 8;
             this.GroupDiceInfo.TabStop = false;
             this.GroupDiceInfo.Text = "Card Info";
+            // 
+            // PanelCardText
+            // 
+            this.PanelCardText.AutoScroll = true;
+            this.PanelCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelCardText.Controls.Add(this.lblCardText);
+            this.PanelCardText.Location = new System.Drawing.Point(312, 14);
+            this.PanelCardText.Name = "PanelCardText";
+            this.PanelCardText.Size = new System.Drawing.Size(281, 96);
+            this.PanelCardText.TabIndex = 16;
+            // 
+            // lblCardText
+            // 
+            this.lblCardText.AutoSize = true;
+            this.lblCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCardText.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCardText.Location = new System.Drawing.Point(-1, -1);
+            this.lblCardText.Name = "lblCardText";
+            this.lblCardText.Size = new System.Drawing.Size(54, 18);
+            this.lblCardText.TabIndex = 12;
+            this.lblCardText.Text = "Card Text";
             // 
             // lblID
             // 
@@ -229,75 +252,66 @@
             // lblAttribute
             // 
             this.lblAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttribute.Location = new System.Drawing.Point(205, 32);
+            this.lblAttribute.Location = new System.Drawing.Point(236, 52);
             this.lblAttribute.Name = "lblAttribute";
             this.lblAttribute.Size = new System.Drawing.Size(63, 15);
             this.lblAttribute.TabIndex = 14;
             this.lblAttribute.Text = "Attribute";
             // 
-            // lblCardText
+            // PicDiceFace6
             // 
-            this.lblCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardText.Location = new System.Drawing.Point(313, 10);
-            this.lblCardText.Name = "lblCardText";
-            this.lblCardText.Size = new System.Drawing.Size(212, 103);
-            this.lblCardText.TabIndex = 12;
-            this.lblCardText.Text = "Card Text";
+            this.PicDiceFace6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDiceFace6.Location = new System.Drawing.Point(707, 63);
+            this.PicDiceFace6.Name = "PicDiceFace6";
+            this.PicDiceFace6.Size = new System.Drawing.Size(50, 50);
+            this.PicDiceFace6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDiceFace6.TabIndex = 11;
+            this.PicDiceFace6.TabStop = false;
             // 
-            // pictureBox109
+            // PicDiceFace5
             // 
-            this.pictureBox109.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox109.Location = new System.Drawing.Point(644, 63);
-            this.pictureBox109.Name = "pictureBox109";
-            this.pictureBox109.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox109.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox109.TabIndex = 11;
-            this.pictureBox109.TabStop = false;
+            this.PicDiceFace5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDiceFace5.Location = new System.Drawing.Point(654, 63);
+            this.PicDiceFace5.Name = "PicDiceFace5";
+            this.PicDiceFace5.Size = new System.Drawing.Size(50, 50);
+            this.PicDiceFace5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDiceFace5.TabIndex = 10;
+            this.PicDiceFace5.TabStop = false;
             // 
-            // pictureBox110
+            // PicDiceFace4
             // 
-            this.pictureBox110.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox110.Location = new System.Drawing.Point(591, 63);
-            this.pictureBox110.Name = "pictureBox110";
-            this.pictureBox110.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox110.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox110.TabIndex = 10;
-            this.pictureBox110.TabStop = false;
+            this.PicDiceFace4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDiceFace4.Location = new System.Drawing.Point(602, 63);
+            this.PicDiceFace4.Name = "PicDiceFace4";
+            this.PicDiceFace4.Size = new System.Drawing.Size(50, 50);
+            this.PicDiceFace4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDiceFace4.TabIndex = 9;
+            this.PicDiceFace4.TabStop = false;
             // 
-            // pictureBox107
+            // PicDiceFace3
             // 
-            this.pictureBox107.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox107.Location = new System.Drawing.Point(539, 63);
-            this.pictureBox107.Name = "pictureBox107";
-            this.pictureBox107.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox107.TabIndex = 9;
-            this.pictureBox107.TabStop = false;
+            this.PicDiceFace3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDiceFace3.Location = new System.Drawing.Point(707, 10);
+            this.PicDiceFace3.Name = "PicDiceFace3";
+            this.PicDiceFace3.Size = new System.Drawing.Size(50, 50);
+            this.PicDiceFace3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDiceFace3.TabIndex = 8;
+            this.PicDiceFace3.TabStop = false;
             // 
-            // pictureBox108
+            // PicDiceFace2
             // 
-            this.pictureBox108.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox108.Location = new System.Drawing.Point(644, 10);
-            this.pictureBox108.Name = "pictureBox108";
-            this.pictureBox108.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox108.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox108.TabIndex = 8;
-            this.pictureBox108.TabStop = false;
-            // 
-            // pictureBox106
-            // 
-            this.pictureBox106.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox106.Location = new System.Drawing.Point(591, 10);
-            this.pictureBox106.Name = "pictureBox106";
-            this.pictureBox106.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox106.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox106.TabIndex = 7;
-            this.pictureBox106.TabStop = false;
+            this.PicDiceFace2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDiceFace2.Location = new System.Drawing.Point(654, 10);
+            this.PicDiceFace2.Name = "PicDiceFace2";
+            this.PicDiceFace2.Size = new System.Drawing.Size(50, 50);
+            this.PicDiceFace2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDiceFace2.TabIndex = 7;
+            this.PicDiceFace2.TabStop = false;
             // 
             // PicDiceFace1
             // 
             this.PicDiceFace1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDiceFace1.Location = new System.Drawing.Point(539, 10);
+            this.PicDiceFace1.Location = new System.Drawing.Point(602, 10);
             this.PicDiceFace1.Name = "PicDiceFace1";
             this.PicDiceFace1.Size = new System.Drawing.Size(50, 50);
             this.PicDiceFace1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -313,14 +327,14 @@
             this.lblDiceLevel.TabIndex = 5;
             this.lblDiceLevel.Text = "Dice Level";
             // 
-            // label1
+            // lblStats
             // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(118, 97);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Stats";
+            this.lblStats.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStats.Location = new System.Drawing.Point(118, 97);
+            this.lblStats.Name = "lblStats";
+            this.lblStats.Size = new System.Drawing.Size(189, 15);
+            this.lblStats.TabIndex = 4;
+            this.lblStats.Text = "Stats";
             // 
             // lblCardType
             // 
@@ -345,7 +359,7 @@
             this.lblCardName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardName.Location = new System.Drawing.Point(155, 13);
             this.lblCardName.Name = "lblCardName";
-            this.lblCardName.Size = new System.Drawing.Size(152, 15);
+            this.lblCardName.Size = new System.Drawing.Size(152, 34);
             this.lblCardName.TabIndex = 1;
             this.lblCardName.Text = "Card Name";
             // 
@@ -376,6 +390,7 @@
             this.Controls.Add(this.lblDeck);
             this.Controls.Add(this.panelDeck);
             this.ForeColor = System.Drawing.Color.White;
+            this.MinimizeBox = false;
             this.Name = "DeckBuilder";
             this.Text = "DDM - Deck Builder Menu";
             this.panelDeck.ResumeLayout(false);
@@ -385,11 +400,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
             this.GroupDiceInfo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox109)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox110)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox107)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox108)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox106)).EndInit();
+            this.PanelCardText.ResumeLayout(false);
+            this.PanelCardText.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).EndInit();
             this.ResumeLayout(false);
@@ -415,15 +432,16 @@
         private System.Windows.Forms.Label lblCardName;
         private System.Windows.Forms.PictureBox PicCardArtwork;
         private System.Windows.Forms.Label lblCardText;
-        private System.Windows.Forms.PictureBox pictureBox109;
-        private System.Windows.Forms.PictureBox pictureBox110;
-        private System.Windows.Forms.PictureBox pictureBox107;
-        private System.Windows.Forms.PictureBox pictureBox108;
-        private System.Windows.Forms.PictureBox pictureBox106;
+        private System.Windows.Forms.PictureBox PicDiceFace6;
+        private System.Windows.Forms.PictureBox PicDiceFace5;
+        private System.Windows.Forms.PictureBox PicDiceFace4;
+        private System.Windows.Forms.PictureBox PicDiceFace3;
+        private System.Windows.Forms.PictureBox PicDiceFace2;
         private System.Windows.Forms.PictureBox PicDiceFace1;
         private System.Windows.Forms.Label lblDiceLevel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblStats;
         private System.Windows.Forms.Label lblID;
         private System.Windows.Forms.Label lblAttribute;
+        private System.Windows.Forms.Panel PanelCardText;
     }
 }

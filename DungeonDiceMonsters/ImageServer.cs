@@ -19,5 +19,10 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + id + ".png");
         }
+
+        public static Image DiceFace(int diceLevel, string faceType, int faceValue)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Dices\\Level " + diceLevel + "\\" + faceType + faceValue + ".png");
+        }
     }
 }

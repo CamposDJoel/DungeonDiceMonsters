@@ -133,6 +133,8 @@ namespace DungeonDiceMonsters
             string secondaryType = "";
             if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
             if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
+            if(thisCard.Category == "Spell") { secondaryType = " Spell"; }
+            if(thisCard.Category == "Trap") { secondaryType = " Trap"; }
 
 
             lblCardType.Text = thisCard.Type + secondaryType;
@@ -143,7 +145,30 @@ namespace DungeonDiceMonsters
             if (thisCard.Category == "Monster") { lblAttribute.Text =  thisCard.Attribute; }
             else { lblAttribute.Text = ""; }
 
+            lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
 
+            if (thisCard.Category == "Monster")
+            {
+                lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
+            }
+            else { lblStats.Text = ""; }
+
+            lblCardText.Text = thisCard.CardText;
+
+            //Dice Faces
+            if (PicDiceFace1.Image != null) { PicDiceFace1.Image.Dispose(); }
+            if (PicDiceFace2.Image != null) { PicDiceFace1.Image.Dispose(); }
+            if (PicDiceFace3.Image != null) { PicDiceFace1.Image.Dispose(); }
+            if (PicDiceFace4.Image != null) { PicDiceFace1.Image.Dispose(); }
+            if (PicDiceFace5.Image != null) { PicDiceFace1.Image.Dispose(); }
+            if (PicDiceFace6.Image != null) { PicDiceFace1.Image.Dispose(); }
+
+            PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face1Crest, thisCard.Face1Value);
+            PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face2Crest, thisCard.Face2Value);
+            PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face3Crest, thisCard.Face3Value);
+            PicDiceFace4.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face4Crest, thisCard.Face4Value);
+            PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face5Crest, thisCard.Face5Value);
+            PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face6Crest, thisCard.Face6Value);
 
         }
         private void SetStorageSelector(int index)
@@ -204,5 +229,6 @@ namespace DungeonDiceMonsters
             LoadStoragePage();
             SetStorageSelector(0);
         }
+
     }
 }

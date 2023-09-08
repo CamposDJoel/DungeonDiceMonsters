@@ -2,6 +2,7 @@
 //9/1/2023
 //CardInfo Class
 
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace DungeonDiceMonsters
             _SetPack = rawdata.setpack;
             _Rarity = rawdata.rarity;
             _IsFusion = rawdata.fusion;
+            _CardText = rawdata.cardtext;
 
             rawdiceinfo diceinfo = rawdata.diceinforaw[0];
             string[] crests = new string[6];
@@ -64,6 +66,22 @@ namespace DungeonDiceMonsters
                 return isritual;
             }
         }
+        public int DiceLevel { get { return _DiceInfo.Level; } }
+
+        public string Face1Crest { get { return _DiceInfo.Crest(0); }  }
+        public string Face2Crest { get { return _DiceInfo.Crest(1); }  }
+        public string Face3Crest { get { return _DiceInfo.Crest(2); }  }
+        public string Face4Crest { get { return _DiceInfo.Crest(3); }  }
+        public string Face5Crest { get { return _DiceInfo.Crest(4); }  }
+        public string Face6Crest { get { return _DiceInfo.Crest(5); }  }
+        public int Face1Value { get { return _DiceInfo.Value(0); }  }
+        public int Face2Value { get { return _DiceInfo.Value(1); }  }
+        public int Face3Value { get { return _DiceInfo.Value(2); }  }
+        public int Face4Value { get { return _DiceInfo.Value(3); }  }
+        public int Face5Value { get { return _DiceInfo.Value(4); }  }
+        public int Face6Value { get { return _DiceInfo.Value(5); }  }
+
+        public string CardText { get { return _CardText; } }
 
         private int _ID;
         private string _Name;
@@ -74,6 +92,7 @@ namespace DungeonDiceMonsters
         private int _ATK;
         private int _DEF;
         private int _LP;
+        private string _CardText;
         private DiceInfo _DiceInfo;
         private string _SetPack;
         private string _Rarity;
