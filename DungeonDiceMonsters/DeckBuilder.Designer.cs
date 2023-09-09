@@ -360,6 +360,7 @@
             this.listDeckList.Name = "listDeckList";
             this.listDeckList.Size = new System.Drawing.Size(120, 30);
             this.listDeckList.TabIndex = 9;
+            this.listDeckList.SelectedIndexChanged += new System.EventHandler(this.listDeckList_SelectedIndexChanged);
             // 
             // DeckBuilder
             // 

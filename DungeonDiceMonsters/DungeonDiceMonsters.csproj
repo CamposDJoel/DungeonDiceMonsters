@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="DecksData.cs" />
     <Compile Include="Media Servers\ImageServer.cs" />
+    <Compile Include="SaveFileManger.cs" />
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>

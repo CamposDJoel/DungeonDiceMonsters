@@ -15,19 +15,22 @@ namespace DungeonDiceMonsters
         {
             InitializeComponent();
 
+            //Read the savefile to load the decks and storage contents
+            SaveFileManger.ReadSaveFile();
+
 
             //TEST: Add cards to the storage
-            for(int x = 1; x <= 4; x++) 
+            /*for(int x = 1; x <= 4; x++) 
             {
                 for(int y = 1; y <= 12; y++) 
                 {
                     StorageData.AddCard(y);
                 }
-            }
+            }*/
             //TEST: Create the started deck
-            DecksData.Decks.Add(new Deck("Started Deck"));
-            DecksData.Decks.Add(new Deck("Secondary Deck"));
-            DecksData.Decks.Add(new Deck("Third Deck"));
+            //DecksData.Decks.Add(new Deck("Started Deck"));
+            //DecksData.Decks.Add(new Deck("Secondary Deck"));
+            //DecksData.Decks.Add(new Deck("Third Deck"));
 
             //Initialize the Deck List Selector
             listDeckList.Items.Clear();
@@ -35,13 +38,15 @@ namespace DungeonDiceMonsters
             {
                 listDeckList.Items.Add(deck.Name);
             }
+            _SkipForDeckSelectReload = true;
             listDeckList.SetSelected(0, true);
+            _SkipForDeckSelectReload = false;
             _CurrentDeckSelected = DecksData.Decks[0];
 
             InitializeStorageComponents();
             InitializeDeckComponents();
             LoadStoragePage();
-            LoadDeckPage();
+            LoadDeckPage();           
             //Initialize the ref to the current card selected with the first card in the
             //the storgae. This action is done via user interaction, so trigger it via code
             _CurrentCardSelected = CardDataBase.GetCardWithID(StorageData.Cards[0]);
@@ -343,6 +348,7 @@ namespace DungeonDiceMonsters
         private Deck _CurrentDeckSelected = null;
         private int _CurrentStorageIndexSelected = 0;
         private int _CurrentDeckIndexSelected = 0;
+        private bool _SkipForDeckSelectReload = false;
 
 
         private void StorageCard_click(object sender, EventArgs e)
@@ -488,6 +494,9 @@ namespace DungeonDiceMonsters
             //Hide both arrows until another selection is clicked
             PicToDeckArrow.Visible = false;
             PicToStoArrow.Visible = false;
+
+            //Override the save file to save the changes
+            SaveFileManger.WriteSaveFile();
         }
         private void PicToStoArrow_Click(object sender, EventArgs e)
         {
@@ -513,6 +522,25 @@ namespace DungeonDiceMonsters
             //Hide both arrows until another selection is clicked
             PicToDeckArrow.Visible = false;
             PicToStoArrow.Visible = false;
+
+            //Override the save file to save the changes
+            SaveFileManger.WriteSaveFile();
+        }
+        private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Change the current deck selected
+            _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
+            _CurrentDeckSelected = DecksData.Decks[_CurrentDeckIndexSelected];
+
+            if(!_SkipForDeckSelectReload)
+            {
+                //Reload both sides
+                LoadDeckPage();
+
+                //Hide both arrows until another selection is clicked
+                PicToDeckArrow.Visible = false;
+                PicToStoArrow.Visible = false;
+            }
         }
     }
 }
