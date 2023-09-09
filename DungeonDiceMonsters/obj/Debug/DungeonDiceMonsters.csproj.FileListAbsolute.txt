@@ -24,3 +24,8 @@ D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDic
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.pdb
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.JsonGenerator.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DeckBuilder.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Newtonsoft.Json.dll
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Newtonsoft.Json.xml
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DeckBuilder.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.JsonGenerator.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.CopyComplete

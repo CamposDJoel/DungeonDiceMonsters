@@ -56,6 +56,8 @@
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
             this.listDeckList = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PicDeckStatus = new System.Windows.Forms.PictureBox();
             this.PanelDeck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
@@ -68,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDeckStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelDeck
@@ -362,6 +365,27 @@
             this.listDeckList.TabIndex = 9;
             this.listDeckList.SelectedIndexChanged += new System.EventHandler(this.listDeckList_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(231, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 20);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Ready to use:";
+            // 
+            // PicDeckStatus
+            // 
+            this.PicDeckStatus.BackColor = System.Drawing.Color.Transparent;
+            this.PicDeckStatus.Location = new System.Drawing.Point(326, 6);
+            this.PicDeckStatus.Name = "PicDeckStatus";
+            this.PicDeckStatus.Size = new System.Drawing.Size(22, 22);
+            this.PicDeckStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDeckStatus.TabIndex = 11;
+            this.PicDeckStatus.TabStop = false;
+            // 
             // DeckBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,6 +393,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.PicDeckStatus);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listDeckList);
             this.Controls.Add(this.GroupDiceInfo);
             this.Controls.Add(this.PicToStoArrow);
@@ -397,7 +423,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDeckStatus)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -430,5 +458,7 @@
         private System.Windows.Forms.Label lblAttribute;
         private System.Windows.Forms.Panel PanelCardText;
         private System.Windows.Forms.ListBox listDeckList;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox PicDeckStatus;
     }
 }

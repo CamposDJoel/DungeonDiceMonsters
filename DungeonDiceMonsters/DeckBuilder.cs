@@ -241,6 +241,10 @@ namespace DungeonDiceMonsters
                     _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID);
                 }
             }
+
+            //Set the Ready flag
+            if(PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
+            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
         }
         private void LoadCardInfoPanel()
         {
@@ -495,6 +499,10 @@ namespace DungeonDiceMonsters
             PicToDeckArrow.Visible = false;
             PicToStoArrow.Visible = false;
 
+            //Reload the Deck Status
+            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
+            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+
             //Override the save file to save the changes
             SaveFileManger.WriteSaveFile();
         }
@@ -522,6 +530,10 @@ namespace DungeonDiceMonsters
             //Hide both arrows until another selection is clicked
             PicToDeckArrow.Visible = false;
             PicToStoArrow.Visible = false;
+
+            //Reload the Deck Status
+            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
+            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
 
             //Override the save file to save the changes
             SaveFileManger.WriteSaveFile();

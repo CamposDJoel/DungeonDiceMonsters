@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,8 @@ namespace DungeonDiceMonsters
         public void AddMainCard(int id)
         {
             _CardList.Add(id);
-
+            CardInfo thisCard = CardDataBase.GetCardWithID(id);
+            if (thisCard.Category == "Monster") { _MonsterCardCount++; }
         }
         public void AddFusionCard(int id)
         {
@@ -37,7 +39,10 @@ namespace DungeonDiceMonsters
         }
         public void RemoveMainAtIndex(int index)
         {
+            int id = _CardList[index];
             _CardList.RemoveAt(index);
+            CardInfo thisCard = CardDataBase.GetCardWithID(id);
+            if (thisCard.Category == "Monster") { _MonsterCardCount--; }
         }
         public void RemoveFusionAtIndex(int index)
         {
@@ -57,9 +62,18 @@ namespace DungeonDiceMonsters
         public string Name { get { return _name; } }
         public int MainDeckSize { get { return _CardList.Count; } }
         public int FusionDeckSize { get { return _FusionList.Count; } }
+        public int MonsterCardsCount { get { return _MonsterCardCount; } }
+
+        public bool UseStatus { 
+            get 
+            { 
+                return MainDeckSize == 20 && MonsterCardsCount >= 10;
+            } 
+        }
 
         private string _name;
         private List<int> _CardList = new List<int>();
         private List<int> _FusionList = new List<int>();
+        private int _MonsterCardCount = 0;
     }
 }
