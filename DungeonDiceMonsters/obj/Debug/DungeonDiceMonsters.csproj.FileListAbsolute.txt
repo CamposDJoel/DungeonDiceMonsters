@@ -29,3 +29,4 @@ D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Newto
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DeckBuilder.resources
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.JsonGenerator.resources
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.CopyComplete
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.MainMenu.resources

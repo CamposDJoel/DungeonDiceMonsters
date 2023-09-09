@@ -38,9 +38,13 @@ namespace DungeonDiceMonsters
 
         private void btnStartGame_Click(object sender, EventArgs e)
         {
-            DeckBuilder DB = new DeckBuilder();
+            //DeckBuilder DB = new DeckBuilder();
+            ///Hide();
+            //DB.Show();
+
+            MainMenu MM = new MainMenu();
             Hide();
-            DB.Show();
+            MM.Show();
         }
     }
 }
