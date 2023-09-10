@@ -58,7 +58,7 @@
     <Compile Include="DeckBuilder.Designer.cs">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="DecksData.cs" />
+    <Compile Include="Data\DecksData.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>

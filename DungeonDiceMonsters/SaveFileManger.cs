@@ -58,14 +58,14 @@ namespace DungeonDiceMonsters
             Lines.Add(storageDataString);
 
             //Write the file
-            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\Save.txt", Lines);
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
         }
 
         public static void ReadSaveFile()
         {
             //Stream that reads the actual save file.
             StreamReader SR_SaveFile = new StreamReader(
-                Directory.GetCurrentDirectory() + "\\Save Files\\Save.txt");
+                Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt");
 
             string Line = "";
             string[] Tokens = new string[1];

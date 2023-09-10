@@ -409,6 +409,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "DeckBuilder";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DDM - Deck Builder Menu";
             this.PanelDeck.ResumeLayout(false);
             this.PanelDeck.PerformLayout();

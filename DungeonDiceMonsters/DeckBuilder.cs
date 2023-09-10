@@ -14,11 +14,7 @@ namespace DungeonDiceMonsters
         public DeckBuilder()
         {
             InitializeComponent();
-
-            //Read the savefile to load the decks and storage contents
-            SaveFileManger.ReadSaveFile();
-
-
+         
             //TEST: Add cards to the storage
             /*for(int x = 1; x <= 4; x++) 
             {
@@ -46,11 +42,7 @@ namespace DungeonDiceMonsters
             InitializeStorageComponents();
             InitializeDeckComponents();
             LoadStoragePage();
-            LoadDeckPage();           
-            //Initialize the ref to the current card selected with the first card in the
-            //the storgae. This action is done via user interaction, so trigger it via code
-            _CurrentCardSelected = CardDataBase.GetCardWithID(StorageData.Cards[0]);
-            SetStorageSelector(0);            
+            LoadDeckPage();        
         }
 
         private void InitializeStorageComponents()
