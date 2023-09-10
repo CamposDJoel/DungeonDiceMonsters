@@ -70,6 +70,7 @@
             this.lblMenuDeckBuilder.TabIndex = 2;
             this.lblMenuDeckBuilder.Text = "Deck Builder";
             this.lblMenuDeckBuilder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblMenuDeckBuilder.Click += new System.EventHandler(this.lblMenuDeckBuilder_Click);
             // 
             // lblMenuCardShop
             // 
@@ -95,6 +96,7 @@
             this.Controls.Add(this.lblMenuDeckBuilder);
             this.Controls.Add(this.lblMenuFreeDuel);
             this.Controls.Add(this.lblMenuArcade);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "MainMenu";
             this.Text = "DDM - Main Menu";

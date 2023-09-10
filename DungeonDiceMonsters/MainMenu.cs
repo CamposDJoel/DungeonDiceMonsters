@@ -45,5 +45,13 @@ namespace DungeonDiceMonsters
         {
 
         }
+
+        private void lblMenuDeckBuilder_Click(object sender, EventArgs e)
+        {
+            //Open the Deckbuilder form
+            DeckBuilder DB = new DeckBuilder();
+            Dispose();
+            DB.Show();
+        }
     }
 }

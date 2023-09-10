@@ -406,6 +406,7 @@
             this.Controls.Add(this.lblDeck);
             this.Controls.Add(this.PanelDeck);
             this.ForeColor = System.Drawing.Color.White;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "DeckBuilder";
             this.Text = "DDM - Deck Builder Menu";

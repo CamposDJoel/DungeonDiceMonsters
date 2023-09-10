@@ -45,12 +45,11 @@
             // 
             // btnStartGame
             // 
-            this.btnStartGame.BackColor = System.Drawing.Color.Transparent;
-            this.btnStartGame.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnStartGame.BackgroundImage")));
+            this.btnStartGame.BackColor = System.Drawing.Color.Black;
             this.btnStartGame.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStartGame.Font = new System.Drawing.Font("Arial Narrow", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStartGame.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnStartGame.Location = new System.Drawing.Point(227, 422);
+            this.btnStartGame.Location = new System.Drawing.Point(234, 422);
             this.btnStartGame.Name = "btnStartGame";
             this.btnStartGame.Size = new System.Drawing.Size(332, 60);
             this.btnStartGame.TabIndex = 1;
@@ -68,6 +67,7 @@
             this.Controls.Add(this.btnStartGame);
             this.Controls.Add(this.btnOpenDBManager);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "StartScreen";
             this.Text = "DDM - Start Screen";
