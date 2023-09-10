@@ -58,6 +58,7 @@
             this.listDeckList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.PicDeckStatus = new System.Windows.Forms.PictureBox();
+            this.btnExit = new System.Windows.Forms.Button();
             this.PanelDeck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
@@ -386,6 +387,19 @@
             this.PicDeckStatus.TabIndex = 11;
             this.PicDeckStatus.TabStop = false;
             // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnExit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnExit.Location = new System.Drawing.Point(667, 4);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(105, 22);
+            this.btnExit.TabIndex = 12;
+            this.btnExit.Text = "EXIT";
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // DeckBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,6 +407,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.PicDeckStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listDeckList);
@@ -462,5 +477,6 @@
         private System.Windows.Forms.ListBox listDeckList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox PicDeckStatus;
+        private System.Windows.Forms.Button btnExit;
     }
 }

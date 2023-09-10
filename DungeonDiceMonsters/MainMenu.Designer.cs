@@ -33,6 +33,7 @@
             this.lblMenuFreeDuel = new System.Windows.Forms.Label();
             this.lblMenuDeckBuilder = new System.Windows.Forms.Label();
             this.lblMenuCardShop = new System.Windows.Forms.Label();
+            this.lblDuelsNotAvailable = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMenuArcade
@@ -85,6 +86,19 @@
             this.lblMenuCardShop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblMenuCardShop.Click += new System.EventHandler(this.lblMenuCardShop_Click);
             // 
+            // lblDuelsNotAvailable
+            // 
+            this.lblDuelsNotAvailable.BackColor = System.Drawing.Color.Transparent;
+            this.lblDuelsNotAvailable.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDuelsNotAvailable.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblDuelsNotAvailable.Location = new System.Drawing.Point(39, 308);
+            this.lblDuelsNotAvailable.Name = "lblDuelsNotAvailable";
+            this.lblDuelsNotAvailable.Size = new System.Drawing.Size(459, 52);
+            this.lblDuelsNotAvailable.TabIndex = 4;
+            this.lblDuelsNotAvailable.Text = "No Decks Ready to Duel!!";
+            this.lblDuelsNotAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblDuelsNotAvailable.Visible = false;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -92,6 +106,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.lblDuelsNotAvailable);
             this.Controls.Add(this.lblMenuCardShop);
             this.Controls.Add(this.lblMenuDeckBuilder);
             this.Controls.Add(this.lblMenuFreeDuel);
@@ -111,5 +126,6 @@
         private System.Windows.Forms.Label lblMenuFreeDuel;
         private System.Windows.Forms.Label lblMenuDeckBuilder;
         private System.Windows.Forms.Label lblMenuCardShop;
+        private System.Windows.Forms.Label lblDuelsNotAvailable;
     }
 }

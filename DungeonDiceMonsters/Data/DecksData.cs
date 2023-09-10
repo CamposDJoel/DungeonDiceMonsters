@@ -10,6 +10,15 @@ namespace DungeonDiceMonsters
     public static class DecksData
     {
         public static List<Deck> Decks = new List<Deck>();
+
+        public static bool HasOneReadyDeck()
+        {
+            int readycount = 0;
+
+            foreach (var deck in Decks) { if (deck.UseStatus) { readycount++; } }
+
+            return readycount > 0;
+        }
     }
 
     public class Deck

@@ -15,19 +15,6 @@ namespace DungeonDiceMonsters
         {
             InitializeComponent();
          
-            //TEST: Add cards to the storage
-            /*for(int x = 1; x <= 4; x++) 
-            {
-                for(int y = 1; y <= 12; y++) 
-                {
-                    StorageData.AddCard(y);
-                }
-            }*/
-            //TEST: Create the started deck
-            //DecksData.Decks.Add(new Deck("Started Deck"));
-            //DecksData.Decks.Add(new Deck("Secondary Deck"));
-            //DecksData.Decks.Add(new Deck("Third Deck"));
-
             //Initialize the Deck List Selector
             listDeckList.Items.Clear();
             foreach (Deck deck in DecksData.Decks)
@@ -396,7 +383,7 @@ namespace DungeonDiceMonsters
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
             //Save the ref to this index number for outer use
-            _CurrentStorageIndexSelected = thiPictureBoxIndex;
+            _CurrentDeckIndexSelected = thiPictureBoxIndex;
 
             int cardid = -1;
             if (thiPictureBoxIndex >= 20)
@@ -461,11 +448,7 @@ namespace DungeonDiceMonsters
             //hide the arrow buttons
             PicToStoArrow.Visible = false;
             PicToDeckArrow.Visible = false;
-        }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            //Application.Exit();
-        }
+        }       
         private void PicToDeckArrow_Click(object sender, EventArgs e)
         {
             //add the card in the current storage index selected
@@ -545,6 +528,16 @@ namespace DungeonDiceMonsters
                 PicToDeckArrow.Visible = false;
                 PicToStoArrow.Visible = false;
             }
+        }
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            MainMenu MM = new MainMenu();
+            Dispose();
+            MM.Show();
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

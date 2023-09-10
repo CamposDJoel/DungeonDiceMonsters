@@ -28,8 +28,16 @@ namespace DungeonDiceMonsters
             lblMenuCardShop.MouseEnter += OnMouseEnterLabel;
             lblMenuCardShop.MouseLeave += OnMouseLeaveLabel;
 
+            if(!DecksData.HasOneReadyDeck())
+            {
+                lblMenuArcade.Visible = false;
+                lblMenuFreeDuel.Visible = false;
+                lblDuelsNotAvailable.Visible = true;
+            }
+
         }
 
+        //Events
         private void OnMouseEnterLabel(object sender, EventArgs e)
         {
             Label thisLabel = (Label)sender;
@@ -43,15 +51,18 @@ namespace DungeonDiceMonsters
 
         private void lblMenuCardShop_Click(object sender, EventArgs e)
         {
-
+            //TODO
         }
-
         private void lblMenuDeckBuilder_Click(object sender, EventArgs e)
         {
             //Open the Deckbuilder form
             DeckBuilder DB = new DeckBuilder();
             Dispose();
             DB.Show();
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
