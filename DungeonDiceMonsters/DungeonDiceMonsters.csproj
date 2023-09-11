@@ -54,29 +54,29 @@
     <Compile Include="DB Objects\CardInfo.cs" />
     <Compile Include="DB Objects\DiceInfo.cs" />
     <Compile Include="DB Objects\CardDataBase.cs" />
-    <Compile Include="DeckBuilder.cs">
+    <Compile Include="Forms\DeckBuilder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeckBuilder.Designer.cs">
+    <Compile Include="Forms\DeckBuilder.Designer.cs">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\DecksData.cs" />
-    <Compile Include="FreeDuelMenu.cs">
+    <Compile Include="Forms\FreeDuelMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeDuelMenu.Designer.cs">
+    <Compile Include="Forms\FreeDuelMenu.Designer.cs">
       <DependentUpon>FreeDuelMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameData.cs" />
-    <Compile Include="MainMenu.cs">
+    <Compile Include="Data\GameData.cs" />
+    <Compile Include="Forms\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainMenu.Designer.cs">
+    <Compile Include="Forms\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Media Servers\ImageServer.cs" />
-    <Compile Include="SaveFileManger.cs" />
-    <Compile Include="SoundServer.cs" />
+    <Compile Include="Data\SaveFileManger.cs" />
+    <Compile Include="Media Servers\SoundServer.cs" />
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,22 +84,22 @@
       <DependentUpon>JsonGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
-    <Compile Include="StartScreen.cs">
+    <Compile Include="Forms\StartScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartScreen.Designer.cs">
+    <Compile Include="Forms\StartScreen.Designer.cs">
       <DependentUpon>StartScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\StorageData.cs" />
-    <EmbeddedResource Include="DeckBuilder.resx">
+    <EmbeddedResource Include="Forms\DeckBuilder.resx">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeDuelMenu.resx">
+    <EmbeddedResource Include="Forms\FreeDuelMenu.resx">
       <DependentUpon>FreeDuelMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainMenu.resx">
+    <EmbeddedResource Include="Forms\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
@@ -114,7 +114,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="StartScreen.resx">
+    <EmbeddedResource Include="Forms\StartScreen.resx">
       <DependentUpon>StartScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
