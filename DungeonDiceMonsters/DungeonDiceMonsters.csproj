@@ -59,6 +59,13 @@
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\DecksData.cs" />
+    <Compile Include="FreeDuelMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeDuelMenu.Designer.cs">
+      <DependentUpon>FreeDuelMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameData.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +92,9 @@
     <Compile Include="Data\StorageData.cs" />
     <EmbeddedResource Include="DeckBuilder.resx">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeDuelMenu.resx">
+      <DependentUpon>FreeDuelMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>

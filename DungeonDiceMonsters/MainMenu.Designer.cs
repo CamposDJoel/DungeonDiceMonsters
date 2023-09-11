@@ -47,6 +47,7 @@
             this.lblMenuArcade.TabIndex = 0;
             this.lblMenuArcade.Text = "Arcade Mode";
             this.lblMenuArcade.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblMenuArcade.Click += new System.EventHandler(this.lblMenuArcade_Click);
             // 
             // lblMenuFreeDuel
             // 
@@ -59,6 +60,7 @@
             this.lblMenuFreeDuel.TabIndex = 1;
             this.lblMenuFreeDuel.Text = "Free Duel";
             this.lblMenuFreeDuel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblMenuFreeDuel.Click += new System.EventHandler(this.lblMenuFreeDuel_Click);
             // 
             // lblMenuDeckBuilder
             // 

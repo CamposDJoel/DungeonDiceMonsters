@@ -64,5 +64,18 @@ namespace DungeonDiceMonsters
         {
             Application.Exit();
         }
+
+        private void lblMenuFreeDuel_Click(object sender, EventArgs e)
+        {
+            //Open the Free Duel Form
+            FreeDuelMenu FD = new FreeDuelMenu();
+            Dispose();
+            FD.Show();
+        }
+
+        private void lblMenuArcade_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
