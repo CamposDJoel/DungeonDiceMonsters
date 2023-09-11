@@ -27,8 +27,19 @@ namespace DungeonDiceMonsters
             _SkipForDeckSelectReload = false;
             _CurrentDeckSelected = DecksData.Decks[0];
 
+            
             InitializeStorageComponents();
             InitializeDeckComponents();
+
+            for (int x = 0; x < 30; x++)
+            {
+                _StorageIDsInCurrentPage[x] = 0;
+            }
+            for (int x = 0; x < 20; x++)
+            {
+                _DeckIDsInCurrentPage[x] = 0;
+            }
+
             LoadStoragePage();
             LoadDeckPage();        
         }
@@ -131,7 +142,7 @@ namespace DungeonDiceMonsters
                 CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                 _DeckCardImageList.Add(CardImage);
                 CardImage.Tag = pictureIndex;
-                //CardImage.Click += new EventHandler(StorageCard_click);
+                CardImage.Click += new EventHandler(DeckCard_click);
 
                 X_Location2 += 58;
                 pictureIndex++;
@@ -145,55 +156,69 @@ namespace DungeonDiceMonsters
             {
                 //set the itearator
                 int iterator = startIndex + x;
-
+               
                 //If the itearator reached past the last card in the Card DB vanish the card from view
                 if (iterator >= StorageData.Cards.Count)
                 {
                     _CardPanelList[x].Visible = false;
+                    _StorageIDsInCurrentPage[x] = 0;
                 }
                 else
                 {
-                    //Make the card panel visible
-                    _CardPanelList[x].Visible = true;
+                    //if the ID of the card to be place in this card slot 
+                    //is the same as the one before dont do anything...
+                    if (_StorageIDsInCurrentPage[x] != StorageData.Cards[iterator])
+                    {
+                        //Update the ID of the card in this slow
+                        _StorageIDsInCurrentPage[x] = StorageData.Cards[iterator];
 
-                    //Get the card ID of the card to be displayed
-                    int cardID = StorageData.Cards[iterator];
+                        //Make the card panel visible
+                        _CardPanelList[x].Visible = true;
 
-                    //Dispose the current image in this picture box (if there was one)
-                    //to clear memory
-                    if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+                        //Get the card ID of the card to be displayed
+                        int cardID = StorageData.Cards[iterator];
 
-                    //Populate the card image with the card ID
-                    _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
-                   
+                        //Dispose the current image in this picture box (if there was one)
+                        //to clear memory
+                        if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+
+                        //Populate the card image with the card ID
+                        _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                    }                                     
                 }
             }
         }
         private void LoadDeckPage()
         {
-            int deckIndex = listDeckList.SelectedIndex;
-
             for (int x = 0; x < 20; x++)
             {
                 //If the itearator reached past the last card in the Card DB vanish the card from view
-                if (x >= DecksData.Decks[deckIndex].MainDeckSize)
+                if (x >= _CurrentDeckSelected.MainDeckSize)
                 {
                     _DeckCardPanelList[x].Visible = false;
+                    _DeckIDsInCurrentPage[x] = 0;
                 }
                 else
                 {
-                    //Make the card panel visible
-                    _DeckCardPanelList[x].Visible = true;
+                    //if the ID of the card to be place in this card slot 
+                    //is the same as the one before dont do anything...
+                    if (_DeckIDsInCurrentPage[x] != _CurrentDeckSelected.GetMainCardIDAtIndex(x))
+                    {
+                        _DeckIDsInCurrentPage[x] = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
 
-                    //Get the card ID of the card to be displayed
-                    int cardID = DecksData.Decks[deckIndex].GetMainCardIDAtIndex(x);
+                        //Make the card panel visible
+                        _DeckCardPanelList[x].Visible = true;
 
-                    //Dispose the current image in this picture box (if there was one)
-                    //to clear memory
-                    if (_DeckCardImageList[x].Image != null) { _DeckCardImageList[x].Image.Dispose(); }
+                        //Get the card ID of the card to be displayed
+                        int cardID = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
 
-                    //Populate the card image with the card ID
-                    _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                        //Dispose the current image in this picture box (if there was one)
+                        //to clear memory
+                        if (_DeckCardImageList[x].Image != null) { _DeckCardImageList[x].Image.Dispose(); }
+
+                        //Populate the card image with the card ID
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                    }                    
                 }
             }
 
@@ -201,7 +226,7 @@ namespace DungeonDiceMonsters
             for (int x = 0; x < 3; x++)
             {
                 //If the itearator reached past the last card in the Card DB vanish the card from view
-                if (x >= DecksData.Decks[deckIndex].FusionDeckSize)
+                if (x >= _CurrentDeckSelected.FusionDeckSize)
                 {
                     _DeckCardPanelList[x+20].Visible = false;
                 }
@@ -211,7 +236,7 @@ namespace DungeonDiceMonsters
                     _DeckCardPanelList[x+20].Visible = true;
 
                     //Get the card ID of the card to be displayed
-                    int cardID = DecksData.Decks[deckIndex].GetFusionCardIDAtIndex(x);
+                    int cardID = _CurrentDeckSelected.GetFusionCardIDAtIndex(x);
 
                     //Dispose the current image in this picture box (if there was one)
                     //to clear memory
@@ -334,9 +359,14 @@ namespace DungeonDiceMonsters
         private int _CurrentDeckIndexSelected = 0;
         private bool _SkipForDeckSelectReload = false;
 
+        private int[] _StorageIDsInCurrentPage = new int[30];
+        private int[] _DeckIDsInCurrentPage = new int[30];
+
 
         private void StorageCard_click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click2);
+
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
@@ -379,6 +409,8 @@ namespace DungeonDiceMonsters
         }
         private void DeckCard_click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click2);
+
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
@@ -406,6 +438,7 @@ namespace DungeonDiceMonsters
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             _CurrentPage++;
 
             if(_CurrentPage == 6 ) { _CurrentPage = 1; }
@@ -429,6 +462,7 @@ namespace DungeonDiceMonsters
         }
         private void btnPrevious_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             _CurrentPage--;
 
             if (_CurrentPage == 0) { _CurrentPage = 5; }
@@ -452,6 +486,8 @@ namespace DungeonDiceMonsters
         }       
         private void PicToDeckArrow_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+
             //add the card in the current storage index selected
             int cardid = _CurrentCardSelected.ID;
 
@@ -484,6 +520,8 @@ namespace DungeonDiceMonsters
         }
         private void PicToStoArrow_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+
             //add the card in the current deck index selected
             int cardid = _CurrentCardSelected.ID;
             StorageData.AddCard(cardid);

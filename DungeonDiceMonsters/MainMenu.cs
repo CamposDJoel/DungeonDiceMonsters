@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -41,6 +34,7 @@ namespace DungeonDiceMonsters
         //Events
         private void OnMouseEnterLabel(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
             Label thisLabel = (Label)sender;
            thisLabel.BorderStyle = BorderStyle.FixedSingle;
         }
@@ -56,6 +50,7 @@ namespace DungeonDiceMonsters
         }
         private void lblMenuDeckBuilder_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             SoundServer.PlayBackgroundMusic(Song.MainMenu, false);
             //Open the Deckbuilder form
             DeckBuilder DB = new DeckBuilder();
@@ -69,6 +64,7 @@ namespace DungeonDiceMonsters
 
         private void lblMenuFreeDuel_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             SoundServer.PlayBackgroundMusic(Song.MainMenu, false);
             //Open the Free Duel Form
             FreeDuelMenu FD = new FreeDuelMenu();

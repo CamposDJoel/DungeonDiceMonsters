@@ -27,6 +27,13 @@ namespace DungeonDiceMonsters
             }
 
         }
+        public static void PlaySoundEffect(SoundEffect sound)
+        {
+            string filepath = "\\Music\\" + sound + ".wav";
+            Effect.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
+            Effect.Play();
+            Effect.Volume = 0.8;
+        }
 
         private static void Media_Ended(object sender, EventArgs e)
         {
@@ -35,6 +42,7 @@ namespace DungeonDiceMonsters
         }
 
         private static MediaPlayer CurrentBackGroundPlay = new MediaPlayer();
+        private static MediaPlayer Effect = new MediaPlayer();
     }
 
     public enum  Song
@@ -43,5 +51,12 @@ namespace DungeonDiceMonsters
         MainMenu,
         FreeDuelMenu,
         DeckBuildMenu,
+    }
+    public enum SoundEffect
+    {
+        Hover,
+        Click,
+        Click2,
+        MoveCard
     }
 }

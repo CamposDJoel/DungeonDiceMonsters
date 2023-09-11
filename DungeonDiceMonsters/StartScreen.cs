@@ -30,6 +30,7 @@ namespace DungeonDiceMonsters
 
         private void btnStartGame_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Initialize the DB Read raw data from json file
             string jsonFilePath = Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json";
             string rawdata = File.ReadAllText(jsonFilePath);
@@ -77,6 +78,7 @@ namespace DungeonDiceMonsters
 
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Read the savefile to load the decks and storage contents and the rest
             SaveFileManger.ReadSaveFile();
 
@@ -89,6 +91,7 @@ namespace DungeonDiceMonsters
 
         private void btnNewGame_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //To start a new game, give the player the starter deck and a sample card in storage
             DecksData.Decks.Add(new Deck("Starter Deck"));
 
