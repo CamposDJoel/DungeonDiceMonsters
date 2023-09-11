@@ -12,6 +12,7 @@ namespace DungeonDiceMonsters
     {
         public FreeDuelMenu()
         {
+            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, true);
             InitializeComponent();
 
             //Set the arrays for the pictures and borders
@@ -88,6 +89,7 @@ namespace DungeonDiceMonsters
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
             MainMenu MM = new MainMenu();
             Dispose();
             MM.Show();

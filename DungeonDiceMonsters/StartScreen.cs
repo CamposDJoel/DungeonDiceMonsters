@@ -15,6 +15,7 @@ namespace DungeonDiceMonsters
     {
         public StartScreen()
         {
+            SoundServer.PlayBackgroundMusic(Song.TitleScreen, true);
             InitializeComponent();
 
             btnNewGame.MouseEnter += OnMouseEnterLabel;
@@ -80,6 +81,7 @@ namespace DungeonDiceMonsters
             SaveFileManger.ReadSaveFile();
 
             //Open the main menu form
+            SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
             MainMenu MM = new MainMenu();
             Hide();
             MM.Show();
@@ -115,6 +117,7 @@ namespace DungeonDiceMonsters
             StorageData.AddCard(6);
 
             //Open the main menu form
+            SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
             MainMenu MM = new MainMenu();
             Hide();
             MM.Show();

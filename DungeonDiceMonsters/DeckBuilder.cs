@@ -13,6 +13,7 @@ namespace DungeonDiceMonsters
     {
         public DeckBuilder()
         {
+            SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, true);
             InitializeComponent();
          
             //Initialize the Deck List Selector
@@ -531,6 +532,21 @@ namespace DungeonDiceMonsters
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
+            //Dispose the images of all cards
+            for (int x = 0; x < 23; x++)
+            {
+                if (_DeckCardImageList[x].Image != null)
+                {
+                    _DeckCardImageList[x].Image.Dispose();
+                }
+            }
+
+            for (int x = 0; x < 30; x++)
+            {
+                if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+            }
+
+            SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, false);
             MainMenu MM = new MainMenu();
             Dispose();
             MM.Show();
