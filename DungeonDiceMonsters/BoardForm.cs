@@ -486,6 +486,7 @@ namespace DungeonDiceMonsters
                     if(thiscard.MoveCost > _TMPMoveCrestCount)
                     {
                         //No more available moves. do no generate more candidates
+                        _MoveCandidates.Clear();
                     }
                     else
                     {
