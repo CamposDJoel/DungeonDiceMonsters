@@ -125,11 +125,17 @@ namespace DungeonDiceMonsters
         }
         private void CharacterPicture_Click(object sender, EventArgs e)
         {
-            //Character thisCharacter = (Character)_CurrentSelectedCharacterID;
+            Character thisCharacter = (Character)_CurrentSelectedCharacterID;
+            string characterName = GameData.CharacterName(thisCharacter);
 
             //TODO: Start a duel with this character
             SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
-            BoardForm BF = new BoardForm();
+
+            //Generate the Player Objects
+            PlayerData red = new PlayerData("Player", DecksData.Decks[0]);
+            PlayerData blue = new PlayerData(characterName, DecksData.Decks[0]);
+
+            BoardForm BF = new BoardForm(red, blue);
             Dispose();
             BF.Show();
         }

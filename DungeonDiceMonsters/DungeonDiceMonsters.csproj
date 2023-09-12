@@ -84,6 +84,7 @@
     <Compile Include="Media Servers\ImageServer.cs" />
     <Compile Include="Data\SaveFileManger.cs" />
     <Compile Include="Media Servers\SoundServer.cs" />
+    <Compile Include="PlayerData.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>

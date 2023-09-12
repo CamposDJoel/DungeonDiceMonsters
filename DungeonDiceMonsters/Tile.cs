@@ -103,6 +103,11 @@ namespace DungeonDiceMonsters
                 case PlayerOwner.Red: _CardImage.BackColor = Color.DarkRed; break;
                 case PlayerOwner.Blue: _CardImage.BackColor = Color.DarkBlue; break;
             }
+
+            if( _IsSummonTile ) 
+            {
+                _CardImage.BackColor = Color.Orange;
+            }
         }
         public void MarkFreeToMove()
         {

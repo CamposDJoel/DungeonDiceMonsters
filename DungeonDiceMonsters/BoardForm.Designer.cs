@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.PanelBoard = new System.Windows.Forms.Panel();
+            this.PanelMoveMenu = new System.Windows.Forms.Panel();
+            this.btnMoveMenuCancel = new System.Windows.Forms.Button();
+            this.btnMoveMenuFinish = new System.Windows.Forms.Button();
             this.PanelActionMenu = new System.Windows.Forms.Panel();
             this.btnActionCancel = new System.Windows.Forms.Button();
             this.btnActionEffect = new System.Windows.Forms.Button();
@@ -36,34 +39,34 @@
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelBluePlayer = new System.Windows.Forms.Panel();
             this.PanelBlueCrests = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblBlueTrapCount = new System.Windows.Forms.Label();
             this.PicBlueTrapImage = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblBlueMagCount = new System.Windows.Forms.Label();
             this.PicBlueMagImage = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblBlueDefCount = new System.Windows.Forms.Label();
             this.PicBlueDEFImage = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblBlueAtkCount = new System.Windows.Forms.Label();
             this.PicBlueATKImage = new System.Windows.Forms.PictureBox();
             this.lblBlueMovCount = new System.Windows.Forms.Label();
             this.PicBlueMovImage = new System.Windows.Forms.PictureBox();
             this.lblBlueLP = new System.Windows.Forms.Label();
             this.lblLPLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblBluePlayerName = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.PanelRedCrests = new System.Windows.Forms.Panel();
+            this.lblRedTrapCount = new System.Windows.Forms.Label();
             this.PicRedTrapImage = new System.Windows.Forms.PictureBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblRedMagCount = new System.Windows.Forms.Label();
             this.PicRedMagImage = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblRedDefCount = new System.Windows.Forms.Label();
             this.PicRedDEFImage = new System.Windows.Forms.PictureBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblRedAtkCount = new System.Windows.Forms.Label();
             this.PicRedATKImage = new System.Windows.Forms.PictureBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lblRedMovCount = new System.Windows.Forms.Label();
             this.PicRedMovImage = new System.Windows.Forms.PictureBox();
             this.lblRedLP = new System.Windows.Forms.Label();
             this.lblLPlabel2 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblRedPlayerName = new System.Windows.Forms.Label();
             this.PanelDebug = new System.Windows.Forms.Panel();
             this.lblMouseCords = new System.Windows.Forms.Label();
             this.lblDebugCardOwner = new System.Windows.Forms.Label();
@@ -84,6 +87,7 @@
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtworkBottom = new System.Windows.Forms.PictureBox();
             this.PanelBoard.SuspendLayout();
+            this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelBluePlayer.SuspendLayout();
             this.PanelBlueCrests.SuspendLayout();
@@ -93,7 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).BeginInit();
             this.panel2.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.PanelRedCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedDEFImage)).BeginInit();
@@ -109,11 +113,52 @@
             this.PanelBoard.AutoScroll = true;
             this.PanelBoard.BackColor = System.Drawing.Color.Black;
             this.PanelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBoard.Controls.Add(this.PanelMoveMenu);
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
             this.PanelBoard.Location = new System.Drawing.Point(151, 0);
             this.PanelBoard.Name = "PanelBoard";
-            this.PanelBoard.Size = new System.Drawing.Size(633, 561);
+            this.PanelBoard.Size = new System.Drawing.Size(631, 561);
             this.PanelBoard.TabIndex = 0;
+            // 
+            // PanelMoveMenu
+            // 
+            this.PanelMoveMenu.BackColor = System.Drawing.Color.Black;
+            this.PanelMoveMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelMoveMenu.Controls.Add(this.btnMoveMenuCancel);
+            this.PanelMoveMenu.Controls.Add(this.btnMoveMenuFinish);
+            this.PanelMoveMenu.Location = new System.Drawing.Point(3, 110);
+            this.PanelMoveMenu.Name = "PanelMoveMenu";
+            this.PanelMoveMenu.Size = new System.Drawing.Size(83, 56);
+            this.PanelMoveMenu.TabIndex = 6;
+            this.PanelMoveMenu.Visible = false;
+            // 
+            // btnMoveMenuCancel
+            // 
+            this.btnMoveMenuCancel.BackColor = System.Drawing.Color.Gray;
+            this.btnMoveMenuCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMoveMenuCancel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMoveMenuCancel.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnMoveMenuCancel.Location = new System.Drawing.Point(3, 28);
+            this.btnMoveMenuCancel.Name = "btnMoveMenuCancel";
+            this.btnMoveMenuCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveMenuCancel.TabIndex = 3;
+            this.btnMoveMenuCancel.Text = "Cancel";
+            this.btnMoveMenuCancel.UseVisualStyleBackColor = false;
+            this.btnMoveMenuCancel.Click += new System.EventHandler(this.btnMoveMenuCancel_Click);
+            // 
+            // btnMoveMenuFinish
+            // 
+            this.btnMoveMenuFinish.BackColor = System.Drawing.Color.Gray;
+            this.btnMoveMenuFinish.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMoveMenuFinish.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMoveMenuFinish.ForeColor = System.Drawing.Color.Chartreuse;
+            this.btnMoveMenuFinish.Location = new System.Drawing.Point(3, 4);
+            this.btnMoveMenuFinish.Name = "btnMoveMenuFinish";
+            this.btnMoveMenuFinish.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveMenuFinish.TabIndex = 0;
+            this.btnMoveMenuFinish.Text = "Finish";
+            this.btnMoveMenuFinish.UseVisualStyleBackColor = false;
+            this.btnMoveMenuFinish.Click += new System.EventHandler(this.btnMoveMenuFinish_Click);
             // 
             // PanelActionMenu
             // 
@@ -148,6 +193,7 @@
             this.btnActionEffect.BackColor = System.Drawing.Color.Gray;
             this.btnActionEffect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnActionEffect.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActionEffect.ForeColor = System.Drawing.Color.Chartreuse;
             this.btnActionEffect.Location = new System.Drawing.Point(3, 50);
             this.btnActionEffect.Name = "btnActionEffect";
             this.btnActionEffect.Size = new System.Drawing.Size(75, 23);
@@ -160,6 +206,7 @@
             this.btnActionAttack.BackColor = System.Drawing.Color.Gray;
             this.btnActionAttack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnActionAttack.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActionAttack.ForeColor = System.Drawing.Color.Chartreuse;
             this.btnActionAttack.Location = new System.Drawing.Point(3, 27);
             this.btnActionAttack.Name = "btnActionAttack";
             this.btnActionAttack.Size = new System.Drawing.Size(75, 23);
@@ -172,6 +219,7 @@
             this.btnActionMove.BackColor = System.Drawing.Color.Gray;
             this.btnActionMove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnActionMove.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActionMove.ForeColor = System.Drawing.Color.Chartreuse;
             this.btnActionMove.Location = new System.Drawing.Point(3, 4);
             this.btnActionMove.Name = "btnActionMove";
             this.btnActionMove.Size = new System.Drawing.Size(75, 23);
@@ -187,7 +235,7 @@
             this.PanelBluePlayer.Controls.Add(this.PanelBlueCrests);
             this.PanelBluePlayer.Controls.Add(this.lblBlueLP);
             this.PanelBluePlayer.Controls.Add(this.lblLPLabel);
-            this.PanelBluePlayer.Controls.Add(this.label1);
+            this.PanelBluePlayer.Controls.Add(this.lblBluePlayerName);
             this.PanelBluePlayer.Location = new System.Drawing.Point(3, 2);
             this.PanelBluePlayer.Name = "PanelBluePlayer";
             this.PanelBluePlayer.Size = new System.Drawing.Size(144, 222);
@@ -196,13 +244,13 @@
             // PanelBlueCrests
             // 
             this.PanelBlueCrests.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelBlueCrests.Controls.Add(this.label7);
+            this.PanelBlueCrests.Controls.Add(this.lblBlueTrapCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueTrapImage);
-            this.PanelBlueCrests.Controls.Add(this.label6);
+            this.PanelBlueCrests.Controls.Add(this.lblBlueMagCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueMagImage);
-            this.PanelBlueCrests.Controls.Add(this.label5);
+            this.PanelBlueCrests.Controls.Add(this.lblBlueDefCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueDEFImage);
-            this.PanelBlueCrests.Controls.Add(this.label4);
+            this.PanelBlueCrests.Controls.Add(this.lblBlueAtkCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueATKImage);
             this.PanelBlueCrests.Controls.Add(this.lblBlueMovCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueMovImage);
@@ -211,15 +259,15 @@
             this.PanelBlueCrests.Size = new System.Drawing.Size(86, 165);
             this.PanelBlueCrests.TabIndex = 3;
             // 
-            // label7
+            // lblBlueTrapCount
             // 
-            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(42, 133);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 20);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "x 99";
+            this.lblBlueTrapCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueTrapCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueTrapCount.Location = new System.Drawing.Point(42, 133);
+            this.lblBlueTrapCount.Name = "lblBlueTrapCount";
+            this.lblBlueTrapCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueTrapCount.TabIndex = 9;
+            this.lblBlueTrapCount.Text = "x 99";
             // 
             // PicBlueTrapImage
             // 
@@ -230,15 +278,15 @@
             this.PicBlueTrapImage.TabIndex = 8;
             this.PicBlueTrapImage.TabStop = false;
             // 
-            // label6
+            // lblBlueMagCount
             // 
-            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(42, 102);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 20);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "x 99";
+            this.lblBlueMagCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueMagCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueMagCount.Location = new System.Drawing.Point(42, 102);
+            this.lblBlueMagCount.Name = "lblBlueMagCount";
+            this.lblBlueMagCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueMagCount.TabIndex = 7;
+            this.lblBlueMagCount.Text = "x 99";
             // 
             // PicBlueMagImage
             // 
@@ -249,15 +297,15 @@
             this.PicBlueMagImage.TabIndex = 6;
             this.PicBlueMagImage.TabStop = false;
             // 
-            // label5
+            // lblBlueDefCount
             // 
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(42, 71);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 20);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "x 99";
+            this.lblBlueDefCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueDefCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueDefCount.Location = new System.Drawing.Point(42, 71);
+            this.lblBlueDefCount.Name = "lblBlueDefCount";
+            this.lblBlueDefCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueDefCount.TabIndex = 5;
+            this.lblBlueDefCount.Text = "x 99";
             // 
             // PicBlueDEFImage
             // 
@@ -268,15 +316,15 @@
             this.PicBlueDEFImage.TabIndex = 4;
             this.PicBlueDEFImage.TabStop = false;
             // 
-            // label4
+            // lblBlueAtkCount
             // 
-            this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(42, 40);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 20);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "x 99";
+            this.lblBlueAtkCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueAtkCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueAtkCount.Location = new System.Drawing.Point(42, 40);
+            this.lblBlueAtkCount.Name = "lblBlueAtkCount";
+            this.lblBlueAtkCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueAtkCount.TabIndex = 3;
+            this.lblBlueAtkCount.Text = "x 99";
             // 
             // PicBlueATKImage
             // 
@@ -328,57 +376,57 @@
             this.lblLPLabel.TabIndex = 1;
             this.lblLPLabel.Text = "LP:";
             // 
-            // label1
+            // lblBluePlayerName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(2, 2);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "BLUE";
+            this.lblBluePlayerName.AutoSize = true;
+            this.lblBluePlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBluePlayerName.ForeColor = System.Drawing.Color.White;
+            this.lblBluePlayerName.Location = new System.Drawing.Point(2, 2);
+            this.lblBluePlayerName.Name = "lblBluePlayerName";
+            this.lblBluePlayerName.Size = new System.Drawing.Size(62, 22);
+            this.lblBluePlayerName.TabIndex = 0;
+            this.lblBluePlayerName.Text = "BLUE";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DarkRed;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.panel1);
+            this.panel2.Controls.Add(this.PanelRedCrests);
             this.panel2.Controls.Add(this.lblRedLP);
             this.panel2.Controls.Add(this.lblLPlabel2);
-            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.lblRedPlayerName);
             this.panel2.Location = new System.Drawing.Point(3, 336);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 2;
             // 
-            // panel1
+            // PanelRedCrests
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.PicRedTrapImage);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.PicRedMagImage);
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.PicRedDEFImage);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.PicRedATKImage);
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.PicRedMovImage);
-            this.panel1.Location = new System.Drawing.Point(6, 49);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(86, 165);
-            this.panel1.TabIndex = 5;
+            this.PanelRedCrests.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelRedCrests.Controls.Add(this.lblRedTrapCount);
+            this.PanelRedCrests.Controls.Add(this.PicRedTrapImage);
+            this.PanelRedCrests.Controls.Add(this.lblRedMagCount);
+            this.PanelRedCrests.Controls.Add(this.PicRedMagImage);
+            this.PanelRedCrests.Controls.Add(this.lblRedDefCount);
+            this.PanelRedCrests.Controls.Add(this.PicRedDEFImage);
+            this.PanelRedCrests.Controls.Add(this.lblRedAtkCount);
+            this.PanelRedCrests.Controls.Add(this.PicRedATKImage);
+            this.PanelRedCrests.Controls.Add(this.lblRedMovCount);
+            this.PanelRedCrests.Controls.Add(this.PicRedMovImage);
+            this.PanelRedCrests.Location = new System.Drawing.Point(6, 49);
+            this.PanelRedCrests.Name = "PanelRedCrests";
+            this.PanelRedCrests.Size = new System.Drawing.Size(86, 165);
+            this.PanelRedCrests.TabIndex = 5;
             // 
-            // label3
+            // lblRedTrapCount
             // 
-            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(42, 133);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 20);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "x 99";
+            this.lblRedTrapCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedTrapCount.ForeColor = System.Drawing.Color.White;
+            this.lblRedTrapCount.Location = new System.Drawing.Point(42, 133);
+            this.lblRedTrapCount.Name = "lblRedTrapCount";
+            this.lblRedTrapCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedTrapCount.TabIndex = 9;
+            this.lblRedTrapCount.Text = "x 99";
             // 
             // PicRedTrapImage
             // 
@@ -389,15 +437,15 @@
             this.PicRedTrapImage.TabIndex = 8;
             this.PicRedTrapImage.TabStop = false;
             // 
-            // label8
+            // lblRedMagCount
             // 
-            this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(42, 102);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 20);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "x 99";
+            this.lblRedMagCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedMagCount.ForeColor = System.Drawing.Color.White;
+            this.lblRedMagCount.Location = new System.Drawing.Point(42, 102);
+            this.lblRedMagCount.Name = "lblRedMagCount";
+            this.lblRedMagCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedMagCount.TabIndex = 7;
+            this.lblRedMagCount.Text = "x 99";
             // 
             // PicRedMagImage
             // 
@@ -408,15 +456,15 @@
             this.PicRedMagImage.TabIndex = 6;
             this.PicRedMagImage.TabStop = false;
             // 
-            // label9
+            // lblRedDefCount
             // 
-            this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(42, 71);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 20);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "x 99";
+            this.lblRedDefCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedDefCount.ForeColor = System.Drawing.Color.White;
+            this.lblRedDefCount.Location = new System.Drawing.Point(42, 71);
+            this.lblRedDefCount.Name = "lblRedDefCount";
+            this.lblRedDefCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedDefCount.TabIndex = 5;
+            this.lblRedDefCount.Text = "x 99";
             // 
             // PicRedDEFImage
             // 
@@ -427,15 +475,15 @@
             this.PicRedDEFImage.TabIndex = 4;
             this.PicRedDEFImage.TabStop = false;
             // 
-            // label10
+            // lblRedAtkCount
             // 
-            this.label10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(42, 40);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 20);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "x 99";
+            this.lblRedAtkCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedAtkCount.ForeColor = System.Drawing.Color.White;
+            this.lblRedAtkCount.Location = new System.Drawing.Point(42, 40);
+            this.lblRedAtkCount.Name = "lblRedAtkCount";
+            this.lblRedAtkCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedAtkCount.TabIndex = 3;
+            this.lblRedAtkCount.Text = "x 99";
             // 
             // PicRedATKImage
             // 
@@ -446,15 +494,15 @@
             this.PicRedATKImage.TabIndex = 2;
             this.PicRedATKImage.TabStop = false;
             // 
-            // label11
+            // lblRedMovCount
             // 
-            this.label11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(42, 9);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 20);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "x 99";
+            this.lblRedMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedMovCount.ForeColor = System.Drawing.Color.White;
+            this.lblRedMovCount.Location = new System.Drawing.Point(42, 9);
+            this.lblRedMovCount.Name = "lblRedMovCount";
+            this.lblRedMovCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedMovCount.TabIndex = 1;
+            this.lblRedMovCount.Text = "x 99";
             // 
             // PicRedMovImage
             // 
@@ -487,16 +535,16 @@
             this.lblLPlabel2.TabIndex = 3;
             this.lblLPlabel2.Text = "LP:";
             // 
-            // label2
+            // lblRedPlayerName
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(2, 2);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 22);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "RED";
+            this.lblRedPlayerName.AutoSize = true;
+            this.lblRedPlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedPlayerName.ForeColor = System.Drawing.Color.White;
+            this.lblRedPlayerName.Location = new System.Drawing.Point(2, 2);
+            this.lblRedPlayerName.Name = "lblRedPlayerName";
+            this.lblRedPlayerName.Size = new System.Drawing.Size(51, 22);
+            this.lblRedPlayerName.TabIndex = 1;
+            this.lblRedPlayerName.Text = "RED";
             // 
             // PanelDebug
             // 
@@ -725,6 +773,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DDM - Board";
             this.PanelBoard.ResumeLayout(false);
+            this.PanelMoveMenu.ResumeLayout(false);
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
@@ -736,7 +785,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            this.PanelRedCrests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedDEFImage)).EndInit();
@@ -754,9 +803,9 @@
 
         private System.Windows.Forms.Panel PanelBoard;
         private System.Windows.Forms.Panel PanelBluePlayer;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBluePlayerName;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblRedPlayerName;
         private System.Windows.Forms.Label lblBlueLP;
         private System.Windows.Forms.Label lblLPLabel;
         private System.Windows.Forms.Label lblRedLP;
@@ -781,31 +830,34 @@
         private System.Windows.Forms.Label lblCardText;
         private System.Windows.Forms.Label lblMouseCords;
         private System.Windows.Forms.Panel PanelBlueCrests;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblBlueTrapCount;
         private System.Windows.Forms.PictureBox PicBlueTrapImage;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblBlueMagCount;
         private System.Windows.Forms.PictureBox PicBlueMagImage;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblBlueDefCount;
         private System.Windows.Forms.PictureBox PicBlueDEFImage;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblBlueAtkCount;
         private System.Windows.Forms.PictureBox PicBlueATKImage;
         private System.Windows.Forms.Label lblBlueMovCount;
         private System.Windows.Forms.PictureBox PicBlueMovImage;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel PanelRedCrests;
+        private System.Windows.Forms.Label lblRedTrapCount;
         private System.Windows.Forms.PictureBox PicRedTrapImage;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblRedMagCount;
         private System.Windows.Forms.PictureBox PicRedMagImage;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblRedDefCount;
         private System.Windows.Forms.PictureBox PicRedDEFImage;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblRedAtkCount;
         private System.Windows.Forms.PictureBox PicRedATKImage;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblRedMovCount;
         private System.Windows.Forms.PictureBox PicRedMovImage;
         private System.Windows.Forms.Panel PanelActionMenu;
         private System.Windows.Forms.Button btnActionMove;
         private System.Windows.Forms.Button btnActionEffect;
         private System.Windows.Forms.Button btnActionAttack;
         private System.Windows.Forms.Button btnActionCancel;
+        private System.Windows.Forms.Panel PanelMoveMenu;
+        private System.Windows.Forms.Button btnMoveMenuCancel;
+        private System.Windows.Forms.Button btnMoveMenuFinish;
     }
 }

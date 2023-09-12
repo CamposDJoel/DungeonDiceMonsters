@@ -18,10 +18,29 @@ namespace DungeonDiceMonsters
     }
     public partial class BoardForm : Form
     {
-        public BoardForm()
+        public BoardForm(PlayerData Red, PlayerData Blue)
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
             InitializeComponent();
+
+            //Save Ref to each player's data
+            RedData = Red; BlueData = Blue;
+
+            //more test data
+            RedData.AddCrests(Crest.Movement, 10);
+            RedData.AddCrests(Crest.Attack, 4);
+            RedData.AddCrests(Crest.Defense, 2);
+            RedData.AddCrests(Crest.Magic, 7);
+            RedData.AddCrests(Crest.Trap, 1);
+
+            BlueData.AddCrests(Crest.Movement, 12);
+            BlueData.AddCrests(Crest.Attack, 6);
+            BlueData.AddCrests(Crest.Defense, 2);
+            BlueData.AddCrests(Crest.Magic, 9);
+            BlueData.AddCrests(Crest.Trap, 2);
+
+            LoadPlayersInfo();
+
 
             //Initialize the board tiles
             int tileId = 0;
@@ -153,15 +172,41 @@ namespace DungeonDiceMonsters
             Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue);
             _CardsOnBoard.Add(thisCard4);
             _CurrentTileSelected.SummonCard(thisCard4);
+
         }
 
+        //Data
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
+        private PlayerData RedData;
+        private PlayerData BlueData;
         private List<Tile> _Tiles = new List<Tile>();
         private Tile _CurrentTileSelected = null;
         private List<Card> _CardsOnBoard = new List<Card>();
-
         private List<Tile> _MoveCandidates = new List<Tile>();
+        private Tile _InitialTileMove = null;
+        private int _TMPMoveCrestCount = 0;
 
+        //Private functions
+        private void LoadPlayersInfo()
+        {
+            lblRedPlayerName.Text = RedData.Name;
+            lblBluePlayerName.Text = BlueData.Name;
+
+            lblRedLP.Text = "" + RedData.LP;
+            lblBlueLP.Text = "" + BlueData.LP;
+
+            lblBlueMovCount.Text = "x" + BlueData.Crests_MOV;
+            lblBlueAtkCount.Text = "x" + BlueData.Crests_ATK;
+            lblBlueDefCount.Text = "x" + BlueData.Crests_DEF;
+            lblBlueMagCount.Text = "x" + BlueData.Crests_MAG;
+            lblBlueTrapCount.Text = "x" + BlueData.Crests_TRAP;
+
+            lblRedMovCount.Text = "x" + RedData.Crests_MOV;
+            lblRedAtkCount.Text = "x" + RedData.Crests_ATK;
+            lblRedDefCount.Text = "x" + RedData.Crests_DEF;
+            lblRedMagCount.Text = "x" + RedData.Crests_MAG;
+            lblRedTrapCount.Text = "x" + RedData.Crests_TRAP;
+        }
         private void LoadCardInfoPanel()
         {
             if (_CurrentTileSelected.IsOccupied)
@@ -286,75 +331,17 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        private void Tile_Click(object sender, EventArgs e)
+        private void PlaceMoveMenu()
         {
-            if(_CurrentGameState == GameState.MainPhaseBoard)
+            Point referencePoint = _CurrentTileSelected.Location;
+            int X_Location = Cursor.Position.X;
+            if (X_Location > 929)
             {
-                if(_CurrentTileSelected.IsOccupied)
-                {
-                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
-                    {
-                        //Open the Action menu
-                        //Set the location in relation to the Tile location and cursor location
-                        Point referencePoint = _CurrentTileSelected.Location;
-                        int X_Location = Cursor.Position.X;
-
-                        if (X_Location > 929)
-                        {
-                            PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
-                        }
-                        else
-                        {
-                            PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
-                        }
-                        PanelActionMenu.Visible = true;
-
-                        //Disable the unavailable actions
-                        //TODO
-
-                        //Change the game state
-                        _CurrentGameState = GameState.ActionMenuDisplay;
-                    }
-                }                          
+                PanelMoveMenu.Location = new Point(referencePoint.X - 83, referencePoint.Y - 55);
             }
-            else if (_CurrentGameState == GameState.MovingCard)
+            else
             {
-                PictureBox thisPicture = (PictureBox)sender;
-                int tileId = Convert.ToInt32(thisPicture.Tag);
-
-                //check this tile is one of the candidates
-                bool thisIsACandidate = false;
-                for(int x = 0; x < _MoveCandidates.Count; x++)
-                {
-                    if (_MoveCandidates[x].ID == tileId)
-                    {
-                        thisIsACandidate = true; break;
-                    }
-                }
-
-                if (thisIsACandidate)
-                {
-                    //Move the card to this location
-                    Card thiscard = _CurrentTileSelected.CardInPlace;
-
-                    _Tiles[tileId].MoveCard(thiscard);
-                    _CurrentTileSelected.RemoveCard();
-
-                    //Now clear the borders of all the candidates tiles to their og color
-                    for (int x = 0; x < _MoveCandidates.Count; x++)
-                    {
-                        _MoveCandidates[x].SetTileColor();
-                    }
-
-                    //Now change the selection to this one tile
-                    _CurrentTileSelected.Leave();
-                    _CurrentTileSelected = _Tiles[tileId];
-                    _CurrentTileSelected.Hover();
-                    UpdateDebugWindow();
-
-                    //Now display the next round of move candidate if there are any MOV crest left.
-                    DisplayMoveCandidates();
-                }
+                PanelMoveMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 55);
             }
         }
         private void OnMouseEnterPicture(object sender, EventArgs e)
@@ -404,6 +391,113 @@ namespace DungeonDiceMonsters
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
 
+        //Events
+        private void Tile_Click(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.MainPhaseBoard)
+            {
+                if (_CurrentTileSelected.IsOccupied)
+                {
+                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                    {
+                        //Open the Action menu
+                        //Set the location in relation to the Tile location and cursor location
+                        Point referencePoint = _CurrentTileSelected.Location;
+                        int X_Location = Cursor.Position.X;
+                        if (X_Location > 929)
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
+                        }
+                        else
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
+                        }
+                        PanelActionMenu.Visible = true;
+
+                        //Disable the unavailable actions
+                        Card thiscard = _CurrentTileSelected.CardInPlace;
+                        if (thiscard.MovedThisTurn || thiscard.MoveCost > RedData.Crests_MOV)
+                        {
+                            btnActionMove.Enabled = false;
+                        }
+                        else
+                        {
+                            btnActionMove.Enabled = true;
+                            //Set the temporary mov crest count
+                            //this is the value that is going to be used until the move action is finalized.
+                            _TMPMoveCrestCount = RedData.Crests_MOV;
+                        }
+                        if(thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK)
+                        {
+                            btnActionAttack.Enabled = false;
+                        }
+                        else
+                        {
+                            btnActionAttack.Enabled = true;
+                        }
+                        //TODO: Effects...
+                        btnActionEffect.Enabled = false;
+
+                        //Change the game state
+                        _CurrentGameState = GameState.ActionMenuDisplay;
+                    }
+                }
+            }
+            else if (_CurrentGameState == GameState.MovingCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _MoveCandidates.Count; x++)
+                {
+                    if (_MoveCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true; break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    //Move the card to this location
+                    Card thiscard = _CurrentTileSelected.CardInPlace;
+
+                    _Tiles[tileId].MoveCard(thiscard);
+                    _CurrentTileSelected.RemoveCard();
+
+                    //Now clear the borders of all the candidates tiles to their og color
+                    for (int x = 0; x < _MoveCandidates.Count; x++)
+                    {
+                        _MoveCandidates[x].SetTileColor();
+                    }
+
+                    //Now change the selection to this one tile
+                    _CurrentTileSelected.Leave();
+                    _CurrentTileSelected = _Tiles[tileId];
+                    _CurrentTileSelected.Hover();
+                    UpdateDebugWindow();
+
+                    //Drecease the available crests to use
+                    _TMPMoveCrestCount -= thiscard.MoveCost;
+                    lblRedMovCount.Text = "x" + _TMPMoveCrestCount;
+
+                    //Now display the next round of move candidate if there are any MOV crest left.
+                    if(thiscard.MoveCost > _TMPMoveCrestCount)
+                    {
+                        //No more available moves. do no generate more candidates
+                    }
+                    else
+                    {
+                        DisplayMoveCandidates();
+                    }
+
+                    PlaceMoveMenu();
+                    btnMoveMenuFinish.Enabled = true;
+                    btnMoveMenuCancel.Enabled = true;
+                }
+            }
+        }
         private void btnActionCancel_Click(object sender, EventArgs e)
         {
             //Close the Action menu/Card info panel and return to the MainPhase Stage 
@@ -411,13 +505,69 @@ namespace DungeonDiceMonsters
             PanelActionMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
         }
-
         private void btnActionMove_Click(object sender, EventArgs e)
         {
             _CurrentGameState = GameState.MovingCard;
 
+            _InitialTileMove = _CurrentTileSelected;
+
             PanelActionMenu.Visible = false;
             DisplayMoveCandidates();
+            PlaceMoveMenu();
+
+            btnMoveMenuFinish.Enabled = false;
+            btnMoveMenuCancel.Enabled = true;
+            PanelMoveMenu.Visible = true;
+        }
+        private void btnMoveMenuCancel_Click(object sender, EventArgs e)
+        {
+            //Now clear the borders of all the candidates tiles to their og color
+            for (int x = 0; x < _MoveCandidates.Count; x++)
+            {
+                _MoveCandidates[x].SetTileColor();
+            }
+            _MoveCandidates.Clear();
+
+            PanelMoveMenu.Visible = false;
+
+            //Return card to the OG spot
+            Card thiscard = _CurrentTileSelected.CardInPlace;
+            _CurrentTileSelected.Leave();
+            _CurrentTileSelected.RemoveCard();
+            _InitialTileMove.MoveCard(thiscard);           
+
+            //Change the _current Selected card back to OG
+            _CurrentTileSelected = _InitialTileMove;
+            _CurrentTileSelected.Hover();
+
+            //Reload the Player info panel to reset the crest count
+            LoadPlayersInfo();
+
+            UpdateDebugWindow();
+
+            _CurrentGameState = GameState.MainPhaseBoard;
+        }
+        private void btnMoveMenuFinish_Click(object sender, EventArgs e)
+        {
+            //Now clear the borders of all the candidates tiles to their og color
+            for (int x = 0; x < _MoveCandidates.Count; x++)
+            {
+                _MoveCandidates[x].SetTileColor();
+            }
+            _MoveCandidates.Clear();
+
+            PanelMoveMenu.Visible = false;
+
+            //Flag that this card moved already this turn
+            Card thiscard = _CurrentTileSelected.CardInPlace;
+            thiscard.MovedThisTurn = true;
+
+            //Apply the amoutn of crests used
+            int amountUsed = RedData.Crests_MOV - _TMPMoveCrestCount;
+            RedData.RemoveCrests(Crest.Movement, amountUsed);
+            LoadPlayersInfo();
+
+            _CurrentGameState = GameState.MainPhaseBoard;
         }
     }
 }
