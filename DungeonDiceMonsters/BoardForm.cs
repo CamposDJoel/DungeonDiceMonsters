@@ -118,10 +118,86 @@ namespace DungeonDiceMonsters
             _Tiles[34].ChangeOwner(PlayerOwner.Blue);
             _Tiles[35].ChangeOwner(PlayerOwner.Blue);
             _Tiles[48].ChangeOwner(PlayerOwner.Blue);
+
+            _Tiles[31].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[44].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[43].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[42].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[41].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[40].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[53].ChangeOwner(PlayerOwner.Blue);
+
+            //Summon a monster to move
+            _CurrentTileSelected = _Tiles[188];
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerOwner.Red);
+            _CardsOnBoard.Add(thisCard);
+            _CurrentTileSelected.SummonCard(thisCard);
+
+            _CurrentTileSelected = _Tiles[34];
+            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerOwner.Red);
+            _CardsOnBoard.Add(thisCard2);
+            _CurrentTileSelected.SummonCard(thisCard2);
+
+            _CurrentTileSelected = _Tiles[48];
+            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(1), PlayerOwner.Blue);
+            _CardsOnBoard.Add(thisCard3);
+            _CurrentTileSelected.SummonCard(thisCard3);
+
+            _CurrentTileSelected = _Tiles[40];
+            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue);
+            _CardsOnBoard.Add(thisCard4);
+            _CurrentTileSelected.SummonCard(thisCard4);
         }
 
         private List<Tile> _Tiles = new List<Tile>();
         private Tile _CurrentTileSelected = null;
+        private List<Card> _CardsOnBoard = new List<Card>();
+
+        private void LoadCardInfoPanel()
+        {
+            //Get the CardInfo object to populate the UI
+            CardInfo thisCard = _CurrentTileSelected.CardInPlace.Info;
+            int cardID = thisCard.ID;
+
+            //Set the Panel Back Color based on whose the card owner
+            if(_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+            {
+                PanelCardInfo.BackColor = Color.DarkRed;
+            }
+            else
+            {
+                PanelCardInfo.BackColor = Color.DarkBlue;
+            }
+
+            //Populate the UI
+            if (PicCardArtwork.Image != null) { PicCardArtwork.Image.Dispose(); }
+            PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID);
+
+            lblCardName.Text = thisCard.Name;
+
+            string secondaryType = "";
+            if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
+            if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
+            if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
+            if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
+
+
+            lblCardType.Text = thisCard.Type + secondaryType;
+
+            if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+            else { lblCardLevel.Text = ""; }
+
+            if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
+            else { lblAttribute.Text = ""; }
+
+            if (thisCard.Category == "Monster")
+            {
+                lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
+            }
+            else { lblStats.Text = ""; }
+
+            lblCardText.Text = thisCard.CardText;
+        }
 
         private void Tile_Click(object sender, EventArgs e)
         {
@@ -137,6 +213,26 @@ namespace DungeonDiceMonsters
             _Tiles[tileId].Hover();
 
             UpdateDebugWindow();
+
+            //Show the card info panel if the tile is occupied
+            if(_CurrentTileSelected.IsOccupied)
+            {
+                //Get the cursor position to set where this Card Info panel is going to be set
+                int Y_Location = Cursor.Position.Y;
+
+                if(Y_Location > 538)
+                {
+                    //Place the panel on top
+                    PanelCardInfo.Location = new Point(153, 2);
+                }
+                else
+                {
+                    PanelCardInfo.Location = new Point(153, 324);
+                }
+
+                PanelCardInfo.Visible = true;
+                LoadCardInfoPanel();
+            }
         }
         private void OnMouseLeavePicture(object sender, EventArgs e)
         {
@@ -144,6 +240,9 @@ namespace DungeonDiceMonsters
             int tileId = Convert.ToInt32(thisPicture.Tag);
 
             _Tiles[tileId].Leave();
+
+            //Banish the card info panel in case it was visible before
+            PanelCardInfo.Visible = false;
         }
         private void UpdateDebugWindow()
         {
@@ -164,6 +263,10 @@ namespace DungeonDiceMonsters
                 lblDebugCard.Text = "Card: No Card In Tile.";
                 lblDebugCardOwner.Text = "Card: No Card In Tile.";
             }
+
+            int Y_Location = Cursor.Position.Y;
+            int X_Location = Cursor.Position.X;
+            lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
     }
 }
