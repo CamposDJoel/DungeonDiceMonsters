@@ -14,6 +14,7 @@ namespace DungeonDiceMonsters
         BoardViewMode,
         MainPhaseBoard,
         ActionMenuDisplay,
+        MovingCard,
     }
     public partial class BoardForm : Form
     {
@@ -159,6 +160,8 @@ namespace DungeonDiceMonsters
         private Tile _CurrentTileSelected = null;
         private List<Card> _CardsOnBoard = new List<Card>();
 
+        private List<Tile> _MoveCandidates = new List<Tile>();
+
         private void LoadCardInfoPanel()
         {
             if (_CurrentTileSelected.IsOccupied)
@@ -222,6 +225,67 @@ namespace DungeonDiceMonsters
             }
             
         }
+        private void DisplayMoveCandidates()
+        {
+            _MoveCandidates.Clear();
+
+            //Display arrows to move
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.North))
+            {
+                Tile northTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.North);
+                if (northTile.Owner != PlayerOwner.None)
+                {
+                    if (!(northTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        northTile.MarkFreeToMove();
+                        _MoveCandidates.Add(northTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.South))
+            {
+                Tile southTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.South);
+                if (southTile.Owner != PlayerOwner.None)
+                {
+                    if (!(southTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        southTile.MarkFreeToMove();
+                        _MoveCandidates.Add(southTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.East))
+            {
+                Tile eastTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.East);
+                if (eastTile.Owner != PlayerOwner.None)
+                {
+                    if (!(eastTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        eastTile.MarkFreeToMove();
+                        _MoveCandidates.Add(eastTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.West))
+            {
+                Tile westTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.West);
+                if (westTile.Owner != PlayerOwner.None)
+                {
+                    if (!(westTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        westTile.MarkFreeToMove();
+                        _MoveCandidates.Add(westTile);
+                    }
+                }
+            }
+        }
         private void Tile_Click(object sender, EventArgs e)
         {
             if(_CurrentGameState == GameState.MainPhaseBoard)
@@ -252,6 +316,45 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.ActionMenuDisplay;
                     }
                 }                          
+            }
+            else if (_CurrentGameState == GameState.MovingCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for(int x = 0; x < _MoveCandidates.Count; x++)
+                {
+                    if (_MoveCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true; break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    //Move the card to this location
+                    Card thiscard = _CurrentTileSelected.CardInPlace;
+
+                    _Tiles[tileId].MoveCard(thiscard);
+                    _CurrentTileSelected.RemoveCard();
+
+                    //Now clear the borders of all the candidates tiles to their og color
+                    for (int x = 0; x < _MoveCandidates.Count; x++)
+                    {
+                        _MoveCandidates[x].SetTileColor();
+                    }
+
+                    //Now change the selection to this one tile
+                    _CurrentTileSelected.Leave();
+                    _CurrentTileSelected = _Tiles[tileId];
+                    _CurrentTileSelected.Hover();
+                    UpdateDebugWindow();
+
+                    //Now display the next round of move candidate if there are any MOV crest left.
+                    DisplayMoveCandidates();
+                }
             }
         }
         private void OnMouseEnterPicture(object sender, EventArgs e)
@@ -307,6 +410,14 @@ namespace DungeonDiceMonsters
             _CurrentTileSelected.Leave();
             PanelActionMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
+        }
+
+        private void btnActionMove_Click(object sender, EventArgs e)
+        {
+            _CurrentGameState = GameState.MovingCard;
+
+            PanelActionMenu.Visible = false;
+            DisplayMoveCandidates();
         }
     }
 }

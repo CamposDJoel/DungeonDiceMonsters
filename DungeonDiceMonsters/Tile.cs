@@ -48,6 +48,17 @@ namespace DungeonDiceMonsters
                 default: return -1;
             }
         }
+        public bool HasAnAdjecentTile(TileDirection d)
+        {
+            switch (d)
+            {
+                case TileDirection.North: if (_NorthTile == null) { return false; } else { return true; }
+                case TileDirection.South: if (_SouthTile == null) { return false; } else { return true; }
+                case TileDirection.East: if (_EastTile == null) { return false; } else { return true; }
+                case TileDirection.West: if (_WestTile == null) { return false; } else { return true; }
+                default: return false;
+            }
+        }
         public void Hover()
         {
             _Border.BackColor = Color.Yellow;
@@ -55,6 +66,7 @@ namespace DungeonDiceMonsters
         public void Leave()
         {
             _Border.BackColor = Color.Transparent;
+            SetTileColor();
         }
         public void ChangeOwner(PlayerOwner owner)
         {
@@ -68,9 +80,22 @@ namespace DungeonDiceMonsters
             _IsSummonTile = true;
             _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
         }
+        public void MoveCard(Card card)
+        {
+            _card = card;
+            _Occupied = true;
+            _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+        }
+        public void RemoveCard()
+        {
+            _card = null;
+            _Occupied = false;
+            _CardImage.Image.Dispose();
+            _CardImage.Image = null;
+        }
 
         //Private Methods
-        private void SetTileColor()
+        public void SetTileColor()
         {
             switch (_Owner)
             {
@@ -78,6 +103,10 @@ namespace DungeonDiceMonsters
                 case PlayerOwner.Red: _CardImage.BackColor = Color.DarkRed; break;
                 case PlayerOwner.Blue: _CardImage.BackColor = Color.DarkBlue; break;
             }
+        }
+        public void MarkFreeToMove()
+        {
+            _CardImage.BackColor = Color.Green;
         }
 
         //Accessors

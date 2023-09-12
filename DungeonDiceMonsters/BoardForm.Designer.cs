@@ -178,6 +178,7 @@
             this.btnActionMove.TabIndex = 0;
             this.btnActionMove.Text = "Move";
             this.btnActionMove.UseVisualStyleBackColor = false;
+            this.btnActionMove.Click += new System.EventHandler(this.btnActionMove_Click);
             // 
             // PanelBluePlayer
             // 
