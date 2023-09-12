@@ -128,6 +128,10 @@ namespace DungeonDiceMonsters
             //Character thisCharacter = (Character)_CurrentSelectedCharacterID;
 
             //TODO: Start a duel with this character
+            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
+            BoardForm BF = new BoardForm();
+            Dispose();
+            BF.Show();
         }
     }
 }

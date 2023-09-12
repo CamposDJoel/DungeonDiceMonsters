@@ -51,6 +51,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BoardForm.Designer.cs">
+      <DependentUpon>BoardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Card.cs" />
     <Compile Include="DB Objects\CardInfo.cs" />
     <Compile Include="DB Objects\DiceInfo.cs" />
     <Compile Include="DB Objects\CardDataBase.cs" />
@@ -77,6 +84,7 @@
     <Compile Include="Media Servers\ImageServer.cs" />
     <Compile Include="Data\SaveFileManger.cs" />
     <Compile Include="Media Servers\SoundServer.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +101,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\StorageData.cs" />
+    <EmbeddedResource Include="BoardForm.resx">
+      <DependentUpon>BoardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeckBuilder.resx">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
     </EmbeddedResource>

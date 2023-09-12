@@ -51,6 +51,7 @@ namespace DungeonDiceMonsters
         MainMenu,
         FreeDuelMenu,
         DeckBuildMenu,
+        FreeDuel
     }
     public enum SoundEffect
     {
