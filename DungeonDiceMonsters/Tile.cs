@@ -100,6 +100,7 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        public Point Location { get { return _Border.Location; }}
 
         //Private data
         private PictureBox _Border;

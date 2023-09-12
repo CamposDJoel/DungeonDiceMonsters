@@ -1,15 +1,20 @@
-﻿using System;
+﻿//Joel campos
+//9/11/2023
+//BoardForm Class
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
+    public enum GameState
+    {
+        BoardViewMode,
+        MainPhaseBoard,
+        ActionMenuDisplay,
+    }
     public partial class BoardForm : Form
     {
         public BoardForm()
@@ -149,100 +154,127 @@ namespace DungeonDiceMonsters
             _CurrentTileSelected.SummonCard(thisCard4);
         }
 
+        private GameState _CurrentGameState = GameState.MainPhaseBoard;
         private List<Tile> _Tiles = new List<Tile>();
         private Tile _CurrentTileSelected = null;
         private List<Card> _CardsOnBoard = new List<Card>();
 
         private void LoadCardInfoPanel()
         {
-            //Get the CardInfo object to populate the UI
-            CardInfo thisCard = _CurrentTileSelected.CardInPlace.Info;
-            int cardID = thisCard.ID;
-
-            //Set the Panel Back Color based on whose the card owner
-            if(_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+            if (_CurrentTileSelected.IsOccupied)
             {
-                PanelCardInfo.BackColor = Color.DarkRed;
-            }
-            else
-            {
-                PanelCardInfo.BackColor = Color.DarkBlue;
-            }
+                //Get the CardInfo object to populate the UI
+                CardInfo thisCard = _CurrentTileSelected.CardInPlace.Info;
+                int cardID = thisCard.ID;
 
-            //Populate the UI
-            if (PicCardArtwork.Image != null) { PicCardArtwork.Image.Dispose(); }
-            PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID);
-
-            lblCardName.Text = thisCard.Name;
-
-            string secondaryType = "";
-            if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
-            if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
-            if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
-            if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
-
-
-            lblCardType.Text = thisCard.Type + secondaryType;
-
-            if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
-            else { lblCardLevel.Text = ""; }
-
-            if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
-            else { lblAttribute.Text = ""; }
-
-            if (thisCard.Category == "Monster")
-            {
-                lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
-            }
-            else { lblStats.Text = ""; }
-
-            lblCardText.Text = thisCard.CardText;
-        }
-
-        private void Tile_Click(object sender, EventArgs e)
-        {
-            //Card thisCard = new Card(0, CardDataBase.GetCardWithID(4), PlayerOwner.Red);
-            //_CurrentTileSelected.SummonCard(thisCard);
-        }
-        private void OnMouseEnterPicture(object sender, EventArgs e)
-        {
-            SoundServer.PlaySoundEffect(SoundEffect.Hover);
-            PictureBox thisPicture = (PictureBox)sender;
-            int tileId = Convert.ToInt32(thisPicture.Tag);
-            _CurrentTileSelected = _Tiles[tileId];
-            _Tiles[tileId].Hover();
-
-            UpdateDebugWindow();
-
-            //Show the card info panel if the tile is occupied
-            if(_CurrentTileSelected.IsOccupied)
-            {
-                //Get the cursor position to set where this Card Info panel is going to be set
-                int Y_Location = Cursor.Position.Y;
-
-                if(Y_Location > 538)
+                //Set the Panel Back Color based on whose the card owner
+                if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
                 {
-                    //Place the panel on top
-                    PanelCardInfo.Location = new Point(153, 2);
+                    PanelCardInfo.BackColor = Color.DarkRed;
                 }
                 else
                 {
-                    PanelCardInfo.Location = new Point(153, 324);
+                    PanelCardInfo.BackColor = Color.DarkBlue;
                 }
 
-                PanelCardInfo.Visible = true;
+                //Populate the UI
+                if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID);
+
+                lblCardName.Text = thisCard.Name;
+
+                string secondaryType = "";
+                if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
+                if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
+                if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
+                if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
+
+
+                lblCardType.Text = thisCard.Type + secondaryType;
+
+                if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+                else { lblCardLevel.Text = ""; }
+
+                if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
+                else { lblAttribute.Text = ""; }
+
+                if (thisCard.Category == "Monster")
+                {
+                    lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
+                }
+                else { lblStats.Text = ""; }
+
+                lblCardText.Text = thisCard.CardText;
+            }
+            else
+            {
+                PanelCardInfo.BackColor = Color.Gray;
+
+                if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
+
+                lblCardName.Text = "";
+                lblCardType.Text = "";
+                lblCardLevel.Text = "";
+                lblAttribute.Text = "";
+                lblStats.Text = "";
+                lblCardText.Text = "";
+            }
+            
+        }
+        private void Tile_Click(object sender, EventArgs e)
+        {
+            if(_CurrentGameState == GameState.MainPhaseBoard)
+            {
+                if(_CurrentTileSelected.IsOccupied)
+                {
+                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                    {
+                        //Open the Action menu
+                        //Set the location in relation to the Tile location and cursor location
+                        Point referencePoint = _CurrentTileSelected.Location;
+                        int X_Location = Cursor.Position.X;
+
+                        if (X_Location > 929)
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
+                        }
+                        else
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
+                        }
+                        PanelActionMenu.Visible = true;
+
+                        //Disable the unavailable actions
+                        //TODO
+
+                        //Change the game state
+                        _CurrentGameState = GameState.ActionMenuDisplay;
+                    }
+                }                          
+            }
+        }
+        private void OnMouseEnterPicture(object sender, EventArgs e)
+        {
+            if(_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+                _CurrentTileSelected = _Tiles[tileId];
+                _CurrentTileSelected.Hover();
+                            
+                UpdateDebugWindow();
                 LoadCardInfoPanel();
             }
+
         }
         private void OnMouseLeavePicture(object sender, EventArgs e)
         {
-            PictureBox thisPicture = (PictureBox)sender;
-            int tileId = Convert.ToInt32(thisPicture.Tag);
-
-            _Tiles[tileId].Leave();
-
-            //Banish the card info panel in case it was visible before
-            PanelCardInfo.Visible = false;
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                _CurrentTileSelected.Leave();
+            }
         }
         private void UpdateDebugWindow()
         {
@@ -267,6 +299,14 @@ namespace DungeonDiceMonsters
             int Y_Location = Cursor.Position.Y;
             int X_Location = Cursor.Position.X;
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
+        }
+
+        private void btnActionCancel_Click(object sender, EventArgs e)
+        {
+            //Close the Action menu/Card info panel and return to the MainPhase Stage 
+            _CurrentTileSelected.Leave();
+            PanelActionMenu.Visible = false;
+            _CurrentGameState = GameState.MainPhaseBoard;
         }
     }
 }
