@@ -43,6 +43,10 @@ namespace DungeonDiceMonsters
                 case Crest.Trap: _TrapCrests -= amount; break;
             }
         }
+        public void ReduceLP(int amount)
+        {
+            _lp-= amount;
+        }
 
         private string _name;
         private int _lp = 8000;

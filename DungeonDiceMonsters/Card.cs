@@ -24,9 +24,16 @@ namespace DungeonDiceMonsters
         public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
         public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
         public int LP { get { return _CurrentLP; } }
+        public string Attribute { get { return _cardInfo.Attribute; } }
         public int MoveCost { get { return _MoveCost; } }
         public int AttackCost { get { return _AttackCost; } }
         public int DefenseCost { get { return _DefenseCost; } }
+        public string Category { get { return _cardInfo.Category; } }
+
+        public void ReduceLP(int amount)
+        {
+            _CurrentLP -= amount;
+        }
 
         
         //Card Board Data

@@ -16,6 +16,8 @@ namespace DungeonDiceMonsters
         ActionMenuDisplay,
         MovingCard,
         SelectingAttackTarger,
+        BattleMenuAttackMode,
+        BattleMenuDefenseMode,
     }
     public partial class BoardForm : Form
     {
@@ -29,7 +31,7 @@ namespace DungeonDiceMonsters
 
             //more test data
             RedData.AddCrests(Crest.Movement, 10);
-            RedData.AddCrests(Crest.Attack, 4);
+            RedData.AddCrests(Crest.Attack, 10);
             RedData.AddCrests(Crest.Defense, 2);
             RedData.AddCrests(Crest.Magic, 7);
             RedData.AddCrests(Crest.Trap, 1);
@@ -45,7 +47,7 @@ namespace DungeonDiceMonsters
 
             //Initialize the board tiles
             int tileId = 0;
-            int Y_Location = 2;       
+            int Y_Location = 2;
             for (int x = 0; x < 18; x++)
             {
                 int X_Location = 2;
@@ -60,8 +62,8 @@ namespace DungeonDiceMonsters
                     insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
                     insidePicture.BackColor = Color.Transparent;
                     insidePicture.Tag = tileId;
-                    insidePicture.MouseEnter+=OnMouseEnterPicture;
-                    insidePicture.MouseLeave+=OnMouseLeavePicture;
+                    insidePicture.MouseEnter += OnMouseEnterPicture;
+                    insidePicture.MouseLeave += OnMouseLeavePicture;
                     insidePicture.Click += Tile_Click;
 
                     //Create each border picture box 
@@ -91,7 +93,7 @@ namespace DungeonDiceMonsters
             foreach (Tile tile in _Tiles)
             {
                 //assign north links
-                if(tile.ID > 13)
+                if (tile.ID > 13)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 13];
                     tile.SetAdjecentTileLink(TileDirection.North, linkedTile);
@@ -105,7 +107,7 @@ namespace DungeonDiceMonsters
                 }
 
                 //assign east links
-                if(tile.ID != 12 && tile.ID != 25 && tile.ID != 38 && tile.ID != 51 && tile.ID != 64
+                if (tile.ID != 12 && tile.ID != 25 && tile.ID != 38 && tile.ID != 51 && tile.ID != 64
                     && tile.ID != 77 && tile.ID != 90 && tile.ID != 103 && tile.ID != 116 && tile.ID != 129
                     && tile.ID != 142 && tile.ID != 155 && tile.ID != 168 && tile.ID != 181 && tile.ID != 194
                     && tile.ID != 207 && tile.ID != 220 && tile.ID != 233)
@@ -187,6 +189,10 @@ namespace DungeonDiceMonsters
         private Tile _InitialTileMove = null;
         private int _TMPMoveCrestCount = 0;
         private List<Tile> _AttackCandidates = new List<Tile>();
+        private Tile _AttackTarger;
+        //Battle menu data
+        private int _AttackBonusCrest = 0;
+        private int _DefenseBonusCrest = 0;
 
         //Private functions
         private void LoadPlayersInfo()
@@ -270,7 +276,7 @@ namespace DungeonDiceMonsters
                 lblStats.Text = "";
                 lblCardText.Text = "";
             }
-            
+
         }
         private void DisplayMoveCandidates()
         {
@@ -353,7 +359,7 @@ namespace DungeonDiceMonsters
                 PanelMoveMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 55);
             }
         }
-        private void PlaceAttackMenu() 
+        private void PlaceAttackMenu()
         {
             Point referencePoint = _CurrentTileSelected.Location;
             int X_Location = Cursor.Position.X;
@@ -367,16 +373,96 @@ namespace DungeonDiceMonsters
             }
             PanelAttackMenu.Visible = true;
         }
+        private void OpenBattleMenuAttackMode()
+        {
+            PanelBattleMenu.Visible = true;
+
+            //Set the attacker's data
+            Card Attacker = _CurrentTileSelected.CardInPlace;
+            PicAttacker.Image = ImageServer.FullCardImage(Attacker.CardID);
+            lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
+            lblAttackerATK.Text = "ATK: " + Attacker.ATK;
+
+            //Set the defender's data. if the defender is a non-monster place the clear data.
+            Card Defender = _AttackTarger.CardInPlace;
+            if(Defender.Category == "Monster")
+            {
+                PicDefender.Image = ImageServer.FullCardImage(Defender.CardID);
+                lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
+                lblDefenderDEF.Text = "DEF: " + Defender.DEF;
+            }
+            else
+            {
+                //TODO:
+                PicDefender.Image = ImageServer.FullCardImage(0);
+                lblBattleMenuDEFLP.Text = "";
+                lblDefenderDEF.Text = "";
+            }
+
+
+            //Set the initial Damage Calculation as "?"
+            //Damage calculation will be done after both player set their Atk/Def
+            //choices (defender has to choose if they defend if can)
+            //also both player have the choice to add advantage bonuses if available
+            lblBattleMenuDamage.Text = "Damage: ?";
+
+            //Defende/No Defends are not available in attack mode
+            btnBattleMenuDefend.Visible = false;
+            btnBattleMenuDontDefend.Visible = false;
+            PanelDefenderAdvBonus.Visible = false;
+            lblDefenderCrestCount.Visible = false;
+
+            //Reset the bonuscrest count for both players just in case
+            _AttackBonusCrest = 0;
+            _DefenseBonusCrest = 0;
+
+            //Set the Attack button visible in case it wasnt
+            btnBattleMenuAttack.Visible = true;
+            lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
+            lblAttackerCrestCount.Visible = true;
+
+            //Determine if Attacker has advantage
+            bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
+
+            //Display Advantage elements
+            if (AttackerHasAdvantage)
+            {
+                PanelAttackerAdvBonus.Visible = true;
+                lblAttackerBonus.Text = "Bonus: 0";
+                lblAttackerBonus.Visible = true;
+                lblAttackerAdvMinus.Visible = false;
+            }
+            else
+            {
+                PanelAttackerAdvBonus.Visible = false;
+                lblAttackerBonus.Visible = false;
+            }
+        }
+        private bool HasAttributeAdvantage(Card attacker, Card defender)
+        {
+            if (attacker.Attribute == "LIGHT" && defender.Attribute == "DARK") { return true; }
+
+            switch (attacker.Attribute)
+            {
+                case "LIGHT": if (defender.Attribute == "DARK") { return true; } else { return false; }
+                case "DARK": if (defender.Attribute == "LIGHT") { return true; } else { return false; }
+                case "WATER": if (defender.Attribute == "FIRE") { return true; } else { return false; }
+                case "FIRE": if (defender.Attribute == "EARTH") { return true; } else { return false; }
+                case "EARTH": if (defender.Attribute == "WIND") { return true; } else { return false; }
+                case "WIND": if (defender.Attribute == "WATER") { return true; } else { return false; }
+                default: return false;
+            }
+        }
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
-            if(_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Hover);
                 PictureBox thisPicture = (PictureBox)sender;
                 int tileId = Convert.ToInt32(thisPicture.Tag);
                 _CurrentTileSelected = _Tiles[tileId];
                 _CurrentTileSelected.Hover();
-                            
+
                 UpdateDebugWindow();
                 LoadCardInfoPanel();
             }
@@ -398,7 +484,7 @@ namespace DungeonDiceMonsters
             lblDebugWestAdj.Text = "West Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.West);
             lblDebugOwner.Text = "Owner: " + _CurrentTileSelected.Owner;
             lblDebugIsOccupied.Text = "Occupied: " + _CurrentTileSelected.IsOccupied.ToString();
-            if(_CurrentTileSelected.IsOccupied)
+            if (_CurrentTileSelected.IsOccupied)
             {
                 lblDebugCard.Text = "Card: " + _CurrentTileSelected.CardInPlace.CardID + "-Name:" + _CurrentTileSelected.CardInPlace.Name;
                 lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Owner;
@@ -412,6 +498,15 @@ namespace DungeonDiceMonsters
             int Y_Location = Cursor.Position.Y;
             int X_Location = Cursor.Position.X;
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
+        }
+        private static void WaitNSeconds(double milliseconds)
+        {
+            if (milliseconds < 1) return;
+            DateTime _desired = DateTime.Now.AddMilliseconds(milliseconds);
+            while (DateTime.Now < _desired)
+            {
+                Application.DoEvents();
+            }
         }
 
         //Events
@@ -458,7 +553,7 @@ namespace DungeonDiceMonsters
 
 
                         _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
-                        if(thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0)
+                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0)
                         {
                             btnActionAttack.Enabled = false;
                         }
@@ -514,7 +609,7 @@ namespace DungeonDiceMonsters
                     lblRedMovCount.Text = "x" + _TMPMoveCrestCount;
 
                     //Now display the next round of move candidate if there are any MOV crest left.
-                    if(thiscard.MoveCost > _TMPMoveCrestCount)
+                    if (thiscard.MoveCost > _TMPMoveCrestCount)
                     {
                         //No more available moves. do no generate more candidates
                         _MoveCandidates.Clear();
@@ -538,17 +633,29 @@ namespace DungeonDiceMonsters
                 bool thisIsACandidate = false;
                 for (int x = 0; x < _AttackCandidates.Count; x++)
                 {
-                    if (_MoveCandidates[x].ID == tileId)
+                    if (_AttackCandidates[x].ID == tileId)
                     {
-                        thisIsACandidate = true; break;
+                        thisIsACandidate = true;
+                        break;
                     }
                 }
 
                 if (thisIsACandidate)
                 {
                     //Attack the card in this tile
+                    _AttackTarger = _Tiles[tileId];
+
+                    //Close the Attack Menu and clear the color of all attack candidates
+                    PanelAttackMenu.Visible = false;
+                    foreach (Tile tile in _AttackCandidates)
+                    {
+                        tile.SetTileColor();
+                    }
+                    _AttackCandidates.Clear();
 
                     //Open the Battle Panel
+                    OpenBattleMenuAttackMode();
+                    _CurrentGameState = GameState.BattleMenuAttackMode;
                 }
             }
         }
@@ -597,7 +704,7 @@ namespace DungeonDiceMonsters
             Card thiscard = _CurrentTileSelected.CardInPlace;
             _CurrentTileSelected.Leave();
             _CurrentTileSelected.RemoveCard();
-            _InitialTileMove.MoveCard(thiscard);           
+            _InitialTileMove.MoveCard(thiscard);
 
             //Change the _current Selected card back to OG
             _CurrentTileSelected = _InitialTileMove;
@@ -644,30 +751,127 @@ namespace DungeonDiceMonsters
             PanelAttackMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void lblAttackerAdvMinus_Click(object sender, EventArgs e)
         {
+            if (_AttackBonusCrest > 0)
+            {
+                _AttackBonusCrest--;
+                if (_AttackBonusCrest == 0)
+                {
+                    lblAttackerAdvMinus.Visible = false;
+                }
 
+                lblAttackerAdvPlus.Visible = true;
+                lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
+                lblAttackerBonus.Text = "Bonus: " + (_AttackBonusCrest * 200);
+                lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
+            }
         }
-
-        private void label4_Click(object sender, EventArgs e)
+        private void lblAttackerAdvPlus_Click(object sender, EventArgs e)
         {
+            _AttackBonusCrest++;
+            if (_AttackBonusCrest == 5 || (RedData.Crests_ATK - (_AttackBonusCrest + 1) == 0))
+            {
+                lblAttackerAdvPlus.Visible = false;
+            }
 
+            lblAttackerAdvMinus.Visible = true;
+            lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
+            lblAttackerBonus.Text = "Bonus: " + (_AttackBonusCrest * 200);
+            lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
         }
-
-        private void PicBattleMenuATKIcon_Click(object sender, EventArgs e)
+        private void btnBattleMenuAttack_Click(object sender, EventArgs e)
         {
+            btnBattleMenuAttack.Visible = false;
 
-        }
+            //if the card is not a monster simply destroy it
+            if(_AttackTarger.CardInPlace.Category == "Monster")
+            {
+                //Check the OpponentIA Object to if it defends or not and if bonus crests are used...
+                bool willDefend = false;
+                _DefenseBonusCrest = 0;
 
-        private void lblBattleMenuDamage_Click(object sender, EventArgs e)
-        {
+                if (BlueData.Crests_DEF > 0)
+                {
+                    willDefend = false;
+                }
 
-        }
+                //Perform the battle calculation
+                int FinalAttack = _CurrentTileSelected.CardInPlace.ATK + (_AttackBonusCrest * 200);
+                int FinalDefense = 0;
 
-        private void PanelBattleMenu_Paint(object sender, PaintEventArgs e)
-        {
+                if (willDefend)
+                {
+                    FinalDefense = _AttackTarger.CardInPlace.DEF + (_DefenseBonusCrest * 200);
+                }
 
+                //Reduce the Crests used and update player data UI
+                int creststoremoveATK = _AttackBonusCrest + 1;
+                int creststoremoveDEF = _DefenseBonusCrest + 1;
+                RedData.RemoveCrests(Crest.Attack, creststoremoveATK);
+                BlueData.RemoveCrests(Crest.Defense, creststoremoveDEF);
+                LoadPlayersInfo();
+
+                int Damage = FinalAttack - FinalDefense;
+                if (Damage < 0) 
+                { 
+                    //simply display there was no damage don
+                }
+                else
+                {
+                    //Update the UI to show the results
+                    lblBattleMenuDamage.Text = "Damage: " + Damage;
+
+                    //Reduce the defender's monster'LP
+                    int damagetodealtomonster = Damage;
+                    if (damagetodealtomonster > _AttackTarger.CardInPlace.LP)
+                    {
+                        damagetodealtomonster = _AttackTarger.CardInPlace.LP;                       
+                    }
+
+                    //Reduce the total damage left
+                    Damage -= damagetodealtomonster;
+
+                    //DO the damage animation
+                    int iterations = damagetodealtomonster / 10;
+                    int waittime = 0;
+                    if (iterations < 100) { waittime = 100; }
+                    else if (iterations < 200) { waittime = 60; }
+                    else if (iterations < 300) { waittime = 40; }
+                    for (int i = 0; i < iterations; i++)
+                    {
+                        _AttackTarger.CardInPlace.ReduceLP(10);
+                        lblBattleMenuDEFLP.Text = "LP: " + _AttackTarger.CardInPlace.LP;
+                        WaitNSeconds(waittime);
+                    }
+
+                    //Destroy that monster
+                    //TODO
+
+                    //if there is damage left deal it to the player
+                    if (Damage > 0)
+                    {
+                        //Deal damage to the player
+                        iterations = Damage / 10;
+
+                        waittime = 0;
+                        if (iterations < 100) { waittime = 100; }
+                        else if (iterations < 200) { waittime = 60; }
+                        else if (iterations < 300) { waittime = 40; }
+
+                        for (int i = 0; i < iterations; i++)
+                        {
+                            BlueData.ReduceLP(10);
+                            lblBlueLP.Text = "" + BlueData.LP;
+                            WaitNSeconds(waittime);
+                        }
+                    }
+                }          
+            }
+            else
+            {
+                //TODO: Destroy the defender card automatically
+            }           
         }
     }
 }
