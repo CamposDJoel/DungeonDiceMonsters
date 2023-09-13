@@ -28,7 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoardForm));
             this.PanelBoard = new System.Windows.Forms.Panel();
+            this.PanelBattleMenu = new System.Windows.Forms.Panel();
+            this.btnBattleMenuDontDefend = new System.Windows.Forms.Button();
+            this.btnBattleMenuDefend = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblBattleMenuDamage = new System.Windows.Forms.Label();
+            this.PicBattleMenuAttackArrow = new System.Windows.Forms.PictureBox();
+            this.PicBattleMenuATKIcon = new System.Windows.Forms.PictureBox();
+            this.btnBattleMenuAttack = new System.Windows.Forms.Button();
+            this.lblDefenderDEF = new System.Windows.Forms.Label();
+            this.lblAttackerATK = new System.Windows.Forms.Label();
+            this.lblAttacker = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PicAttacker = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PanelAttackMenu = new System.Windows.Forms.Panel();
+            this.btnAttackMenuCancel = new System.Windows.Forms.Button();
             this.PanelMoveMenu = new System.Windows.Forms.Panel();
             this.btnMoveMenuCancel = new System.Windows.Forms.Button();
             this.btnMoveMenuFinish = new System.Windows.Forms.Button();
@@ -86,7 +105,24 @@
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtworkBottom = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
+            this.PanelBattleMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttacker)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelBluePlayer.SuspendLayout();
@@ -113,12 +149,253 @@
             this.PanelBoard.AutoScroll = true;
             this.PanelBoard.BackColor = System.Drawing.Color.Black;
             this.PanelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBoard.Controls.Add(this.PanelBattleMenu);
+            this.PanelBoard.Controls.Add(this.PanelAttackMenu);
             this.PanelBoard.Controls.Add(this.PanelMoveMenu);
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
             this.PanelBoard.Location = new System.Drawing.Point(151, 0);
             this.PanelBoard.Name = "PanelBoard";
             this.PanelBoard.Size = new System.Drawing.Size(631, 561);
             this.PanelBoard.TabIndex = 0;
+            // 
+            // PanelBattleMenu
+            // 
+            this.PanelBattleMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelBattleMenu.BackgroundImage")));
+            this.PanelBattleMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelBattleMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBattleMenu.Controls.Add(this.label13);
+            this.PanelBattleMenu.Controls.Add(this.label12);
+            this.PanelBattleMenu.Controls.Add(this.label9);
+            this.PanelBattleMenu.Controls.Add(this.label10);
+            this.PanelBattleMenu.Controls.Add(this.label11);
+            this.PanelBattleMenu.Controls.Add(this.label8);
+            this.PanelBattleMenu.Controls.Add(this.label7);
+            this.PanelBattleMenu.Controls.Add(this.label6);
+            this.PanelBattleMenu.Controls.Add(this.label5);
+            this.PanelBattleMenu.Controls.Add(this.label4);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuDontDefend);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuDefend);
+            this.PanelBattleMenu.Controls.Add(this.pictureBox2);
+            this.PanelBattleMenu.Controls.Add(this.label3);
+            this.PanelBattleMenu.Controls.Add(this.label2);
+            this.PanelBattleMenu.Controls.Add(this.lblBattleMenuDamage);
+            this.PanelBattleMenu.Controls.Add(this.PicBattleMenuAttackArrow);
+            this.PanelBattleMenu.Controls.Add(this.PicBattleMenuATKIcon);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuAttack);
+            this.PanelBattleMenu.Controls.Add(this.lblDefenderDEF);
+            this.PanelBattleMenu.Controls.Add(this.lblAttackerATK);
+            this.PanelBattleMenu.Controls.Add(this.lblAttacker);
+            this.PanelBattleMenu.Controls.Add(this.label1);
+            this.PanelBattleMenu.Controls.Add(this.PicAttacker);
+            this.PanelBattleMenu.Controls.Add(this.pictureBox1);
+            this.PanelBattleMenu.Location = new System.Drawing.Point(58, 108);
+            this.PanelBattleMenu.Name = "PanelBattleMenu";
+            this.PanelBattleMenu.Size = new System.Drawing.Size(517, 375);
+            this.PanelBattleMenu.TabIndex = 13;
+            this.PanelBattleMenu.Visible = false;
+            this.PanelBattleMenu.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelBattleMenu_Paint);
+            // 
+            // btnBattleMenuDontDefend
+            // 
+            this.btnBattleMenuDontDefend.BackColor = System.Drawing.Color.DarkRed;
+            this.btnBattleMenuDontDefend.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuDontDefend.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuDontDefend.Location = new System.Drawing.Point(372, 336);
+            this.btnBattleMenuDontDefend.Name = "btnBattleMenuDontDefend";
+            this.btnBattleMenuDontDefend.Size = new System.Drawing.Size(116, 30);
+            this.btnBattleMenuDontDefend.TabIndex = 24;
+            this.btnBattleMenuDontDefend.Text = "No Defend";
+            this.btnBattleMenuDontDefend.UseVisualStyleBackColor = false;
+            // 
+            // btnBattleMenuDefend
+            // 
+            this.btnBattleMenuDefend.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnBattleMenuDefend.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuDefend.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuDefend.Location = new System.Drawing.Point(372, 305);
+            this.btnBattleMenuDefend.Name = "btnBattleMenuDefend";
+            this.btnBattleMenuDefend.Size = new System.Drawing.Size(116, 30);
+            this.btnBattleMenuDefend.TabIndex = 23;
+            this.btnBattleMenuDefend.Text = "Defend!!";
+            this.btnBattleMenuDefend.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(385, 266);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 22;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Black;
+            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(354, 242);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(155, 18);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Advantage Bonus:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Black;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(14, 242);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(155, 18);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Advantage Bonus:";
+            // 
+            // lblBattleMenuDamage
+            // 
+            this.lblBattleMenuDamage.AutoSize = true;
+            this.lblBattleMenuDamage.BackColor = System.Drawing.Color.Black;
+            this.lblBattleMenuDamage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuDamage.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblBattleMenuDamage.Location = new System.Drawing.Point(165, 207);
+            this.lblBattleMenuDamage.Name = "lblBattleMenuDamage";
+            this.lblBattleMenuDamage.Size = new System.Drawing.Size(178, 28);
+            this.lblBattleMenuDamage.TabIndex = 18;
+            this.lblBattleMenuDamage.Text = "Damage: 9999";
+            this.lblBattleMenuDamage.Click += new System.EventHandler(this.lblBattleMenuDamage_Click);
+            // 
+            // PicBattleMenuAttackArrow
+            // 
+            this.PicBattleMenuAttackArrow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBattleMenuAttackArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicBattleMenuAttackArrow.Image")));
+            this.PicBattleMenuAttackArrow.Location = new System.Drawing.Point(232, 93);
+            this.PicBattleMenuAttackArrow.Name = "PicBattleMenuAttackArrow";
+            this.PicBattleMenuAttackArrow.Size = new System.Drawing.Size(50, 50);
+            this.PicBattleMenuAttackArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBattleMenuAttackArrow.TabIndex = 17;
+            this.PicBattleMenuAttackArrow.TabStop = false;
+            // 
+            // PicBattleMenuATKIcon
+            // 
+            this.PicBattleMenuATKIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBattleMenuATKIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicBattleMenuATKIcon.Image")));
+            this.PicBattleMenuATKIcon.Location = new System.Drawing.Point(38, 273);
+            this.PicBattleMenuATKIcon.Name = "PicBattleMenuATKIcon";
+            this.PicBattleMenuATKIcon.Size = new System.Drawing.Size(30, 30);
+            this.PicBattleMenuATKIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBattleMenuATKIcon.TabIndex = 16;
+            this.PicBattleMenuATKIcon.TabStop = false;
+            this.PicBattleMenuATKIcon.Click += new System.EventHandler(this.PicBattleMenuATKIcon_Click);
+            // 
+            // btnBattleMenuAttack
+            // 
+            this.btnBattleMenuAttack.BackColor = System.Drawing.Color.Black;
+            this.btnBattleMenuAttack.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuAttack.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuAttack.Location = new System.Drawing.Point(17, 318);
+            this.btnBattleMenuAttack.Name = "btnBattleMenuAttack";
+            this.btnBattleMenuAttack.Size = new System.Drawing.Size(134, 33);
+            this.btnBattleMenuAttack.TabIndex = 15;
+            this.btnBattleMenuAttack.Text = "Attack!!";
+            this.btnBattleMenuAttack.UseVisualStyleBackColor = false;
+            // 
+            // lblDefenderDEF
+            // 
+            this.lblDefenderDEF.AutoSize = true;
+            this.lblDefenderDEF.BackColor = System.Drawing.Color.Black;
+            this.lblDefenderDEF.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderDEF.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderDEF.Location = new System.Drawing.Point(201, 150);
+            this.lblDefenderDEF.Name = "lblDefenderDEF";
+            this.lblDefenderDEF.Size = new System.Drawing.Size(113, 24);
+            this.lblDefenderDEF.TabIndex = 14;
+            this.lblDefenderDEF.Text = "DEF: 1000";
+            // 
+            // lblAttackerATK
+            // 
+            this.lblAttackerATK.AutoSize = true;
+            this.lblAttackerATK.BackColor = System.Drawing.Color.Black;
+            this.lblAttackerATK.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerATK.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerATK.Location = new System.Drawing.Point(200, 39);
+            this.lblAttackerATK.Name = "lblAttackerATK";
+            this.lblAttackerATK.Size = new System.Drawing.Size(114, 24);
+            this.lblAttackerATK.TabIndex = 13;
+            this.lblAttackerATK.Text = "ATK: 1800";
+            // 
+            // lblAttacker
+            // 
+            this.lblAttacker.AutoSize = true;
+            this.lblAttacker.BackColor = System.Drawing.Color.Black;
+            this.lblAttacker.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttacker.ForeColor = System.Drawing.Color.White;
+            this.lblAttacker.Location = new System.Drawing.Point(4, 11);
+            this.lblAttacker.Name = "lblAttacker";
+            this.lblAttacker.Size = new System.Drawing.Size(78, 18);
+            this.lblAttacker.TabIndex = 11;
+            this.lblAttacker.Text = "Attacker";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Black;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(345, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 18);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Defender";
+            // 
+            // PicAttacker
+            // 
+            this.PicAttacker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicAttacker.Image = ((System.Drawing.Image)(resources.GetObject("PicAttacker.Image")));
+            this.PicAttacker.Location = new System.Drawing.Point(11, 35);
+            this.PicAttacker.Name = "PicAttacker";
+            this.PicAttacker.Size = new System.Drawing.Size(142, 202);
+            this.PicAttacker.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAttacker.TabIndex = 9;
+            this.PicAttacker.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(357, 35);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(142, 202);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
+            // PanelAttackMenu
+            // 
+            this.PanelAttackMenu.BackColor = System.Drawing.Color.Black;
+            this.PanelAttackMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelAttackMenu.Controls.Add(this.btnAttackMenuCancel);
+            this.PanelAttackMenu.Location = new System.Drawing.Point(3, 168);
+            this.PanelAttackMenu.Name = "PanelAttackMenu";
+            this.PanelAttackMenu.Size = new System.Drawing.Size(83, 28);
+            this.PanelAttackMenu.TabIndex = 7;
+            this.PanelAttackMenu.Visible = false;
+            // 
+            // btnAttackMenuCancel
+            // 
+            this.btnAttackMenuCancel.BackColor = System.Drawing.Color.Gray;
+            this.btnAttackMenuCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnAttackMenuCancel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAttackMenuCancel.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnAttackMenuCancel.Location = new System.Drawing.Point(3, 1);
+            this.btnAttackMenuCancel.Name = "btnAttackMenuCancel";
+            this.btnAttackMenuCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnAttackMenuCancel.TabIndex = 3;
+            this.btnAttackMenuCancel.Text = "Cancel";
+            this.btnAttackMenuCancel.UseVisualStyleBackColor = false;
+            this.btnAttackMenuCancel.Click += new System.EventHandler(this.btnAttackMenuCancel_Click);
             // 
             // PanelMoveMenu
             // 
@@ -213,6 +490,7 @@
             this.btnActionAttack.TabIndex = 1;
             this.btnActionAttack.Text = "Attack";
             this.btnActionAttack.UseVisualStyleBackColor = false;
+            this.btnActionAttack.Click += new System.EventHandler(this.btnActionAttack_Click);
             // 
             // btnActionMove
             // 
@@ -272,9 +550,11 @@
             // PicBlueTrapImage
             // 
             this.PicBlueTrapImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueTrapImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueTrapImage.Image")));
             this.PicBlueTrapImage.Location = new System.Drawing.Point(5, 128);
             this.PicBlueTrapImage.Name = "PicBlueTrapImage";
             this.PicBlueTrapImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueTrapImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueTrapImage.TabIndex = 8;
             this.PicBlueTrapImage.TabStop = false;
             // 
@@ -291,9 +571,11 @@
             // PicBlueMagImage
             // 
             this.PicBlueMagImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueMagImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueMagImage.Image")));
             this.PicBlueMagImage.Location = new System.Drawing.Point(5, 97);
             this.PicBlueMagImage.Name = "PicBlueMagImage";
             this.PicBlueMagImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueMagImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueMagImage.TabIndex = 6;
             this.PicBlueMagImage.TabStop = false;
             // 
@@ -310,9 +592,11 @@
             // PicBlueDEFImage
             // 
             this.PicBlueDEFImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueDEFImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueDEFImage.Image")));
             this.PicBlueDEFImage.Location = new System.Drawing.Point(5, 66);
             this.PicBlueDEFImage.Name = "PicBlueDEFImage";
             this.PicBlueDEFImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueDEFImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueDEFImage.TabIndex = 4;
             this.PicBlueDEFImage.TabStop = false;
             // 
@@ -329,9 +613,11 @@
             // PicBlueATKImage
             // 
             this.PicBlueATKImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueATKImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueATKImage.Image")));
             this.PicBlueATKImage.Location = new System.Drawing.Point(5, 35);
             this.PicBlueATKImage.Name = "PicBlueATKImage";
             this.PicBlueATKImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueATKImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueATKImage.TabIndex = 2;
             this.PicBlueATKImage.TabStop = false;
             // 
@@ -348,9 +634,11 @@
             // PicBlueMovImage
             // 
             this.PicBlueMovImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueMovImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueMovImage.Image")));
             this.PicBlueMovImage.Location = new System.Drawing.Point(5, 4);
             this.PicBlueMovImage.Name = "PicBlueMovImage";
             this.PicBlueMovImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueMovImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueMovImage.TabIndex = 0;
             this.PicBlueMovImage.TabStop = false;
             // 
@@ -431,9 +719,11 @@
             // PicRedTrapImage
             // 
             this.PicRedTrapImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedTrapImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedTrapImage.Image")));
             this.PicRedTrapImage.Location = new System.Drawing.Point(5, 128);
             this.PicRedTrapImage.Name = "PicRedTrapImage";
             this.PicRedTrapImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedTrapImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedTrapImage.TabIndex = 8;
             this.PicRedTrapImage.TabStop = false;
             // 
@@ -450,9 +740,11 @@
             // PicRedMagImage
             // 
             this.PicRedMagImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedMagImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedMagImage.Image")));
             this.PicRedMagImage.Location = new System.Drawing.Point(5, 97);
             this.PicRedMagImage.Name = "PicRedMagImage";
             this.PicRedMagImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedMagImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedMagImage.TabIndex = 6;
             this.PicRedMagImage.TabStop = false;
             // 
@@ -469,9 +761,11 @@
             // PicRedDEFImage
             // 
             this.PicRedDEFImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedDEFImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedDEFImage.Image")));
             this.PicRedDEFImage.Location = new System.Drawing.Point(5, 66);
             this.PicRedDEFImage.Name = "PicRedDEFImage";
             this.PicRedDEFImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedDEFImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedDEFImage.TabIndex = 4;
             this.PicRedDEFImage.TabStop = false;
             // 
@@ -488,9 +782,11 @@
             // PicRedATKImage
             // 
             this.PicRedATKImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedATKImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedATKImage.Image")));
             this.PicRedATKImage.Location = new System.Drawing.Point(5, 35);
             this.PicRedATKImage.Name = "PicRedATKImage";
             this.PicRedATKImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedATKImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedATKImage.TabIndex = 2;
             this.PicRedATKImage.TabStop = false;
             // 
@@ -507,9 +803,11 @@
             // PicRedMovImage
             // 
             this.PicRedMovImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedMovImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedMovImage.Image")));
             this.PicRedMovImage.Location = new System.Drawing.Point(5, 4);
             this.PicRedMovImage.Name = "PicRedMovImage";
             this.PicRedMovImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedMovImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedMovImage.TabIndex = 0;
             this.PicRedMovImage.TabStop = false;
             // 
@@ -758,6 +1056,127 @@
             this.PicCardArtworkBottom.TabIndex = 1;
             this.PicCardArtworkBottom.TabStop = false;
             // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Black;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(74, 288);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(19, 19);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "-";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Black;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(74, 266);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(19, 19);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "+";
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Black;
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(99, 277);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(19, 19);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Black;
+            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(209, 66);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 17);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "Bonus: 200";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Black;
+            this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(212, 176);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(90, 17);
+            this.label8.TabIndex = 29;
+            this.label8.Text = "Bonus: 200";
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.Black;
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(446, 274);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(19, 19);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "0";
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.Black;
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(421, 263);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(19, 19);
+            this.label10.TabIndex = 31;
+            this.label10.Text = "+";
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.Black;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(421, 285);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(19, 19);
+            this.label11.TabIndex = 30;
+            this.label11.Text = "-";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Black;
+            this.label12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.White;
+            this.label12.Location = new System.Drawing.Point(86, 11);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(78, 18);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "LP: 1600";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Black;
+            this.label13.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(429, 10);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(78, 18);
+            this.label13.TabIndex = 34;
+            this.label13.Text = "LP: 1600";
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -773,6 +1192,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DDM - Board";
             this.PanelBoard.ResumeLayout(false);
+            this.PanelBattleMenu.ResumeLayout(false);
+            this.PanelBattleMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttacker)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.PanelAttackMenu.ResumeLayout(false);
             this.PanelMoveMenu.ResumeLayout(false);
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelBluePlayer.ResumeLayout(false);
@@ -859,5 +1286,33 @@
         private System.Windows.Forms.Panel PanelMoveMenu;
         private System.Windows.Forms.Button btnMoveMenuCancel;
         private System.Windows.Forms.Button btnMoveMenuFinish;
+        private System.Windows.Forms.Panel PanelAttackMenu;
+        private System.Windows.Forms.Button btnAttackMenuCancel;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox PicAttacker;
+        private System.Windows.Forms.Label lblAttacker;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel PanelBattleMenu;
+        private System.Windows.Forms.Button btnBattleMenuAttack;
+        private System.Windows.Forms.Label lblDefenderDEF;
+        private System.Windows.Forms.Label lblAttackerATK;
+        private System.Windows.Forms.PictureBox PicBattleMenuATKIcon;
+        private System.Windows.Forms.PictureBox PicBattleMenuAttackArrow;
+        private System.Windows.Forms.Label lblBattleMenuDamage;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnBattleMenuDefend;
+        private System.Windows.Forms.Button btnBattleMenuDontDefend;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
     }
 }

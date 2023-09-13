@@ -15,6 +15,7 @@ namespace DungeonDiceMonsters
         MainPhaseBoard,
         ActionMenuDisplay,
         MovingCard,
+        SelectingAttackTarger,
     }
     public partial class BoardForm : Form
     {
@@ -185,6 +186,7 @@ namespace DungeonDiceMonsters
         private List<Tile> _MoveCandidates = new List<Tile>();
         private Tile _InitialTileMove = null;
         private int _TMPMoveCrestCount = 0;
+        private List<Tile> _AttackCandidates = new List<Tile>();
 
         //Private functions
         private void LoadPlayersInfo()
@@ -331,6 +333,13 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        private void DisplayAttackCandidate()
+        {
+            foreach (Tile tile in _AttackCandidates)
+            {
+                tile.MarkAttackTarget();
+            }
+        }
         private void PlaceMoveMenu()
         {
             Point referencePoint = _CurrentTileSelected.Location;
@@ -343,6 +352,20 @@ namespace DungeonDiceMonsters
             {
                 PanelMoveMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 55);
             }
+        }
+        private void PlaceAttackMenu() 
+        {
+            Point referencePoint = _CurrentTileSelected.Location;
+            int X_Location = Cursor.Position.X;
+            if (X_Location > 929)
+            {
+                PanelAttackMenu.Location = new Point(referencePoint.X - 85, referencePoint.Y - 30);
+            }
+            else
+            {
+                PanelAttackMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y + 10);
+            }
+            PanelAttackMenu.Visible = true;
         }
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
@@ -427,7 +450,15 @@ namespace DungeonDiceMonsters
                             //this is the value that is going to be used until the move action is finalized.
                             _TMPMoveCrestCount = RedData.Crests_MOV;
                         }
-                        if(thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK)
+
+                        //Determine if this card can attack if:
+                        // 1. Has not attacked this turn alread
+                        // 2. Player has enough atack crest to pay its cost
+                        // 3. Has at least 1 adjecent attack candidate
+
+
+                        _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
+                        if(thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0)
                         {
                             btnActionAttack.Enabled = false;
                         }
@@ -498,6 +529,28 @@ namespace DungeonDiceMonsters
                     btnMoveMenuCancel.Enabled = true;
                 }
             }
+            else if (_CurrentGameState == GameState.SelectingAttackTarger)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _AttackCandidates.Count; x++)
+                {
+                    if (_MoveCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true; break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    //Attack the card in this tile
+
+                    //Open the Battle Panel
+                }
+            }
         }
         private void btnActionCancel_Click(object sender, EventArgs e)
         {
@@ -519,6 +572,15 @@ namespace DungeonDiceMonsters
             btnMoveMenuFinish.Enabled = false;
             btnMoveMenuCancel.Enabled = true;
             PanelMoveMenu.Visible = true;
+        }
+        private void btnActionAttack_Click(object sender, EventArgs e)
+        {
+            _CurrentGameState = GameState.SelectingAttackTarger;
+
+            DisplayAttackCandidate();
+            PlaceAttackMenu();
+
+            PanelActionMenu.Visible = false;
         }
         private void btnMoveMenuCancel_Click(object sender, EventArgs e)
         {
@@ -569,6 +631,43 @@ namespace DungeonDiceMonsters
             LoadPlayersInfo();
 
             _CurrentGameState = GameState.MainPhaseBoard;
+        }
+        private void btnAttackMenuCancel_Click(object sender, EventArgs e)
+        {
+            //Unmark all the attack candidates
+            foreach (Tile tile in _AttackCandidates)
+            {
+                tile.SetTileColor();
+            }
+
+            _AttackCandidates.Clear();
+            PanelAttackMenu.Visible = false;
+            _CurrentGameState = GameState.MainPhaseBoard;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PicBattleMenuATKIcon_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblBattleMenuDamage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PanelBattleMenu_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

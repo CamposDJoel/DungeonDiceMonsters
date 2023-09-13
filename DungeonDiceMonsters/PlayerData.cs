@@ -2,13 +2,6 @@
 //9/12/2023
 //PlayerData Class
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DungeonDiceMonsters
 {
     public class PlayerData
@@ -63,10 +56,12 @@ namespace DungeonDiceMonsters
 
     public enum Crest
     {
+        Star,
         Movement,
         Attack,
         Defense,
         Magic,
-        Trap
+        Trap,
+        Ritual
     }
 }

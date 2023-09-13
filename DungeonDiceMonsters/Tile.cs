@@ -2,6 +2,7 @@
 //9/11/2023
 //TileClass
 
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -93,6 +94,53 @@ namespace DungeonDiceMonsters
             _CardImage.Image.Dispose();
             _CardImage.Image = null;
         }
+        public List<Tile> GetAttackTargerCandidates(PlayerOwner enemy)
+        {
+            List<Tile> candidates = new List<Tile>();
+
+            if (HasAnAdjecentEnemyCard(TileDirection.North, enemy)){ candidates.Add(_NorthTile); }
+            if (HasAnAdjecentEnemyCard(TileDirection.South, enemy)){ candidates.Add(_SouthTile); }
+            if (HasAnAdjecentEnemyCard(TileDirection.East, enemy)){ candidates.Add(_EastTile); }
+            if (HasAnAdjecentEnemyCard(TileDirection.West, enemy)){ candidates.Add(_WestTile); }
+
+            return candidates;
+        }
+        private bool HasAnAdjecentEnemyCard(TileDirection direction, PlayerOwner enemy)
+        {
+            bool hasIt = false;
+            switch (direction) 
+            {
+                case TileDirection.North:
+                    if(HasAnAdjecentTile(TileDirection.North))
+                    {
+                        if(_NorthTile.IsOccupied)
+                        {
+                            if (_NorthTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        }
+                    }
+                break;
+                case TileDirection.South:
+                        if (_SouthTile.IsOccupied)
+                        {
+                            if (_SouthTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        }
+                    break;
+                case TileDirection.East:
+                    if (_EastTile.IsOccupied)
+                    {
+                        if (_EastTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                    }
+                    break;
+                case TileDirection.West:
+                    if (_WestTile.IsOccupied)
+                    {
+                        if (_WestTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                    }
+                    break;
+            }
+
+            return hasIt;
+        }
 
         //Private Methods
         public void SetTileColor()
@@ -108,10 +156,16 @@ namespace DungeonDiceMonsters
             {
                 _CardImage.BackColor = Color.Orange;
             }
+
+            _Border.BackColor = Color.Transparent;
         }
         public void MarkFreeToMove()
         {
-            _CardImage.BackColor = Color.Green;
+            _CardImage.BackColor = Color.Green;            
+        }
+        public void MarkAttackTarget()
+        {
+            _Border.BackColor = Color.Chartreuse;
         }
 
         //Accessors
