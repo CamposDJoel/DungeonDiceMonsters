@@ -58,6 +58,10 @@ namespace DungeonDiceMonsters
         Hover,
         Click,
         Click2,
-        MoveCard
+        MoveCard,
+        InvalidClick,
+        Attack,
+        LPReduce,
+        CardDestroyed
     }
 }
