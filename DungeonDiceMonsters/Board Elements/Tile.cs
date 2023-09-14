@@ -91,11 +91,19 @@ namespace DungeonDiceMonsters
                 _StatsLabel.SendToBack();
             }
         }
+        public void SetCard(Card card)
+        {
+            _card = card;
+            _Occupied = true;
+            _CardImage.Image = ImageServer.CardArtworkImage(0);
+            _StatsLabel.SendToBack();
+        }
         public void MoveInCard(Card card)
         {
             _card = card;
             _Occupied = true;
-            _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+            if (_card.IsFaceDown) { _CardImage.Image = ImageServer.CardArtworkImage(0); }
+            else { _CardImage.Image = ImageServer.CardArtworkImage(card.CardID); }
             if (card.Category == "Monster")
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;

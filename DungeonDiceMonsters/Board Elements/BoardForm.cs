@@ -177,29 +177,34 @@ namespace DungeonDiceMonsters
 
             //Summon a monster to move
             _CurrentTileSelected = _Tiles[201];
-            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerOwner.Red);
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerOwner.Red, false);
             _CardsOnBoard.Add(thisCard);
             _CurrentTileSelected.SummonCard(thisCard);
 
             _CurrentTileSelected = _Tiles[35];
-            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerOwner.Red);
+            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerOwner.Red, false);
             _CardsOnBoard.Add(thisCard2);
             _CurrentTileSelected.SummonCard(thisCard2);
 
             _CurrentTileSelected = _Tiles[48];
-            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(5), PlayerOwner.Blue);
+            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(5), PlayerOwner.Blue, false);
             _CardsOnBoard.Add(thisCard3);
             _CurrentTileSelected.SummonCard(thisCard3);
 
             _CurrentTileSelected = _Tiles[40];
-            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue);
+            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue, false);
             _CardsOnBoard.Add(thisCard4);
             _CurrentTileSelected.SummonCard(thisCard4);
 
             _CurrentTileSelected = _Tiles[110];
-            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(8), PlayerOwner.Red);
+            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerOwner.Red, true);
             _CardsOnBoard.Add(thisCard5);
-            _CurrentTileSelected.SummonCard(thisCard5);
+            _CurrentTileSelected.SetCard(thisCard5);
+
+            _CurrentTileSelected = _Tiles[32];
+            Card thisCard6 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerOwner.Blue, true);
+            _CardsOnBoard.Add(thisCard6);
+            _CurrentTileSelected.SetCard(thisCard6);
 
         }
 
@@ -259,53 +264,70 @@ namespace DungeonDiceMonsters
                     PanelCardInfo.BackColor = Color.DarkBlue;
                 }
 
-                //Populate the UI
-                if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
-                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID);
-
-                lblCardName.Text = thisCard.Name;
-
-                string secondaryType = "";
-                if (thisCard.Info.IsFusion) { secondaryType = "/Fusion"; }
-                if (thisCard.Info.IsRitual) { secondaryType = "/Ritual"; }
-                if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
-                if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
-
-
-                lblCardType.Text = thisCard.Info.Type + secondaryType;
-
-                if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
-                else { lblCardLevel.Text = ""; }
-
-                if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
-                else { lblAttribute.Text = ""; }
-
-                if (thisCard.Category == "Monster")
+                if(thisCard.IsFaceDown && thisCard.Owner == PlayerOwner.Blue)
                 {
-                    lblStatsATK.Text = thisCard.ATK.ToString();
-                    lblStatsDEF.Text = thisCard.DEF.ToString();
-                    lblStatsLP.Text = thisCard.LP.ToString();
+                    if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
 
-                    if (thisCard.ATK > thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Green; }
-                    else if (thisCard.ATK < thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Red; }
-                    else { lblStatsATK.ForeColor = Color.White; }
-
-                    if (thisCard.DEF > thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Green; }
-                    else if (thisCard.DEF < thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Red; }
-                    else { lblStatsDEF.ForeColor = Color.White; }
-
-                    if (thisCard.LP > thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Green; }
-                    else if (thisCard.LP < thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Red; }
-                    else { lblStatsLP.ForeColor = Color.White; }
-                }
-                else 
-                { 
+                    lblCardName.Text = "";
+                    lblCardType.Text = "";
+                    lblCardLevel.Text = "";
+                    lblAttribute.Text = "";
                     lblStatsATK.Text = "";
                     lblStatsDEF.Text = "";
                     lblStatsLP.Text = "";
+                    lblCardText.Text = "Blue's Facedown card.";
                 }
+                else
+                {
+                    //Populate the UI
+                    if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID);
 
-                lblCardText.Text = thisCard.Info.CardText;
+                    lblCardName.Text = thisCard.Name;
+
+                    string secondaryType = "";
+                    if (thisCard.Info.IsFusion) { secondaryType = "/Fusion"; }
+                    if (thisCard.Info.IsRitual) { secondaryType = "/Ritual"; }
+                    if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
+                    if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
+
+
+                    lblCardType.Text = thisCard.Info.Type + secondaryType;
+
+                    if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
+                    else { lblCardLevel.Text = ""; }
+
+                    if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
+                    else { lblAttribute.Text = ""; }
+
+                    if (thisCard.Category == "Monster")
+                    {
+                        lblStatsATK.Text = thisCard.ATK.ToString();
+                        lblStatsDEF.Text = thisCard.DEF.ToString();
+                        lblStatsLP.Text = thisCard.LP.ToString();
+
+                        if (thisCard.ATK > thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Green; }
+                        else if (thisCard.ATK < thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Red; }
+                        else { lblStatsATK.ForeColor = Color.White; }
+
+                        if (thisCard.DEF > thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Green; }
+                        else if (thisCard.DEF < thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Red; }
+                        else { lblStatsDEF.ForeColor = Color.White; }
+
+                        if (thisCard.LP > thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Green; }
+                        else if (thisCard.LP < thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Red; }
+                        else { lblStatsLP.ForeColor = Color.White; }
+                    }
+                    else
+                    {
+                        lblStatsATK.Text = "";
+                        lblStatsDEF.Text = "";
+                        lblStatsLP.Text = "";
+                    }
+
+                    lblCardText.Text = thisCard.Info.CardText;
+                }               
             }
             else
             {
@@ -610,10 +632,11 @@ namespace DungeonDiceMonsters
                         // 1. Has not attacked this turn alread
                         // 2. Player has enough atack crest to pay its cost
                         // 3. Has at least 1 adjecent attack candidate
+                        // 4. Card is a monster
 
 
                         _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
-                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0)
+                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != "Monster")
                         {
                             btnActionAttack.Enabled = false;
                         }
@@ -1003,7 +1026,17 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                //TODO: Destroy the defender card automatically
+                //Destroy the defender card automatically
+                SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(_AttackTarger.CardInPlace.CardID);
+                PicDefenderDestroyed.Visible = true;
+                lblBattleMenuDamage.Text = "Damage: 0";
+                WaitNSeconds(1000);
+                //Remove the card from the actual tile
+                _AttackTarger.DestroyCard();
+
+                //Display the end battle button
+                btnEndBattle.Visible = true;
             }           
         }
         private void btnEndBattle_Click(object sender, EventArgs e)
@@ -1013,7 +1046,6 @@ namespace DungeonDiceMonsters
             PanelBattleMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
         }
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);

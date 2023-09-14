@@ -6,12 +6,13 @@ namespace DungeonDiceMonsters
 {
     public class Card
     {
-        public Card(int id, CardInfo info, PlayerOwner owner)
+        public Card(int id, CardInfo info, PlayerOwner owner, bool isFaceDown)
         {
             _id = id;
             _cardInfo = info;
             _Owner = owner;
             _CurrentLP = _cardInfo.LP;
+            _IsFaceDown = isFaceDown;
         }
 
         public int OnBoardID { get { return _id; } }
@@ -29,6 +30,7 @@ namespace DungeonDiceMonsters
         public int AttackCost { get { return _AttackCost; } }
         public int DefenseCost { get { return _DefenseCost; } }
         public string Category { get { return _cardInfo.Category; } }
+        public bool IsFaceDown { get { return _IsFaceDown; } }
 
         public void ReduceLP(int amount)
         {
@@ -45,6 +47,7 @@ namespace DungeonDiceMonsters
         private CardInfo _cardInfo;
         private PlayerOwner _Owner;
         private bool _IsDiscardted = false;
+        private bool _IsFaceDown = false;
 
         //Card Stats Data
         private int _CurrentLP;
