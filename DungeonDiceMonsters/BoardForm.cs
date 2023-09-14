@@ -161,13 +161,13 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(thisCard);
             _CurrentTileSelected.SummonCard(thisCard);
 
-            _CurrentTileSelected = _Tiles[34];
+            _CurrentTileSelected = _Tiles[35];
             Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerOwner.Red);
             _CardsOnBoard.Add(thisCard2);
             _CurrentTileSelected.SummonCard(thisCard2);
 
             _CurrentTileSelected = _Tiles[48];
-            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(1), PlayerOwner.Blue);
+            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(5), PlayerOwner.Blue);
             _CardsOnBoard.Add(thisCard3);
             _CurrentTileSelected.SummonCard(thisCard3);
 
@@ -376,10 +376,13 @@ namespace DungeonDiceMonsters
         private void OpenBattleMenuAttackMode()
         {
             PanelBattleMenu.Visible = true;
+            btnEndBattle.Visible = false;
 
             //Set the attacker's data
             Card Attacker = _CurrentTileSelected.CardInPlace;
-            PicAttacker.Image = ImageServer.FullCardImage(Attacker.CardID);
+            PicAttacker.BackgroundImage.Dispose();
+            PicAttacker.BackgroundImage = null;
+            PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID);
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
 
@@ -387,18 +390,25 @@ namespace DungeonDiceMonsters
             Card Defender = _AttackTarger.CardInPlace;
             if(Defender.Category == "Monster")
             {
-                PicDefender.Image = ImageServer.FullCardImage(Defender.CardID);
+                PicDefender2.BackgroundImage.Dispose();
+                PicDefender2.BackgroundImage = null;
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID);
                 lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                 lblDefenderDEF.Text = "DEF: " + Defender.DEF;
             }
             else
             {
                 //TODO:
-                PicDefender.Image = ImageServer.FullCardImage(0);
+                PicDefender2.BackgroundImage.Dispose();
+                PicDefender2.BackgroundImage = null;
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(0);
                 lblBattleMenuDEFLP.Text = "";
                 lblDefenderDEF.Text = "";
             }
 
+            //Hide the "Destroyed" labels just in case
+            PicAttackerDestroyed.Visible = false;
+            PicDefenderDestroyed.Visible = false;
 
             //Set the initial Damage Calculation as "?"
             //Damage calculation will be done after both player set their Atk/Def
@@ -431,6 +441,7 @@ namespace DungeonDiceMonsters
                 lblAttackerBonus.Text = "Bonus: 0";
                 lblAttackerBonus.Visible = true;
                 lblAttackerAdvMinus.Visible = false;
+                lblAttackerAdvPlus.Visible = true;
             }
             else
             {
@@ -642,6 +653,9 @@ namespace DungeonDiceMonsters
 
                 if (thisIsACandidate)
                 {
+                    //Flag the attecker used its attack of the turn
+                    _CurrentTileSelected.CardInPlace.AttackedThisTurn = true;
+
                     //Attack the card in this tile
                     _AttackTarger = _Tiles[tileId];
 
@@ -784,6 +798,10 @@ namespace DungeonDiceMonsters
         {
             btnBattleMenuAttack.Visible = false;
 
+            //Hide the plus/Minus advantage buttons 
+            lblAttackerAdvMinus.Visible = false;
+            lblAttackerAdvPlus.Visible = false;
+
             //if the card is not a monster simply destroy it
             if(_AttackTarger.CardInPlace.Category == "Monster")
             {
@@ -835,9 +853,10 @@ namespace DungeonDiceMonsters
                     //DO the damage animation
                     int iterations = damagetodealtomonster / 10;
                     int waittime = 0;
-                    if (iterations < 100) { waittime = 100; }
-                    else if (iterations < 200) { waittime = 60; }
-                    else if (iterations < 300) { waittime = 40; }
+                    if (iterations < 100) { waittime = 80; }
+                    else if (iterations < 200) { waittime = 50; }
+                    else if (iterations < 300) { waittime = 20; }
+                    else { waittime = 10; }
                     for (int i = 0; i < iterations; i++)
                     {
                         _AttackTarger.CardInPlace.ReduceLP(10);
@@ -845,8 +864,15 @@ namespace DungeonDiceMonsters
                         WaitNSeconds(waittime);
                     }
 
-                    //Destroy that monster
-                    //TODO
+                    //Destroy that monster if the LP of the defender were reduced to 0
+                    if(_AttackTarger.CardInPlace.LP == 0)
+                    {
+                        PicDefenderDestroyed.Visible = true;
+                        WaitNSeconds(1000);
+                        //Remove the card from the actual tile
+                        _AttackTarger.DestroyCard();
+                    }
+
 
                     //if there is damage left deal it to the player
                     if (Damage > 0)
@@ -855,9 +881,10 @@ namespace DungeonDiceMonsters
                         iterations = Damage / 10;
 
                         waittime = 0;
-                        if (iterations < 100) { waittime = 100; }
-                        else if (iterations < 200) { waittime = 60; }
-                        else if (iterations < 300) { waittime = 40; }
+                        if (iterations < 100) { waittime = 80; }
+                        else if (iterations < 200) { waittime = 50; }
+                        else if (iterations < 300) { waittime = 20; }
+                        else { waittime = 10; }
 
                         for (int i = 0; i < iterations; i++)
                         {
@@ -865,6 +892,21 @@ namespace DungeonDiceMonsters
                             lblBlueLP.Text = "" + BlueData.LP;
                             WaitNSeconds(waittime);
                         }
+                        
+                        if(BlueData.LP == 0)
+                        {
+                            //TODO: defender player loses the game
+                        }
+                        else
+                        {
+                            //otherwise let the attacker finish the battle phase
+                            btnEndBattle.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        //Display the end battle button
+                        btnEndBattle.Visible = true;
                     }
                 }          
             }
@@ -872,6 +914,11 @@ namespace DungeonDiceMonsters
             {
                 //TODO: Destroy the defender card automatically
             }           
+        }
+        private void btnEndBattle_Click(object sender, EventArgs e)
+        {
+            PanelBattleMenu.Visible = false;
+            _CurrentGameState = GameState.MainPhaseBoard;
         }
     }
 }

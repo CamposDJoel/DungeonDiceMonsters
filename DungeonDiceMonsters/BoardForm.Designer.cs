@@ -68,8 +68,6 @@
             this.lblAttackerATK = new System.Windows.Forms.Label();
             this.lblAttacker = new System.Windows.Forms.Label();
             this.lblDefender = new System.Windows.Forms.Label();
-            this.PicAttacker = new System.Windows.Forms.PictureBox();
-            this.PicDefender = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer = new System.Windows.Forms.Panel();
             this.PanelBlueCrests = new System.Windows.Forms.Panel();
             this.lblBlueTrapCount = new System.Windows.Forms.Label();
@@ -119,6 +117,13 @@
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtworkBottom = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PicDefender = new System.Windows.Forms.Panel();
+            this.PicDefender2 = new System.Windows.Forms.Panel();
+            this.PicDefenderDestroyed = new System.Windows.Forms.PictureBox();
+            this.PicAttacker = new System.Windows.Forms.Panel();
+            this.PicAttackerDestroyed = new System.Windows.Forms.PictureBox();
+            this.btnEndBattle = new System.Windows.Forms.Button();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -129,8 +134,6 @@
             this.PanelAttackerAdvBonus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAttacker)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicDefender)).BeginInit();
             this.PanelBluePlayer.SuspendLayout();
             this.PanelBlueCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueTrapImage)).BeginInit();
@@ -148,6 +151,12 @@
             this.PanelDebug.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PicDefender.SuspendLayout();
+            this.PicDefender2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).BeginInit();
+            this.PicAttacker.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBoard
@@ -303,6 +312,9 @@
             this.PanelBattleMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelBattleMenu.BackgroundImage")));
             this.PanelBattleMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelBattleMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBattleMenu.Controls.Add(this.btnEndBattle);
+            this.PanelBattleMenu.Controls.Add(this.PicAttacker);
+            this.PanelBattleMenu.Controls.Add(this.PicDefender);
             this.PanelBattleMenu.Controls.Add(this.lblDefenderCrestCount);
             this.PanelBattleMenu.Controls.Add(this.lblAttackerCrestCount);
             this.PanelBattleMenu.Controls.Add(this.PanelDefenderAdvBonus);
@@ -320,8 +332,6 @@
             this.PanelBattleMenu.Controls.Add(this.lblAttackerATK);
             this.PanelBattleMenu.Controls.Add(this.lblAttacker);
             this.PanelBattleMenu.Controls.Add(this.lblDefender);
-            this.PanelBattleMenu.Controls.Add(this.PicAttacker);
-            this.PanelBattleMenu.Controls.Add(this.PicDefender);
             this.PanelBattleMenu.Location = new System.Drawing.Point(211, 91);
             this.PanelBattleMenu.Name = "PanelBattleMenu";
             this.PanelBattleMenu.Size = new System.Drawing.Size(517, 375);
@@ -655,28 +665,6 @@
             this.lblDefender.Size = new System.Drawing.Size(82, 18);
             this.lblDefender.TabIndex = 12;
             this.lblDefender.Text = "Defender";
-            // 
-            // PicAttacker
-            // 
-            this.PicAttacker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicAttacker.Image = ((System.Drawing.Image)(resources.GetObject("PicAttacker.Image")));
-            this.PicAttacker.Location = new System.Drawing.Point(11, 35);
-            this.PicAttacker.Name = "PicAttacker";
-            this.PicAttacker.Size = new System.Drawing.Size(142, 202);
-            this.PicAttacker.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAttacker.TabIndex = 9;
-            this.PicAttacker.TabStop = false;
-            // 
-            // PicDefender
-            // 
-            this.PicDefender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDefender.Image = ((System.Drawing.Image)(resources.GetObject("PicDefender.Image")));
-            this.PicDefender.Location = new System.Drawing.Point(357, 35);
-            this.PicDefender.Name = "PicDefender";
-            this.PicDefender.Size = new System.Drawing.Size(142, 202);
-            this.PicDefender.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicDefender.TabIndex = 10;
-            this.PicDefender.TabStop = false;
             // 
             // PanelBluePlayer
             // 
@@ -1228,6 +1216,84 @@
             this.PicCardArtworkBottom.TabIndex = 1;
             this.PicCardArtworkBottom.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(16, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(107, 104);
+            this.pictureBox1.TabIndex = 39;
+            this.pictureBox1.TabStop = false;
+            // 
+            // PicDefender
+            // 
+            this.PicDefender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicDefender.BackgroundImage")));
+            this.PicDefender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicDefender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDefender.Controls.Add(this.PicDefender2);
+            this.PicDefender.Controls.Add(this.pictureBox1);
+            this.PicDefender.Location = new System.Drawing.Point(348, 35);
+            this.PicDefender.Name = "PicDefender";
+            this.PicDefender.Size = new System.Drawing.Size(142, 202);
+            this.PicDefender.TabIndex = 14;
+            // 
+            // PicDefender2
+            // 
+            this.PicDefender2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicDefender2.BackgroundImage")));
+            this.PicDefender2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicDefender2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDefender2.Controls.Add(this.PicDefenderDestroyed);
+            this.PicDefender2.Location = new System.Drawing.Point(-1, -1);
+            this.PicDefender2.Name = "PicDefender2";
+            this.PicDefender2.Size = new System.Drawing.Size(142, 202);
+            this.PicDefender2.TabIndex = 40;
+            // 
+            // PicDefenderDestroyed
+            // 
+            this.PicDefenderDestroyed.BackColor = System.Drawing.Color.Transparent;
+            this.PicDefenderDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicDefenderDestroyed.Image")));
+            this.PicDefenderDestroyed.Location = new System.Drawing.Point(16, 37);
+            this.PicDefenderDestroyed.Name = "PicDefenderDestroyed";
+            this.PicDefenderDestroyed.Size = new System.Drawing.Size(107, 104);
+            this.PicDefenderDestroyed.TabIndex = 39;
+            this.PicDefenderDestroyed.TabStop = false;
+            // 
+            // PicAttacker
+            // 
+            this.PicAttacker.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicAttacker.BackgroundImage")));
+            this.PicAttacker.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicAttacker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicAttacker.Controls.Add(this.PicAttackerDestroyed);
+            this.PicAttacker.Location = new System.Drawing.Point(12, 34);
+            this.PicAttacker.Name = "PicAttacker";
+            this.PicAttacker.Size = new System.Drawing.Size(142, 202);
+            this.PicAttacker.TabIndex = 41;
+            // 
+            // PicAttackerDestroyed
+            // 
+            this.PicAttackerDestroyed.BackColor = System.Drawing.Color.Transparent;
+            this.PicAttackerDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicAttackerDestroyed.Image")));
+            this.PicAttackerDestroyed.Location = new System.Drawing.Point(16, 37);
+            this.PicAttackerDestroyed.Name = "PicAttackerDestroyed";
+            this.PicAttackerDestroyed.Size = new System.Drawing.Size(107, 104);
+            this.PicAttackerDestroyed.TabIndex = 39;
+            this.PicAttackerDestroyed.TabStop = false;
+            // 
+            // btnEndBattle
+            // 
+            this.btnEndBattle.BackColor = System.Drawing.Color.DarkOrchid;
+            this.btnEndBattle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEndBattle.ForeColor = System.Drawing.Color.Black;
+            this.btnEndBattle.Location = new System.Drawing.Point(212, 310);
+            this.btnEndBattle.Name = "btnEndBattle";
+            this.btnEndBattle.Size = new System.Drawing.Size(112, 59);
+            this.btnEndBattle.TabIndex = 42;
+            this.btnEndBattle.Text = "End Battle";
+            this.btnEndBattle.UseVisualStyleBackColor = false;
+            this.btnEndBattle.Visible = false;
+            this.btnEndBattle.Click += new System.EventHandler(this.btnEndBattle_Click);
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1256,8 +1322,6 @@
             this.PanelAttackerAdvBonus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAttacker)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicDefender)).EndInit();
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
             this.PanelBlueCrests.ResumeLayout(false);
@@ -1278,6 +1342,12 @@
             this.PanelDebug.PerformLayout();
             this.PanelCardInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.PicDefender.ResumeLayout(false);
+            this.PicDefender2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).EndInit();
+            this.PicAttacker.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1344,8 +1414,6 @@
         private System.Windows.Forms.Button btnMoveMenuFinish;
         private System.Windows.Forms.Panel PanelAttackMenu;
         private System.Windows.Forms.Button btnAttackMenuCancel;
-        private System.Windows.Forms.PictureBox PicDefender;
-        private System.Windows.Forms.PictureBox PicAttacker;
         private System.Windows.Forms.Label lblAttacker;
         private System.Windows.Forms.Label lblDefender;
         private System.Windows.Forms.Panel PanelBattleMenu;
@@ -1374,5 +1442,12 @@
         private System.Windows.Forms.Panel PanelDefenderAdvBonus;
         private System.Windows.Forms.Label lblAttackerCrestCount;
         private System.Windows.Forms.Label lblDefenderCrestCount;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel PicDefender;
+        private System.Windows.Forms.Panel PicAttacker;
+        private System.Windows.Forms.PictureBox PicAttackerDestroyed;
+        private System.Windows.Forms.Panel PicDefender2;
+        private System.Windows.Forms.PictureBox PicDefenderDestroyed;
+        private System.Windows.Forms.Button btnEndBattle;
     }
 }

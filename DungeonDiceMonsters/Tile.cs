@@ -94,6 +94,14 @@ namespace DungeonDiceMonsters
             _CardImage.Image.Dispose();
             _CardImage.Image = null;
         }
+        public void DestroyCard()
+        {
+            _card.Discard();
+            _card = null;
+            _Occupied = false;
+            _CardImage.Image.Dispose();
+            _CardImage.Image = null;
+        }
         public List<Tile> GetAttackTargerCandidates(PlayerOwner enemy)
         {
             List<Tile> candidates = new List<Tile>();

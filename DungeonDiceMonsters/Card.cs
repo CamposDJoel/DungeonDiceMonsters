@@ -34,6 +34,10 @@ namespace DungeonDiceMonsters
         {
             _CurrentLP -= amount;
         }
+        public void Discard()
+        {
+            _IsDiscardted = true;
+        }
 
         
         //Card Board Data
