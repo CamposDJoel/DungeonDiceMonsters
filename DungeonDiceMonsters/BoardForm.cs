@@ -53,18 +53,6 @@ namespace DungeonDiceMonsters
                 int X_Location = 2;
                 for (int y = 0; y < 13; y++)
                 {
-                    //Create the ATK/DEF label
-                    Label statsLabel = new Label();
-                    PanelBoard.Controls.Add(statsLabel);
-                    statsLabel.Location = new Point(X_Location + 2, Y_Location + 34);
-                    statsLabel.Size = new Size(42, 10);
-                    statsLabel.BorderStyle = BorderStyle.None;
-                    statsLabel.ForeColor = Color.White;
-                    statsLabel.Font = new Font("Calibri", 6);
-                    statsLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    statsLabel.Visible = false;
-                    statsLabel.Text = "9999/9999";
-
                     //Create each inside picture box
                     PictureBox insidePicture = new PictureBox();
                     PanelBoard.Controls.Add(insidePicture);
@@ -86,6 +74,18 @@ namespace DungeonDiceMonsters
                     borderPicture.Size = new Size(46, 46);
                     borderPicture.BorderStyle = BorderStyle.FixedSingle;
                     borderPicture.BackColor = Color.Transparent;
+
+                    //Create the ATK/DEF label
+                    Label statsLabel = new Label();
+                    PanelBoard.Controls.Add(statsLabel);
+                    statsLabel.Location = new Point(X_Location + 2, Y_Location + 34);
+                    statsLabel.Size = new Size(42, 10);
+                    statsLabel.BorderStyle = BorderStyle.None;
+                    statsLabel.ForeColor = Color.White;
+                    statsLabel.Font = new Font("Calibri", 6);
+                    //statsLabel.Visible = false;
+                    statsLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    statsLabel.Text = "ID:" + tileId;
 
                     //create and add a new tile object using the above 2 picture boxes
                     _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
@@ -152,6 +152,12 @@ namespace DungeonDiceMonsters
             _Tiles[200].ChangeOwner(PlayerOwner.Red);
             _Tiles[202].ChangeOwner(PlayerOwner.Red);
 
+            _Tiles[97].ChangeOwner(PlayerOwner.Red);
+            _Tiles[109].ChangeOwner(PlayerOwner.Red);
+            _Tiles[110].ChangeOwner(PlayerOwner.Red);
+            _Tiles[111].ChangeOwner(PlayerOwner.Red);
+            _Tiles[123].ChangeOwner(PlayerOwner.Red);
+
             _Tiles[19].ChangeOwner(PlayerOwner.Blue);
             _Tiles[32].ChangeOwner(PlayerOwner.Blue);
             _Tiles[33].ChangeOwner(PlayerOwner.Blue);
@@ -168,7 +174,7 @@ namespace DungeonDiceMonsters
             _Tiles[53].ChangeOwner(PlayerOwner.Blue);
 
             //Summon a monster to move
-            _CurrentTileSelected = _Tiles[188];
+            _CurrentTileSelected = _Tiles[201];
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerOwner.Red);
             _CardsOnBoard.Add(thisCard);
             _CurrentTileSelected.SummonCard(thisCard);
@@ -187,6 +193,11 @@ namespace DungeonDiceMonsters
             Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue);
             _CardsOnBoard.Add(thisCard4);
             _CurrentTileSelected.SummonCard(thisCard4);
+
+            _CurrentTileSelected = _Tiles[110];
+            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(8), PlayerOwner.Red);
+            _CardsOnBoard.Add(thisCard5);
+            _CurrentTileSelected.SummonCard(thisCard5);
 
         }
 
@@ -541,6 +552,8 @@ namespace DungeonDiceMonsters
                 {
                     if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
                     {
+                        SoundServer.PlaySoundEffect(SoundEffect.Click);
+
                         //Open the Action menu
                         //Set the location in relation to the Tile location and cursor location
                         Point referencePoint = _CurrentTileSelected.Location;
@@ -590,6 +603,10 @@ namespace DungeonDiceMonsters
                         //Change the game state
                         _CurrentGameState = GameState.ActionMenuDisplay;
                     }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
                 }
             }
             else if (_CurrentGameState == GameState.MovingCard)
@@ -609,6 +626,8 @@ namespace DungeonDiceMonsters
 
                 if (thisIsACandidate)
                 {
+                    SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+
                     //Move the card to this location
                     Card thiscard = _CurrentTileSelected.CardInPlace;
 
@@ -646,6 +665,10 @@ namespace DungeonDiceMonsters
                     btnMoveMenuFinish.Enabled = true;
                     btnMoveMenuCancel.Enabled = true;
                 }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
             }
             else if (_CurrentGameState == GameState.SelectingAttackTarger)
             {
@@ -665,6 +688,8 @@ namespace DungeonDiceMonsters
 
                 if (thisIsACandidate)
                 {
+                    SoundServer.PlaySoundEffect(SoundEffect.Click);
+
                     //Flag the attecker used its attack of the turn
                     _CurrentTileSelected.CardInPlace.AttackedThisTurn = true;
 
@@ -683,10 +708,15 @@ namespace DungeonDiceMonsters
                     OpenBattleMenuAttackMode();
                     _CurrentGameState = GameState.BattleMenuAttackMode;
                 }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }    
             }
         }
         private void btnActionCancel_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Close the Action menu/Card info panel and return to the MainPhase Stage 
             _CurrentTileSelected.Leave();
             PanelActionMenu.Visible = false;
@@ -694,6 +724,7 @@ namespace DungeonDiceMonsters
         }
         private void btnActionMove_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             _CurrentGameState = GameState.MovingCard;
 
             _InitialTileMove = _CurrentTileSelected;
@@ -708,6 +739,7 @@ namespace DungeonDiceMonsters
         }
         private void btnActionAttack_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             _CurrentGameState = GameState.SelectingAttackTarger;
 
             DisplayAttackCandidate();
@@ -717,6 +749,7 @@ namespace DungeonDiceMonsters
         }
         private void btnMoveMenuCancel_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Now clear the borders of all the candidates tiles to their og color
             for (int x = 0; x < _MoveCandidates.Count; x++)
             {
@@ -745,6 +778,7 @@ namespace DungeonDiceMonsters
         }
         private void btnMoveMenuFinish_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Now clear the borders of all the candidates tiles to their og color
             for (int x = 0; x < _MoveCandidates.Count; x++)
             {
@@ -767,6 +801,8 @@ namespace DungeonDiceMonsters
         }
         private void btnAttackMenuCancel_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+
             //Unmark all the attack candidates
             foreach (Tile tile in _AttackCandidates)
             {
@@ -781,6 +817,7 @@ namespace DungeonDiceMonsters
         {
             if (_AttackBonusCrest > 0)
             {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
                 _AttackBonusCrest--;
                 if (_AttackBonusCrest == 0)
                 {
@@ -795,19 +832,24 @@ namespace DungeonDiceMonsters
         }
         private void lblAttackerAdvPlus_Click(object sender, EventArgs e)
         {
-            _AttackBonusCrest++;
-            if (_AttackBonusCrest == 5 || (RedData.Crests_ATK - (_AttackBonusCrest + 1) == 0))
+            if(_AttackBonusCrest < 5)
             {
-                lblAttackerAdvPlus.Visible = false;
-            }
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _AttackBonusCrest++;
+                if (_AttackBonusCrest == 5 || (RedData.Crests_ATK - (_AttackBonusCrest + 1) == 0))
+                {
+                    lblAttackerAdvPlus.Visible = false;
+                }
 
-            lblAttackerAdvMinus.Visible = true;
-            lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
-            lblAttackerBonus.Text = "Bonus: " + (_AttackBonusCrest * 200);
-            lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
+                lblAttackerAdvMinus.Visible = true;
+                lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
+                lblAttackerBonus.Text = "Bonus: " + (_AttackBonusCrest * 200);
+                lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
+            }
         }
         private void btnBattleMenuAttack_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Attack);
             btnBattleMenuAttack.Visible = false;
 
             //Hide the plus/Minus advantage buttons 
@@ -873,15 +915,18 @@ namespace DungeonDiceMonsters
                     {
                         _AttackTarger.CardInPlace.ReduceLP(10);
                         lblBattleMenuDEFLP.Text = "LP: " + _AttackTarger.CardInPlace.LP;
+                        SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                         WaitNSeconds(waittime);
                     }
 
                     //Destroy that monster if the LP of the defender were reduced to 0
                     if(_AttackTarger.CardInPlace.LP == 0)
                     {
+                        SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
                         PicDefenderDestroyed.Visible = true;
                         WaitNSeconds(1000);
                         //Remove the card from the actual tile
+
                         _AttackTarger.DestroyCard();
                     }
 
@@ -902,6 +947,7 @@ namespace DungeonDiceMonsters
                         {
                             BlueData.ReduceLP(10);
                             lblBlueLP.Text = "" + BlueData.LP;
+                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                             WaitNSeconds(waittime);
                         }
                         
@@ -929,6 +975,8 @@ namespace DungeonDiceMonsters
         }
         private void btnEndBattle_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            _CurrentTileSelected.Leave();
             PanelBattleMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
         }

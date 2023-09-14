@@ -84,11 +84,11 @@ namespace DungeonDiceMonsters
             if(card.Category == "Monster")
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
-                _StatsLabel.Visible = true;
+                _StatsLabel.BringToFront();
             }
             else
             {
-                _StatsLabel.Visible = true;
+                _StatsLabel.SendToBack();
             }
         }
         public void MoveInCard(Card card)
@@ -99,11 +99,11 @@ namespace DungeonDiceMonsters
             if (card.Category == "Monster")
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
-                _StatsLabel.Visible = true;
+                _StatsLabel.BringToFront();
             }
             else
             {
-                _StatsLabel.Visible = true;
+                _StatsLabel.SendToBack();
             }
         }
         public void RemoveCard()
@@ -112,7 +112,7 @@ namespace DungeonDiceMonsters
             _Occupied = false;
             _CardImage.Image.Dispose();
             _CardImage.Image = null;
-            _StatsLabel.Visible  =false;
+            _StatsLabel.SendToBack();
         }
         public void DestroyCard()
         {
