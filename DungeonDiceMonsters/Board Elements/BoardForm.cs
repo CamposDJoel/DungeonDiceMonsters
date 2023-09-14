@@ -30,6 +30,7 @@ namespace DungeonDiceMonsters
             //Save Ref to each player's data
             RedData = Red; BlueData = Blue;
 
+            Blue.ReduceLP(7900);
             //more test data
             RedData.AddCrests(Crest.Movement, 10);
             RedData.AddCrests(Crest.Attack, 10);
@@ -888,7 +889,7 @@ namespace DungeonDiceMonsters
 
                 if (BlueData.Crests_DEF > 0)
                 {
-                    willDefend = false;
+                    willDefend = true;
                 }
 
                 //Perform the battle calculation
@@ -909,8 +910,10 @@ namespace DungeonDiceMonsters
 
                 int Damage = FinalAttack - FinalDefense;
                 if (Damage < 0) 
-                { 
-                    //simply display there was no damage don
+                {
+                    //Display the end battle button
+                    lblBattleMenuDamage.Text = "Damage: 0";
+                    btnEndBattle.Visible = true;
                 }
                 else
                 {
@@ -957,6 +960,8 @@ namespace DungeonDiceMonsters
                     //if there is damage left deal it to the player
                     if (Damage > 0)
                     {
+                        if (Damage > BlueData.LP) { Damage = BlueData.LP; }
+
                         //Deal damage to the player
                         iterations = Damage / 10;
 
@@ -977,6 +982,11 @@ namespace DungeonDiceMonsters
                         if(BlueData.LP == 0)
                         {
                             //TODO: defender player loses the game
+                            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                            PanelBattleMenu.Visible = false;
+                            PanelEndGameResults.Visible = true;
+                            WaitNSeconds(5000);
+                            btnExit.Visible = true;
                         }
                         else
                         {
@@ -1004,19 +1014,13 @@ namespace DungeonDiceMonsters
             _CurrentGameState = GameState.MainPhaseBoard;
         }
 
-        private void PanelBoard_Paint(object sender, PaintEventArgs e)
+        private void btnExit_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Open the Free Duel Form
+            FreeDuelMenu FD = new FreeDuelMenu();
+            Dispose();
+            FD.Show();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//Joel Campos
+//9/12/2023
+//Sound Server Class
+
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace DungeonDiceMonsters
@@ -51,7 +51,9 @@ namespace DungeonDiceMonsters
         MainMenu,
         FreeDuelMenu,
         DeckBuildMenu,
-        FreeDuel
+        FreeDuel,
+        YouWin,
+        YouLose,
     }
     public enum SoundEffect
     {

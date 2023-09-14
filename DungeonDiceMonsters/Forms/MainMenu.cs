@@ -51,7 +51,6 @@ namespace DungeonDiceMonsters
         private void lblMenuDeckBuilder_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            SoundServer.PlayBackgroundMusic(Song.MainMenu, false);
             //Open the Deckbuilder form
             DeckBuilder DB = new DeckBuilder();
             Dispose();
@@ -65,7 +64,6 @@ namespace DungeonDiceMonsters
         private void lblMenuFreeDuel_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            SoundServer.PlayBackgroundMusic(Song.MainMenu, false);
             //Open the Free Duel Form
             FreeDuelMenu FD = new FreeDuelMenu();
             Dispose();
