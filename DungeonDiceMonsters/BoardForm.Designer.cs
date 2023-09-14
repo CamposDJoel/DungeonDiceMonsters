@@ -111,20 +111,22 @@
             this.lblDebugTileID = new System.Windows.Forms.Label();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
             this.lblCardText = new System.Windows.Forms.Label();
-            this.lblStats = new System.Windows.Forms.Label();
+            this.lblStatsATKLabel = new System.Windows.Forms.Label();
             this.lblAttribute = new System.Windows.Forms.Label();
             this.lblCardType = new System.Windows.Forms.Label();
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtworkBottom = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.PicDefender = new System.Windows.Forms.Panel();
-            this.PicDefender2 = new System.Windows.Forms.Panel();
-            this.PicDefenderDestroyed = new System.Windows.Forms.PictureBox();
             this.PicAttacker = new System.Windows.Forms.Panel();
             this.PicAttackerDestroyed = new System.Windows.Forms.PictureBox();
             this.btnEndBattle = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.PicDefender2 = new System.Windows.Forms.Panel();
+            this.PicDefenderDestroyed = new System.Windows.Forms.PictureBox();
+            this.lblStatsATK = new System.Windows.Forms.Label();
+            this.lblStatsDEF = new System.Windows.Forms.Label();
+            this.lblStatsDEFLabel = new System.Windows.Forms.Label();
+            this.lblStatsLP = new System.Windows.Forms.Label();
+            this.lblStatsLPLabel = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -152,12 +154,10 @@
             this.PanelDebug.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.PicDefender.SuspendLayout();
-            this.PicDefender2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).BeginInit();
             this.PicAttacker.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).BeginInit();
+            this.PicDefender2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBoard
@@ -165,7 +165,6 @@
             this.PanelBoard.AutoScroll = true;
             this.PanelBoard.BackColor = System.Drawing.Color.Black;
             this.PanelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelBoard.Controls.Add(this.label1);
             this.PanelBoard.Controls.Add(this.PanelAttackMenu);
             this.PanelBoard.Controls.Add(this.PanelMoveMenu);
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
@@ -173,6 +172,7 @@
             this.PanelBoard.Name = "PanelBoard";
             this.PanelBoard.Size = new System.Drawing.Size(631, 561);
             this.PanelBoard.TabIndex = 0;
+            this.PanelBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelBoard_Paint);
             // 
             // PanelAttackMenu
             // 
@@ -314,9 +314,9 @@
             this.PanelBattleMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelBattleMenu.BackgroundImage")));
             this.PanelBattleMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelBattleMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBattleMenu.Controls.Add(this.PicDefender2);
             this.PanelBattleMenu.Controls.Add(this.btnEndBattle);
             this.PanelBattleMenu.Controls.Add(this.PicAttacker);
-            this.PanelBattleMenu.Controls.Add(this.PicDefender);
             this.PanelBattleMenu.Controls.Add(this.lblDefenderCrestCount);
             this.PanelBattleMenu.Controls.Add(this.lblAttackerCrestCount);
             this.PanelBattleMenu.Controls.Add(this.PanelDefenderAdvBonus);
@@ -1129,8 +1129,13 @@
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.DarkRed;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelCardInfo.Controls.Add(this.lblStatsLP);
+            this.PanelCardInfo.Controls.Add(this.lblStatsLPLabel);
+            this.PanelCardInfo.Controls.Add(this.lblStatsDEF);
+            this.PanelCardInfo.Controls.Add(this.lblStatsDEFLabel);
+            this.PanelCardInfo.Controls.Add(this.lblStatsATK);
             this.PanelCardInfo.Controls.Add(this.lblCardText);
-            this.PanelCardInfo.Controls.Add(this.lblStats);
+            this.PanelCardInfo.Controls.Add(this.lblStatsATKLabel);
             this.PanelCardInfo.Controls.Add(this.lblAttribute);
             this.PanelCardInfo.Controls.Add(this.lblCardType);
             this.PanelCardInfo.Controls.Add(this.lblCardLevel);
@@ -1153,16 +1158,16 @@
             this.lblCardText.TabIndex = 12;
             this.lblCardText.Text = "Card Text";
             // 
-            // lblStats
+            // lblStatsATKLabel
             // 
-            this.lblStats.BackColor = System.Drawing.Color.Black;
-            this.lblStats.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblStats.ForeColor = System.Drawing.Color.White;
-            this.lblStats.Location = new System.Drawing.Point(3, 72);
-            this.lblStats.Name = "lblStats";
-            this.lblStats.Size = new System.Drawing.Size(205, 15);
-            this.lblStats.TabIndex = 16;
-            this.lblStats.Text = "Stats";
+            this.lblStatsATKLabel.BackColor = System.Drawing.Color.Black;
+            this.lblStatsATKLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsATKLabel.ForeColor = System.Drawing.Color.White;
+            this.lblStatsATKLabel.Location = new System.Drawing.Point(3, 72);
+            this.lblStatsATKLabel.Name = "lblStatsATKLabel";
+            this.lblStatsATKLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsATKLabel.TabIndex = 16;
+            this.lblStatsATKLabel.Text = "ATK";
             // 
             // lblAttribute
             // 
@@ -1218,52 +1223,8 @@
             this.PicCardArtworkBottom.TabIndex = 1;
             this.PicCardArtworkBottom.TabStop = false;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(16, 37);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(107, 104);
-            this.pictureBox1.TabIndex = 39;
-            this.pictureBox1.TabStop = false;
-            // 
-            // PicDefender
-            // 
-            this.PicDefender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicDefender.BackgroundImage")));
-            this.PicDefender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicDefender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDefender.Controls.Add(this.PicDefender2);
-            this.PicDefender.Controls.Add(this.pictureBox1);
-            this.PicDefender.Location = new System.Drawing.Point(348, 35);
-            this.PicDefender.Name = "PicDefender";
-            this.PicDefender.Size = new System.Drawing.Size(142, 202);
-            this.PicDefender.TabIndex = 14;
-            // 
-            // PicDefender2
-            // 
-            this.PicDefender2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicDefender2.BackgroundImage")));
-            this.PicDefender2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicDefender2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDefender2.Controls.Add(this.PicDefenderDestroyed);
-            this.PicDefender2.Location = new System.Drawing.Point(-1, -1);
-            this.PicDefender2.Name = "PicDefender2";
-            this.PicDefender2.Size = new System.Drawing.Size(142, 202);
-            this.PicDefender2.TabIndex = 40;
-            // 
-            // PicDefenderDestroyed
-            // 
-            this.PicDefenderDestroyed.BackColor = System.Drawing.Color.Transparent;
-            this.PicDefenderDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicDefenderDestroyed.Image")));
-            this.PicDefenderDestroyed.Location = new System.Drawing.Point(16, 37);
-            this.PicDefenderDestroyed.Name = "PicDefenderDestroyed";
-            this.PicDefenderDestroyed.Size = new System.Drawing.Size(107, 104);
-            this.PicDefenderDestroyed.TabIndex = 39;
-            this.PicDefenderDestroyed.TabStop = false;
-            // 
             // PicAttacker
             // 
-            this.PicAttacker.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicAttacker.BackgroundImage")));
             this.PicAttacker.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PicAttacker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicAttacker.Controls.Add(this.PicAttackerDestroyed);
@@ -1296,13 +1257,82 @@
             this.btnEndBattle.Visible = false;
             this.btnEndBattle.Click += new System.EventHandler(this.btnEndBattle_Click);
             // 
-            // label1
+            // PicDefender2
             // 
-            this.label1.Location = new System.Drawing.Point(122, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 10);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "label1";
+            this.PicDefender2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicDefender2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDefender2.Controls.Add(this.PicDefenderDestroyed);
+            this.PicDefender2.Location = new System.Drawing.Point(365, 34);
+            this.PicDefender2.Name = "PicDefender2";
+            this.PicDefender2.Size = new System.Drawing.Size(142, 202);
+            this.PicDefender2.TabIndex = 40;
+            // 
+            // PicDefenderDestroyed
+            // 
+            this.PicDefenderDestroyed.BackColor = System.Drawing.Color.Transparent;
+            this.PicDefenderDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicDefenderDestroyed.Image")));
+            this.PicDefenderDestroyed.Location = new System.Drawing.Point(16, 37);
+            this.PicDefenderDestroyed.Name = "PicDefenderDestroyed";
+            this.PicDefenderDestroyed.Size = new System.Drawing.Size(107, 104);
+            this.PicDefenderDestroyed.TabIndex = 39;
+            this.PicDefenderDestroyed.TabStop = false;
+            // 
+            // lblStatsATK
+            // 
+            this.lblStatsATK.BackColor = System.Drawing.Color.Black;
+            this.lblStatsATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsATK.ForeColor = System.Drawing.Color.White;
+            this.lblStatsATK.Location = new System.Drawing.Point(32, 72);
+            this.lblStatsATK.Name = "lblStatsATK";
+            this.lblStatsATK.Size = new System.Drawing.Size(38, 15);
+            this.lblStatsATK.TabIndex = 17;
+            this.lblStatsATK.Text = "9999";
+            // 
+            // lblStatsDEF
+            // 
+            this.lblStatsDEF.BackColor = System.Drawing.Color.Black;
+            this.lblStatsDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsDEF.ForeColor = System.Drawing.Color.White;
+            this.lblStatsDEF.Location = new System.Drawing.Point(102, 72);
+            this.lblStatsDEF.Name = "lblStatsDEF";
+            this.lblStatsDEF.Size = new System.Drawing.Size(38, 15);
+            this.lblStatsDEF.TabIndex = 19;
+            this.lblStatsDEF.Text = "9999";
+            // 
+            // lblStatsDEFLabel
+            // 
+            this.lblStatsDEFLabel.BackColor = System.Drawing.Color.Black;
+            this.lblStatsDEFLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsDEFLabel.ForeColor = System.Drawing.Color.White;
+            this.lblStatsDEFLabel.Location = new System.Drawing.Point(73, 72);
+            this.lblStatsDEFLabel.Name = "lblStatsDEFLabel";
+            this.lblStatsDEFLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsDEFLabel.TabIndex = 18;
+            this.lblStatsDEFLabel.Text = "DEF";
+            this.lblStatsDEFLabel.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // lblStatsLP
+            // 
+            this.lblStatsLP.BackColor = System.Drawing.Color.Black;
+            this.lblStatsLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsLP.ForeColor = System.Drawing.Color.White;
+            this.lblStatsLP.Location = new System.Drawing.Point(172, 72);
+            this.lblStatsLP.Name = "lblStatsLP";
+            this.lblStatsLP.Size = new System.Drawing.Size(36, 15);
+            this.lblStatsLP.TabIndex = 21;
+            this.lblStatsLP.Text = "9999";
+            // 
+            // lblStatsLPLabel
+            // 
+            this.lblStatsLPLabel.BackColor = System.Drawing.Color.Black;
+            this.lblStatsLPLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsLPLabel.ForeColor = System.Drawing.Color.White;
+            this.lblStatsLPLabel.Location = new System.Drawing.Point(143, 72);
+            this.lblStatsLPLabel.Name = "lblStatsLPLabel";
+            this.lblStatsLPLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsLPLabel.TabIndex = 20;
+            this.lblStatsLPLabel.Text = "LP";
+            this.lblStatsLPLabel.Click += new System.EventHandler(this.label5_Click);
             // 
             // BoardForm
             // 
@@ -1352,12 +1382,10 @@
             this.PanelDebug.PerformLayout();
             this.PanelCardInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.PicDefender.ResumeLayout(false);
-            this.PicDefender2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).EndInit();
             this.PicAttacker.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).EndInit();
+            this.PicDefender2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1389,7 +1417,7 @@
         private System.Windows.Forms.Label lblCardLevel;
         private System.Windows.Forms.Label lblCardType;
         private System.Windows.Forms.Label lblAttribute;
-        private System.Windows.Forms.Label lblStats;
+        private System.Windows.Forms.Label lblStatsATKLabel;
         private System.Windows.Forms.Label lblCardText;
         private System.Windows.Forms.Label lblMouseCords;
         private System.Windows.Forms.Panel PanelBlueCrests;
@@ -1452,13 +1480,15 @@
         private System.Windows.Forms.Panel PanelDefenderAdvBonus;
         private System.Windows.Forms.Label lblAttackerCrestCount;
         private System.Windows.Forms.Label lblDefenderCrestCount;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel PicDefender;
         private System.Windows.Forms.Panel PicAttacker;
         private System.Windows.Forms.PictureBox PicAttackerDestroyed;
+        private System.Windows.Forms.Button btnEndBattle;
         private System.Windows.Forms.Panel PicDefender2;
         private System.Windows.Forms.PictureBox PicDefenderDestroyed;
-        private System.Windows.Forms.Button btnEndBattle;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblStatsDEF;
+        private System.Windows.Forms.Label lblStatsDEFLabel;
+        private System.Windows.Forms.Label lblStatsATK;
+        private System.Windows.Forms.Label lblStatsLP;
+        private System.Windows.Forms.Label lblStatsLPLabel;
     }
 }

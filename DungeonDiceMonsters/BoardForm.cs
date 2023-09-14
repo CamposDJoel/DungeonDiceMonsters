@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -243,8 +244,9 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.IsOccupied)
             {
                 //Get the CardInfo object to populate the UI
-                CardInfo thisCard = _CurrentTileSelected.CardInPlace.Info;
-                int cardID = thisCard.ID;
+                Card thisCard = _CurrentTileSelected.CardInPlace;
+
+                int cardID = thisCard.CardID;
 
                 //Set the Panel Back Color based on whose the card owner
                 if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
@@ -263,15 +265,15 @@ namespace DungeonDiceMonsters
                 lblCardName.Text = thisCard.Name;
 
                 string secondaryType = "";
-                if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
-                if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
+                if (thisCard.Info.IsFusion) { secondaryType = "/Fusion"; }
+                if (thisCard.Info.IsRitual) { secondaryType = "/Ritual"; }
                 if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
                 if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
 
 
-                lblCardType.Text = thisCard.Type + secondaryType;
+                lblCardType.Text = thisCard.Info.Type + secondaryType;
 
-                if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+                if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
                 else { lblCardLevel.Text = ""; }
 
                 if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
@@ -279,11 +281,30 @@ namespace DungeonDiceMonsters
 
                 if (thisCard.Category == "Monster")
                 {
-                    lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
-                }
-                else { lblStats.Text = ""; }
+                    lblStatsATK.Text = thisCard.ATK.ToString();
+                    lblStatsDEF.Text = thisCard.DEF.ToString();
+                    lblStatsLP.Text = thisCard.LP.ToString();
 
-                lblCardText.Text = thisCard.CardText;
+                    if (thisCard.ATK > thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Green; }
+                    else if (thisCard.ATK < thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Red; }
+                    else { lblStatsATK.ForeColor = Color.White; }
+
+                    if (thisCard.DEF > thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Green; }
+                    else if (thisCard.DEF < thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Red; }
+                    else { lblStatsDEF.ForeColor = Color.White; }
+
+                    if (thisCard.LP > thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Green; }
+                    else if (thisCard.LP < thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Red; }
+                    else { lblStatsLP.ForeColor = Color.White; }
+                }
+                else 
+                { 
+                    lblStatsATK.Text = "";
+                    lblStatsDEF.Text = "";
+                    lblStatsLP.Text = "";
+                }
+
+                lblCardText.Text = thisCard.Info.CardText;
             }
             else
             {
@@ -296,7 +317,9 @@ namespace DungeonDiceMonsters
                 lblCardType.Text = "";
                 lblCardLevel.Text = "";
                 lblAttribute.Text = "";
-                lblStats.Text = "";
+                lblStatsATK.Text = "";
+                lblStatsDEF.Text = "";
+                lblStatsLP.Text = "";
                 lblCardText.Text = "";
             }
 
@@ -403,7 +426,7 @@ namespace DungeonDiceMonsters
 
             //Set the attacker's data
             Card Attacker = _CurrentTileSelected.CardInPlace;
-            PicAttacker.BackgroundImage.Dispose();
+            if(PicAttacker.BackgroundImage != null) { PicAttacker.BackgroundImage.Dispose(); }            
             PicAttacker.BackgroundImage = null;
             PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID);
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
@@ -413,7 +436,7 @@ namespace DungeonDiceMonsters
             Card Defender = _AttackTarger.CardInPlace;
             if(Defender.Category == "Monster")
             {
-                PicDefender2.BackgroundImage.Dispose();
+                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
                 PicDefender2.BackgroundImage = null;
                 PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID);
                 lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
@@ -422,7 +445,7 @@ namespace DungeonDiceMonsters
             else
             {
                 //TODO:
-                PicDefender2.BackgroundImage.Dispose();
+                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
                 PicDefender2.BackgroundImage = null;
                 PicDefender2.BackgroundImage = ImageServer.FullCardImage(0);
                 lblBattleMenuDEFLP.Text = "";
@@ -907,10 +930,10 @@ namespace DungeonDiceMonsters
                     //DO the damage animation
                     int iterations = damagetodealtomonster / 10;
                     int waittime = 0;
-                    if (iterations < 100) { waittime = 80; }
-                    else if (iterations < 200) { waittime = 50; }
-                    else if (iterations < 300) { waittime = 20; }
-                    else { waittime = 10; }
+                    if (iterations < 100) { waittime = 40; }
+                    else if (iterations < 200) { waittime = 30; }
+                    else if (iterations < 300) { waittime = 10; }
+                    else { waittime = 5; }
                     for (int i = 0; i < iterations; i++)
                     {
                         _AttackTarger.CardInPlace.ReduceLP(10);
@@ -938,10 +961,10 @@ namespace DungeonDiceMonsters
                         iterations = Damage / 10;
 
                         waittime = 0;
-                        if (iterations < 100) { waittime = 80; }
-                        else if (iterations < 200) { waittime = 50; }
-                        else if (iterations < 300) { waittime = 20; }
-                        else { waittime = 10; }
+                        if (iterations < 100) { waittime = 50; }
+                        else if (iterations < 200) { waittime = 30; }
+                        else if (iterations < 300) { waittime = 10; }
+                        else { waittime = 5; }
 
                         for (int i = 0; i < iterations; i++)
                         {
@@ -979,6 +1002,21 @@ namespace DungeonDiceMonsters
             _CurrentTileSelected.Leave();
             PanelBattleMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
+        }
+
+        private void PanelBoard_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
