@@ -53,6 +53,18 @@ namespace DungeonDiceMonsters
                 int X_Location = 2;
                 for (int y = 0; y < 13; y++)
                 {
+                    //Create the ATK/DEF label
+                    Label statsLabel = new Label();
+                    PanelBoard.Controls.Add(statsLabel);
+                    statsLabel.Location = new Point(X_Location + 2, Y_Location + 34);
+                    statsLabel.Size = new Size(42, 10);
+                    statsLabel.BorderStyle = BorderStyle.None;
+                    statsLabel.ForeColor = Color.White;
+                    statsLabel.Font = new Font("Calibri", 6);
+                    statsLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    statsLabel.Visible = false;
+                    statsLabel.Text = "9999/9999";
+
                     //Create each inside picture box
                     PictureBox insidePicture = new PictureBox();
                     PanelBoard.Controls.Add(insidePicture);
@@ -76,7 +88,7 @@ namespace DungeonDiceMonsters
                     borderPicture.BackColor = Color.Transparent;
 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture));
+                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
 
                     //update the Tile ID for the next one
                     tileId++;
@@ -600,7 +612,7 @@ namespace DungeonDiceMonsters
                     //Move the card to this location
                     Card thiscard = _CurrentTileSelected.CardInPlace;
 
-                    _Tiles[tileId].MoveCard(thiscard);
+                    _Tiles[tileId].MoveInCard(thiscard);
                     _CurrentTileSelected.RemoveCard();
 
                     //Now clear the borders of all the candidates tiles to their og color
@@ -718,7 +730,7 @@ namespace DungeonDiceMonsters
             Card thiscard = _CurrentTileSelected.CardInPlace;
             _CurrentTileSelected.Leave();
             _CurrentTileSelected.RemoveCard();
-            _InitialTileMove.MoveCard(thiscard);
+            _InitialTileMove.MoveInCard(thiscard);
 
             //Change the _current Selected card back to OG
             _CurrentTileSelected = _InitialTileMove;

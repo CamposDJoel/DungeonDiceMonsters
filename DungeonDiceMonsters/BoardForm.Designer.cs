@@ -124,6 +124,7 @@
             this.PicAttacker = new System.Windows.Forms.Panel();
             this.PicAttackerDestroyed = new System.Windows.Forms.PictureBox();
             this.btnEndBattle = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -164,6 +165,7 @@
             this.PanelBoard.AutoScroll = true;
             this.PanelBoard.BackColor = System.Drawing.Color.Black;
             this.PanelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBoard.Controls.Add(this.label1);
             this.PanelBoard.Controls.Add(this.PanelAttackMenu);
             this.PanelBoard.Controls.Add(this.PanelMoveMenu);
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
@@ -1294,6 +1296,14 @@
             this.btnEndBattle.Visible = false;
             this.btnEndBattle.Click += new System.EventHandler(this.btnEndBattle_Click);
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(122, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(42, 10);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "label1";
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1449,5 +1459,6 @@
         private System.Windows.Forms.Panel PicDefender2;
         private System.Windows.Forms.PictureBox PicDefenderDestroyed;
         private System.Windows.Forms.Button btnEndBattle;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -10,10 +10,11 @@ namespace DungeonDiceMonsters
 {
     public class Tile
     {
-        public Tile(PictureBox inside, PictureBox border)
+        public Tile(PictureBox inside, PictureBox border, Label statsLabel)
         {
             _Border = border;
             _CardImage = inside;
+            _StatsLabel = statsLabel;
         }
 
         //Public Methods
@@ -80,12 +81,30 @@ namespace DungeonDiceMonsters
             _Occupied = true;
             _IsSummonTile = true;
             _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+            if(card.Category == "Monster")
+            {
+                _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
+                _StatsLabel.Visible = true;
+            }
+            else
+            {
+                _StatsLabel.Visible = true;
+            }
         }
-        public void MoveCard(Card card)
+        public void MoveInCard(Card card)
         {
             _card = card;
             _Occupied = true;
             _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+            if (card.Category == "Monster")
+            {
+                _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
+                _StatsLabel.Visible = true;
+            }
+            else
+            {
+                _StatsLabel.Visible = true;
+            }
         }
         public void RemoveCard()
         {
@@ -93,6 +112,7 @@ namespace DungeonDiceMonsters
             _Occupied = false;
             _CardImage.Image.Dispose();
             _CardImage.Image = null;
+            _StatsLabel.Visible  =false;
         }
         public void DestroyCard()
         {
@@ -101,6 +121,7 @@ namespace DungeonDiceMonsters
             _Occupied = false;
             _CardImage.Image.Dispose();
             _CardImage.Image = null;
+            _StatsLabel.Visible = false;
         }
         public List<Tile> GetAttackTargerCandidates(PlayerOwner enemy)
         {
@@ -201,6 +222,7 @@ namespace DungeonDiceMonsters
         //Private data
         private PictureBox _Border;
         private PictureBox _CardImage;
+        private Label _StatsLabel;
         private bool _Occupied = false;
         private bool _IsSummonTile = false;
         private Card _card = null;
