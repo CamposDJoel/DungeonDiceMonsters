@@ -14,6 +14,7 @@ namespace DungeonDiceMonsters
 
         public string Name { get{ return _name;} }
         public int LP { get{ return _lp;} }
+        public Deck Deck { get { return _deck;} }
 
         public int Crests_MOV { get { return _MoveCrests; } }
         public int Crests_ATK { get { return _AttackCrests; } }

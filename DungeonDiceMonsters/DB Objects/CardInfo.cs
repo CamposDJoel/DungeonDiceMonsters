@@ -2,14 +2,6 @@
 //9/1/2023
 //CardInfo Class
 
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-
 namespace DungeonDiceMonsters
 {
     public class CardInfo
@@ -48,6 +40,22 @@ namespace DungeonDiceMonsters
             values[5] = diceinfo.value6;
 
             _DiceInfo = new DiceInfo(diceinfo.level, crests, values);
+        }
+        public CardInfo(string attribute)
+        {
+            _ID = 0;
+            _Name = attribute + " Symbol";
+            _Level = 1;
+            _Attribute = attribute;
+            _Type = "Symbol";
+            _Category = "Symbol";
+            _ATK = 0;
+            _DEF = 0;
+            _LP = 8000;
+            _SetPack = "NONE";
+            _Rarity = "Common";
+            _IsFusion = false;
+            _CardText = "Increase the ATK of all your " + Attribute + " monsters on the board by 200.";
         }
 
         public int ID { get { return _ID; } }

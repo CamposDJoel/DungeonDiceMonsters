@@ -37,5 +37,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Symbols\\" + symbol + ".png");
         }
+        public static Image FullCardSymbol(string symbol)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + symbol + " Symbol.jpeg");
+        }
     }
 }

@@ -67,7 +67,6 @@ namespace DungeonDiceMonsters
         }
         public void Leave()
         {
-            _Border.BackColor = Color.Transparent;
             SetTileColor();
         }
         public void ChangeOwner(PlayerOwner owner)
@@ -80,7 +79,18 @@ namespace DungeonDiceMonsters
             _card = card;
             _Occupied = true;
             _IsSummonTile = true;
-            _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+
+            if(_card.IsASymbol)
+            {
+                if(_CardImage.Image != null) { _CardImage.Image.Dispose(); }
+                _CardImage.Image = ImageServer.Symbol(card.Attribute);
+            }
+            else
+            {
+                if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
+                _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+            }
+
             if(card.Category == "Monster")
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
@@ -95,6 +105,7 @@ namespace DungeonDiceMonsters
         {
             _card = card;
             _Occupied = true;
+            if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
             _CardImage.Image = ImageServer.CardArtworkImage(0);
             _StatsLabel.SendToBack();
         }
@@ -103,7 +114,11 @@ namespace DungeonDiceMonsters
             _card = card;
             _Occupied = true;
             if (_card.IsFaceDown) { _CardImage.Image = ImageServer.CardArtworkImage(0); }
-            else { _CardImage.Image = ImageServer.CardArtworkImage(card.CardID); }
+            else 
+            { 
+                if(_card.IsASymbol) { _CardImage.Image = ImageServer.Symbol(_card.Attribute); }
+                else { _CardImage.Image = ImageServer.CardArtworkImage(card.CardID); }
+            }
             if (card.Category == "Monster")
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
@@ -157,21 +172,30 @@ namespace DungeonDiceMonsters
                     }
                 break;
                 case TileDirection.South:
+                    if (HasAnAdjecentTile(TileDirection.South))
+                    {
                         if (_SouthTile.IsOccupied)
                         {
                             if (_SouthTile.CardInPlace.Owner == enemy) { hasIt = true; }
                         }
+                    }
                     break;
                 case TileDirection.East:
-                    if (_EastTile.IsOccupied)
+                    if (HasAnAdjecentTile(TileDirection.East))
                     {
-                        if (_EastTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        if (_EastTile.IsOccupied)
+                        {
+                            if (_EastTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        }
                     }
                     break;
                 case TileDirection.West:
-                    if (_WestTile.IsOccupied)
+                    if (HasAnAdjecentTile(TileDirection.West))
                     {
-                        if (_WestTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        if (_WestTile.IsOccupied)
+                        {
+                            if (_WestTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                        }
                     }
                     break;
             }
@@ -184,17 +208,15 @@ namespace DungeonDiceMonsters
         {
             switch (_Owner)
             {
-                case PlayerOwner.None: _CardImage.BackColor = Color.Transparent; break;
-                case PlayerOwner.Red: _CardImage.BackColor = Color.DarkRed; break;
-                case PlayerOwner.Blue: _CardImage.BackColor = Color.DarkBlue; break;
+                case PlayerOwner.None: _CardImage.BackColor = Color.Transparent; _Border.BackColor = Color.Transparent; break;
+                case PlayerOwner.Red: _CardImage.BackColor = Color.DarkRed; _Border.BackColor = Color.DarkRed; break;
+                case PlayerOwner.Blue: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
             }
 
             if( _IsSummonTile ) 
             {
                 _CardImage.BackColor = Color.Orange;
             }
-
-            _Border.BackColor = Color.Transparent;
         }
         public void MarkFreeToMove()
         {
