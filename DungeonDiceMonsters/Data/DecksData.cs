@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DungeonDiceMonsters
 {
     public static class DecksData
     {
-        public static List<Deck> Decks = new List<Deck>();
+        public static Deck[] Decks = new Deck[3];
 
         public static bool HasOneReadyDeck()
         {
@@ -23,11 +24,6 @@ namespace DungeonDiceMonsters
 
     public class Deck
     {
-        public Deck(string name)
-        {
-            _name = name;
-        }
-
         public int GetMainCardIDAtIndex(int index)
         {
             return _CardList[index];
@@ -57,7 +53,10 @@ namespace DungeonDiceMonsters
         {
             _FusionList.RemoveAt(index);
         }
-
+        public void ChangeSymbol(string symbol)
+        {
+            _Symbol = symbol;
+        }
         public int GetCardCount(int cardId)
         {
             int count = 0;
@@ -68,10 +67,10 @@ namespace DungeonDiceMonsters
             return count;
         }
 
-        public string Name { get { return _name; } }
         public int MainDeckSize { get { return _CardList.Count; } }
         public int FusionDeckSize { get { return _FusionList.Count; } }
         public int MonsterCardsCount { get { return _MonsterCardCount; } }
+        public string Symbol { get { return _Symbol; } }
 
         public bool UseStatus { 
             get 
@@ -80,9 +79,9 @@ namespace DungeonDiceMonsters
             } 
         }
 
-        private string _name;
         private List<int> _CardList = new List<int>();
         private List<int> _FusionList = new List<int>();
         private int _MonsterCardCount = 0;
+        private string _Symbol = "DARK";
     }
 }

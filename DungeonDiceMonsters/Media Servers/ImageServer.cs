@@ -32,5 +32,10 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Characters\\" + c + ".png");
         }
+
+        public static Image Symbol(string symbol)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Symbols\\" + symbol + ".png");
+        }
     }
 }

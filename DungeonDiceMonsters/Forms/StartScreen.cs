@@ -93,7 +93,9 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             //To start a new game, give the player the starter deck and a sample card in storage
-            DecksData.Decks.Add(new Deck("Starter Deck"));
+            DecksData.Decks[0] = new Deck();
+            DecksData.Decks[1] = new Deck();
+            DecksData.Decks[2] = new Deck();
 
             DecksData.Decks[0].AddMainCard(1);
             DecksData.Decks[0].AddMainCard(1);

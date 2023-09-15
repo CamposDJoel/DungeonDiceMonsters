@@ -15,21 +15,12 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, true);
             InitializeComponent();
-         
-            //Initialize the Deck List Selector
-            listDeckList.Items.Clear();
-            foreach (Deck deck in DecksData.Decks)
-            {
-                listDeckList.Items.Add(deck.Name);
-            }
-            _SkipForDeckSelectReload = true;
-            listDeckList.SetSelected(0, true);
-            _SkipForDeckSelectReload = false;
-            _CurrentDeckSelected = DecksData.Decks[0];
 
-            
+            //Initialize the Deck List Selector
+            _CurrentDeckSelected = DecksData.Decks[0];
             InitializeStorageComponents();
             InitializeDeckComponents();
+            listDeckList.SetSelected(0, true);
 
             for (int x = 0; x < 30; x++)
             {
@@ -247,8 +238,13 @@ namespace DungeonDiceMonsters
                 }
             }
 
+            //Update the Symbol
+            _CurrentSymbolSelection = _CurrentDeckSelected.Symbol;
+            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
+
             //Set the Ready flag
-            if(PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
+            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
         }
         private void LoadCardInfoPanel()
@@ -357,10 +353,11 @@ namespace DungeonDiceMonsters
         private Deck _CurrentDeckSelected = null;
         private int _CurrentStorageIndexSelected = 0;
         private int _CurrentDeckIndexSelected = 0;
-        private bool _SkipForDeckSelectReload = false;
 
         private int[] _StorageIDsInCurrentPage = new int[30];
         private int[] _DeckIDsInCurrentPage = new int[30];
+
+        private string _CurrentSymbolSelection = "DARK";
 
 
         private void StorageCard_click(object sender, EventArgs e)
@@ -514,9 +511,6 @@ namespace DungeonDiceMonsters
             //Reload the Deck Status
             if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
-
-            //Override the save file to save the changes
-            SaveFileManger.WriteSaveFile();
         }
         private void PicToStoArrow_Click(object sender, EventArgs e)
         {
@@ -548,9 +542,6 @@ namespace DungeonDiceMonsters
             //Reload the Deck Status
             if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
-
-            //Override the save file to save the changes
-            SaveFileManger.WriteSaveFile();
         }
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -558,40 +549,94 @@ namespace DungeonDiceMonsters
             _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
             _CurrentDeckSelected = DecksData.Decks[_CurrentDeckIndexSelected];
 
-            if(!_SkipForDeckSelectReload)
-            {
-                //Reload both sides
-                LoadDeckPage();
+            //Reload both sides
+            LoadDeckPage();
 
-                //Hide both arrows until another selection is clicked
-                PicToDeckArrow.Visible = false;
-                PicToStoArrow.Visible = false;
-            }
+            //Hide both arrows until another selection is clicked
+            PicToDeckArrow.Visible = false;
+            PicToStoArrow.Visible = false;
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
-            //Dispose the images of all cards
-            for (int x = 0; x < 23; x++)
+            if(DecksData.HasOneReadyDeck())
             {
-                if (_DeckCardImageList[x].Image != null)
+                //Override the save file to save the changes
+                SaveFileManger.WriteSaveFile();
+
+                //Dispose the images of all cards
+                for (int x = 0; x < 23; x++)
                 {
-                    _DeckCardImageList[x].Image.Dispose();
+                    if (_DeckCardImageList[x].Image != null)
+                    {
+                        _DeckCardImageList[x].Image.Dispose();
+                    }
                 }
-            }
 
-            for (int x = 0; x < 30; x++)
+                for (int x = 0; x < 30; x++)
+                {
+                    if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+                }
+
+                SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, false);
+                MainMenu MM = new MainMenu();
+                Dispose();
+                MM.Show();
+            }
+            else
             {
-                if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                lblSaveDeckOutput.Visible = true;
+                btnExit.Visible = false;
+                BoardForm.WaitNSeconds(1000);
+                lblSaveDeckOutput.Visible = false;
+                btnExit.Visible = true;
             }
-
-            SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, false);
-            MainMenu MM = new MainMenu();
-            Dispose();
-            MM.Show();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnSymbolPrevious_Click(object sender, EventArgs e)
+        {
+            switch(_CurrentSymbolSelection)
+            {
+                case "DARK": _CurrentSymbolSelection = "WIND"; break;
+                case "LIGHT": _CurrentSymbolSelection = "DARK"; break;
+                case "WATER": _CurrentSymbolSelection = "LIGHT"; break;
+                case "FIRE": _CurrentSymbolSelection = "WATER"; break;
+                case "EARTH": _CurrentSymbolSelection = "FIRE"; break;
+                case "WIND": _CurrentSymbolSelection = "EARTH"; break;
+                default:
+                    throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
+            }
+
+            //Update the image
+            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
+
+            _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
+        }
+
+        private void btnSymbolNext_Click(object sender, EventArgs e)
+        {
+            switch (_CurrentSymbolSelection)
+            {
+                case "DARK": _CurrentSymbolSelection = "LIGHT"; break;
+                case "LIGHT": _CurrentSymbolSelection = "WATER"; break;
+                case "WATER": _CurrentSymbolSelection = "FIRE"; break;
+                case "FIRE": _CurrentSymbolSelection = "EARTH"; break;
+                case "EARTH": _CurrentSymbolSelection = "WIND"; break;
+                case "WIND": _CurrentSymbolSelection = "DARK"; break;
+                default:
+                    throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
+            }
+
+            //Update the image
+            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
+
+            _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
     }
 }

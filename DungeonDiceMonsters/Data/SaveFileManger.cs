@@ -1,10 +1,10 @@
-﻿using System;
+﻿//Joel Campos
+//9/15/2023
+//Save File Manager Class
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.LinkLabel;
 
 namespace DungeonDiceMonsters
 {
@@ -15,11 +15,8 @@ namespace DungeonDiceMonsters
             //This will hold the actual data. Each item in the list will be a line in the save file
             List<string> Lines = new List<string>();
 
-            //Line[0] : The amount of decks saved.
-            Lines.Add(DecksData.Decks.Count.ToString());
-
-            //Line[1 - d] Where d is the int value of line [0] : each line will hold the card list of each deck
-            for (int x = 0; x < DecksData.Decks.Count; x++)
+            //Line[0-1-2] : each line will hold the card list of each deck
+            for (int x = 0; x < DecksData.Decks.Length; x++)
             {
                 string deckData = "";
                 for (int y = 0; y < 20; y++)
@@ -45,7 +42,9 @@ namespace DungeonDiceMonsters
                         deckData = deckData + DecksData.Decks[x].GetFusionCardIDAtIndex(y) + "|";
                     }
                 }
-                deckData = deckData + DecksData.Decks[x].Name;
+
+                //Set symbol
+                deckData = deckData + DecksData.Decks[x].Symbol;
                 Lines.Add(deckData);
             }
 
@@ -71,12 +70,8 @@ namespace DungeonDiceMonsters
             string[] Tokens = new string[1];
             string[] Separator = new string[] { "|" };
 
-            //Line[0] : The amount of decks s
-            Line = SR_SaveFile.ReadLine();
-            int totalDecks = Convert.ToInt32(Line);
-
-            //Line[1 - d] Where d is the int value of line [0] : each line will hold the card list of each deck
-            for (int x = 0; x < totalDecks; x++)
+            //Line[0-1-2]: each line will hold the card list of each deck
+            for (int x = 0; x < DecksData.Decks.Length; x++)
             {
                 Line = SR_SaveFile.ReadLine();
                 Tokens = new string[1];
@@ -84,8 +79,9 @@ namespace DungeonDiceMonsters
                 Tokens = Line.Split(Separator, StringSplitOptions.None);
 
                 //Initialize the 20 cards in the deck
-                string deckname = Tokens[23];
-                DecksData.Decks.Add(new Deck(deckname));
+                string symbol = Tokens[23];
+                DecksData.Decks[x] = new Deck();
+                DecksData.Decks[x].ChangeSymbol(symbol);
 
                 for(int y = 0; y < 20; y++) 
                 {
@@ -105,7 +101,7 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //Line[d + 1] : The list of cards in the storage
+            //Line[3] : The list of cards in the storage
             Line = SR_SaveFile.ReadLine();
             Tokens = new string[1];
             //Separate all the tokens

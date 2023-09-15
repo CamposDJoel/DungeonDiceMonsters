@@ -139,5 +139,10 @@ namespace DungeonDiceMonsters
             Dispose();
             BF.Show();
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

@@ -30,8 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeckBuilder));
             this.PanelDeck = new System.Windows.Forms.Panel();
+            this.btnSymbolNext = new System.Windows.Forms.Button();
+            this.btnSymbolPrevious = new System.Windows.Forms.Button();
+            this.PicSymbol = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblFusion = new System.Windows.Forms.Label();
-            this.lblDeck = new System.Windows.Forms.Label();
+            this.lblDeckName = new System.Windows.Forms.Label();
             this.lblStorage = new System.Windows.Forms.Label();
             this.PanelStorage = new System.Windows.Forms.Panel();
             this.btnPrevious = new System.Windows.Forms.Button();
@@ -59,7 +63,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.PicDeckStatus = new System.Windows.Forms.PictureBox();
             this.btnExit = new System.Windows.Forms.Button();
+            this.lblSaveDeckOutput = new System.Windows.Forms.Label();
             this.PanelDeck.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
             this.GroupDiceInfo.SuspendLayout();
@@ -78,11 +84,61 @@
             // 
             this.PanelDeck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.PanelDeck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDeck.Controls.Add(this.btnSymbolNext);
+            this.PanelDeck.Controls.Add(this.btnSymbolPrevious);
+            this.PanelDeck.Controls.Add(this.PicSymbol);
+            this.PanelDeck.Controls.Add(this.label2);
             this.PanelDeck.Controls.Add(this.lblFusion);
-            this.PanelDeck.Location = new System.Drawing.Point(10, 32);
+            this.PanelDeck.Location = new System.Drawing.Point(10, 36);
             this.PanelDeck.Name = "PanelDeck";
             this.PanelDeck.Size = new System.Drawing.Size(299, 395);
             this.PanelDeck.TabIndex = 0;
+            // 
+            // btnSymbolNext
+            // 
+            this.btnSymbolNext.BackColor = System.Drawing.Color.Black;
+            this.btnSymbolNext.ForeColor = System.Drawing.Color.White;
+            this.btnSymbolNext.Location = new System.Drawing.Point(276, 337);
+            this.btnSymbolNext.Name = "btnSymbolNext";
+            this.btnSymbolNext.Size = new System.Drawing.Size(20, 20);
+            this.btnSymbolNext.TabIndex = 4;
+            this.btnSymbolNext.Text = ">";
+            this.btnSymbolNext.UseVisualStyleBackColor = false;
+            this.btnSymbolNext.Click += new System.EventHandler(this.btnSymbolNext_Click);
+            // 
+            // btnSymbolPrevious
+            // 
+            this.btnSymbolPrevious.BackColor = System.Drawing.Color.Black;
+            this.btnSymbolPrevious.ForeColor = System.Drawing.Color.White;
+            this.btnSymbolPrevious.Location = new System.Drawing.Point(179, 337);
+            this.btnSymbolPrevious.Name = "btnSymbolPrevious";
+            this.btnSymbolPrevious.Size = new System.Drawing.Size(20, 20);
+            this.btnSymbolPrevious.TabIndex = 3;
+            this.btnSymbolPrevious.Text = "<";
+            this.btnSymbolPrevious.UseVisualStyleBackColor = false;
+            this.btnSymbolPrevious.Click += new System.EventHandler(this.btnSymbolPrevious_Click);
+            // 
+            // PicSymbol
+            // 
+            this.PicSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicSymbol.Image = ((System.Drawing.Image)(resources.GetObject("PicSymbol.Image")));
+            this.PicSymbol.Location = new System.Drawing.Point(200, 313);
+            this.PicSymbol.Name = "PicSymbol";
+            this.PicSymbol.Size = new System.Drawing.Size(75, 75);
+            this.PicSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicSymbol.TabIndex = 2;
+            this.PicSymbol.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(197, 297);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Symbol:";
             // 
             // lblFusion
             // 
@@ -95,16 +151,16 @@
             this.lblFusion.TabIndex = 0;
             this.lblFusion.Text = "Fusion Cards:";
             // 
-            // lblDeck
+            // lblDeckName
             // 
-            this.lblDeck.BackColor = System.Drawing.Color.Transparent;
-            this.lblDeck.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeck.ForeColor = System.Drawing.Color.White;
-            this.lblDeck.Location = new System.Drawing.Point(10, 1);
-            this.lblDeck.Name = "lblDeck";
-            this.lblDeck.Size = new System.Drawing.Size(215, 28);
-            this.lblDeck.TabIndex = 1;
-            this.lblDeck.Text = "My Deck:";
+            this.lblDeckName.BackColor = System.Drawing.Color.Transparent;
+            this.lblDeckName.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeckName.ForeColor = System.Drawing.Color.White;
+            this.lblDeckName.Location = new System.Drawing.Point(10, 1);
+            this.lblDeckName.Name = "lblDeckName";
+            this.lblDeckName.Size = new System.Drawing.Size(215, 28);
+            this.lblDeckName.TabIndex = 1;
+            this.lblDeckName.Text = "My Deck:";
             // 
             // lblStorage
             // 
@@ -121,7 +177,7 @@
             // 
             this.PanelStorage.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.PanelStorage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelStorage.Location = new System.Drawing.Point(419, 32);
+            this.PanelStorage.Location = new System.Drawing.Point(419, 37);
             this.PanelStorage.Name = "PanelStorage";
             this.PanelStorage.Size = new System.Drawing.Size(354, 374);
             this.PanelStorage.TabIndex = 2;
@@ -131,9 +187,9 @@
             this.btnPrevious.BackColor = System.Drawing.Color.Transparent;
             this.btnPrevious.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.BackgroundImage")));
             this.btnPrevious.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPrevious.Location = new System.Drawing.Point(421, 407);
+            this.btnPrevious.Location = new System.Drawing.Point(421, 412);
             this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(88, 28);
+            this.btnPrevious.Size = new System.Drawing.Size(88, 25);
             this.btnPrevious.TabIndex = 4;
             this.btnPrevious.Text = "Previous";
             this.btnPrevious.UseVisualStyleBackColor = false;
@@ -143,9 +199,9 @@
             // 
             this.btnNext.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNext.BackgroundImage")));
             this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnNext.Location = new System.Drawing.Point(685, 408);
+            this.btnNext.Location = new System.Drawing.Point(685, 413);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(88, 28);
+            this.btnNext.Size = new System.Drawing.Size(88, 25);
             this.btnNext.TabIndex = 5;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
@@ -155,7 +211,7 @@
             // 
             this.PicToDeckArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PicToDeckArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToDeckArrow.Image")));
-            this.PicToDeckArrow.Location = new System.Drawing.Point(329, 98);
+            this.PicToDeckArrow.Location = new System.Drawing.Point(329, 161);
             this.PicToDeckArrow.Name = "PicToDeckArrow";
             this.PicToDeckArrow.Size = new System.Drawing.Size(66, 70);
             this.PicToDeckArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -168,7 +224,7 @@
             // 
             this.PicToStoArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PicToStoArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToStoArrow.Image")));
-            this.PicToStoArrow.Location = new System.Drawing.Point(329, 185);
+            this.PicToStoArrow.Location = new System.Drawing.Point(329, 248);
             this.PicToStoArrow.Name = "PicToStoArrow";
             this.PicToStoArrow.Size = new System.Drawing.Size(66, 70);
             this.PicToStoArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -360,9 +416,13 @@
             // listDeckList
             // 
             this.listDeckList.FormattingEnabled = true;
-            this.listDeckList.Location = new System.Drawing.Point(105, 1);
+            this.listDeckList.Items.AddRange(new object[] {
+            "DECK A",
+            "DECK B",
+            "DECK C"});
+            this.listDeckList.Location = new System.Drawing.Point(322, 33);
             this.listDeckList.Name = "listDeckList";
-            this.listDeckList.Size = new System.Drawing.Size(120, 30);
+            this.listDeckList.Size = new System.Drawing.Size(86, 43);
             this.listDeckList.TabIndex = 9;
             this.listDeckList.SelectedIndexChanged += new System.EventHandler(this.listDeckList_SelectedIndexChanged);
             // 
@@ -370,17 +430,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(231, 7);
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(309, 79);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 20);
+            this.label1.Size = new System.Drawing.Size(91, 20);
             this.label1.TabIndex = 10;
             this.label1.Text = "Ready to use:";
             // 
             // PicDeckStatus
             // 
             this.PicDeckStatus.BackColor = System.Drawing.Color.Transparent;
-            this.PicDeckStatus.Location = new System.Drawing.Point(326, 6);
+            this.PicDeckStatus.Location = new System.Drawing.Point(396, 79);
             this.PicDeckStatus.Name = "PicDeckStatus";
             this.PicDeckStatus.Size = new System.Drawing.Size(22, 22);
             this.PicDeckStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -392,13 +452,25 @@
             this.btnExit.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnExit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnExit.Location = new System.Drawing.Point(667, 4);
+            this.btnExit.Location = new System.Drawing.Point(640, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(105, 22);
+            this.btnExit.Size = new System.Drawing.Size(132, 22);
             this.btnExit.TabIndex = 12;
-            this.btnExit.Text = "EXIT";
+            this.btnExit.Text = "SAVE AND EXIT";
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // lblSaveDeckOutput
+            // 
+            this.lblSaveDeckOutput.AutoSize = true;
+            this.lblSaveDeckOutput.BackColor = System.Drawing.Color.Transparent;
+            this.lblSaveDeckOutput.ForeColor = System.Drawing.Color.Red;
+            this.lblSaveDeckOutput.Location = new System.Drawing.Point(622, 23);
+            this.lblSaveDeckOutput.Name = "lblSaveDeckOutput";
+            this.lblSaveDeckOutput.Size = new System.Drawing.Size(159, 13);
+            this.lblSaveDeckOutput.TabIndex = 14;
+            this.lblSaveDeckOutput.Text = "Player must have 1 ready deck!!";
+            this.lblSaveDeckOutput.Visible = false;
             // 
             // DeckBuilder
             // 
@@ -407,6 +479,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.lblSaveDeckOutput);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.PicDeckStatus);
             this.Controls.Add(this.label1);
@@ -418,7 +491,7 @@
             this.Controls.Add(this.btnPrevious);
             this.Controls.Add(this.lblStorage);
             this.Controls.Add(this.PanelStorage);
-            this.Controls.Add(this.lblDeck);
+            this.Controls.Add(this.lblDeckName);
             this.Controls.Add(this.PanelDeck);
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -428,6 +501,7 @@
             this.Text = "DDM - Deck Builder Menu";
             this.PanelDeck.ResumeLayout(false);
             this.PanelDeck.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
             this.GroupDiceInfo.ResumeLayout(false);
@@ -449,7 +523,7 @@
         #endregion
 
         private System.Windows.Forms.Panel PanelDeck;
-        private System.Windows.Forms.Label lblDeck;
+        private System.Windows.Forms.Label lblDeckName;
         private System.Windows.Forms.Label lblStorage;
         private System.Windows.Forms.Panel PanelStorage;
         private System.Windows.Forms.Label lblFusion;
@@ -478,5 +552,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox PicDeckStatus;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox PicSymbol;
+        private System.Windows.Forms.Button btnSymbolNext;
+        private System.Windows.Forms.Button btnSymbolPrevious;
+        private System.Windows.Forms.Label lblSaveDeckOutput;
     }
 }

@@ -128,8 +128,8 @@
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtworkBottom = new System.Windows.Forms.PictureBox();
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -1347,15 +1347,6 @@
             this.PanelEndGameResults.TabIndex = 14;
             this.PanelEndGameResults.Visible = false;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(60, 51);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "You WIN!!!";
-            // 
             // btnExit
             // 
             this.btnExit.Location = new System.Drawing.Point(80, 109);
@@ -1366,6 +1357,15 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Visible = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(60, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "You WIN!!!";
             // 
             // BoardForm
             // 
@@ -1380,6 +1380,8 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.PanelBluePlayer);
             this.Controls.Add(this.PanelBoard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimizeBox = false;
             this.Name = "BoardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DDM - Board";

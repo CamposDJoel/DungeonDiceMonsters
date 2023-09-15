@@ -579,7 +579,7 @@ namespace DungeonDiceMonsters
             int X_Location = Cursor.Position.X;
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
-        private static void WaitNSeconds(double milliseconds)
+        public static void WaitNSeconds(double milliseconds)
         {
             if (milliseconds < 1) return;
             DateTime _desired = DateTime.Now.AddMilliseconds(milliseconds);
@@ -1053,6 +1053,10 @@ namespace DungeonDiceMonsters
             FreeDuelMenu FD = new FreeDuelMenu();
             Dispose();
             FD.Show();
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
