@@ -83,7 +83,6 @@
             this.PicBlueDEFImage = new System.Windows.Forms.PictureBox();
             this.lblBlueAtkCount = new System.Windows.Forms.Label();
             this.PicBlueATKImage = new System.Windows.Forms.PictureBox();
-            this.lblBlueMovCount = new System.Windows.Forms.Label();
             this.PicBlueMovImage = new System.Windows.Forms.PictureBox();
             this.lblBlueLP = new System.Windows.Forms.Label();
             this.lblLPLabel = new System.Windows.Forms.Label();
@@ -130,6 +129,9 @@
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblBlueMovCount = new System.Windows.Forms.Label();
+            this.PicBlueSymbol = new System.Windows.Forms.PictureBox();
+            this.PicRedSymbol = new System.Windows.Forms.PictureBox();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -162,6 +164,8 @@
             this.PanelCardInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBoard
@@ -729,6 +733,7 @@
             // 
             this.PanelBluePlayer.BackColor = System.Drawing.Color.MidnightBlue;
             this.PanelBluePlayer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelBluePlayer.Controls.Add(this.PicBlueSymbol);
             this.PanelBluePlayer.Controls.Add(this.PanelBlueCrests);
             this.PanelBluePlayer.Controls.Add(this.lblBlueLP);
             this.PanelBluePlayer.Controls.Add(this.lblLPLabel);
@@ -751,28 +756,28 @@
             this.PanelBlueCrests.Controls.Add(this.PicBlueATKImage);
             this.PanelBlueCrests.Controls.Add(this.lblBlueMovCount);
             this.PanelBlueCrests.Controls.Add(this.PicBlueMovImage);
-            this.PanelBlueCrests.Location = new System.Drawing.Point(7, 50);
+            this.PanelBlueCrests.Location = new System.Drawing.Point(3, 112);
             this.PanelBlueCrests.Name = "PanelBlueCrests";
-            this.PanelBlueCrests.Size = new System.Drawing.Size(86, 165);
+            this.PanelBlueCrests.Size = new System.Drawing.Size(134, 103);
             this.PanelBlueCrests.TabIndex = 3;
             // 
             // lblBlueTrapCount
             // 
             this.lblBlueTrapCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBlueTrapCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueTrapCount.Location = new System.Drawing.Point(42, 133);
+            this.lblBlueTrapCount.Location = new System.Drawing.Point(95, 71);
             this.lblBlueTrapCount.Name = "lblBlueTrapCount";
-            this.lblBlueTrapCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueTrapCount.Size = new System.Drawing.Size(46, 20);
             this.lblBlueTrapCount.TabIndex = 9;
-            this.lblBlueTrapCount.Text = "x 99";
+            this.lblBlueTrapCount.Text = "99";
             // 
             // PicBlueTrapImage
             // 
             this.PicBlueTrapImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicBlueTrapImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueTrapImage.Image")));
-            this.PicBlueTrapImage.Location = new System.Drawing.Point(5, 128);
+            this.PicBlueTrapImage.Location = new System.Drawing.Point(64, 66);
             this.PicBlueTrapImage.Name = "PicBlueTrapImage";
-            this.PicBlueTrapImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueTrapImage.Size = new System.Drawing.Size(27, 27);
             this.PicBlueTrapImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueTrapImage.TabIndex = 8;
             this.PicBlueTrapImage.TabStop = false;
@@ -781,19 +786,19 @@
             // 
             this.lblBlueMagCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBlueMagCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueMagCount.Location = new System.Drawing.Point(42, 102);
+            this.lblBlueMagCount.Location = new System.Drawing.Point(95, 40);
             this.lblBlueMagCount.Name = "lblBlueMagCount";
-            this.lblBlueMagCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueMagCount.Size = new System.Drawing.Size(46, 20);
             this.lblBlueMagCount.TabIndex = 7;
-            this.lblBlueMagCount.Text = "x 99";
+            this.lblBlueMagCount.Text = "99";
             // 
             // PicBlueMagImage
             // 
             this.PicBlueMagImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicBlueMagImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueMagImage.Image")));
-            this.PicBlueMagImage.Location = new System.Drawing.Point(5, 97);
+            this.PicBlueMagImage.Location = new System.Drawing.Point(64, 35);
             this.PicBlueMagImage.Name = "PicBlueMagImage";
-            this.PicBlueMagImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueMagImage.Size = new System.Drawing.Size(27, 27);
             this.PicBlueMagImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueMagImage.TabIndex = 6;
             this.PicBlueMagImage.TabStop = false;
@@ -802,19 +807,19 @@
             // 
             this.lblBlueDefCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBlueDefCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueDefCount.Location = new System.Drawing.Point(42, 71);
+            this.lblBlueDefCount.Location = new System.Drawing.Point(30, 72);
             this.lblBlueDefCount.Name = "lblBlueDefCount";
-            this.lblBlueDefCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueDefCount.Size = new System.Drawing.Size(46, 20);
             this.lblBlueDefCount.TabIndex = 5;
-            this.lblBlueDefCount.Text = "x 99";
+            this.lblBlueDefCount.Text = "99";
             // 
             // PicBlueDEFImage
             // 
             this.PicBlueDEFImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicBlueDEFImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueDEFImage.Image")));
-            this.PicBlueDEFImage.Location = new System.Drawing.Point(5, 66);
+            this.PicBlueDEFImage.Location = new System.Drawing.Point(3, 67);
             this.PicBlueDEFImage.Name = "PicBlueDEFImage";
-            this.PicBlueDEFImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueDEFImage.Size = new System.Drawing.Size(27, 27);
             this.PicBlueDEFImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueDEFImage.TabIndex = 4;
             this.PicBlueDEFImage.TabStop = false;
@@ -823,40 +828,30 @@
             // 
             this.lblBlueAtkCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBlueAtkCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueAtkCount.Location = new System.Drawing.Point(42, 40);
+            this.lblBlueAtkCount.Location = new System.Drawing.Point(30, 41);
             this.lblBlueAtkCount.Name = "lblBlueAtkCount";
-            this.lblBlueAtkCount.Size = new System.Drawing.Size(53, 20);
+            this.lblBlueAtkCount.Size = new System.Drawing.Size(46, 20);
             this.lblBlueAtkCount.TabIndex = 3;
-            this.lblBlueAtkCount.Text = "x 99";
+            this.lblBlueAtkCount.Text = "99";
             // 
             // PicBlueATKImage
             // 
             this.PicBlueATKImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicBlueATKImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueATKImage.Image")));
-            this.PicBlueATKImage.Location = new System.Drawing.Point(5, 35);
+            this.PicBlueATKImage.Location = new System.Drawing.Point(3, 36);
             this.PicBlueATKImage.Name = "PicBlueATKImage";
-            this.PicBlueATKImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueATKImage.Size = new System.Drawing.Size(27, 27);
             this.PicBlueATKImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueATKImage.TabIndex = 2;
             this.PicBlueATKImage.TabStop = false;
-            // 
-            // lblBlueMovCount
-            // 
-            this.lblBlueMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBlueMovCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueMovCount.Location = new System.Drawing.Point(42, 9);
-            this.lblBlueMovCount.Name = "lblBlueMovCount";
-            this.lblBlueMovCount.Size = new System.Drawing.Size(53, 20);
-            this.lblBlueMovCount.TabIndex = 1;
-            this.lblBlueMovCount.Text = "x 99";
             // 
             // PicBlueMovImage
             // 
             this.PicBlueMovImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicBlueMovImage.Image = ((System.Drawing.Image)(resources.GetObject("PicBlueMovImage.Image")));
-            this.PicBlueMovImage.Location = new System.Drawing.Point(5, 4);
+            this.PicBlueMovImage.Location = new System.Drawing.Point(3, 5);
             this.PicBlueMovImage.Name = "PicBlueMovImage";
-            this.PicBlueMovImage.Size = new System.Drawing.Size(30, 30);
+            this.PicBlueMovImage.Size = new System.Drawing.Size(27, 27);
             this.PicBlueMovImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBlueMovImage.TabIndex = 0;
             this.PicBlueMovImage.TabStop = false;
@@ -864,40 +859,40 @@
             // lblBlueLP
             // 
             this.lblBlueLP.AutoSize = true;
-            this.lblBlueLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBlueLP.ForeColor = System.Drawing.Color.White;
-            this.lblBlueLP.Location = new System.Drawing.Point(49, 24);
+            this.lblBlueLP.Location = new System.Drawing.Point(71, 78);
             this.lblBlueLP.Name = "lblBlueLP";
-            this.lblBlueLP.Size = new System.Drawing.Size(54, 22);
+            this.lblBlueLP.Size = new System.Drawing.Size(58, 24);
             this.lblBlueLP.TabIndex = 2;
             this.lblBlueLP.Text = "8000";
             // 
             // lblLPLabel
             // 
             this.lblLPLabel.AutoSize = true;
-            this.lblLPLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLPLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLPLabel.ForeColor = System.Drawing.Color.White;
-            this.lblLPLabel.Location = new System.Drawing.Point(3, 24);
+            this.lblLPLabel.Location = new System.Drawing.Point(73, 58);
             this.lblLPLabel.Name = "lblLPLabel";
-            this.lblLPLabel.Size = new System.Drawing.Size(40, 22);
+            this.lblLPLabel.Size = new System.Drawing.Size(44, 24);
             this.lblLPLabel.TabIndex = 1;
             this.lblLPLabel.Text = "LP:";
             // 
             // lblBluePlayerName
             // 
-            this.lblBluePlayerName.AutoSize = true;
             this.lblBluePlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBluePlayerName.ForeColor = System.Drawing.Color.White;
             this.lblBluePlayerName.Location = new System.Drawing.Point(2, 2);
             this.lblBluePlayerName.Name = "lblBluePlayerName";
-            this.lblBluePlayerName.Size = new System.Drawing.Size(62, 22);
+            this.lblBluePlayerName.Size = new System.Drawing.Size(135, 50);
             this.lblBluePlayerName.TabIndex = 0;
-            this.lblBluePlayerName.Text = "BLUE";
+            this.lblBluePlayerName.Text = "High Mage Atenza";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DarkRed;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.PicRedSymbol);
             this.panel2.Controls.Add(this.PanelRedCrests);
             this.panel2.Controls.Add(this.lblRedLP);
             this.panel2.Controls.Add(this.lblLPlabel2);
@@ -906,6 +901,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 2;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // PanelRedCrests
             // 
@@ -920,28 +916,29 @@
             this.PanelRedCrests.Controls.Add(this.PicRedATKImage);
             this.PanelRedCrests.Controls.Add(this.lblRedMovCount);
             this.PanelRedCrests.Controls.Add(this.PicRedMovImage);
-            this.PanelRedCrests.Location = new System.Drawing.Point(6, 49);
+            this.PanelRedCrests.Location = new System.Drawing.Point(2, 120);
             this.PanelRedCrests.Name = "PanelRedCrests";
-            this.PanelRedCrests.Size = new System.Drawing.Size(86, 165);
+            this.PanelRedCrests.Size = new System.Drawing.Size(135, 97);
             this.PanelRedCrests.TabIndex = 5;
+            this.PanelRedCrests.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelRedCrests_Paint);
             // 
             // lblRedTrapCount
             // 
             this.lblRedTrapCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedTrapCount.ForeColor = System.Drawing.Color.White;
-            this.lblRedTrapCount.Location = new System.Drawing.Point(42, 133);
+            this.lblRedTrapCount.Location = new System.Drawing.Point(92, 71);
             this.lblRedTrapCount.Name = "lblRedTrapCount";
-            this.lblRedTrapCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedTrapCount.Size = new System.Drawing.Size(31, 20);
             this.lblRedTrapCount.TabIndex = 9;
-            this.lblRedTrapCount.Text = "x 99";
+            this.lblRedTrapCount.Text = "99";
             // 
             // PicRedTrapImage
             // 
             this.PicRedTrapImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicRedTrapImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedTrapImage.Image")));
-            this.PicRedTrapImage.Location = new System.Drawing.Point(5, 128);
+            this.PicRedTrapImage.Location = new System.Drawing.Point(66, 66);
             this.PicRedTrapImage.Name = "PicRedTrapImage";
-            this.PicRedTrapImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedTrapImage.Size = new System.Drawing.Size(27, 27);
             this.PicRedTrapImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedTrapImage.TabIndex = 8;
             this.PicRedTrapImage.TabStop = false;
@@ -950,19 +947,19 @@
             // 
             this.lblRedMagCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedMagCount.ForeColor = System.Drawing.Color.White;
-            this.lblRedMagCount.Location = new System.Drawing.Point(42, 102);
+            this.lblRedMagCount.Location = new System.Drawing.Point(92, 40);
             this.lblRedMagCount.Name = "lblRedMagCount";
-            this.lblRedMagCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedMagCount.Size = new System.Drawing.Size(31, 20);
             this.lblRedMagCount.TabIndex = 7;
-            this.lblRedMagCount.Text = "x 99";
+            this.lblRedMagCount.Text = "99";
             // 
             // PicRedMagImage
             // 
             this.PicRedMagImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicRedMagImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedMagImage.Image")));
-            this.PicRedMagImage.Location = new System.Drawing.Point(5, 97);
+            this.PicRedMagImage.Location = new System.Drawing.Point(66, 35);
             this.PicRedMagImage.Name = "PicRedMagImage";
-            this.PicRedMagImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedMagImage.Size = new System.Drawing.Size(27, 27);
             this.PicRedMagImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedMagImage.TabIndex = 6;
             this.PicRedMagImage.TabStop = false;
@@ -971,11 +968,11 @@
             // 
             this.lblRedDefCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedDefCount.ForeColor = System.Drawing.Color.White;
-            this.lblRedDefCount.Location = new System.Drawing.Point(42, 71);
+            this.lblRedDefCount.Location = new System.Drawing.Point(31, 71);
             this.lblRedDefCount.Name = "lblRedDefCount";
-            this.lblRedDefCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedDefCount.Size = new System.Drawing.Size(31, 20);
             this.lblRedDefCount.TabIndex = 5;
-            this.lblRedDefCount.Text = "x 99";
+            this.lblRedDefCount.Text = "99";
             // 
             // PicRedDEFImage
             // 
@@ -983,7 +980,7 @@
             this.PicRedDEFImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedDEFImage.Image")));
             this.PicRedDEFImage.Location = new System.Drawing.Point(5, 66);
             this.PicRedDEFImage.Name = "PicRedDEFImage";
-            this.PicRedDEFImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedDEFImage.Size = new System.Drawing.Size(27, 27);
             this.PicRedDEFImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedDEFImage.TabIndex = 4;
             this.PicRedDEFImage.TabStop = false;
@@ -992,11 +989,11 @@
             // 
             this.lblRedAtkCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedAtkCount.ForeColor = System.Drawing.Color.White;
-            this.lblRedAtkCount.Location = new System.Drawing.Point(42, 40);
+            this.lblRedAtkCount.Location = new System.Drawing.Point(31, 40);
             this.lblRedAtkCount.Name = "lblRedAtkCount";
-            this.lblRedAtkCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedAtkCount.Size = new System.Drawing.Size(31, 20);
             this.lblRedAtkCount.TabIndex = 3;
-            this.lblRedAtkCount.Text = "x 99";
+            this.lblRedAtkCount.Text = "99";
             // 
             // PicRedATKImage
             // 
@@ -1004,7 +1001,7 @@
             this.PicRedATKImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedATKImage.Image")));
             this.PicRedATKImage.Location = new System.Drawing.Point(5, 35);
             this.PicRedATKImage.Name = "PicRedATKImage";
-            this.PicRedATKImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedATKImage.Size = new System.Drawing.Size(27, 27);
             this.PicRedATKImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedATKImage.TabIndex = 2;
             this.PicRedATKImage.TabStop = false;
@@ -1013,11 +1010,11 @@
             // 
             this.lblRedMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedMovCount.ForeColor = System.Drawing.Color.White;
-            this.lblRedMovCount.Location = new System.Drawing.Point(42, 9);
+            this.lblRedMovCount.Location = new System.Drawing.Point(31, 9);
             this.lblRedMovCount.Name = "lblRedMovCount";
-            this.lblRedMovCount.Size = new System.Drawing.Size(53, 20);
+            this.lblRedMovCount.Size = new System.Drawing.Size(31, 20);
             this.lblRedMovCount.TabIndex = 1;
-            this.lblRedMovCount.Text = "x 99";
+            this.lblRedMovCount.Text = "99";
             // 
             // PicRedMovImage
             // 
@@ -1025,7 +1022,7 @@
             this.PicRedMovImage.Image = ((System.Drawing.Image)(resources.GetObject("PicRedMovImage.Image")));
             this.PicRedMovImage.Location = new System.Drawing.Point(5, 4);
             this.PicRedMovImage.Name = "PicRedMovImage";
-            this.PicRedMovImage.Size = new System.Drawing.Size(30, 30);
+            this.PicRedMovImage.Size = new System.Drawing.Size(27, 27);
             this.PicRedMovImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicRedMovImage.TabIndex = 0;
             this.PicRedMovImage.TabStop = false;
@@ -1033,33 +1030,32 @@
             // lblRedLP
             // 
             this.lblRedLP.AutoSize = true;
-            this.lblRedLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedLP.ForeColor = System.Drawing.Color.White;
-            this.lblRedLP.Location = new System.Drawing.Point(48, 24);
+            this.lblRedLP.Location = new System.Drawing.Point(68, 87);
             this.lblRedLP.Name = "lblRedLP";
-            this.lblRedLP.Size = new System.Drawing.Size(54, 22);
+            this.lblRedLP.Size = new System.Drawing.Size(58, 24);
             this.lblRedLP.TabIndex = 4;
             this.lblRedLP.Text = "8000";
             // 
             // lblLPlabel2
             // 
             this.lblLPlabel2.AutoSize = true;
-            this.lblLPlabel2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLPlabel2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLPlabel2.ForeColor = System.Drawing.Color.White;
-            this.lblLPlabel2.Location = new System.Drawing.Point(2, 24);
+            this.lblLPlabel2.Location = new System.Drawing.Point(70, 68);
             this.lblLPlabel2.Name = "lblLPlabel2";
-            this.lblLPlabel2.Size = new System.Drawing.Size(40, 22);
+            this.lblLPlabel2.Size = new System.Drawing.Size(44, 24);
             this.lblLPlabel2.TabIndex = 3;
             this.lblLPlabel2.Text = "LP:";
             // 
             // lblRedPlayerName
             // 
-            this.lblRedPlayerName.AutoSize = true;
             this.lblRedPlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedPlayerName.ForeColor = System.Drawing.Color.White;
             this.lblRedPlayerName.Location = new System.Drawing.Point(2, 2);
             this.lblRedPlayerName.Name = "lblRedPlayerName";
-            this.lblRedPlayerName.Size = new System.Drawing.Size(51, 22);
+            this.lblRedPlayerName.Size = new System.Drawing.Size(135, 50);
             this.lblRedPlayerName.TabIndex = 1;
             this.lblRedPlayerName.Text = "RED";
             // 
@@ -1367,6 +1363,36 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "You WIN!!!";
             // 
+            // lblBlueMovCount
+            // 
+            this.lblBlueMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueMovCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueMovCount.Location = new System.Drawing.Point(30, 10);
+            this.lblBlueMovCount.Name = "lblBlueMovCount";
+            this.lblBlueMovCount.Size = new System.Drawing.Size(46, 20);
+            this.lblBlueMovCount.TabIndex = 1;
+            this.lblBlueMovCount.Text = "99";
+            // 
+            // PicBlueSymbol
+            // 
+            this.PicBlueSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueSymbol.Location = new System.Drawing.Point(3, 52);
+            this.PicBlueSymbol.Name = "PicBlueSymbol";
+            this.PicBlueSymbol.Size = new System.Drawing.Size(62, 55);
+            this.PicBlueSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBlueSymbol.TabIndex = 4;
+            this.PicBlueSymbol.TabStop = false;
+            // 
+            // PicRedSymbol
+            // 
+            this.PicRedSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedSymbol.Location = new System.Drawing.Point(2, 59);
+            this.PicRedSymbol.Name = "PicRedSymbol";
+            this.PicRedSymbol.Size = new System.Drawing.Size(62, 55);
+            this.PicRedSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicRedSymbol.TabIndex = 6;
+            this.PicRedSymbol.TabStop = false;
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1424,6 +1450,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).EndInit();
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1467,7 +1495,6 @@
         private System.Windows.Forms.PictureBox PicBlueDEFImage;
         private System.Windows.Forms.Label lblBlueAtkCount;
         private System.Windows.Forms.PictureBox PicBlueATKImage;
-        private System.Windows.Forms.Label lblBlueMovCount;
         private System.Windows.Forms.PictureBox PicBlueMovImage;
         private System.Windows.Forms.Panel PanelRedCrests;
         private System.Windows.Forms.Label lblRedTrapCount;
@@ -1531,5 +1558,8 @@
         private System.Windows.Forms.Panel PanelEndGameResults;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBlueMovCount;
+        private System.Windows.Forms.PictureBox PicBlueSymbol;
+        private System.Windows.Forms.PictureBox PicRedSymbol;
     }
 }

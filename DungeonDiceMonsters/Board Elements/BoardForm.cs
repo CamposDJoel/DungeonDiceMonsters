@@ -42,10 +42,7 @@ namespace DungeonDiceMonsters
             BlueData.AddCrests(Crest.Defense, 2);
             BlueData.AddCrests(Crest.Magic, 9);
             BlueData.AddCrests(Crest.Trap, 2);
-
-            LoadPlayersInfo();
-
-
+           
             //Initialize the board tiles
             int tileId = 0;
             int Y_Location = 2;
@@ -175,10 +172,16 @@ namespace DungeonDiceMonsters
             _Tiles[53].ChangeOwner(PlayerOwner.Blue);
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
-            Card redSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerOwner.Red);
-            _Tiles[227].SummonCard(redSymbol);
-            Card blueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerOwner.Blue);
-            _Tiles[6].SummonCard(blueSymbol);
+            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerOwner.Red);
+            _Tiles[227].SummonCard(_RedSymbol);
+            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerOwner.Blue);
+            _Tiles[6].SummonCard(_BlueSymbol);
+
+            //test
+            _BlueSymbol.ReduceLP(7000);
+
+            //Initialize the Player's Info Panels
+            LoadPlayersInfo();
 
             //TEST Summon a monster to move
             _CurrentTileSelected = _Tiles[201];
@@ -228,6 +231,9 @@ namespace DungeonDiceMonsters
         //Battle menu data
         private int _AttackBonusCrest = 0;
         private int _DefenseBonusCrest = 0;
+        //Symbols Refs
+        Card _RedSymbol;
+        Card _BlueSymbol;
 
         //Private functions
         private void LoadPlayersInfo()
@@ -235,20 +241,23 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            lblRedLP.Text = "" + RedData.LP;
-            lblBlueLP.Text = "" + BlueData.LP;
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute);
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute);
 
-            lblBlueMovCount.Text = "x" + BlueData.Crests_MOV;
-            lblBlueAtkCount.Text = "x" + BlueData.Crests_ATK;
-            lblBlueDefCount.Text = "x" + BlueData.Crests_DEF;
-            lblBlueMagCount.Text = "x" + BlueData.Crests_MAG;
-            lblBlueTrapCount.Text = "x" + BlueData.Crests_TRAP;
+            lblRedLP.Text = _RedSymbol.LP.ToString();
+            lblBlueLP.Text = _BlueSymbol.LP.ToString();
 
-            lblRedMovCount.Text = "x" + RedData.Crests_MOV;
-            lblRedAtkCount.Text = "x" + RedData.Crests_ATK;
-            lblRedDefCount.Text = "x" + RedData.Crests_DEF;
-            lblRedMagCount.Text = "x" + RedData.Crests_MAG;
-            lblRedTrapCount.Text = "x" + RedData.Crests_TRAP;
+            lblBlueMovCount.Text = BlueData.Crests_MOV.ToString();
+            lblBlueAtkCount.Text = BlueData.Crests_ATK.ToString();  
+            lblBlueDefCount.Text = BlueData.Crests_DEF.ToString();
+            lblBlueMagCount.Text = BlueData.Crests_MAG.ToString();
+            lblBlueTrapCount.Text = BlueData.Crests_TRAP.ToString();
+
+            lblRedMovCount.Text = RedData.Crests_MOV.ToString() ;
+            lblRedAtkCount.Text = RedData.Crests_ATK.ToString();
+            lblRedDefCount.Text = RedData.Crests_DEF.ToString();
+            lblRedMagCount.Text = RedData.Crests_MAG.ToString();
+            lblRedTrapCount.Text = RedData.Crests_TRAP.ToString();
         }
         private void LoadCardInfoPanel()
         {
@@ -296,7 +305,7 @@ namespace DungeonDiceMonsters
                         lblAttribute.Text = thisCard.Attribute;
                         lblStatsATK.Text = "";
                         lblStatsDEF.Text = "";
-                        lblStatsLP.Text = "";
+                        lblStatsLP.Text = thisCard.LP.ToString();
                         lblCardText.Text = thisCard.Info.CardText;
                     }
                     else
@@ -960,7 +969,7 @@ namespace DungeonDiceMonsters
                 LoadPlayersInfo();
 
                 int Damage = FinalAttack - FinalDefense;
-                if (Damage < 0) 
+                if (Damage <= 0) 
                 {
                     //Display the end battle button
                     lblBattleMenuDamage.Text = "Damage: 0";
@@ -1008,10 +1017,10 @@ namespace DungeonDiceMonsters
                     }
 
 
-                    //if there is damage left deal it to the player
+                    //if there is damage left deal it to the player's symbol
                     if (Damage > 0)
                     {
-                        if (Damage > BlueData.LP) { Damage = BlueData.LP; }
+                        if (Damage > _BlueSymbol.LP) { Damage = _BlueSymbol.LP; }
 
                         //Deal damage to the player
                         iterations = Damage / 10;
@@ -1024,13 +1033,13 @@ namespace DungeonDiceMonsters
 
                         for (int i = 0; i < iterations; i++)
                         {
-                            BlueData.ReduceLP(10);
-                            lblBlueLP.Text = "" + BlueData.LP;
+                            _BlueSymbol.ReduceLP(10);
+                            lblBlueLP.Text = _BlueSymbol.LP.ToString();
                             SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                             WaitNSeconds(waittime);
                         }
                         
-                        if(BlueData.LP == 0)
+                        if(_BlueSymbol.LP == 0)
                         {
                             //TODO: defender player loses the game
                             SoundServer.PlayBackgroundMusic(Song.YouWin, true);
@@ -1056,6 +1065,53 @@ namespace DungeonDiceMonsters
             {
                 //Reduce the Symbol's LP and update player info panel
 
+                //Perform the battle calculation
+                int FinalAttack = _CurrentTileSelected.CardInPlace.ATK;
+                int FinalDefense = 0;
+
+                int Damage = FinalAttack - FinalDefense;
+                if (Damage <= 0)
+                {
+                    //Display the end battle button
+                    lblBattleMenuDamage.Text = "Damage: 0";
+                    btnEndBattle.Visible = true;
+                }
+                else
+                {
+                    if (Damage > _BlueSymbol.LP) { Damage = _BlueSymbol.LP; }
+
+                    //Deal damage to the player
+                    int iterations = Damage / 10;
+
+                    int waittime = 0;
+                    if (iterations < 100) { waittime = 50; }
+                    else if (iterations < 200) { waittime = 30; }
+                    else if (iterations < 300) { waittime = 10; }
+                    else { waittime = 5; }
+
+                    for (int i = 0; i < iterations; i++)
+                    {
+                        _BlueSymbol.ReduceLP(10);
+                        lblBlueLP.Text = _BlueSymbol.LP.ToString();
+                        SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                        WaitNSeconds(waittime);
+                    }
+
+                    if (_BlueSymbol.LP == 0)
+                    {
+                        //TODO: defender player loses the game
+                        SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                        PanelBattleMenu.Visible = false;
+                        PanelEndGameResults.Visible = true;
+                        WaitNSeconds(5000);
+                        btnExit.Visible = true;
+                    }
+                    else
+                    {
+                        //otherwise let the attacker finish the battle phase
+                        btnEndBattle.Visible = true;
+                    }
+                }
             }
             else
             {
@@ -1090,6 +1146,16 @@ namespace DungeonDiceMonsters
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void PanelRedCrests_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

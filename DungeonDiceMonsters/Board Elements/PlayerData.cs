@@ -13,7 +13,6 @@ namespace DungeonDiceMonsters
         }
 
         public string Name { get{ return _name;} }
-        public int LP { get{ return _lp;} }
         public Deck Deck { get { return _deck;} }
 
         public int Crests_MOV { get { return _MoveCrests; } }
@@ -44,13 +43,8 @@ namespace DungeonDiceMonsters
                 case Crest.Trap: _TrapCrests -= amount; break;
             }
         }
-        public void ReduceLP(int amount)
-        {
-            _lp-= amount;
-        }
 
         private string _name;
-        private int _lp = 8000;
         private Deck _deck;
         private int _MoveCrests = 0;
         private int _AttackCrests = 0;

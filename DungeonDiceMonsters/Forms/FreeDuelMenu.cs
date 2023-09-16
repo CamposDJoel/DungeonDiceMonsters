@@ -44,13 +44,13 @@ namespace DungeonDiceMonsters
 
             //test
             //GameData.UnlockCharacter(Character.Duel_Master_K);
-            /*for (int x = 0; x < Characters.Length; x++)
+            for (int x = 0; x < Characters.Length; x++)
             {
                 GameData.UnlockCharacter((Character)x);
 
-            }*/
+            }
 
-            GameData.UnlockCharacter((Character)0);
+            /*GameData.UnlockCharacter((Character)0);
             GameData.UnlockCharacter((Character)3);
             GameData.UnlockCharacter((Character)5);
             GameData.UnlockCharacter((Character)7);
@@ -65,7 +65,7 @@ namespace DungeonDiceMonsters
             GameData.UnlockCharacter((Character)27);
             GameData.UnlockCharacter((Character)29);
             GameData.UnlockCharacter((Character)33);
-            GameData.UnlockCharacter((Character)34);
+            GameData.UnlockCharacter((Character)34);*/
 
             //Load all the unlocked characters
             for (int x = 0; x < Characters.Length; x++)
