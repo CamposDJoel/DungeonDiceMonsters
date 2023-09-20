@@ -86,6 +86,12 @@
     <Compile Include="Media Servers\SoundServer.cs" />
     <Compile Include="Board Elements\PlayerData.cs" />
     <Compile Include="Board Elements\Tile.cs" />
+    <Compile Include="RollDiceMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RollDiceMenu.Designer.cs">
+      <DependentUpon>RollDiceMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RollDiceMenu.resx">
+      <DependentUpon>RollDiceMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
       <DependentUpon>JsonGenerator.cs</DependentUpon>

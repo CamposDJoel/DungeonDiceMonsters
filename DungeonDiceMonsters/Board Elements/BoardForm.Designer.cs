@@ -74,6 +74,7 @@
             this.lblAttacker = new System.Windows.Forms.Label();
             this.lblDefender = new System.Windows.Forms.Label();
             this.PanelBluePlayer = new System.Windows.Forms.Panel();
+            this.PicBlueSymbol = new System.Windows.Forms.PictureBox();
             this.PanelBlueCrests = new System.Windows.Forms.Panel();
             this.lblBlueTrapCount = new System.Windows.Forms.Label();
             this.PicBlueTrapImage = new System.Windows.Forms.PictureBox();
@@ -83,11 +84,13 @@
             this.PicBlueDEFImage = new System.Windows.Forms.PictureBox();
             this.lblBlueAtkCount = new System.Windows.Forms.Label();
             this.PicBlueATKImage = new System.Windows.Forms.PictureBox();
+            this.lblBlueMovCount = new System.Windows.Forms.Label();
             this.PicBlueMovImage = new System.Windows.Forms.PictureBox();
             this.lblBlueLP = new System.Windows.Forms.Label();
             this.lblLPLabel = new System.Windows.Forms.Label();
             this.lblBluePlayerName = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.PicRedSymbol = new System.Windows.Forms.PictureBox();
             this.PanelRedCrests = new System.Windows.Forms.Panel();
             this.lblRedTrapCount = new System.Windows.Forms.Label();
             this.PicRedTrapImage = new System.Windows.Forms.PictureBox();
@@ -129,9 +132,11 @@
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblBlueMovCount = new System.Windows.Forms.Label();
-            this.PicBlueSymbol = new System.Windows.Forms.PictureBox();
-            this.PicRedSymbol = new System.Windows.Forms.PictureBox();
+            this.PanelTurnStartMenu = new System.Windows.Forms.Panel();
+            this.btnViewBoard = new System.Windows.Forms.Button();
+            this.btnRoll = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -147,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).BeginInit();
             this.PanelBluePlayer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueTrapImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMagImage)).BeginInit();
@@ -154,6 +160,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).BeginInit();
             this.PanelRedCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).BeginInit();
@@ -164,8 +171,7 @@
             this.PanelCardInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).BeginInit();
+            this.PanelTurnStartMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelBoard
@@ -176,6 +182,7 @@
             this.PanelBoard.Controls.Add(this.PanelAttackMenu);
             this.PanelBoard.Controls.Add(this.PanelMoveMenu);
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
+            this.PanelBoard.Enabled = false;
             this.PanelBoard.Location = new System.Drawing.Point(151, 0);
             this.PanelBoard.Name = "PanelBoard";
             this.PanelBoard.Size = new System.Drawing.Size(631, 561);
@@ -743,6 +750,16 @@
             this.PanelBluePlayer.Size = new System.Drawing.Size(144, 222);
             this.PanelBluePlayer.TabIndex = 1;
             // 
+            // PicBlueSymbol
+            // 
+            this.PicBlueSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueSymbol.Location = new System.Drawing.Point(3, 52);
+            this.PicBlueSymbol.Name = "PicBlueSymbol";
+            this.PicBlueSymbol.Size = new System.Drawing.Size(62, 55);
+            this.PicBlueSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBlueSymbol.TabIndex = 4;
+            this.PicBlueSymbol.TabStop = false;
+            // 
             // PanelBlueCrests
             // 
             this.PanelBlueCrests.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -845,6 +862,16 @@
             this.PicBlueATKImage.TabIndex = 2;
             this.PicBlueATKImage.TabStop = false;
             // 
+            // lblBlueMovCount
+            // 
+            this.lblBlueMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueMovCount.ForeColor = System.Drawing.Color.White;
+            this.lblBlueMovCount.Location = new System.Drawing.Point(30, 10);
+            this.lblBlueMovCount.Name = "lblBlueMovCount";
+            this.lblBlueMovCount.Size = new System.Drawing.Size(46, 20);
+            this.lblBlueMovCount.TabIndex = 1;
+            this.lblBlueMovCount.Text = "99";
+            // 
             // PicBlueMovImage
             // 
             this.PicBlueMovImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -901,7 +928,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 2;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // PicRedSymbol
+            // 
+            this.PicRedSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedSymbol.Location = new System.Drawing.Point(2, 59);
+            this.PicRedSymbol.Name = "PicRedSymbol";
+            this.PicRedSymbol.Size = new System.Drawing.Size(62, 55);
+            this.PicRedSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicRedSymbol.TabIndex = 6;
+            this.PicRedSymbol.TabStop = false;
             // 
             // PanelRedCrests
             // 
@@ -920,7 +956,6 @@
             this.PanelRedCrests.Name = "PanelRedCrests";
             this.PanelRedCrests.Size = new System.Drawing.Size(135, 97);
             this.PanelRedCrests.TabIndex = 5;
-            this.PanelRedCrests.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelRedCrests_Paint);
             // 
             // lblRedTrapCount
             // 
@@ -1363,35 +1398,72 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "You WIN!!!";
             // 
-            // lblBlueMovCount
+            // PanelTurnStartMenu
             // 
-            this.lblBlueMovCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBlueMovCount.ForeColor = System.Drawing.Color.White;
-            this.lblBlueMovCount.Location = new System.Drawing.Point(30, 10);
-            this.lblBlueMovCount.Name = "lblBlueMovCount";
-            this.lblBlueMovCount.Size = new System.Drawing.Size(46, 20);
-            this.lblBlueMovCount.TabIndex = 1;
-            this.lblBlueMovCount.Text = "99";
+            this.PanelTurnStartMenu.BackColor = System.Drawing.Color.DimGray;
+            this.PanelTurnStartMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelTurnStartMenu.BackgroundImage")));
+            this.PanelTurnStartMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
+            this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
+            this.PanelTurnStartMenu.Controls.Add(this.label2);
+            this.PanelTurnStartMenu.Location = new System.Drawing.Point(237, 161);
+            this.PanelTurnStartMenu.Name = "PanelTurnStartMenu";
+            this.PanelTurnStartMenu.Size = new System.Drawing.Size(451, 248);
+            this.PanelTurnStartMenu.TabIndex = 15;
+            this.PanelTurnStartMenu.Visible = false;
             // 
-            // PicBlueSymbol
+            // btnViewBoard
             // 
-            this.PicBlueSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicBlueSymbol.Location = new System.Drawing.Point(3, 52);
-            this.PicBlueSymbol.Name = "PicBlueSymbol";
-            this.PicBlueSymbol.Size = new System.Drawing.Size(62, 55);
-            this.PicBlueSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBlueSymbol.TabIndex = 4;
-            this.PicBlueSymbol.TabStop = false;
+            this.btnViewBoard.BackColor = System.Drawing.Color.Black;
+            this.btnViewBoard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewBoard.ForeColor = System.Drawing.Color.White;
+            this.btnViewBoard.Location = new System.Drawing.Point(248, 83);
+            this.btnViewBoard.Name = "btnViewBoard";
+            this.btnViewBoard.Size = new System.Drawing.Size(182, 129);
+            this.btnViewBoard.TabIndex = 2;
+            this.btnViewBoard.Text = "View Board";
+            this.btnViewBoard.UseVisualStyleBackColor = false;
+            this.btnViewBoard.Click += new System.EventHandler(this.btnViewBoard_Click);
             // 
-            // PicRedSymbol
+            // btnRoll
             // 
-            this.PicRedSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicRedSymbol.Location = new System.Drawing.Point(2, 59);
-            this.PicRedSymbol.Name = "PicRedSymbol";
-            this.PicRedSymbol.Size = new System.Drawing.Size(62, 55);
-            this.PicRedSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicRedSymbol.TabIndex = 6;
-            this.PicRedSymbol.TabStop = false;
+            this.btnRoll.BackColor = System.Drawing.Color.Black;
+            this.btnRoll.Font = new System.Drawing.Font("Arial Rounded MT Bold", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRoll.ForeColor = System.Drawing.Color.White;
+            this.btnRoll.Location = new System.Drawing.Point(32, 83);
+            this.btnRoll.Name = "btnRoll";
+            this.btnRoll.Size = new System.Drawing.Size(182, 129);
+            this.btnRoll.TabIndex = 1;
+            this.btnRoll.Text = "Roll Dice!";
+            this.btnRoll.UseVisualStyleBackColor = false;
+            this.btnRoll.Click += new System.EventHandler(this.btnRoll_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(19, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(173, 24);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Red\'s Turn Start";
+            // 
+            // btnReturnToTurnMenu
+            // 
+            this.btnReturnToTurnMenu.BackColor = System.Drawing.Color.Maroon;
+            this.btnReturnToTurnMenu.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReturnToTurnMenu.ForeColor = System.Drawing.Color.White;
+            this.btnReturnToTurnMenu.Location = new System.Drawing.Point(29, 245);
+            this.btnReturnToTurnMenu.Name = "btnReturnToTurnMenu";
+            this.btnReturnToTurnMenu.Size = new System.Drawing.Size(93, 60);
+            this.btnReturnToTurnMenu.TabIndex = 16;
+            this.btnReturnToTurnMenu.Text = "Exit Board View Mode";
+            this.btnReturnToTurnMenu.UseVisualStyleBackColor = false;
+            this.btnReturnToTurnMenu.Visible = false;
+            this.btnReturnToTurnMenu.Click += new System.EventHandler(this.btnReturnToTurnMenu_Click);
             // 
             // BoardForm
             // 
@@ -1399,6 +1471,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
             this.ClientSize = new System.Drawing.Size(1005, 561);
+            this.Controls.Add(this.btnReturnToTurnMenu);
+            this.Controls.Add(this.PanelTurnStartMenu);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelBattleMenu);
             this.Controls.Add(this.PanelCardInfo);
@@ -1430,6 +1504,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).EndInit();
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).EndInit();
             this.PanelBlueCrests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueTrapImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMagImage)).EndInit();
@@ -1438,6 +1513,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).EndInit();
             this.PanelRedCrests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).EndInit();
@@ -1450,8 +1526,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).EndInit();
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).EndInit();
+            this.PanelTurnStartMenu.ResumeLayout(false);
+            this.PanelTurnStartMenu.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1561,5 +1637,10 @@
         private System.Windows.Forms.Label lblBlueMovCount;
         private System.Windows.Forms.PictureBox PicBlueSymbol;
         private System.Windows.Forms.PictureBox PicRedSymbol;
+        private System.Windows.Forms.Panel PanelTurnStartMenu;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnViewBoard;
+        private System.Windows.Forms.Button btnRoll;
+        private System.Windows.Forms.Button btnReturnToTurnMenu;
     }
 }
