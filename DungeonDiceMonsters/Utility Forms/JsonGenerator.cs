@@ -4,6 +4,7 @@
 
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -14,6 +15,21 @@ namespace DungeonDiceMonsters
         public JsonGenerator()
         {
             InitializeComponent();
+
+            //Initialize the DB Read raw data from json file
+            string jsonFilePath = Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json";
+            string rawdata = File.ReadAllText(jsonFilePath);
+            CardDataBase.rawCardList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<rawcardinfo>>(rawdata);
+
+            //convert thre raw data base into the actual (and Clean) CardInfo object list
+            CardDataBase.CardList = new List<CardInfo>();
+            foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
+            {
+                CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
+            }
+
+
+
             ReloadDBList();
         }
 

@@ -76,6 +76,15 @@ namespace DungeonDiceMonsters
         }
         public int DiceLevel { get { return _DiceInfo.Level; } }
 
+        public string DiceFace(int index)
+        {
+            return _DiceInfo.Crest(index);
+        }
+        public int DiceFaceValue(int index)
+        {
+            return _DiceInfo.Value(index);
+        }
+
         public string Face1Crest { get { return _DiceInfo.Crest(0); }  }
         public string Face2Crest { get { return _DiceInfo.Crest(1); }  }
         public string Face3Crest { get { return _DiceInfo.Crest(2); }  }

@@ -2,6 +2,9 @@
 //9/12/2023
 //PlayerData Class
 
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 namespace DungeonDiceMonsters
 {
     public class PlayerData
@@ -14,6 +17,15 @@ namespace DungeonDiceMonsters
 
         public string Name { get{ return _name;} }
         public Deck Deck { get { return _deck;} }
+        public int FreeSummonTiles { get 
+        {
+                int count = 0;
+                foreach(Tile tile in _SummoningTiles)
+                {
+                    if (!tile.IsOccupied) { count++; }
+                }
+                return count; } 
+        }
 
         public int Crests_MOV { get { return _MoveCrests; } }
         public int Crests_ATK { get { return _AttackCrests; } }
@@ -43,6 +55,10 @@ namespace DungeonDiceMonsters
                 case Crest.Trap: _TrapCrests -= amount; break;
             }
         }
+        public void AddSummoningTile(Tile tile)
+        {
+            _SummoningTiles.Add(tile);
+        }
 
         private string _name;
         private Deck _deck;
@@ -51,6 +67,7 @@ namespace DungeonDiceMonsters
         private int _DefenseCrests = 0;
         private int _MagicCrests = 0;
         private int _TrapCrests = 0;
+        private List<Tile> _SummoningTiles = new List<Tile>();
     }
 
     public enum Crest
