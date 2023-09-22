@@ -69,8 +69,6 @@
             this.btnDice3Summon = new System.Windows.Forms.Button();
             this.btnDice1Summon = new System.Windows.Forms.Button();
             this.btnDice2Summon = new System.Windows.Forms.Button();
-            this.PicToStoArrow = new System.Windows.Forms.PictureBox();
-            this.PicToDeckArrow = new System.Windows.Forms.PictureBox();
             this.btnRoll = new System.Windows.Forms.Button();
             this.PicDiceResult1 = new System.Windows.Forms.PictureBox();
             this.PicDiceResult2 = new System.Windows.Forms.PictureBox();
@@ -104,8 +102,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDice2)).BeginInit();
             this.PanelDice1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDice1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult3)).BeginInit();
@@ -582,32 +578,6 @@
             this.btnDice2Summon.Visible = false;
             this.btnDice2Summon.Click += new System.EventHandler(this.btnDice2Summon_Click);
             // 
-            // PicToStoArrow
-            // 
-            this.PicToStoArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicToStoArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToStoArrow.Image")));
-            this.PicToStoArrow.Location = new System.Drawing.Point(314, 378);
-            this.PicToStoArrow.Name = "PicToStoArrow";
-            this.PicToStoArrow.Size = new System.Drawing.Size(38, 43);
-            this.PicToStoArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicToStoArrow.TabIndex = 12;
-            this.PicToStoArrow.TabStop = false;
-            this.PicToStoArrow.Visible = false;
-            this.PicToStoArrow.Click += new System.EventHandler(this.PicToStoArrow_Click);
-            // 
-            // PicToDeckArrow
-            // 
-            this.PicToDeckArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicToDeckArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToDeckArrow.Image")));
-            this.PicToDeckArrow.Location = new System.Drawing.Point(314, 329);
-            this.PicToDeckArrow.Name = "PicToDeckArrow";
-            this.PicToDeckArrow.Size = new System.Drawing.Size(38, 43);
-            this.PicToDeckArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicToDeckArrow.TabIndex = 11;
-            this.PicToDeckArrow.TabStop = false;
-            this.PicToDeckArrow.Visible = false;
-            this.PicToDeckArrow.Click += new System.EventHandler(this.PicToDeckArrow_Click);
-            // 
             // btnRoll
             // 
             this.btnRoll.BackColor = System.Drawing.Color.ForestGreen;
@@ -806,8 +776,6 @@
             this.Controls.Add(this.PicDiceResult2);
             this.Controls.Add(this.PicDiceResult1);
             this.Controls.Add(this.btnRoll);
-            this.Controls.Add(this.PicToStoArrow);
-            this.Controls.Add(this.PicToDeckArrow);
             this.Controls.Add(this.GroupDicesToRoll);
             this.Controls.Add(this.GroupDiceInfo);
             this.Controls.Add(this.lblDeckName);
@@ -837,8 +805,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDice2)).EndInit();
             this.PanelDice1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDice1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceResult3)).EndInit();
@@ -875,8 +841,6 @@
         private System.Windows.Forms.Label lblCardName;
         private System.Windows.Forms.PictureBox PicCardArtwork;
         private System.Windows.Forms.GroupBox GroupDicesToRoll;
-        private System.Windows.Forms.PictureBox PicToStoArrow;
-        private System.Windows.Forms.PictureBox PicToDeckArrow;
         private System.Windows.Forms.PictureBox PicDice1;
         private System.Windows.Forms.PictureBox PicDice3;
         private System.Windows.Forms.PictureBox PicDice2;

@@ -20,6 +20,22 @@ namespace DungeonDiceMonsters
             PicDice1.Click += RollCard_click;
             PicDice2.Click += RollCard_click;
             PicDice3.Click += RollCard_click;
+            PicDice1.MouseEnter += OnMouseEnterRollCard;
+            PicDice2.MouseEnter += OnMouseEnterRollCard;
+            PicDice3.MouseEnter += OnMouseEnterRollCard;
+
+            btnDice1Summon.MouseEnter += OnMouseEnterPicture;
+            btnDice2Summon.MouseEnter += OnMouseEnterPicture;
+            btnDice3Summon.MouseEnter += OnMouseEnterPicture;
+            btnDice1Ritual.MouseEnter += OnMouseEnterPicture;
+            btnDice2Ritual.MouseEnter += OnMouseEnterPicture;
+            btnDice3Ritual.MouseEnter += OnMouseEnterPicture;
+            btnDice1Set.MouseEnter += OnMouseEnterPicture;
+            btnDice2Set.MouseEnter += OnMouseEnterPicture;
+            btnDice3Set.MouseEnter += OnMouseEnterPicture;
+
+            btnRoll.MouseEnter += OnMouseEnterPicture;
+            btnGoToBoard.MouseEnter += OnMouseEnterPicture;
 
             InitializeDeckComponents();
             LoadDeckPage();
@@ -55,6 +71,7 @@ namespace DungeonDiceMonsters
                     _DeckCardImageList.Add(CardImage);
                     CardImage.Tag = pictureIndex;
                     CardImage.Click += new EventHandler(DeckCard_click);
+                    CardImage.MouseEnter += OnMouseEnterDeckCard;
 
                     X_Location += 58;
                     pictureIndex++;
@@ -85,6 +102,7 @@ namespace DungeonDiceMonsters
                 _DeckCardImageList.Add(CardImage);
                 CardImage.Tag = pictureIndex;
                 CardImage.Click += new EventHandler(DeckCard_click);
+                CardImage.MouseEnter += OnMouseEnterDeckCard;
 
                 X_Location2 += 58;
                 pictureIndex++;
@@ -172,12 +190,7 @@ namespace DungeonDiceMonsters
         }
         private void SetDeckSelector(int index)
         {
-            //Clear all cards from being marked as selected
-            for (int x = 0; x < 3; x++)
-            {
-                //TODO clear selector from the dice to roll
-                //_CardPanelList[x].BackColor = Color.Transparent;
-            }
+
             for (int x = 0; x < 23; x++)
             {
                 _DeckCardPanelList[x].BackColor = Color.Transparent;
@@ -190,9 +203,6 @@ namespace DungeonDiceMonsters
 
             //Set the specific card selected
             _DeckCardPanelList[index].BackColor = Color.Yellow;
-
-            //Reload the Card Info Panel UI
-            LoadCardInfoPanel();
         }
         private void SetRollCardSelector(int index)
         {
@@ -220,15 +230,10 @@ namespace DungeonDiceMonsters
                     PanelDice3.BackColor = Color.Yellow;
                     break;
             }    
-
-            //Reload the Card Info Panel UI
-            LoadCardInfoPanel();
         }
-        private void LoadCardInfoPanel()
+        private void LoadCardInfoPanel(CardInfo thisCard)
         {
-            //Get the CardInfo object to populate the UI
-            //remember _currentCardSelected ref is set each time you click a card in the UI.
-            CardInfo thisCard = _CurrentCardSelected;
+            //Extract the Card ID for use in the function
             int cardID = thisCard.ID;
 
             //Populate the UI
@@ -403,49 +408,103 @@ namespace DungeonDiceMonsters
         private PlayerData _PlayerData;
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
-        private CardInfo _CurrentCardSelected;
-        private int _CurrentDeckIndexSelected = 0;
-        private int _CurrentRollIndexSelected = 0;
         private bool _DiceRolled = false;
 
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
 
-        private void DeckCard_click(object sender, EventArgs e)
+        //Events
+        private void OnMouseEnterPicture(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click2);
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
+        }
+        private void OnMouseEnterDeckCard(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
 
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
-            //Save the ref to this index number for outer use
-            _CurrentDeckIndexSelected = thiPictureBoxIndex;
-
+            //Determine the current card selected.
             int cardid = -1;
             if (thiPictureBoxIndex >= 20)
             {
                 int fusionIndex = thiPictureBoxIndex - 20;
                 cardid = _PlayerData.Deck.GetFusionCardIDAtIndex(fusionIndex);
-
-                //Hide arrows, player cannot roll dice of fusion cards
-                PicToStoArrow.Visible = false;
-                PicToDeckArrow.Visible = false;
             }
             else
             {
                 cardid = _PlayerData.Deck.GetMainCardIDAtIndex(thiPictureBoxIndex);
-
-                //Show arrows if there dice to roll list has space ( < 3 dice)
-                if(_DiceToRoll.Count < 3)
-                {
-                    PicToStoArrow.Visible = true;
-                }
-                PicToDeckArrow.Visible = false;
             }
-            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
+            CardInfo thisCard = CardDataBase.GetCardWithID(cardid);
 
             //Change the pointer selector
-            SetDeckSelector(thiPictureBoxIndex);           
+            SetDeckSelector(thiPictureBoxIndex);
+            LoadCardInfoPanel(thisCard);
+        }
+        private void OnMouseEnterRollCard(object sender, EventArgs e)
+        {
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+
+            //Only allow clicking on a occupied slot
+            if (thiPictureBoxIndex + 1 <= _DiceToRoll.Count)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+
+                //Get the Card Data
+                int cardid = _DiceToRoll[thiPictureBoxIndex].ID;
+                CardInfo thisCard = CardDataBase.GetCardWithID(cardid);
+
+                SetRollCardSelector(thiPictureBoxIndex);
+                LoadCardInfoPanel(thisCard);
+            }
+        }
+        private void DeckCard_click(object sender, EventArgs e)
+        {           
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+            
+            //Move card to the Roll Slots if there is space for it
+            //(if the card clicked is index < 20 (main deck) AND that there are 2 or less cards in the roll section.
+            if (thiPictureBoxIndex < 20 && _DiceToRoll.Count < 3 && !_DiceRolled)
+            {
+                //Generate the card object
+                int thisCardID = _PlayerData.Deck.GetMainCardIDAtIndex(thiPictureBoxIndex);
+                CardInfo thisCard = CardDataBase.GetCardWithID(thisCardID);
+
+                //Move card to the next roll slot
+                SoundServer.PlaySoundEffect(SoundEffect.Click2);
+
+                //Add this card to the list of cards to roll dice for
+                _DiceToRoll.Add(thisCard);
+
+                //Remove from deck
+                _PlayerData.Deck.RemoveMainAtIndex(thiPictureBoxIndex);
+
+                //Reload both sides
+                LoadDiceToRoll();
+                LoadDeckPage();
+
+                //if the dice to roll is 3 or there no more cards in deck allow to roll
+                if (_DiceToRoll.Count == 3 || _PlayerData.Deck.MainDeckSize == 0)
+                {
+                    btnRoll.Visible = true;
+                }
+
+                //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
+                if (thisCard.Category != "Monster" && _PlayerData.FreeSummonTiles == 0)
+                {
+                    lblNoSummonTilesWarning.Visible = true;
+                }
+            }
+            else
+            {
+                //Invalid click
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+            }
         }
         private void RollCard_click(object sender, EventArgs e)
         {
@@ -453,21 +512,53 @@ namespace DungeonDiceMonsters
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
-            if (thiPictureBoxIndex + 1 <= _DiceToRoll.Count)
+            //Only allow clicking on a occupied slot
+            if (thiPictureBoxIndex + 1 <= _DiceToRoll.Count && !_DiceRolled)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click2);
 
+                //Generate the card object
                 int cardid = _DiceToRoll[thiPictureBoxIndex].ID;
+                CardInfo thisCard = CardDataBase.GetCardWithID(cardid);
 
-                //Show to deck arrow only
-                PicToStoArrow.Visible = false;
-                if (!_DiceRolled) { PicToDeckArrow.Visible = true; }
+                //send card back to deck;
+                _PlayerData.Deck.AddMainCard(cardid);
 
-                _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
-                _CurrentRollIndexSelected = thiPictureBoxIndex;
+                //remove from dice to roll
+                _DiceToRoll.RemoveAt(thiPictureBoxIndex);
 
-                SetRollCardSelector(thiPictureBoxIndex);
-                LoadCardInfoPanel();
+                //Reload both sides
+                LoadDiceToRoll();
+                LoadDeckPage();
+
+                //This will always result on not bein able to roll
+                btnRoll.Visible = false;
+                //Also clear the selection mark of the card just removed
+                switch(thiPictureBoxIndex)
+                {
+                    case 0: PanelDice1.BackColor = Color.Transparent; break;
+                    case 1: PanelDice2.BackColor = Color.Transparent; break;
+                    case 2: PanelDice2.BackColor = Color.Transparent; break;
+                }
+
+                //Verify if the no free summon tiles warnings need to be vanish
+                if (_PlayerData.FreeSummonTiles == 0)
+                {
+                    if (_DiceToRoll.Count == 2)
+                    {
+                        if (_DiceToRoll[0].Category == "Monster" && _DiceToRoll[1].Category == "Monster")
+                        {
+                            lblNoSummonTilesWarning.Visible = false;
+                        }
+                    }
+                    else if (_DiceToRoll.Count == 1)
+                    {
+                        if (_DiceToRoll[0].Category == "Monster")
+                        {
+                            lblNoSummonTilesWarning.Visible = false;
+                        }
+                    }
+                }
             }
             else
             {
@@ -475,80 +566,14 @@ namespace DungeonDiceMonsters
             }
             
         }
-        private void PicToStoArrow_Click(object sender, EventArgs e)
-        {
-            //Add this card to the list of cards to roll dice for
-            _DiceToRoll.Add(_CurrentCardSelected);
-
-            //Remove from deck
-            _PlayerData.Deck.RemoveMainAtIndex(_CurrentDeckIndexSelected);
-
-            //Reload both sides
-            LoadDiceToRoll();
-            LoadDeckPage();
-
-            //Hide both arrows until another selection is clicked
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
-
-            //if the dice to roll is 3 or there no more cards in deck allow to roll
-            if(_DiceToRoll.Count == 3 || _PlayerData.Deck.MainDeckSize == 0)
-            {
-                btnRoll.Visible = true;
-            }
-
-            //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
-            if(_CurrentCardSelected.Category != "Monster" && _PlayerData.FreeSummonTiles == 0) 
-            {
-                lblNoSummonTilesWarning.Visible = true;
-            }
-            
-        }
-        private void PicToDeckArrow_Click(object sender, EventArgs e)
-        {
-            //send card back to dec;
-            _PlayerData.Deck.AddMainCard(_CurrentCardSelected.ID);
-
-            //remove from dice to roll
-            _DiceToRoll.RemoveAt(_CurrentRollIndexSelected);
-
-            //Reload both sides
-            LoadDiceToRoll();
-            LoadDeckPage();
-
-            //Hide both arrows until another selection is clicked
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
-
-            //THis will always result on not bein able to roll
-            btnRoll.Visible = false;
-
-            //Verify if the no free summon tiles warnings need to be vanish
-            if(_PlayerData.FreeSummonTiles == 0)
-            {
-                if(_DiceToRoll.Count == 2)
-                {
-                    if (_DiceToRoll[0].Category == "Monster" && _DiceToRoll[1].Category == "Monster")
-                    {
-                        lblNoSummonTilesWarning.Visible = false;
-                    }
-                }
-                else if (_DiceToRoll.Count == 1)
-                {
-                    if (_DiceToRoll[0].Category == "Monster")
-                    {
-                        lblNoSummonTilesWarning.Visible = false;
-                    }
-                }
-            }
-        }
         private void btnRoll_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+
             //Disable and hide all the not interactable elements 
+            _DiceRolled = true;
             PanelDeck.Enabled = false;
             GroupDicesToRoll.Enabled = false;
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
             btnRoll.Visible = false;
 
             //Roll the dice
@@ -562,6 +587,7 @@ namespace DungeonDiceMonsters
 
             for(int x  = 0; x < 6; x++) 
             {
+                SoundServer.PlaySoundEffect(SoundEffect.Attack);
                 PicDiceResult1.Image = null;
                 PicDiceResult1.BackColor = Color.White;
                 BoardForm.WaitNSeconds(100);
@@ -579,6 +605,7 @@ namespace DungeonDiceMonsters
                 CardInfo Dice2 = _DiceToRoll[1];
                 for (int x = 0; x < 6; x++)
                 {
+                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
                     PicDiceResult2.Image = null;
                     PicDiceResult2.BackColor = Color.White;
                     BoardForm.WaitNSeconds(100);
@@ -600,6 +627,7 @@ namespace DungeonDiceMonsters
                 CardInfo Dice3 = _DiceToRoll[2];
                 for (int x = 0; x < 6; x++)
                 {
+                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
                     PicDiceResult3.Image = null;
                     PicDiceResult3.BackColor = Color.White;
                     BoardForm.WaitNSeconds(100);
@@ -638,6 +666,9 @@ namespace DungeonDiceMonsters
                     }
                 }
             }
+
+            //Do a little delay here to pace the animation
+            BoardForm.WaitNSeconds(1000);
 
             //Add them to the pool
             for(int x = 0; x < movToAdd; x++)
@@ -718,30 +749,31 @@ namespace DungeonDiceMonsters
         }
         private void btnDice1Summon_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice2Summon_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice3Summon_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice2Ritual_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice3Ritual_Click(object sender, EventArgs e)
         {
-
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
         }
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
@@ -752,6 +784,7 @@ namespace DungeonDiceMonsters
         }
         private void btnDice2Set_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[1];
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
@@ -762,6 +795,7 @@ namespace DungeonDiceMonsters
         }
         private void btnDice3Set_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
@@ -772,6 +806,7 @@ namespace DungeonDiceMonsters
         }
         private void btnGoToBoard_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             //In the board reload the crest counts
             _Board.SetupMainPhaseNoSummon();
 

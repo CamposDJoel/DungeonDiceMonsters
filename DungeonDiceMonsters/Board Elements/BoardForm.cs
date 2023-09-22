@@ -66,6 +66,10 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
             InitializeComponent();
+            btnRoll.MouseEnter += OnMouseHoverSound;
+            btnViewBoard.MouseEnter += OnMouseHoverSound;
+            btnExit.MouseEnter += OnMouseHoverSound;
+            btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             RedData = Red; BlueData = Blue;           
@@ -189,6 +193,9 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
             InitializeComponent();
+            btnRoll.MouseEnter += OnMouseHoverSound;
+            btnViewBoard.MouseEnter += OnMouseHoverSound;
+            btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             RedData = Red; BlueData = Blue;
@@ -1177,6 +1184,10 @@ namespace DungeonDiceMonsters
         }
 
         //Events
+        private void OnMouseHoverSound(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
+        }
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
             if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
@@ -1845,7 +1856,8 @@ namespace DungeonDiceMonsters
         }
         private void btnNextForm_Click(object sender, EventArgs e)
         {
-            switch(_CurrentDimensionForm)
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
             {
                 case DimensionForms.CrossBase:
                 case DimensionForms.CrossRight:
@@ -1884,6 +1896,7 @@ namespace DungeonDiceMonsters
         }
         private void btnPreviousForm_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             switch (_CurrentDimensionForm)
             {
                 case DimensionForms.CrossBase:
@@ -1923,6 +1936,7 @@ namespace DungeonDiceMonsters
         }
         private void btnFormFlip_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             switch (_CurrentDimensionForm)
             {
                 case DimensionForms.CrossBase:  break;
@@ -1960,6 +1974,7 @@ namespace DungeonDiceMonsters
         }
         private void BtnFormTurnRight_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             switch (_CurrentDimensionForm)
             {
                 case DimensionForms.CrossBase: _CurrentDimensionForm = DimensionForms.CrossRight; break;
@@ -1997,6 +2012,7 @@ namespace DungeonDiceMonsters
         }
         private void BtnFormTurnLeft_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             switch (_CurrentDimensionForm)
             {
                 case DimensionForms.CrossBase: _CurrentDimensionForm = DimensionForms.CrossLeft; break;
