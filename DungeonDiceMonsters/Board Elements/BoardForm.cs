@@ -402,6 +402,24 @@ namespace DungeonDiceMonsters
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
         }
+        public void SetupSummonCardPhase(CardInfo card)
+        {
+            //Switch to the Summon Card State
+            _CurrentGameState = GameState.SummonCard;
+
+            //Save the ref to the data of the card to be summon
+            _CardToBeSummon = card;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+
+            //Display the Dimension shape selector
+            PanelDimenFormSelector.Visible = true;
+            lblSummonMessage.Visible = true;
+        }
         public void SetupSetCardPhase(CardInfo card)
         {
             //Switch to the Set Card Phase of the player
@@ -456,7 +474,10 @@ namespace DungeonDiceMonsters
         //Summoning data
         List<Tile> _SetCandidates = new List<Tile>();
         CardInfo _CardToBeSet;
+        CardInfo _CardToBeSummon;
         DimensionForms _CurrentDimensionForm = DimensionForms.CrossBase;
+        Tile[] _dimensionTiles = new Tile[6];
+        bool _validDimension = false;
 
         //Private functions
         private void LoadPlayersInfo()
@@ -1209,39 +1230,39 @@ namespace DungeonDiceMonsters
                 int tileId = Convert.ToInt32(thisPicture.Tag);
 
                 //Use the following function to get the ref to the tiles that compose the dimension
-                Tile[] dimensionTiles = GetDimensionTiles(tileId);
+                _dimensionTiles = GetDimensionTiles(tileId);
 
                 //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
                 //if none of the tiles are adjecent to any other owned by the player)
-                bool validDimension = true;
+                _validDimension = true;
                 int adjencentToPlayerCount = 0;
-                for (int x = 0; x < dimensionTiles.Length; x++)
+                for (int x = 0; x < _dimensionTiles.Length; x++)
                 {
-                    if (dimensionTiles[x] == null)
+                    if (_dimensionTiles[x] == null)
                     {
-                        validDimension = false; break;
+                        _validDimension = false; break;
                     }
                     else
                     {
-                        if (dimensionTiles[x].Owner != PlayerOwner.None)
+                        if (_dimensionTiles[x].Owner != PlayerOwner.None)
                         {
-                            validDimension = false; break;
+                            _validDimension = false; break;
                         }
                         else
                         {
                             //check that at least ONE tile is adjecend to a own tile of the player
-                            bool IsAdjecentToPlayer = dimensionTiles[x].HasAnAdjecentTileOwnBy(PlayerOwner.Red);
+                            bool IsAdjecentToPlayer = _dimensionTiles[x].HasAnAdjecentTileOwnBy(PlayerOwner.Red);
                             if (IsAdjecentToPlayer) { adjencentToPlayerCount++; }
                         }
                     }
                 }
-                if (adjencentToPlayerCount == 0) { validDimension = false; }
+                if (adjencentToPlayerCount == 0) { _validDimension = false; }
 
                 //Draw the dimension shape
-                dimensionTiles[0].MarkDimensionSummonTile();
-                for (int x = 1; x < dimensionTiles.Length; x++)
+                _dimensionTiles[0].MarkDimensionSummonTile();
+                for (int x = 1; x < _dimensionTiles.Length; x++)
                 {
-                    if (dimensionTiles[x] != null) { dimensionTiles[x].MarkDimensionTile(validDimension); }
+                    if (_dimensionTiles[x] != null) { _dimensionTiles[x].MarkDimensionTile(_validDimension); }
                 }
             }
 
@@ -1466,6 +1487,38 @@ namespace DungeonDiceMonsters
 
                     //Once this action is completed, move to the main phase
                     lblSetCardMessage.Visible = false;
+                    _CurrentGameState = GameState.MainPhaseBoard;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
+            }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                if(_validDimension)
+                {
+                    //TODO: I need a sound effect here 
+
+                    //Dimension the tiles
+                    foreach(Tile tile in _dimensionTiles)
+                    {
+                        tile.ChangeOwner(PlayerOwner.Red);
+                    }
+
+                    //then summon the card
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), PlayerOwner.Red, false);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[tileId].SummonCard(thisCard);
+
+                    //Complete the summon
+                    lblSummonMessage.Visible = false;
+                    PanelDimenFormSelector.Visible = false;
+                    _CurrentDimensionForm = DimensionForms.CrossBase;
+                    _CurrentTileSelected = _dimensionTiles[0];
                     _CurrentGameState = GameState.MainPhaseBoard;
                 }
                 else

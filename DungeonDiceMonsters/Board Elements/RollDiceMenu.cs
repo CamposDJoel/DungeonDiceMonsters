@@ -750,14 +750,38 @@ namespace DungeonDiceMonsters
         private void btnDice1Summon_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[1];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice2Summon_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[1];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice3Summon_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[1];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {

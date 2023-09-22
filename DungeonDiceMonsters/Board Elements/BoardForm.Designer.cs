@@ -1597,6 +1597,7 @@
             // PicCurrentForm
             // 
             this.PicCurrentForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCurrentForm.Image = ((System.Drawing.Image)(resources.GetObject("PicCurrentForm.Image")));
             this.PicCurrentForm.Location = new System.Drawing.Point(32, 58);
             this.PicCurrentForm.Name = "PicCurrentForm";
             this.PicCurrentForm.Size = new System.Drawing.Size(140, 140);
