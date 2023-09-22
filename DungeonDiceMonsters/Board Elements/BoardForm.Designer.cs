@@ -138,6 +138,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
+            this.lblSummonMessage = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -1479,12 +1480,26 @@
             this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSetCardMessage.Visible = false;
             // 
+            // lblSummonMessage
+            // 
+            this.lblSummonMessage.BackColor = System.Drawing.Color.Gold;
+            this.lblSummonMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSummonMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummonMessage.Location = new System.Drawing.Point(6, 258);
+            this.lblSummonMessage.Name = "lblSummonMessage";
+            this.lblSummonMessage.Size = new System.Drawing.Size(134, 47);
+            this.lblSummonMessage.TabIndex = 18;
+            this.lblSummonMessage.Text = "Select Tile to Dimension the Dice!";
+            this.lblSummonMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSummonMessage.Visible = false;
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
             this.ClientSize = new System.Drawing.Size(1005, 561);
+            this.Controls.Add(this.lblSummonMessage);
             this.Controls.Add(this.lblSetCardMessage);
             this.Controls.Add(this.btnReturnToTurnMenu);
             this.Controls.Add(this.PanelTurnStartMenu);
@@ -1658,5 +1673,6 @@
         private System.Windows.Forms.Button btnRoll;
         private System.Windows.Forms.Button btnReturnToTurnMenu;
         private System.Windows.Forms.Label lblSetCardMessage;
+        private System.Windows.Forms.Label lblSummonMessage;
     }
 }

@@ -22,6 +22,44 @@ namespace DungeonDiceMonsters
         SetCard,
         SummonCard,
     }
+    public enum DimensionForms
+    {
+        //CROSS FORMs
+        CrossBase,
+        CrossRight,
+        CrossLeft,
+        CrossUpSideDown,
+
+        //LONG FORM
+        LongBase,
+        LongRight,
+        LongLeft,
+        LongUpSideDown,
+
+        //LONG FLIPPED
+        LongFlippedBase,
+        LongFlippedRight,
+        LongFlippedLeft,
+        LongFlippedUpSideDown,
+
+        //Z FORM
+        ZBase,
+        ZRight,
+        ZLeft,
+        ZUpSideDown,
+
+        //Z FLIPPED
+        ZFlipepdBase,
+        ZFlipepdRight,
+        ZFlipepdLeft,
+        ZFlipepdUpSideDown,
+
+        //T FORM
+        TBase,
+        TRight,
+        TLeft,
+        TUpSideDown,
+    }
     public partial class BoardForm : Form
     {
         public BoardForm(PlayerData Red, PlayerData Blue)
@@ -339,6 +377,8 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(thisCard6);
             _CurrentTileSelected.SetCard(thisCard6);
 
+            PanelBoard.Enabled = true;
+            _CurrentGameState = GameState.SummonCard;
         }
 
         //Public function
@@ -398,6 +438,7 @@ namespace DungeonDiceMonsters
         //Summoning data
         List<Tile> _SetCandidates = new List<Tile>();
         CardInfo _CardToBeSet;
+        DimensionForms _CurrentDimensionForm = DimensionForms.CrossBase;
 
         //Private functions
         private void LoadPlayersInfo()
@@ -758,6 +799,42 @@ namespace DungeonDiceMonsters
             int X_Location = Cursor.Position.X;
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
+        private Tile[] GetDimensionTiles(int BaseTileID)
+        {
+            Tile[] tiles = new Tile[6];
+
+            switch(_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase:
+                    //Tile 0: The base tile
+                    tiles[0] = _Tiles[BaseTileID];
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(_Tiles[BaseTileID], new List<TileDirection> { TileDirection.North});
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(_Tiles[BaseTileID], new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 West
+                    tiles[3] = GetTileInDirection(_Tiles[BaseTileID], new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 South
+                    tiles[4] = GetTileInDirection(_Tiles[BaseTileID], new List<TileDirection> { TileDirection.South });
+                    //Tile 5: 1 South, 1 South
+                    tiles[5] = GetTileInDirection(_Tiles[BaseTileID], new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    break;
+            }
+
+            //Check
+
+            return tiles;
+        }
+        public Tile GetTileInDirection(Tile baseTile, List<TileDirection> directions)
+        {
+            Tile destinationTile = baseTile;
+            for(int x = 0; x < directions.Count; x++) 
+            {
+                destinationTile = destinationTile.GetAdjencentTile(directions[x]);
+                if (destinationTile == null) { break; }
+            }
+            return destinationTile;
+        }
         public static void WaitNSeconds(double milliseconds)
         {
             if (milliseconds < 1) return;
@@ -782,6 +859,48 @@ namespace DungeonDiceMonsters
                 UpdateDebugWindow();
                 LoadCardInfoPanel();
             }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                //Highlight the possible dimmension
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //Use the following function to get the ref to the tiles that compose the dimension
+                Tile[] dimensionTiles = GetDimensionTiles(tileId);
+
+                //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
+                //if none of the tiles are adjecent to any other owned by the player)
+                bool validDimension = true;
+                int adjencentToPlayerCount = 0;
+                for (int x = 0; x < dimensionTiles.Length; x++)
+                {
+                    if (dimensionTiles[x] == null)
+                    {
+                        validDimension = false; break;
+                    }
+                    else
+                    {
+                        if (dimensionTiles[x].Owner != PlayerOwner.None)
+                        {
+                            validDimension = false; break;
+                        }
+                        else
+                        {
+                            //check that at least ONE tile is adjecend to a own tile of the player
+                            bool IsAdjecentToPlayer = dimensionTiles[x].HasAnAdjecentTileOwnBy(PlayerOwner.Red);
+                            if (IsAdjecentToPlayer) { adjencentToPlayerCount++; }
+                        }
+                    }
+                }
+                if (adjencentToPlayerCount == 0) { validDimension = false; }
+
+                //Draw the dimension shape
+                for (int x = 0; x < dimensionTiles.Length; x++)
+                {
+                    if (dimensionTiles[x] != null) { dimensionTiles[x].MarkDimensionTile(validDimension); }
+                }
+            }
 
         }
         private void OnMouseLeavePicture(object sender, EventArgs e)
@@ -789,6 +908,22 @@ namespace DungeonDiceMonsters
             if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
             {
                 _CurrentTileSelected.Leave();
+            }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                //Restore the possible dimmension tiles to their OG colors
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //Use the following function to get the ref to the tiles that compose the dimension
+                Tile[] dimensionTiles = GetDimensionTiles(tileId);
+
+                //Reset the color of the dimensionTiles
+                for (int x = 0; x < dimensionTiles.Length; x++)
+                {
+                    if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
+                }
             }
         }
         private void Tile_Click(object sender, EventArgs e)

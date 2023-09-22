@@ -770,7 +770,6 @@ namespace DungeonDiceMonsters
             Dispose();
             _Board.Show();
         }
-
         private void btnGoToBoard_Click(object sender, EventArgs e)
         {
             //In the board reload the crest counts

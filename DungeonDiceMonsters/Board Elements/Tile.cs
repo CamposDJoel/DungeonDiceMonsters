@@ -2,6 +2,7 @@
 //9/11/2023
 //TileClass
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -202,6 +203,44 @@ namespace DungeonDiceMonsters
 
             return hasIt;
         }
+        public bool HasAnAdjecentTileOwnBy(PlayerOwner expectedOwner)
+        {
+            bool hasIt = false;
+
+            if (HasAnAdjecentTile(TileDirection.North))
+            {
+                if (_NorthTile.Owner == expectedOwner)
+                {
+                    hasIt = true;
+                }
+            }
+
+            if (HasAnAdjecentTile(TileDirection.South))
+            {
+                if (_SouthTile.Owner == expectedOwner)
+                {
+                    hasIt = true;
+                }
+            }
+
+            if (HasAnAdjecentTile(TileDirection.East))
+            {
+                if (_EastTile.Owner == expectedOwner)
+                {
+                    hasIt = true;
+                }
+            }
+
+            if (HasAnAdjecentTile(TileDirection.West))
+            {
+                if (_WestTile.Owner == expectedOwner)
+                {
+                    hasIt = true;
+                }
+            }            
+
+            return hasIt;
+        }
 
         //Private Methods
         public void SetTileColor()
@@ -229,6 +268,17 @@ namespace DungeonDiceMonsters
         public void MarkSetTarget()
         {
             _CardImage.BackColor = Color.Green;
+        }
+        public void MarkDimensionTile(bool isValid)
+        {
+            if(isValid)
+            {
+                _CardImage.BackColor = Color.Green;
+            }
+            else
+            {
+                _CardImage.BackColor = Color.Red;
+            }
         }
 
         //Accessors
