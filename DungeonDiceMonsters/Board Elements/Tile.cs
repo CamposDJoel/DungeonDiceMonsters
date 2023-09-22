@@ -280,6 +280,11 @@ namespace DungeonDiceMonsters
                 _CardImage.BackColor = Color.Red;
             }
         }
+        public void MarkDimensionSummonTile()
+        {
+            _CardImage.BackColor = Color.Orange;
+        }
+
 
         //Accessors
         public int ID { get { return (int)_CardImage.Tag; } }

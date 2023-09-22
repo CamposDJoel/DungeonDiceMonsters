@@ -139,6 +139,14 @@
             this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
             this.lblSummonMessage = new System.Windows.Forms.Label();
+            this.PanelDimenFormSelector = new System.Windows.Forms.Panel();
+            this.btnFormFlip = new System.Windows.Forms.Button();
+            this.BtnFormTurnRight = new System.Windows.Forms.Button();
+            this.BtnFormTurnLeft = new System.Windows.Forms.Button();
+            this.btnNextForm = new System.Windows.Forms.Button();
+            this.btnPreviousForm = new System.Windows.Forms.Button();
+            this.lblFormName = new System.Windows.Forms.Label();
+            this.PicCurrentForm = new System.Windows.Forms.PictureBox();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -174,6 +182,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
             this.PanelTurnStartMenu.SuspendLayout();
+            this.PanelDimenFormSelector.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCurrentForm)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBoard
@@ -1110,7 +1120,7 @@
             this.PanelDebug.Controls.Add(this.lblDebugSouthAdj);
             this.PanelDebug.Controls.Add(this.lblDebugNorthAdj);
             this.PanelDebug.Controls.Add(this.lblDebugTileID);
-            this.PanelDebug.Location = new System.Drawing.Point(790, 353);
+            this.PanelDebug.Location = new System.Drawing.Point(1008, 4);
             this.PanelDebug.Name = "PanelDebug";
             this.PanelDebug.Size = new System.Drawing.Size(139, 205);
             this.PanelDebug.TabIndex = 3;
@@ -1493,12 +1503,115 @@
             this.lblSummonMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSummonMessage.Visible = false;
             // 
+            // PanelDimenFormSelector
+            // 
+            this.PanelDimenFormSelector.BackColor = System.Drawing.Color.Black;
+            this.PanelDimenFormSelector.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDimenFormSelector.Controls.Add(this.btnFormFlip);
+            this.PanelDimenFormSelector.Controls.Add(this.BtnFormTurnRight);
+            this.PanelDimenFormSelector.Controls.Add(this.BtnFormTurnLeft);
+            this.PanelDimenFormSelector.Controls.Add(this.btnNextForm);
+            this.PanelDimenFormSelector.Controls.Add(this.btnPreviousForm);
+            this.PanelDimenFormSelector.Controls.Add(this.lblFormName);
+            this.PanelDimenFormSelector.Controls.Add(this.PicCurrentForm);
+            this.PanelDimenFormSelector.Location = new System.Drawing.Point(790, 291);
+            this.PanelDimenFormSelector.Name = "PanelDimenFormSelector";
+            this.PanelDimenFormSelector.Size = new System.Drawing.Size(205, 258);
+            this.PanelDimenFormSelector.TabIndex = 19;
+            this.PanelDimenFormSelector.Visible = false;
+            // 
+            // btnFormFlip
+            // 
+            this.btnFormFlip.BackColor = System.Drawing.Color.SaddleBrown;
+            this.btnFormFlip.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFormFlip.ForeColor = System.Drawing.Color.White;
+            this.btnFormFlip.Location = new System.Drawing.Point(74, 210);
+            this.btnFormFlip.Name = "btnFormFlip";
+            this.btnFormFlip.Size = new System.Drawing.Size(60, 27);
+            this.btnFormFlip.TabIndex = 6;
+            this.btnFormFlip.Text = "<- Flip ->";
+            this.btnFormFlip.UseVisualStyleBackColor = false;
+            this.btnFormFlip.Click += new System.EventHandler(this.btnFormFlip_Click);
+            // 
+            // BtnFormTurnRight
+            // 
+            this.BtnFormTurnRight.BackColor = System.Drawing.Color.SaddleBrown;
+            this.BtnFormTurnRight.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnFormTurnRight.ForeColor = System.Drawing.Color.White;
+            this.BtnFormTurnRight.Location = new System.Drawing.Point(157, 202);
+            this.BtnFormTurnRight.Name = "BtnFormTurnRight";
+            this.BtnFormTurnRight.Size = new System.Drawing.Size(42, 41);
+            this.BtnFormTurnRight.TabIndex = 5;
+            this.BtnFormTurnRight.Text = "Turn ->";
+            this.BtnFormTurnRight.UseVisualStyleBackColor = false;
+            this.BtnFormTurnRight.Click += new System.EventHandler(this.BtnFormTurnRight_Click);
+            // 
+            // BtnFormTurnLeft
+            // 
+            this.BtnFormTurnLeft.BackColor = System.Drawing.Color.SaddleBrown;
+            this.BtnFormTurnLeft.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnFormTurnLeft.ForeColor = System.Drawing.Color.White;
+            this.BtnFormTurnLeft.Location = new System.Drawing.Point(7, 202);
+            this.BtnFormTurnLeft.Name = "BtnFormTurnLeft";
+            this.BtnFormTurnLeft.Size = new System.Drawing.Size(42, 41);
+            this.BtnFormTurnLeft.TabIndex = 4;
+            this.BtnFormTurnLeft.Text = "Turn <-";
+            this.BtnFormTurnLeft.UseVisualStyleBackColor = false;
+            this.BtnFormTurnLeft.Click += new System.EventHandler(this.BtnFormTurnLeft_Click);
+            // 
+            // btnNextForm
+            // 
+            this.btnNextForm.BackColor = System.Drawing.Color.SaddleBrown;
+            this.btnNextForm.ForeColor = System.Drawing.Color.White;
+            this.btnNextForm.Location = new System.Drawing.Point(157, 27);
+            this.btnNextForm.Name = "btnNextForm";
+            this.btnNextForm.Size = new System.Drawing.Size(22, 22);
+            this.btnNextForm.TabIndex = 3;
+            this.btnNextForm.Text = ">>";
+            this.btnNextForm.UseVisualStyleBackColor = false;
+            this.btnNextForm.Click += new System.EventHandler(this.btnNextForm_Click);
+            // 
+            // btnPreviousForm
+            // 
+            this.btnPreviousForm.BackColor = System.Drawing.Color.SaddleBrown;
+            this.btnPreviousForm.ForeColor = System.Drawing.Color.White;
+            this.btnPreviousForm.Location = new System.Drawing.Point(27, 27);
+            this.btnPreviousForm.Name = "btnPreviousForm";
+            this.btnPreviousForm.Size = new System.Drawing.Size(22, 22);
+            this.btnPreviousForm.TabIndex = 2;
+            this.btnPreviousForm.Text = "<<";
+            this.btnPreviousForm.UseVisualStyleBackColor = false;
+            this.btnPreviousForm.Click += new System.EventHandler(this.btnPreviousForm_Click);
+            // 
+            // lblFormName
+            // 
+            this.lblFormName.AutoSize = true;
+            this.lblFormName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFormName.ForeColor = System.Drawing.Color.White;
+            this.lblFormName.Location = new System.Drawing.Point(51, 29);
+            this.lblFormName.Name = "lblFormName";
+            this.lblFormName.Size = new System.Drawing.Size(104, 17);
+            this.lblFormName.TabIndex = 1;
+            this.lblFormName.Text = "CROSS Form";
+            // 
+            // PicCurrentForm
+            // 
+            this.PicCurrentForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCurrentForm.Location = new System.Drawing.Point(32, 58);
+            this.PicCurrentForm.Name = "PicCurrentForm";
+            this.PicCurrentForm.Size = new System.Drawing.Size(140, 140);
+            this.PicCurrentForm.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCurrentForm.TabIndex = 0;
+            this.PicCurrentForm.TabStop = false;
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
-            this.ClientSize = new System.Drawing.Size(1005, 561);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(1006, 561);
+            this.Controls.Add(this.PanelDimenFormSelector);
             this.Controls.Add(this.lblSummonMessage);
             this.Controls.Add(this.lblSetCardMessage);
             this.Controls.Add(this.btnReturnToTurnMenu);
@@ -1558,6 +1671,9 @@
             this.PanelEndGameResults.PerformLayout();
             this.PanelTurnStartMenu.ResumeLayout(false);
             this.PanelTurnStartMenu.PerformLayout();
+            this.PanelDimenFormSelector.ResumeLayout(false);
+            this.PanelDimenFormSelector.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCurrentForm)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1674,5 +1790,13 @@
         private System.Windows.Forms.Button btnReturnToTurnMenu;
         private System.Windows.Forms.Label lblSetCardMessage;
         private System.Windows.Forms.Label lblSummonMessage;
+        private System.Windows.Forms.Panel PanelDimenFormSelector;
+        private System.Windows.Forms.PictureBox PicCurrentForm;
+        private System.Windows.Forms.Button btnNextForm;
+        private System.Windows.Forms.Button btnPreviousForm;
+        private System.Windows.Forms.Label lblFormName;
+        private System.Windows.Forms.Button btnFormFlip;
+        private System.Windows.Forms.Button BtnFormTurnRight;
+        private System.Windows.Forms.Button BtnFormTurnLeft;
     }
 }
