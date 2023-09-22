@@ -742,15 +742,43 @@ namespace DungeonDiceMonsters
         }
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
+            CardInfo cardToBeSet = _DiceToRoll[0];
+            //Set the card in the board
+            _Board.SetupSetCardPhase(cardToBeSet);
 
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice2Set_Click(object sender, EventArgs e)
         {
+            CardInfo cardToBeSet = _DiceToRoll[1];
+            //Set the card in the board
+            _Board.SetupSetCardPhase(cardToBeSet);
 
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice3Set_Click(object sender, EventArgs e)
         {
+            CardInfo cardToBeSet = _DiceToRoll[2];
+            //Set the card in the board
+            _Board.SetupSetCardPhase(cardToBeSet);
 
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
+        }
+
+        private void btnGoToBoard_Click(object sender, EventArgs e)
+        {
+            //In the board reload the crest counts
+            _Board.SetupMainPhaseNoSummon();
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
     }
 }

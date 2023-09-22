@@ -50,17 +50,21 @@
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
             this.GroupDicesToRoll = new System.Windows.Forms.GroupBox();
+            this.PanelDice3 = new System.Windows.Forms.Panel();
+            this.PicDice3 = new System.Windows.Forms.PictureBox();
+            this.PanelDice2 = new System.Windows.Forms.Panel();
+            this.PicDice2 = new System.Windows.Forms.PictureBox();
+            this.PanelDice1 = new System.Windows.Forms.Panel();
+            this.PicDice1 = new System.Windows.Forms.PictureBox();
+            this.lblNoSummonTilesWarning = new System.Windows.Forms.Label();
             this.btnDice3Ritual = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.btnDice2Ritual = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnDice1Ritual = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.PicDice3 = new System.Windows.Forms.PictureBox();
             this.btnDice3Set = new System.Windows.Forms.Button();
-            this.PicDice2 = new System.Windows.Forms.PictureBox();
             this.btnDice2Set = new System.Windows.Forms.Button();
-            this.PicDice1 = new System.Windows.Forms.PictureBox();
             this.btnDice1Set = new System.Windows.Forms.Button();
             this.btnDice3Summon = new System.Windows.Forms.Button();
             this.btnDice1Summon = new System.Windows.Forms.Button();
@@ -82,10 +86,6 @@
             this.PicBlueDEFImage = new System.Windows.Forms.PictureBox();
             this.PicBlueATKImage = new System.Windows.Forms.PictureBox();
             this.PicBlueMovImage = new System.Windows.Forms.PictureBox();
-            this.lblNoSummonTilesWarning = new System.Windows.Forms.Label();
-            this.PanelDice1 = new System.Windows.Forms.Panel();
-            this.PanelDice2 = new System.Windows.Forms.Panel();
-            this.PanelDice3 = new System.Windows.Forms.Panel();
             this.btnGoToBoard = new System.Windows.Forms.Button();
             this.PanelDeck.SuspendLayout();
             this.GroupDiceInfo.SuspendLayout();
@@ -98,8 +98,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).BeginInit();
             this.GroupDicesToRoll.SuspendLayout();
+            this.PanelDice3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDice3)).BeginInit();
+            this.PanelDice2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDice2)).BeginInit();
+            this.PanelDice1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDice1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
@@ -112,9 +115,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueDEFImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).BeginInit();
-            this.PanelDice1.SuspendLayout();
-            this.PanelDice2.SuspendLayout();
-            this.PanelDice3.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelDeck
@@ -356,6 +356,82 @@
             this.GroupDicesToRoll.TabStop = false;
             this.GroupDicesToRoll.Text = "Dice Selection";
             // 
+            // PanelDice3
+            // 
+            this.PanelDice3.BackColor = System.Drawing.Color.Black;
+            this.PanelDice3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDice3.Controls.Add(this.PicDice3);
+            this.PanelDice3.Location = new System.Drawing.Point(297, 26);
+            this.PanelDice3.Name = "PanelDice3";
+            this.PanelDice3.Size = new System.Drawing.Size(78, 104);
+            this.PanelDice3.TabIndex = 26;
+            // 
+            // PicDice3
+            // 
+            this.PicDice3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDice3.Location = new System.Drawing.Point(2, 2);
+            this.PicDice3.Name = "PicDice3";
+            this.PicDice3.Size = new System.Drawing.Size(72, 98);
+            this.PicDice3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDice3.TabIndex = 2;
+            this.PicDice3.TabStop = false;
+            this.PicDice3.Tag = "2";
+            // 
+            // PanelDice2
+            // 
+            this.PanelDice2.BackColor = System.Drawing.Color.Black;
+            this.PanelDice2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDice2.Controls.Add(this.PicDice2);
+            this.PanelDice2.Location = new System.Drawing.Point(166, 26);
+            this.PanelDice2.Name = "PanelDice2";
+            this.PanelDice2.Size = new System.Drawing.Size(78, 104);
+            this.PanelDice2.TabIndex = 25;
+            // 
+            // PicDice2
+            // 
+            this.PicDice2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDice2.Location = new System.Drawing.Point(2, 2);
+            this.PicDice2.Name = "PicDice2";
+            this.PicDice2.Size = new System.Drawing.Size(72, 98);
+            this.PicDice2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDice2.TabIndex = 1;
+            this.PicDice2.TabStop = false;
+            this.PicDice2.Tag = "1";
+            // 
+            // PanelDice1
+            // 
+            this.PanelDice1.BackColor = System.Drawing.Color.Black;
+            this.PanelDice1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDice1.Controls.Add(this.PicDice1);
+            this.PanelDice1.Location = new System.Drawing.Point(31, 26);
+            this.PanelDice1.Name = "PanelDice1";
+            this.PanelDice1.Size = new System.Drawing.Size(78, 104);
+            this.PanelDice1.TabIndex = 24;
+            // 
+            // PicDice1
+            // 
+            this.PicDice1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDice1.Location = new System.Drawing.Point(2, 2);
+            this.PicDice1.Name = "PicDice1";
+            this.PicDice1.Size = new System.Drawing.Size(72, 98);
+            this.PicDice1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicDice1.TabIndex = 0;
+            this.PicDice1.TabStop = false;
+            this.PicDice1.Tag = "0";
+            // 
+            // lblNoSummonTilesWarning
+            // 
+            this.lblNoSummonTilesWarning.AutoSize = true;
+            this.lblNoSummonTilesWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoSummonTilesWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoSummonTilesWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblNoSummonTilesWarning.Location = new System.Drawing.Point(70, 159);
+            this.lblNoSummonTilesWarning.Name = "lblNoSummonTilesWarning";
+            this.lblNoSummonTilesWarning.Size = new System.Drawing.Size(276, 12);
+            this.lblNoSummonTilesWarning.TabIndex = 24;
+            this.lblNoSummonTilesWarning.Text = "Warning: No free summon tiles to set Spell/Traps.";
+            this.lblNoSummonTilesWarning.Visible = false;
+            // 
             // btnDice3Ritual
             // 
             this.btnDice3Ritual.BackColor = System.Drawing.Color.DodgerBlue;
@@ -422,17 +498,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "^";
             // 
-            // PicDice3
-            // 
-            this.PicDice3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDice3.Location = new System.Drawing.Point(2, 2);
-            this.PicDice3.Name = "PicDice3";
-            this.PicDice3.Size = new System.Drawing.Size(72, 98);
-            this.PicDice3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicDice3.TabIndex = 2;
-            this.PicDice3.TabStop = false;
-            this.PicDice3.Tag = "2";
-            // 
             // btnDice3Set
             // 
             this.btnDice3Set.BackColor = System.Drawing.Color.Yellow;
@@ -447,17 +512,6 @@
             this.btnDice3Set.Visible = false;
             this.btnDice3Set.Click += new System.EventHandler(this.btnDice3Set_Click);
             // 
-            // PicDice2
-            // 
-            this.PicDice2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDice2.Location = new System.Drawing.Point(2, 2);
-            this.PicDice2.Name = "PicDice2";
-            this.PicDice2.Size = new System.Drawing.Size(72, 98);
-            this.PicDice2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicDice2.TabIndex = 1;
-            this.PicDice2.TabStop = false;
-            this.PicDice2.Tag = "1";
-            // 
             // btnDice2Set
             // 
             this.btnDice2Set.BackColor = System.Drawing.Color.Yellow;
@@ -471,17 +525,6 @@
             this.btnDice2Set.UseVisualStyleBackColor = false;
             this.btnDice2Set.Visible = false;
             this.btnDice2Set.Click += new System.EventHandler(this.btnDice2Set_Click);
-            // 
-            // PicDice1
-            // 
-            this.PicDice1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicDice1.Location = new System.Drawing.Point(2, 2);
-            this.PicDice1.Name = "PicDice1";
-            this.PicDice1.Size = new System.Drawing.Size(72, 98);
-            this.PicDice1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicDice1.TabIndex = 0;
-            this.PicDice1.TabStop = false;
-            this.PicDice1.Tag = "0";
             // 
             // btnDice1Set
             // 
@@ -737,49 +780,6 @@
             this.PicBlueMovImage.TabIndex = 1;
             this.PicBlueMovImage.TabStop = false;
             // 
-            // lblNoSummonTilesWarning
-            // 
-            this.lblNoSummonTilesWarning.AutoSize = true;
-            this.lblNoSummonTilesWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblNoSummonTilesWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNoSummonTilesWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblNoSummonTilesWarning.Location = new System.Drawing.Point(70, 159);
-            this.lblNoSummonTilesWarning.Name = "lblNoSummonTilesWarning";
-            this.lblNoSummonTilesWarning.Size = new System.Drawing.Size(276, 12);
-            this.lblNoSummonTilesWarning.TabIndex = 24;
-            this.lblNoSummonTilesWarning.Text = "Warning: No free summon tiles to set Spell/Traps.";
-            this.lblNoSummonTilesWarning.Visible = false;
-            // 
-            // PanelDice1
-            // 
-            this.PanelDice1.BackColor = System.Drawing.Color.Black;
-            this.PanelDice1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelDice1.Controls.Add(this.PicDice1);
-            this.PanelDice1.Location = new System.Drawing.Point(31, 26);
-            this.PanelDice1.Name = "PanelDice1";
-            this.PanelDice1.Size = new System.Drawing.Size(78, 104);
-            this.PanelDice1.TabIndex = 24;
-            // 
-            // PanelDice2
-            // 
-            this.PanelDice2.BackColor = System.Drawing.Color.Black;
-            this.PanelDice2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelDice2.Controls.Add(this.PicDice2);
-            this.PanelDice2.Location = new System.Drawing.Point(166, 26);
-            this.PanelDice2.Name = "PanelDice2";
-            this.PanelDice2.Size = new System.Drawing.Size(78, 104);
-            this.PanelDice2.TabIndex = 25;
-            // 
-            // PanelDice3
-            // 
-            this.PanelDice3.BackColor = System.Drawing.Color.Black;
-            this.PanelDice3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelDice3.Controls.Add(this.PicDice3);
-            this.PanelDice3.Location = new System.Drawing.Point(297, 26);
-            this.PanelDice3.Name = "PanelDice3";
-            this.PanelDice3.Size = new System.Drawing.Size(78, 104);
-            this.PanelDice3.TabIndex = 26;
-            // 
             // btnGoToBoard
             // 
             this.btnGoToBoard.BackColor = System.Drawing.Color.Purple;
@@ -791,6 +791,7 @@
             this.btnGoToBoard.Text = "Go to board!";
             this.btnGoToBoard.UseVisualStyleBackColor = false;
             this.btnGoToBoard.Visible = false;
+            this.btnGoToBoard.Click += new System.EventHandler(this.btnGoToBoard_Click);
             // 
             // RollDiceMenu
             // 
@@ -830,8 +831,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).EndInit();
             this.GroupDicesToRoll.ResumeLayout(false);
             this.GroupDicesToRoll.PerformLayout();
+            this.PanelDice3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDice3)).EndInit();
+            this.PanelDice2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDice2)).EndInit();
+            this.PanelDice1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDice1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).EndInit();
@@ -844,9 +848,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueDEFImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).EndInit();
-            this.PanelDice1.ResumeLayout(false);
-            this.PanelDice2.ResumeLayout(false);
-            this.PanelDice3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

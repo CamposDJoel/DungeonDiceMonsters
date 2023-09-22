@@ -59,6 +59,17 @@ namespace DungeonDiceMonsters
         {
             _SummoningTiles.Add(tile);
         }
+        public List<Tile> GetSetCardTileCandidates()
+        {
+            List<Tile> candidates = new List<Tile>();
+
+            foreach (Tile tile in _SummoningTiles) 
+            {
+                if (!tile.IsOccupied) {  candidates.Add(tile); }
+            }
+
+            return candidates;
+        }
 
         private string _name;
         private Deck _deck;

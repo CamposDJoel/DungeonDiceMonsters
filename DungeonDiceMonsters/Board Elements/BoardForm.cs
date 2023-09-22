@@ -19,6 +19,8 @@ namespace DungeonDiceMonsters
         SelectingAttackTarger,
         BattleMenuAttackMode,
         BattleMenuDefenseMode,
+        SetCard,
+        SummonCard,
     }
     public partial class BoardForm : Form
     {
@@ -32,7 +34,7 @@ namespace DungeonDiceMonsters
           
             //Initialize the board tiles
             int tileId = 0;
-            int Y_Location = 2;
+            int Y_Location = 25;
             for (int x = 0; x < 18; x++)
             {
                 int X_Location = 2;
@@ -339,6 +341,42 @@ namespace DungeonDiceMonsters
 
         }
 
+        //Public function
+        public void SetupMainPhaseNoSummon()
+        {
+            //Switch to the Main Phase of the player
+            _CurrentGameState = GameState.MainPhaseBoard;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+        }
+        public void SetupSetCardPhase(CardInfo card)
+        {
+            //Switch to the Set Card Phase of the player
+            _CurrentGameState = GameState.SetCard;
+
+            //Save the ref to the data of the card to be set
+            _CardToBeSet = card;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+
+            //Setup the tile candidates
+            _SetCandidates.Clear();
+            _SetCandidates = RedData.GetSetCardTileCandidates();
+            lblSetCardMessage.Visible = true;
+            foreach (Tile tile in _SetCandidates)
+            {
+                tile.MarkSetTarget();
+            }
+        }
+
         //Data
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
         private PlayerData RedData;
@@ -357,6 +395,9 @@ namespace DungeonDiceMonsters
         //Symbols Refs
         Card _RedSymbol;
         Card _BlueSymbol;
+        //Summoning data
+        List<Tile> _SetCandidates = new List<Tile>();
+        CardInfo _CardToBeSet;
 
         //Private functions
         private void LoadPlayersInfo()
@@ -692,29 +733,7 @@ namespace DungeonDiceMonsters
                 case "WIND": if (defender.Attribute == "WATER") { return true; } else { return false; }
                 default: return false;
             }
-        }
-        private void OnMouseEnterPicture(object sender, EventArgs e)
-        {
-            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
-            {
-                SoundServer.PlaySoundEffect(SoundEffect.Hover);
-                PictureBox thisPicture = (PictureBox)sender;
-                int tileId = Convert.ToInt32(thisPicture.Tag);
-                _CurrentTileSelected = _Tiles[tileId];
-                _CurrentTileSelected.Hover();
-
-                UpdateDebugWindow();
-                LoadCardInfoPanel();
-            }
-
-        }
-        private void OnMouseLeavePicture(object sender, EventArgs e)
-        {
-            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
-            {
-                _CurrentTileSelected.Leave();
-            }
-        }
+        }    
         private void UpdateDebugWindow()
         {
             lblDebugTileID.Text = "Tile ID: " + _CurrentTileSelected.ID;
@@ -750,6 +769,28 @@ namespace DungeonDiceMonsters
         }
 
         //Events
+        private void OnMouseEnterPicture(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+                _CurrentTileSelected = _Tiles[tileId];
+                _CurrentTileSelected.Hover();
+
+                UpdateDebugWindow();
+                LoadCardInfoPanel();
+            }
+
+        }
+        private void OnMouseLeavePicture(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                _CurrentTileSelected.Leave();
+            }
+        }
         private void Tile_Click(object sender, EventArgs e)
         {
             if (_CurrentGameState == GameState.MainPhaseBoard)
@@ -919,6 +960,40 @@ namespace DungeonDiceMonsters
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
                 }    
+            }
+            else if (_CurrentGameState == GameState.SetCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _SetCandidates.Count; x++)
+                {
+                    if (_SetCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true;
+                        break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    //TODO: Add a sounds effect here to set the card
+
+                    //Set Card here
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), PlayerOwner.Red, true);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[tileId].SetCard(thisCard);
+
+                    //Once this action is completed, move to the main phase
+                    lblSetCardMessage.Visible = false;
+                    _CurrentGameState = GameState.MainPhaseBoard;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
             }
         }
         private void btnActionCancel_Click(object sender, EventArgs e)

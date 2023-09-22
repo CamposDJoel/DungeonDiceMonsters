@@ -137,6 +137,7 @@
             this.btnRoll = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
+            this.lblSetCardMessage = new System.Windows.Forms.Label();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -1465,12 +1466,26 @@
             this.btnReturnToTurnMenu.Visible = false;
             this.btnReturnToTurnMenu.Click += new System.EventHandler(this.btnReturnToTurnMenu_Click);
             // 
+            // lblSetCardMessage
+            // 
+            this.lblSetCardMessage.BackColor = System.Drawing.Color.Green;
+            this.lblSetCardMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSetCardMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetCardMessage.Location = new System.Drawing.Point(6, 257);
+            this.lblSetCardMessage.Name = "lblSetCardMessage";
+            this.lblSetCardMessage.Size = new System.Drawing.Size(134, 37);
+            this.lblSetCardMessage.TabIndex = 17;
+            this.lblSetCardMessage.Text = "Select Tile to Set Card";
+            this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSetCardMessage.Visible = false;
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
             this.ClientSize = new System.Drawing.Size(1005, 561);
+            this.Controls.Add(this.lblSetCardMessage);
             this.Controls.Add(this.btnReturnToTurnMenu);
             this.Controls.Add(this.PanelTurnStartMenu);
             this.Controls.Add(this.PanelEndGameResults);
@@ -1642,5 +1657,6 @@
         private System.Windows.Forms.Button btnViewBoard;
         private System.Windows.Forms.Button btnRoll;
         private System.Windows.Forms.Button btnReturnToTurnMenu;
+        private System.Windows.Forms.Label lblSetCardMessage;
     }
 }

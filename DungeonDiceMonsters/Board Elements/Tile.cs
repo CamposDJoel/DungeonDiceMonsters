@@ -226,6 +226,10 @@ namespace DungeonDiceMonsters
         {
             _Border.BackColor = Color.Chartreuse;
         }
+        public void MarkSetTarget()
+        {
+            _CardImage.BackColor = Color.Green;
+        }
 
         //Accessors
         public int ID { get { return (int)_CardImage.Tag; } }
