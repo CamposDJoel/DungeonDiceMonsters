@@ -1,10 +1,9 @@
-﻿using System;
-using System.CodeDom;
+﻿//Joel Campos
+//10/3/2023
+//Decks Data
+
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DungeonDiceMonsters
 {
@@ -36,7 +35,7 @@ namespace DungeonDiceMonsters
         {
             _CardList.Add(id);
             CardInfo thisCard = CardDataBase.GetCardWithID(id);
-            if (thisCard.Category == "Monster") { _MonsterCardCount++; }
+            if (thisCard.Category == Category.Monster) { _MonsterCardCount++; }
         }
         public void AddFusionCard(int id)
         {
@@ -47,13 +46,13 @@ namespace DungeonDiceMonsters
             int id = _CardList[index];
             _CardList.RemoveAt(index);
             CardInfo thisCard = CardDataBase.GetCardWithID(id);
-            if (thisCard.Category == "Monster") { _MonsterCardCount--; }
+            if (thisCard.Category == Category.Monster) { _MonsterCardCount--; }
         }
         public void RemoveFusionAtIndex(int index)
         {
             _FusionList.RemoveAt(index);
         }
-        public void ChangeSymbol(string symbol)
+        public void ChangeSymbol(Attribute symbol)
         {
             _Symbol = symbol;
         }
@@ -70,7 +69,7 @@ namespace DungeonDiceMonsters
         public int MainDeckSize { get { return _CardList.Count; } }
         public int FusionDeckSize { get { return _FusionList.Count; } }
         public int MonsterCardsCount { get { return _MonsterCardCount; } }
-        public string Symbol { get { return _Symbol; } }
+        public Attribute Symbol { get { return _Symbol; } }
 
         public bool UseStatus { 
             get 
@@ -82,6 +81,6 @@ namespace DungeonDiceMonsters
         private List<int> _CardList = new List<int>();
         private List<int> _FusionList = new List<int>();
         private int _MonsterCardCount = 0;
-        private string _Symbol = "DARK";
+        private Attribute _Symbol = Attribute.DARK;
     }
 }

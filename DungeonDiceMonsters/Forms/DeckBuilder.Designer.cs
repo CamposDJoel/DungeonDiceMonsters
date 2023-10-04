@@ -264,35 +264,34 @@
             this.PanelCardText.AutoScroll = true;
             this.PanelCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelCardText.Controls.Add(this.lblCardText);
-            this.PanelCardText.Location = new System.Drawing.Point(312, 14);
+            this.PanelCardText.Location = new System.Drawing.Point(317, 14);
             this.PanelCardText.Name = "PanelCardText";
             this.PanelCardText.Size = new System.Drawing.Size(281, 96);
             this.PanelCardText.TabIndex = 16;
             // 
             // lblCardText
             // 
-            this.lblCardText.AutoSize = true;
             this.lblCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardText.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardText.Location = new System.Drawing.Point(-1, -1);
             this.lblCardText.Name = "lblCardText";
-            this.lblCardText.Size = new System.Drawing.Size(54, 18);
+            this.lblCardText.Size = new System.Drawing.Size(259, 160);
             this.lblCardText.TabIndex = 12;
             this.lblCardText.Text = "Card Text";
             // 
             // lblID
             // 
             this.lblID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblID.Location = new System.Drawing.Point(118, 13);
+            this.lblID.Location = new System.Drawing.Point(113, 34);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(35, 15);
+            this.lblID.Size = new System.Drawing.Size(112, 15);
             this.lblID.TabIndex = 15;
             this.lblID.Text = "ID";
             // 
             // lblAttribute
             // 
             this.lblAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttribute.Location = new System.Drawing.Point(236, 52);
+            this.lblAttribute.Location = new System.Drawing.Point(231, 55);
             this.lblAttribute.Name = "lblAttribute";
             this.lblAttribute.Size = new System.Drawing.Size(63, 15);
             this.lblAttribute.TabIndex = 14;
@@ -361,7 +360,7 @@
             // lblDiceLevel
             // 
             this.lblDiceLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDiceLevel.Location = new System.Drawing.Point(118, 74);
+            this.lblDiceLevel.Location = new System.Drawing.Point(179, 75);
             this.lblDiceLevel.Name = "lblDiceLevel";
             this.lblDiceLevel.Size = new System.Drawing.Size(63, 15);
             this.lblDiceLevel.TabIndex = 5;
@@ -370,7 +369,7 @@
             // lblStats
             // 
             this.lblStats.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblStats.Location = new System.Drawing.Point(118, 97);
+            this.lblStats.Location = new System.Drawing.Point(113, 97);
             this.lblStats.Name = "lblStats";
             this.lblStats.Size = new System.Drawing.Size(189, 15);
             this.lblStats.TabIndex = 4;
@@ -379,7 +378,7 @@
             // lblCardType
             // 
             this.lblCardType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardType.Location = new System.Drawing.Point(118, 52);
+            this.lblCardType.Location = new System.Drawing.Point(113, 55);
             this.lblCardType.Name = "lblCardType";
             this.lblCardType.Size = new System.Drawing.Size(112, 15);
             this.lblCardType.TabIndex = 3;
@@ -388,18 +387,18 @@
             // lblCardLevel
             // 
             this.lblCardLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardLevel.Location = new System.Drawing.Point(118, 32);
+            this.lblCardLevel.Location = new System.Drawing.Point(113, 75);
             this.lblCardLevel.Name = "lblCardLevel";
-            this.lblCardLevel.Size = new System.Drawing.Size(35, 15);
+            this.lblCardLevel.Size = new System.Drawing.Size(65, 15);
             this.lblCardLevel.TabIndex = 2;
             this.lblCardLevel.Text = "Level";
             // 
             // lblCardName
             // 
             this.lblCardName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardName.Location = new System.Drawing.Point(155, 13);
+            this.lblCardName.Location = new System.Drawing.Point(113, 14);
             this.lblCardName.Name = "lblCardName";
-            this.lblCardName.Size = new System.Drawing.Size(152, 34);
+            this.lblCardName.Size = new System.Drawing.Size(200, 18);
             this.lblCardName.TabIndex = 1;
             this.lblCardName.Text = "Card Name";
             // 
@@ -506,7 +505,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
             this.GroupDiceInfo.ResumeLayout(false);
             this.PanelCardText.ResumeLayout(false);
-            this.PanelCardText.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace4)).EndInit();

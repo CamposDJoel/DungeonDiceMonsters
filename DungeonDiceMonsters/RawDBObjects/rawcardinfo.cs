@@ -1,61 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Joel Campos
+//10/3/2023
+//Raw Card Info (Ver 2) Class
+
+using System;
 
 namespace DungeonDiceMonsters
 {
     public class rawcardinfo
     {
-        public int id { get; set; }
+        /*public rawcardinfo(string dataLine) 
+        {
+            //Separator used by Split()
+            string[] separator = new string[] { "\t" };
+            //Array of tokens (Size will be rewritten when Split() is called)
+            string[] tokens = new string[1];
+            //Split the data
+            tokens = dataLine.Split(separator, StringSplitOptions.None);
+
+            id = tokens[1];
+            name = tokens[0];
+            category = tokens[2];
+            type = tokens[3];
+            sectype = tokens[4];
+            attribute = tokens[5];
+            atk = tokens[6];
+            def = tokens[7];
+            lp = tokens[8];
+            monsterLevel = tokens[9];
+            diceLevel = tokens[10];
+            face1 = tokens[11];
+            face2 = tokens[12];
+            face3 = tokens[13];
+            face4 = tokens[14];
+            face5 = tokens[15];
+            face6 = tokens[16];
+            onSummonEffect = tokens[17];
+            continuousEffect = tokens[18];
+            ability = tokens[19];
+            ignitionEffect = tokens[20];
+            fusionMaterial1 = tokens[21];
+            fusionMaterial2 = tokens[22];
+            fusionMaterial3 = tokens[23];
+            ritualSpell = tokens[24];
+            setpack = "NONE";
+            rarity = "Common";
+
+        }*/
+        public string id { get; set; }
         public string name { get; set; }
-        public int level { get; set; }
-        public string attribute { get; set; }
-        public string type { get; set; }
         public string category { get; set; }
-        public int atk { get; set; }
-        public int def { get; set; }
-        public int lp { get; set; }
-        public string cardtext { get; set; }
+        public string type { get; set; }
+        public string sectype { get; set; }
+        public string attribute { get; set; }
+        public string atk { get; set; }
+        public string def { get; set; }
+        public string lp { get; set; }
+        public string monsterLevel { get; set; }
+        public string diceLevel { get; set; }
+        public string face1 { get; set; }
+        public string face2 { get; set; }
+        public string face3 { get; set; }
+        public string face4 { get; set; }
+        public string face5 { get; set; }
+        public string face6 { get; set; }
+        public string onSummonEffect { get; set; }
+        public string continuousEffect { get; set; }
+        public string ability { get; set; }
+        public string ignitionEffect { get; set; }
+        public string fusionMaterial1 { get; set; }
+        public string fusionMaterial2 { get; set; }
+        public string fusionMaterial3 { get; set; }
+        public string ritualSpell { get; set; }
         public string setpack { get; set; }
         public string rarity { get; set; }
-        public bool fusion { get; set; }
-        public List<rawdiceinfo> diceinforaw = new List<rawdiceinfo>();     
-    }
-
-    public class rawdiceinfo
-    {
-        public rawdiceinfo(string lv, string cr1, string cr2, string cr3, string cr4, string cr5, string cr6,
-                                      string va1, string va2, string va3, string va4, string va5, string va6)
-        {
-            level = lv;
-            crest1 = cr1;
-            crest2 = cr2;
-            crest3 = cr3;            
-            crest4 = cr4;           
-            crest5 = cr5;
-            crest6 = cr6;
-            value1 = va1;
-            value2 = va2;
-            value3 = va3;
-            value4 = va4;
-            value5 = va5;
-            value6 = va6;
-
-        }
-        public string level { get; set; }
-        public string crest1 { get; set; }
-        public string value1 { get; set; }
-        public string crest2 { get; set; }
-        public string value2 { get; set; }
-        public string crest3 { get; set; }
-        public string value3 { get; set; }
-        public string crest4 { get; set; }
-        public string value4 { get; set; }
-        public string crest5 { get; set; }
-        public string value5 { get; set; }
-        public string crest6 { get; set; }
-        public string value6 { get; set; }
     }
 }

@@ -11,12 +11,13 @@ namespace DungeonDiceMonsters
     {
         public static Image FullCardImage(int id)
         {
-            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + id + ".jpeg");
+            //TODO: return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + id + ".jpeg");
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\0.jpeg");
         }
 
         public static Image CardArtworkImage(int id)
         {
-            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + id + ".png");
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + id + ".jpg");
         }
 
         public static Image DiceFace(int diceLevel, string faceType, int faceValue)
@@ -33,11 +34,11 @@ namespace DungeonDiceMonsters
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Characters\\" + c + ".png");
         }
 
-        public static Image Symbol(string symbol)
+        public static Image Symbol(Attribute symbol)
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Symbols\\" + symbol + ".png");
         }
-        public static Image FullCardSymbol(string symbol)
+        public static Image FullCardSymbol(Attribute symbol)
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + symbol + " Symbol.jpeg");
         }

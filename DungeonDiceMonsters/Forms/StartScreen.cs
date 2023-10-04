@@ -97,29 +97,29 @@ namespace DungeonDiceMonsters
             DecksData.Decks[1] = new Deck();
             DecksData.Decks[2] = new Deck();
 
+            DecksData.Decks[0].AddMainCard(68401546);
+            DecksData.Decks[0].AddMainCard(68401546);
+            DecksData.Decks[0].AddMainCard(68401546);
+            DecksData.Decks[0].AddMainCard(75356564);
+            DecksData.Decks[0].AddMainCard(75356564);
+            DecksData.Decks[0].AddMainCard(75356564);
+            DecksData.Decks[0].AddMainCard(56342351);
+            DecksData.Decks[0].AddMainCard(56342351);
+            DecksData.Decks[0].AddMainCard(56342351);
+            DecksData.Decks[0].AddMainCard(83464209);
+            DecksData.Decks[0].AddMainCard(83464209);
+            DecksData.Decks[0].AddMainCard(83464209);
             DecksData.Decks[0].AddMainCard(1);
-            DecksData.Decks[0].AddMainCard(1);
-            DecksData.Decks[0].AddMainCard(1);
-            DecksData.Decks[0].AddMainCard(4);
-            DecksData.Decks[0].AddMainCard(4);
-            DecksData.Decks[0].AddMainCard(4);
-            DecksData.Decks[0].AddMainCard(5);
-            DecksData.Decks[0].AddMainCard(5);
-            DecksData.Decks[0].AddMainCard(5);
-            DecksData.Decks[0].AddMainCard(7);
-            DecksData.Decks[0].AddMainCard(7);
-            DecksData.Decks[0].AddMainCard(7);
-            DecksData.Decks[0].AddMainCard(8);
-            DecksData.Decks[0].AddMainCard(8);
-            DecksData.Decks[0].AddMainCard(9);
-            DecksData.Decks[0].AddMainCard(9);
-            DecksData.Decks[0].AddMainCard(11);
-            DecksData.Decks[0].AddMainCard(11);
-            DecksData.Decks[0].AddMainCard(12);
-            DecksData.Decks[0].AddMainCard(12);
+            DecksData.Decks[0].AddMainCard(2);
+            DecksData.Decks[0].AddMainCard(3);
+            DecksData.Decks[0].AddMainCard(32452818);
+            DecksData.Decks[0].AddMainCard(32452818);
+            DecksData.Decks[0].AddMainCard(32452818);
+            DecksData.Decks[0].AddMainCard(28279543);
+            DecksData.Decks[0].AddMainCard(28279543);
 
-            StorageData.AddCard(3);
-            StorageData.AddCard(6);
+            StorageData.AddCard(38142739);
+            StorageData.AddCard(44287299);
 
             //Open the main menu form
             SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);

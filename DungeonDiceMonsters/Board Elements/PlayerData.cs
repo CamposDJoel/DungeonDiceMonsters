@@ -37,22 +37,22 @@ namespace DungeonDiceMonsters
         {
             switch(c) 
             {
-                case Crest.Movement: _MoveCrests+=amount; break;
-                case Crest.Attack:   _AttackCrests += amount; break;
-                case Crest.Defense:  _DefenseCrests += amount; break;
-                case Crest.Magic:    _MagicCrests += amount; break;
-                case Crest.Trap:     _TrapCrests += amount; break;
+                case Crest.MOV: _MoveCrests+=amount; break;
+                case Crest.ATK:   _AttackCrests += amount; break;
+                case Crest.DEF:  _DefenseCrests += amount; break;
+                case Crest.MAG:    _MagicCrests += amount; break;
+                case Crest.TRAP:     _TrapCrests += amount; break;
             }
         }
         public void RemoveCrests(Crest c, int amount)
         {
             switch (c)
             {
-                case Crest.Movement: _MoveCrests -= amount; break;
-                case Crest.Attack: _AttackCrests -= amount; break;
-                case Crest.Defense: _DefenseCrests -= amount; break;
-                case Crest.Magic: _MagicCrests -= amount; break;
-                case Crest.Trap: _TrapCrests -= amount; break;
+                case Crest.MOV: _MoveCrests -= amount; break;
+                case Crest.ATK: _AttackCrests -= amount; break;
+                case Crest.DEF: _DefenseCrests -= amount; break;
+                case Crest.MAG: _MagicCrests -= amount; break;
+                case Crest.TRAP: _TrapCrests -= amount; break;
             }
         }
         public void AddSummoningTile(Tile tile)
@@ -79,16 +79,5 @@ namespace DungeonDiceMonsters
         private int _MagicCrests = 0;
         private int _TrapCrests = 0;
         private List<Tile> _SummoningTiles = new List<Tile>();
-    }
-
-    public enum Crest
-    {
-        Star,
-        Movement,
-        Attack,
-        Defense,
-        Magic,
-        Trap,
-        Ritual
     }
 }

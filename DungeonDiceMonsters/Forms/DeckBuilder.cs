@@ -258,38 +258,56 @@ namespace DungeonDiceMonsters
             if (PicCardArtwork.Image != null) { PicCardArtwork.Image.Dispose(); }
             PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID);
 
-            string idstring = cardID.ToString();
-            if (cardID < 10) { idstring = "000" + cardID; }
-            else if (cardID < 100) { idstring = "00" + cardID; }
-            else if (cardID < 1000) { idstring = "0" + cardID; }
-
-            lblID.Text = idstring;
+            lblID.Text = cardID.ToString();
             lblCardName.Text = thisCard.Name;
 
-            string secondaryType = "";
-            if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
-            if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
-            if(thisCard.Category == "Spell") { secondaryType = " Spell"; }
-            if(thisCard.Category == "Trap") { secondaryType = " Trap"; }
+            string secondaryType = thisCard.SecType.ToString();
+            lblCardType.Text = thisCard.Type + "/" + secondaryType;
+            if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.Type + " spell"; }
+            if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.Type + " trap"; }
 
-
-            lblCardType.Text = thisCard.Type + secondaryType;
-
-            if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+            if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }
 
-            if (thisCard.Category == "Monster") { lblAttribute.Text =  thisCard.Attribute; }
+            if (thisCard.Category == Category.Monster) { lblAttribute.Text =  thisCard.Attribute.ToString(); }
             else { lblAttribute.Text = ""; }
 
             lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
 
-            if (thisCard.Category == "Monster")
+            if (thisCard.Category == Category.Monster)
             {
                 lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
             }
             else { lblStats.Text = ""; }
 
-            lblCardText.Text = thisCard.CardText;
+            string fullcardtext = "";
+            if(thisCard.SecType == SecType.Fusion) 
+            {               
+                string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
+                fullcardtext = fullcardtext + fusionMaterials + "\n\n";
+            }
+
+            if(thisCard.HasOnSummonEffect)
+            {
+                fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+            }
+
+            if (thisCard.HasContinuousEffect)
+            {
+                fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+            }
+
+            if (thisCard.HasAbility)
+            {
+                fullcardtext = fullcardtext + "[Ability] - " +thisCard.Ability + "\n\n";
+            }
+
+            if (thisCard.HasIgnitionEffect)
+            {
+                fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+            }
+            lblCardText.Text = fullcardtext;
 
             //Dice Faces
             if (PicDiceFace1.Image != null) { PicDiceFace1.Image.Dispose(); }
@@ -299,13 +317,12 @@ namespace DungeonDiceMonsters
             if (PicDiceFace5.Image != null) { PicDiceFace1.Image.Dispose(); }
             if (PicDiceFace6.Image != null) { PicDiceFace1.Image.Dispose(); }
 
-            PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face1Crest, thisCard.Face1Value);
-            PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face2Crest, thisCard.Face2Value);
-            PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face3Crest, thisCard.Face3Value);
-            PicDiceFace4.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face4Crest, thisCard.Face4Value);
-            PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face5Crest, thisCard.Face5Value);
-            PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face6Crest, thisCard.Face6Value);
-
+            PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(0).ToString(), thisCard.DiceFaceValue(0));
+            PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(1).ToString(), thisCard.DiceFaceValue(1));
+            PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(2).ToString(), thisCard.DiceFaceValue(2));
+            PicDiceFace4.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(3).ToString(), thisCard.DiceFaceValue(3));
+            PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(4).ToString(), thisCard.DiceFaceValue(4));
+            PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(5).ToString(), thisCard.DiceFaceValue(5));
         }
         private void SetStorageSelector(int index)
         {
@@ -357,7 +374,7 @@ namespace DungeonDiceMonsters
         private int[] _StorageIDsInCurrentPage = new int[30];
         private int[] _DeckIDsInCurrentPage = new int[30];
 
-        private string _CurrentSymbolSelection = "DARK";
+        private Attribute _CurrentSymbolSelection = Attribute.DARK;
 
 
         private void StorageCard_click(object sender, EventArgs e)
@@ -601,12 +618,12 @@ namespace DungeonDiceMonsters
         {
             switch(_CurrentSymbolSelection)
             {
-                case "DARK": _CurrentSymbolSelection = "WIND"; break;
-                case "LIGHT": _CurrentSymbolSelection = "DARK"; break;
-                case "WATER": _CurrentSymbolSelection = "LIGHT"; break;
-                case "FIRE": _CurrentSymbolSelection = "WATER"; break;
-                case "EARTH": _CurrentSymbolSelection = "FIRE"; break;
-                case "WIND": _CurrentSymbolSelection = "EARTH"; break;
+                case Attribute.DARK: _CurrentSymbolSelection = Attribute.WIND; break;
+                case Attribute.LIGHT: _CurrentSymbolSelection = Attribute.DARK; break;
+                case Attribute.WATER: _CurrentSymbolSelection = Attribute.LIGHT; break;
+                case Attribute.FIRE: _CurrentSymbolSelection = Attribute.WATER; break;
+                case Attribute.EARTH: _CurrentSymbolSelection = Attribute.FIRE; break;
+                case Attribute.WIND: _CurrentSymbolSelection = Attribute.EARTH; break;
                 default:
                     throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
             }
@@ -622,12 +639,12 @@ namespace DungeonDiceMonsters
         {
             switch (_CurrentSymbolSelection)
             {
-                case "DARK": _CurrentSymbolSelection = "LIGHT"; break;
-                case "LIGHT": _CurrentSymbolSelection = "WATER"; break;
-                case "WATER": _CurrentSymbolSelection = "FIRE"; break;
-                case "FIRE": _CurrentSymbolSelection = "EARTH"; break;
-                case "EARTH": _CurrentSymbolSelection = "WIND"; break;
-                case "WIND": _CurrentSymbolSelection = "DARK"; break;
+                case Attribute.DARK: _CurrentSymbolSelection = Attribute.LIGHT; break;
+                case Attribute.LIGHT: _CurrentSymbolSelection = Attribute.WATER; break;
+                case Attribute.WATER: _CurrentSymbolSelection = Attribute.FIRE; break;
+                case Attribute.FIRE: _CurrentSymbolSelection = Attribute.EARTH; break;
+                case Attribute.EARTH: _CurrentSymbolSelection = Attribute.WIND; break;
+                case Attribute.WIND: _CurrentSymbolSelection = Attribute.DARK; break;
                 default:
                     throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
             }

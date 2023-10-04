@@ -93,13 +93,13 @@
     <Compile Include="Board Elements\RollDiceMenu.Designer.cs">
       <DependentUpon>RollDiceMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="RawDBObjects\rawcardinfo.cs" />
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utility Forms\JsonGenerator.Designer.cs">
       <DependentUpon>JsonGenerator.cs</DependentUpon>
     </Compile>
-    <Compile Include="RawDBObjects\rawcardinfo.cs" />
     <Compile Include="Forms\StartScreen.cs">
       <SubType>Form</SubType>
     </Compile>

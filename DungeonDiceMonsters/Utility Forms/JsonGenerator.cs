@@ -31,7 +31,40 @@ namespace DungeonDiceMonsters
 
 
             ReloadDBList();
+
+            //loadNewDB();
         }
+
+        private void loadNewDB()
+        {
+            StreamReader SR_SaveFile = new StreamReader(
+                Directory.GetCurrentDirectory() + "\\DB\\dbrawtxt.txt");
+
+            //String that hold the data of one line of the txt file
+            string line = SR_SaveFile.ReadLine();
+            int lineCount = Convert.ToInt32(line);
+
+            for(int x = 0; x < lineCount; x++)
+            {
+                line = SR_SaveFile.ReadLine();
+                //rawcardlist.Add(new rawcardinfo(line));
+            }
+
+            //writeout the json
+            string output = JsonConvert.SerializeObject(rawcardlist);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\DB\\rawDBver2.json", output);
+
+            //Save the url of this card is missing an image
+            List<string> missingcardurls = new List<string>();
+            for (int x = 0; x < rawcardlist.Count; x++)
+            {
+                string cardid = rawcardlist[x].id;
+                if (!File.Exists(Directory.GetCurrentDirectory() + "\\images\\artwork\\" + cardid+ ".jpg")) { missingcardurls.Add("https://images.ygoprodeck.com/images/cards_cropped/" + cardid + ".jpg"); }
+            }
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\DB\\missingartworkurls.txt", missingcardurls);
+        }
+
+        private List<rawcardinfo> rawcardlist = new List<rawcardinfo>();
 
         public void ReloadDBList()
         {
@@ -39,12 +72,7 @@ namespace DungeonDiceMonsters
 
             foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
             {
-                string cardid = rawcardinfo.id.ToString();
-                if (rawcardinfo.id < 10) { cardid = "000" + cardid; }
-                else if (rawcardinfo.id < 100) { cardid = "00" + cardid; }
-                else if (rawcardinfo.id < 1000) { cardid = "0" + cardid; }
-
-                listCardList.Items.Add(cardid + "-" + rawcardinfo.name);
+                listCardList.Items.Add(rawcardinfo.name);
             }
             listCardList.SetSelected(0, true);
         }
@@ -56,9 +84,9 @@ namespace DungeonDiceMonsters
             rawcardinfo cardinfo = CardDataBase.rawCardList[index];
 
             //Update UI with the data of the current card
-            numID.Value = cardinfo.id;
+            numID.Text = cardinfo.id;
             txtCardName.Text = cardinfo.name;
-            numLevel.Value = cardinfo.level;
+            numLevel.Value = Convert.ToInt32(cardinfo.monsterLevel);
             txtATK.Text = cardinfo.atk.ToString();
             txtDef.Text = cardinfo.def.ToString();
             txtLp.Text = cardinfo.lp.ToString();
@@ -67,61 +95,99 @@ namespace DungeonDiceMonsters
             int indexofAtt = listAttribute.FindString(cardinfo.attribute);
             listAttribute.SetSelected(indexofAtt, true);
             int indexofType = listType.FindString(cardinfo.type);
-            listType.SetSelected(indexofType, true);
-            txtCardText.Text = cardinfo.cardtext.ToString();
+            listType.SetSelected(indexofType, true);          
             int indexofSet = listSet.FindString(cardinfo.setpack);
             listSet.SetSelected(indexofSet, true);
             int indexofRarity = listRarity.FindString(cardinfo.rarity);
             listRarity.SetSelected(indexofRarity, true);
-            checkIsFusion.Checked = cardinfo.fusion;
+            int indexofSecType = listSecType.FindString(cardinfo.sectype);
+            listSecType.SetSelected(indexofSecType, true);
+            //effects
+            txtOnSumon.Text = cardinfo.onSummonEffect.ToString();
+            txtContiEffect.Text = cardinfo.continuousEffect.ToString();
+            txtIgnitionEffect.Text = cardinfo.ignitionEffect.ToString();
+            txtAbility.Text = cardinfo.ability.ToString();
 
             //Update the UI of the Dice Info
-            numDiceLevel.Value = Convert.ToInt32(cardinfo.diceinforaw[0].level);
-            int indexofFace1Crest = listFace1Crest.FindString(cardinfo.diceinforaw[0].crest1);
-            int indexofFace2Crest = listFace2Crest.FindString(cardinfo.diceinforaw[0].crest2);
-            int indexofFace3Crest = listFace3Crest.FindString(cardinfo.diceinforaw[0].crest3);
-            int indexofFace4Crest = listFace4Crest.FindString(cardinfo.diceinforaw[0].crest4);
-            int indexofFace5Crest = listFace5Crest.FindString(cardinfo.diceinforaw[0].crest5);
-            int indexofFace6Crest = listFace6Crest.FindString(cardinfo.diceinforaw[0].crest6);
+            numDiceLevel.Value = Convert.ToInt32(cardinfo.diceLevel);
 
-            int indexofFace1Value = listFace1Value.FindString(cardinfo.diceinforaw[0].value1);
-            int indexofFace2Value = listFace2Value.FindString(cardinfo.diceinforaw[0].value2);
-            int indexofFace3Value = listFace3Value.FindString(cardinfo.diceinforaw[0].value3);
-            int indexofFace4Value = listFace4Value.FindString(cardinfo.diceinforaw[0].value4);
-            int indexofFace5Value = listFace5Value.FindString(cardinfo.diceinforaw[0].value5);
-            int indexofFace6Value = listFace6Value.FindString(cardinfo.diceinforaw[0].value6);
-
+            //Face 1
+            string face1 = cardinfo.face1;
+            string face1Crest = face1.Split(' ')[0];
+            string face1value = face1.Split(' ')[1];
+            int indexofFace1Crest = listFace1Crest.FindString(face1Crest);
+            int indexofFace1Value = listFace1Value.FindString(face1value);
             listFace1Crest.SetSelected(indexofFace1Crest, true);
-            listFace2Crest.SetSelected(indexofFace2Crest, true);
-            listFace3Crest.SetSelected(indexofFace3Crest, true);
-            listFace4Crest.SetSelected(indexofFace4Crest, true);
-            listFace5Crest.SetSelected(indexofFace5Crest, true);
-            listFace6Crest.SetSelected(indexofFace6Crest, true);
-
             listFace1Value.SetSelected(indexofFace1Value, true);
+
+            //Face 2
+            string face2 = cardinfo.face2;
+            string face2Crest = face2.Split(' ')[0];
+            string face2value = face2.Split(' ')[1];
+            int indexofFace2Crest = listFace2Crest.FindString(face2Crest);
+            int indexofFace2Value = listFace2Value.FindString(face2value);
+            listFace2Crest.SetSelected(indexofFace2Crest, true);
             listFace2Value.SetSelected(indexofFace2Value, true);
+
+            //Face 3
+            string face3 = cardinfo.face3;
+            string face3Crest = face3.Split(' ')[0];
+            string face3value = face3.Split(' ')[1];
+            int indexofFace3Crest = listFace3Crest.FindString(face3Crest);
+            int indexofFace3Value = listFace3Value.FindString(face3value);
+            listFace3Crest.SetSelected(indexofFace3Crest, true);
             listFace3Value.SetSelected(indexofFace3Value, true);
+
+            //Face 4
+            string face4 = cardinfo.face4;
+            string face4Crest = face4.Split(' ')[0];
+            string face4value = face4.Split(' ')[1];
+            int indexofFace4Crest = listFace4Crest.FindString(face4Crest);
+            int indexofFace4Value = listFace4Value.FindString(face4value);
+            listFace4Crest.SetSelected(indexofFace4Crest, true);
             listFace4Value.SetSelected(indexofFace4Value, true);
+
+            //Face 5
+            string face5 = cardinfo.face5;
+            string face5Crest = face5.Split(' ')[0];
+            string face5value = face5.Split(' ')[1];
+            int indexofFace5Crest = listFace5Crest.FindString(face5Crest);
+            int indexofFace5Value = listFace5Value.FindString(face5value);
+            listFace5Crest.SetSelected(indexofFace5Crest, true);
             listFace5Value.SetSelected(indexofFace5Value, true);
+
+            //Face 6
+            string face6 = cardinfo.face6;
+            string face6Crest = face6.Split(' ')[0];
+            string face6value = face6.Split(' ')[1];
+            int indexofFace6Crest = listFace6Crest.FindString(face6Crest);
+            int indexofFace6Value = listFace6Value.FindString(face6value);
+            listFace6Crest.SetSelected(indexofFace6Crest, true);
             listFace6Value.SetSelected(indexofFace6Value, true);
         }
 
         private void btnAddCard_Click(object sender, EventArgs e)
         {
             //Gather all the data to create a new rawcardinfo object
-            string id = numID.Value.ToString();
+            string id = numID.Text;
             string name = txtCardName.Text;
             string level = numLevel.Value.ToString();
             string category = listCategory.SelectedItem.ToString();
             string attribute = listAttribute.SelectedItem.ToString();
             string type = listType.SelectedItem.ToString();
+            string secType = listSecType.SelectedItem.ToString();
             string atk = txtATK.Text.ToString();
             string def = txtDef.Text.ToString();
             string lp = txtLp.Text.ToString();
-            string cardtext = txtCardText.Text;
+            //effects
+            string onSummonEffect = txtOnSumon.Text.ToString();
+            string contiEfect = txtContiEffect.Text.ToString();
+            string ignitionEffect = txtIgnitionEffect.Text.ToString();
+            string ability = txtAbility.Text.ToString();
+            //set Info
             string setPack = listSet.SelectedItem.ToString();
             string rarity = listRarity.SelectedItem.ToString();
-            string isFusion = checkIsFusion.Checked.ToString();
+            //Dice info
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
             string face2Crest = listFace2Crest.Text.ToString();
@@ -135,24 +201,34 @@ namespace DungeonDiceMonsters
             string face4Value = listFace4Value.Text.ToString();
             string face5Value = listFace5Value.Text.ToString();
             string face6Value = listFace6Value.Text.ToString();
+
             
             //add a new rawcardinfo instance to the DB list based on the data above.
             rawcardinfo newcard = new rawcardinfo();
-            newcard.id = Convert.ToInt32(id);
+            newcard.id = id;
             newcard.name = name;
-            newcard.level = Convert.ToInt32(level);
+            newcard.monsterLevel = level;
             newcard.category = category;
             newcard.attribute = attribute;
             newcard.type = type;
-            newcard.atk = Convert.ToInt32(atk);
-            newcard.def = Convert.ToInt32(def);
-            newcard.lp = Convert.ToInt32(lp);
-            newcard.cardtext = cardtext;
+            newcard.sectype = secType;
+            newcard.monsterLevel = atk;
+            newcard.def = def;
+            newcard.lp = lp;
             newcard.setpack = setPack;
             newcard.rarity = rarity;
-            newcard.fusion = Convert.ToBoolean(isFusion);
-            newcard.diceinforaw.Add(new rawdiceinfo(diceLevel, face1Crest, face2Crest, face3Crest, face4Crest, face5Crest, face6Crest,
-                face1Value, face2Value, face3Value, face4Value, face5Value, face6Value));
+            //TODO EFECTS
+            newcard.onSummonEffect = onSummonEffect;
+            newcard.continuousEffect = contiEfect;
+            newcard.ignitionEffect = ignitionEffect;
+            newcard.ability = ability;
+            newcard.diceLevel = diceLevel;
+            newcard.face1 = face1Crest + " " + face1Value;
+            newcard.face2 = face2Crest + " " + face2Value;
+            newcard.face3 = face3Crest + " " + face3Value;
+            newcard.face4 = face4Crest + " " + face4Value;
+            newcard.face5 = face5Crest + " " + face5Value;
+            newcard.face6 = face6Crest + " " + face6Value;
 
             CardDataBase.rawCardList.Add(newcard);
 
@@ -171,19 +247,25 @@ namespace DungeonDiceMonsters
             rawcardinfo cardinfo = CardDataBase.rawCardList[index];
 
             //Override the info with the current set in the UI
-            string id = numID.Value.ToString();
+            string id = numID.Text;
             string name = txtCardName.Text;
             string level = numLevel.Value.ToString();
             string category = listCategory.SelectedItem.ToString();
             string attribute = listAttribute.SelectedItem.ToString();
             string type = listType.SelectedItem.ToString();
+            string secType = listSecType.SelectedItem.ToString();
             string atk = txtATK.Text.ToString();
             string def = txtDef.Text.ToString();
             string lp = txtLp.Text.ToString();
-            string cardtext = txtCardText.Text;
+            //effects
+            string onSummonEffect = txtOnSumon.Text.ToString();
+            string contiEfect = txtContiEffect.Text.ToString();
+            string ignitionEffect = txtIgnitionEffect.Text.ToString();
+            string ability = txtAbility.Text.ToString();
+            //Set info
             string setPack = listSet.SelectedItem.ToString();
             string rarity = listRarity.SelectedItem.ToString();
-            string isFusion = checkIsFusion.Checked.ToString();
+            //Dice info
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
             string face2Crest = listFace2Crest.Text.ToString();
@@ -199,22 +281,32 @@ namespace DungeonDiceMonsters
             string face6Value = listFace6Value.Text.ToString();
 
             //override the data
-            cardinfo.id = Convert.ToInt32(id);
+            cardinfo.id = id;
             cardinfo.name = name;
-            cardinfo.level = Convert.ToInt32(level);
+            cardinfo.monsterLevel = level;
             cardinfo.category = category;
             cardinfo.attribute = attribute;
             cardinfo.type = type;
-            cardinfo.atk = Convert.ToInt32(atk);
-            cardinfo.def = Convert.ToInt32(def);
-            cardinfo.lp = Convert.ToInt32(lp);
-            cardinfo.cardtext = cardtext;
+            cardinfo.sectype = secType;
+            cardinfo.atk = atk;
+            cardinfo.def = def;
+            cardinfo.lp = lp;
+            //set
             cardinfo.setpack = setPack;
             cardinfo.rarity = rarity;
-            cardinfo.fusion = Convert.ToBoolean(isFusion);
-            cardinfo.diceinforaw.Clear();
-            cardinfo.diceinforaw.Add(new rawdiceinfo(diceLevel, face1Crest, face2Crest, face3Crest, face4Crest, face5Crest, face6Crest,
-                face1Value, face2Value, face3Value, face4Value, face5Value, face6Value));
+            //EFECTS
+            cardinfo.onSummonEffect = onSummonEffect;
+            cardinfo.continuousEffect = contiEfect;
+            cardinfo.ignitionEffect = ignitionEffect;
+            cardinfo.ability = ability;
+            //Dice info
+            cardinfo.diceLevel = diceLevel;
+            cardinfo.face1 = face1Crest + " " + face1Value;
+            cardinfo.face2 = face2Crest + " " + face2Value;
+            cardinfo.face3 = face3Crest + " " + face3Value;
+            cardinfo.face4 = face4Crest + " " + face4Value;
+            cardinfo.face5 = face5Crest + " " + face5Value;
+            cardinfo.face6 = face6Crest + " " + face6Value;
 
             //Override the JSON file based on the new rawlist
             string output = JsonConvert.SerializeObject(CardDataBase.rawCardList);

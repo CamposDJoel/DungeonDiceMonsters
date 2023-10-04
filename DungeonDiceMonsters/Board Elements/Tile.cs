@@ -92,7 +92,7 @@ namespace DungeonDiceMonsters
                 _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
             }
 
-            if(card.Category == "Monster")
+            if(card.Category == Category.Monster)
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
                 _StatsLabel.BringToFront();
@@ -120,7 +120,7 @@ namespace DungeonDiceMonsters
                 if(_card.IsASymbol) { _CardImage.Image = ImageServer.Symbol(_card.Attribute); }
                 else { _CardImage.Image = ImageServer.CardArtworkImage(card.CardID); }
             }
-            if (card.Category == "Monster")
+            if (card.Category == Category.Monster)
             {
                 _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
                 _StatsLabel.BringToFront();

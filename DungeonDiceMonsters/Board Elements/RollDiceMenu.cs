@@ -233,45 +233,62 @@ namespace DungeonDiceMonsters
         }
         private void LoadCardInfoPanel(CardInfo thisCard)
         {
-            //Extract the Card ID for use in the function
             int cardID = thisCard.ID;
 
             //Populate the UI
             if (PicCardArtwork.Image != null) { PicCardArtwork.Image.Dispose(); }
             PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID);
 
-            string idstring = cardID.ToString();
-            if (cardID < 10) { idstring = "000" + cardID; }
-            else if (cardID < 100) { idstring = "00" + cardID; }
-            else if (cardID < 1000) { idstring = "0" + cardID; }
-
-            lblID.Text = idstring;
+            lblID.Text = cardID.ToString();
             lblCardName.Text = thisCard.Name;
 
-            string secondaryType = "";
-            if (thisCard.IsFusion) { secondaryType = "/Fusion"; }
-            if (thisCard.IsRitual) { secondaryType = "/Ritual"; }
-            if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
-            if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
+            string secondaryType = thisCard.SecType.ToString();
+            lblCardType.Text = thisCard.Type + "/" + secondaryType;
+            if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.Type + " spell"; }
+            if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.Type + " trap"; }
 
-
-            lblCardType.Text = thisCard.Type + secondaryType;
-
-            if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+            if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }
 
-            if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
+            if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
             else { lblAttribute.Text = ""; }
 
             lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
 
-            if (thisCard.Category == "Monster")
+            if (thisCard.Category == Category.Monster)
             {
                 lblStats.Text = "ATK " + thisCard.ATK + " / DEF " + thisCard.DEF + " / LP " + thisCard.LP;
             }
             else { lblStats.Text = ""; }
 
-            lblCardText.Text = thisCard.CardText;
+            string fullcardtext = "";
+            if (thisCard.SecType == SecType.Fusion)
+            {
+                string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
+                fullcardtext = fullcardtext + fusionMaterials + "\n\n";
+            }
+
+            if (thisCard.HasOnSummonEffect)
+            {
+                fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+            }
+
+            if (thisCard.HasContinuousEffect)
+            {
+                fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+            }
+
+            if (thisCard.HasAbility)
+            {
+                fullcardtext = fullcardtext + "[Ability] - " + thisCard.Ability + "\n\n";
+            }
+
+            if (thisCard.HasIgnitionEffect)
+            {
+                fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+            }
+            lblCardText.Text = fullcardtext;
 
             //Dice Faces
             if (PicDiceFace1.Image != null) { PicDiceFace1.Image.Dispose(); }
@@ -281,15 +298,14 @@ namespace DungeonDiceMonsters
             if (PicDiceFace5.Image != null) { PicDiceFace1.Image.Dispose(); }
             if (PicDiceFace6.Image != null) { PicDiceFace1.Image.Dispose(); }
 
-            PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face1Crest, thisCard.Face1Value);
-            PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face2Crest, thisCard.Face2Value);
-            PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face3Crest, thisCard.Face3Value);
-            PicDiceFace4.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face4Crest, thisCard.Face4Value);
-            PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face5Crest, thisCard.Face5Value);
-            PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.Face6Crest, thisCard.Face6Value);
-
+            PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(0).ToString(), thisCard.DiceFaceValue(0));
+            PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(1).ToString(), thisCard.DiceFaceValue(1));
+            PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(2).ToString(), thisCard.DiceFaceValue(2));
+            PicDiceFace4.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(3).ToString(), thisCard.DiceFaceValue(3));
+            PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(4).ToString(), thisCard.DiceFaceValue(4));
+            PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(5).ToString(), thisCard.DiceFaceValue(5));
         }
-        private int[] GetDiceSummonSetStatus(List<CardInfo> Dice, string[] diceFace, int[] diceValue)
+        private int[] GetDiceSummonSetStatus(List<CardInfo> Dice, Crest[] diceFace, int[] diceValue)
         {
             //Return codes: -1 - No Dice | 0 - Non Star/Ritual | 1 - Summon | 2 - Set | 3 - Star/Ritual No Match | 4 - Ritual Summon | 5 - Ritual Spell
             int[] results = new int[3];
@@ -302,7 +318,7 @@ namespace DungeonDiceMonsters
             return results;
         }
         private int CompareDice(CardInfo DiceZ, CardInfo DiceX, CardInfo DiceY,
-                                    string DiceZCrest, string DiceXCrest, string DiceYCrest,
+                                    Crest DiceZCrest, Crest DiceXCrest, Crest DiceYCrest,
                                     int DiceZValue, int DiceXValue, int DiceYValue)
         {
             //This function will valiudate Dice "Z" agains "X" and "Y" to return the status of it (Dice Z)
@@ -314,23 +330,23 @@ namespace DungeonDiceMonsters
             //If Dice Z lands on a non Star or Ritu then there is not Summon/Set validation as this is just a "Resource" Crest.
 
             //Return codes: -1 - No Dice | 0 - Non Star/Ritual | 1 - Summon | 2 - Set | 3 - Star/Ritual No Match | 4 - Ritual Summon | 5 - Ritual Spell
-            if (DiceZCrest == "NONE")
+            if (DiceZCrest == Crest.NONE)
             {
                 //Set result as "No Dice"
                 return -1;
             }
             else
             {
-                if (DiceZCrest != "STAR" && DiceZCrest != "RITU")
+                if (DiceZCrest != Crest.STAR && DiceZCrest != Crest.RITU)
                 {
                     //Set result as "Non Star/Ritual
                     return 0;
                 }
                 else
                 {
-                    if (DiceZCrest == "RITU")
+                    if (DiceZCrest == Crest.RITU)
                     {
-                        if (DiceZ.Category == "SPELL")
+                        if (DiceZ.Category == Category.Spell)
                         {
                             //Set result as "Ritual Spell
                             return 5;
@@ -340,11 +356,11 @@ namespace DungeonDiceMonsters
                             //This is a Ritual Monster, validate the Ritual Summon can be completed.
                             bool dice2isRitualMatch = false;
                             bool dice3isRitualMatch = false;
-                            if ((DiceXCrest == "RITU" && DiceXValue == DiceZValue))
+                            if ((DiceXCrest == Crest.RITU && DiceXValue == DiceZValue))
                             {
                                 dice2isRitualMatch = true;
                             }
-                            if ((DiceYCrest == "RITU" && DiceYValue == DiceZValue))
+                            if ((DiceYCrest == Crest.RITU && DiceYValue == DiceZValue))
                             {
                                 dice3isRitualMatch = true;
                             }
@@ -380,10 +396,10 @@ namespace DungeonDiceMonsters
                         //This is either a Monter/Spell/Trap that landed on a Star Crest.
                         //Validate that you can summon/set this card by having another 
                         //dice that mathes its star.
-                        if ((DiceXCrest == "STAR" && DiceXValue == DiceZValue) || (DiceYCrest == "STAR" && DiceYValue == DiceZValue))
+                        if ((DiceXCrest == Crest.STAR && DiceXValue == DiceZValue) || (DiceYCrest == Crest.STAR && DiceYValue == DiceZValue))
                         {
                             //Set result as summon or set depending on the card category
-                            if (DiceZ.Category == "Monster")
+                            if (DiceZ.Category == Category.Monster)
                             {
                                 //Set result as "Summon"
                                 return 1;
@@ -495,7 +511,7 @@ namespace DungeonDiceMonsters
                 }
 
                 //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
-                if (thisCard.Category != "Monster" && _PlayerData.FreeSummonTiles == 0)
+                if (thisCard.Category != Category.Monster && _PlayerData.FreeSummonTiles == 0)
                 {
                     lblNoSummonTilesWarning.Visible = true;
                 }
@@ -546,14 +562,14 @@ namespace DungeonDiceMonsters
                 {
                     if (_DiceToRoll.Count == 2)
                     {
-                        if (_DiceToRoll[0].Category == "Monster" && _DiceToRoll[1].Category == "Monster")
+                        if (_DiceToRoll[0].Category == Category.Monster && _DiceToRoll[1].Category == Category.Monster)
                         {
                             lblNoSummonTilesWarning.Visible = false;
                         }
                     }
                     else if (_DiceToRoll.Count == 1)
                     {
-                        if (_DiceToRoll[0].Category == "Monster")
+                        if (_DiceToRoll[0].Category == Category.Monster)
                         {
                             lblNoSummonTilesWarning.Visible = false;
                         }
@@ -578,7 +594,7 @@ namespace DungeonDiceMonsters
 
             //Roll the dice
             int[] diceIndex = new int[3] { -1, -1, -1 };
-            string[] diceFace = new string[3] { "NONE", "NONE", "NONE" };
+            Crest[] diceFace = new Crest[3] { Crest.NONE, Crest.NONE, Crest.NONE };
             int[] diceValue = new int[3] { 0, 0, 0 };
 
             //display the result faces
@@ -591,12 +607,12 @@ namespace DungeonDiceMonsters
                 PicDiceResult1.Image = null;
                 PicDiceResult1.BackColor = Color.White;
                 BoardForm.WaitNSeconds(100);
-                PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, Dice1.DiceFace(x), Dice1.DiceFaceValue(x));
+                PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, Dice1.DiceFace(x).ToString(), Dice1.DiceFaceValue(x));
                 BoardForm.WaitNSeconds(100);
             }
             diceFace[0] = Dice1.DiceFace(diceIndex[0]);
             diceValue[0] = Dice1.DiceFaceValue(diceIndex[0]);
-            PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, diceFace[0], diceValue[0]);
+            PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, diceFace[0].ToString(), diceValue[0]);
 
 
             if (_DiceToRoll.Count > 1) 
@@ -609,12 +625,12 @@ namespace DungeonDiceMonsters
                     PicDiceResult2.Image = null;
                     PicDiceResult2.BackColor = Color.White;
                     BoardForm.WaitNSeconds(100);
-                    PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, Dice2.DiceFace(x), Dice2.DiceFaceValue(x));
+                    PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, Dice2.DiceFace(x).ToString(), Dice2.DiceFaceValue(x));
                     BoardForm.WaitNSeconds(100);
                 }
                 diceFace[1] = Dice2.DiceFace(diceIndex[1]);
                 diceValue[1] = Dice2.DiceFaceValue(diceIndex[1]);
-                PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, diceFace[1], diceValue[1]);
+                PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, diceFace[1].ToString(), diceValue[1]);
             }
             else
             {
@@ -631,12 +647,12 @@ namespace DungeonDiceMonsters
                     PicDiceResult3.Image = null;
                     PicDiceResult3.BackColor = Color.White;
                     BoardForm.WaitNSeconds(100);
-                    PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, Dice3.DiceFace(x), Dice3.DiceFaceValue(x));
+                    PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, Dice3.DiceFace(x).ToString(), Dice3.DiceFaceValue(x));
                     BoardForm.WaitNSeconds(100);
                 }
                 diceFace[2] = Dice3.DiceFace(diceIndex[2]);
                 diceValue[2] = Dice3.DiceFaceValue(diceIndex[2]);
-                PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, diceFace[2], diceValue[2]);
+                PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, diceFace[2].ToString(), diceValue[2]);
             }
             else
             {
@@ -658,11 +674,11 @@ namespace DungeonDiceMonsters
                 {
                     switch (diceFace[x])
                     {
-                        case "MOV": movToAdd += diceValue[x]; break;
-                        case "ATK": atkToAdd += diceValue[x]; break;
-                        case "DEF": defToAdd += diceValue[x]; break;
-                        case "MAG": magToAdd += diceValue[x]; break;
-                        case "TRAP": trapToAdd += diceValue[x]; break;
+                        case Crest.MOV: movToAdd += diceValue[x]; break;
+                        case Crest.ATK: atkToAdd += diceValue[x]; break;
+                        case Crest.DEF: defToAdd += diceValue[x]; break;
+                        case Crest.MAG: magToAdd += diceValue[x]; break;
+                        case Crest.TRAP: trapToAdd += diceValue[x]; break;
                     }
                 }
             }
@@ -673,7 +689,7 @@ namespace DungeonDiceMonsters
             //Add them to the pool
             for(int x = 0; x < movToAdd; x++)
             {
-                _PlayerData.AddCrests(Crest.Movement, 1);
+                _PlayerData.AddCrests(Crest.MOV, 1);
                 SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                 BoardForm.WaitNSeconds(200);
                 lblMOVCount.ForeColor = Color.Green;
@@ -681,7 +697,7 @@ namespace DungeonDiceMonsters
             }
             for (int x = 0; x < atkToAdd; x++)
             {
-                _PlayerData.AddCrests(Crest.Attack, 1);
+                _PlayerData.AddCrests(Crest.ATK, 1);
                 SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                 BoardForm.WaitNSeconds(200);
                 lblATKCount.ForeColor = Color.Green;
@@ -689,7 +705,7 @@ namespace DungeonDiceMonsters
             }
             for (int x = 0; x < defToAdd; x++)
             {
-                _PlayerData.AddCrests(Crest.Defense, 1);
+                _PlayerData.AddCrests(Crest.DEF, 1);
                 SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                 BoardForm.WaitNSeconds(200);
                 lblDEFCount.ForeColor = Color.Green;
@@ -697,7 +713,7 @@ namespace DungeonDiceMonsters
             }
             for (int x = 0; x < magToAdd; x++)
             {
-                _PlayerData.AddCrests(Crest.Magic, 1);
+                _PlayerData.AddCrests(Crest.MAG, 1);
                 SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                 BoardForm.WaitNSeconds(200);
                 lblMAGCount.ForeColor = Color.Green;
@@ -705,7 +721,7 @@ namespace DungeonDiceMonsters
             }
             for (int x = 0; x < trapToAdd; x++)
             {
-                _PlayerData.AddCrests(Crest.Trap, 1);
+                _PlayerData.AddCrests(Crest.TRAP, 1);
                 SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                 BoardForm.WaitNSeconds(200);
                 lblTRAPCount.ForeColor = Color.Green;

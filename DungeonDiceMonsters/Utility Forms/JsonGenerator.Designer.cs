@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.numID = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCardName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,12 +72,19 @@
             this.label12 = new System.Windows.Forms.Label();
             this.listCardList = new System.Windows.Forms.ListBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.txtCardText = new System.Windows.Forms.TextBox();
             this.btnAddCard = new System.Windows.Forms.Button();
             this.btnEditSelected = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.checkIsFusion = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numID)).BeginInit();
+            this.numID = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.listSecType = new System.Windows.Forms.ListBox();
+            this.txtOnSumon = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtContiEffect = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtIgnitionEffect = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txtAbility = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numLevel)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDiceLevel)).BeginInit();
@@ -87,28 +93,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(268, 23);
+            this.label1.Location = new System.Drawing.Point(233, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID:";
             // 
-            // numID
-            // 
-            this.numID.Location = new System.Drawing.Point(303, 21);
-            this.numID.Name = "numID";
-            this.numID.Size = new System.Drawing.Size(120, 20);
-            this.numID.TabIndex = 1;
-            this.numID.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 54);
+            this.label2.Location = new System.Drawing.Point(234, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 2;
@@ -116,7 +110,7 @@
             // 
             // txtCardName
             // 
-            this.txtCardName.Location = new System.Drawing.Point(303, 54);
+            this.txtCardName.Location = new System.Drawing.Point(234, 66);
             this.txtCardName.Name = "txtCardName";
             this.txtCardName.Size = new System.Drawing.Size(281, 20);
             this.txtCardName.TabIndex = 3;
@@ -125,7 +119,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(261, 87);
+            this.label3.Location = new System.Drawing.Point(365, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 4;
@@ -133,14 +127,14 @@
             // 
             // numLevel
             // 
-            this.numLevel.Location = new System.Drawing.Point(303, 87);
+            this.numLevel.Location = new System.Drawing.Point(368, 21);
             this.numLevel.Maximum = new decimal(new int[] {
             12,
             0,
             0,
             0});
             this.numLevel.Name = "numLevel";
-            this.numLevel.Size = new System.Drawing.Size(120, 20);
+            this.numLevel.Size = new System.Drawing.Size(55, 20);
             this.numLevel.TabIndex = 5;
             this.numLevel.Value = new decimal(new int[] {
             1,
@@ -151,7 +145,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(248, 169);
+            this.label4.Location = new System.Drawing.Point(234, 150);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 6;
@@ -170,7 +164,7 @@
             "DIVINE",
             "SPELL",
             "TRAP"});
-            this.listAttribute.Location = new System.Drawing.Point(303, 156);
+            this.listAttribute.Location = new System.Drawing.Point(236, 165);
             this.listAttribute.Name = "listAttribute";
             this.listAttribute.Size = new System.Drawing.Size(120, 121);
             this.listAttribute.TabIndex = 7;
@@ -178,7 +172,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(436, 102);
+            this.label5.Location = new System.Drawing.Point(357, 86);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(34, 13);
             this.label5.TabIndex = 8;
@@ -193,6 +187,7 @@
             "Beast-Warrior",
             "Cyberse",
             "Dinosaur",
+            "Divine-Beast",
             "Dragon",
             "Fairy",
             "Fiend",
@@ -216,9 +211,9 @@
             "Equip",
             "Field",
             "Ritual"});
-            this.listType.Location = new System.Drawing.Point(439, 120);
+            this.listType.Location = new System.Drawing.Point(360, 104);
             this.listType.Name = "listType";
-            this.listType.Size = new System.Drawing.Size(120, 147);
+            this.listType.Size = new System.Drawing.Size(120, 56);
             this.listType.TabIndex = 9;
             // 
             // listCategory
@@ -228,7 +223,7 @@
             "Monster",
             "Spell",
             "Trap"});
-            this.listCategory.Location = new System.Drawing.Point(303, 110);
+            this.listCategory.Location = new System.Drawing.Point(234, 104);
             this.listCategory.Name = "listCategory";
             this.listCategory.Size = new System.Drawing.Size(120, 43);
             this.listCategory.TabIndex = 11;
@@ -236,7 +231,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(248, 120);
+            this.label6.Location = new System.Drawing.Point(233, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 13);
             this.label6.TabIndex = 10;
@@ -245,7 +240,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(622, 21);
+            this.label7.Location = new System.Drawing.Point(433, 5);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 13);
             this.label7.TabIndex = 12;
@@ -254,7 +249,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(622, 43);
+            this.label8.Location = new System.Drawing.Point(433, 26);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(31, 13);
             this.label8.TabIndex = 13;
@@ -263,7 +258,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(630, 66);
+            this.label9.Location = new System.Drawing.Point(441, 47);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(23, 13);
             this.label9.TabIndex = 14;
@@ -271,7 +266,7 @@
             // 
             // txtATK
             // 
-            this.txtATK.Location = new System.Drawing.Point(664, 18);
+            this.txtATK.Location = new System.Drawing.Point(475, 2);
             this.txtATK.Name = "txtATK";
             this.txtATK.Size = new System.Drawing.Size(71, 20);
             this.txtATK.TabIndex = 15;
@@ -279,7 +274,7 @@
             // 
             // txtDef
             // 
-            this.txtDef.Location = new System.Drawing.Point(664, 40);
+            this.txtDef.Location = new System.Drawing.Point(475, 23);
             this.txtDef.Name = "txtDef";
             this.txtDef.Size = new System.Drawing.Size(71, 20);
             this.txtDef.TabIndex = 16;
@@ -287,7 +282,7 @@
             // 
             // txtLp
             // 
-            this.txtLp.Location = new System.Drawing.Point(664, 63);
+            this.txtLp.Location = new System.Drawing.Point(475, 44);
             this.txtLp.Name = "txtLp";
             this.txtLp.Size = new System.Drawing.Size(71, 20);
             this.txtLp.TabIndex = 17;
@@ -296,7 +291,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(573, 205);
+            this.label10.Location = new System.Drawing.Point(557, 2);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(26, 13);
             this.label10.TabIndex = 18;
@@ -307,7 +302,7 @@
             this.listSet.FormattingEnabled = true;
             this.listSet.Items.AddRange(new object[] {
             "Beginner\'s Pack"});
-            this.listSet.Location = new System.Drawing.Point(576, 221);
+            this.listSet.Location = new System.Drawing.Point(560, 18);
             this.listSet.Name = "listSet";
             this.listSet.Size = new System.Drawing.Size(120, 56);
             this.listSet.TabIndex = 19;
@@ -315,7 +310,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(699, 205);
+            this.label11.Location = new System.Drawing.Point(683, 2);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(37, 13);
             this.label11.TabIndex = 20;
@@ -329,7 +324,7 @@
             "Rare",
             "Super Rare",
             "Ultra Rare"});
-            this.listRarity.Location = new System.Drawing.Point(702, 221);
+            this.listRarity.Location = new System.Drawing.Point(686, 18);
             this.listRarity.Name = "listRarity";
             this.listRarity.Size = new System.Drawing.Size(86, 56);
             this.listRarity.TabIndex = 21;
@@ -643,19 +638,11 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(571, 89);
+            this.label19.Location = new System.Drawing.Point(521, 75);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(56, 13);
+            this.label19.Size = new System.Drawing.Size(99, 13);
             this.label19.TabIndex = 25;
-            this.label19.Text = "Card Text:";
-            // 
-            // txtCardText
-            // 
-            this.txtCardText.Location = new System.Drawing.Point(573, 105);
-            this.txtCardText.Multiline = true;
-            this.txtCardText.Name = "txtCardText";
-            this.txtCardText.Size = new System.Drawing.Size(215, 97);
-            this.txtCardText.TabIndex = 26;
+            this.label19.Text = "On Summon Effect:";
             // 
             // btnAddCard
             // 
@@ -691,15 +678,93 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // checkIsFusion
+            // numID
             // 
-            this.checkIsFusion.AutoSize = true;
-            this.checkIsFusion.Location = new System.Drawing.Point(465, 22);
-            this.checkIsFusion.Name = "checkIsFusion";
-            this.checkIsFusion.Size = new System.Drawing.Size(98, 17);
-            this.checkIsFusion.TabIndex = 30;
-            this.checkIsFusion.Text = "Fusion Monster";
-            this.checkIsFusion.UseVisualStyleBackColor = true;
+            this.numID.Location = new System.Drawing.Point(236, 21);
+            this.numID.Name = "numID";
+            this.numID.Size = new System.Drawing.Size(123, 20);
+            this.numID.TabIndex = 31;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(357, 165);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 13);
+            this.label20.TabIndex = 32;
+            this.label20.Text = "SecType:";
+            // 
+            // listSecType
+            // 
+            this.listSecType.FormattingEnabled = true;
+            this.listSecType.Items.AddRange(new object[] {
+            "NONE",
+            "Normal",
+            "Fusion",
+            "Ritual"});
+            this.listSecType.Location = new System.Drawing.Point(360, 181);
+            this.listSecType.Name = "listSecType";
+            this.listSecType.Size = new System.Drawing.Size(120, 56);
+            this.listSecType.TabIndex = 33;
+            // 
+            // txtOnSumon
+            // 
+            this.txtOnSumon.Location = new System.Drawing.Point(523, 91);
+            this.txtOnSumon.Multiline = true;
+            this.txtOnSumon.Name = "txtOnSumon";
+            this.txtOnSumon.Size = new System.Drawing.Size(264, 39);
+            this.txtOnSumon.TabIndex = 34;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(520, 133);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(94, 13);
+            this.label21.TabIndex = 35;
+            this.label21.Text = "Continuous Effect:";
+            // 
+            // txtContiEffect
+            // 
+            this.txtContiEffect.Location = new System.Drawing.Point(523, 149);
+            this.txtContiEffect.Multiline = true;
+            this.txtContiEffect.Name = "txtContiEffect";
+            this.txtContiEffect.Size = new System.Drawing.Size(264, 39);
+            this.txtContiEffect.TabIndex = 36;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(521, 191);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(75, 13);
+            this.label22.TabIndex = 37;
+            this.label22.Text = "Ignition Effect:";
+            // 
+            // txtIgnitionEffect
+            // 
+            this.txtIgnitionEffect.Location = new System.Drawing.Point(523, 207);
+            this.txtIgnitionEffect.Multiline = true;
+            this.txtIgnitionEffect.Name = "txtIgnitionEffect";
+            this.txtIgnitionEffect.Size = new System.Drawing.Size(264, 79);
+            this.txtIgnitionEffect.TabIndex = 38;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(359, 242);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(37, 13);
+            this.label23.TabIndex = 39;
+            this.label23.Text = "Ability:";
+            // 
+            // txtAbility
+            // 
+            this.txtAbility.Location = new System.Drawing.Point(362, 259);
+            this.txtAbility.Multiline = true;
+            this.txtAbility.Name = "txtAbility";
+            this.txtAbility.Size = new System.Drawing.Size(152, 24);
+            this.txtAbility.TabIndex = 40;
             // 
             // JsonGenerator
             // 
@@ -707,11 +772,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.checkIsFusion);
+            this.Controls.Add(this.txtAbility);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.txtIgnitionEffect);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.txtContiEffect);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.txtOnSumon);
+            this.Controls.Add(this.listSecType);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.numID);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditSelected);
             this.Controls.Add(this.btnAddCard);
-            this.Controls.Add(this.txtCardText);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.listCardList);
             this.Controls.Add(this.groupBox1);
@@ -735,11 +808,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCardName);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.numID);
             this.Controls.Add(this.label1);
             this.Name = "JsonGenerator";
             this.Text = "DB Manager";
-            ((System.ComponentModel.ISupportInitialize)(this.numID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLevel)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -752,7 +823,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numID;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCardName;
         private System.Windows.Forms.Label label3;
@@ -796,10 +866,18 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ListBox listCardList;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox txtCardText;
         private System.Windows.Forms.Button btnAddCard;
         private System.Windows.Forms.Button btnEditSelected;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.CheckBox checkIsFusion;
+        private System.Windows.Forms.TextBox numID;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.ListBox listSecType;
+        private System.Windows.Forms.TextBox txtOnSumon;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox txtContiEffect;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox txtIgnitionEffect;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox txtAbility;
     }
 }

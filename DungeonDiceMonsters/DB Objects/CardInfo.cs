@@ -1,118 +1,285 @@
 ﻿//Joel Campos
-//9/1/2023
-//CardInfo Class
+//10/3/2023
+//Card Info (Ver 2) Class
+
+using System;
 
 namespace DungeonDiceMonsters
 {
     public class CardInfo
     {
-        public CardInfo(rawcardinfo rawdata) 
+        #region Constructors
+        public CardInfo(rawcardinfo cardData)
         {
-            _ID = rawdata.id;
-            _Name = rawdata.name;
-            _Level = rawdata.level;
-            _Attribute = rawdata.attribute;
-            _Type = rawdata.type;
-            _Category = rawdata.category;
-            _ATK = rawdata.atk;
-            _DEF = rawdata.def;
-            _LP = rawdata.lp;
-            _SetPack = rawdata.setpack;
-            _Rarity = rawdata.rarity;
-            _IsFusion = rawdata.fusion;
-            _CardText = rawdata.cardtext;
+            //Convert all the raw info into the actual Card Info
+            _Id = Convert.ToInt32(cardData.id);
+            _Name = cardData.name;
+            switch (cardData.category)
+            {
+                case "Monster": _Category = Category.Monster; break;
+                case "Spell": _Category = Category.Spell; break;
+                case "Trap": _Category = Category.Trap; break;
+                default: throw new Exception("Card Category in raw DB has an invalid value; Value: " + cardData.category + " | card id: " + cardData.id);
+            }
+            switch (cardData.type)
+            {
+                case "Aqua": _Type = Type.Aqua; break;
+                case "Beast": _Type = Type.Beast; break;
+                case "Beast-Warrior": _Type = Type.BeastWarrior; break;
+                case "Cyberse": _Type = Type.Cyberse; break;
+                case "Dinosaur": _Type = Type.Dinosaur; break;
+                case "Divine-Beast": _Type = Type.DivineBeast; break;
+                case "Dragon": _Type = Type.Dragon; break;
+                case "Fairy": _Type = Type.Fairy; break;
+                case "Fiend": _Type = Type.Fiend; break;
+                case "Fish": _Type = Type.Fish; break;
+                case "Insect": _Type = Type.Insect; break;
+                case "Machine": _Type = Type.Machine; break;
+                case "Plant": _Type = Type.Plant; break;
+                case "Psychic": _Type = Type.Psychic; break;
+                case "Pyro": _Type = Type.Pyro; break;
+                case "Reptile": _Type = Type.Reptile; break;
+                case "Rock": _Type = Type.Rock; break;
+                case "Sea Serpent": _Type = Type.SeaSerpent; break;
+                case "Spellcaster": _Type = Type.Spellcaster; break;
+                case "Thunder": _Type = Type.Thunder; break;
+                case "Warrior": _Type = Type.Warrior; break;
+                case "Winged Beast": _Type = Type.WingedBeast; break;
+                case "Wyrm": _Type = Type.Wyrm; break;
+                case "Zombie": _Type = Type.Zombie; break;
+                case "Normal": _Type = Type.Normal; break;
+                case "Continuous": _Type = Type.Continuous; break;
+                case "Equip": _Type = Type.Equip; break;
+                case "Field": _Type = Type.Field; break;
+                case "Ritual": _Type = Type.Ritual; break;
+                default: throw new Exception("Card Type in raw DB has an invalid value; Value: " + cardData.type + " | card id: " + cardData.id);
+            }
+            switch (cardData.sectype)
+            {
+                case "Normal": _SecType = SecType.Normal; break;
+                case "Fusion": _SecType = SecType.Fusion; break;
+                case "Ritual": _SecType = SecType.Ritual; break;
+                case "NONE": _SecType = SecType.NONE; break;
+                default: throw new Exception("Card SecType in raw DB has an invalid value; Value: " + cardData.sectype + " | card id: " + cardData.id);
+            }
+            switch (cardData.attribute)
+            {
+                case "DARK": _Attribute = Attribute.DARK; break;
+                case "LIGHT": _Attribute = Attribute.LIGHT; break;
+                case "WATER": _Attribute = Attribute.WATER; break;
+                case "FIRE": _Attribute = Attribute.FIRE; break;
+                case "EARTH": _Attribute = Attribute.EARTH; break;
+                case "WIND": _Attribute = Attribute.WIND; break;
+                case "DIVINE": _Attribute = Attribute.DIVINE; break;
+                case "SPELL": _Attribute = Attribute.SPELL; break;
+                case "TRAP": _Attribute = Attribute.TRAP; break;
+                default: throw new Exception("Card atribute in raw DB has an invalid value; Value: " + cardData.attribute + " | card id: " + cardData.id);
+            }
+            _Atk = Convert.ToInt32(cardData.atk);
+            _Def = Convert.ToInt32(cardData.def);
+            _Lp = Convert.ToInt32(cardData.lp);
+            _MonsterLevel = Convert.ToInt32(cardData.monsterLevel);
+            _DiceLevel = Convert.ToInt32(cardData.diceLevel);
+            for (int x = 0; x < 6; x++)
+            {
+                string face = "notset";
+                switch (x)
+                {
+                    case 0: face = cardData.face1; break;
+                    case 1: face = cardData.face2; break;
+                    case 2: face = cardData.face3; break;
+                    case 3: face = cardData.face4; break;
+                    case 4: face = cardData.face5; break;
+                    case 5: face = cardData.face6; break;
+                }
 
-            rawdiceinfo diceinfo = rawdata.diceinforaw[0];
-            string[] crests = new string[6];
-            crests[0] = diceinfo.crest1;
-            crests[1] = diceinfo.crest2;
-            crests[2] = diceinfo.crest3;
-            crests[3] = diceinfo.crest4;
-            crests[4] = diceinfo.crest5;
-            crests[5] = diceinfo.crest6;
 
-            string[] values = new string[6];
-            values[0] = diceinfo.value1;
-            values[1] = diceinfo.value2;
-            values[2] = diceinfo.value3;
-            values[3] = diceinfo.value4;
-            values[4] = diceinfo.value5;
-            values[5] = diceinfo.value6;
+                if (face.Contains("STAR")) { _Crest[x] = Crest.STAR; }
+                if (face.Contains("MOV")) { _Crest[x] = Crest.MOV; }
+                if (face.Contains("ATK")) { _Crest[x] = Crest.ATK; }
+                if (face.Contains("DEF")) { _Crest[x] = Crest.DEF; }
+                if (face.Contains("MAG")) { _Crest[x] = Crest.MAG; }
+                if (face.Contains("TRAP")) { _Crest[x] = Crest.TRAP; }
 
-            _DiceInfo = new DiceInfo(diceinfo.level, crests, values);
+                if (face.Contains("1")) { _CrestValue[x] = 1; }
+                if (face.Contains("2")) { _CrestValue[x] = 2; }
+                if (face.Contains("3")) { _CrestValue[x] = 3; }
+                if (face.Contains("4")) { _CrestValue[x] = 4; }
+                if (face.Contains("5")) { _CrestValue[x] = 5; }
+            }
+            _OnSummonEffect = cardData.onSummonEffect;
+            _ContEffect = cardData.continuousEffect;
+            _IgnitionEffect = cardData.ignitionEffect;
+            _Ability = cardData.ability;
+            _FusionMaterial1 = cardData.fusionMaterial1;
+            _FusionMaterial2 = cardData.fusionMaterial2;
+            _FusionMaterial3 = cardData.fusionMaterial3;
+            _RitualCard = cardData.ritualSpell;
+            _SetPack = cardData.setpack;
+            _Rarity = cardData.rarity;
         }
-        public CardInfo(string attribute)
+        public CardInfo(Attribute attribute)
         {
-            _ID = 0;
+            _Id = 0;
             _Name = attribute + " Symbol";
-            _Level = 1;
+            _MonsterLevel = 1;
             _Attribute = attribute;
-            _Type = "Symbol";
-            _Category = "Symbol";
-            _ATK = 0;
-            _DEF = 0;
-            _LP = 8000;
+            _Type = Type.Symbol;
+            _Category = Category.Symbol;
+            _Atk = 0;
+            _Def = 0;
+            _Lp = 8000;
             _SetPack = "NONE";
             _Rarity = "Common";
-            _IsFusion = false;
-            _CardText = "Increase the ATK of all your " + Attribute + " monsters on the board by 200.";
+            _ContEffect = "Increase the ATK of all your " + attribute + " monsters on the board by 200.";
         }
+        #endregion
 
-        public int ID { get { return _ID; } }
+        #region Public Accesors
+        public int ID { get { return _Id; } }
         public string Name { get { return _Name; } }
-        public int Level {  get { return _Level; } }
-        public string Attribute { get { return _Attribute; } }
-        public string Type { get { return _Type; } }
-        public string Category { get { return _Category; } }
-        public int ATK { get { return _ATK; } }
-        public int DEF {  get { return _DEF; } }
-        public int LP {  get { return _LP; } }
-        public bool IsFusion {  get { return _IsFusion; } }
-        public bool IsRitual { get 
-            {
-                bool isritual = _DiceInfo.HasRitualFaces() && _Category == "Monster";
-                return isritual;
-            }
-        }
-        public int DiceLevel { get { return _DiceInfo.Level; } }
+        public int Level { get { return _MonsterLevel; } }
+        public Attribute Attribute { get { return _Attribute; } }
+        public Type Type { get { return _Type; } }
+        public SecType SecType { get { return _SecType; } }
+        public Category Category { get { return _Category; } }
+        public int ATK { get { return _Atk; } }
+        public int DEF { get { return _Def; } }
+        public int LP { get { return _Lp; } }
+        public bool IsFusion { get { return _SecType == SecType.Fusion; } }
+        public bool IsRitual { get { return _SecType == SecType.Ritual; } }
+        public int DiceLevel { get { return _DiceLevel; } }
+        public string FusionMaterial1 { get { return _FusionMaterial1; } }
+        public string FusionMaterial2 { get { return _FusionMaterial2; } }
+        public string FusionMaterial3 { get { return _FusionMaterial3; } }
 
-        public string DiceFace(int index)
+        public bool HasOnSummonEffect { get { return _OnSummonEffect != "-"; } }
+        public bool HasContinuousEffect { get { return _ContEffect != "-"; } }  
+        public bool HasIgnitionEffect { get { return _IgnitionEffect != "-"; } }
+        public bool HasAbility { get {  return _Ability != "-"; } }
+        public string OnSummonEffect {  get { return _OnSummonEffect; } }
+        public string ContinuousEffect { get { return _ContEffect; } }
+        public string IgnitionEffect {  get { return _IgnitionEffect; } }
+        public string Ability { get { return _Ability; } }
+        public Crest DiceFace(int index)
         {
-            return _DiceInfo.Crest(index);
+            if(index < 0 || index > 5)
+            {
+                throw new Exception("Index to access a CardInfo's Dice Face Crest is invalid; index: " +index);
+            }
+            else
+            {
+                return _Crest[index];
+            }
         }
         public int DiceFaceValue(int index)
         {
-            return _DiceInfo.Value(index);
+            if (index < 0 || index > 5)
+            {
+                throw new Exception("Index to access a CardInfo's Dice Face value is invalid; index: " + index);
+            }
+            else
+            {
+                return _CrestValue[index];
+            }
         }
+        #endregion
 
-        public string Face1Crest { get { return _DiceInfo.Crest(0); }  }
-        public string Face2Crest { get { return _DiceInfo.Crest(1); }  }
-        public string Face3Crest { get { return _DiceInfo.Crest(2); }  }
-        public string Face4Crest { get { return _DiceInfo.Crest(3); }  }
-        public string Face5Crest { get { return _DiceInfo.Crest(4); }  }
-        public string Face6Crest { get { return _DiceInfo.Crest(5); }  }
-        public int Face1Value { get { return _DiceInfo.Value(0); }  }
-        public int Face2Value { get { return _DiceInfo.Value(1); }  }
-        public int Face3Value { get { return _DiceInfo.Value(2); }  }
-        public int Face4Value { get { return _DiceInfo.Value(3); }  }
-        public int Face5Value { get { return _DiceInfo.Value(4); }  }
-        public int Face6Value { get { return _DiceInfo.Value(5); }  }
-
-        public string CardText { get { return _CardText; } }
-
-        private int _ID;
+        #region Private Data
+        private int _Id;
         private string _Name;
-        private int _Level;
-        private string _Attribute;
-        private string _Type;
-        private string _Category;
-        private int _ATK;
-        private int _DEF;
-        private int _LP;
-        private string _CardText;
-        private DiceInfo _DiceInfo;
+        private Category _Category;
+        private Type _Type;
+        private SecType _SecType;
+        private Attribute _Attribute;
+        private int _Atk;
+        private int _Def;
+        private int _Lp;
+        private int _MonsterLevel;
+        private int _DiceLevel;
+        private Crest[] _Crest = new Crest[6];
+        private int[] _CrestValue = new int[6];
+        private string _OnSummonEffect;
+        private string _ContEffect;
+        private string _IgnitionEffect;
+        private string _Ability;
+        private string _FusionMaterial1;
+        private string _FusionMaterial2;
+        private string _FusionMaterial3;
+        private string _RitualCard;
         private string _SetPack;
         private string _Rarity;
-        private bool _IsFusion;
+        #endregion
+    }
+
+    public enum Category
+    {
+        Monster,
+        Spell,
+        Trap,
+        Symbol
+    }
+    public enum Type
+    {
+        Aqua,
+        Beast,
+        BeastWarrior,
+        Cyberse,
+        Dinosaur,
+        DivineBeast,
+        Dragon,
+        Fairy,
+        Fiend,
+        Fish,
+        Insect,
+        Machine,
+        Plant,
+        Psychic,
+        Pyro,
+        Reptile,
+        Rock,
+        SeaSerpent,
+        Spellcaster,
+        Thunder,
+        Warrior,
+        WingedBeast,
+        Wyrm,
+        Zombie,
+        Normal,
+        Continuous,
+        Equip,
+        Field,
+        Ritual,
+        Symbol
+    }
+    public enum SecType
+    {
+        NONE,
+        Normal,
+        Fusion,
+        Ritual,
+    }
+    public enum Attribute
+    {
+        DARK,
+        LIGHT,
+        WATER,
+        FIRE,
+        EARTH,
+        WIND,
+        DIVINE,
+        SPELL,
+        TRAP
+    }
+    public enum Crest
+    { 
+        NONE,
+        STAR,
+        MOV,
+        ATK,
+        DEF,
+        MAG,
+        TRAP,
+        RITU
     }
 }

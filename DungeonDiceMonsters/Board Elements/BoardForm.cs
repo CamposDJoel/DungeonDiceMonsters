@@ -201,17 +201,17 @@ namespace DungeonDiceMonsters
             RedData = Red; BlueData = Blue;
 
             //more test data
-            RedData.AddCrests(Crest.Movement, 10);
-            RedData.AddCrests(Crest.Attack, 10);
-            RedData.AddCrests(Crest.Defense, 2);
-            RedData.AddCrests(Crest.Magic, 7);
-            RedData.AddCrests(Crest.Trap, 1);
+            RedData.AddCrests(Crest.MOV, 10);
+            RedData.AddCrests(Crest.ATK, 10);
+            RedData.AddCrests(Crest.DEF, 2);
+            RedData.AddCrests(Crest.MAG, 7);
+            RedData.AddCrests(Crest.TRAP, 1);
 
-            BlueData.AddCrests(Crest.Movement, 12);
-            BlueData.AddCrests(Crest.Attack, 6);
-            BlueData.AddCrests(Crest.Defense, 2);
-            BlueData.AddCrests(Crest.Magic, 9);
-            BlueData.AddCrests(Crest.Trap, 2);
+            BlueData.AddCrests(Crest.MOV, 12);
+            BlueData.AddCrests(Crest.ATK, 6);
+            BlueData.AddCrests(Crest.DEF, 2);
+            BlueData.AddCrests(Crest.MAG, 9);
+            BlueData.AddCrests(Crest.TRAP, 2);
 
             //Initialize the board tiles
             int tileId = 0;
@@ -546,11 +546,11 @@ namespace DungeonDiceMonsters
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = "";
                         lblCardLevel.Text = "";
-                        lblAttribute.Text = thisCard.Attribute;
+                        lblAttribute.Text = thisCard.Attribute.ToString();
                         lblStatsATK.Text = "";
                         lblStatsDEF.Text = "";
                         lblStatsLP.Text = thisCard.LP.ToString();
-                        lblCardText.Text = thisCard.Info.CardText;
+                        lblCardText.Text = thisCard.ContinuousEffect;
                     }
                     else
                     {
@@ -560,22 +560,18 @@ namespace DungeonDiceMonsters
 
                         lblCardName.Text = thisCard.Name;
 
-                        string secondaryType = "";
-                        if (thisCard.Info.IsFusion) { secondaryType = "/Fusion"; }
-                        if (thisCard.Info.IsRitual) { secondaryType = "/Ritual"; }
-                        if (thisCard.Category == "Spell") { secondaryType = " Spell"; }
-                        if (thisCard.Category == "Trap") { secondaryType = " Trap"; }
+                        string secondaryType = thisCard.SecType.ToString();
+                        lblCardType.Text = thisCard.Type + "/" + secondaryType;
+                        if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.Type + " spell"; }
+                        if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.Type + " trap"; }
 
-
-                        lblCardType.Text = thisCard.Info.Type + secondaryType;
-
-                        if (thisCard.Category == "Monster") { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
+                        if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
                         else { lblCardLevel.Text = ""; }
 
-                        if (thisCard.Category == "Monster") { lblAttribute.Text = thisCard.Attribute; }
+                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
                         else { lblAttribute.Text = ""; }
 
-                        if (thisCard.Category == "Monster")
+                        if (thisCard.Category == Category.Monster)
                         {
                             lblStatsATK.Text = thisCard.ATK.ToString();
                             lblStatsDEF.Text = thisCard.DEF.ToString();
@@ -600,7 +596,34 @@ namespace DungeonDiceMonsters
                             lblStatsLP.Text = "";
                         }
 
-                        lblCardText.Text = thisCard.Info.CardText;
+                        string fullcardtext = "";
+                        if (thisCard.SecType == SecType.Fusion)
+                        {
+                            string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                            if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
+                            fullcardtext = fullcardtext + fusionMaterials + "\n\n";
+                        }
+
+                        if (thisCard.HasOnSummonEffect)
+                        {
+                            fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+                        }
+
+                        if (thisCard.HasContinuousEffect)
+                        {
+                            fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+                        }
+
+                        if (thisCard.HasAbility)
+                        {
+                            fullcardtext = fullcardtext + "[Ability] - " + thisCard.Ability + "\n\n";
+                        }
+
+                        if (thisCard.HasIgnitionEffect)
+                        {
+                            fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+                        }
+                        lblCardText.Text = fullcardtext;
                     }
                 }               
             }
@@ -732,7 +755,7 @@ namespace DungeonDiceMonsters
 
             //Set the defender's data. if the defender is a non-monster place the clear data.
             Card Defender = _AttackTarger.CardInPlace;
-            if(Defender.Category == "Monster")
+            if(Defender.Category == Category.Monster)
             {
                 if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
                 PicDefender2.BackgroundImage = null;
@@ -801,16 +824,14 @@ namespace DungeonDiceMonsters
         }
         private bool HasAttributeAdvantage(Card attacker, Card defender)
         {
-            if (attacker.Attribute == "LIGHT" && defender.Attribute == "DARK") { return true; }
-
             switch (attacker.Attribute)
             {
-                case "LIGHT": if (defender.Attribute == "DARK") { return true; } else { return false; }
-                case "DARK": if (defender.Attribute == "LIGHT") { return true; } else { return false; }
-                case "WATER": if (defender.Attribute == "FIRE") { return true; } else { return false; }
-                case "FIRE": if (defender.Attribute == "EARTH") { return true; } else { return false; }
-                case "EARTH": if (defender.Attribute == "WIND") { return true; } else { return false; }
-                case "WIND": if (defender.Attribute == "WATER") { return true; } else { return false; }
+                case Attribute.LIGHT: if (defender.Attribute == Attribute.DARK) { return true; } else { return false; }
+                case Attribute.DARK: if (defender.Attribute == Attribute.LIGHT) { return true; } else { return false; }
+                case Attribute.WATER: if (defender.Attribute == Attribute.FIRE) { return true; } else { return false; }
+                case Attribute.FIRE: if (defender.Attribute == Attribute.EARTH) { return true; } else { return false; }
+                case Attribute.EARTH: if (defender.Attribute == Attribute.WIND) { return true; } else { return false; }
+                case Attribute.WIND: if (defender.Attribute == Attribute.WATER) { return true; } else { return false; }
                 default: return false;
             }
         }    
@@ -1336,7 +1357,7 @@ namespace DungeonDiceMonsters
 
 
                         _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
-                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != "Monster")
+                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
                         {
                             btnActionAttack.Enabled = false;
                         }
@@ -1607,7 +1628,7 @@ namespace DungeonDiceMonsters
 
             //Apply the amoutn of crests used
             int amountUsed = RedData.Crests_MOV - _TMPMoveCrestCount;
-            RedData.RemoveCrests(Crest.Movement, amountUsed);
+            RedData.RemoveCrests(Crest.MOV, amountUsed);
             LoadPlayersInfo();
 
             _CurrentGameState = GameState.MainPhaseBoard;
@@ -1670,7 +1691,7 @@ namespace DungeonDiceMonsters
             lblAttackerAdvPlus.Visible = false;
 
             //if the card is not a monster simply destroy it
-            if(_AttackTarger.CardInPlace.Category == "Monster")
+            if(_AttackTarger.CardInPlace.Category == Category.Monster)
             {
                 //Check the OpponentIA Object to if it defends or not and if bonus crests are used...
                 bool willDefend = false;
@@ -1693,8 +1714,8 @@ namespace DungeonDiceMonsters
                 //Reduce the Crests used and update player data UI
                 int creststoremoveATK = _AttackBonusCrest + 1;
                 int creststoremoveDEF = _DefenseBonusCrest + 1;
-                RedData.RemoveCrests(Crest.Attack, creststoremoveATK);
-                BlueData.RemoveCrests(Crest.Defense, creststoremoveDEF);
+                RedData.RemoveCrests(Crest.ATK, creststoremoveATK);
+                BlueData.RemoveCrests(Crest.DEF, creststoremoveDEF);
                 LoadPlayersInfo();
 
                 int Damage = FinalAttack - FinalDefense;
@@ -1790,7 +1811,7 @@ namespace DungeonDiceMonsters
                     }
                 }          
             }
-            else if (_AttackTarger.CardInPlace.Category == "Symbol")
+            else if (_AttackTarger.CardInPlace.Category == Category.Symbol)
             {
                 //Reduce the Symbol's LP and update player info panel
 

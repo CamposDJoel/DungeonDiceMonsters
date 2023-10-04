@@ -79,9 +79,20 @@ namespace DungeonDiceMonsters
                 Tokens = Line.Split(Separator, StringSplitOptions.None);
 
                 //Initialize the 20 cards in the deck
-                string symbol = Tokens[23];
+                string symbolstring = Tokens[23];
+                Attribute Symbol = Attribute.DIVINE;
+                switch(symbolstring)
+                {
+                    case "DARK": Symbol = Attribute.DARK; break;
+                    case "LIGHT": Symbol = Attribute.LIGHT; break;
+                    case "WATER": Symbol = Attribute.WATER; break;
+                    case "FIRE": Symbol = Attribute.FIRE; break;
+                    case "EARTH": Symbol = Attribute.EARTH; break;
+                    case "WIND": Symbol = Attribute.WIND; break;
+                }
+
                 DecksData.Decks[x] = new Deck();
-                DecksData.Decks[x].ChangeSymbol(symbol);
+                DecksData.Decks[x].ChangeSymbol(Symbol);
 
                 for(int y = 0; y < 20; y++) 
                 {
