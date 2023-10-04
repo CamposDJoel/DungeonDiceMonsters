@@ -11,6 +11,7 @@ namespace DungeonDiceMonsters
 {
     public partial class DeckBuilder : Form
     {
+        #region Constructors
         public DeckBuilder()
         {
             SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, true);
@@ -34,7 +35,9 @@ namespace DungeonDiceMonsters
             LoadStoragePage();
             LoadDeckPage();        
         }
+        #endregion
 
+        #region Private Methods
         private void InitializeStorageComponents()
         {
             //Index will be save on the Image Object Tag value
@@ -360,7 +363,9 @@ namespace DungeonDiceMonsters
             //Reload the Card Info Panel UI
             LoadCardInfoPanel();
         }
+        #endregion
 
+        #region Data
         private int _CurrentPage = 1;
         private List<Panel> _CardPanelList = new List<Panel>();
         private List<PictureBox> _CardImageList = new List<PictureBox>();
@@ -375,8 +380,9 @@ namespace DungeonDiceMonsters
         private int[] _DeckIDsInCurrentPage = new int[30];
 
         private Attribute _CurrentSymbolSelection = Attribute.DARK;
+        #endregion
 
-
+        #region Events
         private void StorageCard_click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click2);
@@ -609,11 +615,6 @@ namespace DungeonDiceMonsters
                 btnExit.Visible = true;
             }
         }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void btnSymbolPrevious_Click(object sender, EventArgs e)
         {
             switch(_CurrentSymbolSelection)
@@ -634,7 +635,6 @@ namespace DungeonDiceMonsters
 
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
-
         private void btnSymbolNext_Click(object sender, EventArgs e)
         {
             switch (_CurrentSymbolSelection)
@@ -655,5 +655,10 @@ namespace DungeonDiceMonsters
 
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
     }
 }

@@ -62,6 +62,7 @@ namespace DungeonDiceMonsters
     }
     public partial class BoardForm : Form
     {
+        #region Constructors
         public BoardForm(PlayerData Red, PlayerData Blue)
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
@@ -389,8 +390,9 @@ namespace DungeonDiceMonsters
             PanelDimenFormSelector.Visible = true;
             _CurrentGameState = GameState.SummonCard;
         }
+        #endregion
 
-        //Public functions
+        #region Public Methods
         public void SetupMainPhaseNoSummon()
         {
             //Switch to the Main Phase of the player
@@ -452,8 +454,9 @@ namespace DungeonDiceMonsters
                 Application.DoEvents();
             }
         }
+        #endregion
 
-        //Data
+        #region Data
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
         private PlayerData RedData;
         private PlayerData BlueData;
@@ -469,17 +472,18 @@ namespace DungeonDiceMonsters
         private int _AttackBonusCrest = 0;
         private int _DefenseBonusCrest = 0;
         //Symbols Refs
-        Card _RedSymbol;
-        Card _BlueSymbol;
+        private Card _RedSymbol;
+        private Card _BlueSymbol;
         //Summoning data
-        List<Tile> _SetCandidates = new List<Tile>();
-        CardInfo _CardToBeSet;
-        CardInfo _CardToBeSummon;
-        DimensionForms _CurrentDimensionForm = DimensionForms.CrossBase;
-        Tile[] _dimensionTiles = new Tile[6];
-        bool _validDimension = false;
+        private List<Tile> _SetCandidates = new List<Tile>();
+        private CardInfo _CardToBeSet;
+        private CardInfo _CardToBeSummon;
+        private DimensionForms _CurrentDimensionForm = DimensionForms.CrossBase;
+        private Tile[] _dimensionTiles = new Tile[6];
+        private bool _validDimension = false;
+        #endregion
 
-        //Private functions
+        #region Private Methods
         private void LoadPlayersInfo()
         {
             lblRedPlayerName.Text = RedData.Name;
@@ -565,7 +569,7 @@ namespace DungeonDiceMonsters
                         if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.Type + " spell"; }
                         if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.Type + " trap"; }
 
-                        if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Info.Level; }
+                        if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
                         else { lblCardLevel.Text = ""; }
 
                         if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
@@ -577,16 +581,16 @@ namespace DungeonDiceMonsters
                             lblStatsDEF.Text = thisCard.DEF.ToString();
                             lblStatsLP.Text = thisCard.LP.ToString();
 
-                            if (thisCard.ATK > thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Green; }
-                            else if (thisCard.ATK < thisCard.Info.ATK) { lblStatsATK.ForeColor = Color.Red; }
+                            if (thisCard.ATK > thisCard.ATK) { lblStatsATK.ForeColor = Color.Green; }
+                            else if (thisCard.ATK < thisCard.ATK) { lblStatsATK.ForeColor = Color.Red; }
                             else { lblStatsATK.ForeColor = Color.White; }
 
-                            if (thisCard.DEF > thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Green; }
-                            else if (thisCard.DEF < thisCard.Info.DEF) { lblStatsDEF.ForeColor = Color.Red; }
+                            if (thisCard.DEF > thisCard.DEF) { lblStatsDEF.ForeColor = Color.Green; }
+                            else if (thisCard.DEF < thisCard.DEF) { lblStatsDEF.ForeColor = Color.Red; }
                             else { lblStatsDEF.ForeColor = Color.White; }
 
-                            if (thisCard.LP > thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Green; }
-                            else if (thisCard.LP < thisCard.Info.LP) { lblStatsLP.ForeColor = Color.Red; }
+                            if (thisCard.LP > thisCard.LP) { lblStatsLP.ForeColor = Color.Green; }
+                            else if (thisCard.LP < thisCard.LP) { lblStatsLP.ForeColor = Color.Red; }
                             else { lblStatsLP.ForeColor = Color.White; }
                         }
                         else
@@ -1224,8 +1228,9 @@ namespace DungeonDiceMonsters
 
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
+        #endregion
 
-        //Events
+        #region Events
         private void OnMouseHoverSound(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Hover);
@@ -2122,5 +2127,6 @@ namespace DungeonDiceMonsters
 
             UpdateDimensionPreview();
         }
+        #endregion
     }
 }

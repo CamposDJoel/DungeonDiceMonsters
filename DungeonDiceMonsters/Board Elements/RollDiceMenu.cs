@@ -11,6 +11,7 @@ namespace DungeonDiceMonsters
 {
     public partial class RollDiceMenu : Form
     {
+        #region Constructors
         public RollDiceMenu(PlayerData playerdata, BoardForm board)
         {
             InitializeComponent();
@@ -40,7 +41,9 @@ namespace DungeonDiceMonsters
             InitializeDeckComponents();
             LoadDeckPage();
         }
+        #endregion
 
+        #region Private Methods
         private void InitializeDeckComponents()
         {
             //Index will be save on the Image Object Tag value
@@ -369,18 +372,15 @@ namespace DungeonDiceMonsters
                             if (dice2isRitualMatch || dice3isRitualMatch)
                             {
                                 //then check if the ritual card is the designated ritual for this monster
-                                switch (DiceZ.Name)
+                                if (DiceX.RitualCard == DiceY.Name)
                                 {
-                                    case "Black Luster Soldier":
-                                        if (dice2isRitualMatch && DiceX.Name == "Black Luster Ritual" || dice3isRitualMatch && DiceY.Name == "Black Luster Ritual")
-                                        {
-                                            //Set result as "Ritual Summon"
-                                            return 4;
-                                        }
-                                        else { return 3; }                                        
-                                    default:
-                                        //Set result as "Star/Ritual No Match"
-                                        return 3;
+                                    //Set result as "Ritual Summon"
+                                    return 4;
+                                }
+                                else
+                                {
+                                    //Set result as "Star/Ritual No Match"
+                                    return 3;
                                 }
                             }
                             else
@@ -419,16 +419,18 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        #endregion
 
-        BoardForm _Board;
+        #region Data
+        private BoardForm _Board;
         private PlayerData _PlayerData;
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
         private bool _DiceRolled = false;
-
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
+        #endregion
 
-        //Events
+        #region Events
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Hover);
@@ -854,5 +856,6 @@ namespace DungeonDiceMonsters
             Dispose();
             _Board.Show();
         }
+        #endregion
     }
 }

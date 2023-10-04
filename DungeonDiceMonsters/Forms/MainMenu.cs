@@ -5,6 +5,7 @@ namespace DungeonDiceMonsters
 {
     public partial class MainMenu : Form
     {
+        #region Constructors
         public MainMenu()
         {
             SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
@@ -30,8 +31,9 @@ namespace DungeonDiceMonsters
             }
 
         }
+        #endregion
 
-        //Events
+        #region Events
         private void OnMouseEnterLabel(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Hover);
@@ -43,7 +45,6 @@ namespace DungeonDiceMonsters
             Label thisLabel = (Label)sender;
             thisLabel.BorderStyle = BorderStyle.None;
         }
-
         private void lblMenuCardShop_Click(object sender, EventArgs e)
         {
             //TODO
@@ -56,11 +57,6 @@ namespace DungeonDiceMonsters
             Dispose();
             DB.Show();
         }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void lblMenuFreeDuel_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
@@ -69,10 +65,14 @@ namespace DungeonDiceMonsters
             Dispose();
             FD.Show();
         }
-
         private void lblMenuArcade_Click(object sender, EventArgs e)
         {
 
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
     }
 }

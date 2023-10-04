@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Authentication.ExtendedProtection.Configuration;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
+﻿//Joel Campos
+//10/4/2023
+//Game Data Class
 
 namespace DungeonDiceMonsters
 {
     public static class GameData
     {
+        #region Public Accessors
         public static string Name { get{ return _PlayerName;} }
         public static int StarChips { get{ return _StarChips; } }
+        #endregion
 
+        #region Public Methods
         public static void UnlockCharacter(Character c)
         {
             _CharactersUnlocked[(int)c] = true;
@@ -29,19 +28,20 @@ namespace DungeonDiceMonsters
         {
             return _CharactersLoss[(int)character];
         }
-
-
-        private static string _PlayerName = "tmp";
-        private static int _StarChips = 0;
-        private static  bool[] _CharactersUnlocked = new bool[35];
-        private static  int[] _CharactersWins = new int[35];
-        private static  int[] _CharactersLoss = new int[35];
-
         public static string CharacterName(Character c)
         {
             string name = c.ToString();
             return name.Replace("_", " ");
         }
+        #endregion
+
+        #region Data
+        private static string _PlayerName = "tmp";
+        private static int _StarChips = 0;
+        private static  bool[] _CharactersUnlocked = new bool[35];
+        private static  int[] _CharactersWins = new int[35];
+        private static  int[] _CharactersLoss = new int[35];
+        #endregion
     }
 
     public enum Character

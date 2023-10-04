@@ -2,12 +2,11 @@
 //9/12/2023
 //Card Class
 
-using System.Windows.Forms.VisualStyles;
-
 namespace DungeonDiceMonsters
 {
     public class Card
     {
+        #region Constructors
         public Card(int id, CardInfo info, PlayerOwner owner, bool isFaceDown)
         {
             _id = id;
@@ -24,27 +23,25 @@ namespace DungeonDiceMonsters
             _CurrentLP = _cardInfo.LP;
             _IsASymbol = true;
         }
+        #endregion
 
-        public int OnBoardID { get { return _id; } }
+        #region Base Card Info
         public int CardID { get { return _cardInfo.ID; } }
         public string Name { get { return _cardInfo.Name; } }
-        public CardInfo Info { get { return _cardInfo; } }
-        public PlayerOwner Owner { get { return _Owner; } }
-        public bool MovedThisTurn{get { return _MovedThisTurn; } set { _MovedThisTurn = value; } }
-        public bool AttackedThisTurn{get { return _AttackedThisTurn; } set { _AttackedThisTurn = value; } }
+        public int Level { get { return _cardInfo.Level; } }
         public Type Type { get { return _cardInfo.Type; } }
         public SecType SecType { get { return _cardInfo.SecType; } }
         public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
         public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
         public int LP { get { return _CurrentLP; } }
         public Attribute Attribute { get { return _cardInfo.Attribute; } }
-        public int MoveCost { get { return _MoveCost; } }
-        public int AttackCost { get { return _AttackCost; } }
-        public int DefenseCost { get { return _DefenseCost; } }
         public Category Category { get { return _cardInfo.Category; } }
-        public bool IsFaceDown { get { return _IsFaceDown; } }
-        public bool IsASymbol { get { return _IsASymbol; } }
-
+        //fusion Materials
+        public string FusionMaterial1 { get { return _cardInfo.FusionMaterial1; } }
+        public string FusionMaterial2 { get { return _cardInfo.FusionMaterial2; } }
+        public string FusionMaterial3 { get { return _cardInfo.FusionMaterial3; } }
+        //Ritual Card
+        public string RitualCard { get { return _cardInfo.RitualCard; } }
         //EFFECTS
         public bool HasOnSummonEffect { get { return _cardInfo.HasOnSummonEffect; } }
         public bool HasContinuousEffect { get { return _cardInfo.HasContinuousEffect; } }
@@ -54,12 +51,24 @@ namespace DungeonDiceMonsters
         public string ContinuousEffect { get { return _cardInfo.ContinuousEffect; } }
         public string IgnitionEffect { get { return _cardInfo.IgnitionEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
-        //fusion Materials
-        public string FusionMaterial1 { get { return _cardInfo.FusionMaterial1; } }
-        public string FusionMaterial2 { get { return _cardInfo.FusionMaterial2; } }
-        public string FusionMaterial3 { get { return _cardInfo.FusionMaterial3; } }
+        #endregion
 
+        #region On Board Data
+        public int OnBoardID { get { return _id; } }       
+        public PlayerOwner Owner { get { return _Owner; } }
+        public bool IsFaceDown { get { return _IsFaceDown; } }
+        public bool IsASymbol { get { return _IsASymbol; } }
+        public int MoveCost { get { return _MoveCost; } }
+        public int AttackCost { get { return _AttackCost; } }
+        public int DefenseCost { get { return _DefenseCost; } }
+        #endregion
 
+        #region On Board Counters and Flags
+        public bool MovedThisTurn{get { return _MovedThisTurn; } set { _MovedThisTurn = value; } }
+        public bool AttackedThisTurn{get { return _AttackedThisTurn; } set { _AttackedThisTurn = value; } }
+        #endregion
+
+        #region Public Funtions
         public void ReduceLP(int amount)
         {
             _CurrentLP -= amount;
@@ -68,8 +77,9 @@ namespace DungeonDiceMonsters
         {
             _IsDiscardted = true;
         }
+        #endregion
 
-        
+        #region Data
         //Card Board Data
         private int _id = -1;
         private CardInfo _cardInfo;
@@ -90,5 +100,6 @@ namespace DungeonDiceMonsters
         //Action Flags
         private bool _MovedThisTurn = false;
         private bool _AttackedThisTurn = false;
+        #endregion
     }
 }

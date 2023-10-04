@@ -11,14 +11,16 @@ namespace DungeonDiceMonsters
 {
     public class Tile
     {
+        #region Constructors
         public Tile(PictureBox inside, PictureBox border, Label statsLabel)
         {
             _Border = border;
             _CardImage = inside;
             _StatsLabel = statsLabel;
         }
+        #endregion
 
-        //Public Methods
+        #region Public Methods
         public void SetAdjecentTileLink(TileDirection d, Tile tile)
         {
             switch (d)
@@ -241,8 +243,6 @@ namespace DungeonDiceMonsters
 
             return hasIt;
         }
-
-        //Private Methods
         public void SetTileColor()
         {
             switch (_Owner)
@@ -284,9 +284,9 @@ namespace DungeonDiceMonsters
         {
             _CardImage.BackColor = Color.Orange;
         }
+        #endregion
 
-
-        //Accessors
+        #region Public Accessors
         public int ID { get { return (int)_CardImage.Tag; } }
         public Card CardInPlace { get { return _card; } }
         public bool IsOccupied { get { return _Occupied; } }
@@ -307,8 +307,9 @@ namespace DungeonDiceMonsters
             }
         }
         public Point Location { get { return _Border.Location; }}
+        #endregion
 
-        //Private data
+        #region Data
         private PictureBox _Border;
         private PictureBox _CardImage;
         private Label _StatsLabel;
@@ -320,6 +321,7 @@ namespace DungeonDiceMonsters
         private Tile _SouthTile = null;
         private Tile _EastTile = null;
         private Tile _WestTile = null;
+        #endregion
     }
 
     public enum PlayerOwner

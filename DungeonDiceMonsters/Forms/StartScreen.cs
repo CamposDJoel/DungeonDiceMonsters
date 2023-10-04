@@ -1,18 +1,18 @@
-﻿using System;
+﻿//Joel Campos
+//10/4/2023
+//Start Screen Class
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
     public partial class StartScreen : Form
     {
+        #region Constructors
         public StartScreen()
         {
             SoundServer.PlayBackgroundMusic(Song.TitleScreen, true);
@@ -21,13 +21,14 @@ namespace DungeonDiceMonsters
             btnNewGame.MouseEnter += OnMouseEnterLabel;
             btnNewGame.MouseLeave += OnMouseLeaveLabel;
         }
+        #endregion
 
+        #region Events
         private void btnOpenDBManager_Click(object sender, EventArgs e)
         {
             JsonGenerator jsonGenerator = new JsonGenerator();
             jsonGenerator.Show();
         }
-
         private void btnStartGame_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
@@ -63,7 +64,6 @@ namespace DungeonDiceMonsters
                 //do nothing continue
             }
         }
-
         private void OnMouseEnterLabel(object sender, EventArgs e)
         {
             if(btnLoadGame.Visible == true)
@@ -75,7 +75,6 @@ namespace DungeonDiceMonsters
         {
             lblWarning.Visible = false;
         }
-
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
@@ -88,7 +87,6 @@ namespace DungeonDiceMonsters
             Hide();
             MM.Show();
         }
-
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
@@ -127,5 +125,6 @@ namespace DungeonDiceMonsters
             Hide();
             MM.Show();
         }
+        #endregion
     }
 }

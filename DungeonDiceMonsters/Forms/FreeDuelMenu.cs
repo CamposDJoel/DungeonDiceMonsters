@@ -10,6 +10,7 @@ namespace DungeonDiceMonsters
 {
     public partial class FreeDuelMenu : Form
     {
+        #region Constructors
         public FreeDuelMenu()
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, true);
@@ -82,11 +83,15 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        #endregion
 
+        #region Data
         private PictureBox[] Borders = new PictureBox[35];
         private PictureBox[] Characters = new PictureBox[35];
         private int _CurrentSelectedCharacterID = 0;
+        #endregion
 
+        #region Events
         private void btnExit_Click(object sender, EventArgs e)
         {
             SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
@@ -140,10 +145,10 @@ namespace DungeonDiceMonsters
             Dispose();
             BF.Show();
         }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
         }
+        #endregion
     }
 }

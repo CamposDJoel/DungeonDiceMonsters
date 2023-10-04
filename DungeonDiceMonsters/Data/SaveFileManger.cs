@@ -59,7 +59,6 @@ namespace DungeonDiceMonsters
             //Write the file
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
         }
-
         public static void ReadSaveFile()
         {
             //Stream that reads the actual save file.

@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 
-
 namespace DungeonDiceMonsters
 {
     public static class DecksData
@@ -23,6 +22,7 @@ namespace DungeonDiceMonsters
 
     public class Deck
     {
+        #region Public Methods
         public int GetMainCardIDAtIndex(int index)
         {
             return _CardList[index];
@@ -65,22 +65,26 @@ namespace DungeonDiceMonsters
             }
             return count;
         }
+        #endregion
 
+        #region Public Accessors
         public int MainDeckSize { get { return _CardList.Count; } }
         public int FusionDeckSize { get { return _FusionList.Count; } }
         public int MonsterCardsCount { get { return _MonsterCardCount; } }
         public Attribute Symbol { get { return _Symbol; } }
-
         public bool UseStatus { 
             get 
             { 
                 return MainDeckSize == 20 && MonsterCardsCount >= 10;
             } 
         }
+        #endregion
 
+        #region Data
         private List<int> _CardList = new List<int>();
         private List<int> _FusionList = new List<int>();
         private int _MonsterCardCount = 0;
         private Attribute _Symbol = Attribute.DARK;
+        #endregion
     }
 }

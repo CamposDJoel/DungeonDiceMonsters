@@ -148,7 +148,7 @@ namespace DungeonDiceMonsters
         public string FusionMaterial1 { get { return _FusionMaterial1; } }
         public string FusionMaterial2 { get { return _FusionMaterial2; } }
         public string FusionMaterial3 { get { return _FusionMaterial3; } }
-
+        public string RitualCard { get { return _RitualCard; } }
         public bool HasOnSummonEffect { get { return _OnSummonEffect != "-"; } }
         public bool HasContinuousEffect { get { return _ContEffect != "-"; } }  
         public bool HasIgnitionEffect { get { return _IgnitionEffect != "-"; } }

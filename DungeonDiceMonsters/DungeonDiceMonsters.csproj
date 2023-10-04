@@ -59,7 +59,6 @@
     </Compile>
     <Compile Include="Board Elements\Card.cs" />
     <Compile Include="DB Objects\CardInfo.cs" />
-    <Compile Include="DB Objects\DiceInfo.cs" />
     <Compile Include="DB Objects\CardDataBase.cs" />
     <Compile Include="Forms\DeckBuilder.cs">
       <SubType>Form</SubType>
