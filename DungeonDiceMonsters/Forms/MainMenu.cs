@@ -27,7 +27,6 @@ namespace DungeonDiceMonsters
             {
                 lblMenuArcade.Visible = false;
                 lblMenuFreeDuel.Visible = false;
-                lblDuelsNotAvailable.Visible = true;
             }
 
         }

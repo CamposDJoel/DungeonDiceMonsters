@@ -68,6 +68,7 @@ namespace DungeonDiceMonsters
                     _CardImageList.Add(CardImage);
                     CardImage.Tag = pictureIndex;
                     CardImage.Click += new EventHandler(StorageCard_click);
+                    CardImage.MouseEnter += new EventHandler(OnMouseEnterStorageCard);
 
                     //Initialize the Amount Label
                     Label amountLabel = new Label();
@@ -117,6 +118,7 @@ namespace DungeonDiceMonsters
                     _DeckCardImageList.Add(CardImage);
                     CardImage.Tag = pictureIndex;
                     CardImage.Click += new EventHandler(DeckCard_click);
+                    CardImage.MouseEnter += new EventHandler(OnMouseEnterDeckCard);
 
                     X_Location += 58;
                     pictureIndex++;
@@ -146,7 +148,8 @@ namespace DungeonDiceMonsters
                 CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                 _DeckCardImageList.Add(CardImage);
                 CardImage.Tag = pictureIndex;
-                CardImage.Click += new EventHandler(DeckCard_click);
+                //CardImage.Click += new EventHandler(DeckCard_click);
+                CardImage.MouseEnter += new EventHandler(OnMouseEnterDeckCard);
 
                 X_Location2 += 58;
                 pictureIndex++;
@@ -399,57 +402,13 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Events
-        private void StorageCard_click(object sender, EventArgs e)
+        private void OnMouseEnterDeckCard(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click2);
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
 
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
-        
-            //Save a ref to the current card in view
-            int startIndex = (_CurrentPage * 30) - 30;
-            int indexInStorasge = startIndex + thiPictureBoxIndex;
-
-            int cardid = StorageData.Cards[indexInStorasge].ID;
-            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
-
-            SetStorageSelector(thiPictureBoxIndex);
-
-            //Setup the transfer arrow buttons
-            PicToStoArrow.Visible = false;
-            PicToDeckArrow.Visible = false;
-
-            if (_CurrentCardSelected.IsFusion)
-            {
-                if(_CurrentDeckSelected.FusionDeckSize < 3)                
-                {
-                    PicToDeckArrow.Visible = true;
-                }
-            }
-            else
-            {
-                if (_CurrentDeckSelected.MainDeckSize < 20)
-                {
-                    //Also validate that the deck doesnt have 3 copies of that card already
-                    int copies = _CurrentDeckSelected.GetCardCount(cardid);
-                    if (copies < 3)
-                    {
-                        PicToDeckArrow.Visible = true;
-                    }
-                }
-            }
-        }
-        private void DeckCard_click(object sender, EventArgs e)
-        {
-            SoundServer.PlaySoundEffect(SoundEffect.Click2);
-
-            //Retrieve the index of the card image that was clicked
-            PictureBox thisPictureBox = (PictureBox)sender;
-            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
-
-            //Save the ref to this index number for outer use
-            _CurrentDeckIndexSelected = thiPictureBoxIndex;
 
             int cardid = -1;
             if (thiPictureBoxIndex >= 20)
@@ -461,94 +420,83 @@ namespace DungeonDiceMonsters
             {
                 cardid = _CurrentDeckSelected.GetMainCardIDAtIndex(thiPictureBoxIndex);
             }
+
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             SetDeckSelector(thiPictureBoxIndex);
-
-            //Setup the transfer arrow buttons
-            PicToStoArrow.Visible = true;
-            PicToDeckArrow.Visible = false;
         }
-        private void btnNext_Click(object sender, EventArgs e)
+        private void OnMouseEnterStorageCard(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            _CurrentPage++;
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
 
-            if(_CurrentPage == 6 ) { _CurrentPage = 1; }
-            lblStorage.Text = "Storage Page: " + _CurrentPage;
-            LoadStoragePage();
-            SetStorageSelector(0);
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
-            //Clear all cards from being marked as selected
-            for (int x = 0; x < 30; x++)
-            {
-                _CardPanelList[x].BackColor = Color.Transparent;
-            }
-            for (int x = 0; x < 23; x++)
-            {
-                _DeckCardPanelList[x].BackColor = Color.Transparent;
-            }
+            //Save a ref to the current card in view
+            int startIndex = (_CurrentPage * 30) - 30;
+            int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            //hide the arrow buttons
-            PicToStoArrow.Visible = false;
-            PicToDeckArrow.Visible = false;
+            int cardid = StorageData.Cards[indexInStorasge].ID;
+            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
+
+            SetStorageSelector(thiPictureBoxIndex);
         }
-        private void btnPrevious_Click(object sender, EventArgs e)
+        private void StorageCard_click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            _CurrentPage--;
-
-            if (_CurrentPage == 0) { _CurrentPage = 5; }
-            lblStorage.Text = "Storage Page: " + _CurrentPage;
-            LoadStoragePage();
-            SetStorageSelector(0);
-
-            //Clear all cards from being marked as selected
-            for (int x = 0; x < 30; x++)
-            {
-                _CardPanelList[x].BackColor = Color.Transparent;
-            }
-            for (int x = 0; x < 23; x++)
-            {
-                _DeckCardPanelList[x].BackColor = Color.Transparent;
-            }
-
-            //hide the arrow buttons
-            PicToStoArrow.Visible = false;
-            PicToDeckArrow.Visible = false;
-        }       
-        private void PicToDeckArrow_Click(object sender, EventArgs e)
-        {
-            SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
-
-            //add the card in the current storage index selected
+            //Determine if the card can be moved
             int cardid = _CurrentCardSelected.ID;
-
+            bool CanBeMoved = false;
             if (_CurrentCardSelected.IsFusion)
             {
-                _CurrentDeckSelected.AddFusionCard(cardid);
+                if (_CurrentDeckSelected.FusionDeckSize < 3)
+                {
+                    CanBeMoved = true;
+                }
             }
             else
             {
-                _CurrentDeckSelected.AddMainCard(cardid);
+                if (_CurrentDeckSelected.MainDeckSize < 20)
+                {
+                    //Also validate that the deck doesnt have 3 copies of that card already
+                    int copies = _CurrentDeckSelected.GetCardCount(cardid);
+                    if (copies < 3)
+                    {
+                        CanBeMoved = true;
+                    }
+                }
             }
 
-            //Reduce this card amount's by 1, if the amount reached 0, it will be removed the list all together
-            StorageData.RemoveCard(cardid);
+            if(CanBeMoved)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
 
-            //Reload both sides
-            LoadStoragePage();
-            LoadDeckPage();
+                if (_CurrentCardSelected.IsFusion)
+                {
+                    _CurrentDeckSelected.AddFusionCard(cardid);
+                }
+                else
+                {
+                    _CurrentDeckSelected.AddMainCard(cardid);
+                }
 
-            //Hide both arrows until another selection is clicked
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
+                //Reduce this card amount's by 1, if the amount reached 0, it will be removed the list all together
+                StorageData.RemoveCard(cardid);
 
-            //Reload the Deck Status
-            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
-            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+                //Reload both sides
+                LoadStoragePage();
+                LoadDeckPage();
+
+                //Reload the Deck Status
+                if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
+                PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+            }
+            else
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+            }
         }
-        private void PicToStoArrow_Click(object sender, EventArgs e)
+        private void DeckCard_click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
 
@@ -571,14 +519,50 @@ namespace DungeonDiceMonsters
             LoadStoragePage();
             LoadDeckPage();
 
-            //Hide both arrows until another selection is clicked
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
-
             //Reload the Deck Status
             if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
         }
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            _CurrentPage++;
+
+            if(_CurrentPage == 6 ) { _CurrentPage = 1; }
+            lblStorage.Text = "Storage Page: " + _CurrentPage;
+            LoadStoragePage();
+            SetStorageSelector(0);
+
+            //Clear all cards from being marked as selected
+            for (int x = 0; x < 30; x++)
+            {
+                _CardPanelList[x].BackColor = Color.Transparent;
+            }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
+        }
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            _CurrentPage--;
+
+            if (_CurrentPage == 0) { _CurrentPage = 5; }
+            lblStorage.Text = "Storage Page: " + _CurrentPage;
+            LoadStoragePage();
+            SetStorageSelector(0);
+
+            //Clear all cards from being marked as selected
+            for (int x = 0; x < 30; x++)
+            {
+                _CardPanelList[x].BackColor = Color.Transparent;
+            }
+            for (int x = 0; x < 23; x++)
+            {
+                _DeckCardPanelList[x].BackColor = Color.Transparent;
+            }
+        }       
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Change the current deck selected
@@ -587,10 +571,6 @@ namespace DungeonDiceMonsters
 
             //Reload both sides
             LoadDeckPage();
-
-            //Hide both arrows until another selection is clicked
-            PicToDeckArrow.Visible = false;
-            PicToStoArrow.Visible = false;
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -630,7 +610,8 @@ namespace DungeonDiceMonsters
         }
         private void btnSymbolPrevious_Click(object sender, EventArgs e)
         {
-            switch(_CurrentSymbolSelection)
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentSymbolSelection)
             {
                 case Attribute.DARK: _CurrentSymbolSelection = Attribute.WIND; break;
                 case Attribute.LIGHT: _CurrentSymbolSelection = Attribute.DARK; break;
@@ -650,6 +631,7 @@ namespace DungeonDiceMonsters
         }
         private void btnSymbolNext_Click(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             switch (_CurrentSymbolSelection)
             {
                 case Attribute.DARK: _CurrentSymbolSelection = Attribute.LIGHT; break;

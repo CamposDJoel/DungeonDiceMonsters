@@ -40,8 +40,6 @@
             this.PanelStorage = new System.Windows.Forms.Panel();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
-            this.PicToDeckArrow = new System.Windows.Forms.PictureBox();
-            this.PicToStoArrow = new System.Windows.Forms.PictureBox();
             this.GroupDiceInfo = new System.Windows.Forms.GroupBox();
             this.PanelCardText = new System.Windows.Forms.Panel();
             this.lblCardText = new System.Windows.Forms.Label();
@@ -66,8 +64,6 @@
             this.lblSaveDeckOutput = new System.Windows.Forms.Label();
             this.PanelDeck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).BeginInit();
             this.GroupDiceInfo.SuspendLayout();
             this.PanelCardText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).BeginInit();
@@ -185,8 +181,8 @@
             // btnPrevious
             // 
             this.btnPrevious.BackColor = System.Drawing.Color.Transparent;
-            this.btnPrevious.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.BackgroundImage")));
             this.btnPrevious.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrevious.Image = ((System.Drawing.Image)(resources.GetObject("btnPrevious.Image")));
             this.btnPrevious.Location = new System.Drawing.Point(421, 412);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(88, 25);
@@ -197,8 +193,8 @@
             // 
             // btnNext
             // 
-            this.btnNext.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNext.BackgroundImage")));
             this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
             this.btnNext.Location = new System.Drawing.Point(685, 413);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(88, 25);
@@ -206,32 +202,6 @@
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
-            // PicToDeckArrow
-            // 
-            this.PicToDeckArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicToDeckArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToDeckArrow.Image")));
-            this.PicToDeckArrow.Location = new System.Drawing.Point(329, 161);
-            this.PicToDeckArrow.Name = "PicToDeckArrow";
-            this.PicToDeckArrow.Size = new System.Drawing.Size(66, 70);
-            this.PicToDeckArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicToDeckArrow.TabIndex = 6;
-            this.PicToDeckArrow.TabStop = false;
-            this.PicToDeckArrow.Visible = false;
-            this.PicToDeckArrow.Click += new System.EventHandler(this.PicToDeckArrow_Click);
-            // 
-            // PicToStoArrow
-            // 
-            this.PicToStoArrow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicToStoArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicToStoArrow.Image")));
-            this.PicToStoArrow.Location = new System.Drawing.Point(329, 248);
-            this.PicToStoArrow.Name = "PicToStoArrow";
-            this.PicToStoArrow.Size = new System.Drawing.Size(66, 70);
-            this.PicToStoArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicToStoArrow.TabIndex = 7;
-            this.PicToStoArrow.TabStop = false;
-            this.PicToStoArrow.Visible = false;
-            this.PicToStoArrow.Click += new System.EventHandler(this.PicToStoArrow_Click);
             // 
             // GroupDiceInfo
             // 
@@ -484,8 +454,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listDeckList);
             this.Controls.Add(this.GroupDiceInfo);
-            this.Controls.Add(this.PicToStoArrow);
-            this.Controls.Add(this.PicToDeckArrow);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrevious);
             this.Controls.Add(this.lblStorage);
@@ -501,8 +469,6 @@
             this.PanelDeck.ResumeLayout(false);
             this.PanelDeck.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToDeckArrow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicToStoArrow)).EndInit();
             this.GroupDiceInfo.ResumeLayout(false);
             this.PanelCardText.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).EndInit();
@@ -527,8 +493,6 @@
         private System.Windows.Forms.Label lblFusion;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
-        private System.Windows.Forms.PictureBox PicToDeckArrow;
-        private System.Windows.Forms.PictureBox PicToStoArrow;
         private System.Windows.Forms.GroupBox GroupDiceInfo;
         private System.Windows.Forms.Label lblCardType;
         private System.Windows.Forms.Label lblCardLevel;
