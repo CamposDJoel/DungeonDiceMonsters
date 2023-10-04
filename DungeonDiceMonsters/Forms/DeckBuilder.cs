@@ -265,9 +265,9 @@ namespace DungeonDiceMonsters
             lblCardName.Text = thisCard.Name;
 
             string secondaryType = thisCard.SecType.ToString();
-            lblCardType.Text = thisCard.Type + "/" + secondaryType;
-            if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.Type + " spell"; }
-            if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.Type + " trap"; }
+            lblCardType.Text = thisCard.TypeAsString + "/" + secondaryType;
+            if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.TypeAsString + " spell"; }
+            if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.TypeAsString + " trap"; }
 
             if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }

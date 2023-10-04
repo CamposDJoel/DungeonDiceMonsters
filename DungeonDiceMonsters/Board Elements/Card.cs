@@ -30,6 +30,7 @@ namespace DungeonDiceMonsters
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
         public Type Type { get { return _cardInfo.Type; } }
+        public string TypeAsString { get { return _cardInfo.TypeAsString; } }
         public SecType SecType { get { return _cardInfo.SecType; } }
         public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
         public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }

@@ -3,6 +3,7 @@
 //Card Info (Ver 2) Class
 
 using System;
+using System.Diagnostics;
 
 namespace DungeonDiceMonsters
 {
@@ -137,6 +138,20 @@ namespace DungeonDiceMonsters
         public int Level { get { return _MonsterLevel; } }
         public Attribute Attribute { get { return _Attribute; } }
         public Type Type { get { return _Type; } }
+        public string TypeAsString
+        {
+            get
+            {
+                switch(_Type)
+                {
+                    case Type.BeastWarrior: return "Beast-Warrior";
+                    case Type.DivineBeast: return "Divine-Beast";
+                    case Type.SeaSerpent: return "Sea Serpent";
+                    case Type.WingedBeast: return "Winged Beast";
+                    default: return _Type.ToString();
+                }
+            }
+        }
         public SecType SecType { get { return _SecType; } }
         public Category Category { get { return _Category; } }
         public int ATK { get { return _Atk; } }
