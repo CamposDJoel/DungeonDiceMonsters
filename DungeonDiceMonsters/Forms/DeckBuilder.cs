@@ -69,6 +69,16 @@ namespace DungeonDiceMonsters
                     CardImage.Tag = pictureIndex;
                     CardImage.Click += new EventHandler(StorageCard_click);
 
+                    //Initialize the Amount Label
+                    Label amountLabel = new Label();
+                    CardBox.Controls.Add(amountLabel);
+                    amountLabel.Location = new Point(2, 2);
+                    amountLabel.BorderStyle = BorderStyle.FixedSingle;
+                    amountLabel.Size = new Size(20, 15);
+                    amountLabel.BackColor = Color.Black;
+                    amountLabel.ForeColor = Color.White;
+                    _CardAmountList.Add(amountLabel);
+                    amountLabel.BringToFront();
 
                     X_Location += 58;
                     pictureIndex++;
@@ -159,26 +169,32 @@ namespace DungeonDiceMonsters
                 }
                 else
                 {
+                    /*
                     //if the ID of the card to be place in this card slot 
                     //is the same as the one before dont do anything...
-                    if (_StorageIDsInCurrentPage[x] != StorageData.Cards[iterator])
+                    if (_StorageIDsInCurrentPage[x] != StorageData.Cards[iterator].ID)
                     {
-                        //Update the ID of the card in this slow
-                        _StorageIDsInCurrentPage[x] = StorageData.Cards[iterator];
 
-                        //Make the card panel visible
-                        _CardPanelList[x].Visible = true;
+                    }*/
 
-                        //Get the card ID of the card to be displayed
-                        int cardID = StorageData.Cards[iterator];
+                    //Update the ID of the card in this slow
+                    _StorageIDsInCurrentPage[x] = StorageData.Cards[iterator].ID;
 
-                        //Dispose the current image in this picture box (if there was one)
-                        //to clear memory
-                        if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+                    //Make the card panel visible
+                    _CardPanelList[x].Visible = true;
 
-                        //Populate the card image with the card ID
-                        _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
-                    }                                     
+                    //Get the card ID of the card to be displayed
+                    int cardID = StorageData.Cards[iterator].ID;
+
+                    //Dispose the current image in this picture box (if there was one)
+                    //to clear memory
+                    if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
+
+                    //Populate the card image with the card ID
+                    _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
+
+                    //Update the amount label
+                    _CardAmountList[x].Text = StorageData.Cards[iterator].Amount.ToString();
                 }
             }
         }
@@ -371,9 +387,9 @@ namespace DungeonDiceMonsters
         private List<PictureBox> _CardImageList = new List<PictureBox>();
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
+        private List<Label> _CardAmountList = new List<Label>();
         private CardInfo _CurrentCardSelected = null;
         private Deck _CurrentDeckSelected = null;
-        private int _CurrentStorageIndexSelected = 0;
         private int _CurrentDeckIndexSelected = 0;
 
         private int[] _StorageIDsInCurrentPage = new int[30];
@@ -395,10 +411,7 @@ namespace DungeonDiceMonsters
             int startIndex = (_CurrentPage * 30) - 30;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            //Save the ref to this index number for outer use
-            _CurrentStorageIndexSelected = indexInStorasge;
-
-            int cardid = StorageData.Cards[indexInStorasge];
+            int cardid = StorageData.Cards[indexInStorasge].ID;
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             SetStorageSelector(thiPictureBoxIndex);
@@ -520,8 +533,8 @@ namespace DungeonDiceMonsters
                 _CurrentDeckSelected.AddMainCard(cardid);
             }
 
-            //Remove this one card from the storage
-            StorageData.Cards.RemoveAt(_CurrentStorageIndexSelected);
+            //Reduce this card amount's by 1, if the amount reached 0, it will be removed the list all together
+            StorageData.RemoveCard(cardid);
 
             //Reload both sides
             LoadStoragePage();

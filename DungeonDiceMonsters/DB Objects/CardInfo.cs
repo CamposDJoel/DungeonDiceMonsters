@@ -3,7 +3,6 @@
 //Card Info (Ver 2) Class
 
 using System;
-using System.Diagnostics;
 
 namespace DungeonDiceMonsters
 {

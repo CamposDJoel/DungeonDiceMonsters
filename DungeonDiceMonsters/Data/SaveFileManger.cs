@@ -50,11 +50,14 @@ namespace DungeonDiceMonsters
 
             //Line[d + 1] : The list of cards in the storage
             string storageDataString = "";
+            string storageDataAmountString = "";
             for (int x = 0; x < StorageData.Cards.Count; x++)
             {
-                storageDataString = storageDataString + StorageData.Cards[x].ToString() + "|";                
+                storageDataString = storageDataString + StorageData.Cards[x].ID.ToString() + "|";
+                storageDataAmountString = storageDataAmountString + StorageData.Cards[x].Amount.ToString() + "|";
             }
             Lines.Add(storageDataString);
+            Lines.Add(storageDataAmountString);
 
             //Write the file
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
@@ -114,13 +117,22 @@ namespace DungeonDiceMonsters
             //Line[3] : The list of cards in the storage
             Line = SR_SaveFile.ReadLine();
             Tokens = new string[1];
-            //Separate all the tokens
             Tokens = Line.Split(Separator, StringSplitOptions.None);
-            for(int y = 0; y < Tokens.Length-1; y++)
+            //Line[4] : The amounts of the cards in storage
+            Line = SR_SaveFile.ReadLine();
+            string[] Amounts = Line.Split(Separator, StringSplitOptions.None);
+
+            //Add the cards
+            for (int y = 0; y < Tokens.Length-1; y++)
             {
+                int amount = Convert.ToInt32(Amounts[y]);
                 int cardid = Convert.ToInt32(Tokens[y]);
-                StorageData.AddCard(cardid);
-            }
+
+                for(int x = 0; x < amount; x++)
+                {
+                    StorageData.AddCard(cardid);
+                }
+            }         
 
             //Close the stream
             SR_SaveFile.Close();
