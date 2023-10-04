@@ -115,8 +115,6 @@ namespace DungeonDiceMonsters
             _FusionMaterial2 = cardData.fusionMaterial2;
             _FusionMaterial3 = cardData.fusionMaterial3;
             _RitualCard = cardData.ritualSpell;
-            _SetPack = cardData.setpack;
-            _Rarity = cardData.rarity;
         }
         public CardInfo(Attribute attribute)
         {
@@ -129,8 +127,6 @@ namespace DungeonDiceMonsters
             _Atk = 0;
             _Def = 0;
             _Lp = 8000;
-            _SetPack = "NONE";
-            _Rarity = "Common";
             _ContEffect = "Increase the ATK of all your " + attribute + " monsters on the board by 200.";
         }
         #endregion
@@ -207,8 +203,6 @@ namespace DungeonDiceMonsters
         private string _FusionMaterial2;
         private string _FusionMaterial3;
         private string _RitualCard;
-        private string _SetPack;
-        private string _Rarity;
         #endregion
     }
 

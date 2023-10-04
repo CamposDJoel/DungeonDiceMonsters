@@ -71,7 +71,5 @@ namespace DungeonDiceMonsters
         public string fusionMaterial2 { get; set; }
         public string fusionMaterial3 { get; set; }
         public string ritualSpell { get; set; }
-        public string setpack { get; set; }
-        public string rarity { get; set; }
     }
 }

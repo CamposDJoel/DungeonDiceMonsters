@@ -45,10 +45,6 @@
             this.txtATK = new System.Windows.Forms.TextBox();
             this.txtDef = new System.Windows.Forms.TextBox();
             this.txtLp = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.listSet = new System.Windows.Forms.ListBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.listRarity = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listFace6Value = new System.Windows.Forms.ListBox();
             this.listFace6Crest = new System.Windows.Forms.ListBox();
@@ -287,47 +283,6 @@
             this.txtLp.Size = new System.Drawing.Size(71, 20);
             this.txtLp.TabIndex = 17;
             this.txtLp.Text = "0000";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(557, 2);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(26, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "Set:";
-            // 
-            // listSet
-            // 
-            this.listSet.FormattingEnabled = true;
-            this.listSet.Items.AddRange(new object[] {
-            "Beginner\'s Pack"});
-            this.listSet.Location = new System.Drawing.Point(560, 18);
-            this.listSet.Name = "listSet";
-            this.listSet.Size = new System.Drawing.Size(120, 56);
-            this.listSet.TabIndex = 19;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(683, 2);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(37, 13);
-            this.label11.TabIndex = 20;
-            this.label11.Text = "Rarity:";
-            // 
-            // listRarity
-            // 
-            this.listRarity.FormattingEnabled = true;
-            this.listRarity.Items.AddRange(new object[] {
-            "Common",
-            "Rare",
-            "Super Rare",
-            "Ultra Rare"});
-            this.listRarity.Location = new System.Drawing.Point(686, 18);
-            this.listRarity.Name = "listRarity";
-            this.listRarity.Size = new System.Drawing.Size(86, 56);
-            this.listRarity.TabIndex = 21;
             // 
             // groupBox1
             // 
@@ -788,10 +743,6 @@
             this.Controls.Add(this.label19);
             this.Controls.Add(this.listCardList);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.listRarity);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.listSet);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtLp);
             this.Controls.Add(this.txtDef);
             this.Controls.Add(this.txtATK);
@@ -839,10 +790,6 @@
         private System.Windows.Forms.TextBox txtATK;
         private System.Windows.Forms.TextBox txtDef;
         private System.Windows.Forms.TextBox txtLp;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ListBox listSet;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ListBox listRarity;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListBox listFace1Crest;
         private System.Windows.Forms.Label label13;

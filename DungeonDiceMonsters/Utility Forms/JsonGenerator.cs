@@ -95,11 +95,7 @@ namespace DungeonDiceMonsters
             int indexofAtt = listAttribute.FindString(cardinfo.attribute);
             listAttribute.SetSelected(indexofAtt, true);
             int indexofType = listType.FindString(cardinfo.type);
-            listType.SetSelected(indexofType, true);          
-            int indexofSet = listSet.FindString(cardinfo.setpack);
-            listSet.SetSelected(indexofSet, true);
-            int indexofRarity = listRarity.FindString(cardinfo.rarity);
-            listRarity.SetSelected(indexofRarity, true);
+            listType.SetSelected(indexofType, true);
             int indexofSecType = listSecType.FindString(cardinfo.sectype);
             listSecType.SetSelected(indexofSecType, true);
             //effects
@@ -184,9 +180,6 @@ namespace DungeonDiceMonsters
             string contiEfect = txtContiEffect.Text.ToString();
             string ignitionEffect = txtIgnitionEffect.Text.ToString();
             string ability = txtAbility.Text.ToString();
-            //set Info
-            string setPack = listSet.SelectedItem.ToString();
-            string rarity = listRarity.SelectedItem.ToString();
             //Dice info
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
@@ -215,8 +208,6 @@ namespace DungeonDiceMonsters
             newcard.monsterLevel = atk;
             newcard.def = def;
             newcard.lp = lp;
-            newcard.setpack = setPack;
-            newcard.rarity = rarity;
             //TODO EFECTS
             newcard.onSummonEffect = onSummonEffect;
             newcard.continuousEffect = contiEfect;
@@ -262,9 +253,6 @@ namespace DungeonDiceMonsters
             string contiEfect = txtContiEffect.Text.ToString();
             string ignitionEffect = txtIgnitionEffect.Text.ToString();
             string ability = txtAbility.Text.ToString();
-            //Set info
-            string setPack = listSet.SelectedItem.ToString();
-            string rarity = listRarity.SelectedItem.ToString();
             //Dice info
             string diceLevel = numDiceLevel.Value.ToString();
             string face1Crest = listFace1Crest.Text.ToString();
@@ -291,9 +279,6 @@ namespace DungeonDiceMonsters
             cardinfo.atk = atk;
             cardinfo.def = def;
             cardinfo.lp = lp;
-            //set
-            cardinfo.setpack = setPack;
-            cardinfo.rarity = rarity;
             //EFECTS
             cardinfo.onSummonEffect = onSummonEffect;
             cardinfo.continuousEffect = contiEfect;
