@@ -11,8 +11,8 @@ namespace DungeonDiceMonsters
     {
         public static Image FullCardImage(int id)
         {
-            //TODO: return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + id + ".jpeg");
-            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\0.jpeg");
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + id + ".jpeg");
+            //return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\0.jpeg");
         }
 
         public static Image CardArtworkImage(int id)

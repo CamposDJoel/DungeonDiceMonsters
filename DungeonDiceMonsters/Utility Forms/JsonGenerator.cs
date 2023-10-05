@@ -31,8 +31,11 @@ namespace DungeonDiceMonsters
 
 
             ReloadDBList();
+            WriteRawlistintoTXT();
 
             //loadNewDB();
+
+
         }
 
         private void loadNewDB()
@@ -62,6 +65,46 @@ namespace DungeonDiceMonsters
                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\images\\artwork\\" + cardid+ ".jpg")) { missingcardurls.Add("https://images.ygoprodeck.com/images/cards_cropped/" + cardid + ".jpg"); }
             }
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\DB\\missingartworkurls.txt", missingcardurls);
+        }
+        private void WriteRawlistintoTXT()
+        {
+            List<string> filecontents = new List<string>();
+            foreach (rawcardinfo card in CardDataBase.rawCardList)
+            {
+                string fullcardtext = "";
+                if (card.onSummonEffect != "-")
+                {
+                    fullcardtext = fullcardtext + "[On Summon] - " + card.onSummonEffect + "  ";
+                }
+                if (card.continuousEffect != "-")
+                {
+                    fullcardtext = fullcardtext + "[Continuous] - " + card.continuousEffect + "  ";
+                }
+                if (card.ability != "-")
+                {
+                    fullcardtext = fullcardtext + "[Ability] - " + card.ability + "  ";
+                }
+                if (card.ignitionEffect != "-")
+                {
+                    fullcardtext = fullcardtext + card.ignitionEffect + "  ";
+                }
+                string fusionMaterials = "NONE";
+                if (card.sectype == "Fusion") { fusionMaterials = "[Fusion] " + card.fusionMaterial1 + " + " + card.fusionMaterial2; }
+                if (card.fusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + card.fusionMaterial3; }
+
+                if (fusionMaterials != "NONE") { fullcardtext = fusionMaterials + "  " + fullcardtext; }
+
+
+                string Line = card.id + "|" + card.name + "|" + card.category + "|" +
+                    card.type + "|" + card.sectype + "|" + card.attribute + "|" +
+                    card.atk + "|" + card.def + "|" + card.lp + "|" + card.monsterLevel + "|" +
+                    card.diceLevel + "|" + card.face1 + "|" + card.face2 + "|" + card.face3 + "|" +
+                    card.face4 + "|" + card.face5 + "|" + card.face6 + "|" + fullcardtext;
+
+                filecontents.Add(Line);
+            }
+
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\DB\\dbforcardimages.txt", filecontents);
         }
 
         private List<rawcardinfo> rawcardlist = new List<rawcardinfo>();
