@@ -284,6 +284,372 @@ namespace DungeonDiceMonsters
         {
             _CardImage.BackColor = Color.Orange;
         }
+        public Tile[] GetDimensionTiles(DimensionForms dForm)
+        {
+            Tile[] tiles = new Tile[6];
+
+            switch (dForm)
+            {
+                case DimensionForms.CrossBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 5: 1 South, 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    break;
+                case DimensionForms.CrossRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 West, 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 5: 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    break;
+                case DimensionForms.CrossLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 East, 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 4: 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 5: 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    break;
+                case DimensionForms.CrossUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 North, 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 3: 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 4: 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 5: 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    break;
+                case DimensionForms.LongBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 North, 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 3: 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 West, 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.South });
+                    //Tile 5: 1 West, 1 South , 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.South, TileDirection.South });
+                    break;
+                case DimensionForms.LongRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 East, 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 4: 1 North, 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.West });
+                    //Tile 5: 1 Noth, 1 West, 1 West
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.West, TileDirection.West });
+                    break;
+                case DimensionForms.LongLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 West, 1 West
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 3: 1 South
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 4: 1 South, 1 East
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.East });
+                    //Tile 5: 1 South, 1 East, 1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.East, TileDirection.East });
+                    break;
+                case DimensionForms.LongUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 East
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 2: 1 East, 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.North });
+                    //Tile 3: 1 East, 1 North, 1 North
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.North, TileDirection.North });
+                    //Tile 4: 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 5: 1 South, 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    break;
+                case DimensionForms.LongFlippedBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 North, 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 3: 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 4: 1 East, 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.South });
+                    //Tile 5: 1 East, 1 South 1 south
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.South, TileDirection.South });
+                    break;
+                case DimensionForms.LongFlippedRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 East
+                    tiles[1] = GetTileInDirection( new List<TileDirection> { TileDirection.East });
+                    //Tile 2: 1 East, 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 3: 1 South
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 4: 1 South, 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.West });
+                    //Tile 5: 1 South, 1 West, 1 West
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.West, TileDirection.West });
+                    break;
+                case DimensionForms.LongFlippedLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 West, 1 West
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 3: 1 North
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 4: 1 North, 1 East
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.East });
+                    //Tile 5: 1 North, 1 East, 1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.East, TileDirection.East });
+                    break;
+                case DimensionForms.LongFlippedUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 South
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 2: 1 South, 1 South
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    //Tile 3: 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 West, 1 North
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.North });
+                    //Tile 5: 1 West, 1 North, 1 North
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.North, TileDirection.North });
+                    break;
+                case DimensionForms.ZBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 East
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 2: 1 South
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 3: 1 South 1 South
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    //Tile 4: 1 South 1 South 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South });
+                    //Tile 5: 1 South 1 South 1 South 1 West
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.West });
+                    break;
+                case DimensionForms.ZRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 South
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 2: 1 West
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 3: 1 West 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 4: 1 West 1 West 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West });
+                    //Tile 5: 1 West 1 West 1 West 1 Noth
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West, TileDirection.North });
+                    break;
+                case DimensionForms.ZLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 East 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 4: 1 East 1 East 1 East
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East });
+                    //Tile 5: 1 East 1 East 1 East 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East, TileDirection.South });
+                    break;
+                case DimensionForms.ZUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 3: 1 North 1 North
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 4: 1 North 1 North 1 North
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North });
+                    //Tile 5: 1 North 1 North 1 North 1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.East });
+                    break;
+                case DimensionForms.ZFlippedBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 South
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 3: 1 South 1 South
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    //Tile 4: 1 South 1 South 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South });
+                    //Tile 5: 1 South 1 South 1 South 1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.East });
+                    break;
+                case DimensionForms.ZFlippedRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 West
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 3: 1 West 1 West
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 4: 1 West 1 West 1 West
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West });
+                    //Tile 5: 1 West 1 West 1 West 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West, TileDirection.South });
+                    break;
+                case DimensionForms.ZFlippedLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 South
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 East 1 East
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 4: 1 East 1 East 1 East
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East });
+                    //Tile 5: 1 East 1 East 1 East 1 North
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East, TileDirection.North });
+                    break;
+                case DimensionForms.ZFlippedUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 North
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 3: 1 North 1 North
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 4: 1 North 1 North 1 North
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North });
+                    //Tile 5: 1 North 1 North 1 North 1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.East });
+                    break;
+                case DimensionForms.TBase:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 West
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 2: 1 East
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 3: 1 South 
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 4: 1 South 1 South
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+                    //Tile 5: 1 South 1 South 1 South
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South });
+                    break;
+                case DimensionForms.TRight:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 South
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 3: 1 West 
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 4: 1 West  1 West 
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+                    //Tile 5: 1 West  1 West  1 West 
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West });
+                    break;
+                case DimensionForms.TLeft:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 North
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 2: 1 South
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+                    //Tile 3: 1 East 
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 4: 1 East  1 East 
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+                    //Tile 5: 1 East  1 East  1 East
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East });
+                    break;
+                case DimensionForms.TUpSideDown:
+                    //Tile 0: The base tile
+                    tiles[0] = this;
+                    //Tile 1: 1 East
+                    tiles[1] = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+                    //Tile 2: 1 West
+                    tiles[2] = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+                    //Tile 3: 1 North 
+                    tiles[3] = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+                    //Tile 4: 1 North  1 North
+                    tiles[4] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+                    //Tile 5: 1 North 1 North  1 North
+                    tiles[5] = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North });
+                    break;
+                default: throw new Exception("GetDimensionTiles function took an invalid dimension form value: " + dForm);
+            }
+
+
+            return tiles;
+        }
+        #endregion
+
+        #region Private Methods
+        private Tile GetTileInDirection(List<TileDirection> directions)
+        {
+            //Set the starting tile this
+            Tile destinationTile = this;
+
+            //move the dimension tile based on the list of directions.
+            for (int x = 0; x < directions.Count; x++)
+            {
+                destinationTile = destinationTile.GetAdjencentTile(directions[x]);
+                if (destinationTile == null) { break; }
+            }
+
+            //Return the "landing" tile
+            return destinationTile;
+        }
         #endregion
 
         #region Public Accessors

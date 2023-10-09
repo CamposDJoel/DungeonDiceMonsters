@@ -1625,6 +1625,7 @@
             this.Controls.Add(this.PanelBluePlayer);
             this.Controls.Add(this.PanelBoard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "BoardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
