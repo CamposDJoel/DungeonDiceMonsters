@@ -363,6 +363,7 @@ namespace DungeonDiceMonsters
         {
             //Switch to the Main Phase of the player
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
 
             //Relaod the player info panels to update crests
             LoadPlayersInfo();
@@ -912,6 +913,9 @@ namespace DungeonDiceMonsters
                     {
                         SoundServer.PlaySoundEffect(SoundEffect.Click);
 
+                        //Hide the End Turn Button, this wont reappear until the player is done with the action
+                        btnEndTurn.Visible = false;
+
                         //Open the Action menu
                         //Set the location in relation to the Tile location and cursor location
                         Point referencePoint = _CurrentTileSelected.Location;
@@ -1100,6 +1104,7 @@ namespace DungeonDiceMonsters
                     //Once this action is completed, move to the main phase
                     lblSetCardMessage.Visible = false;
                     _CurrentGameState = GameState.MainPhaseBoard;
+                    btnEndTurn.Visible = true;
                 }
                 else
                 {
@@ -1132,6 +1137,7 @@ namespace DungeonDiceMonsters
                     _CurrentDimensionForm = DimensionForms.CrossBase;
                     _CurrentTileSelected = _dimensionTiles[0];
                     _CurrentGameState = GameState.MainPhaseBoard;
+                    btnEndTurn.Visible = true;
                 }
                 else
                 {
@@ -1146,6 +1152,7 @@ namespace DungeonDiceMonsters
             _CurrentTileSelected.Leave();
             PanelActionMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
         }
         private void btnActionMove_Click(object sender, EventArgs e)
         {
@@ -1200,6 +1207,7 @@ namespace DungeonDiceMonsters
             UpdateDebugWindow();
 
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
         }
         private void btnMoveMenuFinish_Click(object sender, EventArgs e)
         {
@@ -1223,6 +1231,7 @@ namespace DungeonDiceMonsters
             LoadPlayersInfo();
 
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
         }
         private void btnAttackMenuCancel_Click(object sender, EventArgs e)
         {
@@ -1237,6 +1246,7 @@ namespace DungeonDiceMonsters
             _AttackCandidates.Clear();
             PanelAttackMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
         }
         private void lblAttackerAdvMinus_Click(object sender, EventArgs e)
         {
@@ -1475,6 +1485,7 @@ namespace DungeonDiceMonsters
             _CurrentTileSelected.Leave();
             PanelBattleMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
         }
         private void btnExit_Click(object sender, EventArgs e)
         {

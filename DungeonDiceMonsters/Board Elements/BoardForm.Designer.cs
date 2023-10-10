@@ -147,6 +147,7 @@
             this.btnPreviousForm = new System.Windows.Forms.Button();
             this.lblFormName = new System.Windows.Forms.Label();
             this.PicCurrentForm = new System.Windows.Forms.PictureBox();
+            this.btnEndTurn = new System.Windows.Forms.Button();
             this.PanelBoard.SuspendLayout();
             this.PanelAttackMenu.SuspendLayout();
             this.PanelMoveMenu.SuspendLayout();
@@ -1605,6 +1606,19 @@
             this.PicCurrentForm.TabIndex = 0;
             this.PicCurrentForm.TabStop = false;
             // 
+            // btnEndTurn
+            // 
+            this.btnEndTurn.BackColor = System.Drawing.Color.Maroon;
+            this.btnEndTurn.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEndTurn.ForeColor = System.Drawing.Color.White;
+            this.btnEndTurn.Location = new System.Drawing.Point(29, 246);
+            this.btnEndTurn.Name = "btnEndTurn";
+            this.btnEndTurn.Size = new System.Drawing.Size(93, 60);
+            this.btnEndTurn.TabIndex = 20;
+            this.btnEndTurn.Text = "END TURN";
+            this.btnEndTurn.UseVisualStyleBackColor = false;
+            this.btnEndTurn.Visible = false;
+            // 
             // BoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1612,6 +1626,7 @@
             this.BackColor = System.Drawing.Color.Indigo;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1152, 561);
+            this.Controls.Add(this.btnEndTurn);
             this.Controls.Add(this.PanelDimenFormSelector);
             this.Controls.Add(this.lblSummonMessage);
             this.Controls.Add(this.lblSetCardMessage);
@@ -1800,5 +1815,6 @@
         private System.Windows.Forms.Button btnFormFlip;
         private System.Windows.Forms.Button BtnFormTurnRight;
         private System.Windows.Forms.Button BtnFormTurnLeft;
+        private System.Windows.Forms.Button btnEndTurn;
     }
 }
