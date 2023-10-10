@@ -807,10 +807,23 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
 
-            CardInfo cardToBeSet = _DiceToRoll[1];
+            CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
             _Board.SetupSummonCardPhase(cardToBeSet);
 
+            //Cards on slot 2 and 3 from the rollset must go back to the deck
+            if (_DiceToRoll.Count > 1)
+            {
+                //Send the card on slot [1] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                if (_DiceToRoll.Count > 2)
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+            }
+          
             //Close this form and retrn to the board
             Dispose();
             _Board.Show();
@@ -823,6 +836,16 @@ namespace DungeonDiceMonsters
             //Set the card in the board
             _Board.SetupSummonCardPhase(cardToBeSet);
 
+            //Cards on slot 1 and 3 from the rollset must go back to the deck
+            //Send the card on slot [0] back to deck
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+
+            if (_DiceToRoll.Count > 2)
+            {
+                //Send the card on slot [2] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+            }
+
             //Close this form and retrn to the board
             Dispose();
             _Board.Show();
@@ -831,9 +854,13 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
 
-            CardInfo cardToBeSet = _DiceToRoll[1];
+            CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
             _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //Cards on slot 1 and 2 from the rollset must go back to the deck
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
 
             //Close this form and retrn to the board
             Dispose();
@@ -842,14 +869,84 @@ namespace DungeonDiceMonsters
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[0];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+            //check cards on slots [1] and [2]
+            CardInfo diceOnSlot1 = _DiceToRoll[1];
+            if (diceOnSlot1.Name != RitualSpellToBeUsed)
+            {
+                //Send the card on slot [1] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+            }
+            else
+            {
+                //Send the card on slot [2] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+            }
+
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice2Ritual_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[1];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+            //check cards on slots [0] and [2]
+            CardInfo diceOnSlot0 = _DiceToRoll[0];
+            if (diceOnSlot0.Name != RitualSpellToBeUsed)
+            {
+                //Send the card on slot [0] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+            }
+            else
+            {
+                //Send the card on slot [2] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+            }
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice3Ritual_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            CardInfo cardToBeSet = _DiceToRoll[2];
+            //Set the card in the board
+            _Board.SetupSummonCardPhase(cardToBeSet);
+
+            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+            //check cards on slots [0] and [1]
+            CardInfo diceOnSlot0 = _DiceToRoll[0];
+            if (diceOnSlot0.Name != RitualSpellToBeUsed)
+            {
+                //Send the card on slot [0] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+            }
+            else
+            {
+                //Send the card on slot [1 back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+            }
+
+            //Close this form and retrn to the board
+            Dispose();
+            _Board.Show();
         }
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
@@ -857,6 +954,19 @@ namespace DungeonDiceMonsters
             CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
+
+            //Cards on slot 2 and 3 from the rollset must go back to the deck
+            if (_DiceToRoll.Count > 1)
+            {
+                //Send the card on slot [1] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                if (_DiceToRoll.Count > 2)
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+            }
 
             //Close this form and retrn to the board
             Dispose();
@@ -869,6 +979,16 @@ namespace DungeonDiceMonsters
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
 
+            //Cards on slot 1 and 3 from the rollset must go back to the deck
+            //Send the card on slot [0] back to deck
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+
+            if (_DiceToRoll.Count > 2)
+            {
+                //Send the card on slot [2] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+            }
+
             //Close this form and retrn to the board
             Dispose();
             _Board.Show();
@@ -879,6 +999,10 @@ namespace DungeonDiceMonsters
             CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
             _Board.SetupSetCardPhase(cardToBeSet);
+
+            //Cards on slot 1 and 2 from the rollset must go back to the deck
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+            _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
 
             //Close this form and retrn to the board
             Dispose();
