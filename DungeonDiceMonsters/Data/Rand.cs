@@ -37,6 +37,32 @@ namespace DungeonDiceMonsters
         {
             return (min + R.Next(max - min));
         }
+
+        public static List<int> Get3DiffRange(int min, int max)
+        {
+            List<int> results = new List<int>();
+            bool rndNumbersSet = false;
+            int rndA = -1;
+            int rndB = -1;
+            int rndC = -1;
+            while (!rndNumbersSet)
+            {
+                rndA = Range(min, max);
+                rndB = Range(min, max);
+                rndC = Range(min, max);
+
+                if (rndA != rndB && rndA != rndC && rndB != rndC)
+                {
+                    rndNumbersSet = true;
+                }
+            }
+
+            results.Add(rndA);
+            results.Add(rndB);
+            results.Add(rndC);
+
+            return results;
+        }
         /// <summary>
         /// Tells if an event will happen based on a probability of happening.
         /// </summary>

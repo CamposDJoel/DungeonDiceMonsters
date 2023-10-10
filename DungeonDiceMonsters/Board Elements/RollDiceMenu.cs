@@ -309,7 +309,7 @@ namespace DungeonDiceMonsters
             PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(4).ToString(), thisCard.DiceFaceValue(4));
             PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(5).ToString(), thisCard.DiceFaceValue(5));
         }
-        private int[] GetDiceSummonSetStatus(List<CardInfo> Dice, Crest[] diceFace, int[] diceValue)
+        public static int[] GetDiceSummonSetStatus(List<CardInfo> Dice, Crest[] diceFace, int[] diceValue)
         {
             //Return codes: -1 - No Dice | 0 - Non Star/Ritual | 1 - Summon | 2 - Set | 3 - Star/Ritual No Match | 4 - Ritual Summon | 5 - Ritual Spell
             int[] results = new int[3];
@@ -321,7 +321,7 @@ namespace DungeonDiceMonsters
 
             return results;
         }
-        private int CompareDice(CardInfo DiceZ, CardInfo DiceX, CardInfo DiceY,
+        public static int CompareDice(CardInfo DiceZ, CardInfo DiceX, CardInfo DiceY,
                                     Crest DiceZCrest, Crest DiceXCrest, Crest DiceYCrest,
                                     int DiceZValue, int DiceXValue, int DiceYValue)
         {
@@ -1014,6 +1014,12 @@ namespace DungeonDiceMonsters
             //In the board reload the crest counts
             _Board.SetupMainPhaseNoSummon();
 
+            //Return all the cards to the deck
+            foreach (CardInfo card in _DiceToRoll) 
+            {
+                _PlayerData.Deck.AddMainCard(card.ID);
+            }
+          
             //Close this form and retrn to the board
             Dispose();
             _Board.Show();

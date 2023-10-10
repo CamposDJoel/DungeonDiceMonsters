@@ -135,7 +135,7 @@
             this.PanelTurnStartMenu = new System.Windows.Forms.Panel();
             this.btnViewBoard = new System.Windows.Forms.Button();
             this.btnRoll = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTurnStartMessage = new System.Windows.Forms.Label();
             this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
             this.lblSummonMessage = new System.Windows.Forms.Label();
@@ -1419,7 +1419,7 @@
             this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
             this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
-            this.PanelTurnStartMenu.Controls.Add(this.label2);
+            this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartMessage);
             this.PanelTurnStartMenu.Location = new System.Drawing.Point(237, 161);
             this.PanelTurnStartMenu.Name = "PanelTurnStartMenu";
             this.PanelTurnStartMenu.Size = new System.Drawing.Size(451, 248);
@@ -1452,17 +1452,17 @@
             this.btnRoll.UseVisualStyleBackColor = false;
             this.btnRoll.Click += new System.EventHandler(this.btnRoll_Click);
             // 
-            // label2
+            // lblTurnStartMessage
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(19, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(173, 24);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Red\'s Turn Start";
+            this.lblTurnStartMessage.AutoSize = true;
+            this.lblTurnStartMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblTurnStartMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurnStartMessage.ForeColor = System.Drawing.Color.White;
+            this.lblTurnStartMessage.Location = new System.Drawing.Point(19, 16);
+            this.lblTurnStartMessage.Name = "lblTurnStartMessage";
+            this.lblTurnStartMessage.Size = new System.Drawing.Size(173, 24);
+            this.lblTurnStartMessage.TabIndex = 0;
+            this.lblTurnStartMessage.Text = "Red\'s Turn Start";
             // 
             // btnReturnToTurnMenu
             // 
@@ -1618,6 +1618,7 @@
             this.btnEndTurn.Text = "END TURN";
             this.btnEndTurn.UseVisualStyleBackColor = false;
             this.btnEndTurn.Visible = false;
+            this.btnEndTurn.Click += new System.EventHandler(this.btnEndTurn_Click);
             // 
             // BoardForm
             // 
@@ -1801,7 +1802,7 @@
         private System.Windows.Forms.PictureBox PicBlueSymbol;
         private System.Windows.Forms.PictureBox PicRedSymbol;
         private System.Windows.Forms.Panel PanelTurnStartMenu;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTurnStartMessage;
         private System.Windows.Forms.Button btnViewBoard;
         private System.Windows.Forms.Button btnRoll;
         private System.Windows.Forms.Button btnReturnToTurnMenu;

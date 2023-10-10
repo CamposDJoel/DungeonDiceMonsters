@@ -21,6 +21,7 @@ namespace DungeonDiceMonsters
         BattleMenuDefenseMode,
         SetCard,
         SummonCard,
+        CPUTurn,
     }
     public partial class BoardForm : Form
     {
@@ -932,7 +933,7 @@ namespace DungeonDiceMonsters
 
                         //Disable the unavailable actions
                         Card thiscard = _CurrentTileSelected.CardInPlace;
-                        if (thiscard.MovedThisTurn || thiscard.MoveCost > RedData.Crests_MOV)
+                        if (thiscard.MovesAvaiable >= 1 || thiscard.MoveCost > RedData.Crests_MOV)
                         {
                             btnActionMove.Enabled = false;
                         }
@@ -952,7 +953,7 @@ namespace DungeonDiceMonsters
 
 
                         _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
-                        if (thiscard.AttackedThisTurn || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
+                        if (thiscard.AttacksAvaiable >= 1 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
                         {
                             btnActionAttack.Enabled = false;
                         }
@@ -1053,8 +1054,8 @@ namespace DungeonDiceMonsters
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Click);
 
-                    //Flag the attecker used its attack of the turn
-                    _CurrentTileSelected.CardInPlace.AttackedThisTurn = true;
+                    //Remove an Attack Available Counter from this card
+                    _CurrentTileSelected.CardInPlace.RemoveAttackCounter();
 
                     //Attack the card in this tile
                     _AttackTarger = _Tiles[tileId];
@@ -1222,8 +1223,7 @@ namespace DungeonDiceMonsters
             PanelMoveMenu.Visible = false;
 
             //Flag that this card moved already this turn
-            Card thiscard = _CurrentTileSelected.CardInPlace;
-            thiscard.MovedThisTurn = true;
+            _CurrentTileSelected.CardInPlace.RemoveMoveCounter();
 
             //Apply the amoutn of crests used
             int amountUsed = RedData.Crests_MOV - _TMPMoveCrestCount;
@@ -1725,5 +1725,45 @@ namespace DungeonDiceMonsters
             UpdateDimensionPreview();
         }
         #endregion
+
+        private void btnEndTurn_Click(object sender, EventArgs e)
+        {
+            //Change the game state and prevent any inputs
+            //Player should have no actions enable during the CPU turn.
+            _CurrentGameState = GameState.CPUTurn;
+
+            //End of the Player's Turn. No more actions are performed
+
+            //All 1 turn data is reset for all monsters on the board
+            //and All non-permanent spellbound counters are reduced.
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if(!thisCard.IsDiscardted)
+                {
+                    thisCard.ResetOneTurnData();
+
+                    if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound)
+                    {
+                        thisCard.ReduceSpellboundCounter(1);
+                    }
+                }
+            }
+
+            //1 turn effects are removed.
+            //TODO
+
+            //Opponent's Turn starts
+            btnEndTurn.Visible = false;
+            lblTurnStartMessage.Text = "Blue's Turn Start";
+            btnRoll.Visible = false;
+            btnViewBoard.Visible = false;
+            PanelTurnStartMenu.Visible = true;
+            WaitNSeconds(2000);
+
+            //Open the Roll Dice CPU form
+            RollDiceCPU RDC = new RollDiceCPU(BlueData, this);
+            Hide();
+            RDC.Show();
+        }
     }
 }

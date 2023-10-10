@@ -33,6 +33,7 @@
             this.lblFusion = new System.Windows.Forms.Label();
             this.lblDeckName = new System.Windows.Forms.Label();
             this.GroupDicesToRoll = new System.Windows.Forms.GroupBox();
+            this.lblNoDimensionTilesWarning = new System.Windows.Forms.Label();
             this.PanelDice3 = new System.Windows.Forms.Panel();
             this.PicDice3 = new System.Windows.Forms.PictureBox();
             this.PanelDice2 = new System.Windows.Forms.Panel();
@@ -85,7 +86,6 @@
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
-            this.lblNoDimensionTilesWarning = new System.Windows.Forms.Label();
             this.PanelDeck.SuspendLayout();
             this.GroupDicesToRoll.SuspendLayout();
             this.PanelDice3.SuspendLayout();
@@ -173,6 +173,19 @@
             this.GroupDicesToRoll.TabIndex = 10;
             this.GroupDicesToRoll.TabStop = false;
             this.GroupDicesToRoll.Text = "Dice Selection";
+            // 
+            // lblNoDimensionTilesWarning
+            // 
+            this.lblNoDimensionTilesWarning.AutoSize = true;
+            this.lblNoDimensionTilesWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoDimensionTilesWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoDimensionTilesWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblNoDimensionTilesWarning.Location = new System.Drawing.Point(70, 173);
+            this.lblNoDimensionTilesWarning.Name = "lblNoDimensionTilesWarning";
+            this.lblNoDimensionTilesWarning.Size = new System.Drawing.Size(299, 12);
+            this.lblNoDimensionTilesWarning.TabIndex = 27;
+            this.lblNoDimensionTilesWarning.Text = "Warning: No Dimension Spaces to Summon Monsters.";
+            this.lblNoDimensionTilesWarning.Visible = false;
             // 
             // PanelDice3
             // 
@@ -763,19 +776,6 @@
             this.PicCardArtwork.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicCardArtwork.TabIndex = 0;
             this.PicCardArtwork.TabStop = false;
-            // 
-            // lblNoDimensionTilesWarning
-            // 
-            this.lblNoDimensionTilesWarning.AutoSize = true;
-            this.lblNoDimensionTilesWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblNoDimensionTilesWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNoDimensionTilesWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblNoDimensionTilesWarning.Location = new System.Drawing.Point(70, 173);
-            this.lblNoDimensionTilesWarning.Name = "lblNoDimensionTilesWarning";
-            this.lblNoDimensionTilesWarning.Size = new System.Drawing.Size(299, 12);
-            this.lblNoDimensionTilesWarning.TabIndex = 27;
-            this.lblNoDimensionTilesWarning.Text = "Warning: No Dimension Spaces to Summon Monsters.";
-            this.lblNoDimensionTilesWarning.Visible = false;
             // 
             // RollDiceMenu
             // 

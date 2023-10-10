@@ -126,5 +126,12 @@ namespace DungeonDiceMonsters
             MM.Show();
         }
         #endregion
+
+        private void btnOpenTestForm_Click(object sender, EventArgs e)
+        {
+            DiceSelectionAITest dtest = new DiceSelectionAITest();
+            Hide();
+            dtest.Show();
+        }
     }
 }

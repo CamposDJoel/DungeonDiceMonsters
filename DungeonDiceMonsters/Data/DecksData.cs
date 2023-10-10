@@ -65,6 +65,35 @@ namespace DungeonDiceMonsters
             }
             return count;
         }
+        public int GetCardCountWithDiceLevel(int diceLevel)
+        {
+            int count = 0;
+            foreach (int idInDeck in _CardList)
+            {
+                CardInfo thisCard = CardDataBase.GetCardWithID(idInDeck);
+                if(thisCard.DiceLevel == diceLevel) { count++; }
+            }
+            return count;
+        }
+        public List<int> GetCardsWithDiceLevelAndRemove(int diceLevel)
+        {
+            List<int> cardlist = new List<int>();
+
+            for(int x = 0; x < _CardList.Count; x++)
+            {
+                CardInfo thisCard = CardDataBase.GetCardWithID(_CardList[x]);
+                if (thisCard.DiceLevel == diceLevel) 
+                { 
+                    cardlist.Add(thisCard.ID);
+                    _CardList.RemoveAt(x);
+                    x--;
+                }
+            }
+
+            //Remove the 
+
+            return cardlist;
+        }
         #endregion
 
         #region Public Accessors

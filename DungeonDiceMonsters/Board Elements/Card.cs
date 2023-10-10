@@ -58,15 +58,19 @@ namespace DungeonDiceMonsters
         public int OnBoardID { get { return _id; } }       
         public PlayerOwner Owner { get { return _Owner; } }
         public bool IsFaceDown { get { return _IsFaceDown; } }
+        public bool IsDiscardted { get { return _IsDiscardted; } }
         public bool IsASymbol { get { return _IsASymbol; } }
-        public int MoveCost { get { return _MoveCost; } }
-        public int AttackCost { get { return _AttackCost; } }
-        public int DefenseCost { get { return _DefenseCost; } }
+        public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
+        public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
+        public int SpellboundCounter { get { return _SpellboundCounter; } }
         #endregion
 
         #region On Board Counters and Flags
-        public bool MovedThisTurn{get { return _MovedThisTurn; } set { _MovedThisTurn = value; } }
-        public bool AttackedThisTurn{get { return _AttackedThisTurn; } set { _AttackedThisTurn = value; } }
+        public int MoveCost { get { return _MoveCost; } }
+        public int AttackCost { get { return _AttackCost; } }
+        public int DefenseCost { get { return _DefenseCost; } }
+        public int MovesAvaiable { get { return _MovesAvailable; } }
+        public int AttacksAvaiable { get { return _AttacksAvailable; } }
         #endregion
 
         #region Public Funtions
@@ -77,6 +81,33 @@ namespace DungeonDiceMonsters
         public void Discard()
         {
             _IsDiscardted = true;
+        }
+        public void RemoveAttackCounter()
+        {
+            _AttacksAvailable--;
+        }
+        public void RemoveMoveCounter()
+        {
+            _MovesAvailable--;
+        }
+        public void ResetOneTurnData()
+        {
+            _MoveCost = _BaseMoveCost;
+            _AttackCost = _BaseAttackCost;
+            _DefenseCost = _BaseDefenseCost;
+            _MovesAvailable = _BaseMovesAvaiable;
+            _AttacksAvailable = _BaseAttackAvaiable;
+        }
+        public void ReduceSpellboundCounter(int amount)
+        {
+            _SpellboundCounter -= amount;
+
+            if(_SpellboundCounter <= 0) 
+            {
+                //Remove the spellbound
+                _IsUnderSpellbound = false;
+                _SpellboundCounter = 0;
+            }
         }
         #endregion
 
@@ -94,13 +125,24 @@ namespace DungeonDiceMonsters
         private int _AttackBonus = 0;
         private int _DefenseBonus = 0;
 
+        //Base Amounts for Counters and Costs
+        private int _BaseMoveCost = 1;
+        private int _BaseAttackCost = 1;
+        private int _BaseDefenseCost = 1;
+        private int _BaseMovesAvaiable = 1;
+        private int _BaseAttackAvaiable = 1;
+       
+        //Counters and Costs
         private int _MoveCost = 1;
         private int _AttackCost = 1;
         private int _DefenseCost = 1;
+        private int _MovesAvailable = 1;
+        private int _AttacksAvailable = 1;
 
-        //Action Flags
-        private bool _MovedThisTurn = false;
-        private bool _AttackedThisTurn = false;
+        //Spellbound Data
+        private bool _IsUnderSpellbound = false;
+        private int _SpellboundCounter = 0;
+        private bool _IsPemanentSpellbound = false;
         #endregion
     }
 }
