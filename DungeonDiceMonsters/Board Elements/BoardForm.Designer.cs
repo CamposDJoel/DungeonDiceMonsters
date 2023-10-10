@@ -1611,7 +1611,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1006, 561);
+            this.ClientSize = new System.Drawing.Size(1152, 561);
             this.Controls.Add(this.PanelDimenFormSelector);
             this.Controls.Add(this.lblSummonMessage);
             this.Controls.Add(this.lblSetCardMessage);

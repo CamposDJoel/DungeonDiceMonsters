@@ -40,6 +40,7 @@ namespace DungeonDiceMonsters
 
             InitializeDeckComponents();
             LoadDeckPage();
+            GenrateValidDimension();            
         }
         #endregion
 
@@ -419,6 +420,42 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        private void GenrateValidDimension()
+        {
+            //Generate the valid dimension tiles
+            List<Dimension> ValidDimensions = new List<Dimension>();
+
+            //Each each tile with each dimension form
+            List<Tile> BoardTiles = _Board.GetTiles();
+
+            //There are 23 dimension form
+            for (int f = 0; f < 23; f++)
+            {
+                DimensionForms thisForm = (DimensionForms)f;
+
+                //Check all the tiles....
+                for (int t = 0; t < BoardTiles.Count; t++)
+                {
+                    Tile thisTile = BoardTiles[t];
+                    Tile[] dimensionTiles = thisTile.GetDimensionTiles(thisForm);
+                    Dimension thisDimension = new Dimension(dimensionTiles, thisForm, PlayerOwner.Red);
+
+                    if (thisDimension.IsValid)
+                    {
+                        ValidDimensions.Add(thisDimension);
+                    }
+                }
+            }
+
+            //Flag if there are valid dimensions
+            _ValidDimensionAvailable = ValidDimensions.Count > 0;
+
+            //Display the no dimension warning
+            if (!_ValidDimensionAvailable)
+            {
+                lblNoDimensionTilesWarning.Visible = true;
+            }
+        }
         #endregion
 
         #region Data
@@ -428,6 +465,7 @@ namespace DungeonDiceMonsters
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
+        private bool _ValidDimensionAvailable = false;
         #endregion
 
         #region Events
@@ -734,26 +772,26 @@ namespace DungeonDiceMonsters
             bool canSummonSet = false;
             switch (results[0])
             {
-                //Normal Summon
-                case 1: btnDice1Summon.Visible = true;  canSummonSet = true; break;
+                //Normal Summon (Note that if there are not dimesion spaces, you cannot summon)
+                case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; canSummonSet = true; } break;
                 //Set (Note that if there are not free summon tiles you cant set)
                 case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; canSummonSet = true; } break;
-                //Ritual Summon
-                case 4: btnDice1Ritual.Visible = true;  canSummonSet = true; break;
+                //Ritual Summon (Note that if there are not dimesion spaces, you cannot summon)
+                case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; canSummonSet = true; } break;
             }
             switch (results[1])
             {
                 //Normal Summon
-                case 1: btnDice2Summon.Visible = true;  canSummonSet = true; break;
+                case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; canSummonSet = true; } break;
                 case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; canSummonSet = true; } break;
-                case 4: btnDice2Ritual.Visible = true;  canSummonSet = true; break;
+                case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; canSummonSet = true; } break;
             }
             switch (results[2])
             {
                 //Normal Summon
-                case 1: btnDice3Summon.Visible = true;  canSummonSet = true; break;
+                case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; canSummonSet = true; } break;
                 case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; canSummonSet = true; } break;
-                case 4: btnDice3Ritual.Visible = true;  canSummonSet = true; break;
+                case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; canSummonSet = true; } break;
             }
 
             _DiceRolled = true;

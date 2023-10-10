@@ -22,44 +22,6 @@ namespace DungeonDiceMonsters
         SetCard,
         SummonCard,
     }
-    public enum DimensionForms
-    {
-        //CROSS FORMs
-        CrossBase,
-        CrossRight,
-        CrossLeft,
-        CrossUpSideDown,
-
-        //LONG FORM
-        LongBase,
-        LongRight,
-        LongLeft,
-        LongUpSideDown,
-
-        //LONG FLIPPED
-        LongFlippedBase,
-        LongFlippedRight,
-        LongFlippedLeft,
-        LongFlippedUpSideDown,
-
-        //Z FORM
-        ZBase,
-        ZRight,
-        ZLeft,
-        ZUpSideDown,
-
-        //Z FLIPPED
-        ZFlippedBase,
-        ZFlippedRight,
-        ZFlippedLeft,
-        ZFlippedUpSideDown,
-
-        //T FORM
-        TBase,
-        TRight,
-        TLeft,
-        TUpSideDown,
-    }
     public partial class BoardForm : Form
     {
         #region Constructors
@@ -393,6 +355,10 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Public Methods
+        public List<Tile> GetTiles() 
+        { 
+            return _Tiles; 
+        }
         public void SetupMainPhaseNoSummon()
         {
             //Switch to the Main Phase of the player
@@ -870,34 +836,6 @@ namespace DungeonDiceMonsters
 
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
-        private bool IsThisDimensionValid(Tile[] tiles, PlayerOwner owner)
-        {
-            bool validDimension = false;
-            int adjencentToPlayerCount = 0;
-            for (int x = 0; x < tiles.Length; x++)
-            {
-                if (tiles == null)
-                {
-                    validDimension = false; break;
-                }
-                else
-                {
-                    if (tiles[x].Owner != owner)
-                    {
-                        validDimension = false; break;
-                    }
-                    else
-                    {
-                        //check that at least ONE tile is adjecend to a own tile of the player
-                        bool IsAdjecentToPlayer = tiles[x].HasAnAdjecentTileOwnBy(owner);
-                        if (IsAdjecentToPlayer) { adjencentToPlayerCount++; }
-                    }
-                }
-            }
-            if (adjencentToPlayerCount == 0) { validDimension = false; }
-
-            return validDimension;
-        }
         #endregion
 
         #region Events
@@ -930,7 +868,7 @@ namespace DungeonDiceMonsters
 
                 //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
                 //if none of the tiles are adjecent to any other owned by the player)
-                _validDimension = IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
+                _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
 
                 //Draw the dimension shape
                 _dimensionTiles[0].MarkDimensionSummonTile();

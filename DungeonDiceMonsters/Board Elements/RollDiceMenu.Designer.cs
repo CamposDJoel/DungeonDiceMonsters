@@ -85,6 +85,7 @@
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
+            this.lblNoDimensionTilesWarning = new System.Windows.Forms.Label();
             this.PanelDeck.SuspendLayout();
             this.GroupDicesToRoll.SuspendLayout();
             this.PanelDice3.SuspendLayout();
@@ -148,6 +149,7 @@
             // GroupDicesToRoll
             // 
             this.GroupDicesToRoll.BackColor = System.Drawing.Color.Black;
+            this.GroupDicesToRoll.Controls.Add(this.lblNoDimensionTilesWarning);
             this.GroupDicesToRoll.Controls.Add(this.PanelDice3);
             this.GroupDicesToRoll.Controls.Add(this.PanelDice2);
             this.GroupDicesToRoll.Controls.Add(this.PanelDice1);
@@ -165,9 +167,9 @@
             this.GroupDicesToRoll.Controls.Add(this.btnDice1Summon);
             this.GroupDicesToRoll.Controls.Add(this.btnDice2Summon);
             this.GroupDicesToRoll.ForeColor = System.Drawing.Color.White;
-            this.GroupDicesToRoll.Location = new System.Drawing.Point(358, 257);
+            this.GroupDicesToRoll.Location = new System.Drawing.Point(358, 243);
             this.GroupDicesToRoll.Name = "GroupDicesToRoll";
-            this.GroupDicesToRoll.Size = new System.Drawing.Size(396, 175);
+            this.GroupDicesToRoll.Size = new System.Drawing.Size(396, 189);
             this.GroupDicesToRoll.TabIndex = 10;
             this.GroupDicesToRoll.TabStop = false;
             this.GroupDicesToRoll.Text = "Dice Selection";
@@ -402,7 +404,7 @@
             // 
             this.btnRoll.BackColor = System.Drawing.Color.ForestGreen;
             this.btnRoll.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRoll.Location = new System.Drawing.Point(460, 223);
+            this.btnRoll.Location = new System.Drawing.Point(460, 208);
             this.btnRoll.Name = "btnRoll";
             this.btnRoll.Size = new System.Drawing.Size(192, 32);
             this.btnRoll.TabIndex = 13;
@@ -415,7 +417,7 @@
             // 
             this.PicDiceResult1.BackColor = System.Drawing.Color.Transparent;
             this.PicDiceResult1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicDiceResult1.Location = new System.Drawing.Point(360, 100);
+            this.PicDiceResult1.Location = new System.Drawing.Point(360, 90);
             this.PicDiceResult1.Name = "PicDiceResult1";
             this.PicDiceResult1.Size = new System.Drawing.Size(116, 116);
             this.PicDiceResult1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -426,7 +428,7 @@
             // 
             this.PicDiceResult2.BackColor = System.Drawing.Color.Transparent;
             this.PicDiceResult2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicDiceResult2.Location = new System.Drawing.Point(497, 100);
+            this.PicDiceResult2.Location = new System.Drawing.Point(497, 90);
             this.PicDiceResult2.Name = "PicDiceResult2";
             this.PicDiceResult2.Size = new System.Drawing.Size(116, 116);
             this.PicDiceResult2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -437,7 +439,7 @@
             // 
             this.PicDiceResult3.BackColor = System.Drawing.Color.Transparent;
             this.PicDiceResult3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicDiceResult3.Location = new System.Drawing.Point(638, 100);
+            this.PicDiceResult3.Location = new System.Drawing.Point(638, 90);
             this.PicDiceResult3.Name = "PicDiceResult3";
             this.PicDiceResult3.Size = new System.Drawing.Size(116, 116);
             this.PicDiceResult3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -574,7 +576,7 @@
             // 
             this.btnGoToBoard.BackColor = System.Drawing.Color.Purple;
             this.btnGoToBoard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGoToBoard.Location = new System.Drawing.Point(460, 223);
+            this.btnGoToBoard.Location = new System.Drawing.Point(460, 208);
             this.btnGoToBoard.Name = "btnGoToBoard";
             this.btnGoToBoard.Size = new System.Drawing.Size(192, 32);
             this.btnGoToBoard.TabIndex = 24;
@@ -762,6 +764,19 @@
             this.PicCardArtwork.TabIndex = 0;
             this.PicCardArtwork.TabStop = false;
             // 
+            // lblNoDimensionTilesWarning
+            // 
+            this.lblNoDimensionTilesWarning.AutoSize = true;
+            this.lblNoDimensionTilesWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoDimensionTilesWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoDimensionTilesWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblNoDimensionTilesWarning.Location = new System.Drawing.Point(70, 173);
+            this.lblNoDimensionTilesWarning.Name = "lblNoDimensionTilesWarning";
+            this.lblNoDimensionTilesWarning.Size = new System.Drawing.Size(299, 12);
+            this.lblNoDimensionTilesWarning.TabIndex = 27;
+            this.lblNoDimensionTilesWarning.Text = "Warning: No Dimension Spaces to Summon Monsters.";
+            this.lblNoDimensionTilesWarning.Visible = false;
+            // 
             // RollDiceMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -874,5 +889,6 @@
         private System.Windows.Forms.Label lblCardLevel;
         private System.Windows.Forms.Label lblCardName;
         private System.Windows.Forms.PictureBox PicCardArtwork;
+        private System.Windows.Forms.Label lblNoDimensionTilesWarning;
     }
 }
