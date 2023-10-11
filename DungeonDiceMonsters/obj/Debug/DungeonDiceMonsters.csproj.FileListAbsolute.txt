@@ -34,3 +34,5 @@ D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDic
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.FreeDuelMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.BoardForm.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.RollDiceMenu.resources
+D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.RollDiceCPU.resources
+D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DiceSelectionAITest.resources

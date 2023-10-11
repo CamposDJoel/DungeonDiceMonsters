@@ -136,11 +136,6 @@ namespace DungeonDiceMonsters
 
                 lblDiceLevelSelector.Text = "Dice Level: " + diceLevelSelection;
 
-                if(diceLevelSelection == 2)
-                {
-                    int a = 0;
-                }
-
                 //Step 2: determine if a dice level was Set.
                 //-If it was set, pull as many card of that dice level
                 //In the case of only being 2 cards of that dice level, pick the last card at random

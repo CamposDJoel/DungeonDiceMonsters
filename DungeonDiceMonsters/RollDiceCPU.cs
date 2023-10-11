@@ -121,11 +121,6 @@ namespace DungeonDiceMonsters
             if (_PlayerData.FreeSummonTiles == 0)
             {
                 lblNoSummonTilesWarning.Visible = true;
-                _SummonTilesAvailable = false;
-            }
-            else
-            {
-                _SummonTilesAvailable = true;
             }
         }
         private void UpdateCrestPool()
@@ -137,81 +132,11 @@ namespace DungeonDiceMonsters
             lblMAGCount.Text = _PlayerData.Crests_MAG.ToString();
             lblTRAPCount.Text = _PlayerData.Crests_TRAP.ToString();
         }
-        private void RollAnimation(List<int> diceSelection)
-        {
-            //Roll the dice
-            int[] diceIndex = new int[3] { -1, -1, -1 };
-            Crest[] diceFace = new Crest[3] { Crest.NONE, Crest.NONE, Crest.NONE };
-            int[] diceValue = new int[3] { 0, 0, 0 };
-
-            //display the result faces
-            diceIndex[0] = Rand.DiceRoll();
-            CardInfo Dice1 = CardDataBase.GetCardWithID(diceSelection[0]);
-
-            for (int x = 0; x < 6; x++)
-            {
-                SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                PicDiceResult1.Image = null;
-                PicDiceResult1.BackColor = Color.White;
-                BoardForm.WaitNSeconds(100);
-                PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, Dice1.DiceFace(x).ToString(), Dice1.DiceFaceValue(x));
-                BoardForm.WaitNSeconds(100);
-            }
-            diceFace[0] = Dice1.DiceFace(diceIndex[0]);
-            diceValue[0] = Dice1.DiceFaceValue(diceIndex[0]);
-            PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, diceFace[0].ToString(), diceValue[0]);
-
-
-            if (diceSelection.Count > 1)
-            {
-                diceIndex[1] = Rand.DiceRoll();
-                CardInfo Dice2 = CardDataBase.GetCardWithID(diceSelection[1]);
-                for (int x = 0; x < 6; x++)
-                {
-                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                    PicDiceResult2.Image = null;
-                    PicDiceResult2.BackColor = Color.White;
-                    BoardForm.WaitNSeconds(100);
-                    PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, Dice2.DiceFace(x).ToString(), Dice2.DiceFaceValue(x));
-                    BoardForm.WaitNSeconds(100);
-                }
-                diceFace[1] = Dice2.DiceFace(diceIndex[1]);
-                diceValue[1] = Dice2.DiceFaceValue(diceIndex[1]);
-                PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, diceFace[1].ToString(), diceValue[1]);
-            }
-            else
-            {
-                PicDiceResult2.Image = null;
-            }
-
-            if (diceSelection.Count > 2)
-            {
-                diceIndex[2] = Rand.DiceRoll();
-                CardInfo Dice3 = CardDataBase.GetCardWithID(diceSelection[2]);
-                for (int x = 0; x < 6; x++)
-                {
-                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                    PicDiceResult3.Image = null;
-                    PicDiceResult3.BackColor = Color.White;
-                    BoardForm.WaitNSeconds(100);
-                    PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, Dice3.DiceFace(x).ToString(), Dice3.DiceFaceValue(x));
-                    BoardForm.WaitNSeconds(100);
-                }
-                diceFace[2] = Dice3.DiceFace(diceIndex[2]);
-                diceValue[2] = Dice3.DiceFaceValue(diceIndex[2]);
-                PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, diceFace[2].ToString(), diceValue[2]);
-            }
-            else
-            {
-                PicDiceResult3.Image = null;
-            }
-        }
 
         private BoardForm _Board;
         private PlayerData _PlayerData;
         private bool _ValidDimensionAvailable = false;
         private List<Dimension> _ValidDimensions;
-        private bool _SummonTilesAvailable;
        
         private void btnCPURoll_Click(object sender, EventArgs e)
         {
