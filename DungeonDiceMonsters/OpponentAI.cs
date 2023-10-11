@@ -1,8 +1,8 @@
-﻿using System;
+﻿//Joel Campos
+//11/10/2023
+//Opponent AI Class
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonDiceMonsters
 {

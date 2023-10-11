@@ -34,6 +34,7 @@
             this.btnNewGame = new System.Windows.Forms.Button();
             this.btnLoadGame = new System.Windows.Forms.Button();
             this.lblWarning = new System.Windows.Forms.Label();
+            this.btnOpenTestForm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOpenDBManager
@@ -104,6 +105,16 @@
             this.lblWarning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblWarning.Visible = false;
             // 
+            // btnOpenTestForm
+            // 
+            this.btnOpenTestForm.Location = new System.Drawing.Point(137, 502);
+            this.btnOpenTestForm.Name = "btnOpenTestForm";
+            this.btnOpenTestForm.Size = new System.Drawing.Size(107, 47);
+            this.btnOpenTestForm.TabIndex = 5;
+            this.btnOpenTestForm.Text = "Open Test Form";
+            this.btnOpenTestForm.UseVisualStyleBackColor = true;
+            this.btnOpenTestForm.Click += new System.EventHandler(this.btnOpenTestForm_Click);
+            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,6 +122,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.btnOpenTestForm);
             this.Controls.Add(this.lblWarning);
             this.Controls.Add(this.btnStartGame);
             this.Controls.Add(this.btnLoadGame);
@@ -134,6 +146,7 @@
         private System.Windows.Forms.Button btnNewGame;
         private System.Windows.Forms.Button btnLoadGame;
         private System.Windows.Forms.Label lblWarning;
+        private System.Windows.Forms.Button btnOpenTestForm;
     }
 }
 

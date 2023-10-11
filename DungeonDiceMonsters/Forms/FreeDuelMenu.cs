@@ -137,8 +137,8 @@ namespace DungeonDiceMonsters
             SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
 
             //Generate the Player Objects
-            PlayerData red = new PlayerData("Player", DecksData.Decks[0]);
-            PlayerData blue = new PlayerData(characterName, DecksData.Decks[0]);
+            PlayerData red = new PlayerData("Player", DecksData.Decks[0].GetCopy());
+            PlayerData blue = new PlayerData(characterName, DecksData.Decks[0].GetCopy());
 
             BoardForm BF = new BoardForm(red, blue);
             //BoardForm BF = new BoardForm(red, blue, true);

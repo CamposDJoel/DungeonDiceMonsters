@@ -220,11 +220,6 @@ namespace DungeonDiceMonsters
             //Call the AI Tool to get the 3 (or less) dice selection
             List<int> diceSelection = OpponentAI.GetDiceToRollSelection(_PlayerData.Deck);
 
-            if (diceSelection.Count == 0)
-            {
-                int a = 0;
-            }
-
             //Place cards in the selection
             if (diceSelection.Count == 1)
             {
@@ -416,6 +411,29 @@ namespace DungeonDiceMonsters
             {
                 //Display "Go to the board" button
                 btnGoToBoard.Visible = true;
+            }
+
+            //Small delay before CPU takes an action
+            BoardForm.WaitNSeconds(1000);
+
+            //If cant summon or set, simply go to the board
+            if (!canSummonSet)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //In the board reload the crest counts
+                _Board.SetupCPUMainPhaseNoSummon();
+
+                //Close this form and retrn to the board
+                Dispose();
+                _Board.Show();
+
+                //Trigger the CPU actions on the board
+                _Board.StartCPUMainPhaseActions();
+            }    
+            //else summon or set
+            else
+            {
+
             }
         }
     }

@@ -372,6 +372,26 @@ namespace DungeonDiceMonsters
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
         }
+        public void SetupCPUMainPhaseNoSummon()
+        {
+            //Switch to the Main Phase of the CPU
+            _CurrentGameState = GameState.CPUTurn;
+            PanelTurnStartMenu.Visible = false;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+        }
+        public void StartCPUMainPhaseActions()
+        {
+            //TODO
+            WaitNSeconds(4000);
+
+            //TMP: End turn
+            CPUEndTurn();
+        }
         public void SetupSummonCardPhase(CardInfo card)
         {
             //Switch to the Summon Card State
@@ -423,6 +443,38 @@ namespace DungeonDiceMonsters
             }
         }
         #endregion
+
+        private void CPUEndTurn()
+        {
+            //Change the game state back to turn start menu
+            _CurrentGameState = GameState.TurnStartMenu;
+
+            //End of the Player's Turn. No more actions are performed
+
+            //All 1 turn data is reset for all monsters on the board
+            //and All non-permanent spellbound counters are reduced.
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted)
+                {
+                    thisCard.ResetOneTurnData();
+
+                    if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound)
+                    {
+                        thisCard.ReduceSpellboundCounter(1);
+                    }
+                }
+            }
+
+            //1 turn effects are removed.
+            //TODO
+
+            //Player's Turn starts
+            lblTurnStartMessage.Text = "Red's Turn Start";
+            btnRoll.Visible = true;
+            btnViewBoard.Visible = true;
+            PanelTurnStartMenu.Visible = true;
+        }
 
         #region Data
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
@@ -933,7 +985,7 @@ namespace DungeonDiceMonsters
 
                         //Disable the unavailable actions
                         Card thiscard = _CurrentTileSelected.CardInPlace;
-                        if (thiscard.MovesAvaiable >= 1 || thiscard.MoveCost > RedData.Crests_MOV)
+                        if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > RedData.Crests_MOV)
                         {
                             btnActionMove.Enabled = false;
                         }
@@ -953,7 +1005,7 @@ namespace DungeonDiceMonsters
 
 
                         _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
-                        if (thiscard.AttacksAvaiable >= 1 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
+                        if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
                         {
                             btnActionAttack.Enabled = false;
                         }

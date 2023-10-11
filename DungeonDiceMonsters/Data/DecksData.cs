@@ -94,6 +94,22 @@ namespace DungeonDiceMonsters
 
             return cardlist;
         }
+        public Deck GetCopy()
+        {
+            Deck copy = new Deck();
+            foreach (int thisCardID in _CardList)
+            {
+                copy.AddMainCard(thisCardID);
+            }
+            foreach (int thisCardID in _FusionList)
+            {
+                copy.AddFusionCard(thisCardID);
+            }
+
+            copy.ChangeSymbol(_Symbol);
+
+            return copy;
+        }
         #endregion
 
         #region Public Accessors
