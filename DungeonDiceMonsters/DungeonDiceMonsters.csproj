@@ -58,15 +58,21 @@
       <DependentUpon>BoardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Board Elements\Card.cs" />
-    <Compile Include="DB Objects\CardInfo.cs" />
-    <Compile Include="DB Objects\CardDataBase.cs" />
-    <Compile Include="DiceSelectionAITest.cs">
+    <Compile Include="BoardPvP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DiceSelectionAITest.Designer.cs">
+    <Compile Include="BoardPvP.Designer.cs">
+      <DependentUpon>BoardPvP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DB Objects\CardInfo.cs" />
+    <Compile Include="DB Objects\CardDataBase.cs" />
+    <Compile Include="Archive\DiceSelectionAITest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Archive\DiceSelectionAITest.Designer.cs">
       <DependentUpon>DiceSelectionAITest.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dimension.cs" />
+    <Compile Include="Board Elements\Dimension.cs" />
     <Compile Include="Forms\DeckBuilder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,12 +105,12 @@
     <Compile Include="Board Elements\RollDiceMenu.Designer.cs">
       <DependentUpon>RollDiceMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="OpponentAI.cs" />
+    <Compile Include="Archive\OpponentAI.cs" />
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
-    <Compile Include="RollDiceCPU.cs">
+    <Compile Include="Archive\RollDiceCPU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RollDiceCPU.Designer.cs">
+    <Compile Include="Archive\RollDiceCPU.Designer.cs">
       <DependentUpon>RollDiceCPU.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility Forms\JsonGenerator.cs">
@@ -125,8 +131,11 @@
     <EmbeddedResource Include="Board Elements\BoardForm.resx">
       <DependentUpon>BoardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DiceSelectionAITest.resx">
+    <EmbeddedResource Include="Archive\DiceSelectionAITest.resx">
       <DependentUpon>DiceSelectionAITest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BoardPvP.resx">
+      <DependentUpon>BoardPvP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeckBuilder.resx">
       <DependentUpon>DeckBuilder.cs</DependentUpon>
@@ -140,7 +149,7 @@
     <EmbeddedResource Include="Board Elements\RollDiceMenu.resx">
       <DependentUpon>RollDiceMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RollDiceCPU.resx">
+    <EmbeddedResource Include="Archive\RollDiceCPU.resx">
       <DependentUpon>RollDiceCPU.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
