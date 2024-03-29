@@ -198,7 +198,7 @@
             this.PanelBoard.Enabled = false;
             this.PanelBoard.Location = new System.Drawing.Point(151, 0);
             this.PanelBoard.Name = "PanelBoard";
-            this.PanelBoard.Size = new System.Drawing.Size(631, 561);
+            this.PanelBoard.Size = new System.Drawing.Size(631, 904);
             this.PanelBoard.TabIndex = 0;
             // 
             // PanelAttackMenu
@@ -1626,7 +1626,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Indigo;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1152, 561);
+            this.ClientSize = new System.Drawing.Size(1152, 916);
             this.Controls.Add(this.btnEndTurn);
             this.Controls.Add(this.PanelDimenFormSelector);
             this.Controls.Add(this.lblSummonMessage);
