@@ -17,9 +17,6 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.TitleScreen, true);
             InitializeComponent();
-
-            btnNewGame.MouseEnter += OnMouseEnterLabel;
-            btnNewGame.MouseLeave += OnMouseLeaveLabel;
         }
         #endregion
 
@@ -31,6 +28,9 @@ namespace DungeonDiceMonsters
         }
         private void btnStartGame_Click(object sender, EventArgs e)
         {
+            //Hide the Start Game Button
+            btnStartGame.Visible = false;
+
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Initialize the DB Read raw data from json file
             string jsonFilePath = Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json";
@@ -44,9 +44,8 @@ namespace DungeonDiceMonsters
                 CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
             }
 
-            //Show the new game button
-            btnStartGame.Visible = false;
-            btnNewGame.Visible = true;
+            //Show the new game group           
+            GroupNewGame.Visible = true;
 
             //Check if there is a save file to show the load game
             try
@@ -55,25 +54,13 @@ namespace DungeonDiceMonsters
                  Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt");
                 SR_SaveFile.Close();
 
-                btnLoadGame.Visible = true;
-                btnNewGame.Size = new Size(200, 60);
-                btnNewGame.Location = new Point(270, 335);
+                GroupLoadGame.Visible = true;
+                lblWarning.Visible = true;
             }
             catch (Exception)
             {
                 //do nothing continue
             }
-        }
-        private void OnMouseEnterLabel(object sender, EventArgs e)
-        {
-            if(btnLoadGame.Visible == true)
-            {
-                lblWarning.Visible = true;
-            }         
-        }
-        private void OnMouseLeaveLabel(object sender, EventArgs e)
-        {
-            lblWarning.Visible = false;
         }
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
@@ -89,41 +76,54 @@ namespace DungeonDiceMonsters
         }
         private void btnNewGame_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            //To start a new game, give the player the starter deck and a sample card in storage
-            DecksData.Decks[0] = new Deck();
-            DecksData.Decks[1] = new Deck();
-            DecksData.Decks[2] = new Deck();
+            //Validate the New Player Input name
+            string nameinput = txtPlayerName.Text;
+            if (nameinput.Length == 0 || nameinput.Contains("|"))
+            {
+                //ERROR
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                lblInvalidNameBanner.Visible = true;
+                BoardForm.WaitNSeconds(2000);
+                lblInvalidNameBanner.Visible = false;
+            }
+            else
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //To start a new game, give the player the starter deck and a sample card in storage
+                DecksData.Decks[0] = new Deck();
+                DecksData.Decks[1] = new Deck();
+                DecksData.Decks[2] = new Deck();
 
-            DecksData.Decks[0].AddMainCard(68401546);
-            DecksData.Decks[0].AddMainCard(68401546);
-            DecksData.Decks[0].AddMainCard(68401546);
-            DecksData.Decks[0].AddMainCard(75356564);
-            DecksData.Decks[0].AddMainCard(75356564);
-            DecksData.Decks[0].AddMainCard(75356564);
-            DecksData.Decks[0].AddMainCard(56342351);
-            DecksData.Decks[0].AddMainCard(56342351);
-            DecksData.Decks[0].AddMainCard(56342351);
-            DecksData.Decks[0].AddMainCard(83464209);
-            DecksData.Decks[0].AddMainCard(83464209);
-            DecksData.Decks[0].AddMainCard(83464209);
-            DecksData.Decks[0].AddMainCard(1);
-            DecksData.Decks[0].AddMainCard(2);
-            DecksData.Decks[0].AddMainCard(3);
-            DecksData.Decks[0].AddMainCard(32452818);
-            DecksData.Decks[0].AddMainCard(32452818);
-            DecksData.Decks[0].AddMainCard(32452818);
-            DecksData.Decks[0].AddMainCard(28279543);
-            DecksData.Decks[0].AddMainCard(28279543);
+                DecksData.Decks[0].AddMainCard(68401546);
+                DecksData.Decks[0].AddMainCard(68401546);
+                DecksData.Decks[0].AddMainCard(68401546);
+                DecksData.Decks[0].AddMainCard(75356564);
+                DecksData.Decks[0].AddMainCard(75356564);
+                DecksData.Decks[0].AddMainCard(75356564);
+                DecksData.Decks[0].AddMainCard(56342351);
+                DecksData.Decks[0].AddMainCard(56342351);
+                DecksData.Decks[0].AddMainCard(56342351);
+                DecksData.Decks[0].AddMainCard(83464209);
+                DecksData.Decks[0].AddMainCard(83464209);
+                DecksData.Decks[0].AddMainCard(83464209);
+                DecksData.Decks[0].AddMainCard(1);
+                DecksData.Decks[0].AddMainCard(2);
+                DecksData.Decks[0].AddMainCard(3);
+                DecksData.Decks[0].AddMainCard(32452818);
+                DecksData.Decks[0].AddMainCard(32452818);
+                DecksData.Decks[0].AddMainCard(32452818);
+                DecksData.Decks[0].AddMainCard(28279543);
+                DecksData.Decks[0].AddMainCard(28279543);
 
-            StorageData.AddCard(38142739);
-            StorageData.AddCard(44287299);
+                StorageData.AddCard(38142739);
+                StorageData.AddCard(44287299);
 
-            //Open the main menu form
-            SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
-            MainMenu MM = new MainMenu();
-            Hide();
-            MM.Show();
+                //Open the main menu form
+                SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
+                MainMenu MM = new MainMenu();
+                Hide();
+                MM.Show();
+            }          
         }
         #endregion
 

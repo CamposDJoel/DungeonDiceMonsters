@@ -2,6 +2,10 @@
 //10/4/2023
 //Game Data Class
 
+using System;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Input;
+
 namespace DungeonDiceMonsters
 {
     public static class GameData
@@ -12,6 +16,11 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Public Methods
+        public static void LoadGameData(string[] data)
+        {
+            _PlayerName = data[0];
+            _StarChips = Convert.ToInt32(data[1]);
+        }
         public static void UnlockCharacter(Character c)
         {
             _CharactersUnlocked[(int)c] = true;

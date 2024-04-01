@@ -15,7 +15,11 @@ namespace DungeonDiceMonsters
             //This will hold the actual data. Each item in the list will be a line in the save file
             List<string> Lines = new List<string>();
 
-            //Line[0-1-2] : each line will hold the card list of each deck
+            //Line [0]: Will contain the Players name and Starchip count
+            string playerdata = string.Format("{0}|{1}", GameData.Name, GameData.StarChips);
+            Lines.Add(playerdata);
+
+            //Line[1-2-3] : each line will hold the card list of each deck
             for (int x = 0; x < DecksData.Decks.Length; x++)
             {
                 string deckData = "";
@@ -69,16 +73,18 @@ namespace DungeonDiceMonsters
                 Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt");
 
             string Line = "";
-            string[] Tokens = new string[1];
-            string[] Separator = new string[] { "|" };
 
-            //Line[0-1-2]: each line will hold the card list of each deck
+            //Line[0]: contains the Player's Name and Starchip count
+            Line = SR_SaveFile.ReadLine();
+            string[] gamedata = Line.Split('|');
+            GameData.LoadGameData(gamedata);
+
+
+            //Line[1-2-3]: each line will hold the card list of each deck
             for (int x = 0; x < DecksData.Decks.Length; x++)
             {
                 Line = SR_SaveFile.ReadLine();
-                Tokens = new string[1];
-                //Separate all the tokens
-                Tokens = Line.Split(Separator, StringSplitOptions.None);
+                string[] Tokens = Line.Split('|');
 
                 //Initialize the 20 cards in the deck
                 string symbolstring = Tokens[23];
@@ -114,19 +120,19 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //Line[3] : The list of cards in the storage
+            //Line[4] : The list of cards in the storage
             Line = SR_SaveFile.ReadLine();
-            Tokens = new string[1];
-            Tokens = Line.Split(Separator, StringSplitOptions.None);
-            //Line[4] : The amounts of the cards in storage
+            string[] CardIDs = Line.Split('|');
+
+            //Line[5] : The amounts of the cards in storage
             Line = SR_SaveFile.ReadLine();
-            string[] Amounts = Line.Split(Separator, StringSplitOptions.None);
+            string[] Amounts = Line.Split('|');
 
             //Add the cards
-            for (int y = 0; y < Tokens.Length-1; y++)
+            for (int y = 0; y < CardIDs.Length-1; y++)
             {
                 int amount = Convert.ToInt32(Amounts[y]);
-                int cardid = Convert.ToInt32(Tokens[y]);
+                int cardid = Convert.ToInt32(CardIDs[y]);
 
                 for(int x = 0; x < amount; x++)
                 {

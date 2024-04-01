@@ -23,11 +23,18 @@ namespace DungeonDiceMonsters
             lblMenuCardShop.MouseEnter += OnMouseEnterLabel;
             lblMenuCardShop.MouseLeave += OnMouseLeaveLabel;
 
-            if(!DecksData.HasOneReadyDeck())
+            lblPvPDuel.MouseEnter += OnMouseEnterLabel;
+            lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
+
+            if (!DecksData.HasOneReadyDeck())
             {
                 lblMenuArcade.Visible = false;
                 lblMenuFreeDuel.Visible = false;
             }
+
+            //Initialize Player Name Panel
+            lblPlayerName.Text = GameData.Name;
+            lblStarChips.Text = GameData.StarChips.ToString();
 
         }
         #endregion
@@ -68,10 +75,18 @@ namespace DungeonDiceMonsters
         {
 
         }
+        private void lblPvPDuel_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Open the PvPMenu
+            PvPMenu PVPM = new PvPMenu();
+            Dispose();
+            PVPM.Show();
+        }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
         }
-        #endregion
+        #endregion     
     }
 }
