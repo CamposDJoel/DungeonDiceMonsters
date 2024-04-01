@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace DungeonDiceMonsters
 {
@@ -87,6 +88,19 @@ namespace DungeonDiceMonsters
         {
             Application.Exit();
         }
-        #endregion     
+        #endregion
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            string[] gamedata = new string[]
+            {
+                "Atem",
+                "999"
+            };
+            GameData.LoadGameData(gamedata);
+            lblPlayerName.Text = GameData.Name;
+            lblStarChips.Text = GameData.StarChips.ToString();
+            DecksData.Decks[0].ChangeSymbol(Attribute.WATER);
+        }
     }
 }

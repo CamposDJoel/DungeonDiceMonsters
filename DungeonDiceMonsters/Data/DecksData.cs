@@ -2,6 +2,7 @@
 //10/3/2023
 //Decks Data
 
+using System;
 using System.Collections.Generic;
 
 namespace DungeonDiceMonsters
@@ -109,6 +110,137 @@ namespace DungeonDiceMonsters
             copy.ChangeSymbol(_Symbol);
 
             return copy;
+        }
+        public string GetDataStringLine()
+        {
+            string deckData = "";
+            for (int y = 0; y < 20; y++)
+            {
+                if (y >= MainDeckSize)
+                {
+                    deckData += "0|";
+                }
+                else
+                {
+                    deckData = deckData + GetMainCardIDAtIndex(y) + "|";
+                }
+            }
+
+            for (int y = 0; y < 3; y++)
+            {
+                if (y >= FusionDeckSize)
+                {
+                    deckData += "0|";
+                }
+                else
+                {
+                    deckData = deckData + GetFusionCardIDAtIndex(y) + "|";
+                }
+            }
+
+            //Set symbol
+            deckData = deckData + Symbol;
+            return deckData;
+        }
+        public string GetDataStringLineForPVP()
+        {
+            string deckData = "";
+            for (int y = 0; y < 20; y++)
+            {
+                if (y >= MainDeckSize)
+                {
+                    deckData += "0!";
+                }
+                else
+                {
+                    deckData = deckData + GetMainCardIDAtIndex(y) + "!";
+                }
+            }
+
+            for (int y = 0; y < 3; y++)
+            {
+                if (y >= FusionDeckSize)
+                {
+                    deckData += "0!";
+                }
+                else
+                {
+                    deckData = deckData + GetFusionCardIDAtIndex(y) + "!";
+                }
+            }
+
+            //Set symbol
+            deckData = deckData + Symbol;
+            return deckData;
+        }
+        public void InitializeFromSaveData(string[] data)
+        {
+            //Initialize the 20 cards in the deck
+            string symbolstring = data[23];
+            Attribute Symbol = Attribute.DIVINE;
+            switch (symbolstring)
+            {
+                case "DARK": Symbol = Attribute.DARK; break;
+                case "LIGHT": Symbol = Attribute.LIGHT; break;
+                case "WATER": Symbol = Attribute.WATER; break;
+                case "FIRE": Symbol = Attribute.FIRE; break;
+                case "EARTH": Symbol = Attribute.EARTH; break;
+                case "WIND": Symbol = Attribute.WIND; break;
+            }
+
+            ChangeSymbol(Symbol);
+
+            for (int y = 0; y < 20; y++)
+            {
+                int cardid = Convert.ToInt32(data[y]);
+                if (cardid != 0)
+                {
+                    AddMainCard(cardid);
+                }
+            }
+            for (int y = 0; y < 3; y++)
+            {
+                int cardid = Convert.ToInt32(data[y + 20]);
+                if (cardid != 0)
+                {
+                    AddFusionCard(cardid);
+                }
+            }
+        }
+        public void InitializeFromPVPData(string rawdata)
+        {
+            //Initialize the 20 cards in the deck
+            string[] data = rawdata.Split('!');
+            string symbolstring = data[23];
+            Attribute Symbol = Attribute.DIVINE;
+            switch (symbolstring)
+            {
+                case "DARK": Symbol = Attribute.DARK; break;
+                case "LIGHT": Symbol = Attribute.LIGHT; break;
+                case "WATER": Symbol = Attribute.WATER; break;
+                case "FIRE": Symbol = Attribute.FIRE; break;
+                case "EARTH": Symbol = Attribute.EARTH; break;
+                case "WIND": Symbol = Attribute.WIND; break;
+            }
+
+            ChangeSymbol(Symbol);
+
+            for (int y = 0; y < 20; y++)
+            {
+                int cardid = Convert.ToInt32(data[y]);
+                if (cardid != 0)
+                {
+                    AddMainCard(cardid);
+                }
+            }
+            for (int y = 0; y < 3; y++)
+            {
+                int cardid = Convert.ToInt32(data[y + 20]);
+                if (cardid != 0)
+                {
+                    AddFusionCard(cardid);
+                }
+            }
         }
         #endregion
 

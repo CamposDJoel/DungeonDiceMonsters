@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonDiceMonsters", "DungeonDiceMonsters.csproj", "{E275DC66-FF0A-4B22-986C-F6438916332F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDMPvPServer", "..\DDMPvPServer\DDMPvPServer.csproj", "{FDBF107D-A34F-44C9-BDC1-E7940E2EC671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E275DC66-FF0A-4B22-986C-F6438916332F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E275DC66-FF0A-4B22-986C-F6438916332F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E275DC66-FF0A-4B22-986C-F6438916332F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDBF107D-A34F-44C9-BDC1-E7940E2EC671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBF107D-A34F-44C9-BDC1-E7940E2EC671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBF107D-A34F-44C9-BDC1-E7940E2EC671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBF107D-A34F-44C9-BDC1-E7940E2EC671}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

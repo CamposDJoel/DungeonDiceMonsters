@@ -655,5 +655,15 @@ namespace DungeonDiceMonsters
             Application.Exit();
         }
         #endregion
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PicDeckStatus_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

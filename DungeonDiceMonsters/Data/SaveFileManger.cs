@@ -22,33 +22,7 @@ namespace DungeonDiceMonsters
             //Line[1-2-3] : each line will hold the card list of each deck
             for (int x = 0; x < DecksData.Decks.Length; x++)
             {
-                string deckData = "";
-                for (int y = 0; y < 20; y++)
-                {
-                    if (y >= DecksData.Decks[x].MainDeckSize)
-                    {
-                        deckData += "0|";
-                    }
-                    else
-                    {
-                        deckData = deckData + DecksData.Decks[x].GetMainCardIDAtIndex(y) + "|";
-                    }
-                }
-
-                for (int y = 0; y < 3; y++)
-                {
-                    if (y >= DecksData.Decks[x].FusionDeckSize)
-                    {
-                        deckData += "0|";
-                    }
-                    else
-                    {
-                        deckData = deckData + DecksData.Decks[x].GetFusionCardIDAtIndex(y) + "|";
-                    }
-                }
-
-                //Set symbol
-                deckData = deckData + DecksData.Decks[x].Symbol;
+                string deckData = DecksData.Decks[x].GetDataStringLine();              
                 Lines.Add(deckData);
             }
 
@@ -86,38 +60,8 @@ namespace DungeonDiceMonsters
                 Line = SR_SaveFile.ReadLine();
                 string[] Tokens = Line.Split('|');
 
-                //Initialize the 20 cards in the deck
-                string symbolstring = Tokens[23];
-                Attribute Symbol = Attribute.DIVINE;
-                switch(symbolstring)
-                {
-                    case "DARK": Symbol = Attribute.DARK; break;
-                    case "LIGHT": Symbol = Attribute.LIGHT; break;
-                    case "WATER": Symbol = Attribute.WATER; break;
-                    case "FIRE": Symbol = Attribute.FIRE; break;
-                    case "EARTH": Symbol = Attribute.EARTH; break;
-                    case "WIND": Symbol = Attribute.WIND; break;
-                }
-
                 DecksData.Decks[x] = new Deck();
-                DecksData.Decks[x].ChangeSymbol(Symbol);
-
-                for(int y = 0; y < 20; y++) 
-                {
-                    int cardid = Convert.ToInt32(Tokens[y]);
-                    if(cardid != 0) 
-                    {
-                        DecksData.Decks[x].AddMainCard(cardid);
-                    }
-                }
-                for (int y = 0; y < 3; y++)
-                {
-                    int cardid = Convert.ToInt32(Tokens[y+20]);
-                    if (cardid != 0)
-                    {
-                        DecksData.Decks[x].AddFusionCard(cardid);
-                    }
-                }
+                DecksData.Decks[x].InitializeFromSaveData(Tokens);
             }
 
             //Line[4] : The list of cards in the storage
