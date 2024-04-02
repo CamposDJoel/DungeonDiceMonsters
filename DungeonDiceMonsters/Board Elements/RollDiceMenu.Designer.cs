@@ -86,6 +86,7 @@
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
+            this.lblInactiveWarning = new System.Windows.Forms.Label();
             this.PanelDeck.SuspendLayout();
             this.GroupDicesToRoll.SuspendLayout();
             this.PanelDice3.SuspendLayout();
@@ -777,6 +778,19 @@
             this.PicCardArtwork.TabIndex = 0;
             this.PicCardArtwork.TabStop = false;
             // 
+            // lblInactiveWarning
+            // 
+            this.lblInactiveWarning.AutoSize = true;
+            this.lblInactiveWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblInactiveWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInactiveWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblInactiveWarning.Location = new System.Drawing.Point(417, 64);
+            this.lblInactiveWarning.Name = "lblInactiveWarning";
+            this.lblInactiveWarning.Size = new System.Drawing.Size(290, 24);
+            this.lblInactiveWarning.TabIndex = 26;
+            this.lblInactiveWarning.Text = "Opponent is taking action...";
+            this.lblInactiveWarning.Visible = false;
+            // 
             // RollDiceMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -784,6 +798,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.lblInactiveWarning);
             this.Controls.Add(this.GroupDiceInfo);
             this.Controls.Add(this.btnGoToBoard);
             this.Controls.Add(this.GroupCrestPool);
@@ -828,6 +843,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -890,5 +906,6 @@
         private System.Windows.Forms.Label lblCardName;
         private System.Windows.Forms.PictureBox PicCardArtwork;
         private System.Windows.Forms.Label lblNoDimensionTilesWarning;
+        private System.Windows.Forms.Label lblInactiveWarning;
     }
 }

@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -17,6 +19,7 @@ namespace DungeonDiceMonsters
             InitializeComponent();
             _PlayerData = playerdata;
             _Board = board;
+            _PvPMatch = false;
 
             PicDice1.Click += RollCard_click;
             PicDice2.Click += RollCard_click;
@@ -40,7 +43,49 @@ namespace DungeonDiceMonsters
 
             InitializeDeckComponents();
             LoadDeckPage();
-            GenrateValidDimension();            
+            GenrateValidDimensions();            
+        }
+        public RollDiceMenu(bool isUserTurn, PlayerData playerdata, BoardPvP board, NetworkStream tmpns)
+        {
+            InitializeComponent();
+            _PlayerData = playerdata;
+            _PvPBoard = board;
+            ns = tmpns;
+            _PvPMatch = true;
+            _IsUserTurn = isUserTurn;
+
+            //Only allow these even handlers if is the user turn
+            if(_IsUserTurn) 
+            {
+                PicDice1.Click += RollCard_click;
+                PicDice2.Click += RollCard_click;
+                PicDice3.Click += RollCard_click;
+                PicDice1.MouseEnter += OnMouseEnterRollCard;
+                PicDice2.MouseEnter += OnMouseEnterRollCard;
+                PicDice3.MouseEnter += OnMouseEnterRollCard;
+
+                btnDice1Summon.MouseEnter += OnMouseEnterPicture;
+                btnDice2Summon.MouseEnter += OnMouseEnterPicture;
+                btnDice3Summon.MouseEnter += OnMouseEnterPicture;
+                btnDice1Ritual.MouseEnter += OnMouseEnterPicture;
+                btnDice2Ritual.MouseEnter += OnMouseEnterPicture;
+                btnDice3Ritual.MouseEnter += OnMouseEnterPicture;
+                btnDice1Set.MouseEnter += OnMouseEnterPicture;
+                btnDice2Set.MouseEnter += OnMouseEnterPicture;
+                btnDice3Set.MouseEnter += OnMouseEnterPicture;
+
+                btnRoll.MouseEnter += OnMouseEnterPicture;
+                btnGoToBoard.MouseEnter += OnMouseEnterPicture;
+                lblInactiveWarning.Visible = false;
+            }
+            else
+            {
+                lblInactiveWarning.Visible = true;
+            }
+                       
+            InitializeDeckComponents();
+            LoadDeckPage();
+            GenrateValidDimensions();
         }
         #endregion
 
@@ -74,8 +119,11 @@ namespace DungeonDiceMonsters
                     CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                     _DeckCardImageList.Add(CardImage);
                     CardImage.Tag = pictureIndex;
-                    CardImage.Click += new EventHandler(DeckCard_click);
-                    CardImage.MouseEnter += OnMouseEnterDeckCard;
+                    if (_IsUserTurn)
+                    {
+                        CardImage.Click += new EventHandler(DeckCard_click);
+                        CardImage.MouseEnter += OnMouseEnterDeckCard;
+                    }
 
                     X_Location += 58;
                     pictureIndex++;
@@ -105,8 +153,11 @@ namespace DungeonDiceMonsters
                 CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                 _DeckCardImageList.Add(CardImage);
                 CardImage.Tag = pictureIndex;
-                CardImage.Click += new EventHandler(DeckCard_click);
-                CardImage.MouseEnter += OnMouseEnterDeckCard;
+                if (_IsUserTurn)
+                {
+                    CardImage.Click += new EventHandler(DeckCard_click);
+                    CardImage.MouseEnter += OnMouseEnterDeckCard;
+                }
 
                 X_Location2 += 58;
                 pictureIndex++;
@@ -141,7 +192,14 @@ namespace DungeonDiceMonsters
                     if (_DeckCardImageList[x].Image != null) { _DeckCardImageList[x].Image.Dispose(); }
 
                     //Populate the card image with the card ID
-                    _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                    if (_IsUserTurn)
+                    {
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                    }
+                    else
+                    {
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(0);
+                    }
                 }
             }
 
@@ -165,8 +223,15 @@ namespace DungeonDiceMonsters
                     //to clear memory
                     if (_DeckCardImageList[x + 20].Image != null) { _DeckCardImageList[x + 20].Image.Dispose(); }
 
-                    //Populate the card image with the card ID
-                    _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID);
+                    //Populate the card image with the card ID                    
+                    if (_IsUserTurn)
+                    {
+                        _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID);
+                    }
+                    else
+                    {
+                        _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(0);
+                    }
                 }
             }
         }
@@ -188,7 +253,15 @@ namespace DungeonDiceMonsters
                 else
                 {
                     dices[x].Enabled = true;
-                    dices[x].Image = ImageServer.FullCardImage(_DiceToRoll[x].ID);
+                    if (dices[x].Image != null) { dices[x].Image.Dispose(); }
+                    if(_IsUserTurn)
+                    {
+                        dices[x].Image = ImageServer.FullCardImage(_DiceToRoll[x].ID);
+                    }
+                    else
+                    {
+                        dices[x].Image = ImageServer.FullCardImage(0);
+                    }
                 }
             }
         }
@@ -420,13 +493,21 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        private void GenrateValidDimension()
+        private void GenrateValidDimensions()
         {
             //Generate the valid dimension tiles
             List<Dimension> ValidDimensions = new List<Dimension>();
 
             //Each each tile with each dimension form
-            List<Tile> BoardTiles = _Board.GetTiles();
+            List<Tile> BoardTiles = new List<Tile>();
+            if(_PvPMatch)
+            {
+                BoardTiles = _PvPBoard.GetTiles();
+            }
+            else
+            {
+                BoardTiles = _Board.GetTiles();
+            }
 
             //There are 23 dimension form
             for (int f = 0; f < 23; f++)
@@ -458,14 +539,41 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Send/Receive To/From Server Methods
+        private void SendMessageToServer(string message)
+        {
+            byte[] buffer = Encoding.ASCII.GetBytes(message);
+            ns.Write(buffer, 0, buffer.Length);
+        }
+        public void ReceiveMesageFromServer(string DATARECEIVED)
+        {
+            //Step 1: Extract the Message SECONDARY Key
+            string[] MessageTokens = DATARECEIVED.Split('|');
+            string SecondaryKey = MessageTokens[2];
+
+            //Step 2: Handle the message
+            switch (SecondaryKey)
+            {
+                case "[SELECT DECK CARD TO ROLL]": DeckCard_Base(Convert.ToInt32(MessageTokens[3])); break;
+                case "[SELECT ROLL CARD TO DECK]": RollCard_Base(Convert.ToInt32(MessageTokens[3])); break;
+                
+            }
+        }
+        #endregion
+
         #region Data
+        private bool _IsUserTurn;
+        private bool _PvPMatch;
         private BoardForm _Board;
+        private BoardPvP _PvPBoard;
         private PlayerData _PlayerData;
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
+        //Client NetworkStream to send message to the server
+        private NetworkStream ns;
         #endregion
 
         #region Events
@@ -527,34 +635,11 @@ namespace DungeonDiceMonsters
             //(if the card clicked is index < 20 (main deck) AND that there are 2 or less cards in the roll section.
             if (thiPictureBoxIndex < 20 && _DiceToRoll.Count < 3 && !_DiceRolled)
             {
-                //Generate the card object
-                int thisCardID = _PlayerData.Deck.GetMainCardIDAtIndex(thiPictureBoxIndex);
-                CardInfo thisCard = CardDataBase.GetCardWithID(thisCardID);
+                //Send the action message to the server
+                SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SELECT DECK CARD TO ROLL]|" + thiPictureBoxIndex);
 
-                //Move card to the next roll slot
-                SoundServer.PlaySoundEffect(SoundEffect.Click2);
-
-                //Add this card to the list of cards to roll dice for
-                _DiceToRoll.Add(thisCard);
-
-                //Remove from deck
-                _PlayerData.Deck.RemoveMainAtIndex(thiPictureBoxIndex);
-
-                //Reload both sides
-                LoadDiceToRoll();
-                LoadDeckPage();
-
-                //if the dice to roll is 3 or there no more cards in deck allow to roll
-                if (_DiceToRoll.Count == 3 || _PlayerData.Deck.MainDeckSize == 0)
-                {
-                    btnRoll.Visible = true;
-                }
-
-                //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
-                if (thisCard.Category != Category.Monster && _PlayerData.FreeSummonTiles == 0)
-                {
-                    lblNoSummonTilesWarning.Visible = true;
-                }
+                //Perform the action
+                DeckCard_Base(thiPictureBoxIndex);
             }
             else
             {
@@ -571,50 +656,11 @@ namespace DungeonDiceMonsters
             //Only allow clicking on a occupied slot
             if (thiPictureBoxIndex + 1 <= _DiceToRoll.Count && !_DiceRolled)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click2);
+                //Send the action message to the server
+                SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SELECT ROLL CARD TO DECK]|" + thiPictureBoxIndex);
 
-                //Generate the card object
-                int cardid = _DiceToRoll[thiPictureBoxIndex].ID;
-                CardInfo thisCard = CardDataBase.GetCardWithID(cardid);
-
-                //send card back to deck;
-                _PlayerData.Deck.AddMainCard(cardid);
-
-                //remove from dice to roll
-                _DiceToRoll.RemoveAt(thiPictureBoxIndex);
-
-                //Reload both sides
-                LoadDiceToRoll();
-                LoadDeckPage();
-
-                //This will always result on not bein able to roll
-                btnRoll.Visible = false;
-                //Also clear the selection mark of the card just removed
-                switch(thiPictureBoxIndex)
-                {
-                    case 0: PanelDice1.BackColor = Color.Transparent; break;
-                    case 1: PanelDice2.BackColor = Color.Transparent; break;
-                    case 2: PanelDice2.BackColor = Color.Transparent; break;
-                }
-
-                //Verify if the no free summon tiles warnings need to be vanish
-                if (_PlayerData.FreeSummonTiles == 0)
-                {
-                    if (_DiceToRoll.Count == 2)
-                    {
-                        if (_DiceToRoll[0].Category == Category.Monster && _DiceToRoll[1].Category == Category.Monster)
-                        {
-                            lblNoSummonTilesWarning.Visible = false;
-                        }
-                    }
-                    else if (_DiceToRoll.Count == 1)
-                    {
-                        if (_DiceToRoll[0].Category == Category.Monster)
-                        {
-                            lblNoSummonTilesWarning.Visible = false;
-                        }
-                    }
-                }
+                //Perform the action
+                RollCard_Base(thiPictureBoxIndex);
             }
             else
             {
@@ -624,7 +670,7 @@ namespace DungeonDiceMonsters
         }
         private void btnRoll_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+           SoundServer.PlaySoundEffect(SoundEffect.Click);
 
             //Disable and hide all the not interactable elements 
             _DiceRolled = true;
@@ -809,7 +855,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 2 and 3 from the rollset must go back to the deck
             if (_DiceToRoll.Count > 1)
@@ -826,7 +879,14 @@ namespace DungeonDiceMonsters
           
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice2Summon_Click(object sender, EventArgs e)
         {
@@ -834,7 +894,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[1];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 1 and 3 from the rollset must go back to the deck
             //Send the card on slot [0] back to deck
@@ -848,7 +915,14 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice3Summon_Click(object sender, EventArgs e)
         {
@@ -856,7 +930,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 1 and 2 from the rollset must go back to the deck
             _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
@@ -864,7 +945,14 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {
@@ -872,7 +960,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
             string RitualSpellToBeUsed = cardToBeSet.RitualCard;
@@ -892,7 +987,14 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice2Ritual_Click(object sender, EventArgs e)
         {
@@ -900,7 +1002,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[1];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
             string RitualSpellToBeUsed = cardToBeSet.RitualCard;
@@ -919,7 +1028,14 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice3Ritual_Click(object sender, EventArgs e)
         {
@@ -927,7 +1043,14 @@ namespace DungeonDiceMonsters
 
             CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
-            _Board.SetupSummonCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSummonCardPhase(cardToBeSet);
+            }
 
             //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
             string RitualSpellToBeUsed = cardToBeSet.RitualCard;
@@ -946,14 +1069,28 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[0];
             //Set the card in the board
-            _Board.SetupSetCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSetCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSetCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 2 and 3 from the rollset must go back to the deck
             if (_DiceToRoll.Count > 1)
@@ -970,14 +1107,28 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice2Set_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[1];
             //Set the card in the board
-            _Board.SetupSetCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSetCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSetCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 1 and 3 from the rollset must go back to the deck
             //Send the card on slot [0] back to deck
@@ -991,14 +1142,28 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnDice3Set_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             CardInfo cardToBeSet = _DiceToRoll[2];
             //Set the card in the board
-            _Board.SetupSetCardPhase(cardToBeSet);
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupSetCardPhase(cardToBeSet);
+            }
+            else
+            {
+                _Board.SetupSetCardPhase(cardToBeSet);
+            }
 
             //Cards on slot 1 and 2 from the rollset must go back to the deck
             _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
@@ -1006,13 +1171,27 @@ namespace DungeonDiceMonsters
 
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
         }
         private void btnGoToBoard_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             //In the board reload the crest counts
-            _Board.SetupMainPhaseNoSummon();
+            if (_PvPMatch)
+            {
+                _PvPBoard.SetupMainPhaseNoSummon();
+            }
+            else
+            {
+                _Board.SetupMainPhaseNoSummon();
+            }
 
             //Return all the cards to the deck
             foreach (CardInfo card in _DiceToRoll) 
@@ -1022,7 +1201,107 @@ namespace DungeonDiceMonsters
           
             //Close this form and retrn to the board
             Dispose();
-            _Board.Show();
+            if (_PvPMatch)
+            {
+                _PvPBoard.Show();
+            }
+            else
+            {
+                _Board.Show();
+            }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
+
+        #region Base Player Actions
+        private void DeckCard_Base(int PictureBoxIndex)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                //Generate the card object
+                int thisCardID = _PlayerData.Deck.GetMainCardIDAtIndex(PictureBoxIndex);
+                CardInfo thisCard = CardDataBase.GetCardWithID(thisCardID);
+
+                //Move card to the next roll slot
+                SoundServer.PlaySoundEffect(SoundEffect.Click2);
+
+                //Add this card to the list of cards to roll dice for
+                _DiceToRoll.Add(thisCard);
+
+                //Remove from deck
+                _PlayerData.Deck.RemoveMainAtIndex(PictureBoxIndex);
+
+                //Reload both sides
+                LoadDiceToRoll();
+                LoadDeckPage();
+
+                //if the dice to roll is 3 or there no more cards in deck allow to roll
+                if (_DiceToRoll.Count == 3 || _PlayerData.Deck.MainDeckSize == 0)
+                {
+                    btnRoll.Visible = true;
+                    if(!_IsUserTurn)
+                    {
+                        btnRoll.Enabled = false;
+                    }
+                }
+
+                //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
+                if (thisCard.Category != Category.Monster && _PlayerData.FreeSummonTiles == 0)
+                {
+                    lblNoSummonTilesWarning.Visible = true;
+                }
+            }));           
+        }
+        private void RollCard_Base(int thiPictureBoxIndex)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click2);
+
+                //Generate the card object
+                int cardid = _DiceToRoll[thiPictureBoxIndex].ID;
+                CardInfo thisCard = CardDataBase.GetCardWithID(cardid);
+
+                //send card back to deck;
+                _PlayerData.Deck.AddMainCard(cardid);
+
+                //remove from dice to roll
+                _DiceToRoll.RemoveAt(thiPictureBoxIndex);
+
+                //Reload both sides
+                LoadDiceToRoll();
+                LoadDeckPage();
+
+                //This will always result on not bein able to roll
+                btnRoll.Visible = false;
+                //Also clear the selection mark of the card just removed
+                switch (thiPictureBoxIndex)
+                {
+                    case 0: PanelDice1.BackColor = Color.Transparent; break;
+                    case 1: PanelDice2.BackColor = Color.Transparent; break;
+                    case 2: PanelDice2.BackColor = Color.Transparent; break;
+                }
+
+                //Verify if the no free summon tiles warnings need to be vanish
+                if (_PlayerData.FreeSummonTiles == 0)
+                {
+                    if (_DiceToRoll.Count == 2)
+                    {
+                        if (_DiceToRoll[0].Category == Category.Monster && _DiceToRoll[1].Category == Category.Monster)
+                        {
+                            lblNoSummonTilesWarning.Visible = false;
+                        }
+                    }
+                    else if (_DiceToRoll.Count == 1)
+                    {
+                        if (_DiceToRoll[0].Category == Category.Monster)
+                        {
+                            lblNoSummonTilesWarning.Visible = false;
+                        }
+                    }
+                }
+            }));
         }
         #endregion
     }

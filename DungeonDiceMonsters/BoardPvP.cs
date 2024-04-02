@@ -151,6 +151,75 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Public Methods
+        public List<Tile> GetTiles()
+        {
+            return _Tiles;
+        }
+        public void SetupMainPhaseNoSummon()
+        {
+            //Switch to the Main Phase of the player
+            _CurrentGameState = GameState.MainPhaseBoard;
+            btnEndTurn.Visible = true;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+        }
+        public void SetupSummonCardPhase(CardInfo card)
+        {
+            //Switch to the Summon Card State
+            _CurrentGameState = GameState.SummonCard;
+
+            //Save the ref to the data of the card to be summon
+            _CardToBeSummon = card;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+
+            //Display the Dimension shape selector
+            PanelDimenFormSelector.Visible = true;
+            lblSummonMessage.Visible = true;
+        }
+        public void SetupSetCardPhase(CardInfo card)
+        {
+            //Switch to the Set Card Phase of the player
+            _CurrentGameState = GameState.SetCard;
+
+            //Save the ref to the data of the card to be set
+            _CardToBeSet = card;
+
+            //Relaod the player info panels to update crests
+            LoadPlayersInfo();
+
+            //Enable the Board Panel to interact with it
+            PanelBoard.Enabled = true;
+
+            //Setup the tile candidates
+            _SetCandidates.Clear();
+            _SetCandidates = RedData.GetSetCardTileCandidates();
+            lblSetCardMessage.Visible = true;
+            foreach (Tile tile in _SetCandidates)
+            {
+                tile.MarkSetTarget();
+            }
+        }
+        public static void WaitNSeconds(double milliseconds)
+        {
+            if (milliseconds < 1) return;
+            DateTime _desired = DateTime.Now.AddMilliseconds(milliseconds);
+            while (DateTime.Now < _desired)
+            {
+                Application.DoEvents();
+            }
+        }
+        #endregion
+
         #region Private Methods
         private void LoadPlayersInfo()
         {
@@ -561,6 +630,10 @@ namespace DungeonDiceMonsters
                     case "[ON MOUSE ENTER TILE]": OnMouseEnterPicture_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[ON MOUSE LEAVE TILE]": OnMouseLeavePicture_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[EXIT VIEW BOARD MODE]": btnReturnToTurnMenu_Base(); break;
+                    case "[Roll Dice Action]": btnRoll_Base(); break;
+                    //Messages from the RollDiceMenu From will have a share Message Key so they can be forward it to the form
+                    //These messages will have a secondary key that will be used inside that form for processing.
+                    case "[ROLL DICE FORM REQUEST]": _RollDiceForm.ReceiveMesageFromServer(DATARECEIVED); break;
                 }
             }
             else
@@ -612,16 +685,11 @@ namespace DungeonDiceMonsters
         #region Turn Star Panel Elements
         private void btnRoll_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[Roll Dice Action]|TurnStartMenu");
 
-            //TODO: RollDiceMenu RD = new RollDiceMenu(RedData, this);
-            Hide();
-
-            //Preamble set the board in the Main Phase 
-            _CurrentGameState = GameState.MainPhaseBoard;
-            PanelTurnStartMenu.Visible = false;
-
-            //TODO: RD.Show();
+            //Perform the action
+            btnRoll_Base();
         }
         private void btnViewBoard_Click(object sender, EventArgs e)
         {
@@ -652,7 +720,10 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                //TODO:SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                if(_CurrentGameState == GameState.BoardViewMode && _Tiles[tileID].IsOccupied)
+                {
+                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                }
 
                 //Perform the action
                 OnMouseEnterPicture_Base(tileID);
@@ -667,7 +738,10 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                //TODO: SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                if (_CurrentGameState == GameState.BoardViewMode && _Tiles[tileID].IsOccupied)
+                {
+                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                }
 
                 //Perform the action
                 OnMouseLeavePicture_Base(tileID);
@@ -922,6 +996,30 @@ namespace DungeonDiceMonsters
         #region Base Player Actions
         //These are the action of the event listners without sending the action messages to the server
 
+        private void btnRoll_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Preamble set the board in the Main Phase 
+                _CurrentGameState = GameState.MainPhaseBoard;
+                PanelTurnStartMenu.Visible = false;
+
+                bool IsUserTurn = (UserPlayerColor == TURNPLAYER);
+                if (UserPlayerColor == PlayerColor.RED)
+                {
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, RedData, this, ns);
+                    Hide();
+                    _RollDiceForm.Show();
+                }
+                else
+                {
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, BlueData, this, ns);
+                    Hide();
+                    _RollDiceForm.Show();
+                }
+            }));       
+        }
         private void btnViewBoard_Base()
         {
             Invoke(new MethodInvoker(delegate () {
@@ -1040,6 +1138,7 @@ namespace DungeonDiceMonsters
         private bool _validDimension = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
+        private RollDiceMenu _RollDiceForm;
         #endregion       
     }
 
