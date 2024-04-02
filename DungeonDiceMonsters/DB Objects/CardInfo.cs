@@ -100,6 +100,7 @@ namespace DungeonDiceMonsters
                 if (face.Contains("DEF")) { _Crest[x] = Crest.DEF; }
                 if (face.Contains("MAG")) { _Crest[x] = Crest.MAG; }
                 if (face.Contains("TRAP")) { _Crest[x] = Crest.TRAP; }
+                if (face.Contains("RITU")) { _Crest[x] = Crest.RITU; }
 
                 if (face.Contains("1")) { _CrestValue[x] = 1; }
                 if (face.Contains("2")) { _CrestValue[x] = 2; }
