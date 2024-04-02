@@ -28,6 +28,8 @@ namespace DungeonDiceMonsters
         private Deck _CurrentDeckSelected;
         private string _OpponentName;
         private Deck _OpponentsDeck;
+        private PlayerColor MyColor;
+        private BoardPvP _CurrentBoardPVP;
         #endregion
 
         #region Event Listeners
@@ -96,6 +98,7 @@ namespace DungeonDiceMonsters
                     Invoke(new MethodInvoker(delegate () {
                         lblRedPlayerName.Text = "Red Player: " + GameData.Name;
                         lblRedPlayerName.Visible = true;
+                        MyColor = PlayerColor.RED;
                         lblWaitMessage.Text = "Waiting for Player 2!";
                         lblWaitMessage.Visible = true;
                     }));                   
@@ -109,10 +112,12 @@ namespace DungeonDiceMonsters
                         _OpponentsDeck.InitializeFromPVPData(MessageTokens[2]);
                         lblBluePlayerName.Text = "Blue Player: " + GameData.Name;
                         lblRedPlayerName.Text = "Red Player: " + _OpponentName;
+                        MyColor = PlayerColor.BLUE;
                         lblBluePlayerName.Visible = true;
                         lblRedPlayerName.Visible = true;
                         lblWaitMessage.Text = "Match found! - Starting Game...";
                         lblWaitMessage.Visible = true;
+                        StartMatch();
                     }));                  
                     break;
                 case "[OPPONENT DATA BLUE]":
@@ -127,8 +132,14 @@ namespace DungeonDiceMonsters
                         _OpponentsDeck.InitializeFromPVPData(MessageTokens[2]);
                         lblBluePlayerName.Text = "Blue Player: " + _OpponentName;
                         lblBluePlayerName.Visible = true;
+                        MyColor = PlayerColor.RED;
                         lblWaitMessage.Text = "Match found! - Starting Game...";
+                        StartMatch();
                     }));
+                    break;
+                default:
+                    //ANY OTHER MESSAGE WILL BE FORWARDED TO THE BoardPVP
+                    _CurrentBoardPVP.ReceiveMesageFromServer(DATARECEIVED);
                     break;
             }
         }
@@ -137,7 +148,25 @@ namespace DungeonDiceMonsters
         #region Private Methods
         private void StartMatch()
         {
+            //Start by having a 3 sec delay to pace of opening the baord form
+            BoardForm.WaitNSeconds(3000);
 
+            //Then Generate the PlayerData objects from each player to launch the 
+            PlayerData user = new PlayerData(GameData.Name, _CurrentDeckSelected);
+            PlayerData opponent = new PlayerData(_OpponentName, _OpponentsDeck);            
+
+            if(MyColor == PlayerColor.RED)                   
+            {
+                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns);
+                Hide();
+                _CurrentBoardPVP.Show();
+            }
+            else
+            {
+                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns);
+                Hide();
+                _CurrentBoardPVP.Show();
+            }           
         }
         #endregion
 

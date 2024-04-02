@@ -2,6 +2,7 @@
 //4/1/2024
 //Server Form
 
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -23,9 +24,9 @@ namespace DDMPvPServer
         static readonly Dictionary<int, Match> list_Matches = new Dictionary<int, Match>();
         static int clinetcount = 1;
         static int matchcount = 1;
-        static TcpListener ServerSocket;
-        static TextBox txtStaticConnectionLog;
-        static TextBox txtStaticMatchOutput;
+        static TcpListener? ServerSocket;
+        static TextBox? txtStaticConnectionLog;
+        static TextBox? txtStaticMatchOutput;
         Thread waitingforclients;
 
 
@@ -96,19 +97,7 @@ namespace DDMPvPServer
                 //Step 2: Set the Client's Player Color
                 PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
 
-                //Step 3: Set the ref to the Opponent TcpClient Object in case we need to 
-                //forward message to it also its color
-                //WARNING, if no oppent has been matched, dont do this.                
-                PlayerColor OpponentPlayerColor = PlayerColor.NONE;
-                if (ActiveMatch.IsMatchFull())
-                {
-                    int OpponentClientID = -1;
-                    OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
-                    Opponetclient = list_clients[OpponentClientID];
-                    OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
-                }
-
-                //Step 4: Extract the data received from this call (AKA var "data")
+                //Step 3: Extract the data received from this call (AKA var "data")
                 NetworkStream stream = client.GetStream();
                 byte[] buffer = new byte[1024];
                 int byte_count = stream.Read(buffer, 0, buffer.Length);
@@ -132,11 +121,23 @@ namespace DDMPvPServer
                         ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
                         if (ActiveMatch.AreBothPlayersReady())
                         {
+                            int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                            Opponetclient = list_clients[OpponentClientIDA];
+                            PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
                             //Send the opponent player the Clients Deck Info
                             string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
                             string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
                             SendMessage(string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo), Opponetclient);
                         }
+                        break;
+
+                    //In this case, one of the player click the "View Board" button on the Turn Start Panel.
+                    //The opponent player will receive this message and update the UI to reflect this action.
+                    //We are just forwarding original message, no need to restructure it.
+                    case "[View Board Action]":
+                        int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                        Opponetclient = list_clients[OpponentClientID];
+                        SendMessage(data, Opponetclient);
                         break;
                 }
 
@@ -164,7 +165,7 @@ namespace DDMPvPServer
         }
         private static void UpdateConnectionLog(string message)
         {
-            txtStaticConnectionLog.AppendText(message);
+            //txtStaticConnectionLog.AppendText(message);
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -199,8 +200,8 @@ namespace DDMPvPServer
         }
         private static void UpdateMatchLogsDiplay(Match activeMatch)
         {
-            txtStaticMatchOutput.Clear();
-            txtStaticMatchOutput.Text = activeMatch.GetLogs();
+            //txtStaticMatchOutput.Clear();
+            //txtStaticMatchOutput.Text = activeMatch.GetLogs();
         }
     }
 }

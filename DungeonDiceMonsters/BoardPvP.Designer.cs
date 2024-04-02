@@ -104,6 +104,48 @@
             this.lblDebugSouthAdj = new System.Windows.Forms.Label();
             this.lblDebugNorthAdj = new System.Windows.Forms.Label();
             this.lblDebugTileID = new System.Windows.Forms.Label();
+            this.PanelTurnStartMenu = new System.Windows.Forms.Panel();
+            this.btnViewBoard = new System.Windows.Forms.Button();
+            this.btnRoll = new System.Windows.Forms.Button();
+            this.lblTurnStartMessage = new System.Windows.Forms.Label();
+            this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
+            this.btnEndTurn = new System.Windows.Forms.Button();
+            this.lblSummonMessage = new System.Windows.Forms.Label();
+            this.PanelBattleMenu = new System.Windows.Forms.Panel();
+            this.PicDefender2 = new System.Windows.Forms.Panel();
+            this.PicDefenderDestroyed = new System.Windows.Forms.PictureBox();
+            this.btnEndBattle = new System.Windows.Forms.Button();
+            this.PicAttacker = new System.Windows.Forms.Panel();
+            this.PicAttackerDestroyed = new System.Windows.Forms.PictureBox();
+            this.lblDefenderCrestCount = new System.Windows.Forms.Label();
+            this.lblAttackerCrestCount = new System.Windows.Forms.Label();
+            this.PanelDefenderAdvBonus = new System.Windows.Forms.Panel();
+            this.lblBattleMenuDEFAdvLabel = new System.Windows.Forms.Label();
+            this.PicBattleMenuDEFIcon = new System.Windows.Forms.PictureBox();
+            this.lblDefenderAdvMinus = new System.Windows.Forms.Label();
+            this.lblDefenderAdvPlus = new System.Windows.Forms.Label();
+            this.lblDefenderBonusCrest = new System.Windows.Forms.Label();
+            this.PanelAttackerAdvBonus = new System.Windows.Forms.Panel();
+            this.lblBattleMenuATAAdvLabel = new System.Windows.Forms.Label();
+            this.PicBattleMenuATKIcon = new System.Windows.Forms.PictureBox();
+            this.lblAttackerAdvMinus = new System.Windows.Forms.Label();
+            this.lblAttackerAdvPlus = new System.Windows.Forms.Label();
+            this.lblAttackerBonusCrest = new System.Windows.Forms.Label();
+            this.lblBattleMenuDEFLP = new System.Windows.Forms.Label();
+            this.lblBattleMenuATALP = new System.Windows.Forms.Label();
+            this.lblDefenderBonus = new System.Windows.Forms.Label();
+            this.lblAttackerBonus = new System.Windows.Forms.Label();
+            this.btnBattleMenuDontDefend = new System.Windows.Forms.Button();
+            this.btnBattleMenuDefend = new System.Windows.Forms.Button();
+            this.lblBattleMenuDamage = new System.Windows.Forms.Label();
+            this.PicBattleMenuAttackArrow = new System.Windows.Forms.PictureBox();
+            this.btnBattleMenuAttack = new System.Windows.Forms.Button();
+            this.lblDefenderDEF = new System.Windows.Forms.Label();
+            this.lblAttackerATK = new System.Windows.Forms.Label();
+            this.lblAttacker = new System.Windows.Forms.Label();
+            this.lblDefender = new System.Windows.Forms.Label();
+            this.lblSetCardMessage = new System.Windows.Forms.Label();
+            this.lblTurnStartInactiveWarning = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -129,6 +171,17 @@
             this.PanelDimenFormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCurrentForm)).BeginInit();
             this.PanelDebug.SuspendLayout();
+            this.PanelTurnStartMenu.SuspendLayout();
+            this.PanelBattleMenu.SuspendLayout();
+            this.PicDefender2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).BeginInit();
+            this.PicAttacker.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).BeginInit();
+            this.PanelDefenderAdvBonus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuDEFIcon)).BeginInit();
+            this.PanelAttackerAdvBonus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -650,6 +703,7 @@
             this.PanelCardInfo.Name = "PanelCardInfo";
             this.PanelCardInfo.Size = new System.Drawing.Size(214, 237);
             this.PanelCardInfo.TabIndex = 5;
+            this.PanelCardInfo.Visible = false;
             // 
             // lblStatsLP
             // 
@@ -999,6 +1053,534 @@
             this.lblDebugTileID.TabIndex = 0;
             this.lblDebugTileID.Text = "Tile ID:";
             // 
+            // PanelTurnStartMenu
+            // 
+            this.PanelTurnStartMenu.BackColor = System.Drawing.Color.DimGray;
+            this.PanelTurnStartMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelTurnStartMenu.BackgroundImage")));
+            this.PanelTurnStartMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartInactiveWarning);
+            this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
+            this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
+            this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartMessage);
+            this.PanelTurnStartMenu.Location = new System.Drawing.Point(238, 322);
+            this.PanelTurnStartMenu.Name = "PanelTurnStartMenu";
+            this.PanelTurnStartMenu.Size = new System.Drawing.Size(451, 248);
+            this.PanelTurnStartMenu.TabIndex = 22;
+            this.PanelTurnStartMenu.Visible = false;
+            // 
+            // btnViewBoard
+            // 
+            this.btnViewBoard.BackColor = System.Drawing.Color.Black;
+            this.btnViewBoard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewBoard.ForeColor = System.Drawing.Color.White;
+            this.btnViewBoard.Location = new System.Drawing.Point(241, 67);
+            this.btnViewBoard.Name = "btnViewBoard";
+            this.btnViewBoard.Size = new System.Drawing.Size(182, 129);
+            this.btnViewBoard.TabIndex = 2;
+            this.btnViewBoard.Text = "View Board";
+            this.btnViewBoard.UseVisualStyleBackColor = false;
+            this.btnViewBoard.Click += new System.EventHandler(this.btnViewBoard_Click);
+            // 
+            // btnRoll
+            // 
+            this.btnRoll.BackColor = System.Drawing.Color.Black;
+            this.btnRoll.Font = new System.Drawing.Font("Arial Rounded MT Bold", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRoll.ForeColor = System.Drawing.Color.White;
+            this.btnRoll.Location = new System.Drawing.Point(25, 67);
+            this.btnRoll.Name = "btnRoll";
+            this.btnRoll.Size = new System.Drawing.Size(182, 129);
+            this.btnRoll.TabIndex = 1;
+            this.btnRoll.Text = "Roll Dice!";
+            this.btnRoll.UseVisualStyleBackColor = false;
+            this.btnRoll.Click += new System.EventHandler(this.btnRoll_Click);
+            // 
+            // lblTurnStartMessage
+            // 
+            this.lblTurnStartMessage.AutoSize = true;
+            this.lblTurnStartMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblTurnStartMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurnStartMessage.ForeColor = System.Drawing.Color.White;
+            this.lblTurnStartMessage.Location = new System.Drawing.Point(19, 16);
+            this.lblTurnStartMessage.Name = "lblTurnStartMessage";
+            this.lblTurnStartMessage.Size = new System.Drawing.Size(173, 24);
+            this.lblTurnStartMessage.TabIndex = 0;
+            this.lblTurnStartMessage.Text = "Red\'s Turn Start";
+            // 
+            // btnReturnToTurnMenu
+            // 
+            this.btnReturnToTurnMenu.BackColor = System.Drawing.Color.Maroon;
+            this.btnReturnToTurnMenu.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReturnToTurnMenu.ForeColor = System.Drawing.Color.White;
+            this.btnReturnToTurnMenu.Location = new System.Drawing.Point(26, 422);
+            this.btnReturnToTurnMenu.Name = "btnReturnToTurnMenu";
+            this.btnReturnToTurnMenu.Size = new System.Drawing.Size(93, 60);
+            this.btnReturnToTurnMenu.TabIndex = 23;
+            this.btnReturnToTurnMenu.Text = "Exit Board View Mode";
+            this.btnReturnToTurnMenu.UseVisualStyleBackColor = false;
+            this.btnReturnToTurnMenu.Visible = false;
+            // 
+            // btnEndTurn
+            // 
+            this.btnEndTurn.BackColor = System.Drawing.Color.Maroon;
+            this.btnEndTurn.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEndTurn.ForeColor = System.Drawing.Color.White;
+            this.btnEndTurn.Location = new System.Drawing.Point(26, 487);
+            this.btnEndTurn.Name = "btnEndTurn";
+            this.btnEndTurn.Size = new System.Drawing.Size(93, 60);
+            this.btnEndTurn.TabIndex = 25;
+            this.btnEndTurn.Text = "END TURN";
+            this.btnEndTurn.UseVisualStyleBackColor = false;
+            this.btnEndTurn.Visible = false;
+            // 
+            // lblSummonMessage
+            // 
+            this.lblSummonMessage.BackColor = System.Drawing.Color.Gold;
+            this.lblSummonMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSummonMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummonMessage.Location = new System.Drawing.Point(9, 370);
+            this.lblSummonMessage.Name = "lblSummonMessage";
+            this.lblSummonMessage.Size = new System.Drawing.Size(134, 47);
+            this.lblSummonMessage.TabIndex = 24;
+            this.lblSummonMessage.Text = "Select Tile to Dimension the Dice!";
+            this.lblSummonMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSummonMessage.Visible = false;
+            // 
+            // PanelBattleMenu
+            // 
+            this.PanelBattleMenu.BackColor = System.Drawing.Color.Transparent;
+            this.PanelBattleMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelBattleMenu.BackgroundImage")));
+            this.PanelBattleMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelBattleMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBattleMenu.Controls.Add(this.PicDefender2);
+            this.PanelBattleMenu.Controls.Add(this.btnEndBattle);
+            this.PanelBattleMenu.Controls.Add(this.PicAttacker);
+            this.PanelBattleMenu.Controls.Add(this.lblDefenderCrestCount);
+            this.PanelBattleMenu.Controls.Add(this.lblAttackerCrestCount);
+            this.PanelBattleMenu.Controls.Add(this.PanelDefenderAdvBonus);
+            this.PanelBattleMenu.Controls.Add(this.PanelAttackerAdvBonus);
+            this.PanelBattleMenu.Controls.Add(this.lblBattleMenuDEFLP);
+            this.PanelBattleMenu.Controls.Add(this.lblBattleMenuATALP);
+            this.PanelBattleMenu.Controls.Add(this.lblDefenderBonus);
+            this.PanelBattleMenu.Controls.Add(this.lblAttackerBonus);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuDontDefend);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuDefend);
+            this.PanelBattleMenu.Controls.Add(this.lblBattleMenuDamage);
+            this.PanelBattleMenu.Controls.Add(this.PicBattleMenuAttackArrow);
+            this.PanelBattleMenu.Controls.Add(this.btnBattleMenuAttack);
+            this.PanelBattleMenu.Controls.Add(this.lblDefenderDEF);
+            this.PanelBattleMenu.Controls.Add(this.lblAttackerATK);
+            this.PanelBattleMenu.Controls.Add(this.lblAttacker);
+            this.PanelBattleMenu.Controls.Add(this.lblDefender);
+            this.PanelBattleMenu.Location = new System.Drawing.Point(788, 247);
+            this.PanelBattleMenu.Name = "PanelBattleMenu";
+            this.PanelBattleMenu.Size = new System.Drawing.Size(517, 375);
+            this.PanelBattleMenu.TabIndex = 26;
+            this.PanelBattleMenu.Visible = false;
+            // 
+            // PicDefender2
+            // 
+            this.PicDefender2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicDefender2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicDefender2.Controls.Add(this.PicDefenderDestroyed);
+            this.PicDefender2.Location = new System.Drawing.Point(365, 34);
+            this.PicDefender2.Name = "PicDefender2";
+            this.PicDefender2.Size = new System.Drawing.Size(142, 202);
+            this.PicDefender2.TabIndex = 40;
+            // 
+            // PicDefenderDestroyed
+            // 
+            this.PicDefenderDestroyed.BackColor = System.Drawing.Color.Transparent;
+            this.PicDefenderDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicDefenderDestroyed.Image")));
+            this.PicDefenderDestroyed.Location = new System.Drawing.Point(16, 37);
+            this.PicDefenderDestroyed.Name = "PicDefenderDestroyed";
+            this.PicDefenderDestroyed.Size = new System.Drawing.Size(107, 104);
+            this.PicDefenderDestroyed.TabIndex = 39;
+            this.PicDefenderDestroyed.TabStop = false;
+            // 
+            // btnEndBattle
+            // 
+            this.btnEndBattle.BackColor = System.Drawing.Color.DarkOrchid;
+            this.btnEndBattle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEndBattle.ForeColor = System.Drawing.Color.Black;
+            this.btnEndBattle.Location = new System.Drawing.Point(212, 310);
+            this.btnEndBattle.Name = "btnEndBattle";
+            this.btnEndBattle.Size = new System.Drawing.Size(112, 59);
+            this.btnEndBattle.TabIndex = 42;
+            this.btnEndBattle.Text = "End Battle";
+            this.btnEndBattle.UseVisualStyleBackColor = false;
+            this.btnEndBattle.Visible = false;
+            // 
+            // PicAttacker
+            // 
+            this.PicAttacker.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicAttacker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicAttacker.Controls.Add(this.PicAttackerDestroyed);
+            this.PicAttacker.Location = new System.Drawing.Point(12, 34);
+            this.PicAttacker.Name = "PicAttacker";
+            this.PicAttacker.Size = new System.Drawing.Size(142, 202);
+            this.PicAttacker.TabIndex = 41;
+            // 
+            // PicAttackerDestroyed
+            // 
+            this.PicAttackerDestroyed.BackColor = System.Drawing.Color.Transparent;
+            this.PicAttackerDestroyed.Image = ((System.Drawing.Image)(resources.GetObject("PicAttackerDestroyed.Image")));
+            this.PicAttackerDestroyed.Location = new System.Drawing.Point(16, 37);
+            this.PicAttackerDestroyed.Name = "PicAttackerDestroyed";
+            this.PicAttackerDestroyed.Size = new System.Drawing.Size(107, 104);
+            this.PicAttackerDestroyed.TabIndex = 39;
+            this.PicAttackerDestroyed.TabStop = false;
+            // 
+            // lblDefenderCrestCount
+            // 
+            this.lblDefenderCrestCount.AutoSize = true;
+            this.lblDefenderCrestCount.BackColor = System.Drawing.Color.Transparent;
+            this.lblDefenderCrestCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderCrestCount.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderCrestCount.Location = new System.Drawing.Point(342, 290);
+            this.lblDefenderCrestCount.Name = "lblDefenderCrestCount";
+            this.lblDefenderCrestCount.Size = new System.Drawing.Size(167, 18);
+            this.lblDefenderCrestCount.TabIndex = 38;
+            this.lblDefenderCrestCount.Text = "Crests to be used: 1";
+            // 
+            // lblAttackerCrestCount
+            // 
+            this.lblAttackerCrestCount.AutoSize = true;
+            this.lblAttackerCrestCount.BackColor = System.Drawing.Color.Transparent;
+            this.lblAttackerCrestCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerCrestCount.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerCrestCount.Location = new System.Drawing.Point(3, 293);
+            this.lblAttackerCrestCount.Name = "lblAttackerCrestCount";
+            this.lblAttackerCrestCount.Size = new System.Drawing.Size(167, 18);
+            this.lblAttackerCrestCount.TabIndex = 37;
+            this.lblAttackerCrestCount.Text = "Crests to be used: 1";
+            // 
+            // PanelDefenderAdvBonus
+            // 
+            this.PanelDefenderAdvBonus.Controls.Add(this.lblBattleMenuDEFAdvLabel);
+            this.PanelDefenderAdvBonus.Controls.Add(this.PicBattleMenuDEFIcon);
+            this.PanelDefenderAdvBonus.Controls.Add(this.lblDefenderAdvMinus);
+            this.PanelDefenderAdvBonus.Controls.Add(this.lblDefenderAdvPlus);
+            this.PanelDefenderAdvBonus.Controls.Add(this.lblDefenderBonusCrest);
+            this.PanelDefenderAdvBonus.Location = new System.Drawing.Point(345, 239);
+            this.PanelDefenderAdvBonus.Name = "PanelDefenderAdvBonus";
+            this.PanelDefenderAdvBonus.Size = new System.Drawing.Size(162, 53);
+            this.PanelDefenderAdvBonus.TabIndex = 36;
+            this.PanelDefenderAdvBonus.Visible = false;
+            // 
+            // lblBattleMenuDEFAdvLabel
+            // 
+            this.lblBattleMenuDEFAdvLabel.AutoSize = true;
+            this.lblBattleMenuDEFAdvLabel.BackColor = System.Drawing.Color.Transparent;
+            this.lblBattleMenuDEFAdvLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuDEFAdvLabel.ForeColor = System.Drawing.Color.White;
+            this.lblBattleMenuDEFAdvLabel.Location = new System.Drawing.Point(3, -2);
+            this.lblBattleMenuDEFAdvLabel.Name = "lblBattleMenuDEFAdvLabel";
+            this.lblBattleMenuDEFAdvLabel.Size = new System.Drawing.Size(155, 18);
+            this.lblBattleMenuDEFAdvLabel.TabIndex = 21;
+            this.lblBattleMenuDEFAdvLabel.Text = "Advantage Bonus:";
+            // 
+            // PicBattleMenuDEFIcon
+            // 
+            this.PicBattleMenuDEFIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBattleMenuDEFIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicBattleMenuDEFIcon.Image")));
+            this.PicBattleMenuDEFIcon.Location = new System.Drawing.Point(20, 22);
+            this.PicBattleMenuDEFIcon.Name = "PicBattleMenuDEFIcon";
+            this.PicBattleMenuDEFIcon.Size = new System.Drawing.Size(30, 30);
+            this.PicBattleMenuDEFIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBattleMenuDEFIcon.TabIndex = 22;
+            this.PicBattleMenuDEFIcon.TabStop = false;
+            // 
+            // lblDefenderAdvMinus
+            // 
+            this.lblDefenderAdvMinus.BackColor = System.Drawing.Color.Black;
+            this.lblDefenderAdvMinus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDefenderAdvMinus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderAdvMinus.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderAdvMinus.Location = new System.Drawing.Point(55, 27);
+            this.lblDefenderAdvMinus.Name = "lblDefenderAdvMinus";
+            this.lblDefenderAdvMinus.Size = new System.Drawing.Size(19, 19);
+            this.lblDefenderAdvMinus.TabIndex = 30;
+            this.lblDefenderAdvMinus.Text = "-";
+            // 
+            // lblDefenderAdvPlus
+            // 
+            this.lblDefenderAdvPlus.BackColor = System.Drawing.Color.Black;
+            this.lblDefenderAdvPlus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDefenderAdvPlus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderAdvPlus.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderAdvPlus.Location = new System.Drawing.Point(105, 27);
+            this.lblDefenderAdvPlus.Name = "lblDefenderAdvPlus";
+            this.lblDefenderAdvPlus.Size = new System.Drawing.Size(19, 19);
+            this.lblDefenderAdvPlus.TabIndex = 31;
+            this.lblDefenderAdvPlus.Text = "+";
+            // 
+            // lblDefenderBonusCrest
+            // 
+            this.lblDefenderBonusCrest.BackColor = System.Drawing.Color.Black;
+            this.lblDefenderBonusCrest.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDefenderBonusCrest.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderBonusCrest.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderBonusCrest.Location = new System.Drawing.Point(80, 27);
+            this.lblDefenderBonusCrest.Name = "lblDefenderBonusCrest";
+            this.lblDefenderBonusCrest.Size = new System.Drawing.Size(19, 19);
+            this.lblDefenderBonusCrest.TabIndex = 32;
+            this.lblDefenderBonusCrest.Text = "0";
+            // 
+            // PanelAttackerAdvBonus
+            // 
+            this.PanelAttackerAdvBonus.Controls.Add(this.lblBattleMenuATAAdvLabel);
+            this.PanelAttackerAdvBonus.Controls.Add(this.PicBattleMenuATKIcon);
+            this.PanelAttackerAdvBonus.Controls.Add(this.lblAttackerAdvMinus);
+            this.PanelAttackerAdvBonus.Controls.Add(this.lblAttackerAdvPlus);
+            this.PanelAttackerAdvBonus.Controls.Add(this.lblAttackerBonusCrest);
+            this.PanelAttackerAdvBonus.Location = new System.Drawing.Point(8, 238);
+            this.PanelAttackerAdvBonus.Name = "PanelAttackerAdvBonus";
+            this.PanelAttackerAdvBonus.Size = new System.Drawing.Size(162, 54);
+            this.PanelAttackerAdvBonus.TabIndex = 35;
+            this.PanelAttackerAdvBonus.Visible = false;
+            // 
+            // lblBattleMenuATAAdvLabel
+            // 
+            this.lblBattleMenuATAAdvLabel.AutoSize = true;
+            this.lblBattleMenuATAAdvLabel.BackColor = System.Drawing.Color.Transparent;
+            this.lblBattleMenuATAAdvLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuATAAdvLabel.ForeColor = System.Drawing.Color.White;
+            this.lblBattleMenuATAAdvLabel.Location = new System.Drawing.Point(1, -1);
+            this.lblBattleMenuATAAdvLabel.Name = "lblBattleMenuATAAdvLabel";
+            this.lblBattleMenuATAAdvLabel.Size = new System.Drawing.Size(155, 18);
+            this.lblBattleMenuATAAdvLabel.TabIndex = 19;
+            this.lblBattleMenuATAAdvLabel.Text = "Advantage Bonus:";
+            // 
+            // PicBattleMenuATKIcon
+            // 
+            this.PicBattleMenuATKIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBattleMenuATKIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicBattleMenuATKIcon.Image")));
+            this.PicBattleMenuATKIcon.Location = new System.Drawing.Point(15, 21);
+            this.PicBattleMenuATKIcon.Name = "PicBattleMenuATKIcon";
+            this.PicBattleMenuATKIcon.Size = new System.Drawing.Size(30, 30);
+            this.PicBattleMenuATKIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBattleMenuATKIcon.TabIndex = 16;
+            this.PicBattleMenuATKIcon.TabStop = false;
+            // 
+            // lblAttackerAdvMinus
+            // 
+            this.lblAttackerAdvMinus.BackColor = System.Drawing.Color.Black;
+            this.lblAttackerAdvMinus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAttackerAdvMinus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerAdvMinus.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerAdvMinus.Location = new System.Drawing.Point(50, 28);
+            this.lblAttackerAdvMinus.Name = "lblAttackerAdvMinus";
+            this.lblAttackerAdvMinus.Size = new System.Drawing.Size(19, 19);
+            this.lblAttackerAdvMinus.TabIndex = 25;
+            this.lblAttackerAdvMinus.Text = "-";
+            // 
+            // lblAttackerAdvPlus
+            // 
+            this.lblAttackerAdvPlus.BackColor = System.Drawing.Color.Black;
+            this.lblAttackerAdvPlus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAttackerAdvPlus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerAdvPlus.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerAdvPlus.Location = new System.Drawing.Point(99, 28);
+            this.lblAttackerAdvPlus.Name = "lblAttackerAdvPlus";
+            this.lblAttackerAdvPlus.Size = new System.Drawing.Size(19, 19);
+            this.lblAttackerAdvPlus.TabIndex = 26;
+            this.lblAttackerAdvPlus.Text = "+";
+            // 
+            // lblAttackerBonusCrest
+            // 
+            this.lblAttackerBonusCrest.BackColor = System.Drawing.Color.Black;
+            this.lblAttackerBonusCrest.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAttackerBonusCrest.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerBonusCrest.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerBonusCrest.Location = new System.Drawing.Point(74, 28);
+            this.lblAttackerBonusCrest.Name = "lblAttackerBonusCrest";
+            this.lblAttackerBonusCrest.Size = new System.Drawing.Size(19, 19);
+            this.lblAttackerBonusCrest.TabIndex = 27;
+            this.lblAttackerBonusCrest.Text = "0";
+            // 
+            // lblBattleMenuDEFLP
+            // 
+            this.lblBattleMenuDEFLP.AutoSize = true;
+            this.lblBattleMenuDEFLP.BackColor = System.Drawing.Color.Transparent;
+            this.lblBattleMenuDEFLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuDEFLP.ForeColor = System.Drawing.Color.White;
+            this.lblBattleMenuDEFLP.Location = new System.Drawing.Point(429, 10);
+            this.lblBattleMenuDEFLP.Name = "lblBattleMenuDEFLP";
+            this.lblBattleMenuDEFLP.Size = new System.Drawing.Size(78, 18);
+            this.lblBattleMenuDEFLP.TabIndex = 34;
+            this.lblBattleMenuDEFLP.Text = "LP: 1600";
+            // 
+            // lblBattleMenuATALP
+            // 
+            this.lblBattleMenuATALP.AutoSize = true;
+            this.lblBattleMenuATALP.BackColor = System.Drawing.Color.Transparent;
+            this.lblBattleMenuATALP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuATALP.ForeColor = System.Drawing.Color.White;
+            this.lblBattleMenuATALP.Location = new System.Drawing.Point(86, 11);
+            this.lblBattleMenuATALP.Name = "lblBattleMenuATALP";
+            this.lblBattleMenuATALP.Size = new System.Drawing.Size(78, 18);
+            this.lblBattleMenuATALP.TabIndex = 33;
+            this.lblBattleMenuATALP.Text = "LP: 1600";
+            // 
+            // lblDefenderBonus
+            // 
+            this.lblDefenderBonus.AutoSize = true;
+            this.lblDefenderBonus.BackColor = System.Drawing.Color.Transparent;
+            this.lblDefenderBonus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderBonus.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderBonus.Location = new System.Drawing.Point(212, 176);
+            this.lblDefenderBonus.Name = "lblDefenderBonus";
+            this.lblDefenderBonus.Size = new System.Drawing.Size(90, 17);
+            this.lblDefenderBonus.TabIndex = 29;
+            this.lblDefenderBonus.Text = "Bonus: 200";
+            this.lblDefenderBonus.Visible = false;
+            // 
+            // lblAttackerBonus
+            // 
+            this.lblAttackerBonus.AutoSize = true;
+            this.lblAttackerBonus.BackColor = System.Drawing.Color.Transparent;
+            this.lblAttackerBonus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerBonus.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerBonus.Location = new System.Drawing.Point(209, 66);
+            this.lblAttackerBonus.Name = "lblAttackerBonus";
+            this.lblAttackerBonus.Size = new System.Drawing.Size(90, 17);
+            this.lblAttackerBonus.TabIndex = 28;
+            this.lblAttackerBonus.Text = "Bonus: 200";
+            this.lblAttackerBonus.Visible = false;
+            // 
+            // btnBattleMenuDontDefend
+            // 
+            this.btnBattleMenuDontDefend.BackColor = System.Drawing.Color.DarkRed;
+            this.btnBattleMenuDontDefend.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuDontDefend.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuDontDefend.Location = new System.Drawing.Point(372, 339);
+            this.btnBattleMenuDontDefend.Name = "btnBattleMenuDontDefend";
+            this.btnBattleMenuDontDefend.Size = new System.Drawing.Size(116, 30);
+            this.btnBattleMenuDontDefend.TabIndex = 24;
+            this.btnBattleMenuDontDefend.Text = "No Defend";
+            this.btnBattleMenuDontDefend.UseVisualStyleBackColor = false;
+            // 
+            // btnBattleMenuDefend
+            // 
+            this.btnBattleMenuDefend.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnBattleMenuDefend.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuDefend.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuDefend.Location = new System.Drawing.Point(372, 308);
+            this.btnBattleMenuDefend.Name = "btnBattleMenuDefend";
+            this.btnBattleMenuDefend.Size = new System.Drawing.Size(116, 30);
+            this.btnBattleMenuDefend.TabIndex = 23;
+            this.btnBattleMenuDefend.Text = "Defend!!";
+            this.btnBattleMenuDefend.UseVisualStyleBackColor = false;
+            // 
+            // lblBattleMenuDamage
+            // 
+            this.lblBattleMenuDamage.AutoSize = true;
+            this.lblBattleMenuDamage.BackColor = System.Drawing.Color.Black;
+            this.lblBattleMenuDamage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleMenuDamage.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblBattleMenuDamage.Location = new System.Drawing.Point(165, 207);
+            this.lblBattleMenuDamage.Name = "lblBattleMenuDamage";
+            this.lblBattleMenuDamage.Size = new System.Drawing.Size(178, 28);
+            this.lblBattleMenuDamage.TabIndex = 18;
+            this.lblBattleMenuDamage.Text = "Damage: 9999";
+            // 
+            // PicBattleMenuAttackArrow
+            // 
+            this.PicBattleMenuAttackArrow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBattleMenuAttackArrow.Image = ((System.Drawing.Image)(resources.GetObject("PicBattleMenuAttackArrow.Image")));
+            this.PicBattleMenuAttackArrow.Location = new System.Drawing.Point(232, 93);
+            this.PicBattleMenuAttackArrow.Name = "PicBattleMenuAttackArrow";
+            this.PicBattleMenuAttackArrow.Size = new System.Drawing.Size(50, 50);
+            this.PicBattleMenuAttackArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBattleMenuAttackArrow.TabIndex = 17;
+            this.PicBattleMenuAttackArrow.TabStop = false;
+            // 
+            // btnBattleMenuAttack
+            // 
+            this.btnBattleMenuAttack.BackColor = System.Drawing.Color.Black;
+            this.btnBattleMenuAttack.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBattleMenuAttack.ForeColor = System.Drawing.Color.White;
+            this.btnBattleMenuAttack.Location = new System.Drawing.Point(11, 313);
+            this.btnBattleMenuAttack.Name = "btnBattleMenuAttack";
+            this.btnBattleMenuAttack.Size = new System.Drawing.Size(134, 33);
+            this.btnBattleMenuAttack.TabIndex = 15;
+            this.btnBattleMenuAttack.Text = "Attack!!";
+            this.btnBattleMenuAttack.UseVisualStyleBackColor = false;
+            // 
+            // lblDefenderDEF
+            // 
+            this.lblDefenderDEF.AutoSize = true;
+            this.lblDefenderDEF.BackColor = System.Drawing.Color.Transparent;
+            this.lblDefenderDEF.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefenderDEF.ForeColor = System.Drawing.Color.White;
+            this.lblDefenderDEF.Location = new System.Drawing.Point(201, 150);
+            this.lblDefenderDEF.Name = "lblDefenderDEF";
+            this.lblDefenderDEF.Size = new System.Drawing.Size(113, 24);
+            this.lblDefenderDEF.TabIndex = 14;
+            this.lblDefenderDEF.Text = "DEF: 1000";
+            // 
+            // lblAttackerATK
+            // 
+            this.lblAttackerATK.AutoSize = true;
+            this.lblAttackerATK.BackColor = System.Drawing.Color.Transparent;
+            this.lblAttackerATK.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerATK.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerATK.Location = new System.Drawing.Point(200, 39);
+            this.lblAttackerATK.Name = "lblAttackerATK";
+            this.lblAttackerATK.Size = new System.Drawing.Size(114, 24);
+            this.lblAttackerATK.TabIndex = 13;
+            this.lblAttackerATK.Text = "ATK: 1800";
+            // 
+            // lblAttacker
+            // 
+            this.lblAttacker.AutoSize = true;
+            this.lblAttacker.BackColor = System.Drawing.Color.Transparent;
+            this.lblAttacker.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttacker.ForeColor = System.Drawing.Color.White;
+            this.lblAttacker.Location = new System.Drawing.Point(4, 11);
+            this.lblAttacker.Name = "lblAttacker";
+            this.lblAttacker.Size = new System.Drawing.Size(78, 18);
+            this.lblAttacker.TabIndex = 11;
+            this.lblAttacker.Text = "Attacker";
+            // 
+            // lblDefender
+            // 
+            this.lblDefender.AutoSize = true;
+            this.lblDefender.BackColor = System.Drawing.Color.Transparent;
+            this.lblDefender.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefender.ForeColor = System.Drawing.Color.White;
+            this.lblDefender.Location = new System.Drawing.Point(345, 10);
+            this.lblDefender.Name = "lblDefender";
+            this.lblDefender.Size = new System.Drawing.Size(82, 18);
+            this.lblDefender.TabIndex = 12;
+            this.lblDefender.Text = "Defender";
+            // 
+            // lblSetCardMessage
+            // 
+            this.lblSetCardMessage.BackColor = System.Drawing.Color.Green;
+            this.lblSetCardMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSetCardMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetCardMessage.Location = new System.Drawing.Point(11, 326);
+            this.lblSetCardMessage.Name = "lblSetCardMessage";
+            this.lblSetCardMessage.Size = new System.Drawing.Size(134, 37);
+            this.lblSetCardMessage.TabIndex = 27;
+            this.lblSetCardMessage.Text = "Select Tile to Set Card";
+            this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblSetCardMessage.Visible = false;
+            // 
+            // lblTurnStartInactiveWarning
+            // 
+            this.lblTurnStartInactiveWarning.AutoSize = true;
+            this.lblTurnStartInactiveWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblTurnStartInactiveWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurnStartInactiveWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTurnStartInactiveWarning.Location = new System.Drawing.Point(3, 218);
+            this.lblTurnStartInactiveWarning.Name = "lblTurnStartInactiveWarning";
+            this.lblTurnStartInactiveWarning.Size = new System.Drawing.Size(290, 24);
+            this.lblTurnStartInactiveWarning.TabIndex = 3;
+            this.lblTurnStartInactiveWarning.Text = "Opponent is taking action...";
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1006,17 +1588,24 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 906);
+            this.Controls.Add(this.lblSetCardMessage);
+            this.Controls.Add(this.btnEndTurn);
+            this.Controls.Add(this.lblSummonMessage);
+            this.Controls.Add(this.btnReturnToTurnMenu);
+            this.Controls.Add(this.PanelTurnStartMenu);
             this.Controls.Add(this.PanelDebug);
             this.Controls.Add(this.PanelDimenFormSelector);
             this.Controls.Add(this.PanelCardInfo);
             this.Controls.Add(this.PanelBoard);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.PanelBluePlayer);
+            this.Controls.Add(this.PanelBattleMenu);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MinimizeBox = false;
             this.Name = "BoardPvP";
-            this.Text = "BoardPvP";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Dungeon Dice Monsters";
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).EndInit();
@@ -1046,6 +1635,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicCurrentForm)).EndInit();
             this.PanelDebug.ResumeLayout(false);
             this.PanelDebug.PerformLayout();
+            this.PanelTurnStartMenu.ResumeLayout(false);
+            this.PanelTurnStartMenu.PerformLayout();
+            this.PanelBattleMenu.ResumeLayout(false);
+            this.PanelBattleMenu.PerformLayout();
+            this.PicDefender2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicDefenderDestroyed)).EndInit();
+            this.PicAttacker.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicAttackerDestroyed)).EndInit();
+            this.PanelDefenderAdvBonus.ResumeLayout(false);
+            this.PanelDefenderAdvBonus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuDEFIcon)).EndInit();
+            this.PanelAttackerAdvBonus.ResumeLayout(false);
+            this.PanelAttackerAdvBonus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuAttackArrow)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1127,5 +1731,47 @@
         private System.Windows.Forms.Label lblDebugSouthAdj;
         private System.Windows.Forms.Label lblDebugNorthAdj;
         private System.Windows.Forms.Label lblDebugTileID;
+        private System.Windows.Forms.Panel PanelTurnStartMenu;
+        private System.Windows.Forms.Button btnViewBoard;
+        private System.Windows.Forms.Button btnRoll;
+        private System.Windows.Forms.Label lblTurnStartMessage;
+        private System.Windows.Forms.Button btnReturnToTurnMenu;
+        private System.Windows.Forms.Button btnEndTurn;
+        private System.Windows.Forms.Label lblSummonMessage;
+        private System.Windows.Forms.Panel PanelBattleMenu;
+        private System.Windows.Forms.Panel PicDefender2;
+        private System.Windows.Forms.PictureBox PicDefenderDestroyed;
+        private System.Windows.Forms.Button btnEndBattle;
+        private System.Windows.Forms.Panel PicAttacker;
+        private System.Windows.Forms.PictureBox PicAttackerDestroyed;
+        private System.Windows.Forms.Label lblDefenderCrestCount;
+        private System.Windows.Forms.Label lblAttackerCrestCount;
+        private System.Windows.Forms.Panel PanelDefenderAdvBonus;
+        private System.Windows.Forms.Label lblBattleMenuDEFAdvLabel;
+        private System.Windows.Forms.PictureBox PicBattleMenuDEFIcon;
+        private System.Windows.Forms.Label lblDefenderAdvMinus;
+        private System.Windows.Forms.Label lblDefenderAdvPlus;
+        private System.Windows.Forms.Label lblDefenderBonusCrest;
+        private System.Windows.Forms.Panel PanelAttackerAdvBonus;
+        private System.Windows.Forms.Label lblBattleMenuATAAdvLabel;
+        private System.Windows.Forms.PictureBox PicBattleMenuATKIcon;
+        private System.Windows.Forms.Label lblAttackerAdvMinus;
+        private System.Windows.Forms.Label lblAttackerAdvPlus;
+        private System.Windows.Forms.Label lblAttackerBonusCrest;
+        private System.Windows.Forms.Label lblBattleMenuDEFLP;
+        private System.Windows.Forms.Label lblBattleMenuATALP;
+        private System.Windows.Forms.Label lblDefenderBonus;
+        private System.Windows.Forms.Label lblAttackerBonus;
+        private System.Windows.Forms.Button btnBattleMenuDontDefend;
+        private System.Windows.Forms.Button btnBattleMenuDefend;
+        private System.Windows.Forms.Label lblBattleMenuDamage;
+        private System.Windows.Forms.PictureBox PicBattleMenuAttackArrow;
+        private System.Windows.Forms.Button btnBattleMenuAttack;
+        private System.Windows.Forms.Label lblDefenderDEF;
+        private System.Windows.Forms.Label lblAttackerATK;
+        private System.Windows.Forms.Label lblAttacker;
+        private System.Windows.Forms.Label lblDefender;
+        private System.Windows.Forms.Label lblSetCardMessage;
+        private System.Windows.Forms.Label lblTurnStartInactiveWarning;
     }
 }

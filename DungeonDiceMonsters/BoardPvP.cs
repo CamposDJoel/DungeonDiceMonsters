@@ -1,33 +1,46 @@
-﻿using System;
+﻿//Joel Campos
+//4/2/2024
+//BoardPvP Form
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
     public partial class BoardPvP : Form
     {
-        public BoardPvP()
+        #region Constructors
+        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns)
         {
-            InitializeComponent();
-        }
+            //Save a reference to the NetworkStream of our active client connection to send messages to the server
+            ns = tmpns;
 
-        public BoardPvP(bool test)
-        {
+            //Initialize Music
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+
+            //Initalize Compents
             InitializeComponent();
+
+            //Set Custom Event Listener
+            btnRoll.MouseEnter += OnMouseHoverSound;
+            btnViewBoard.MouseEnter += OnMouseHoverSound;
+            //TODO: btnExit.MouseEnter += OnMouseHoverSound;
+            btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+
+            //Save Ref to each player's data
+            UserPlayerColor = UserColor;
+            RedData = Red; BlueData = Blue;
 
             //Initialize the board tiles
             int tileId = 0;
             int Y_Location = 25;
             for (int x = 0; x < 18; x++)
             {
-                int X_Location = 7;
+                int X_Location = 2;
                 for (int y = 0; y < 13; y++)
                 {
                     //Create each inside picture box
@@ -37,12 +50,11 @@ namespace DungeonDiceMonsters
                     insidePicture.Size = new Size(42, 42);
                     insidePicture.BorderStyle = BorderStyle.None;
                     insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
-                    insidePicture.BackColor = Color.Transparent;
+                    insidePicture.BackColor = System.Drawing.Color.Transparent;
                     insidePicture.Tag = tileId;
-                    insidePicture.Visible = true;
-                    //insidePicture.MouseEnter += OnMouseEnterPicture;
-                    //insidePicture.MouseLeave += OnMouseLeavePicture;
-                    //insidePicture.Click += Tile_Click;
+                    insidePicture.MouseEnter += OnMouseEnterPicture;
+                    insidePicture.MouseLeave += OnMouseLeavePicture;
+                    insidePicture.Click += Tile_Click;
 
                     //Create each border picture box 
                     //(create this one after so it is created "behind" the inside picture
@@ -59,7 +71,7 @@ namespace DungeonDiceMonsters
                     statsLabel.Location = new Point(X_Location + 2, Y_Location + 34);
                     statsLabel.Size = new Size(42, 10);
                     statsLabel.BorderStyle = BorderStyle.None;
-                    statsLabel.ForeColor = Color.White;
+                    statsLabel.ForeColor = System.Drawing.Color.White;
                     statsLabel.Font = new Font("Calibri", 6);
                     //statsLabel.Visible = false;
                     statsLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -117,9 +129,838 @@ namespace DungeonDiceMonsters
                 }
 
             }
+
+            //Set the starting tiles for each player
+            _Tiles[227].ChangeOwner(PlayerOwner.Red);
+            _Tiles[6].ChangeOwner(PlayerOwner.Blue);
+
+            //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
+            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerOwner.Red);
+            RedData.AddSummoningTile(_Tiles[227]);
+            _Tiles[227].SummonCard(_RedSymbol);
+
+            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerOwner.Blue);
+            BlueData.AddSummoningTile(_Tiles[6]);
+            _Tiles[6].SummonCard(_BlueSymbol);
+
+            //Initialize the Player's Info Panels
+            LoadPlayersInfo();
+
+            //Set the initial game state and start the turn start panel            
+            LaunchTurnStartPanel();
         }
+        #endregion
+
+        #region Private Methods
+        private void LoadPlayersInfo()
+        {
+            lblRedPlayerName.Text = RedData.Name;
+            lblBluePlayerName.Text = BlueData.Name;
+
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute);
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute);
+
+            lblRedLP.Text = _RedSymbol.LP.ToString();
+            lblBlueLP.Text = _BlueSymbol.LP.ToString();
+
+            lblBlueMovCount.Text = BlueData.Crests_MOV.ToString();
+            lblBlueAtkCount.Text = BlueData.Crests_ATK.ToString();
+            lblBlueDefCount.Text = BlueData.Crests_DEF.ToString();
+            lblBlueMagCount.Text = BlueData.Crests_MAG.ToString();
+            lblBlueTrapCount.Text = BlueData.Crests_TRAP.ToString();
+
+            lblRedMovCount.Text = RedData.Crests_MOV.ToString();
+            lblRedAtkCount.Text = RedData.Crests_ATK.ToString();
+            lblRedDefCount.Text = RedData.Crests_DEF.ToString();
+            lblRedMagCount.Text = RedData.Crests_MAG.ToString();
+            lblRedTrapCount.Text = RedData.Crests_TRAP.ToString();
+        }
+        private void LoadCardInfoPanel()
+        {
+            if (_CurrentTileSelected.IsOccupied)
+            {
+                //Get the CardInfo object to populate the UI
+                Card thisCard = _CurrentTileSelected.CardInPlace;
+
+                int cardID = thisCard.CardID;
+
+                //Set the Panel Back Color based on whose the card owner
+                if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                {
+                    PanelCardInfo.BackColor = Color.DarkRed;
+                }
+                else
+                {
+                    PanelCardInfo.BackColor = Color.DarkBlue;
+                }
+
+                if (thisCard.IsFaceDown && thisCard.Owner == PlayerOwner.Blue)
+                {
+                    if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
+
+                    lblCardName.Text = "";
+                    lblCardType.Text = "";
+                    lblCardLevel.Text = "";
+                    lblAttribute.Text = "";
+                    lblStatsATK.Text = "";
+                    lblStatsDEF.Text = "";
+                    lblStatsLP.Text = "";
+                    lblCardText.Text = "Blue's Facedown card.";
+                }
+                else
+                {
+                    if (thisCard.IsASymbol)
+                    {
+                        if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.Attribute);
+
+                        lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
+                        lblCardType.Text = "";
+                        lblCardLevel.Text = "";
+                        lblAttribute.Text = thisCard.Attribute.ToString();
+                        lblStatsATK.Text = "";
+                        lblStatsDEF.Text = "";
+                        lblStatsLP.Text = thisCard.LP.ToString();
+                        lblCardText.Text = thisCard.ContinuousEffect;
+                    }
+                    else
+                    {
+                        //Populate the UI
+                        if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                        PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID);
+
+                        lblCardName.Text = thisCard.Name;
+
+                        string secondaryType = thisCard.SecType.ToString();
+                        lblCardType.Text = thisCard.TypeAsString + "/" + secondaryType;
+                        if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.TypeAsString + " spell"; }
+                        if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.TypeAsString + " trap"; }
+
+                        if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
+                        else { lblCardLevel.Text = ""; }
+
+                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
+                        else { lblAttribute.Text = ""; }
+
+                        if (thisCard.Category == Category.Monster)
+                        {
+                            lblStatsATK.Text = thisCard.ATK.ToString();
+                            lblStatsDEF.Text = thisCard.DEF.ToString();
+                            lblStatsLP.Text = thisCard.LP.ToString();
+
+                            if (thisCard.ATK > thisCard.ATK) { lblStatsATK.ForeColor = Color.Green; }
+                            else if (thisCard.ATK < thisCard.ATK) { lblStatsATK.ForeColor = Color.Red; }
+                            else { lblStatsATK.ForeColor = Color.White; }
+
+                            if (thisCard.DEF > thisCard.DEF) { lblStatsDEF.ForeColor = Color.Green; }
+                            else if (thisCard.DEF < thisCard.DEF) { lblStatsDEF.ForeColor = Color.Red; }
+                            else { lblStatsDEF.ForeColor = Color.White; }
+
+                            if (thisCard.LP > thisCard.LP) { lblStatsLP.ForeColor = Color.Green; }
+                            else if (thisCard.LP < thisCard.LP) { lblStatsLP.ForeColor = Color.Red; }
+                            else { lblStatsLP.ForeColor = Color.White; }
+                        }
+                        else
+                        {
+                            lblStatsATK.Text = "";
+                            lblStatsDEF.Text = "";
+                            lblStatsLP.Text = "";
+                        }
+
+                        string fullcardtext = "";
+                        if (thisCard.SecType == SecType.Fusion)
+                        {
+                            string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                            if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
+                            fullcardtext = fullcardtext + fusionMaterials + "\n\n";
+                        }
+
+                        if (thisCard.HasOnSummonEffect)
+                        {
+                            fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+                        }
+
+                        if (thisCard.HasContinuousEffect)
+                        {
+                            fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+                        }
+
+                        if (thisCard.HasAbility)
+                        {
+                            fullcardtext = fullcardtext + "[Ability] - " + thisCard.Ability + "\n\n";
+                        }
+
+                        if (thisCard.HasIgnitionEffect)
+                        {
+                            fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+                        }
+                        lblCardText.Text = fullcardtext;
+                    }
+                }
+            }
+            else
+            {
+                PanelCardInfo.BackColor = Color.Gray;
+
+                if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
+                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
+
+                lblCardName.Text = "";
+                lblCardType.Text = "";
+                lblCardLevel.Text = "";
+                lblAttribute.Text = "";
+                lblStatsATK.Text = "";
+                lblStatsDEF.Text = "";
+                lblStatsLP.Text = "";
+                lblCardText.Text = "";
+            }
+
+        }
+        private void DisplayMoveCandidates()
+        {
+            _MoveCandidates.Clear();
+
+            //Display arrows to move
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.North))
+            {
+                Tile northTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.North);
+                if (northTile.Owner != PlayerOwner.None)
+                {
+                    if (!(northTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        northTile.MarkFreeToMove();
+                        _MoveCandidates.Add(northTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.South))
+            {
+                Tile southTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.South);
+                if (southTile.Owner != PlayerOwner.None)
+                {
+                    if (!(southTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        southTile.MarkFreeToMove();
+                        _MoveCandidates.Add(southTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.East))
+            {
+                Tile eastTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.East);
+                if (eastTile.Owner != PlayerOwner.None)
+                {
+                    if (!(eastTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        eastTile.MarkFreeToMove();
+                        _MoveCandidates.Add(eastTile);
+                    }
+                }
+            }
+
+            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.West))
+            {
+                Tile westTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.West);
+                if (westTile.Owner != PlayerOwner.None)
+                {
+                    if (!(westTile.IsOccupied))
+                    {
+                        //Change the Adjencent tile's border to gree to mark that you can move
+                        westTile.MarkFreeToMove();
+                        _MoveCandidates.Add(westTile);
+                    }
+                }
+            }
+        }
+        private void DisplayAttackCandidate()
+        {
+            foreach (Tile tile in _AttackCandidates)
+            {
+                tile.MarkAttackTarget();
+            }
+        }
+        private void PlaceMoveMenu()
+        {
+            Point referencePoint = _CurrentTileSelected.Location;
+            int X_Location = Cursor.Position.X;
+            if (X_Location > 929)
+            {
+                PanelMoveMenu.Location = new Point(referencePoint.X - 83, referencePoint.Y - 55);
+            }
+            else
+            {
+                PanelMoveMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 55);
+            }
+        }
+        private void PlaceAttackMenu()
+        {
+            Point referencePoint = _CurrentTileSelected.Location;
+            int X_Location = Cursor.Position.X;
+            if (X_Location > 929)
+            {
+                PanelAttackMenu.Location = new Point(referencePoint.X - 85, referencePoint.Y - 30);
+            }
+            else
+            {
+                PanelAttackMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y + 10);
+            }
+            PanelAttackMenu.Visible = true;
+        }
+        private void OpenBattleMenuAttackMode()
+        {
+            PanelBattleMenu.Visible = true;
+            btnEndBattle.Visible = false;
+
+            //Set the attacker's data
+            Card Attacker = _CurrentTileSelected.CardInPlace;
+            if (PicAttacker.BackgroundImage != null) { PicAttacker.BackgroundImage.Dispose(); }
+            PicAttacker.BackgroundImage = null;
+            PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID);
+            lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
+            lblAttackerATK.Text = "ATK: " + Attacker.ATK;
+
+            //Set the defender's data. if the defender is a non-monster place the clear data.
+            Card Defender = _AttackTarger.CardInPlace;
+            if (Defender.Category == Category.Monster)
+            {
+                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
+                PicDefender2.BackgroundImage = null;
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID);
+                lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
+                lblDefenderDEF.Text = "DEF: " + Defender.DEF;
+            }
+            else
+            {
+                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
+                PicDefender2.BackgroundImage = null;
+                if (Defender.IsASymbol)
+                {
+                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute);
+                }
+                else
+                {
+                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(0);
+                }
+                lblBattleMenuDEFLP.Text = "";
+                lblDefenderDEF.Text = "";
+            }
+
+            //Hide the "Destroyed" labels just in case
+            PicAttackerDestroyed.Visible = false;
+            PicDefenderDestroyed.Visible = false;
+
+            //Set the initial Damage Calculation as "?"
+            //Damage calculation will be done after both player set their Atk/Def
+            //choices (defender has to choose if they defend if can)
+            //also both player have the choice to add advantage bonuses if available
+            lblBattleMenuDamage.Text = "Damage: ?";
+
+            //Defende/No Defends are not available in attack mode
+            btnBattleMenuDefend.Visible = false;
+            btnBattleMenuDontDefend.Visible = false;
+            PanelDefenderAdvBonus.Visible = false;
+            lblDefenderCrestCount.Visible = false;
+
+            //Reset the bonuscrest count for both players just in case
+            _AttackBonusCrest = 0;
+            _DefenseBonusCrest = 0;
+
+            //Set the Attack button visible in case it wasnt
+            btnBattleMenuAttack.Visible = true;
+            lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
+            lblAttackerCrestCount.Visible = true;
+
+            //Determine if Attacker has advantage
+            bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
+
+            //Display Advantage elements
+            if (AttackerHasAdvantage)
+            {
+                PanelAttackerAdvBonus.Visible = true;
+                lblAttackerBonus.Text = "Bonus: 0";
+                lblAttackerBonus.Visible = true;
+                lblAttackerAdvMinus.Visible = false;
+                lblAttackerAdvPlus.Visible = true;
+            }
+            else
+            {
+                PanelAttackerAdvBonus.Visible = false;
+                lblAttackerBonus.Visible = false;
+            }
+        }
+        private bool HasAttributeAdvantage(Card attacker, Card defender)
+        {
+            switch (attacker.Attribute)
+            {
+                case Attribute.LIGHT: if (defender.Attribute == Attribute.DARK) { return true; } else { return false; }
+                case Attribute.DARK: if (defender.Attribute == Attribute.LIGHT) { return true; } else { return false; }
+                case Attribute.WATER: if (defender.Attribute == Attribute.FIRE) { return true; } else { return false; }
+                case Attribute.FIRE: if (defender.Attribute == Attribute.EARTH) { return true; } else { return false; }
+                case Attribute.EARTH: if (defender.Attribute == Attribute.WIND) { return true; } else { return false; }
+                case Attribute.WIND: if (defender.Attribute == Attribute.WATER) { return true; } else { return false; }
+                default: return false;
+            }
+        }
+        private void UpdateDebugWindow()
+        {
+            lblDebugTileID.Text = "Tile ID: " + _CurrentTileSelected.ID;
+            lblDebugNorthAdj.Text = "North Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.North);
+            lblDebugSouthAdj.Text = "South Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.South);
+            lblDebugEastAdj.Text = "East Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.East);
+            lblDebugWestAdj.Text = "West Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.West);
+            lblDebugOwner.Text = "Owner: " + _CurrentTileSelected.Owner;
+            lblDebugIsOccupied.Text = "Occupied: " + _CurrentTileSelected.IsOccupied.ToString();
+            if (_CurrentTileSelected.IsOccupied)
+            {
+                lblDebugCard.Text = "Card: " + _CurrentTileSelected.CardInPlace.CardID + "-Name:" + _CurrentTileSelected.CardInPlace.Name;
+                lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Owner;
+            }
+            else
+            {
+                lblDebugCard.Text = "Card: No Card In Tile.";
+                lblDebugCardOwner.Text = "Card: No Card In Tile.";
+            }
+
+            int Y_Location = Cursor.Position.Y;
+            int X_Location = Cursor.Position.X;
+            lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
+        }
+        private void UpdateDimensionPreview()
+        {
+            //if (PicCurrentForm.Image != null) { PicCurrentForm.Dispose(); }
+            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
+
+            lblFormName.Text = _CurrentDimensionForm.ToString();
+        }
+        #endregion
+
+        private void SendMessageToServer(string message)
+        {
+            byte[] buffer = Encoding.ASCII.GetBytes(message);
+            ns.Write(buffer, 0, buffer.Length);
+        }
+        public void ReceiveMesageFromServer(string DATARECEIVED)
+        {
+            //Step 1: Extract the Message Key and GameState
+            string[] MessageTokens = DATARECEIVED.Split('|');
+            string MessageKey = MessageTokens[0];
+            string strGameState = MessageTokens[1];
+
+            //Step 2: Validate the game state
+            if (strGameState == _CurrentGameState.ToString())
+            {
+                //Step 3: Handle the message
+                switch (MessageKey)
+                {
+                    case "[View Board Action]": btnViewBoard_Inactive(); break;
+                }
+            }
+            else
+            {
+                throw new Exception("Message Received with an invalid game state");
+            }           
+        }
+        #region Turn Steps Functions
+        private void LaunchTurnStartPanel()
+        {
+            //Depending on the TURNPLAYER enable/disable the buttons
+            //Only the TURN PLAYER can take action
+            if(UserPlayerColor == TURNPLAYER)
+            {
+                btnRoll.Visible = true;
+                btnViewBoard.Visible = true;
+                lblTurnStartInactiveWarning.Visible = false;
+            }
+            else
+            {
+                btnRoll.Visible = false;
+                btnViewBoard.Visible = false;
+                lblTurnStartInactiveWarning.Visible = true;
+            }
+
+            //Show the panel
+            lblTurnStartMessage.Text = string.Format("{0} Player Turn!", TURNPLAYER);
+            PanelTurnStartMenu.Visible = true;
+
+            //Set the Game State
+            _CurrentGameState = GameState.TurnStartMenu;
+        }
+        #endregion
+
+        #region Event Listeners
+
+        #region Generic Listeners
+        private void OnMouseHoverSound(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
+
+        #region Turn Star Panel Elements
+        private void btnRoll_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            //TODO: RollDiceMenu RD = new RollDiceMenu(RedData, this);
+            Hide();
+
+            //Preamble set the board in the Main Phase 
+            _CurrentGameState = GameState.MainPhaseBoard;
+            PanelTurnStartMenu.Visible = false;
+
+            //TODO: RD.Show();
+        }
+        private void btnViewBoard_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the server the action taken
+            SendMessageToServer("[View Board Action]|TurnStartMenu");
+
+            //Change Game State
+            _CurrentGameState = GameState.BoardViewMode;
+            PanelBoard.Enabled = true;
+            btnReturnToTurnMenu.Visible = true;
+            PanelTurnStartMenu.Visible = false;
+        }
+        #endregion
+
+        #region Board Tiles
+        private void OnMouseEnterPicture(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+                _CurrentTileSelected = _Tiles[tileId];
+                _CurrentTileSelected.Hover();
+
+                UpdateDebugWindow();
+                LoadCardInfoPanel();
+            }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                //Highlight the possible dimmension
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //Use the following function to get the ref to the tiles that compose the dimension
+                _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
+
+                //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
+                //if none of the tiles are adjecent to any other owned by the player)
+                _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
+
+                //Draw the dimension shape
+                _dimensionTiles[0].MarkDimensionSummonTile();
+                for (int x = 1; x < _dimensionTiles.Length; x++)
+                {
+                    if (_dimensionTiles[x] != null) { _dimensionTiles[x].MarkDimensionTile(_validDimension); }
+                }
+            }
+
+        }
+        private void OnMouseLeavePicture(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            {
+                _CurrentTileSelected.Leave();
+            }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                //Restore the possible dimmension tiles to their OG colors
+                SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //Use the following function to get the ref to the tiles that compose the dimension
+                Tile[] dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
+
+                //Reset the color of the dimensionTiles
+                for (int x = 0; x < dimensionTiles.Length; x++)
+                {
+                    if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
+                }
+            }
+        }
+        private void Tile_Click(object sender, EventArgs e)
+        {
+            if (_CurrentGameState == GameState.MainPhaseBoard)
+            {
+                if (_CurrentTileSelected.IsOccupied)
+                {
+                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                        //Hide the End Turn Button, this wont reappear until the player is done with the action
+                        btnEndTurn.Visible = false;
+
+                        //Open the Action menu
+                        //Set the location in relation to the Tile location and cursor location
+                        Point referencePoint = _CurrentTileSelected.Location;
+                        int X_Location = Cursor.Position.X;
+                        if (X_Location > 929)
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
+                        }
+                        else
+                        {
+                            PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
+                        }
+                        PanelActionMenu.Visible = true;
+
+                        //Disable the unavailable actions
+                        Card thiscard = _CurrentTileSelected.CardInPlace;
+                        if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > RedData.Crests_MOV)
+                        {
+                            btnActionMove.Enabled = false;
+                        }
+                        else
+                        {
+                            btnActionMove.Enabled = true;
+                            //Set the temporary mov crest count
+                            //this is the value that is going to be used until the move action is finalized.
+                            _TMPMoveCrestCount = RedData.Crests_MOV;
+                        }
+
+                        //Determine if this card can attack if:
+                        // 1. Has not attacked this turn alread
+                        // 2. Player has enough atack crest to pay its cost
+                        // 3. Has at least 1 adjecent attack candidate
+                        // 4. Card is a monster
+
+
+                        _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
+                        if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
+                        {
+                            btnActionAttack.Enabled = false;
+                        }
+                        else
+                        {
+                            btnActionAttack.Enabled = true;
+                        }
+                        //TODO: Effects...
+                        btnActionEffect.Enabled = false;
+
+                        //Change the game state
+                        _CurrentGameState = GameState.ActionMenuDisplay;
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+            }
+            else if (_CurrentGameState == GameState.MovingCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _MoveCandidates.Count; x++)
+                {
+                    if (_MoveCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true; break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+
+                    //Move the card to this location
+                    Card thiscard = _CurrentTileSelected.CardInPlace;
+
+                    _Tiles[tileId].MoveInCard(thiscard);
+                    _CurrentTileSelected.RemoveCard();
+
+                    //Now clear the borders of all the candidates tiles to their og color
+                    for (int x = 0; x < _MoveCandidates.Count; x++)
+                    {
+                        _MoveCandidates[x].SetTileColor();
+                    }
+
+                    //Now change the selection to this one tile
+                    _CurrentTileSelected.Leave();
+                    _CurrentTileSelected = _Tiles[tileId];
+                    _CurrentTileSelected.Hover();
+                    UpdateDebugWindow();
+
+                    //Drecease the available crests to use
+                    _TMPMoveCrestCount -= thiscard.MoveCost;
+                    lblRedMovCount.Text = "x" + _TMPMoveCrestCount;
+
+                    //Now display the next round of move candidate if there are any MOV crest left.
+                    if (thiscard.MoveCost > _TMPMoveCrestCount)
+                    {
+                        //No more available moves. do no generate more candidates
+                        _MoveCandidates.Clear();
+                    }
+                    else
+                    {
+                        DisplayMoveCandidates();
+                    }
+
+                    PlaceMoveMenu();
+                    btnMoveMenuFinish.Enabled = true;
+                    btnMoveMenuCancel.Enabled = true;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
+            }
+            else if (_CurrentGameState == GameState.SelectingAttackTarger)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _AttackCandidates.Count; x++)
+                {
+                    if (_AttackCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true;
+                        break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                    //Remove an Attack Available Counter from this card
+                    _CurrentTileSelected.CardInPlace.RemoveAttackCounter();
+
+                    //Attack the card in this tile
+                    _AttackTarger = _Tiles[tileId];
+
+                    //Close the Attack Menu and clear the color of all attack candidates
+                    PanelAttackMenu.Visible = false;
+                    foreach (Tile tile in _AttackCandidates)
+                    {
+                        tile.SetTileColor();
+                    }
+                    _AttackCandidates.Clear();
+
+                    //Open the Battle Panel
+                    OpenBattleMenuAttackMode();
+                    _CurrentGameState = GameState.BattleMenuAttackMode;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
+            }
+            else if (_CurrentGameState == GameState.SetCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                //check this tile is one of the candidates
+                bool thisIsACandidate = false;
+                for (int x = 0; x < _SetCandidates.Count; x++)
+                {
+                    if (_SetCandidates[x].ID == tileId)
+                    {
+                        thisIsACandidate = true;
+                        break;
+                    }
+                }
+
+                if (thisIsACandidate)
+                {
+                    //TODO: Add a sounds effect here to set the card
+
+                    //Set Card here
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), PlayerOwner.Red, true);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[tileId].SetCard(thisCard);
+
+                    //Once this action is completed, move to the main phase
+                    lblSetCardMessage.Visible = false;
+                    _CurrentGameState = GameState.MainPhaseBoard;
+                    btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
+            }
+            else if (_CurrentGameState == GameState.SummonCard)
+            {
+                PictureBox thisPicture = (PictureBox)sender;
+                int tileId = Convert.ToInt32(thisPicture.Tag);
+
+                if (_validDimension)
+                {
+                    //TODO: I need a sound effect here 
+
+                    //Dimension the tiles
+                    foreach (Tile tile in _dimensionTiles)
+                    {
+                        tile.ChangeOwner(PlayerOwner.Red);
+                    }
+
+                    //then summon the card
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), PlayerOwner.Red, false);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[tileId].SummonCard(thisCard);
+
+                    //Complete the summon
+                    lblSummonMessage.Visible = false;
+                    PanelDimenFormSelector.Visible = false;
+                    _CurrentDimensionForm = DimensionForms.CrossBase;
+                    _CurrentTileSelected = _dimensionTiles[0];
+                    _CurrentGameState = GameState.MainPhaseBoard;
+                    btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                }
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Inactive Player Actions
+        //These are the action triggered by messages received from the server
+        //to simulate the actions of the opponent player.
+
+        private void btnViewBoard_Inactive()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Change Game State
+                _CurrentGameState = GameState.BoardViewMode;
+                PanelBoard.Enabled = true;
+                btnReturnToTurnMenu.Visible = true;
+                PanelTurnStartMenu.Visible = false;
+            }));            
+        }
+        #endregion
 
         #region Data
+        private PlayerColor TURNPLAYER = PlayerColor.RED;
+        private PlayerColor UserPlayerColor;
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
         private PlayerData RedData;
         private PlayerData BlueData;
@@ -144,6 +985,14 @@ namespace DungeonDiceMonsters
         private DimensionForms _CurrentDimensionForm = DimensionForms.CrossBase;
         private Tile[] _dimensionTiles = new Tile[6];
         private bool _validDimension = false;
-        #endregion            
+        //Client NetworkStream to send message to the server
+        private NetworkStream ns;
+        #endregion        
+    }
+
+    public enum PlayerColor
+    {
+        RED,
+        BLUE,
     }
 }
