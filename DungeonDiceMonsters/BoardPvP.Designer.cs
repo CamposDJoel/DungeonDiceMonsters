@@ -105,6 +105,7 @@
             this.lblDebugNorthAdj = new System.Windows.Forms.Label();
             this.lblDebugTileID = new System.Windows.Forms.Label();
             this.PanelTurnStartMenu = new System.Windows.Forms.Panel();
+            this.lblTurnStartInactiveWarning = new System.Windows.Forms.Label();
             this.btnViewBoard = new System.Windows.Forms.Button();
             this.btnRoll = new System.Windows.Forms.Button();
             this.lblTurnStartMessage = new System.Windows.Forms.Label();
@@ -145,7 +146,6 @@
             this.lblAttacker = new System.Windows.Forms.Label();
             this.lblDefender = new System.Windows.Forms.Label();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
-            this.lblTurnStartInactiveWarning = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -685,7 +685,7 @@
             // 
             // PanelCardInfo
             // 
-            this.PanelCardInfo.BackColor = System.Drawing.Color.DarkRed;
+            this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelCardInfo.Controls.Add(this.lblStatsLP);
             this.PanelCardInfo.Controls.Add(this.lblStatsLPLabel);
@@ -703,7 +703,6 @@
             this.PanelCardInfo.Name = "PanelCardInfo";
             this.PanelCardInfo.Size = new System.Drawing.Size(214, 237);
             this.PanelCardInfo.TabIndex = 5;
-            this.PanelCardInfo.Visible = false;
             // 
             // lblStatsLP
             // 
@@ -714,7 +713,6 @@
             this.lblStatsLP.Name = "lblStatsLP";
             this.lblStatsLP.Size = new System.Drawing.Size(36, 15);
             this.lblStatsLP.TabIndex = 21;
-            this.lblStatsLP.Text = "9999";
             // 
             // lblStatsLPLabel
             // 
@@ -736,7 +734,6 @@
             this.lblStatsDEF.Name = "lblStatsDEF";
             this.lblStatsDEF.Size = new System.Drawing.Size(38, 15);
             this.lblStatsDEF.TabIndex = 19;
-            this.lblStatsDEF.Text = "9999";
             // 
             // lblStatsDEFLabel
             // 
@@ -758,7 +755,6 @@
             this.lblStatsATK.Name = "lblStatsATK";
             this.lblStatsATK.Size = new System.Drawing.Size(38, 15);
             this.lblStatsATK.TabIndex = 17;
-            this.lblStatsATK.Text = "9999";
             // 
             // lblCardText
             // 
@@ -770,7 +766,6 @@
             this.lblCardText.Name = "lblCardText";
             this.lblCardText.Size = new System.Drawing.Size(205, 145);
             this.lblCardText.TabIndex = 12;
-            this.lblCardText.Text = "Card Text";
             // 
             // lblStatsATKLabel
             // 
@@ -792,7 +787,6 @@
             this.lblAttribute.Name = "lblAttribute";
             this.lblAttribute.Size = new System.Drawing.Size(48, 15);
             this.lblAttribute.TabIndex = 15;
-            this.lblAttribute.Text = "Attribute";
             // 
             // lblCardType
             // 
@@ -803,7 +797,6 @@
             this.lblCardType.Name = "lblCardType";
             this.lblCardType.Size = new System.Drawing.Size(127, 15);
             this.lblCardType.TabIndex = 4;
-            this.lblCardType.Text = "Type";
             // 
             // lblCardLevel
             // 
@@ -814,7 +807,6 @@
             this.lblCardLevel.Name = "lblCardLevel";
             this.lblCardLevel.Size = new System.Drawing.Size(35, 15);
             this.lblCardLevel.TabIndex = 3;
-            this.lblCardLevel.Text = "Level";
             // 
             // lblCardName
             // 
@@ -825,11 +817,11 @@
             this.lblCardName.Name = "lblCardName";
             this.lblCardName.Size = new System.Drawing.Size(128, 34);
             this.lblCardName.TabIndex = 2;
-            this.lblCardName.Text = "Card Name";
             // 
             // PicCardArtworkBottom
             // 
             this.PicCardArtworkBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCardArtworkBottom.Image = ((System.Drawing.Image)(resources.GetObject("PicCardArtworkBottom.Image")));
             this.PicCardArtworkBottom.Location = new System.Drawing.Point(3, 2);
             this.PicCardArtworkBottom.Name = "PicCardArtworkBottom";
             this.PicCardArtworkBottom.Size = new System.Drawing.Size(68, 68);
@@ -1069,6 +1061,18 @@
             this.PanelTurnStartMenu.TabIndex = 22;
             this.PanelTurnStartMenu.Visible = false;
             // 
+            // lblTurnStartInactiveWarning
+            // 
+            this.lblTurnStartInactiveWarning.AutoSize = true;
+            this.lblTurnStartInactiveWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblTurnStartInactiveWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurnStartInactiveWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTurnStartInactiveWarning.Location = new System.Drawing.Point(3, 218);
+            this.lblTurnStartInactiveWarning.Name = "lblTurnStartInactiveWarning";
+            this.lblTurnStartInactiveWarning.Size = new System.Drawing.Size(290, 24);
+            this.lblTurnStartInactiveWarning.TabIndex = 3;
+            this.lblTurnStartInactiveWarning.Text = "Opponent is taking action...";
+            // 
             // btnViewBoard
             // 
             this.btnViewBoard.BackColor = System.Drawing.Color.Black;
@@ -1119,6 +1123,7 @@
             this.btnReturnToTurnMenu.Text = "Exit Board View Mode";
             this.btnReturnToTurnMenu.UseVisualStyleBackColor = false;
             this.btnReturnToTurnMenu.Visible = false;
+            this.btnReturnToTurnMenu.Click += new System.EventHandler(this.btnReturnToTurnMenu_Click);
             // 
             // btnEndTurn
             // 
@@ -1568,18 +1573,6 @@
             this.lblSetCardMessage.Text = "Select Tile to Set Card";
             this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSetCardMessage.Visible = false;
-            // 
-            // lblTurnStartInactiveWarning
-            // 
-            this.lblTurnStartInactiveWarning.AutoSize = true;
-            this.lblTurnStartInactiveWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblTurnStartInactiveWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTurnStartInactiveWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTurnStartInactiveWarning.Location = new System.Drawing.Point(3, 218);
-            this.lblTurnStartInactiveWarning.Name = "lblTurnStartInactiveWarning";
-            this.lblTurnStartInactiveWarning.Size = new System.Drawing.Size(290, 24);
-            this.lblTurnStartInactiveWarning.TabIndex = 3;
-            this.lblTurnStartInactiveWarning.Text = "Opponent is taking action...";
             // 
             // BoardPvP
             // 

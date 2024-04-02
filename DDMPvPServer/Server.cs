@@ -131,10 +131,8 @@ namespace DDMPvPServer
                         }
                         break;
 
-                    //In this case, one of the player click the "View Board" button on the Turn Start Panel.
-                    //The opponent player will receive this message and update the UI to reflect this action.
-                    //We are just forwarding original message, no need to restructure it.
-                    case "[View Board Action]":
+                    //All other messages will simply forward the messages to the opponent client
+                    default:
                         int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
                         Opponetclient = list_clients[OpponentClientID];
                         SendMessage(data, Opponetclient);

@@ -315,7 +315,6 @@ namespace DungeonDiceMonsters
                 lblStatsLP.Text = "";
                 lblCardText.Text = "";
             }
-
         }
         private void DisplayMoveCandidates()
         {
@@ -558,7 +557,10 @@ namespace DungeonDiceMonsters
                 //Step 3: Handle the message
                 switch (MessageKey)
                 {
-                    case "[View Board Action]": btnViewBoard_Inactive(); break;
+                    case "[View Board Action]": btnViewBoard_Base(); break;
+                    case "[ON MOUSE ENTER TILE]": OnMouseEnterPicture_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[ON MOUSE LEAVE TILE]": OnMouseLeavePicture_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[EXIT VIEW BOARD MODE]": btnReturnToTurnMenu_Base(); break;
                 }
             }
             else
@@ -566,6 +568,7 @@ namespace DungeonDiceMonsters
                 throw new Exception("Message Received with an invalid game state");
             }           
         }
+
         #region Turn Steps Functions
         private void LaunchTurnStartPanel()
         {
@@ -622,77 +625,53 @@ namespace DungeonDiceMonsters
         }
         private void btnViewBoard_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            //Send the server the action taken
+            //Send the action message to the server
             SendMessageToServer("[View Board Action]|TurnStartMenu");
 
-            //Change Game State
-            _CurrentGameState = GameState.BoardViewMode;
-            PanelBoard.Enabled = true;
-            btnReturnToTurnMenu.Visible = true;
-            PanelTurnStartMenu.Visible = false;
+            //Perform the action
+            btnViewBoard_Base();
+        }
+        private void btnReturnToTurnMenu_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer("[EXIT VIEW BOARD MODE]|BoardViewMode");
+
+            //Perform the action
+            btnReturnToTurnMenu_Base();
         }
         #endregion
 
         #region Board Tiles
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
-            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            //Only allow this event if the user is the TURN PLAYER
+            if(UserPlayerColor == TURNPLAYER)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Hover);
-                PictureBox thisPicture = (PictureBox)sender;
-                int tileId = Convert.ToInt32(thisPicture.Tag);
-                _CurrentTileSelected = _Tiles[tileId];
-                _CurrentTileSelected.Hover();
+                //Extract the TileID from the tile in action
+                PictureBox thisPicture = sender as PictureBox;
+                int tileID = Convert.ToInt32(thisPicture.Tag);
 
-                UpdateDebugWindow();
-                LoadCardInfoPanel();
-            }
-            else if (_CurrentGameState == GameState.SummonCard)
-            {
-                //Highlight the possible dimmension
-                SoundServer.PlaySoundEffect(SoundEffect.Hover);
-                PictureBox thisPicture = (PictureBox)sender;
-                int tileId = Convert.ToInt32(thisPicture.Tag);
+                //Send the action message to the server
+                //TODO:SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
-                //Use the following function to get the ref to the tiles that compose the dimension
-                _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
-
-                //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
-                //if none of the tiles are adjecent to any other owned by the player)
-                _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
-
-                //Draw the dimension shape
-                _dimensionTiles[0].MarkDimensionSummonTile();
-                for (int x = 1; x < _dimensionTiles.Length; x++)
-                {
-                    if (_dimensionTiles[x] != null) { _dimensionTiles[x].MarkDimensionTile(_validDimension); }
-                }
-            }
-
+                //Perform the action
+                OnMouseEnterPicture_Base(tileID);
+            }          
         }
         private void OnMouseLeavePicture(object sender, EventArgs e)
         {
-            if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+            if (UserPlayerColor == TURNPLAYER)
             {
-                _CurrentTileSelected.Leave();
-            }
-            else if (_CurrentGameState == GameState.SummonCard)
-            {
-                //Restore the possible dimmension tiles to their OG colors
-                SoundServer.PlaySoundEffect(SoundEffect.Hover);
-                PictureBox thisPicture = (PictureBox)sender;
-                int tileId = Convert.ToInt32(thisPicture.Tag);
+                //Extract the TileID from the tile in action
+                PictureBox thisPicture = sender as PictureBox;
+                int tileID = Convert.ToInt32(thisPicture.Tag);
 
-                //Use the following function to get the ref to the tiles that compose the dimension
-                Tile[] dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
+                //Send the action message to the server
+                //TODO: SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
-                //Reset the color of the dimensionTiles
-                for (int x = 0; x < dimensionTiles.Length; x++)
-                {
-                    if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
-                }
-            }
+                //Perform the action
+                OnMouseLeavePicture_Base(tileID);
+            }           
         }
         private void Tile_Click(object sender, EventArgs e)
         {
@@ -940,21 +919,95 @@ namespace DungeonDiceMonsters
 
         #endregion
 
-        #region Inactive Player Actions
-        //These are the action triggered by messages received from the server
-        //to simulate the actions of the opponent player.
+        #region Base Player Actions
+        //These are the action of the event listners without sending the action messages to the server
 
-        private void btnViewBoard_Inactive()
+        private void btnViewBoard_Base()
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
 
                 //Change Game State
                 _CurrentGameState = GameState.BoardViewMode;
-                PanelBoard.Enabled = true;
-                btnReturnToTurnMenu.Visible = true;
+                PanelBoard.Enabled = true;                
                 PanelTurnStartMenu.Visible = false;
+                //The "Exit Board View Menu" button will only be visible for the Turn Player
+                if(UserPlayerColor == TURNPLAYER) 
+                { 
+                    btnReturnToTurnMenu.Visible = true; 
+                }
+                else
+                {
+                    btnReturnToTurnMenu.Visible = false;
+                }
             }));            
+        }
+        private void OnMouseEnterPicture_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.Hover);
+                    _CurrentTileSelected = _Tiles[tileId];
+                    _CurrentTileSelected.Hover();
+
+                    UpdateDebugWindow();
+                    LoadCardInfoPanel();
+                }
+                else if (_CurrentGameState == GameState.SummonCard)
+                {
+                    //Highlight the possible dimmension
+                    SoundServer.PlaySoundEffect(SoundEffect.Hover);
+
+                    //Use the following function to get the ref to the tiles that compose the dimension
+                    _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
+
+                    //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
+                    //if none of the tiles are adjecent to any other owned by the player)
+                    _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
+
+                    //Draw the dimension shape
+                    _dimensionTiles[0].MarkDimensionSummonTile();
+                    for (int x = 1; x < _dimensionTiles.Length; x++)
+                    {
+                        if (_dimensionTiles[x] != null) { _dimensionTiles[x].MarkDimensionTile(_validDimension); }
+                    }
+                }
+            }));
+        }
+        private void OnMouseLeavePicture_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+                {
+                    _CurrentTileSelected.Leave();
+                }
+                else if (_CurrentGameState == GameState.SummonCard)
+                {
+                    //Restore the possible dimmension tiles to their OG colors
+                    SoundServer.PlaySoundEffect(SoundEffect.Hover);
+
+                    //Use the following function to get the ref to the tiles that compose the dimension
+                    Tile[] dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
+
+                    //Reset the color of the dimensionTiles
+                    for (int x = 0; x < dimensionTiles.Length; x++)
+                    {
+                        if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
+                    }
+                }
+            }));
+        }
+        private void btnReturnToTurnMenu_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Return to the turn start menui
+                _CurrentGameState = GameState.TurnStartMenu;
+                PanelBoard.Enabled = false;
+                btnReturnToTurnMenu.Visible = false;
+                PanelTurnStartMenu.Visible = true;
+            }));
         }
         #endregion
 
@@ -987,7 +1040,7 @@ namespace DungeonDiceMonsters
         private bool _validDimension = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
-        #endregion        
+        #endregion       
     }
 
     public enum PlayerColor
