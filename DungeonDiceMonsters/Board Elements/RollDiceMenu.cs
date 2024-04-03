@@ -45,7 +45,7 @@ namespace DungeonDiceMonsters
             LoadDeckPage();
             GenrateValidDimensions();            
         }
-        public RollDiceMenu(bool isUserTurn, PlayerData playerdata, BoardPvP board, NetworkStream tmpns)
+        public RollDiceMenu(bool isUserTurn, PlayerColor turnplayercolor, PlayerData playerdata, BoardPvP board, NetworkStream tmpns)
         {
             InitializeComponent();
             _PlayerData = playerdata;
@@ -53,6 +53,7 @@ namespace DungeonDiceMonsters
             ns = tmpns;
             _PvPMatch = true;
             _IsUserTurn = isUserTurn;
+            _TurnPlayerColor = turnplayercolor;
 
             //Only allow these even handlers if is the user turn
             if(_IsUserTurn) 
@@ -519,7 +520,7 @@ namespace DungeonDiceMonsters
                 {
                     Tile thisTile = BoardTiles[t];
                     Tile[] dimensionTiles = thisTile.GetDimensionTiles(thisForm);
-                    Dimension thisDimension = new Dimension(dimensionTiles, thisForm, PlayerOwner.Red);
+                    Dimension thisDimension = new Dimension(dimensionTiles, thisForm, _TurnPlayerColor);
 
                     if (thisDimension.IsValid)
                     {
@@ -557,7 +558,16 @@ namespace DungeonDiceMonsters
                 case "[SELECT DECK CARD TO ROLL]": DeckCard_Base(Convert.ToInt32(MessageTokens[3])); break;
                 case "[SELECT ROLL CARD TO DECK]": RollCard_Base(Convert.ToInt32(MessageTokens[3])); break;
                 case "[CLICK ROLL!!]":             btnRoll_Base(Convert.ToInt32(MessageTokens[3]), Convert.ToInt32(MessageTokens[4]), Convert.ToInt32(MessageTokens[5])); break;
-                
+                case "[SUMMON BUTTON 1]":          btnDice1Summon_Base(); break;
+                case "[SUMMON BUTTON 2]":          btnDice2Summon_Base(); break;
+                case "[SUMMON BUTTON 3]":          btnDice3Summon_Base(); break;
+                case "[RITUAL BUTTON 1]":          btnDice1Ritual_Base(); break;
+                case "[RITUAL BUTTON 2]":          btnDice2Ritual_Base(); break;
+                case "[RITUAL BUTTON 3]":          btnDice3Ritual_Base(); break;
+                case "[SET CARD BUTTON 1]":        btnDice1Set_Base(); break;
+                case "[SET CARD BUTTON 2]":        btnDice2Set_Base(); break;
+                case "[SET CARD BUTTON 3]":        btnDice3Set_Base(); break;
+                case "[GO TO BOARD BUTTON]":       btnGoToBoard_Base(); break;
             }
         }
         #endregion
@@ -568,6 +578,7 @@ namespace DungeonDiceMonsters
         private BoardForm _Board;
         private BoardPvP _PvPBoard;
         private PlayerData _PlayerData;
+        private PlayerColor _TurnPlayerColor = PlayerColor.NONE;
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
         private bool _DiceRolled = false;
@@ -685,364 +696,83 @@ namespace DungeonDiceMonsters
         }
         private void btnDice1Summon_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 1]");
 
-            CardInfo cardToBeSet = _DiceToRoll[0];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //Cards on slot 2 and 3 from the rollset must go back to the deck
-            if (_DiceToRoll.Count > 1)
-            {
-                //Send the card on slot [1] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-
-                if (_DiceToRoll.Count > 2)
-                {
-                    //Send the card on slot [2] back to deck
-                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-                }
-            }
-          
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice1Summon_Base();
         }
         private void btnDice2Summon_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 2]");
 
-            CardInfo cardToBeSet = _DiceToRoll[1];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //Cards on slot 1 and 3 from the rollset must go back to the deck
-            //Send the card on slot [0] back to deck
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-
-            if (_DiceToRoll.Count > 2)
-            {
-                //Send the card on slot [2] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-            }
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice2Summon_Base();
         }
         private void btnDice3Summon_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 3]");
 
-            CardInfo cardToBeSet = _DiceToRoll[2];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //Cards on slot 1 and 2 from the rollset must go back to the deck
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice3Summon_Base();
         }
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 1]");
 
-            CardInfo cardToBeSet = _DiceToRoll[0];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
-            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
-            //check cards on slots [1] and [2]
-            CardInfo diceOnSlot1 = _DiceToRoll[1];
-            if (diceOnSlot1.Name != RitualSpellToBeUsed)
-            {
-                //Send the card on slot [1] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-            }
-            else
-            {
-                //Send the card on slot [2] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-            }
-
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice1Ritual_Base();
         }
         private void btnDice2Ritual_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 2]");
 
-            CardInfo cardToBeSet = _DiceToRoll[1];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
-            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
-            //check cards on slots [0] and [2]
-            CardInfo diceOnSlot0 = _DiceToRoll[0];
-            if (diceOnSlot0.Name != RitualSpellToBeUsed)
-            {
-                //Send the card on slot [0] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-            }
-            else
-            {
-                //Send the card on slot [2] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-            }
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice2Ritual_Base();
         }
         private void btnDice3Ritual_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 3]");
 
-            CardInfo cardToBeSet = _DiceToRoll[2];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSummonCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSummonCardPhase(cardToBeSet);
-            }
-
-            //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
-            string RitualSpellToBeUsed = cardToBeSet.RitualCard;
-            //check cards on slots [0] and [1]
-            CardInfo diceOnSlot0 = _DiceToRoll[0];
-            if (diceOnSlot0.Name != RitualSpellToBeUsed)
-            {
-                //Send the card on slot [0] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-            }
-            else
-            {
-                //Send the card on slot [1 back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-            }
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice3Ritual_Base();
         }
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            CardInfo cardToBeSet = _DiceToRoll[0];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSetCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSetCardPhase(cardToBeSet);
-            }
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 1]");
 
-            //Cards on slot 2 and 3 from the rollset must go back to the deck
-            if (_DiceToRoll.Count > 1)
-            {
-                //Send the card on slot [1] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-
-                if (_DiceToRoll.Count > 2)
-                {
-                    //Send the card on slot [2] back to deck
-                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-                }
-            }
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice1Set_Base();
         }
         private void btnDice2Set_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            CardInfo cardToBeSet = _DiceToRoll[1];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSetCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSetCardPhase(cardToBeSet);
-            }
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 2]");
 
-            //Cards on slot 1 and 3 from the rollset must go back to the deck
-            //Send the card on slot [0] back to deck
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-
-            if (_DiceToRoll.Count > 2)
-            {
-                //Send the card on slot [2] back to deck
-                _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
-            }
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice2Set_Base();
         }
         private void btnDice3Set_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            CardInfo cardToBeSet = _DiceToRoll[2];
-            //Set the card in the board
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupSetCardPhase(cardToBeSet);
-            }
-            else
-            {
-                _Board.SetupSetCardPhase(cardToBeSet);
-            }
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 3]");
 
-            //Cards on slot 1 and 2 from the rollset must go back to the deck
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
-            _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
-
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnDice3Set_Base();
         }
         private void btnGoToBoard_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
-            //In the board reload the crest counts
-            if (_PvPMatch)
-            {
-                _PvPBoard.SetupMainPhaseNoSummon();
-            }
-            else
-            {
-                _Board.SetupMainPhaseNoSummon();
-            }
+            //Send the action message to the server
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[GO TO BOARD BUTTON]");
 
-            //Return all the cards to the deck
-            foreach (CardInfo card in _DiceToRoll) 
-            {
-                _PlayerData.Deck.AddMainCard(card.ID);
-            }
-          
-            //Close this form and retrn to the board
-            Dispose();
-            if (_PvPMatch)
-            {
-                _PvPBoard.Show();
-            }
-            else
-            {
-                _Board.Show();
-            }
+            //Perform the action
+            btnGoToBoard_Base();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -1291,6 +1021,24 @@ namespace DungeonDiceMonsters
                     lblTRAPCount.Text = _PlayerData.Crests_TRAP.ToString();
                 }
 
+                //if the non-user turn, disable all action buttons (Regardless on which one end up "apearing")
+                if (!_IsUserTurn)
+                {
+                    btnDice1Summon.Enabled = false;
+                    btnDice2Summon.Enabled = false;
+                    btnDice3Summon.Enabled = false;
+
+                    btnDice1Set.Enabled = false;
+                    btnDice2Set.Enabled = false;
+                    btnDice3Set.Enabled = false;
+
+                    btnDice1Ritual.Enabled = false;
+                    btnDice2Ritual.Enabled = false;
+                    btnDice3Ritual.Enabled = false;
+
+                    btnGoToBoard.Enabled = false;
+                }
+
                 //Display the Summon Set buttons for the dice that qualifyfir
                 bool canSummonSet = false;
                 switch (results[0])
@@ -1316,7 +1064,7 @@ namespace DungeonDiceMonsters
                     case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; canSummonSet = true; } break;
                     case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; canSummonSet = true; } break;
                 }
-
+                
                 _DiceRolled = true;
                 GroupDicesToRoll.Enabled = true;
 
@@ -1327,6 +1075,393 @@ namespace DungeonDiceMonsters
                 }
             }));
         }
+        private void btnDice1Summon_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[0];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 2 and 3 from the rollset must go back to the deck
+                if (_DiceToRoll.Count > 1)
+                {
+                    //Send the card on slot [1] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                    if (_DiceToRoll.Count > 2)
+                    {
+                        //Send the card on slot [2] back to deck
+                        _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                    }
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice2Summon_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[1];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 1 and 3 from the rollset must go back to the deck
+                //Send the card on slot [0] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+
+                if (_DiceToRoll.Count > 2)
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice3Summon_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[2];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 1 and 2 from the rollset must go back to the deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice1Ritual_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[0];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+                string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+                //check cards on slots [1] and [2]
+                CardInfo diceOnSlot1 = _DiceToRoll[1];
+                if (diceOnSlot1.Name != RitualSpellToBeUsed)
+                {
+                    //Send the card on slot [1] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+                }
+                else
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice2Ritual_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[1];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+                string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+                //check cards on slots [0] and [2]
+                CardInfo diceOnSlot0 = _DiceToRoll[0];
+                if (diceOnSlot0.Name != RitualSpellToBeUsed)
+                {
+                    //Send the card on slot [0] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+                }
+                else
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice3Ritual_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                CardInfo cardToBeSet = _DiceToRoll[2];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSummonCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSummonCardPhase(cardToBeSet);
+                }
+
+                //The Ritual card will be "Used" as well. send back the third card not used in the ritual (if any)
+                string RitualSpellToBeUsed = cardToBeSet.RitualCard;
+                //check cards on slots [0] and [1]
+                CardInfo diceOnSlot0 = _DiceToRoll[0];
+                if (diceOnSlot0.Name != RitualSpellToBeUsed)
+                {
+                    //Send the card on slot [0] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+                }
+                else
+                {
+                    //Send the card on slot [1 back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice1Set_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                CardInfo cardToBeSet = _DiceToRoll[0];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSetCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSetCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 2 and 3 from the rollset must go back to the deck
+                if (_DiceToRoll.Count > 1)
+                {
+                    //Send the card on slot [1] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                    if (_DiceToRoll.Count > 2)
+                    {
+                        //Send the card on slot [2] back to deck
+                        _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                    }
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice2Set_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                CardInfo cardToBeSet = _DiceToRoll[1];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSetCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSetCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 1 and 3 from the rollset must go back to the deck
+                //Send the card on slot [0] back to deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+
+                if (_DiceToRoll.Count > 2)
+                {
+                    //Send the card on slot [2] back to deck
+                    _PlayerData.Deck.AddMainCard(_DiceToRoll[2].ID);
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnDice3Set_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                CardInfo cardToBeSet = _DiceToRoll[2];
+                //Set the card in the board
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupSetCardPhase(cardToBeSet);
+                }
+                else
+                {
+                    _Board.SetupSetCardPhase(cardToBeSet);
+                }
+
+                //Cards on slot 1 and 2 from the rollset must go back to the deck
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[0].ID);
+                _PlayerData.Deck.AddMainCard(_DiceToRoll[1].ID);
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
+        private void btnGoToBoard_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //In the board reload the crest counts
+                if (_PvPMatch)
+                {
+                    _PvPBoard.SetupMainPhaseNoSummon();
+                }
+                else
+                {
+                    _Board.SetupMainPhaseNoSummon();
+                }
+
+                //Return all the cards to the deck
+                foreach (CardInfo card in _DiceToRoll)
+                {
+                    _PlayerData.Deck.AddMainCard(card.ID);
+                }
+
+                //Close this form and retrn to the board
+                Dispose();
+                if (_PvPMatch)
+                {
+                    _PvPBoard.Show();
+                }
+                else
+                {
+                    _Board.Show();
+                }
+            }));
+        }
         #endregion
+
+        /*
+            Invoke(new MethodInvoker(delegate () {
+                
+            }));
+        */
     }
 }

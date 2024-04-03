@@ -134,15 +134,15 @@ namespace DungeonDiceMonsters
             }
 
             //Set the starting tiles for each player
-            _Tiles[227].ChangeOwner(PlayerOwner.Red);
-            _Tiles[6].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[227].ChangeOwner(PlayerColor.RED);
+            _Tiles[6].ChangeOwner(PlayerColor.BLUE);
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
-            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerOwner.Red);
+            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
             RedData.AddSummoningTile(_Tiles[227]);
             _Tiles[227].SummonCard(_RedSymbol);
 
-            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerOwner.Blue);
+            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
             BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
@@ -273,42 +273,42 @@ namespace DungeonDiceMonsters
             }
 
             //Set the starting tiles for each player
-            _Tiles[227].ChangeOwner(PlayerOwner.Red);
-            _Tiles[6].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[227].ChangeOwner(PlayerColor.RED);
+            _Tiles[6].ChangeOwner(PlayerColor.BLUE);
 
             //TEST: Set some tiles
-            _Tiles[214].ChangeOwner(PlayerOwner.Red);
-            _Tiles[201].ChangeOwner(PlayerOwner.Red);
-            _Tiles[188].ChangeOwner(PlayerOwner.Red);
-            _Tiles[175].ChangeOwner(PlayerOwner.Red);
-            _Tiles[200].ChangeOwner(PlayerOwner.Red);
-            _Tiles[202].ChangeOwner(PlayerOwner.Red);
+            _Tiles[214].ChangeOwner(PlayerColor.RED);
+            _Tiles[201].ChangeOwner(PlayerColor.RED);
+            _Tiles[188].ChangeOwner(PlayerColor.RED);
+            _Tiles[175].ChangeOwner(PlayerColor.RED);
+            _Tiles[200].ChangeOwner(PlayerColor.RED);
+            _Tiles[202].ChangeOwner(PlayerColor.RED);
 
-            _Tiles[97].ChangeOwner(PlayerOwner.Red);
-            _Tiles[109].ChangeOwner(PlayerOwner.Red);
-            _Tiles[110].ChangeOwner(PlayerOwner.Red);
-            _Tiles[111].ChangeOwner(PlayerOwner.Red);
-            _Tiles[123].ChangeOwner(PlayerOwner.Red);
+            _Tiles[97].ChangeOwner(PlayerColor.RED);
+            _Tiles[109].ChangeOwner(PlayerColor.RED);
+            _Tiles[110].ChangeOwner(PlayerColor.RED);
+            _Tiles[111].ChangeOwner(PlayerColor.RED);
+            _Tiles[123].ChangeOwner(PlayerColor.RED);
 
-            _Tiles[19].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[32].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[33].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[34].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[35].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[48].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[19].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[32].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[33].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[34].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[35].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[48].ChangeOwner(PlayerColor.BLUE);
 
-            _Tiles[31].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[44].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[43].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[42].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[41].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[40].ChangeOwner(PlayerOwner.Blue);
-            _Tiles[53].ChangeOwner(PlayerOwner.Blue);
+            _Tiles[31].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[44].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[43].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[42].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[41].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[40].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[53].ChangeOwner(PlayerColor.BLUE);
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
-            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerOwner.Red);
+            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
             _Tiles[227].SummonCard(_RedSymbol);
-            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerOwner.Blue);
+            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
             _Tiles[6].SummonCard(_BlueSymbol);
 
             //test
@@ -319,32 +319,32 @@ namespace DungeonDiceMonsters
 
             //TEST Summon a monster to move
             _CurrentTileSelected = _Tiles[201];
-            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerOwner.Red, false);
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(4), PlayerColor.RED, false);
             _CardsOnBoard.Add(thisCard);
             _CurrentTileSelected.SummonCard(thisCard);
 
             _CurrentTileSelected = _Tiles[35];
-            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerOwner.Red, false);
+            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(6), PlayerColor.RED, false);
             _CardsOnBoard.Add(thisCard2);
             _CurrentTileSelected.SummonCard(thisCard2);
 
             _CurrentTileSelected = _Tiles[48];
-            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(5), PlayerOwner.Blue, false);
+            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(5), PlayerColor.BLUE, false);
             _CardsOnBoard.Add(thisCard3);
             _CurrentTileSelected.SummonCard(thisCard3);
 
             _CurrentTileSelected = _Tiles[40];
-            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerOwner.Blue, false);
+            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(2), PlayerColor.BLUE, false);
             _CardsOnBoard.Add(thisCard4);
             _CurrentTileSelected.SummonCard(thisCard4);
 
             _CurrentTileSelected = _Tiles[110];
-            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerOwner.Red, true);
+            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerColor.RED, true);
             _CardsOnBoard.Add(thisCard5);
             _CurrentTileSelected.SetCard(thisCard5);
 
             _CurrentTileSelected = _Tiles[31];
-            Card thisCard6 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerOwner.Blue, true);
+            Card thisCard6 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(10), PlayerColor.BLUE, true);
             _CardsOnBoard.Add(thisCard6);
             _CurrentTileSelected.SetCard(thisCard6);
 
@@ -537,7 +537,7 @@ namespace DungeonDiceMonsters
                 int cardID = thisCard.CardID;
 
                 //Set the Panel Back Color based on whose the card owner
-                if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                if (_CurrentTileSelected.CardInPlace.Owner == PlayerColor.RED)
                 {
                     PanelCardInfo.BackColor = Color.DarkRed;
                 }
@@ -546,7 +546,7 @@ namespace DungeonDiceMonsters
                     PanelCardInfo.BackColor = Color.DarkBlue;
                 }
 
-                if(thisCard.IsFaceDown && thisCard.Owner == PlayerOwner.Blue)
+                if(thisCard.IsFaceDown && thisCard.Owner == PlayerColor.BLUE)
                 {
                     if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
                     PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
@@ -677,7 +677,7 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.North))
             {
                 Tile northTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.North);
-                if (northTile.Owner != PlayerOwner.None)
+                if (northTile.Owner != PlayerColor.NONE)
                 {
                     if (!(northTile.IsOccupied))
                     {
@@ -691,7 +691,7 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.South))
             {
                 Tile southTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.South);
-                if (southTile.Owner != PlayerOwner.None)
+                if (southTile.Owner != PlayerColor.NONE)
                 {
                     if (!(southTile.IsOccupied))
                     {
@@ -705,7 +705,7 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.East))
             {
                 Tile eastTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.East);
-                if (eastTile.Owner != PlayerOwner.None)
+                if (eastTile.Owner != PlayerColor.NONE)
                 {
                     if (!(eastTile.IsOccupied))
                     {
@@ -719,7 +719,7 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.West))
             {
                 Tile westTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.West);
-                if (westTile.Owner != PlayerOwner.None)
+                if (westTile.Owner != PlayerColor.NONE)
                 {
                     if (!(westTile.IsOccupied))
                     {
@@ -922,7 +922,7 @@ namespace DungeonDiceMonsters
 
                 //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
                 //if none of the tiles are adjecent to any other owned by the player)
-                _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerOwner.Red);
+                _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, PlayerColor.RED);
 
                 //Draw the dimension shape
                 _dimensionTiles[0].MarkDimensionSummonTile();
@@ -962,7 +962,7 @@ namespace DungeonDiceMonsters
             {
                 if (_CurrentTileSelected.IsOccupied)
                 {
-                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerOwner.Red)
+                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerColor.RED)
                     {
                         SoundServer.PlaySoundEffect(SoundEffect.Click);
 
@@ -1004,7 +1004,7 @@ namespace DungeonDiceMonsters
                         // 4. Card is a monster
 
 
-                        _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerOwner.Blue);
+                        _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerColor.BLUE);
                         if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
                         {
                             btnActionAttack.Enabled = false;
@@ -1150,7 +1150,7 @@ namespace DungeonDiceMonsters
                     //TODO: Add a sounds effect here to set the card
 
                     //Set Card here
-                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), PlayerOwner.Red, true);
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), PlayerColor.RED, true);
                     _CardsOnBoard.Add(thisCard);
                     _Tiles[tileId].SetCard(thisCard);
 
@@ -1176,11 +1176,11 @@ namespace DungeonDiceMonsters
                     //Dimension the tiles
                     foreach(Tile tile in _dimensionTiles)
                     {
-                        tile.ChangeOwner(PlayerOwner.Red);
+                        tile.ChangeOwner(PlayerColor.RED);
                     }
 
                     //then summon the card
-                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), PlayerOwner.Red, false);
+                    Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), PlayerColor.RED, false);
                     _CardsOnBoard.Add(thisCard);
                     _Tiles[tileId].SummonCard(thisCard);
 

@@ -6,7 +6,7 @@ namespace DungeonDiceMonsters
 {
     public class Dimension
     {
-        public Dimension(Tile[] tiles, DimensionForms form, PlayerOwner owner) 
+        public Dimension(Tile[] tiles, DimensionForms form, PlayerColor owner) 
         {
             _Tiles = tiles;
             _Form = form;
@@ -17,7 +17,7 @@ namespace DungeonDiceMonsters
         public bool IsValid { get { return _IsValid; } }
         public DimensionForms Form { get { return _Form; } }
 
-        public static bool IsThisDimensionValid(Tile[] tiles, PlayerOwner owner)
+        public static bool IsThisDimensionValid(Tile[] tiles, PlayerColor owner)
         {
             bool validDimension = true;
             int adjencentToPlayerCount = 0;
@@ -31,7 +31,7 @@ namespace DungeonDiceMonsters
                 else
                 {
                     //If any of the tiles HAS an owner, then it is invalid
-                    if (tiles[x].Owner != PlayerOwner.None)
+                    if (tiles[x].Owner != PlayerColor.NONE)
                     {
                         validDimension = false; break;
                     }

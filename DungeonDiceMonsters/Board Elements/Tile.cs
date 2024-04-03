@@ -72,7 +72,7 @@ namespace DungeonDiceMonsters
         {
             SetTileColor();
         }
-        public void ChangeOwner(PlayerOwner owner)
+        public void ChangeOwner(PlayerColor owner)
         {
             _Owner = owner;
             SetTileColor();
@@ -149,7 +149,7 @@ namespace DungeonDiceMonsters
             _CardImage.Image = null;
             _StatsLabel.Visible = false;
         }
-        public List<Tile> GetAttackTargerCandidates(PlayerOwner enemy)
+        public List<Tile> GetAttackTargerCandidates(PlayerColor enemy)
         {
             List<Tile> candidates = new List<Tile>();
 
@@ -160,7 +160,7 @@ namespace DungeonDiceMonsters
 
             return candidates;
         }
-        private bool HasAnAdjecentEnemyCard(TileDirection direction, PlayerOwner enemy)
+        private bool HasAnAdjecentEnemyCard(TileDirection direction, PlayerColor enemy)
         {
             bool hasIt = false;
             switch (direction) 
@@ -205,7 +205,7 @@ namespace DungeonDiceMonsters
 
             return hasIt;
         }
-        public bool HasAnAdjecentTileOwnBy(PlayerOwner expectedOwner)
+        public bool HasAnAdjecentTileOwnBy(PlayerColor expectedOwner)
         {
             bool hasIt = false;
 
@@ -247,9 +247,9 @@ namespace DungeonDiceMonsters
         {
             switch (_Owner)
             {
-                case PlayerOwner.None: _CardImage.BackColor = Color.Transparent; _Border.BackColor = Color.Transparent; break;
-                case PlayerOwner.Red: _CardImage.BackColor = Color.DarkRed; _Border.BackColor = Color.DarkRed; break;
-                case PlayerOwner.Blue: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
+                case PlayerColor.NONE: _CardImage.BackColor = Color.Transparent; _Border.BackColor = Color.Transparent; break;
+                case PlayerColor.RED: _CardImage.BackColor = Color.DarkRed; _Border.BackColor = Color.DarkRed; break;
+                case PlayerColor.BLUE: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
             }
 
             if( _IsSummonTile ) 
@@ -657,7 +657,7 @@ namespace DungeonDiceMonsters
         public Card CardInPlace { get { return _card; } }
         public bool IsOccupied { get { return _Occupied; } }
         public bool IsSummonTile { get { return _IsSummonTile; } }
-        public PlayerOwner Owner { get { return _Owner; } }
+        public PlayerColor Owner { get { return _Owner; } }
         public int CardID
         {
             get
@@ -682,7 +682,7 @@ namespace DungeonDiceMonsters
         private bool _Occupied = false;
         private bool _IsSummonTile = false;
         private Card _card = null;
-        private PlayerOwner _Owner = PlayerOwner.None;
+        private PlayerColor _Owner = PlayerColor.NONE;
         private Tile _NorthTile = null;
         private Tile _SouthTile = null;
         private Tile _EastTile = null;
@@ -690,12 +690,6 @@ namespace DungeonDiceMonsters
         #endregion
     }
 
-    public enum PlayerOwner
-    {
-        None,
-        Red,
-        Blue
-    }
     public enum TileDirection 
     {
         North,

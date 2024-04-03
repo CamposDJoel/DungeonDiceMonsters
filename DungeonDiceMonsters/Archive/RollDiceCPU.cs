@@ -97,7 +97,7 @@ namespace DungeonDiceMonsters
                 {
                     Tile thisTile = BoardTiles[t];
                     Tile[] dimensionTiles = thisTile.GetDimensionTiles(thisForm);
-                    Dimension thisDimension = new Dimension(dimensionTiles, thisForm, PlayerOwner.Blue);
+                    Dimension thisDimension = new Dimension(dimensionTiles, thisForm, PlayerColor.BLUE);
 
                     if (thisDimension.IsValid)
                     {
