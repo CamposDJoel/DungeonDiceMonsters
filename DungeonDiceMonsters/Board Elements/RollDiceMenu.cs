@@ -254,7 +254,7 @@ namespace DungeonDiceMonsters
                 {
                     dices[x].Enabled = true;
                     if (dices[x].Image != null) { dices[x].Image.Dispose(); }
-                    if(_IsUserTurn)
+                    if(_IsUserTurn || _RevealRollCards)
                     {
                         dices[x].Image = ImageServer.FullCardImage(_DiceToRoll[x].ID);
                     }
@@ -556,6 +556,7 @@ namespace DungeonDiceMonsters
             {
                 case "[SELECT DECK CARD TO ROLL]": DeckCard_Base(Convert.ToInt32(MessageTokens[3])); break;
                 case "[SELECT ROLL CARD TO DECK]": RollCard_Base(Convert.ToInt32(MessageTokens[3])); break;
+                case "[CLICK ROLL!!]":             btnRoll_Base(Convert.ToInt32(MessageTokens[3]), Convert.ToInt32(MessageTokens[4]), Convert.ToInt32(MessageTokens[5])); break;
                 
             }
         }
@@ -572,6 +573,7 @@ namespace DungeonDiceMonsters
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
+        private bool _RevealRollCards = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         #endregion
@@ -670,184 +672,16 @@ namespace DungeonDiceMonsters
         }
         private void btnRoll_Click(object sender, EventArgs e)
         {
-           SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Run the rnd first so you can send the results on to the server
+            int ResultA = Rand.DiceRoll();
+            int ResultB = Rand.DiceRoll();
+            int ResultC = Rand.DiceRoll();
 
-            //Disable and hide all the not interactable elements 
-            _DiceRolled = true;
-            PanelDeck.Enabled = false;
-            GroupDicesToRoll.Enabled = false;
-            btnRoll.Visible = false;
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[CLICK ROLL!!]|{0}|{1}|{2}", ResultA, ResultB, ResultC));
 
-            //Roll the dice
-            int[] diceIndex = new int[3] { -1, -1, -1 };
-            Crest[] diceFace = new Crest[3] { Crest.NONE, Crest.NONE, Crest.NONE };
-            int[] diceValue = new int[3] { 0, 0, 0 };
-
-            //display the result faces
-            diceIndex[0] = Rand.DiceRoll();
-            CardInfo Dice1 = _DiceToRoll[0];
-
-            for(int x  = 0; x < 6; x++) 
-            {
-                SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                PicDiceResult1.Image = null;
-                PicDiceResult1.BackColor = Color.White;
-                BoardForm.WaitNSeconds(100);
-                PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, Dice1.DiceFace(x).ToString(), Dice1.DiceFaceValue(x));
-                BoardForm.WaitNSeconds(100);
-            }
-            diceFace[0] = Dice1.DiceFace(diceIndex[0]);
-            diceValue[0] = Dice1.DiceFaceValue(diceIndex[0]);
-            PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, diceFace[0].ToString(), diceValue[0]);
-
-
-            if (_DiceToRoll.Count > 1) 
-            {
-                diceIndex[1] = Rand.DiceRoll();
-                CardInfo Dice2 = _DiceToRoll[1];
-                for (int x = 0; x < 6; x++)
-                {
-                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                    PicDiceResult2.Image = null;
-                    PicDiceResult2.BackColor = Color.White;
-                    BoardForm.WaitNSeconds(100);
-                    PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, Dice2.DiceFace(x).ToString(), Dice2.DiceFaceValue(x));
-                    BoardForm.WaitNSeconds(100);
-                }
-                diceFace[1] = Dice2.DiceFace(diceIndex[1]);
-                diceValue[1] = Dice2.DiceFaceValue(diceIndex[1]);
-                PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, diceFace[1].ToString(), diceValue[1]);
-            }
-            else
-            {
-                PicDiceResult2.Image = null;
-            }
-
-            if (_DiceToRoll.Count > 2) 
-            {
-                diceIndex[2] = Rand.DiceRoll();
-                CardInfo Dice3 = _DiceToRoll[2];
-                for (int x = 0; x < 6; x++)
-                {
-                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
-                    PicDiceResult3.Image = null;
-                    PicDiceResult3.BackColor = Color.White;
-                    BoardForm.WaitNSeconds(100);
-                    PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, Dice3.DiceFace(x).ToString(), Dice3.DiceFaceValue(x));
-                    BoardForm.WaitNSeconds(100);
-                }
-                diceFace[2] = Dice3.DiceFace(diceIndex[2]);
-                diceValue[2] = Dice3.DiceFaceValue(diceIndex[2]);
-                PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, diceFace[2].ToString(), diceValue[2]);
-            }
-            else
-            {
-                PicDiceResult3.Image = null;
-            }
-
-            //Call the logic           
-            int[] results = GetDiceSummonSetStatus(_DiceToRoll, diceFace, diceValue);
-           
-            //Calculate the crests to add to the pool
-            int movToAdd = 0;
-            int atkToAdd = 0;
-            int defToAdd = 0;
-            int magToAdd = 0;
-            int trapToAdd = 0;
-            for(int x = 0; x < 3; x++)
-            {
-                if (results[x] == 0)
-                {
-                    switch (diceFace[x])
-                    {
-                        case Crest.MOV: movToAdd += diceValue[x]; break;
-                        case Crest.ATK: atkToAdd += diceValue[x]; break;
-                        case Crest.DEF: defToAdd += diceValue[x]; break;
-                        case Crest.MAG: magToAdd += diceValue[x]; break;
-                        case Crest.TRAP: trapToAdd += diceValue[x]; break;
-                    }
-                }
-            }
-
-            //Do a little delay here to pace the animation
-            BoardForm.WaitNSeconds(1000);
-
-            //Add them to the pool
-            for(int x = 0; x < movToAdd; x++)
-            {
-                _PlayerData.AddCrests(Crest.MOV, 1);
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                BoardForm.WaitNSeconds(200);
-                lblMOVCount.ForeColor = Color.Green;
-                lblMOVCount.Text = _PlayerData.Crests_MOV.ToString();
-            }
-            for (int x = 0; x < atkToAdd; x++)
-            {
-                _PlayerData.AddCrests(Crest.ATK, 1);
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                BoardForm.WaitNSeconds(200);
-                lblATKCount.ForeColor = Color.Green;
-                lblATKCount.Text = _PlayerData.Crests_ATK.ToString();
-            }
-            for (int x = 0; x < defToAdd; x++)
-            {
-                _PlayerData.AddCrests(Crest.DEF, 1);
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                BoardForm.WaitNSeconds(200);
-                lblDEFCount.ForeColor = Color.Green;
-                lblDEFCount.Text = _PlayerData.Crests_DEF.ToString();
-            }
-            for (int x = 0; x < magToAdd; x++)
-            {
-                _PlayerData.AddCrests(Crest.MAG, 1);
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                BoardForm.WaitNSeconds(200);
-                lblMAGCount.ForeColor = Color.Green;
-                lblMAGCount.Text = _PlayerData.Crests_MAG.ToString();
-            }
-            for (int x = 0; x < trapToAdd; x++)
-            {
-                _PlayerData.AddCrests(Crest.TRAP, 1);
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                BoardForm.WaitNSeconds(200);
-                lblTRAPCount.ForeColor = Color.Green;
-                lblTRAPCount.Text = _PlayerData.Crests_TRAP.ToString();
-            }
-
-            //Display the Summon Set buttons for the dice that qualifyfir
-            bool canSummonSet = false;
-            switch (results[0])
-            {
-                //Normal Summon (Note that if there are not dimesion spaces, you cannot summon)
-                case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; canSummonSet = true; } break;
-                //Set (Note that if there are not free summon tiles you cant set)
-                case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; canSummonSet = true; } break;
-                //Ritual Summon (Note that if there are not dimesion spaces, you cannot summon)
-                case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; canSummonSet = true; } break;
-            }
-            switch (results[1])
-            {
-                //Normal Summon
-                case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; canSummonSet = true; } break;
-                case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; canSummonSet = true; } break;
-                case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; canSummonSet = true; } break;
-            }
-            switch (results[2])
-            {
-                //Normal Summon
-                case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; canSummonSet = true; } break;
-                case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; canSummonSet = true; } break;
-                case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; canSummonSet = true; } break;
-            }
-
-            _DiceRolled = true;
-            GroupDicesToRoll.Enabled = true;
-
-            if(!canSummonSet)
-            {
-                //Display "Go to the board" button
-                btnGoToBoard.Visible = true;
-            }
+            //Perform the action
+            btnRoll_Base(ResultA, ResultB, ResultC);
         }
         private void btnDice1Summon_Click(object sender, EventArgs e)
         {
@@ -1300,6 +1134,196 @@ namespace DungeonDiceMonsters
                             lblNoSummonTilesWarning.Visible = false;
                         }
                     }
+                }
+            }));
+        }
+        private void btnRoll_Base(int resultA, int resultB, int resultC)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Disable and hide all the not interactable elements 
+                _DiceRolled = true;
+                PanelDeck.Enabled = false;
+                GroupDicesToRoll.Enabled = false;
+                btnRoll.Visible = false;
+
+                //If this is not the user's turn, reveal the face down cards in the Roll Slots
+                if (!_IsUserTurn)
+                {
+                    _RevealRollCards = true;
+                    LoadDiceToRoll();
+                }
+
+                //Roll the dice
+                int[] diceIndex = new int[3] { -1, -1, -1 };
+                Crest[] diceFace = new Crest[3] { Crest.NONE, Crest.NONE, Crest.NONE };
+                int[] diceValue = new int[3] { 0, 0, 0 };
+
+                //display the result faces
+                diceIndex[0] = resultA;
+                CardInfo Dice1 = _DiceToRoll[0];
+
+                for (int x = 0; x < 6; x++)
+                {
+                    SoundServer.PlaySoundEffect(SoundEffect.Attack);
+                    PicDiceResult1.Image = null;
+                    PicDiceResult1.BackColor = Color.White;
+                    BoardForm.WaitNSeconds(100);
+                    PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, Dice1.DiceFace(x).ToString(), Dice1.DiceFaceValue(x));
+                    BoardForm.WaitNSeconds(100);
+                }
+                diceFace[0] = Dice1.DiceFace(diceIndex[0]);
+                diceValue[0] = Dice1.DiceFaceValue(diceIndex[0]);
+                PicDiceResult1.Image = ImageServer.DiceFace(Dice1.DiceLevel, diceFace[0].ToString(), diceValue[0]);
+
+
+                if (_DiceToRoll.Count > 1)
+                {
+                    diceIndex[1] = resultB;
+                    CardInfo Dice2 = _DiceToRoll[1];
+                    for (int x = 0; x < 6; x++)
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.Attack);
+                        PicDiceResult2.Image = null;
+                        PicDiceResult2.BackColor = Color.White;
+                        BoardForm.WaitNSeconds(100);
+                        PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, Dice2.DiceFace(x).ToString(), Dice2.DiceFaceValue(x));
+                        BoardForm.WaitNSeconds(100);
+                    }
+                    diceFace[1] = Dice2.DiceFace(diceIndex[1]);
+                    diceValue[1] = Dice2.DiceFaceValue(diceIndex[1]);
+                    PicDiceResult2.Image = ImageServer.DiceFace(Dice2.DiceLevel, diceFace[1].ToString(), diceValue[1]);
+                }
+                else
+                {
+                    PicDiceResult2.Image = null;
+                }
+
+                if (_DiceToRoll.Count > 2)
+                {
+                    diceIndex[2] = resultC;
+                    CardInfo Dice3 = _DiceToRoll[2];
+                    for (int x = 0; x < 6; x++)
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.Attack);
+                        PicDiceResult3.Image = null;
+                        PicDiceResult3.BackColor = Color.White;
+                        BoardForm.WaitNSeconds(100);
+                        PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, Dice3.DiceFace(x).ToString(), Dice3.DiceFaceValue(x));
+                        BoardForm.WaitNSeconds(100);
+                    }
+                    diceFace[2] = Dice3.DiceFace(diceIndex[2]);
+                    diceValue[2] = Dice3.DiceFaceValue(diceIndex[2]);
+                    PicDiceResult3.Image = ImageServer.DiceFace(Dice3.DiceLevel, diceFace[2].ToString(), diceValue[2]);
+                }
+                else
+                {
+                    PicDiceResult3.Image = null;
+                }
+
+                //Call the logic           
+                int[] results = GetDiceSummonSetStatus(_DiceToRoll, diceFace, diceValue);
+
+                //Calculate the crests to add to the pool
+                int movToAdd = 0;
+                int atkToAdd = 0;
+                int defToAdd = 0;
+                int magToAdd = 0;
+                int trapToAdd = 0;
+                for (int x = 0; x < 3; x++)
+                {
+                    if (results[x] == 0)
+                    {
+                        switch (diceFace[x])
+                        {
+                            case Crest.MOV: movToAdd += diceValue[x]; break;
+                            case Crest.ATK: atkToAdd += diceValue[x]; break;
+                            case Crest.DEF: defToAdd += diceValue[x]; break;
+                            case Crest.MAG: magToAdd += diceValue[x]; break;
+                            case Crest.TRAP: trapToAdd += diceValue[x]; break;
+                        }
+                    }
+                }
+
+                //Do a little delay here to pace the animation
+                BoardForm.WaitNSeconds(1000);
+
+                //Add them to the pool
+                for (int x = 0; x < movToAdd; x++)
+                {
+                    _PlayerData.AddCrests(Crest.MOV, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    BoardForm.WaitNSeconds(200);
+                    lblMOVCount.ForeColor = Color.Green;
+                    lblMOVCount.Text = _PlayerData.Crests_MOV.ToString();
+                }
+                for (int x = 0; x < atkToAdd; x++)
+                {
+                    _PlayerData.AddCrests(Crest.ATK, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    BoardForm.WaitNSeconds(200);
+                    lblATKCount.ForeColor = Color.Green;
+                    lblATKCount.Text = _PlayerData.Crests_ATK.ToString();
+                }
+                for (int x = 0; x < defToAdd; x++)
+                {
+                    _PlayerData.AddCrests(Crest.DEF, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    BoardForm.WaitNSeconds(200);
+                    lblDEFCount.ForeColor = Color.Green;
+                    lblDEFCount.Text = _PlayerData.Crests_DEF.ToString();
+                }
+                for (int x = 0; x < magToAdd; x++)
+                {
+                    _PlayerData.AddCrests(Crest.MAG, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    BoardForm.WaitNSeconds(200);
+                    lblMAGCount.ForeColor = Color.Green;
+                    lblMAGCount.Text = _PlayerData.Crests_MAG.ToString();
+                }
+                for (int x = 0; x < trapToAdd; x++)
+                {
+                    _PlayerData.AddCrests(Crest.TRAP, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    BoardForm.WaitNSeconds(200);
+                    lblTRAPCount.ForeColor = Color.Green;
+                    lblTRAPCount.Text = _PlayerData.Crests_TRAP.ToString();
+                }
+
+                //Display the Summon Set buttons for the dice that qualifyfir
+                bool canSummonSet = false;
+                switch (results[0])
+                {
+                    //Normal Summon (Note that if there are not dimesion spaces, you cannot summon)
+                    case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; canSummonSet = true; } break;
+                    //Set (Note that if there are not free summon tiles you cant set)
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; canSummonSet = true; } break;
+                    //Ritual Summon (Note that if there are not dimesion spaces, you cannot summon)
+                    case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; canSummonSet = true; } break;
+                }
+                switch (results[1])
+                {
+                    //Normal Summon
+                    case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; canSummonSet = true; } break;
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; canSummonSet = true; } break;
+                    case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; canSummonSet = true; } break;
+                }
+                switch (results[2])
+                {
+                    //Normal Summon
+                    case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; canSummonSet = true; } break;
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; canSummonSet = true; } break;
+                    case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; canSummonSet = true; } break;
+                }
+
+                _DiceRolled = true;
+                GroupDicesToRoll.Enabled = true;
+
+                if (!canSummonSet)
+                {
+                    //Display "Go to the board" button
+                    btnGoToBoard.Visible = true;
                 }
             }));
         }

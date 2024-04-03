@@ -1006,7 +1006,7 @@ namespace DungeonDiceMonsters
                 PanelTurnStartMenu.Visible = false;
 
                 bool IsUserTurn = (UserPlayerColor == TURNPLAYER);
-                if (UserPlayerColor == PlayerColor.RED)
+                if (TURNPLAYER == PlayerColor.RED)
                 {
                     _RollDiceForm = new RollDiceMenu(IsUserTurn, RedData, this, ns);
                     Hide();
