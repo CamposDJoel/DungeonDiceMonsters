@@ -8,23 +8,24 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
-{
-    public enum GameState
-    {
-        TurnStartMenu,
-        BoardViewMode,
-        MainPhaseBoard,
-        ActionMenuDisplay,
-        MovingCard,
-        SelectingAttackTarger,
-        BattleMenuAttackMode,
-        BattleMenuDefenseMode,
-        SetCard,
-        SummonCard,
-        CPUTurn,
-    }
+{   
     public partial class BoardForm : Form
     {
+        private enum GameState
+        {
+            TurnStartMenu,
+            BoardViewMode,
+            MainPhaseBoard,
+            ActionMenuDisplay,
+            MovingCard,
+            SelectingAttackTarger,
+            BattleMenuAttackMode,
+            BattleMenuDefenseMode,
+            SetCard,
+            SummonCard,
+            CPUTurn,
+        }
+
         #region Constructors
         public BoardForm(PlayerData Red, PlayerData Blue)
         {

@@ -1221,9 +1221,10 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.PanelContainer);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "FreeDuelMenu";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DDM - Free Duel";
             this.PanelContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicChar34)).EndInit();

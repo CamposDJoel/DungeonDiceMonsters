@@ -18,6 +18,10 @@ namespace DungeonDiceMonsters
         {
             InitializeComponent();
             listDeckList.SetSelected(0, true);
+            _CurrentDeckSelected = new Deck();
+            _CurrentDeckSelected.AddMainCard(88819587);
+            _CurrentDeckSelected.AddMainCard(83464209);
+            _CurrentDeckSelected.AddMainCard(1641882);
         }
         #endregion
 

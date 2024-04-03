@@ -146,6 +146,7 @@
             this.lblAttacker = new System.Windows.Forms.Label();
             this.lblDefender = new System.Windows.Forms.Label();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
+            this.lblOponentActionWarning = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -857,6 +858,7 @@
             this.btnFormFlip.TabIndex = 6;
             this.btnFormFlip.Text = "<- Flip ->";
             this.btnFormFlip.UseVisualStyleBackColor = false;
+            this.btnFormFlip.Click += new System.EventHandler(this.btnFormFlip_Click);
             // 
             // BtnFormTurnRight
             // 
@@ -869,6 +871,7 @@
             this.BtnFormTurnRight.TabIndex = 5;
             this.BtnFormTurnRight.Text = "Turn ->";
             this.BtnFormTurnRight.UseVisualStyleBackColor = false;
+            this.BtnFormTurnRight.Click += new System.EventHandler(this.BtnFormTurnRight_Click);
             // 
             // BtnFormTurnLeft
             // 
@@ -881,6 +884,7 @@
             this.BtnFormTurnLeft.TabIndex = 4;
             this.BtnFormTurnLeft.Text = "Turn <-";
             this.BtnFormTurnLeft.UseVisualStyleBackColor = false;
+            this.BtnFormTurnLeft.Click += new System.EventHandler(this.BtnFormTurnLeft_Click);
             // 
             // btnNextForm
             // 
@@ -892,6 +896,7 @@
             this.btnNextForm.TabIndex = 3;
             this.btnNextForm.Text = ">>";
             this.btnNextForm.UseVisualStyleBackColor = false;
+            this.btnNextForm.Click += new System.EventHandler(this.btnNextForm_Click);
             // 
             // btnPreviousForm
             // 
@@ -903,6 +908,7 @@
             this.btnPreviousForm.TabIndex = 2;
             this.btnPreviousForm.Text = "<<";
             this.btnPreviousForm.UseVisualStyleBackColor = false;
+            this.btnPreviousForm.Click += new System.EventHandler(this.btnPreviousForm_Click);
             // 
             // lblFormName
             // 
@@ -1137,6 +1143,7 @@
             this.btnEndTurn.Text = "END TURN";
             this.btnEndTurn.UseVisualStyleBackColor = false;
             this.btnEndTurn.Visible = false;
+            this.btnEndTurn.Click += new System.EventHandler(this.btnEndTurn_Click);
             // 
             // lblSummonMessage
             // 
@@ -1574,6 +1581,18 @@
             this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSetCardMessage.Visible = false;
             // 
+            // lblOponentActionWarning
+            // 
+            this.lblOponentActionWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblOponentActionWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOponentActionWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOponentActionWarning.Location = new System.Drawing.Point(4, 236);
+            this.lblOponentActionWarning.Name = "lblOponentActionWarning";
+            this.lblOponentActionWarning.Size = new System.Drawing.Size(138, 82);
+            this.lblOponentActionWarning.TabIndex = 4;
+            this.lblOponentActionWarning.Text = "Opponent is taking action...";
+            this.lblOponentActionWarning.Visible = false;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1581,6 +1600,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 906);
+            this.Controls.Add(this.lblOponentActionWarning);
             this.Controls.Add(this.lblSetCardMessage);
             this.Controls.Add(this.btnEndTurn);
             this.Controls.Add(this.lblSummonMessage);
@@ -1595,9 +1615,10 @@
             this.Controls.Add(this.PanelBattleMenu);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "BoardPvP";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dungeon Dice Monsters";
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
@@ -1766,5 +1787,6 @@
         private System.Windows.Forms.Label lblDefender;
         private System.Windows.Forms.Label lblSetCardMessage;
         private System.Windows.Forms.Label lblTurnStartInactiveWarning;
+        private System.Windows.Forms.Label lblOponentActionWarning;
     }
 }

@@ -383,10 +383,22 @@ namespace DungeonDiceMonsters
             PicDiceFace5.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(4).ToString(), thisCard.DiceFaceValue(4));
             PicDiceFace6.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(5).ToString(), thisCard.DiceFaceValue(5));
         }
-        public static int[] GetDiceSummonSetStatus(List<CardInfo> Dice, Crest[] diceFace, int[] diceValue)
+        public static int[] GetDiceSummonSetStatus(List<CardInfo> DiceOG, Crest[] diceFace, int[] diceValue)
         {
             //Return codes: -1 - No Dice | 0 - Non Star/Ritual | 1 - Summon | 2 - Set | 3 - Star/Ritual No Match | 4 - Ritual Summon | 5 - Ritual Spell
             int[] results = new int[3];
+
+            //We need to override the List of dice rolled... but this is going to mess things off later (bc we are passing a list by ref programing 101 dude)
+            //so make a new list and get the items from the og list, then u can mod it without worries.
+            List<CardInfo> Dice = new List<CardInfo>();
+            foreach (var item in DiceOG)
+            {
+                Dice.Add(item);
+            }
+
+            //Adding "dummy" dices when rolling only 1 or 2 dice in the form. this is to prevent index out of range exceptions
+            if (Dice.Count == 1) { Dice.Add(new CardInfo(Attribute.DARK)); }
+            if(Dice.Count == 2) { Dice.Add(new CardInfo(Attribute.DARK)); }
 
             //Check Dice
             results[0] = CompareDice(Dice[0], Dice[1], Dice[2], diceFace[0], diceFace[1], diceFace[2], diceValue[0], diceValue[1], diceValue[2]);

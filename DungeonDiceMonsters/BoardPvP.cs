@@ -615,9 +615,11 @@ namespace DungeonDiceMonsters
         }
         private void UpdateDimensionPreview()
         {
-            //if (PicCurrentForm.Image != null) { PicCurrentForm.Dispose(); }
-            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
 
+            //Update UI
+            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
         #endregion
@@ -649,6 +651,8 @@ namespace DungeonDiceMonsters
                     //These messages will have a secondary key that will be used inside that form for processing.
                     case "[ROLL DICE FORM REQUEST]": _RollDiceForm.ReceiveMesageFromServer(DATARECEIVED); break;
                     case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[END TURN]": btnEndTurn_Base(); break;
+                    case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[2])); break;
                 }
             }
             else
@@ -770,7 +774,7 @@ namespace DungeonDiceMonsters
                 {
                     if (_CurrentTileSelected.IsOccupied)
                     {
-                        if (_CurrentTileSelected.CardInPlace.Owner != UserPlayerColor)
+                        if (_CurrentTileSelected.CardInPlace.Owner == UserPlayerColor)
                         {
                             SoundServer.PlaySoundEffect(SoundEffect.Click);
 
@@ -999,6 +1003,215 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Side Bar and Dimension Menu
+        private void btnEndTurn_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}", "[END TURN]", _CurrentGameState.ToString()));
+
+            //Perform the action
+            btnEndTurn_Base();
+        }
+        private void btnNextForm_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase:
+                case DimensionForms.CrossRight:
+                case DimensionForms.CrossLeft:
+                case DimensionForms.CrossUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.LongBase; break;
+
+                case DimensionForms.LongBase:
+                case DimensionForms.LongRight:
+                case DimensionForms.LongLeft:
+                case DimensionForms.LongUpSideDown:
+                case DimensionForms.LongFlippedBase:
+                case DimensionForms.LongFlippedRight:
+                case DimensionForms.LongFlippedLeft:
+                case DimensionForms.LongFlippedUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.ZBase; break;
+
+                case DimensionForms.ZBase:
+                case DimensionForms.ZRight:
+                case DimensionForms.ZLeft:
+                case DimensionForms.ZUpSideDown:
+                case DimensionForms.ZFlippedBase:
+                case DimensionForms.ZFlippedRight:
+                case DimensionForms.ZFlippedLeft:
+                case DimensionForms.ZFlippedUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.TBase; break;
+
+                case DimensionForms.TBase:
+                case DimensionForms.TRight:
+                case DimensionForms.TLeft:
+                case DimensionForms.TUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.CrossBase; break;
+            }
+
+            UpdateDimensionPreview();
+        }
+        private void btnPreviousForm_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase:
+                case DimensionForms.CrossRight:
+                case DimensionForms.CrossLeft:
+                case DimensionForms.CrossUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.TBase; break;
+
+                case DimensionForms.LongBase:
+                case DimensionForms.LongRight:
+                case DimensionForms.LongLeft:
+                case DimensionForms.LongUpSideDown:
+                case DimensionForms.LongFlippedBase:
+                case DimensionForms.LongFlippedRight:
+                case DimensionForms.LongFlippedLeft:
+                case DimensionForms.LongFlippedUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.CrossBase; break;
+
+                case DimensionForms.ZBase:
+                case DimensionForms.ZRight:
+                case DimensionForms.ZLeft:
+                case DimensionForms.ZUpSideDown:
+                case DimensionForms.ZFlippedBase:
+                case DimensionForms.ZFlippedRight:
+                case DimensionForms.ZFlippedLeft:
+                case DimensionForms.ZFlippedUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.LongBase; break;
+
+                case DimensionForms.TBase:
+                case DimensionForms.TRight:
+                case DimensionForms.TLeft:
+                case DimensionForms.TUpSideDown:
+                    _CurrentDimensionForm = DimensionForms.ZBase; break;
+            }
+
+            UpdateDimensionPreview();
+        }
+        private void btnFormFlip_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase: break;
+                case DimensionForms.CrossRight: _CurrentDimensionForm = DimensionForms.CrossLeft; break;
+                case DimensionForms.CrossLeft: _CurrentDimensionForm = DimensionForms.CrossRight; break;
+                case DimensionForms.CrossUpSideDown: break;
+
+                case DimensionForms.LongBase: _CurrentDimensionForm = DimensionForms.LongFlippedBase; break;
+                case DimensionForms.LongRight: _CurrentDimensionForm = DimensionForms.LongFlippedLeft; break;
+                case DimensionForms.LongLeft: _CurrentDimensionForm = DimensionForms.LongFlippedRight; break;
+                case DimensionForms.LongUpSideDown: _CurrentDimensionForm = DimensionForms.LongFlippedUpSideDown; break;
+
+                case DimensionForms.LongFlippedBase: _CurrentDimensionForm = DimensionForms.LongBase; break;
+                case DimensionForms.LongFlippedRight: _CurrentDimensionForm = DimensionForms.LongLeft; break;
+                case DimensionForms.LongFlippedLeft: _CurrentDimensionForm = DimensionForms.LongRight; break;
+                case DimensionForms.LongFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.LongUpSideDown; break;
+
+                case DimensionForms.ZBase: _CurrentDimensionForm = DimensionForms.ZFlippedBase; break;
+                case DimensionForms.ZRight: _CurrentDimensionForm = DimensionForms.ZFlippedLeft; break;
+                case DimensionForms.ZLeft: _CurrentDimensionForm = DimensionForms.ZFlippedRight; break;
+                case DimensionForms.ZUpSideDown: _CurrentDimensionForm = DimensionForms.ZFlippedUpSideDown; break;
+
+                case DimensionForms.ZFlippedBase: _CurrentDimensionForm = DimensionForms.ZBase; break;
+                case DimensionForms.ZFlippedRight: _CurrentDimensionForm = DimensionForms.ZLeft; break;
+                case DimensionForms.ZFlippedLeft: _CurrentDimensionForm = DimensionForms.ZRight; break;
+                case DimensionForms.ZFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.ZUpSideDown; break;
+
+                case DimensionForms.TBase: break;
+                case DimensionForms.TRight: _CurrentDimensionForm = DimensionForms.TLeft; break;
+                case DimensionForms.TLeft: _CurrentDimensionForm = DimensionForms.TRight; break;
+                case DimensionForms.TUpSideDown: break;
+            }
+
+            UpdateDimensionPreview();
+        }
+        private void BtnFormTurnRight_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase: _CurrentDimensionForm = DimensionForms.CrossRight; break;
+                case DimensionForms.CrossRight: _CurrentDimensionForm = DimensionForms.CrossUpSideDown; break;
+                case DimensionForms.CrossLeft: _CurrentDimensionForm = DimensionForms.CrossBase; break;
+                case DimensionForms.CrossUpSideDown: _CurrentDimensionForm = DimensionForms.CrossLeft; break;
+
+                case DimensionForms.LongBase: _CurrentDimensionForm = DimensionForms.LongRight; break;
+                case DimensionForms.LongRight: _CurrentDimensionForm = DimensionForms.LongUpSideDown; break;
+                case DimensionForms.LongLeft: _CurrentDimensionForm = DimensionForms.LongBase; break;
+                case DimensionForms.LongUpSideDown: _CurrentDimensionForm = DimensionForms.LongLeft; break;
+
+                case DimensionForms.LongFlippedBase: _CurrentDimensionForm = DimensionForms.LongFlippedRight; break;
+                case DimensionForms.LongFlippedRight: _CurrentDimensionForm = DimensionForms.LongFlippedUpSideDown; break;
+                case DimensionForms.LongFlippedLeft: _CurrentDimensionForm = DimensionForms.LongFlippedBase; break;
+                case DimensionForms.LongFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.LongFlippedLeft; break;
+
+                case DimensionForms.ZBase: _CurrentDimensionForm = DimensionForms.ZRight; break;
+                case DimensionForms.ZRight: _CurrentDimensionForm = DimensionForms.ZUpSideDown; break;
+                case DimensionForms.ZLeft: _CurrentDimensionForm = DimensionForms.ZBase; break;
+                case DimensionForms.ZUpSideDown: _CurrentDimensionForm = DimensionForms.ZLeft; break;
+
+                case DimensionForms.ZFlippedBase: _CurrentDimensionForm = DimensionForms.ZFlippedRight; break;
+                case DimensionForms.ZFlippedRight: _CurrentDimensionForm = DimensionForms.ZFlippedUpSideDown; break;
+                case DimensionForms.ZFlippedLeft: _CurrentDimensionForm = DimensionForms.ZFlippedBase; break;
+                case DimensionForms.ZFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.ZFlippedLeft; break;
+
+                case DimensionForms.TBase: _CurrentDimensionForm = DimensionForms.TRight; break;
+                case DimensionForms.TRight: _CurrentDimensionForm = DimensionForms.TUpSideDown; break;
+                case DimensionForms.TLeft: _CurrentDimensionForm = DimensionForms.TBase; break;
+                case DimensionForms.TUpSideDown: _CurrentDimensionForm = DimensionForms.TLeft; break;
+            }
+
+            UpdateDimensionPreview();
+        }
+        private void BtnFormTurnLeft_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            switch (_CurrentDimensionForm)
+            {
+                case DimensionForms.CrossBase: _CurrentDimensionForm = DimensionForms.CrossLeft; break;
+                case DimensionForms.CrossRight: _CurrentDimensionForm = DimensionForms.CrossBase; break;
+                case DimensionForms.CrossLeft: _CurrentDimensionForm = DimensionForms.CrossUpSideDown; break;
+                case DimensionForms.CrossUpSideDown: _CurrentDimensionForm = DimensionForms.CrossRight; break;
+
+                case DimensionForms.LongBase: _CurrentDimensionForm = DimensionForms.LongLeft; break;
+                case DimensionForms.LongRight: _CurrentDimensionForm = DimensionForms.LongBase; break;
+                case DimensionForms.LongLeft: _CurrentDimensionForm = DimensionForms.LongUpSideDown; break;
+                case DimensionForms.LongUpSideDown: _CurrentDimensionForm = DimensionForms.LongRight; break;
+
+                case DimensionForms.LongFlippedBase: _CurrentDimensionForm = DimensionForms.LongLeft; break;
+                case DimensionForms.LongFlippedRight: _CurrentDimensionForm = DimensionForms.LongFlippedBase; break;
+                case DimensionForms.LongFlippedLeft: _CurrentDimensionForm = DimensionForms.LongFlippedUpSideDown; break;
+                case DimensionForms.LongFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.LongFlippedRight; break;
+
+                case DimensionForms.ZBase: _CurrentDimensionForm = DimensionForms.ZLeft; break;
+                case DimensionForms.ZRight: _CurrentDimensionForm = DimensionForms.ZBase; break;
+                case DimensionForms.ZLeft: _CurrentDimensionForm = DimensionForms.ZUpSideDown; break;
+                case DimensionForms.ZUpSideDown: _CurrentDimensionForm = DimensionForms.ZRight; break;
+
+                case DimensionForms.ZFlippedBase: _CurrentDimensionForm = DimensionForms.ZFlippedLeft; break;
+                case DimensionForms.ZFlippedRight: _CurrentDimensionForm = DimensionForms.ZFlippedBase; break;
+                case DimensionForms.ZFlippedLeft: _CurrentDimensionForm = DimensionForms.ZFlippedUpSideDown; break;
+                case DimensionForms.ZFlippedUpSideDown: _CurrentDimensionForm = DimensionForms.ZFlippedRight; break;
+
+                case DimensionForms.TBase: _CurrentDimensionForm = DimensionForms.TLeft; break;
+                case DimensionForms.TRight: _CurrentDimensionForm = DimensionForms.TBase; break;
+                case DimensionForms.TLeft: _CurrentDimensionForm = DimensionForms.TUpSideDown; break;
+                case DimensionForms.TUpSideDown: _CurrentDimensionForm = DimensionForms.TRight; break;
+            }
+
+            UpdateDimensionPreview();
+        }
+        private void UpdateDimension_Base(int selectionID)
+        {
+            _CurrentDimensionForm = (DimensionForms)selectionID;
+        }
+        #endregion
+
         #endregion
 
         #region Base Player Actions
@@ -1145,7 +1358,54 @@ namespace DungeonDiceMonsters
                 _CurrentDimensionForm = DimensionForms.CrossBase;
                 _CurrentTileSelected = _dimensionTiles[0];
                 _CurrentGameState = GameState.MainPhaseBoard;
-                btnEndTurn.Visible = true;
+
+                //Only enable the "End Turn" button for the TURN PLAYER
+                if(UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                    lblOponentActionWarning.Visible = false;
+                }
+                else
+                {
+                    btnEndTurn.Visible = false;
+                    lblOponentActionWarning.Visible = true;
+                }
+                
+            }));
+        }
+        private void btnEndTurn_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                //Clean up the board
+                btnEndTurn.Visible = false;
+                lblOponentActionWarning.Visible = false;
+
+                //All 1 turn data is reset for all monsters on the board
+                //and All non-permanent spellbound counters are reduced.
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted)
+                    {
+                        thisCard.ResetOneTurnData();
+
+                        if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound)
+                        {
+                            thisCard.ReduceSpellboundCounter(1);
+                        }
+                    }
+                }
+
+                //1 turn effects are removed.
+                //TODO
+
+                //Change the TURNPLAYER
+                if (TURNPLAYER == PlayerColor.RED) { TURNPLAYER = PlayerColor.BLUE; } else { TURNPLAYER = PlayerColor.RED; }
+
+                //Start the TURN at the TURN START PHASE
+                LaunchTurnStartPanel();
+
+                //Update GameState
+                _CurrentGameState = GameState.TurnStartMenu;
             }));
         }
         #endregion
@@ -1180,7 +1440,21 @@ namespace DungeonDiceMonsters
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         private RollDiceMenu _RollDiceForm;
-        #endregion       
+        #endregion        
+
+        private enum GameState
+        {
+            TurnStartMenu,
+            BoardViewMode,
+            MainPhaseBoard,
+            ActionMenuDisplay,
+            MovingCard,
+            SelectingAttackTarger,
+            BattleMenuAttackMode,
+            BattleMenuDefenseMode,
+            SetCard,
+            SummonCard,
+        }
     }
 
     public enum PlayerColor
@@ -1188,5 +1462,5 @@ namespace DungeonDiceMonsters
         NONE,
         RED,
         BLUE,
-    }
+    }    
 }

@@ -463,10 +463,12 @@
             this.Controls.Add(this.lblDeckName);
             this.Controls.Add(this.PanelDeck);
             this.ForeColor = System.Drawing.Color.White;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DeckBuilder";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DDM - Deck Builder Menu";
             this.PanelDeck.ResumeLayout(false);
             this.PanelDeck.PerformLayout();

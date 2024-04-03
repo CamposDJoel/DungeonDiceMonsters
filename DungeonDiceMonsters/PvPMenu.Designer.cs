@@ -184,7 +184,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "PvPMenu";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Blue Player Name";
             ((System.ComponentModel.ISupportInitialize)(this.PicDeckStatus)).EndInit();
             this.PanelDeckSelection.ResumeLayout(false);
