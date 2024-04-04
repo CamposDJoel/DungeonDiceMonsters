@@ -185,8 +185,6 @@ namespace DDMPvPServer
             btnStop.Visible = false;
             ServerSocket.Stop();
             list_Matches.Clear();
-            txtStaticConnectionLog.Clear();
-            waitingforclients.Suspend();
             btnStart.Visible = true;
         }
         private void listMatches_SelectedIndexChanged(object sender, EventArgs e)
