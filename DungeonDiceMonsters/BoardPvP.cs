@@ -143,11 +143,6 @@ namespace DungeonDiceMonsters
             BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
-            //TEST: add [MOV] crests to the playuers
-            RedData.AddCrests(Crest.MOV, 10);
-            BlueData.AddCrests(Crest.MOV, 10);
-
-
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
 
