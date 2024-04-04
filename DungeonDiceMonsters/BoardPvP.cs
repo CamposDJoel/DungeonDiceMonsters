@@ -189,6 +189,7 @@ namespace DungeonDiceMonsters
             {
                 lblSummonMessage.Text = "Select Tile to Dimension the Dice!";
                 //Display the Dimension shape selector
+                UpdateDimensionPreview();
                 PanelDimenFormSelector.Visible = true;
             }
             else
@@ -614,10 +615,7 @@ namespace DungeonDiceMonsters
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
         private void UpdateDimensionPreview()
-        {
-            //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
-
+        {           
             //Update UI
             PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
             lblFormName.Text = _CurrentDimensionForm.ToString();
@@ -998,6 +996,9 @@ namespace DungeonDiceMonsters
                     _CurrentDimensionForm = DimensionForms.CrossBase; break;
             }
 
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+
             UpdateDimensionPreview();
         }
         private void btnPreviousForm_Click(object sender, EventArgs e)
@@ -1038,6 +1039,9 @@ namespace DungeonDiceMonsters
                     _CurrentDimensionForm = DimensionForms.ZBase; break;
             }
 
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+
             UpdateDimensionPreview();
         }
         private void btnFormFlip_Click(object sender, EventArgs e)
@@ -1075,6 +1079,9 @@ namespace DungeonDiceMonsters
                 case DimensionForms.TLeft: _CurrentDimensionForm = DimensionForms.TRight; break;
                 case DimensionForms.TUpSideDown: break;
             }
+
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
@@ -1114,6 +1121,9 @@ namespace DungeonDiceMonsters
                 case DimensionForms.TUpSideDown: _CurrentDimensionForm = DimensionForms.TLeft; break;
             }
 
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+
             UpdateDimensionPreview();
         }
         private void BtnFormTurnLeft_Click(object sender, EventArgs e)
@@ -1151,6 +1161,9 @@ namespace DungeonDiceMonsters
                 case DimensionForms.TLeft: _CurrentDimensionForm = DimensionForms.TUpSideDown; break;
                 case DimensionForms.TUpSideDown: _CurrentDimensionForm = DimensionForms.TRight; break;
             }
+
+            //Send the action message to the server
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
