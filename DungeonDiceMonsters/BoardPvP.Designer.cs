@@ -147,6 +147,7 @@
             this.lblDefender = new System.Windows.Forms.Label();
             this.lblSetCardMessage = new System.Windows.Forms.Label();
             this.lblOponentActionWarning = new System.Windows.Forms.Label();
+            this.lblMoveMenuCrestCount = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -561,7 +562,7 @@
             this.PanelAttackMenu.BackColor = System.Drawing.Color.Black;
             this.PanelAttackMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelAttackMenu.Controls.Add(this.btnAttackMenuCancel);
-            this.PanelAttackMenu.Location = new System.Drawing.Point(3, 168);
+            this.PanelAttackMenu.Location = new System.Drawing.Point(3, 193);
             this.PanelAttackMenu.Name = "PanelAttackMenu";
             this.PanelAttackMenu.Size = new System.Drawing.Size(83, 28);
             this.PanelAttackMenu.TabIndex = 7;
@@ -584,11 +585,12 @@
             // 
             this.PanelMoveMenu.BackColor = System.Drawing.Color.Black;
             this.PanelMoveMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelMoveMenu.Controls.Add(this.lblMoveMenuCrestCount);
             this.PanelMoveMenu.Controls.Add(this.btnMoveMenuCancel);
             this.PanelMoveMenu.Controls.Add(this.btnMoveMenuFinish);
             this.PanelMoveMenu.Location = new System.Drawing.Point(3, 110);
             this.PanelMoveMenu.Name = "PanelMoveMenu";
-            this.PanelMoveMenu.Size = new System.Drawing.Size(83, 56);
+            this.PanelMoveMenu.Size = new System.Drawing.Size(83, 77);
             this.PanelMoveMenu.TabIndex = 6;
             this.PanelMoveMenu.Visible = false;
             // 
@@ -604,6 +606,7 @@
             this.btnMoveMenuCancel.TabIndex = 3;
             this.btnMoveMenuCancel.Text = "Cancel";
             this.btnMoveMenuCancel.UseVisualStyleBackColor = false;
+            this.btnMoveMenuCancel.Click += new System.EventHandler(this.btnMoveMenuCancel_Click);
             // 
             // btnMoveMenuFinish
             // 
@@ -617,6 +620,7 @@
             this.btnMoveMenuFinish.TabIndex = 0;
             this.btnMoveMenuFinish.Text = "Finish";
             this.btnMoveMenuFinish.UseVisualStyleBackColor = false;
+            this.btnMoveMenuFinish.Click += new System.EventHandler(this.btnMoveMenuFinish_Click);
             // 
             // PanelActionMenu
             // 
@@ -684,6 +688,7 @@
             this.btnActionMove.TabIndex = 0;
             this.btnActionMove.Text = "Move";
             this.btnActionMove.UseVisualStyleBackColor = false;
+            this.btnActionMove.Click += new System.EventHandler(this.btnActionMove_Click);
             // 
             // PanelCardInfo
             // 
@@ -1594,6 +1599,16 @@
             this.lblOponentActionWarning.Text = "Opponent is taking action...";
             this.lblOponentActionWarning.Visible = false;
             // 
+            // lblMoveMenuCrestCount
+            // 
+            this.lblMoveMenuCrestCount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMoveMenuCrestCount.ForeColor = System.Drawing.Color.Yellow;
+            this.lblMoveMenuCrestCount.Location = new System.Drawing.Point(5, 57);
+            this.lblMoveMenuCrestCount.Name = "lblMoveMenuCrestCount";
+            this.lblMoveMenuCrestCount.Size = new System.Drawing.Size(73, 20);
+            this.lblMoveMenuCrestCount.TabIndex = 4;
+            this.lblMoveMenuCrestCount.Text = "[MOV] x 99";
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1789,5 +1804,6 @@
         private System.Windows.Forms.Label lblSetCardMessage;
         private System.Windows.Forms.Label lblTurnStartInactiveWarning;
         private System.Windows.Forms.Label lblOponentActionWarning;
+        private System.Windows.Forms.Label lblMoveMenuCrestCount;
     }
 }
