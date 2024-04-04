@@ -653,6 +653,8 @@ namespace DungeonDiceMonsters
                     case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[END TURN]": btnEndTurn_Base(); break;
                     case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(); break;
+                    case "[CLICK CANCEL ACTION MENU]": btnActionCancel_Base(); break;
                 }
             }
             else
@@ -705,7 +707,7 @@ namespace DungeonDiceMonsters
         private void btnRoll_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[Roll Dice Action]|TurnStartMenu");
+            SendMessageToServer("[Roll Dice Action]|" + _CurrentGameState.ToString());
 
             //Perform the action
             btnRoll_Base();
@@ -713,7 +715,7 @@ namespace DungeonDiceMonsters
         private void btnViewBoard_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[View Board Action]|TurnStartMenu");
+            SendMessageToServer("[View Board Action]|" + _CurrentGameState.ToString());
 
             //Perform the action
             btnViewBoard_Base();
@@ -721,7 +723,7 @@ namespace DungeonDiceMonsters
         private void btnReturnToTurnMenu_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[EXIT VIEW BOARD MODE]|BoardViewMode");
+            SendMessageToServer("[EXIT VIEW BOARD MODE]|" + _CurrentGameState.ToString());
 
             //Perform the action
             btnReturnToTurnMenu_Base();
@@ -739,7 +741,7 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if (_CurrentGameState == GameState.BoardViewMode && _Tiles[tileID].IsOccupied)
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -757,7 +759,7 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if (_CurrentGameState == GameState.BoardViewMode && _Tiles[tileID].IsOccupied)
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -776,65 +778,11 @@ namespace DungeonDiceMonsters
                     {
                         if (_CurrentTileSelected.CardInPlace.Owner == UserPlayerColor)
                         {
-                            SoundServer.PlaySoundEffect(SoundEffect.Click);
+                            //Send the action message to the server
+                            SendMessageToServer("[CLICK TILE TO ACTION]|" + _CurrentGameState.ToString());
 
-                            //Hide the End Turn Button, this wont reappear until the player is done with the action
-                            btnEndTurn.Visible = false;
-
-                            //Open the Action menu
-                            //Set the location in relation to the Tile location and cursor location
-                            Point referencePoint = _CurrentTileSelected.Location;
-                            int X_Location = Cursor.Position.X;
-                            if (X_Location > 929)
-                            {
-                                PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
-                            }
-                            else
-                            {
-                                PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
-                            }
-                            PanelActionMenu.Visible = true;
-
-                            //Disable the unavailable actions
-                            Card thiscard = _CurrentTileSelected.CardInPlace;
-                            if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > RedData.Crests_MOV)
-                            {
-                                btnActionMove.Enabled = false;
-                            }
-                            else
-                            {
-                                btnActionMove.Enabled = true;
-                                //Set the temporary mov crest count
-                                //this is the value that is going to be used until the move action is finalized.
-                                _TMPMoveCrestCount = RedData.Crests_MOV;
-                            }
-
-                            //Determine if this card can attack if:
-                            // 1. Has not attacked this turn alread
-                            // 2. Player has enough atack crest to pay its cost
-                            // 3. Has at least 1 adjecent attack candidate
-                            // 4. Card is a monster
-
-                            PlayerColor TargetPlayerColor = PlayerColor.RED;
-                            if(UserPlayerColor == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
-                            PlayerData UserPlayerData = RedData;
-                            if (UserPlayerColor == PlayerColor.BLUE) { UserPlayerData = BlueData; }
-
-                            _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
-                            if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
-                            {
-                                btnActionAttack.Enabled = false;
-                            }
-                            else
-                            {
-                                btnActionAttack.Enabled = true;
-                            }
-
-                            //TODO: Effects...
-                            btnActionEffect.Enabled = false;
-
-                            //Change the game state
-                            _CurrentGameState = GameState.ActionMenuDisplay;
+                            //Perform the action
+                            TileClick_MainPhase_Base();
                         }
                         else
                         {
@@ -989,7 +937,7 @@ namespace DungeonDiceMonsters
                     if (_validDimension)
                     {
                         //Send the action message to the server
-                        SendMessageToServer("[CLICK TILE TO SUMMON]|SummonCard|" + tileId);
+                        SendMessageToServer("[CLICK TILE TO SUMMON]|"+ _CurrentGameState.ToString() + "|" + tileId);
 
                         //Perform the action
                         TileClick_SummonCard_Base(tileId);
@@ -1212,6 +1160,20 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Action Menu
+        private void btnActionCancel_Click(object sender, EventArgs e)
+        {
+            if(UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK CANCEL ACTION MENU]|" + _CurrentGameState.ToString());
+
+                //Perform the action
+                btnActionCancel_Base();
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Base Player Actions
@@ -1373,6 +1335,71 @@ namespace DungeonDiceMonsters
                 
             }));
         }
+        private void TileClick_MainPhase_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Hide the End Turn Button, this wont reappear until the player is done with the action
+                btnEndTurn.Visible = false;
+
+                //Open the Action menu
+                //Set the location in relation to the Tile location and cursor location
+                Point referencePoint = _CurrentTileSelected.Location;
+                int X_Location = Cursor.Position.X;
+                if (X_Location > 929)
+                {
+                    PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
+                }
+                else
+                {
+                    PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
+                }
+                PanelActionMenu.Visible = true;
+
+                //Disable the unavailable actions
+                Card thiscard = _CurrentTileSelected.CardInPlace;
+                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > RedData.Crests_MOV)
+                {
+                    btnActionMove.Enabled = false;
+                }
+                else
+                {
+                    btnActionMove.Enabled = true;
+                    //Set the temporary mov crest count
+                    //this is the value that is going to be used until the move action is finalized.
+                    _TMPMoveCrestCount = RedData.Crests_MOV;
+                }
+
+                //Determine if this card can attack if:
+                // 1. Has Attacks available left
+                // 2. Player has enough atack crest to pay its cost
+                // 3. Has at least 1 adjecent attack candidate
+                // 4. Card is a monster
+
+                PlayerColor TargetPlayerColor = PlayerColor.RED;
+                if (UserPlayerColor == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
+                PlayerData UserPlayerData = RedData;
+                if (UserPlayerColor == PlayerColor.BLUE) { UserPlayerData = BlueData; }
+
+                _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
+                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
+                {
+                    btnActionAttack.Enabled = false;
+                }
+                else
+                {
+                    btnActionAttack.Enabled = true;
+                }
+
+                //TODO: Effects...
+                btnActionEffect.Enabled = false;
+
+                //Change the game state
+                _CurrentGameState = GameState.ActionMenuDisplay;
+
+            }));   
+        }
         private void btnEndTurn_Base()
         {
             Invoke(new MethodInvoker(delegate () {
@@ -1407,6 +1434,20 @@ namespace DungeonDiceMonsters
                 //Update GameState
                 _CurrentGameState = GameState.TurnStartMenu;
             }));
+        }
+        private void btnActionCancel_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Close the Action menu/Card info panel and return to the MainPhase Stage 
+                _CurrentTileSelected.Leave();
+                PanelActionMenu.Visible = false;
+                _CurrentGameState = GameState.MainPhaseBoard;
+                if(UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                }
+            }));           
         }
         #endregion
 
@@ -1454,7 +1495,7 @@ namespace DungeonDiceMonsters
             BattleMenuDefenseMode,
             SetCard,
             SummonCard,
-        }
+        }       
     }
 
     public enum PlayerColor
