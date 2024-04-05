@@ -151,8 +151,68 @@ namespace DungeonDiceMonsters
             BlueData.AddCrests(Crest.MOV, 20);
             BlueData.AddCrests(Crest.DEF, 10);
 
+            //TEST: Set some tiles
+            _Tiles[214].ChangeOwner(PlayerColor.RED);
+            _Tiles[201].ChangeOwner(PlayerColor.RED);
+            _Tiles[188].ChangeOwner(PlayerColor.RED);
+            _Tiles[175].ChangeOwner(PlayerColor.RED);
+            _Tiles[200].ChangeOwner(PlayerColor.RED);
+            _Tiles[202].ChangeOwner(PlayerColor.RED);
+
+            _Tiles[97].ChangeOwner(PlayerColor.RED);
+            _Tiles[109].ChangeOwner(PlayerColor.RED);
+            _Tiles[110].ChangeOwner(PlayerColor.RED);
+            _Tiles[111].ChangeOwner(PlayerColor.RED);
+            _Tiles[123].ChangeOwner(PlayerColor.RED);
+
+            _Tiles[19].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[32].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[33].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[34].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[35].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[48].ChangeOwner(PlayerColor.BLUE);
+
+            _Tiles[31].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[44].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[43].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[42].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[41].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[40].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[53].ChangeOwner(PlayerColor.BLUE);
+
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
+
+            //TEST Summon a monster to move
+            _CurrentTileSelected = _Tiles[201];
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(33396948), PlayerColor.RED, false);
+            _CardsOnBoard.Add(thisCard);
+            _CurrentTileSelected.SummonCard(thisCard);
+
+            _CurrentTileSelected = _Tiles[35];
+            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(25955164), PlayerColor.RED, false);
+            _CardsOnBoard.Add(thisCard2);
+            _CurrentTileSelected.SummonCard(thisCard2);
+
+            _CurrentTileSelected = _Tiles[48];
+            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(41462083), PlayerColor.BLUE, false);
+            _CardsOnBoard.Add(thisCard3);
+            _CurrentTileSelected.SummonCard(thisCard3);
+
+            _CurrentTileSelected = _Tiles[40];
+            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(33396948), PlayerColor.BLUE, false);
+            _CardsOnBoard.Add(thisCard4);
+            _CurrentTileSelected.SummonCard(thisCard4);
+
+            _CurrentTileSelected = _Tiles[110];
+            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(48766543), PlayerColor.RED, false);
+            _CardsOnBoard.Add(thisCard5);
+            _CurrentTileSelected.SetCard(thisCard5);
+
+            _CurrentTileSelected = _Tiles[31];
+            Card thisCard6 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(56342351), PlayerColor.BLUE, false);
+            _CardsOnBoard.Add(thisCard6);
+            _CurrentTileSelected.SetCard(thisCard6);
 
             //Set the initial game state and start the turn start panel            
             LaunchTurnStartPanel();
@@ -168,13 +228,21 @@ namespace DungeonDiceMonsters
         {
             //Switch to the Main Phase of the player
             _CurrentGameState = GameState.MainPhaseBoard;
-            btnEndTurn.Visible = true;
 
             //Relaod the player info panels to update crests
             LoadPlayersInfo();
 
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
+
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                btnEndTurn.Visible = true;
+            }
+            else
+            {
+                btnEndTurn.Visible = false;
+            }
         }
         public void SetupSummonCardPhase(CardInfo card)
         {
@@ -503,7 +571,7 @@ namespace DungeonDiceMonsters
             }
             PanelAttackMenu.Visible = true;
         }
-        private void OpenBattleMenuAttackMode()
+        private void OpenBattleMenu()
         {
             PanelBattleMenu.Visible = true;
             btnEndBattle.Visible = false;
@@ -515,6 +583,18 @@ namespace DungeonDiceMonsters
             PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID);
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
+
+            //Update the LP labels to reflect the Color owner
+            if(TURNPLAYER == PlayerColor.RED)
+            {
+                PanelAttackerCard.BackColor = Color.DarkRed;
+                PanelDefenderCard.BackColor = Color.MidnightBlue;
+            }
+            else
+            {
+                PanelAttackerCard.BackColor = Color.MidnightBlue;
+                PanelDefenderCard.BackColor = Color.DarkRed;
+            }
 
             //Set the defender's data. if the defender is a non-monster place the clear data.
             Card Defender = _AttackTarger.CardInPlace;
@@ -528,18 +608,7 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
-                PicDefender2.BackgroundImage = null;
-                if (Defender.IsASymbol)
-                {
-                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute);
-                }
-                else
-                {
-                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(0);
-                }
-                lblBattleMenuDEFLP.Text = "";
-                lblDefenderDEF.Text = "";
+                //TODO:
             }
 
             //Hide the "Destroyed" labels just in case
@@ -551,38 +620,82 @@ namespace DungeonDiceMonsters
             //choices (defender has to choose if they defend if can)
             //also both player have the choice to add advantage bonuses if available
             lblBattleMenuDamage.Text = "Damage: ?";
+            lblAttackerBonus.Text = "Bonus: ?";
+            lblDefenderBonus.Text = "Bonus: ?";
 
-            //Defende/No Defends are not available in attack mode
-            btnBattleMenuDefend.Visible = false;
-            btnBattleMenuDontDefend.Visible = false;
-            PanelDefenderAdvBonus.Visible = false;
-            lblDefenderCrestCount.Visible = false;
-
-            //Reset the bonuscrest count for both players just in case
-            _AttackBonusCrest = 0;
-            _DefenseBonusCrest = 0;
-
-            //Set the Attack button visible in case it wasnt
-            btnBattleMenuAttack.Visible = true;
-            lblAttackerCrestCount.Text = "Crests to be used: " + (1 + _AttackBonusCrest) + "/" + RedData.Crests_ATK;
-            lblAttackerCrestCount.Visible = true;
-
-            //Determine if Attacker has advantage
-            bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
-
-            //Display Advantage elements
-            if (AttackerHasAdvantage)
-            {
-                PanelAttackerAdvBonus.Visible = true;
+            //Display either the ATTACK/DEFEND controls based on the user player
+            if (UserPlayerColor == TURNPLAYER)
+            {              
+                //Display the base Attack Controls Panel
+                _AttackBonusCrest = 0;
                 lblAttackerBonus.Text = "Bonus: 0";
-                lblAttackerBonus.Visible = true;
-                lblAttackerAdvMinus.Visible = false;
-                lblAttackerAdvPlus.Visible = true;
+                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
+                PanelAttackControls.Visible = true;
+
+                //If attacker monster has an advantage, enable the adv subpanel
+                bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
+                if (AttackerHasAdvantage)
+                {
+                    PanelAttackerAdvBonus.Visible = true;
+                    //Show the + button at the start                    
+                    lblAttackerAdvMinus.Visible = false;
+                    lblAttackerAdvPlus.Visible = true;
+                }
+                else
+                {
+                    PanelAttackerAdvBonus.Visible = false;
+                }
+
+                //Show the 'waiting for opponent' label on the other ide
+                lblWaitingfordefender.Visible = true;
+                lblWaitingforattacker.Visible = false;
+                lblWaitingfordefender.Text = "Waiting for opponent...";
+                lblWaitingfordefender.ForeColor = Color.Yellow;
+
+                //Hide the Defend Controsl
+                PanelDefendControls.Visible = false;
             }
             else
             {
-                PanelAttackerAdvBonus.Visible = false;
-                lblAttackerBonus.Visible = false;
+                //Display the base Defend Controls Panel
+                PanelDefendControls.Visible = true;
+                _DefenseBonusCrest = 0;
+                lblDefenderBonus.Text = "Bonus: 0";
+                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF);
+                PanelDefendControls.Visible = true;
+                //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
+                if (Defender.DefenseCost > DefenderData.Crests_DEF)
+                {
+                    btnBattleMenuDefend.Enabled = false;
+                }
+                else
+                {
+                    btnBattleMenuDefend.Enabled = true;
+                }
+                //If defender monster has an advantage, enable the adv subpanel
+                bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
+                if (DefenderHasAdvantage)
+                {
+                    PanelDefenderAdvBonus.Visible = true;
+                    //Show the + button at the start
+                    lblDefenderAdvMinus.Visible = false;
+                    lblDefenderAdvPlus.Visible = true;
+                }
+                else
+                {
+                    PanelDefenderAdvBonus.Visible = false;
+                }
+
+                //Show the 'waiting for opponent' label on the other ide
+                lblWaitingforattacker.Visible = true;
+                lblWaitingfordefender.Visible = false;
+                lblWaitingforattacker.Text = "Waiting for opponent...";
+                lblWaitingforattacker.ForeColor = Color.Yellow;
+
+                //Hide the Attack Controls
+                PanelAttackControls.Visible = false;
             }
         }
         private bool HasAttributeAdvantage(Card attacker, Card defender)
@@ -623,7 +736,7 @@ namespace DungeonDiceMonsters
             lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
         private void UpdateDimensionPreview()
-        {           
+        {
             //Update UI
             PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
             lblFormName.Text = _CurrentDimensionForm.ToString();
@@ -668,8 +781,39 @@ namespace DungeonDiceMonsters
                     case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
                     case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
-
-
+                    case "[ATTACK!]":
+                        _AttackBonusCrest = Convert.ToInt32(MessageTokens[2]);
+                        _AttackerIsReadyToBattle = true;
+                        lblWaitingforattacker.ForeColor = Color.Green;
+                        lblWaitingforattacker.Text = "Opponent is ready!";
+                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                        {
+                            PerformDamageCalculation();
+                        }
+                        break;
+                    case "[DEFEND!]":
+                        _DefenderDefended = true;
+                        _DefenseBonusCrest = Convert.ToInt32(MessageTokens[2]);
+                        _DefenderIsReadyToBattle = true;
+                        lblWaitingfordefender.ForeColor = Color.Green;
+                        lblWaitingfordefender.Text = "Opponent is ready!";
+                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                        {
+                            PerformDamageCalculation();
+                        }
+                        break;
+                    case "[PASS!]":
+                        _DefenderDefended = false;
+                        _DefenseBonusCrest = 0;
+                        _DefenderIsReadyToBattle = true;
+                        lblWaitingfordefender.ForeColor = Color.Green;
+                        lblWaitingfordefender.Text = "Opponent is ready!";
+                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                        {
+                            PerformDamageCalculation();
+                        }
+                        break;
+                    case "[END BATTLE]": btnEndBattle_Base(); break;
                 }
             }
             else
@@ -702,6 +846,241 @@ namespace DungeonDiceMonsters
 
             //Set the Game State
             _CurrentGameState = GameState.TurnStartMenu;
+        }
+        private void PerformDamageCalculation()
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                //Reset the ready flags for the next battle
+                _AttackerIsReadyToBattle = false;
+                _DefenderIsReadyToBattle = false;
+
+                //hide the waiting for opponent labels
+                lblWaitingforattacker.Visible = false;
+                lblWaitingfordefender.Visible = false;
+
+                //Handle the results based on the type of attack target
+                if (_AttackTarger.CardInPlace.Category == Category.Monster)
+                {
+                    //Step 1: Determine the BonusCrest (if ANY)
+                    // _AttackBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
+                    // _DefenseBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
+                    //Reveal the Bonus points
+                    lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
+                    lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
+
+                    //Step 2: Calculate the Final Attack Value (Attacker's Base ATK + (Bonus [ATK] used * 200))
+                    int FinalAttack = _CurrentTileSelected.CardInPlace.ATK + (_AttackBonusCrest * 200);
+
+                    //Step 3: Calculate the Final Defense Value (if Defender choose to defend) (Defender's Base DEF + (Bonus [DEF] used * 200))
+                    int FinalDefense = 0;
+                    if (_DefenderDefended)
+                    {
+                        FinalDefense = _AttackTarger.CardInPlace.DEF + (_DefenseBonusCrest * 200);
+                    }
+
+                    //Step 4: Reduce the [ATK] and [DEF] to the respective player. 
+                    Card Attacker = _CurrentTileSelected.CardInPlace;
+                    Card Defender = _AttackTarger.CardInPlace;
+                    int creststoremoveATK = _AttackBonusCrest + Attacker.AttackCost;
+                    int creststoremoveDEF = _DefenseBonusCrest + Defender.DefenseCost;
+                    PlayerData AttackerPlayerData = RedData;
+                    PlayerData DefenderPlayerData = BlueData;
+                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; }
+                    AttackerPlayerData.RemoveCrests(Crest.ATK, creststoremoveATK);
+                    DefenderPlayerData.RemoveCrests(Crest.DEF, creststoremoveDEF);
+                    LoadPlayersInfo();
+
+                    //Step 5: Perform the calculation
+                    int Damage = FinalAttack - FinalDefense;
+                    if (Damage <= 0)
+                    {
+                        //Display the end battle button
+                        lblBattleMenuDamage.Text = "Damage: 0";
+                        btnEndBattle.Visible = true;
+                        if (UserPlayerColor == TURNPLAYER)
+                        {
+                            btnEndBattle.Enabled = true;
+                        }
+                        else
+                        {
+                            btnEndBattle.Enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        //Step 5A: Show the final Damange Amount on the UI
+                        lblBattleMenuDamage.Text = string.Format("Damage: {0}", Damage);
+
+                        //Step 5B: Reduce the defender's monster'LP
+                        int damagetodealtomonster = Damage;
+                        if (damagetodealtomonster > Defender.LP)
+                        {
+                            damagetodealtomonster = Defender.LP;
+                        }
+
+                        //Reduce the total damage left
+                        Damage -= damagetodealtomonster;
+
+                        //Do the damage animation
+                        int iterations = damagetodealtomonster / 10;
+                        int waittime = 0;
+                        if (iterations < 100) { waittime = 40; }
+                        else if (iterations < 200) { waittime = 30; }
+                        else if (iterations < 300) { waittime = 10; }
+                        else { waittime = 5; }
+                        for (int i = 0; i < iterations; i++)
+                        {
+                            Defender.ReduceLP(10);
+                            lblBattleMenuDEFLP.Text = string.Format("LP: {0}", Defender.LP);
+                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                            WaitNSeconds(waittime);
+                        }
+
+                        //Step 5C: Destroy the defender monster if the LP of the defender were reduced to 0
+                        if (Defender.LP == 0)
+                        {
+                            SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+                            PicDefenderDestroyed.Visible = true;
+                            WaitNSeconds(1000);
+                            //Remove the card from the actual tile
+                            _AttackTarger.DestroyCard();
+                        }
+
+
+                        //Step 6D: if there is damage left deal it to the player's symbol
+                        if (Damage > 0)
+                        {
+                            //Stablish the Defender Symbol
+                            Card DefenderSymbol = _RedSymbol;
+                            Label DefenderSymbolLPLabel = lblRedLP;
+                            if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
+
+                            //Deal the damage
+                            if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
+
+                            //Deal damage to the player
+                            iterations = Damage / 10;
+
+                            waittime = 0;
+                            if (iterations < 100) { waittime = 50; }
+                            else if (iterations < 200) { waittime = 30; }
+                            else if (iterations < 300) { waittime = 10; }
+                            else { waittime = 5; }
+
+                            for (int i = 0; i < iterations; i++)
+                            {
+                                DefenderSymbol.ReduceLP(10);
+                                DefenderSymbolLPLabel.Text = DefenderSymbol.LP.ToString();
+                                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                                WaitNSeconds(waittime);
+                            }
+
+                            if (DefenderSymbol.LP == 0)
+                            {
+                                //TODO: defender player loses the game
+                                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                                PanelBattleMenu.Visible = false;
+                                PanelEndGameResults.Visible = true;
+                                WaitNSeconds(5000);
+                                btnExit.Visible = true;
+                            }
+                            else
+                            {
+                                //otherwise let the attacker finish the battle phase
+                                btnEndBattle.Visible = true;
+                                if (UserPlayerColor == TURNPLAYER)
+                                {
+                                    btnEndBattle.Enabled = true;
+                                }
+                                else
+                                {
+                                    btnEndBattle.Enabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Display the end battle button
+                            btnEndBattle.Visible = true;
+                            if (UserPlayerColor == TURNPLAYER)
+                            {
+                                btnEndBattle.Enabled = true;
+                            }
+                            else
+                            {
+                                btnEndBattle.Enabled = false;
+                            }
+                        }
+                    }
+                }
+                else if (_AttackTarger.CardInPlace.Category == Category.Symbol)
+                {
+                    //Reduce the Symbol's LP and update player info panel
+
+                    //Perform the battle calculation
+                    int FinalAttack = _CurrentTileSelected.CardInPlace.ATK;
+                    int FinalDefense = 0;
+
+                    int Damage = FinalAttack - FinalDefense;
+                    if (Damage <= 0)
+                    {
+                        //Display the end battle button
+                        lblBattleMenuDamage.Text = "Damage: 0";
+                        btnEndBattle.Visible = true;
+                    }
+                    else
+                    {
+                        if (Damage > _BlueSymbol.LP) { Damage = _BlueSymbol.LP; }
+
+                        //Deal damage to the player
+                        int iterations = Damage / 10;
+
+                        int waittime = 0;
+                        if (iterations < 100) { waittime = 50; }
+                        else if (iterations < 200) { waittime = 30; }
+                        else if (iterations < 300) { waittime = 10; }
+                        else { waittime = 5; }
+
+                        for (int i = 0; i < iterations; i++)
+                        {
+                            _BlueSymbol.ReduceLP(10);
+                            lblBlueLP.Text = _BlueSymbol.LP.ToString();
+                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                            WaitNSeconds(waittime);
+                        }
+
+                        if (_BlueSymbol.LP == 0)
+                        {
+                            //TODO: defender player loses the game
+                            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                            PanelBattleMenu.Visible = false;
+                            PanelEndGameResults.Visible = true;
+                            WaitNSeconds(5000);
+                            btnExit.Visible = true;
+                        }
+                        else
+                        {
+                            //otherwise let the attacker finish the battle phase
+                            btnEndBattle.Visible = true;
+                        }
+                    }
+                }
+                else
+                {
+                    //Destroy the defender card automatically
+                    SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(_AttackTarger.CardInPlace.CardID);
+                    PicDefenderDestroyed.Visible = true;
+                    lblBattleMenuDamage.Text = "Damage: 0";
+                    WaitNSeconds(1000);
+                    //Remove the card from the actual tile
+                    _AttackTarger.DestroyCard();
+
+                    //Display the end battle button
+                    btnEndBattle.Visible = true;
+                }
+            }));
         }
         #endregion
 
@@ -905,7 +1284,7 @@ namespace DungeonDiceMonsters
                     if (_validDimension)
                     {
                         //Send the action message to the server
-                        SendMessageToServer("[CLICK TILE TO SUMMON]|"+ _CurrentGameState.ToString() + "|" + tileId);
+                        SendMessageToServer("[CLICK TILE TO SUMMON]|" + _CurrentGameState.ToString() + "|" + tileId);
 
                         //Perform the action
                         TileClick_SummonCard_Base(tileId);
@@ -1146,7 +1525,7 @@ namespace DungeonDiceMonsters
         #region Action Menu
         private void btnActionCancel_Click(object sender, EventArgs e)
         {
-            if(UserPlayerColor == TURNPLAYER)
+            if (UserPlayerColor == TURNPLAYER)
             {
                 //Send the action message to the server
                 SendMessageToServer("[CLICK CANCEL ACTION MENU]|" + _CurrentGameState.ToString());
@@ -1164,7 +1543,7 @@ namespace DungeonDiceMonsters
 
                 //Perform the action
                 btnActionMove_Base();
-            }           
+            }
         }
         private void btnActionAttack_Click(object sender, EventArgs e)
         {
@@ -1212,6 +1591,148 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Battle Menu
+        private void btnBattleMenuAttack_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Attack);
+
+            //Send the opponent the action taken
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[ATTACK!]", _CurrentGameState.ToString(), _AttackBonusCrest));
+
+            //Hide the Attack Controls Panel
+            PanelAttackControls.Visible = false;
+
+            //Marks the ready flags
+            _AttackerIsReadyToBattle = true;
+
+            if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+            {
+                PerformDamageCalculation();
+            }
+        }
+        private void btnBattleMenuDefend_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Attack);
+
+            //Send the opponent the action taken
+            SendMessageToServer(string.Format("{0}|{1}|{2}", "[DEFEND!]", _CurrentGameState.ToString(), _DefenseBonusCrest));
+
+            //Hide the Defend Controls Panel
+            PanelDefendControls.Visible = false;
+            //Marks the ready flags
+            _DefenderDefended = true;
+            _DefenderIsReadyToBattle = true;
+
+            if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+            {
+                PerformDamageCalculation();
+            }
+        }
+        private void lblAttackerAdvMinus_Click(object sender, EventArgs e)
+        {
+            if (_AttackBonusCrest > 0)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _AttackBonusCrest--;
+                if (_AttackBonusCrest == 0)
+                {
+                    lblAttackerAdvMinus.Visible = false;
+                }
+
+                lblAttackerAdvPlus.Visible = true;
+                lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
+                lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
+                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                Card Attacker = _CurrentTileSelected.CardInPlace;
+                lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
+            }
+        }
+        private void lblAttackerAdvPlus_Click(object sender, EventArgs e)
+        {
+            if (_AttackBonusCrest < 5)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                Card Attacker = _CurrentTileSelected.CardInPlace;
+
+                _AttackBonusCrest++;
+                if (_AttackBonusCrest == 5 || (_AttackBonusCrest + Attacker.AttackCost + 1) > AttackerData.Crests_ATK)
+                {
+                    lblAttackerAdvPlus.Visible = false;
+                }
+
+                lblAttackerAdvMinus.Visible = true;
+                lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
+                lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
+                lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
+            }
+        }
+        private void lblDefenderAdvMinus_Click(object sender, EventArgs e)
+        {
+            if (_DefenseBonusCrest > 0)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _DefenseBonusCrest--;
+                if (_DefenseBonusCrest == 0)
+                {
+                    lblDefenderAdvMinus.Visible = false;
+                }
+
+                lblDefenderAdvPlus.Visible = true;
+                lblDefenderBonusCrest.Text = _DefenseBonusCrest.ToString();
+                lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
+                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                Card Defender = _AttackTarger.CardInPlace;
+                lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF);
+            }
+        }
+        private void lblDefenderAdvPlus_Click(object sender, EventArgs e)
+        {
+            if (_DefenseBonusCrest < 5)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                Card Defender = _AttackTarger.CardInPlace;
+
+                _DefenseBonusCrest++;
+                if (_DefenseBonusCrest == 5 || (Defender.DefenseCost +_DefenseBonusCrest + 1) > DefenderData.Crests_DEF)
+                {
+                    lblDefenderAdvMinus.Visible = false;
+                }
+
+                lblDefenderAdvMinus.Visible = true;
+                lblDefenderBonusCrest.Text = _DefenseBonusCrest.ToString();
+                lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
+                lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF);
+            }
+        }
+        private void btnBattleMenuDontDefend_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Attack);
+
+            //Send the opponent the action taken
+            SendMessageToServer(string.Format("{0}|{1}", "[PASS!]", _CurrentGameState.ToString()));
+
+            //Hide the Defend Controls Panel
+            PanelDefendControls.Visible = false;
+            //Marks the ready flags
+            _DefenderIsReadyToBattle = true;
+            _DefenderDefended = false;
+
+            if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+            {
+                PerformDamageCalculation();
+            }
+        }
+        private void btnEndBattle_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer("[END BATTLE]|" + _CurrentGameState.ToString());
+
+            //Perform the action
+            btnEndBattle_Base();
+        }
+        #endregion
         #endregion
 
         #region Base Player Actions
@@ -1359,7 +1880,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.MainPhaseBoard;
 
                 //Only enable the "End Turn" button for the TURN PLAYER
-                if(UserPlayerColor == TURNPLAYER)
+                if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
                     lblOponentActionWarning.Visible = false;
@@ -1369,7 +1890,7 @@ namespace DungeonDiceMonsters
                     btnEndTurn.Visible = false;
                     lblOponentActionWarning.Visible = true;
                 }
-                
+
             }));
         }
         private void TileClick_MainPhase_Base()
@@ -1441,7 +1962,7 @@ namespace DungeonDiceMonsters
                 //Change the game state
                 _CurrentGameState = GameState.ActionMenuDisplay;
 
-            }));   
+            }));
         }
         private void btnEndTurn_Base()
         {
@@ -1486,11 +2007,11 @@ namespace DungeonDiceMonsters
                 _CurrentTileSelected.Leave();
                 PanelActionMenu.Visible = false;
                 _CurrentGameState = GameState.MainPhaseBoard;
-                if(UserPlayerColor == TURNPLAYER)
+                if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
                 }
-            }));           
+            }));
         }
         private void btnActionMove_Base()
         {
@@ -1508,7 +2029,7 @@ namespace DungeonDiceMonsters
                 btnMoveMenuCancel.Enabled = true;
                 lblMoveMenuCrestCount.ForeColor = Color.Yellow;
                 PanelMoveMenu.Visible = true;
-            }));            
+            }));
         }
         private void btnActionAttack_Base()
         {
@@ -1597,7 +2118,7 @@ namespace DungeonDiceMonsters
                 PlaceMoveMenu();
                 btnMoveMenuFinish.Enabled = true;
                 btnMoveMenuCancel.Enabled = true;
-            }));           
+            }));
         }
         private void btnMoveMenuFinish_Base()
         {
@@ -1619,16 +2140,16 @@ namespace DungeonDiceMonsters
                 PlayerData TurnPlayerData = RedData;
                 if (TURNPLAYER == PlayerColor.BLUE) { TurnPlayerData = BlueData; }
 
-                int amountUsed = TurnPlayerData.Crests_MOV - _TMPMoveCrestCount;               
+                int amountUsed = TurnPlayerData.Crests_MOV - _TMPMoveCrestCount;
                 TurnPlayerData.RemoveCrests(Crest.MOV, amountUsed);
                 LoadPlayersInfo();
 
                 _CurrentGameState = GameState.MainPhaseBoard;
 
-                if(UserPlayerColor == TURNPLAYER)
+                if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
-                }               
+                }
             }));
         }
         private void TileClick_AttackTarget_Base(int tileId)
@@ -1651,7 +2172,7 @@ namespace DungeonDiceMonsters
                 _AttackCandidates.Clear();
 
                 //Open the Battle Panel
-                OpenBattleMenuAttackMode();
+                OpenBattleMenu();
                 _CurrentGameState = GameState.BattlePhase;
             }));
         }
@@ -1670,6 +2191,19 @@ namespace DungeonDiceMonsters
                 PanelAttackMenu.Visible = false;
                 _CurrentGameState = GameState.MainPhaseBoard;
                 btnEndTurn.Visible = true;
+            }));
+        }
+        private void btnEndBattle_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _CurrentTileSelected.Leave();
+                PanelBattleMenu.Visible = false;
+                _CurrentGameState = GameState.MainPhaseBoard;
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                }
             }));
         }
         #endregion
@@ -1691,6 +2225,9 @@ namespace DungeonDiceMonsters
         //Battle menu data
         private int _AttackBonusCrest = 0;
         private int _DefenseBonusCrest = 0;
+        private bool _DefenderDefended = false;
+        private bool _AttackerIsReadyToBattle = false;
+        private bool _DefenderIsReadyToBattle = false;
         //Symbols Refs
         private Card _RedSymbol;
         private Card _BlueSymbol;
@@ -1717,7 +2254,7 @@ namespace DungeonDiceMonsters
             BattlePhase,
             SetCard,
             SummonCard,
-        }     
+        }        
     }
 
     public enum PlayerColor
