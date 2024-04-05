@@ -143,6 +143,14 @@ namespace DungeonDiceMonsters
             BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
+            //TEST give both players some Crests
+            RedData.AddCrests(Crest.ATK, 10);
+            RedData.AddCrests(Crest.MOV, 20);
+            RedData.AddCrests(Crest.DEF, 10);
+            BlueData.AddCrests(Crest.ATK, 10);
+            BlueData.AddCrests(Crest.MOV, 20);
+            BlueData.AddCrests(Crest.DEF, 10);
+
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
 
@@ -657,6 +665,11 @@ namespace DungeonDiceMonsters
                     case "[CLICK CANCEL MOVE MENU]": btnMoveMenuCancel_Base(); break;
                     case "[CLICK TILE TO MOVE]": TileClick_MoveCard_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK FINISH MOVE MENU]": btnMoveMenuFinish_Base(); break;
+                    case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
+                    case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
+
+
                 }
             }
             else
@@ -838,25 +851,11 @@ namespace DungeonDiceMonsters
 
                     if (thisIsACandidate)
                     {
-                        SoundServer.PlaySoundEffect(SoundEffect.Click);
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("[CLICK TILE TO ATTACK]|{0}|{1}", _CurrentGameState.ToString(), tileId));
 
-                        //Remove an Attack Available Counter from this card
-                        _CurrentTileSelected.CardInPlace.RemoveAttackCounter();
-
-                        //Attack the card in this tile
-                        _AttackTarger = _Tiles[tileId];
-
-                        //Close the Attack Menu and clear the color of all attack candidates
-                        PanelAttackMenu.Visible = false;
-                        foreach (Tile tile in _AttackCandidates)
-                        {
-                            tile.SetTileColor();
-                        }
-                        _AttackCandidates.Clear();
-
-                        //Open the Battle Panel
-                        OpenBattleMenuAttackMode();
-                        _CurrentGameState = GameState.BattleMenuAttackMode;
+                        //Perform the action
+                        TileClick_AttackTarget_Base(tileId);
                     }
                     else
                     {
@@ -1167,7 +1166,17 @@ namespace DungeonDiceMonsters
                 btnActionMove_Base();
             }           
         }
+        private void btnActionAttack_Click(object sender, EventArgs e)
+        {
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK ATTACK ACTION MENU]|" + _CurrentGameState.ToString());
 
+                //Perform the action
+                btnActionAttack_Base();
+            }
+        }
         private void btnMoveMenuFinish_Click(object sender, EventArgs e)
         {
             if (UserPlayerColor == TURNPLAYER)
@@ -1190,13 +1199,23 @@ namespace DungeonDiceMonsters
                 btnMoveMenuCancel_Base();
             }
         }
+        private void btnAttackMenuCancel_Click(object sender, EventArgs e)
+        {
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK CANCEL ATTACK MENU]|" + _CurrentGameState.ToString());
+
+                //Perform the action
+                btnAttackMenuCancel_Base();
+            }
+        }
         #endregion
 
         #endregion
 
         #region Base Player Actions
         //These are the action of the event listners without sending the action messages to the server
-
         private void btnRoll_Base()
         {
             Invoke(new MethodInvoker(delegate ()
@@ -1402,9 +1421,9 @@ namespace DungeonDiceMonsters
                 // 4. Card is a monster
 
                 PlayerColor TargetPlayerColor = PlayerColor.RED;
-                if (UserPlayerColor == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
+                if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
                 PlayerData UserPlayerData = RedData;
-                if (UserPlayerColor == PlayerColor.BLUE) { UserPlayerData = BlueData; }
+                if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
 
                 _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
                 if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
@@ -1490,6 +1509,18 @@ namespace DungeonDiceMonsters
                 lblMoveMenuCrestCount.ForeColor = Color.Yellow;
                 PanelMoveMenu.Visible = true;
             }));            
+        }
+        private void btnActionAttack_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _CurrentGameState = GameState.SelectingAttackTarger;
+
+                DisplayAttackCandidate();
+                PlaceAttackMenu();
+
+                PanelActionMenu.Visible = false;
+            }));
         }
         private void btnMoveMenuCancel_Base()
         {
@@ -1600,6 +1631,47 @@ namespace DungeonDiceMonsters
                 }               
             }));
         }
+        private void TileClick_AttackTarget_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Remove an Attack Available Counter from this card
+                _CurrentTileSelected.CardInPlace.RemoveAttackCounter();
+
+                //Attack the card in this tile
+                _AttackTarger = _Tiles[tileId];
+
+                //Close the Attack Menu and clear the color of all attack candidates
+                PanelAttackMenu.Visible = false;
+                foreach (Tile tile in _AttackCandidates)
+                {
+                    tile.SetTileColor();
+                }
+                _AttackCandidates.Clear();
+
+                //Open the Battle Panel
+                OpenBattleMenuAttackMode();
+                _CurrentGameState = GameState.BattlePhase;
+            }));
+        }
+        private void btnAttackMenuCancel_Base()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Unmark all the attack candidates
+                foreach (Tile tile in _AttackCandidates)
+                {
+                    tile.SetTileColor();
+                }
+
+                _AttackCandidates.Clear();
+                PanelAttackMenu.Visible = false;
+                _CurrentGameState = GameState.MainPhaseBoard;
+                btnEndTurn.Visible = true;
+            }));
+        }
         #endregion
 
         #region Data
@@ -1642,11 +1714,10 @@ namespace DungeonDiceMonsters
             ActionMenuDisplay,
             MovingCard,
             SelectingAttackTarger,
-            BattleMenuAttackMode,
-            BattleMenuDefenseMode,
+            BattlePhase,
             SetCard,
             SummonCard,
-        }      
+        }     
     }
 
     public enum PlayerColor
