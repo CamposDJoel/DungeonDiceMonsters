@@ -46,5 +46,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\DimensionForms\\" + form + ".jpg");
         }
+        public static Image PhaseBanner(PlayerColor player, string phase)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\PhaseBanners\\" + player + "\\" + phase  +".png");
+        }
     }
 }
