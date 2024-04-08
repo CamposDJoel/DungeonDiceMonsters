@@ -28,12 +28,13 @@ namespace DungeonDiceMonsters
             //Set Custom Event Listener
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;
-            //TODO: btnExit.MouseEnter += OnMouseHoverSound;
+            btnExit.MouseEnter += OnMouseHoverSound;
             btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
             RedData = Red; BlueData = Blue;
+
 
             //Initialize the board tiles
             int tileId = 0;
@@ -143,76 +144,8 @@ namespace DungeonDiceMonsters
             BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
-            //TEST give both players some Crests
-            RedData.AddCrests(Crest.ATK, 10);
-            RedData.AddCrests(Crest.MOV, 20);
-            RedData.AddCrests(Crest.DEF, 10);
-            BlueData.AddCrests(Crest.ATK, 10);
-            BlueData.AddCrests(Crest.MOV, 20);
-            BlueData.AddCrests(Crest.DEF, 10);
-
-            //TEST: Set some tiles
-            _Tiles[214].ChangeOwner(PlayerColor.RED);
-            _Tiles[201].ChangeOwner(PlayerColor.RED);
-            _Tiles[188].ChangeOwner(PlayerColor.RED);
-            _Tiles[175].ChangeOwner(PlayerColor.RED);
-            _Tiles[200].ChangeOwner(PlayerColor.RED);
-            _Tiles[202].ChangeOwner(PlayerColor.RED);
-
-            _Tiles[97].ChangeOwner(PlayerColor.RED);
-            _Tiles[109].ChangeOwner(PlayerColor.RED);
-            _Tiles[110].ChangeOwner(PlayerColor.RED);
-            _Tiles[111].ChangeOwner(PlayerColor.RED);
-            _Tiles[123].ChangeOwner(PlayerColor.RED);
-
-            _Tiles[19].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[32].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[33].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[34].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[35].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[48].ChangeOwner(PlayerColor.BLUE);
-
-            _Tiles[31].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[44].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[43].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[42].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[41].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[40].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[53].ChangeOwner(PlayerColor.BLUE);
-
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
-
-            //TEST Summon a monster to move
-            _CurrentTileSelected = _Tiles[201];
-            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(33396948), PlayerColor.RED, false);
-            _CardsOnBoard.Add(thisCard);
-            _CurrentTileSelected.SummonCard(thisCard);
-
-            _CurrentTileSelected = _Tiles[35];
-            Card thisCard2 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(25955164), PlayerColor.RED, false);
-            _CardsOnBoard.Add(thisCard2);
-            _CurrentTileSelected.SummonCard(thisCard2);
-
-            _CurrentTileSelected = _Tiles[48];
-            Card thisCard3 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(41462083), PlayerColor.BLUE, false);
-            _CardsOnBoard.Add(thisCard3);
-            _CurrentTileSelected.SummonCard(thisCard3);
-
-            _CurrentTileSelected = _Tiles[40];
-            Card thisCard4 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(33396948), PlayerColor.BLUE, false);
-            _CardsOnBoard.Add(thisCard4);
-            _CurrentTileSelected.SummonCard(thisCard4);
-
-            _CurrentTileSelected = _Tiles[110];
-            Card thisCard5 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(48766543), PlayerColor.RED, false);
-            _CardsOnBoard.Add(thisCard5);
-            _CurrentTileSelected.SetCard(thisCard5);
-
-            _CurrentTileSelected = _Tiles[31];
-            Card thisCard6 = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(56342351), PlayerColor.BLUE, false);
-            _CardsOnBoard.Add(thisCard6);
-            _CurrentTileSelected.SetCard(thisCard6);
 
             //Set the initial game state and start the turn start panel            
             LaunchTurnStartPanel();
