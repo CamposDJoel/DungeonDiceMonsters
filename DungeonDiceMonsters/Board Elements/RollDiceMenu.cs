@@ -444,38 +444,21 @@ namespace DungeonDiceMonsters
                         else
                         {
                             //This is a Ritual Monster, validate the Ritual Summon can be completed.
-                            bool dice2isRitualMatch = false;
-                            bool dice3isRitualMatch = false;
-                            if ((DiceXCrest == Crest.RITU && DiceXValue == DiceZValue))
+                            if (DiceXCrest == Crest.RITU && (DiceZ.RitualCard == DiceX.Name))
                             {
-                                dice2isRitualMatch = true;
+                                //Set result as "Ritual Summon"
+                                return 4;
                             }
-                            if ((DiceYCrest == Crest.RITU && DiceYValue == DiceZValue))
+                            else if (DiceYCrest == Crest.RITU && (DiceZ.RitualCard == DiceY.Name))
                             {
-                                dice3isRitualMatch = true;
-                            }
-
-                            //If Any of the other 2 dices are also ritual with the same value
-                            if (dice2isRitualMatch || dice3isRitualMatch)
-                            {
-                                //then check if the ritual card is the designated ritual for this monster
-                                if (DiceX.RitualCard == DiceY.Name)
-                                {
-                                    //Set result as "Ritual Summon"
-                                    return 4;
-                                }
-                                else
-                                {
-                                    //Set result as "Star/Ritual No Match"
-                                    return 3;
-                                }
+                                //Set result as "Ritual Summon"
+                                return 4;
                             }
                             else
                             {
                                 //Set result as "Star/Ritual No Match"
                                 return 3;
                             }
-
                         }
                     }
                     else
@@ -1469,11 +1452,5 @@ namespace DungeonDiceMonsters
             }));
         }
         #endregion
-
-        /*
-            Invoke(new MethodInvoker(delegate () {
-                
-            }));
-        */
     }
 }
