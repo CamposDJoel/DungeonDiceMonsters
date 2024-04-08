@@ -1645,5 +1645,32 @@
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
     "ritualSpell": "-"
+  },
+  {
+    "id": "43694075",
+    "name": "Novox's Prayer",
+    "category": "Spell",
+    "type": "Ritual",
+    "sectype": "NONE",
+    "attribute": "SPELL",
+    "atk": "0",
+    "def": "0",
+    "lp": "0",
+    "monsterLevel": "0",
+    "diceLevel": "4",
+    "face1": "RITU 4",
+    "face2": "RITU 4",
+    "face3": "MOV 2",
+    "face4": "MOV 2",
+    "face5": "MOV 2",
+    "face6": "MOV 2",
+    "onSummonEffect": "-",
+    "continuousEffect": "-",
+    "ability": "-",
+    "ignitionEffect": "-",
+    "fusionMaterial1": "-",
+    "fusionMaterial2": "-",
+    "fusionMaterial3": "-",
+    "ritualSpell": "-"
   }
 ]
