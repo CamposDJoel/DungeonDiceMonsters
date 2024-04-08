@@ -106,7 +106,6 @@
             this.lblDebugNorthAdj = new System.Windows.Forms.Label();
             this.lblDebugTileID = new System.Windows.Forms.Label();
             this.PanelTurnStartMenu = new System.Windows.Forms.Panel();
-            this.lblTurnStartInactiveWarning = new System.Windows.Forms.Label();
             this.btnViewBoard = new System.Windows.Forms.Button();
             this.btnRoll = new System.Windows.Forms.Button();
             this.lblTurnStartMessage = new System.Windows.Forms.Label();
@@ -154,6 +153,7 @@
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.PicPhaseBanner = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -194,6 +194,7 @@
             this.PanelAttackerAdvBonus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -974,7 +975,7 @@
             this.PanelDebug.Controls.Add(this.lblDebugSouthAdj);
             this.PanelDebug.Controls.Add(this.lblDebugNorthAdj);
             this.PanelDebug.Controls.Add(this.lblDebugTileID);
-            this.PanelDebug.Location = new System.Drawing.Point(815, 345);
+            this.PanelDebug.Location = new System.Drawing.Point(813, 438);
             this.PanelDebug.Name = "PanelDebug";
             this.PanelDebug.Size = new System.Drawing.Size(139, 205);
             this.PanelDebug.TabIndex = 21;
@@ -1085,7 +1086,6 @@
             this.PanelTurnStartMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelTurnStartMenu.BackgroundImage")));
             this.PanelTurnStartMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartInactiveWarning);
             this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
             this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
             this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartMessage);
@@ -1094,18 +1094,6 @@
             this.PanelTurnStartMenu.Size = new System.Drawing.Size(451, 248);
             this.PanelTurnStartMenu.TabIndex = 22;
             this.PanelTurnStartMenu.Visible = false;
-            // 
-            // lblTurnStartInactiveWarning
-            // 
-            this.lblTurnStartInactiveWarning.AutoSize = true;
-            this.lblTurnStartInactiveWarning.BackColor = System.Drawing.Color.Transparent;
-            this.lblTurnStartInactiveWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTurnStartInactiveWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTurnStartInactiveWarning.Location = new System.Drawing.Point(3, 218);
-            this.lblTurnStartInactiveWarning.Name = "lblTurnStartInactiveWarning";
-            this.lblTurnStartInactiveWarning.Size = new System.Drawing.Size(290, 24);
-            this.lblTurnStartInactiveWarning.TabIndex = 3;
-            this.lblTurnStartInactiveWarning.Text = "Opponent is taking action...";
             // 
             // btnViewBoard
             // 
@@ -1647,10 +1635,10 @@
             // 
             // lblOponentActionWarning
             // 
-            this.lblOponentActionWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblOponentActionWarning.BackColor = System.Drawing.Color.Black;
             this.lblOponentActionWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOponentActionWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOponentActionWarning.Location = new System.Drawing.Point(4, 236);
+            this.lblOponentActionWarning.Location = new System.Drawing.Point(814, 247);
             this.lblOponentActionWarning.Name = "lblOponentActionWarning";
             this.lblOponentActionWarning.Size = new System.Drawing.Size(138, 82);
             this.lblOponentActionWarning.TabIndex = 4;
@@ -1663,7 +1651,7 @@
             this.PanelEndGameResults.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelEndGameResults.Controls.Add(this.btnExit);
             this.PanelEndGameResults.Controls.Add(this.label1);
-            this.PanelEndGameResults.Location = new System.Drawing.Point(821, 555);
+            this.PanelEndGameResults.Location = new System.Drawing.Point(12, 577);
             this.PanelEndGameResults.Name = "PanelEndGameResults";
             this.PanelEndGameResults.Size = new System.Drawing.Size(106, 88);
             this.PanelEndGameResults.TabIndex = 28;
@@ -1688,6 +1676,18 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Game Over";
             // 
+            // PicPhaseBanner
+            // 
+            this.PicPhaseBanner.BackColor = System.Drawing.Color.Black;
+            this.PicPhaseBanner.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PicPhaseBanner.Image = ((System.Drawing.Image)(resources.GetObject("PicPhaseBanner.Image")));
+            this.PicPhaseBanner.Location = new System.Drawing.Point(787, 342);
+            this.PicPhaseBanner.Name = "PicPhaseBanner";
+            this.PicPhaseBanner.Size = new System.Drawing.Size(202, 75);
+            this.PicPhaseBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicPhaseBanner.TabIndex = 29;
+            this.PicPhaseBanner.TabStop = false;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1695,6 +1695,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 906);
+            this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelTurnStartMenu);
             this.Controls.Add(this.PanelBattleMenu);
@@ -1769,6 +1770,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).EndInit();
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1888,7 +1890,6 @@
         private System.Windows.Forms.Label lblDefenderDEF;
         private System.Windows.Forms.Label lblAttackerATK;
         private System.Windows.Forms.Label lblSetCardMessage;
-        private System.Windows.Forms.Label lblTurnStartInactiveWarning;
         private System.Windows.Forms.Label lblOponentActionWarning;
         private System.Windows.Forms.Label lblMoveMenuCrestCount;
         private System.Windows.Forms.Panel PanelAttackControls;
@@ -1900,5 +1901,6 @@
         private System.Windows.Forms.Label lblWaitingfordefender;
         private System.Windows.Forms.Panel PanelAttackerCard;
         private System.Windows.Forms.Panel PanelDefenderCard;
+        private System.Windows.Forms.PictureBox PicPhaseBanner;
     }
 }

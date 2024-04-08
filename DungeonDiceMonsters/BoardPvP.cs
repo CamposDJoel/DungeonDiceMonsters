@@ -168,6 +168,9 @@ namespace DungeonDiceMonsters
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
 
+            //Update the Phase Banner
+            UpdateBanner("MainPhase");
+
             if (UserPlayerColor == TURNPLAYER)
             {
                 btnEndTurn.Visible = true;
@@ -191,6 +194,8 @@ namespace DungeonDiceMonsters
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
 
+            //Update the Phase Banner
+            UpdateBanner("SummonPhase");
 
             lblSummonMessage.Visible = true;
 
@@ -220,6 +225,9 @@ namespace DungeonDiceMonsters
 
             //Enable the Board Panel to interact with it
             PanelBoard.Enabled = true;
+
+            //Update the Phase Banner
+            UpdateBanner("SummonPhase");
 
             //Setup the tile candidates
             if (UserPlayerColor == TURNPLAYER)
@@ -596,20 +604,21 @@ namespace DungeonDiceMonsters
                 _DefenseBonusCrest = 0;
                 lblDefenderBonus.Text = "Bonus: 0";
                 PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
-                lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF);
+                if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
+                else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }              
                 PanelDefendControls.Visible = true;
                 //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
                 if (Defender.DefenseCost > DefenderData.Crests_DEF)
                 {
-                    btnBattleMenuDefend.Enabled = false;
+                    btnBattleMenuDefend.Visible = false;
                 }
                 else
                 {
-                    btnBattleMenuDefend.Enabled = true;
+                    btnBattleMenuDefend.Visible = true;
                 }
                 //If defender monster has an advantage, enable the adv subpanel
                 bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
-                if (DefenderHasAdvantage)
+                if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0)
                 {
                     PanelDefenderAdvBonus.Visible = true;
                     //Show the + button at the start
@@ -630,6 +639,9 @@ namespace DungeonDiceMonsters
                 //Hide the Attack Controls
                 PanelAttackControls.Visible = false;
             }
+
+            //Update the Phase Banner
+            UpdateBanner("BattlePhase");
         }
         private bool HasAttributeAdvantage(Card attacker, Card defender)
         {
@@ -674,8 +686,14 @@ namespace DungeonDiceMonsters
             PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
+        private void UpdateBanner(string currentPhase)
+        {
+            if(PicPhaseBanner.Image  != null) { PicPhaseBanner.Image.Dispose(); }
+            PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
+        }
         #endregion
 
+        #region TCPServer Connection Methods
         private void SendMessageToServer(string message)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(message);
@@ -754,6 +772,7 @@ namespace DungeonDiceMonsters
                 throw new Exception("Message Received with an invalid game state");
             }
         }
+        #endregion
 
         #region Turn Steps Functions
         private void LaunchTurnStartPanel()
@@ -764,18 +783,21 @@ namespace DungeonDiceMonsters
             {
                 btnRoll.Visible = true;
                 btnViewBoard.Visible = true;
-                lblTurnStartInactiveWarning.Visible = false;
+                lblOponentActionWarning.Visible = false;
             }
             else
             {
                 btnRoll.Visible = false;
                 btnViewBoard.Visible = false;
-                lblTurnStartInactiveWarning.Visible = true;
+                lblOponentActionWarning.Visible = true;
             }
 
             //Show the panel
             lblTurnStartMessage.Text = string.Format("{0} Player Turn!", TURNPLAYER);
             PanelTurnStartMenu.Visible = true;
+
+            //Update the Phase Banner
+            UpdateBanner("PrepPhase");
 
             //Set the Game State
             _CurrentGameState = GameState.TurnStartMenu;
@@ -1812,16 +1834,17 @@ namespace DungeonDiceMonsters
                 _CurrentTileSelected = _dimensionTiles[0];
                 _CurrentGameState = GameState.MainPhaseBoard;
 
+                //Update Banner
+                UpdateBanner("MainPhase");
+
                 //Only enable the "End Turn" button for the TURN PLAYER
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
-                    lblOponentActionWarning.Visible = false;
                 }
                 else
                 {
                     btnEndTurn.Visible = false;
-                    lblOponentActionWarning.Visible = true;
                 }
 
             }));
@@ -1900,9 +1923,11 @@ namespace DungeonDiceMonsters
         private void btnEndTurn_Base()
         {
             Invoke(new MethodInvoker(delegate () {
+                //Update the Phase Banner
+                UpdateBanner("EndPhase");
+
                 //Clean up the board
                 btnEndTurn.Visible = false;
-                lblOponentActionWarning.Visible = false;
 
                 //All 1 turn data is reset for all monsters on the board
                 //and All non-permanent spellbound counters are reduced.
@@ -2133,6 +2158,8 @@ namespace DungeonDiceMonsters
                 _CurrentTileSelected.Leave();
                 PanelBattleMenu.Visible = false;
                 _CurrentGameState = GameState.MainPhaseBoard;
+                //Update Banner
+                UpdateBanner("MainPhase");
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
