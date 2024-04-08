@@ -43,30 +43,8 @@ namespace DungeonDiceMonsters
             Characters[10] = PicChar10; Characters[22]= PicChar22; Characters[34] = PicChar34;
             Characters[11] = PicChar11; Characters[23]= PicChar23;
 
-            //test
-            //GameData.UnlockCharacter(Character.Duel_Master_K);
-            for (int x = 0; x < Characters.Length; x++)
-            {
-                GameData.UnlockCharacter((Character)x);
-
-            }
-
-            /*GameData.UnlockCharacter((Character)0);
-            GameData.UnlockCharacter((Character)3);
-            GameData.UnlockCharacter((Character)5);
-            GameData.UnlockCharacter((Character)7);
-            GameData.UnlockCharacter((Character)8);
-            GameData.UnlockCharacter((Character)11);
-            GameData.UnlockCharacter((Character)14);
-            GameData.UnlockCharacter((Character)15);
-            GameData.UnlockCharacter((Character)16);
-            GameData.UnlockCharacter((Character)20);
-            GameData.UnlockCharacter((Character)22);
-            GameData.UnlockCharacter((Character)23);
-            GameData.UnlockCharacter((Character)27);
-            GameData.UnlockCharacter((Character)29);
-            GameData.UnlockCharacter((Character)33);
-            GameData.UnlockCharacter((Character)34);*/
+            //Only Enable Duel Master K as defaul
+            GameData.UnlockCharacter(Character.Duel_Master_K);
 
             //Load all the unlocked characters
             for (int x = 0; x < Characters.Length; x++)
@@ -74,7 +52,7 @@ namespace DungeonDiceMonsters
                 if (GameData.IsCharacterUnlocked((Character)x))
                 {
                     Borders[x].Visible = true;
-                    Characters[x].Image = ImageServer.CharacterIcon((Character)x);
+                    ImageServer.LoadImage(Characters[x], CardImageType.CharacterIcon, ((Character)x).ToString());
                     Characters[x].Visible = true;
 
                     Characters[x].MouseEnter += OnMouseEnterPicture;

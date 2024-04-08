@@ -85,13 +85,11 @@ namespace DungeonDiceMonsters
 
             if(_card.IsASymbol)
             {
-                if(_CardImage.Image != null) { _CardImage.Image.Dispose(); }
-                _CardImage.Image = ImageServer.Symbol(card.Attribute);
+                ImageServer.LoadImage(_CardImage, CardImageType.Symbol, card.Attribute.ToString());
             }
             else
             {
-                if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
-                _CardImage.Image = ImageServer.CardArtworkImage(card.CardID);
+                ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, card.CardID.ToString());
             }
 
             if(card.Category == Category.Monster)
@@ -108,19 +106,18 @@ namespace DungeonDiceMonsters
         {
             _card = card;
             _Occupied = true;
-            if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
-            _CardImage.Image = ImageServer.CardArtworkImage(0);
+            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
             _StatsLabel.SendToBack();
         }
         public void MoveInCard(Card card)
         {
             _card = card;
             _Occupied = true;
-            if (_card.IsFaceDown) { _CardImage.Image = ImageServer.CardArtworkImage(0); }
+            if (_card.IsFaceDown) { ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0"); }
             else 
             { 
-                if(_card.IsASymbol) { _CardImage.Image = ImageServer.Symbol(_card.Attribute); }
-                else { _CardImage.Image = ImageServer.CardArtworkImage(card.CardID); }
+                if(_card.IsASymbol) { ImageServer.LoadImage(_CardImage, CardImageType.Symbol, _card.Attribute.ToString()); }
+                else { ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, card.CardID.ToString()); }
             }
             if (card.Category == Category.Monster)
             {
