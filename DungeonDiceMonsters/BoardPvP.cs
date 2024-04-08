@@ -258,8 +258,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute);
-            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute);
+            ImageServer.LoadImage(PicBlueSymbol, CardImageType.Symbol, _BlueSymbol.Attribute.ToString());
+            ImageServer.LoadImage(PicRedSymbol, CardImageType.Symbol, _RedSymbol.Attribute.ToString());
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
             lblBlueLP.Text = _BlueSymbol.LP.ToString();
@@ -297,40 +297,36 @@ namespace DungeonDiceMonsters
 
                 if (thisCard.IsFaceDown && thisCard.Owner != UserPlayerColor)
                 {
-                    if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
-                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
+                    ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
 
-                    lblCardName.Text = "";
-                    lblCardType.Text = "";
-                    lblCardLevel.Text = "";
-                    lblAttribute.Text = "";
-                    lblStatsATK.Text = "";
-                    lblStatsDEF.Text = "";
-                    lblStatsLP.Text = "";
+                    lblCardName.Text = string.Empty;
+                    lblCardType.Text = string.Empty;
+                    lblCardLevel.Text = string.Empty;
+                    lblAttribute.Text = string.Empty;
+                    lblStatsATK.Text = string.Empty;
+                    lblStatsDEF.Text = string.Empty;
+                    lblStatsLP.Text = string.Empty;
                     lblCardText.Text = "Opponent's Facedown card.";
                 }
                 else
                 {
                     if (thisCard.IsASymbol)
                     {
-                        if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
-                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.Attribute);
+                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.Symbol, thisCard.Attribute.ToString());
 
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
-                        lblCardType.Text = "";
-                        lblCardLevel.Text = "";
+                        lblCardType.Text = string.Empty;
+                        lblCardLevel.Text = string.Empty;
                         lblAttribute.Text = thisCard.Attribute.ToString();
-                        lblStatsATK.Text = "";
-                        lblStatsDEF.Text = "";
+                        lblStatsATK.Text = string.Empty;
+                        lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
                         lblCardText.Text = thisCard.ContinuousEffect;
                     }
                     else
                     {
                         //Populate the UI
-                        if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
-                        PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID);
-
+                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, cardID.ToString());
                         lblCardName.Text = thisCard.Name;
 
                         string secondaryType = thisCard.SecType.ToString();
@@ -403,18 +399,16 @@ namespace DungeonDiceMonsters
             else
             {
                 PanelCardInfo.BackColor = Color.Gray;
+                ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
 
-                if (PicCardArtworkBottom.Image != null) { PicCardArtworkBottom.Image.Dispose(); }
-                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(0);
-
-                lblCardName.Text = "";
-                lblCardType.Text = "";
-                lblCardLevel.Text = "";
-                lblAttribute.Text = "";
-                lblStatsATK.Text = "";
-                lblStatsDEF.Text = "";
-                lblStatsLP.Text = "";
-                lblCardText.Text = "";
+                lblCardName.Text = string.Empty;
+                lblCardType.Text = string.Empty;
+                lblCardLevel.Text = string.Empty;
+                lblAttribute.Text = string.Empty;
+                lblStatsATK.Text = string.Empty;
+                lblStatsDEF.Text = string.Empty;
+                lblStatsLP.Text = string.Empty;
+                lblCardText.Text = string.Empty;
             }
         }
         private void DisplayMoveCandidates()
@@ -519,9 +513,7 @@ namespace DungeonDiceMonsters
 
             //Set the attacker's data
             Card Attacker = _CurrentTileSelected.CardInPlace;
-            if (PicAttacker.BackgroundImage != null) { PicAttacker.BackgroundImage.Dispose(); }
-            PicAttacker.BackgroundImage = null;
-            PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID);
+            ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
 
@@ -541,9 +533,7 @@ namespace DungeonDiceMonsters
             Card Defender = _AttackTarger.CardInPlace;
             if (Defender.Category == Category.Monster)
             {
-                if (PicDefender2.BackgroundImage != null) { PicDefender2.BackgroundImage.Dispose(); }
-                PicDefender2.BackgroundImage = null;
-                PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID);
+                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
                 lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                 lblDefenderDEF.Text = "DEF: " + Defender.DEF;
             }
@@ -683,7 +673,7 @@ namespace DungeonDiceMonsters
         private void UpdateDimensionPreview()
         {
             //Update UI
-            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm);
+            ImageServer.LoadImage(PicCurrentForm, CardImageType.DimensionForm, _CurrentDimensionForm.ToString());
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
         private void UpdateBanner(string currentPhase)
@@ -1025,7 +1015,7 @@ namespace DungeonDiceMonsters
                 {
                     //Destroy the defender card automatically
                     SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
-                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(_AttackTarger.CardInPlace.CardID);
+                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, _AttackTarger.CardInPlace.CardID.ToString());
                     PicDefenderDestroyed.Visible = true;
                     lblBattleMenuDamage.Text = "Damage: 0";
                     WaitNSeconds(1000);
@@ -1870,26 +1860,7 @@ namespace DungeonDiceMonsters
                     PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
                 }
                 PanelActionMenu.Visible = true;
-
-                //Disable the unavailable actions
-                Card thiscard = _CurrentTileSelected.CardInPlace;
-                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > RedData.Crests_MOV)
-                {
-                    btnActionMove.Enabled = false;
-                }
-                else
-                {
-                    btnActionMove.Enabled = true;
-                    //Set the temporary mov crest count
-                    //this is the value that is going to be used until the move action is finalized.
-                    PlayerData TurnPlayerData = RedData;
-                    if (TURNPLAYER == PlayerColor.BLUE)
-                    {
-                        TurnPlayerData = BlueData;
-                    }
-                    _TMPMoveCrestCount = TurnPlayerData.Crests_MOV;
-                    lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
-                }
+                
 
                 //Determine if this card can attack if:
                 // 1. Has Attacks available left
@@ -1901,6 +1872,25 @@ namespace DungeonDiceMonsters
                 if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
                 PlayerData UserPlayerData = RedData;
                 if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
+                PlayerData TurnPlayerData = RedData;
+                if (TURNPLAYER == PlayerColor.BLUE)
+                {
+                    TurnPlayerData = BlueData;
+                }
+
+                //Disable the unavailable actions
+                Card thiscard = _CurrentTileSelected.CardInPlace;
+                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV)
+                {
+                    btnActionMove.Enabled = false;
+                }
+                else
+                {
+                    btnActionMove.Enabled = true;
+                    _TMPMoveCrestCount = TurnPlayerData.Crests_MOV;
+                    lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
+                }
+
 
                 _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
                 if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)

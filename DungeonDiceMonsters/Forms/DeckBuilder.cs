@@ -172,14 +172,6 @@ namespace DungeonDiceMonsters
                 }
                 else
                 {
-                    /*
-                    //if the ID of the card to be place in this card slot 
-                    //is the same as the one before dont do anything...
-                    if (_StorageIDsInCurrentPage[x] != StorageData.Cards[iterator].ID)
-                    {
-
-                    }*/
-
                     //Update the ID of the card in this slow
                     _StorageIDsInCurrentPage[x] = StorageData.Cards[iterator].ID;
 
@@ -189,12 +181,8 @@ namespace DungeonDiceMonsters
                     //Get the card ID of the card to be displayed
                     int cardID = StorageData.Cards[iterator].ID;
 
-                    //Dispose the current image in this picture box (if there was one)
-                    //to clear memory
-                    if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
-
                     //Populate the card image with the card ID
-                    _CardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                    ImageServer.LoadImage(_CardImageList[x], CardImageType.FullCardImage, cardID.ToString());
 
                     //Update the amount label
                     _CardAmountList[x].Text = StorageData.Cards[iterator].Amount.ToString();
@@ -225,12 +213,8 @@ namespace DungeonDiceMonsters
                         //Get the card ID of the card to be displayed
                         int cardID = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
 
-                        //Dispose the current image in this picture box (if there was one)
-                        //to clear memory
-                        if (_DeckCardImageList[x].Image != null) { _DeckCardImageList[x].Image.Dispose(); }
-
                         //Populate the card image with the card ID
-                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID);
+                        ImageServer.LoadImage(_DeckCardImageList[x], CardImageType.FullCardImage, cardID.ToString());
                     }                    
                 }
             }
@@ -251,23 +235,17 @@ namespace DungeonDiceMonsters
                     //Get the card ID of the card to be displayed
                     int cardID = _CurrentDeckSelected.GetFusionCardIDAtIndex(x);
 
-                    //Dispose the current image in this picture box (if there was one)
-                    //to clear memory
-                    if (_DeckCardImageList[x + 20].Image != null) { _DeckCardImageList[x + 20].Image.Dispose(); }
-
                     //Populate the card image with the card ID
-                    _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID);
+                    ImageServer.LoadImage(_DeckCardImageList[x + 20], CardImageType.FullCardImage, cardID.ToString());
                 }
             }
 
             //Update the Symbol
             _CurrentSymbolSelection = _CurrentDeckSelected.Symbol;
-            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
-            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
+            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
 
             //Set the Ready flag
-            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
-            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+            ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
         }
         private void LoadCardInfoPanel()
         {
@@ -277,8 +255,7 @@ namespace DungeonDiceMonsters
             int cardID = thisCard.ID;
 
             //Populate the UI
-            if (PicCardArtwork.Image != null) { PicCardArtwork.Image.Dispose(); }
-            PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID);
+            ImageServer.LoadImage(PicCardArtwork, CardImageType.CardArtwork, cardID.ToString());
 
             lblID.Text = cardID.ToString();
             lblCardName.Text = thisCard.Name;
@@ -488,8 +465,8 @@ namespace DungeonDiceMonsters
                 LoadDeckPage();
 
                 //Reload the Deck Status
-                if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
-                PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+                ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
+
             }
             else
             {
@@ -520,8 +497,7 @@ namespace DungeonDiceMonsters
             LoadDeckPage();
 
             //Reload the Deck Status
-            if (PicDeckStatus.Image != null) { PicDeckStatus.Image.Dispose(); }
-            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus);
+            ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -624,8 +600,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
-            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
-            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
+            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
 
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
@@ -645,9 +620,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
-            if (PicSymbol.Image != null) { PicSymbol.Image.Dispose(); }
-            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection);
-
+            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)

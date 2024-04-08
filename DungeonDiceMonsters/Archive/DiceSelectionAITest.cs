@@ -202,23 +202,23 @@ namespace DungeonDiceMonsters
 
             if(selection.Count == 3)
             {
-                Pic1.Image = ImageServer.FullCardImage(selection[0]);
-                Pic2.Image = ImageServer.FullCardImage(selection[1]);
-                Pic3.Image = ImageServer.FullCardImage(selection[2]);
+                ImageServer.LoadImage(Pic1, CardImageType.FullCardImage, selection[0].ToString());
+                ImageServer.LoadImage(Pic2, CardImageType.FullCardImage, selection[1].ToString());
+                ImageServer.LoadImage(Pic3, CardImageType.FullCardImage, selection[2].ToString());
             }
 
             if (selection.Count == 2)
             {
-                Pic1.Image = ImageServer.FullCardImage(selection[0]);
-                Pic2.Image = ImageServer.FullCardImage(selection[1]);
-                Pic3.Image = ImageServer.FullCardImage(0);
+                ImageServer.LoadImage(Pic1, CardImageType.FullCardImage, selection[0].ToString());
+                ImageServer.LoadImage(Pic2, CardImageType.FullCardImage, selection[1].ToString());
+                ImageServer.LoadImage(Pic3, CardImageType.FullCardImage, "0");
             }
 
             if (selection.Count == 1)
             {
-                Pic1.Image = ImageServer.FullCardImage(selection[0]);
-                Pic2.Image = ImageServer.FullCardImage(0);
-                Pic3.Image = ImageServer.FullCardImage(0);
+                ImageServer.LoadImage(Pic1, CardImageType.FullCardImage, selection[0].ToString());
+                ImageServer.LoadImage(Pic2, CardImageType.FullCardImage, "0");
+                ImageServer.LoadImage(Pic3, CardImageType.FullCardImage, "0");
             }
         }
 
