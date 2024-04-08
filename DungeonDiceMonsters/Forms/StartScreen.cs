@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -17,10 +16,31 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.TitleScreen, true);
             InitializeComponent();
+
+            RadioNewGameOption.MouseEnter += new EventHandler(MouseEnterRadioHover);            
+            RadioLoadGameOption.MouseEnter += new EventHandler(MouseEnterRadioHover);
+            RadioNewGameOption.Click += new EventHandler(ClickRadio);
+            RadioLoadGameOption.Click += new EventHandler(ClickRadio);
         }
         #endregion
 
+        private bool SaveFileExists = false;
+
         #region Events
+        private void MouseEnterRadioHover(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
+        }
+        private void ClickRadio(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+        }
+        private void btnOpenTestForm_Click(object sender, EventArgs e)
+        {
+            DiceSelectionAITest dtest = new DiceSelectionAITest();
+            Hide();
+            dtest.Show();
+        }
         private void btnOpenDBManager_Click(object sender, EventArgs e)
         {
             JsonGenerator jsonGenerator = new JsonGenerator();
@@ -44,23 +64,30 @@ namespace DungeonDiceMonsters
                 CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
             }
 
-            //Show the new game group           
-            GroupNewGame.Visible = true;
-
-            //Check if there is a save file to show the load game
-            try
+            //Check if a save file exists
+            SaveFileExists = File.Exists(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt");          
+            if(SaveFileExists)
             {
+                RadioLoadGameOption.Checked = true;
+                //Preview the SaveFile Data
                 StreamReader SR_SaveFile = new StreamReader(
                  Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt");
-                SR_SaveFile.Close();
 
-                GroupLoadGame.Visible = true;
+                string Line = SR_SaveFile.ReadLine();
+                string[] tokens = Line.Split('|');
+                lblPreviewPlayerName.Text = tokens[0];
+                lblPreviewStarchips.Text = tokens[1];
+                SR_SaveFile.Close();
+                //Show the warning in the new game menu
                 lblWarning.Visible = true;
             }
-            catch (Exception)
+            else
             {
-                //do nothing continue
+                RadioLoadGameOption.Visible = false;
             }
+
+            //Show the New/Load Panel
+            PanelSelectionA.Visible = true;
         }
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
@@ -118,20 +145,33 @@ namespace DungeonDiceMonsters
                 StorageData.AddCard(38142739);
                 StorageData.AddCard(44287299);
 
+                //Create the save file
+                SaveFileManger.WriteSaveFile();
+
                 //Open the main menu form
-                SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
                 MainMenu MM = new MainMenu();
                 Hide();
                 MM.Show();
             }          
         }
-        #endregion
-
-        private void btnOpenTestForm_Click(object sender, EventArgs e)
+        private void RadioNewGameOption_CheckedChanged(object sender, EventArgs e)
         {
-            DiceSelectionAITest dtest = new DiceSelectionAITest();
-            Hide();
-            dtest.Show();
+            if (RadioNewGameOption.Checked)
+            {
+                RadioLoadGameOption.Checked = false;
+                PanelNewGameOptions.Visible = true;
+                PanelLoadGameOptions.Visible = false;
+            }
         }
+        private void RadioLoadGameOption_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RadioLoadGameOption.Checked)
+            {
+                RadioNewGameOption.Checked = false;
+                PanelNewGameOptions.Visible = false;
+                PanelLoadGameOptions.Visible = true;
+            }
+        }
+        #endregion
     }
 }
