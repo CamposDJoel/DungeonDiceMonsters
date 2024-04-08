@@ -32,7 +32,7 @@ namespace DungeonDiceMonsters
             string filepath = "\\Music\\" + sound + ".wav";
             Effect.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
             Effect.Play();
-            Effect.Volume = 0.8;
+            Effect.Volume = 0.3;
         }
 
         private static void Media_Ended(object sender, EventArgs e)
