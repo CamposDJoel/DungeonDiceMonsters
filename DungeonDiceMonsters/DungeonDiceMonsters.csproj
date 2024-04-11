@@ -73,6 +73,7 @@
       <DependentUpon>DiceSelectionAITest.cs</DependentUpon>
     </Compile>
     <Compile Include="Board Elements\Dimension.cs" />
+    <Compile Include="Effect.cs" />
     <Compile Include="Forms\DeckBuilder.cs">
       <SubType>Form</SubType>
     </Compile>

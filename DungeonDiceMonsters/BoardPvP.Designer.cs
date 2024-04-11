@@ -385,7 +385,7 @@
             this.panel2.Controls.Add(this.lblRedLP);
             this.panel2.Controls.Add(this.lblLPlabel2);
             this.panel2.Controls.Add(this.lblRedPlayerName);
-            this.panel2.Location = new System.Drawing.Point(3, 682);
+            this.panel2.Location = new System.Drawing.Point(3, 694);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 3;
@@ -565,7 +565,7 @@
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
             this.PanelBoard.Location = new System.Drawing.Point(153, 4);
             this.PanelBoard.Name = "PanelBoard";
-            this.PanelBoard.Size = new System.Drawing.Size(625, 900);
+            this.PanelBoard.Size = new System.Drawing.Size(632, 912);
             this.PanelBoard.TabIndex = 4;
             // 
             // PanelAttackMenu
@@ -729,9 +729,9 @@
             this.PanelCardInfo.Controls.Add(this.lblCardLevel);
             this.PanelCardInfo.Controls.Add(this.lblCardName);
             this.PanelCardInfo.Controls.Add(this.PicCardArtworkBottom);
-            this.PanelCardInfo.Location = new System.Drawing.Point(780, 4);
+            this.PanelCardInfo.Location = new System.Drawing.Point(787, 4);
             this.PanelCardInfo.Name = "PanelCardInfo";
-            this.PanelCardInfo.Size = new System.Drawing.Size(214, 237);
+            this.PanelCardInfo.Size = new System.Drawing.Size(208, 237);
             this.PanelCardInfo.TabIndex = 5;
             // 
             // lblStatsLP
@@ -739,7 +739,7 @@
             this.lblStatsLP.BackColor = System.Drawing.Color.Black;
             this.lblStatsLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsLP.ForeColor = System.Drawing.Color.White;
-            this.lblStatsLP.Location = new System.Drawing.Point(172, 72);
+            this.lblStatsLP.Location = new System.Drawing.Point(167, 72);
             this.lblStatsLP.Name = "lblStatsLP";
             this.lblStatsLP.Size = new System.Drawing.Size(36, 15);
             this.lblStatsLP.TabIndex = 21;
@@ -749,7 +749,7 @@
             this.lblStatsLPLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsLPLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsLPLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsLPLabel.Location = new System.Drawing.Point(143, 72);
+            this.lblStatsLPLabel.Location = new System.Drawing.Point(138, 72);
             this.lblStatsLPLabel.Name = "lblStatsLPLabel";
             this.lblStatsLPLabel.Size = new System.Drawing.Size(30, 15);
             this.lblStatsLPLabel.TabIndex = 20;
@@ -760,7 +760,7 @@
             this.lblStatsDEF.BackColor = System.Drawing.Color.Black;
             this.lblStatsDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsDEF.ForeColor = System.Drawing.Color.White;
-            this.lblStatsDEF.Location = new System.Drawing.Point(102, 72);
+            this.lblStatsDEF.Location = new System.Drawing.Point(98, 72);
             this.lblStatsDEF.Name = "lblStatsDEF";
             this.lblStatsDEF.Size = new System.Drawing.Size(38, 15);
             this.lblStatsDEF.TabIndex = 19;
@@ -770,7 +770,7 @@
             this.lblStatsDEFLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsDEFLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsDEFLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsDEFLabel.Location = new System.Drawing.Point(73, 72);
+            this.lblStatsDEFLabel.Location = new System.Drawing.Point(69, 72);
             this.lblStatsDEFLabel.Name = "lblStatsDEFLabel";
             this.lblStatsDEFLabel.Size = new System.Drawing.Size(30, 15);
             this.lblStatsDEFLabel.TabIndex = 18;
@@ -781,7 +781,7 @@
             this.lblStatsATK.BackColor = System.Drawing.Color.Black;
             this.lblStatsATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsATK.ForeColor = System.Drawing.Color.White;
-            this.lblStatsATK.Location = new System.Drawing.Point(32, 72);
+            this.lblStatsATK.Location = new System.Drawing.Point(29, 72);
             this.lblStatsATK.Name = "lblStatsATK";
             this.lblStatsATK.Size = new System.Drawing.Size(38, 15);
             this.lblStatsATK.TabIndex = 17;
@@ -792,7 +792,7 @@
             this.lblCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardText.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardText.ForeColor = System.Drawing.Color.White;
-            this.lblCardText.Location = new System.Drawing.Point(3, 88);
+            this.lblCardText.Location = new System.Drawing.Point(0, 88);
             this.lblCardText.Name = "lblCardText";
             this.lblCardText.Size = new System.Drawing.Size(205, 145);
             this.lblCardText.TabIndex = 12;
@@ -802,7 +802,7 @@
             this.lblStatsATKLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsATKLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStatsATKLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsATKLabel.Location = new System.Drawing.Point(3, 72);
+            this.lblStatsATKLabel.Location = new System.Drawing.Point(0, 72);
             this.lblStatsATKLabel.Name = "lblStatsATKLabel";
             this.lblStatsATKLabel.Size = new System.Drawing.Size(30, 15);
             this.lblStatsATKLabel.TabIndex = 16;
@@ -813,7 +813,7 @@
             this.lblAttribute.BackColor = System.Drawing.Color.Black;
             this.lblAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblAttribute.ForeColor = System.Drawing.Color.White;
-            this.lblAttribute.Location = new System.Drawing.Point(159, 37);
+            this.lblAttribute.Location = new System.Drawing.Point(156, 37);
             this.lblAttribute.Name = "lblAttribute";
             this.lblAttribute.Size = new System.Drawing.Size(48, 15);
             this.lblAttribute.TabIndex = 15;
@@ -823,7 +823,7 @@
             this.lblCardType.BackColor = System.Drawing.Color.Black;
             this.lblCardType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardType.ForeColor = System.Drawing.Color.White;
-            this.lblCardType.Location = new System.Drawing.Point(80, 53);
+            this.lblCardType.Location = new System.Drawing.Point(77, 53);
             this.lblCardType.Name = "lblCardType";
             this.lblCardType.Size = new System.Drawing.Size(127, 15);
             this.lblCardType.TabIndex = 4;
@@ -833,7 +833,7 @@
             this.lblCardLevel.BackColor = System.Drawing.Color.Black;
             this.lblCardLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardLevel.ForeColor = System.Drawing.Color.White;
-            this.lblCardLevel.Location = new System.Drawing.Point(80, 37);
+            this.lblCardLevel.Location = new System.Drawing.Point(77, 37);
             this.lblCardLevel.Name = "lblCardLevel";
             this.lblCardLevel.Size = new System.Drawing.Size(35, 15);
             this.lblCardLevel.TabIndex = 3;
@@ -843,7 +843,7 @@
             this.lblCardName.BackColor = System.Drawing.Color.Black;
             this.lblCardName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCardName.ForeColor = System.Drawing.Color.White;
-            this.lblCardName.Location = new System.Drawing.Point(80, 2);
+            this.lblCardName.Location = new System.Drawing.Point(77, 2);
             this.lblCardName.Name = "lblCardName";
             this.lblCardName.Size = new System.Drawing.Size(128, 34);
             this.lblCardName.TabIndex = 2;
@@ -852,7 +852,7 @@
             // 
             this.PicCardArtworkBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicCardArtworkBottom.Image = ((System.Drawing.Image)(resources.GetObject("PicCardArtworkBottom.Image")));
-            this.PicCardArtworkBottom.Location = new System.Drawing.Point(3, 2);
+            this.PicCardArtworkBottom.Location = new System.Drawing.Point(0, 2);
             this.PicCardArtworkBottom.Name = "PicCardArtworkBottom";
             this.PicCardArtworkBottom.Size = new System.Drawing.Size(68, 68);
             this.PicCardArtworkBottom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -870,7 +870,7 @@
             this.PanelDimenFormSelector.Controls.Add(this.btnPreviousForm);
             this.PanelDimenFormSelector.Controls.Add(this.lblFormName);
             this.PanelDimenFormSelector.Controls.Add(this.PicCurrentForm);
-            this.PanelDimenFormSelector.Location = new System.Drawing.Point(785, 646);
+            this.PanelDimenFormSelector.Location = new System.Drawing.Point(787, 646);
             this.PanelDimenFormSelector.Name = "PanelDimenFormSelector";
             this.PanelDimenFormSelector.Size = new System.Drawing.Size(205, 258);
             this.PanelDimenFormSelector.TabIndex = 20;
@@ -1694,7 +1694,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(997, 906);
+            this.ClientSize = new System.Drawing.Size(997, 918);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelTurnStartMenu);
