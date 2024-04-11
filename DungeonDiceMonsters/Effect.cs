@@ -18,10 +18,12 @@ namespace DungeonDiceMonsters
             _Type = type;
             _ID = GetEffectID(_OriginCard);
             _Duration = GetEfectDuration(_ID);
+            _CanAffectNewCard = GetCanAffectNewCards(_ID);
         }
 
         public EffectID ID { get { return _ID; } }
         public PlayerColor Owner{ get { return _OriginCard.Owner; } }
+        public bool CanAffectNewCards { get { return _CanAffectNewCard; } }
 
         public void AddAffectedByCard(Card thisCard)
         {
@@ -34,6 +36,8 @@ namespace DungeonDiceMonsters
         private EffectDuration _Duration;
         private Card _OriginCard;
         private List<Card> _AffectedByList = new List<Card>();
+
+        private bool _CanAffectNewCard = false;
 
         private static EffectID GetEffectID(Card originCard) 
         {
@@ -59,6 +63,20 @@ namespace DungeonDiceMonsters
                 case EffectID.EARTHSymbol: return EffectDuration.Continuous;
                 case EffectID.WINDSymbol: return EffectDuration.Continuous;
                 default: throw new Exception(string.Format("Effect ID: [{0}] doesn not have an Duration assigment.", id));
+            }
+        }
+
+        private static bool GetCanAffectNewCards(EffectID id)
+        {
+            switch (id)
+            {
+                case EffectID.DARKSymbol: return true;
+                case EffectID.LIGHTSymbol: return true;
+                case EffectID.WATERSymbol: return true;
+                case EffectID.FIRESymbol: return true;
+                case EffectID.EARTHSymbol: return true;
+                case EffectID.WINDSymbol: return true;
+                default: throw new Exception(string.Format("Effect ID: [{0}] doesn not have an Can Affect New Cards assigment.", id));
             }
         }
     }

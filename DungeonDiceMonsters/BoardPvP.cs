@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms; 
@@ -706,7 +707,12 @@ namespace DungeonDiceMonsters
         {
             if(PicPhaseBanner.Image  != null) { PicPhaseBanner.Image.Dispose(); }
             PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
-        }        
+        }  
+        private void UpdateEffectLogs(string message)
+        {
+            _EffectsLog.Add(message);
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
+        }
         #endregion
 
         #region TCPServer Connection Methods
@@ -1057,8 +1063,22 @@ namespace DungeonDiceMonsters
         {
             switch(thisEffect.ID) 
             {
-                case EffectID.DARKSymbol: DarkSymbolActivation(thisEffect); break;
+                case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
+            }
+        }
+        private void CheckForActivedEffectsToApply(Card targetCard)
+        {
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if(thisActiveEffect.CanAffectNewCards)
+                {
+                    switch(thisActiveEffect.ID)
+                    {
+                        case EffectID.DARKSymbol: DarkSymbol_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function"));
+                    }
+                }
             }
         }
         #endregion
@@ -1859,6 +1879,10 @@ namespace DungeonDiceMonsters
                 _CurrentTileSelected = _dimensionTiles[0];
                 _CurrentGameState = GameState.MainPhaseBoard;
 
+                //Check for active effects that can affect this card
+                UpdateEffectLogs(string.Format("Card Summoned: [{0}] Owned By: [{1}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.Owner));
+                CheckForActivedEffectsToApply(thisCard);
+
                 //Update Banner
                 UpdateBanner("MainPhase");
 
@@ -2227,16 +2251,18 @@ namespace DungeonDiceMonsters
         private NetworkStream ns;
         private RollDiceMenu _RollDiceForm;
         //Active Effects Data
+        private List<string> _EffectsLog = new List<string>();
         private List<Effect> _ActiveEffects = new List<Effect>();
         #endregion
 
         #region Effect Activation Methods
-        private void DarkSymbolActivation(Effect thisEffect)
+        private void DarkSymbol_Activation(Effect thisEffect)
         {
             //EFFECT DESCRIPTION
             //Increase the ATK of all your DARK monsters on the board by 200.
             //This will apply no any new DARK monster the owner player summon.
             //During activation find all existing targets and give them the ATK increase.
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}]", thisEffect.ID));
             foreach(Card thisCard in _CardsOnBoard)
             {
                 if(thisCard.Owner == thisEffect.Owner)
@@ -2247,7 +2273,22 @@ namespace DungeonDiceMonsters
                         thisEffect.AddAffectedByCard(thisCard);
                         //Reload The Tile UI for the card affected
                         thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, thisCard.Name, thisCard.Owner));
                     }
+                }
+            }
+        }
+        private void DarkSymbol_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                if (targetCard.Attribute == Attribute.DARK)
+                {
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    //Reload The Tile UI for the card affected
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, targetCard.Name, targetCard.Owner));
                 }
             }
         }
