@@ -82,7 +82,7 @@ namespace DungeonDiceMonsters
                     statsLabel.Text = "ID:" + tileId;
 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
+                    //_Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel, statsLabel2));
 
                     //update the Tile ID for the next one
                     tileId++;
@@ -221,7 +221,7 @@ namespace DungeonDiceMonsters
                     statsLabel.Text = "ID:" + tileId;
 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
+                    //_Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
 
                     //update the Tile ID for the next one
                     tileId++;
@@ -926,7 +926,7 @@ namespace DungeonDiceMonsters
         {
             if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
             {
-                _CurrentTileSelected.Leave();
+                _CurrentTileSelected.ReloadTileUI();
             }
             else if (_CurrentGameState == GameState.SummonCard)
             {
@@ -941,7 +941,7 @@ namespace DungeonDiceMonsters
                 //Reset the color of the dimensionTiles
                 for (int x = 0; x < dimensionTiles.Length; x++)
                 {
-                    if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
+                    if (dimensionTiles[x] != null) { dimensionTiles[x].ReloadTileUI(); }
                 }
             }
         }
@@ -1042,11 +1042,11 @@ namespace DungeonDiceMonsters
                     //Now clear the borders of all the candidates tiles to their og color
                     for (int x = 0; x < _MoveCandidates.Count; x++)
                     {
-                        _MoveCandidates[x].SetTileColor();
+                        _MoveCandidates[x].ReloadTileUI();
                     }
 
                     //Now change the selection to this one tile
-                    _CurrentTileSelected.Leave();
+                    _CurrentTileSelected.ReloadTileUI();
                     _CurrentTileSelected = _Tiles[tileId];
                     _CurrentTileSelected.Hover();
                     UpdateDebugWindow();
@@ -1105,7 +1105,7 @@ namespace DungeonDiceMonsters
                     PanelAttackMenu.Visible = false;
                     foreach (Tile tile in _AttackCandidates)
                     {
-                        tile.SetTileColor();
+                        tile.ReloadTileUI();
                     }
                     _AttackCandidates.Clear();
 
@@ -1191,7 +1191,7 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             //Close the Action menu/Card info panel and return to the MainPhase Stage 
-            _CurrentTileSelected.Leave();
+            _CurrentTileSelected.ReloadTileUI();
             PanelActionMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
             btnEndTurn.Visible = true;
@@ -1227,7 +1227,7 @@ namespace DungeonDiceMonsters
             //Now clear the borders of all the candidates tiles to their og color
             for (int x = 0; x < _MoveCandidates.Count; x++)
             {
-                _MoveCandidates[x].SetTileColor();
+                _MoveCandidates[x].ReloadTileUI();
             }
             _MoveCandidates.Clear();
 
@@ -1235,7 +1235,7 @@ namespace DungeonDiceMonsters
 
             //Return card to the OG spot
             Card thiscard = _CurrentTileSelected.CardInPlace;
-            _CurrentTileSelected.Leave();
+            _CurrentTileSelected.ReloadTileUI();
             _CurrentTileSelected.RemoveCard();
             _InitialTileMove.MoveInCard(thiscard);
 
@@ -1257,7 +1257,7 @@ namespace DungeonDiceMonsters
             //Now clear the borders of all the candidates tiles to their og color
             for (int x = 0; x < _MoveCandidates.Count; x++)
             {
-                _MoveCandidates[x].SetTileColor();
+                _MoveCandidates[x].ReloadTileUI();
             }
             _MoveCandidates.Clear();
 
@@ -1281,7 +1281,7 @@ namespace DungeonDiceMonsters
             //Unmark all the attack candidates
             foreach (Tile tile in _AttackCandidates)
             {
-                tile.SetTileColor();
+                tile.ReloadTileUI();
             }
 
             _AttackCandidates.Clear();
@@ -1523,7 +1523,7 @@ namespace DungeonDiceMonsters
         private void btnEndBattle_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            _CurrentTileSelected.Leave();
+            _CurrentTileSelected.ReloadTileUI();
             PanelBattleMenu.Visible = false;
             _CurrentGameState = GameState.MainPhaseBoard;
             btnEndTurn.Visible = true;

@@ -2,6 +2,8 @@
 //9/12/2023
 //Card Class
 
+using System.Drawing;
+
 namespace DungeonDiceMonsters
 {
     public class Card
@@ -58,7 +60,7 @@ namespace DungeonDiceMonsters
         public int OnBoardID { get { return _id; } }       
         public PlayerColor Owner { get { return _Owner; } }
         public bool IsFaceDown { get { return _IsFaceDown; } }
-        public bool IsDiscardted { get { return _IsDiscardted; } }
+        public bool IsDiscardted { get { return _IsDestroyed; } }
         public bool IsASymbol { get { return _IsASymbol; } }
         public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
         public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
@@ -78,9 +80,9 @@ namespace DungeonDiceMonsters
         {
             _CurrentLP -= amount;
         }
-        public void Discard()
+        public void Destroy()
         {
-            _IsDiscardted = true;
+            _IsDestroyed = true;
         }
         public void RemoveAttackCounter()
         {
@@ -109,6 +111,34 @@ namespace DungeonDiceMonsters
                 _SpellboundCounter = 0;
             }
         }
+        public void AdjustAttackBonus(int amount)
+        {
+            _AttackBonus += amount;
+        }
+        public void AdjustDefenseBonus(int amount)
+        {
+            _DefenseBonus += amount;
+        }
+        public Color GetATKStatus()
+        {
+            if (_AttackBonus == 0) { return Color.White; }
+            else if (_AttackBonus < 0) { return Color.Red; }
+            else { return Color.Green; }
+        }
+        public Color GetDEFStatus()
+        {
+            if (_DefenseBonus == 0) { return Color.White; }
+            else if (_DefenseBonus < 0) { return Color.Red; }
+            else { return Color.Green; }
+        }
+        public void SetCurrentTile(Tile thisTile)
+        {
+            _CurrentTile = thisTile;
+        }
+        public void ReloadTileUI()
+        {
+            _CurrentTile.ReloadTileUI();
+        }
         #endregion
 
         #region Data
@@ -116,9 +146,10 @@ namespace DungeonDiceMonsters
         private int _id = -1;
         private CardInfo _cardInfo;
         private PlayerColor _Owner;
-        private bool _IsDiscardted = false;
+        private bool _IsDestroyed = false;
         private bool _IsFaceDown = false;
         private bool _IsASymbol = false;
+        private Tile _CurrentTile;
 
         //Card Stats Data
         private int _CurrentLP;

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms; 
@@ -35,20 +36,46 @@ namespace DungeonDiceMonsters
             UserPlayerColor = UserColor;
             RedData = Red; BlueData = Blue;
 
-
             //Initialize the board tiles
             int tileId = 0;
             int Y_Location = 25;
+            int TILESIDE_SIZE = 48;
+            int CARDIMAGE_SIZE = TILESIDE_SIZE - 6;
             for (int x = 0; x < 18; x++)
             {
                 int X_Location = 2;
                 for (int y = 0; y < 13; y++)
                 {
+                    //Create the ATK/DEF label
+                    Label statsLabelDEF = new Label();
+                    PanelBoard.Controls.Add(statsLabelDEF);
+                    statsLabelDEF.AutoSize = false;
+                    statsLabelDEF.Location = new Point(X_Location + 23, Y_Location + 34);
+                    statsLabelDEF.Size = new Size(22, 11);
+                    statsLabelDEF.BorderStyle = BorderStyle.None;
+                    statsLabelDEF.ForeColor = Color.White;
+                    statsLabelDEF.Font = new Font("Calibri", 6, FontStyle.Bold);
+                    statsLabelDEF.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelDEF.Text = "9999";
+                    statsLabelDEF.Visible = false;
+
+                    Label statsLabelATK = new Label();
+                    PanelBoard.Controls.Add(statsLabelATK);
+                    statsLabelATK.AutoSize = false;
+                    statsLabelATK.Location = new Point(X_Location + 3, Y_Location + 34);
+                    statsLabelATK.Size = new Size(22, 11);
+                    statsLabelATK.BorderStyle = BorderStyle.None;
+                    statsLabelATK.ForeColor = Color.White;
+                    statsLabelATK.Font = new Font("Calibri", 6, FontStyle.Bold);
+                    statsLabelATK.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelATK.Text = "9999";
+                    statsLabelATK.Visible = false;                                                                     
+                   
                     //Create each inside picture box
                     PictureBox insidePicture = new PictureBox();
                     PanelBoard.Controls.Add(insidePicture);
-                    insidePicture.Location = new Point(X_Location + 2, Y_Location + 2);
-                    insidePicture.Size = new Size(42, 42);
+                    insidePicture.Location = new Point(X_Location + 3, Y_Location + 3);
+                    insidePicture.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     insidePicture.BorderStyle = BorderStyle.None;
                     insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
                     insidePicture.BackColor = System.Drawing.Color.Transparent;
@@ -62,34 +89,22 @@ namespace DungeonDiceMonsters
                     PictureBox borderPicture = new PictureBox();
                     PanelBoard.Controls.Add(borderPicture);
                     borderPicture.Location = new Point(X_Location, Y_Location);
-                    borderPicture.Size = new Size(46, 46);
+                    borderPicture.Size = new Size(TILESIDE_SIZE, TILESIDE_SIZE);
                     borderPicture.BorderStyle = BorderStyle.FixedSingle;
                     borderPicture.BackColor = Color.Transparent;
-
-                    //Create the ATK/DEF label
-                    Label statsLabel = new Label();
-                    PanelBoard.Controls.Add(statsLabel);
-                    statsLabel.Location = new Point(X_Location + 2, Y_Location + 34);
-                    statsLabel.Size = new Size(42, 10);
-                    statsLabel.BorderStyle = BorderStyle.None;
-                    statsLabel.ForeColor = System.Drawing.Color.White;
-                    statsLabel.Font = new Font("Calibri", 6);
-                    //statsLabel.Visible = false;
-                    statsLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    statsLabel.Text = "ID:" + tileId;
-
+                 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabel));
+                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabelATK, statsLabelDEF));
 
                     //update the Tile ID for the next one
                     tileId++;
 
                     //Move the X-Axis for the next picture
-                    X_Location += 47;
+                    X_Location += TILESIDE_SIZE;
                 }
 
                 //Move the Y-Axis for the next row of pictures
-                Y_Location += 47;
+                Y_Location += TILESIDE_SIZE;
             }
 
             //Link the tiles together
@@ -132,8 +147,15 @@ namespace DungeonDiceMonsters
             }
 
             //Set the starting tiles for each player
-            _Tiles[227].ChangeOwner(PlayerColor.RED);
+            _Tiles[227].ChangeOwner(PlayerColor.RED);           
             _Tiles[6].ChangeOwner(PlayerColor.BLUE);
+
+            //TEST: Add a new tile to and summon DM
+            _Tiles[226].ChangeOwner(PlayerColor.RED);
+            CardInfo thisCardInfo = CardDataBase.GetCardWithID(46986414);
+            Card DM = new Card(46986414, thisCardInfo, PlayerColor.RED, false);
+            _Tiles[226].SummonCard(DM);
+            _CardsOnBoard.Add(DM);
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
             _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
@@ -149,6 +171,11 @@ namespace DungeonDiceMonsters
 
             //Set the initial game state and start the turn start panel            
             LaunchTurnStartPanel();
+
+            //Initialize both Symbols Continuous Effect
+            Effect symbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            ActivateEffect(symbolEffect);
+            _ActiveEffects.Add(symbolEffect);
         }
         #endregion
 
@@ -680,6 +707,11 @@ namespace DungeonDiceMonsters
         {
             if(PicPhaseBanner.Image  != null) { PicPhaseBanner.Image.Dispose(); }
             PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
+        }  
+        private void UpdateEffectLogs(string message)
+        {
+            _EffectsLog.Add(message);
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
         }
         #endregion
 
@@ -1026,6 +1058,28 @@ namespace DungeonDiceMonsters
                     btnEndBattle.Visible = true;
                 }
             }));
+        }
+        private void ActivateEffect(Effect thisEffect)
+        {
+            switch(thisEffect.ID) 
+            {
+                case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
+            }
+        }
+        private void CheckForActivedEffectsToApply(Card targetCard)
+        {
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if(thisActiveEffect.CanAffectNewCards)
+                {
+                    switch(thisActiveEffect.ID)
+                    {
+                        case EffectID.DARKSymbol: DarkSymbol_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function"));
+                    }
+                }
+            }
         }
         #endregion
 
@@ -1768,7 +1822,7 @@ namespace DungeonDiceMonsters
             {
                 if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
                 {
-                    _CurrentTileSelected.Leave();
+                    _CurrentTileSelected.ReloadTileUI();
                 }
                 else if (_CurrentGameState == GameState.SummonCard)
                 {
@@ -1781,7 +1835,7 @@ namespace DungeonDiceMonsters
                     //Reset the color of the dimensionTiles
                     for (int x = 0; x < dimensionTiles.Length; x++)
                     {
-                        if (dimensionTiles[x] != null) { dimensionTiles[x].SetTileColor(); }
+                        if (dimensionTiles[x] != null) { dimensionTiles[x].ReloadTileUI(); }
                     }
                 }
             }));
@@ -1816,6 +1870,7 @@ namespace DungeonDiceMonsters
                 Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), TURNPLAYER, false);
                 _CardsOnBoard.Add(thisCard);
                 _Tiles[tileId].SummonCard(thisCard);
+                _CardsOnBoard.Add(thisCard);
 
                 //Complete the summon
                 lblSummonMessage.Visible = false;
@@ -1823,6 +1878,10 @@ namespace DungeonDiceMonsters
                 _CurrentDimensionForm = DimensionForms.CrossBase;
                 _CurrentTileSelected = _dimensionTiles[0];
                 _CurrentGameState = GameState.MainPhaseBoard;
+
+                //Check for active effects that can affect this card
+                UpdateEffectLogs(string.Format("Card Summoned: [{0}] Owned By: [{1}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.Owner));
+                CheckForActivedEffectsToApply(thisCard);
 
                 //Update Banner
                 UpdateBanner("MainPhase");
@@ -1952,7 +2011,7 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Close the Action menu/Card info panel and return to the MainPhase Stage 
-                _CurrentTileSelected.Leave();
+                _CurrentTileSelected.ReloadTileUI();
                 PanelActionMenu.Visible = false;
                 _CurrentGameState = GameState.MainPhaseBoard;
                 if (UserPlayerColor == TURNPLAYER)
@@ -1998,7 +2057,7 @@ namespace DungeonDiceMonsters
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
-                    _MoveCandidates[x].SetTileColor();
+                    _MoveCandidates[x].ReloadTileUI();
                 }
                 _MoveCandidates.Clear();
 
@@ -2006,7 +2065,7 @@ namespace DungeonDiceMonsters
 
                 //Return card to the OG spot
                 Card thiscard = _CurrentTileSelected.CardInPlace;
-                _CurrentTileSelected.Leave();
+                _CurrentTileSelected.ReloadTileUI();
                 _CurrentTileSelected.RemoveCard();
                 _InitialTileMove.MoveInCard(thiscard);
 
@@ -2037,11 +2096,11 @@ namespace DungeonDiceMonsters
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
-                    _MoveCandidates[x].SetTileColor();
+                    _MoveCandidates[x].ReloadTileUI();
                 }
 
                 //Now change the selection to this one tile
-                _CurrentTileSelected.Leave();
+                _CurrentTileSelected.ReloadTileUI();
                 _CurrentTileSelected = _Tiles[tileId];
                 _CurrentTileSelected.Hover();
                 UpdateDebugWindow();
@@ -2075,7 +2134,7 @@ namespace DungeonDiceMonsters
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
-                    _MoveCandidates[x].SetTileColor();
+                    _MoveCandidates[x].ReloadTileUI();
                 }
                 _MoveCandidates.Clear();
 
@@ -2115,7 +2174,7 @@ namespace DungeonDiceMonsters
                 PanelAttackMenu.Visible = false;
                 foreach (Tile tile in _AttackCandidates)
                 {
-                    tile.SetTileColor();
+                    tile.ReloadTileUI();
                 }
                 _AttackCandidates.Clear();
 
@@ -2132,7 +2191,7 @@ namespace DungeonDiceMonsters
                 //Unmark all the attack candidates
                 foreach (Tile tile in _AttackCandidates)
                 {
-                    tile.SetTileColor();
+                    tile.ReloadTileUI();
                 }
 
                 _AttackCandidates.Clear();
@@ -2145,7 +2204,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                _CurrentTileSelected.Leave();
+                _CurrentTileSelected.ReloadTileUI();
                 PanelBattleMenu.Visible = false;
                 _CurrentGameState = GameState.MainPhaseBoard;
                 //Update Banner
@@ -2191,7 +2250,49 @@ namespace DungeonDiceMonsters
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         private RollDiceMenu _RollDiceForm;
-        #endregion        
+        //Active Effects Data
+        private List<string> _EffectsLog = new List<string>();
+        private List<Effect> _ActiveEffects = new List<Effect>();
+        #endregion
+
+        #region Effect Activation Methods
+        private void DarkSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your DARK monsters on the board by 200.
+            //This will apply no any new DARK monster the owner player summon.
+            //During activation find all existing targets and give them the ATK increase.
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}]", thisEffect.ID));
+            foreach(Card thisCard in _CardsOnBoard)
+            {
+                if(thisCard.Owner == thisEffect.Owner)
+                {
+                    if(!thisCard.IsASymbol && thisCard.Attribute == Attribute.DARK)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, thisCard.Name, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void DarkSymbol_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                if (targetCard.Attribute == Attribute.DARK)
+                {
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    //Reload The Tile UI for the card affected
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, targetCard.Name, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
 
         private enum GameState
         {

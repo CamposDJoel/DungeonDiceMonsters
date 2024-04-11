@@ -12,15 +12,80 @@ namespace DungeonDiceMonsters
     public class Tile
     {
         #region Constructors
-        public Tile(PictureBox inside, PictureBox border, Label statsLabel)
+        public Tile(PictureBox inside, PictureBox border, Label statsLabel, Label statsLabel3)
         {
             _Border = border;
             _CardImage = inside;
-            _StatsLabel = statsLabel;
+            _StatsLabelATK = statsLabel;
+            _StatsLabelDEF = statsLabel3;
         }
         #endregion
 
-        #region Public Methods
+        #region UI Mod Methods
+        public void ReloadTileUI()
+        {
+            //THERE ARE 3 UI ELEMENT: The Outer box, aka _Border, the insider box, aka _CardImage, and the Stats Label (for monster ATK/DEF)
+            //Update this 3 elemeents based on the current state of the tile
+
+            //BORDER AND CARDIMAGE Backcolors
+            //Set backcolor based on owner:  [NOT OWNED: Transparent | RED: DarkRed | BLUE: DarkBlue]
+            switch (_Owner)
+            {
+                case PlayerColor.NONE: _CardImage.BackColor = Color.Transparent; _Border.BackColor = Color.Transparent; break;
+                case PlayerColor.RED: _CardImage.BackColor = Color.DarkRed; _Border.BackColor = Color.DarkRed; break;
+                case PlayerColor.BLUE: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
+            }
+            //If the tile is a "Summoning Tile" update its backcolor to Orange
+            if (_IsSummonTile)
+            {
+                _CardImage.BackColor = Color.Orange;
+            }
+
+
+            //_InsideBox image and _Stats
+            //Set the Card Image of the Card in the Tile, if this tile is occupied, otherwise Card Image will be null
+            //Card Image backcolor will be 
+            //Sets the stats visible if the card is a face up card (monster)
+            if (_Occupied)
+            {
+                //If the Card is a symbol load the Symbol card artwork
+                if (_card.IsASymbol)
+                {
+                    ImageServer.LoadImage(_CardImage, CardImageType.Symbol, _card.Attribute.ToString());
+                }
+                else
+                {
+                    //if the Card is a Monster (Faceup) load the monster artwork and stats
+                    if (_card.Category == Category.Monster)
+                    {
+                        ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, _card.CardID.ToString());
+                        _StatsLabelATK.Text = _card.ATK.ToString();
+                        _StatsLabelDEF.Text = _card.DEF.ToString();
+                        _StatsLabelATK.ForeColor = _card.GetATKStatus();
+                        _StatsLabelDEF.ForeColor = _card.GetDEFStatus();
+                        _StatsLabelATK.Visible = true;
+                        _StatsLabelDEF.Visible = true;
+                    }
+                    else
+                    {
+                        //The card will be a facedown Spell/Trap
+                        ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
+                        _StatsLabelATK.Visible = false;
+                        _StatsLabelDEF.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
+                _CardImage.Image = null;
+                _StatsLabelATK.Visible = false;
+                _StatsLabelDEF.Visible = false;
+            }
+        }
+        #endregion
+
+        #region Public Methods       
         public void SetAdjecentTileLink(TileDirection d, Tile tile)
         {
             switch (d)
@@ -68,83 +133,47 @@ namespace DungeonDiceMonsters
         {
             _Border.BackColor = Color.Yellow;
         }
-        public void Leave()
-        {
-            SetTileColor();
-        }
         public void ChangeOwner(PlayerColor owner)
         {
             _Owner = owner;
-            SetTileColor();
+            ReloadTileUI();
         }
         public void SummonCard(Card card)
         {
             _card = card;
             _Occupied = true;
             _IsSummonTile = true;
-
-            if(_card.IsASymbol)
-            {
-                ImageServer.LoadImage(_CardImage, CardImageType.Symbol, card.Attribute.ToString());
-            }
-            else
-            {
-                ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, card.CardID.ToString());
-            }
-
-            if(card.Category == Category.Monster)
-            {
-                _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
-                _StatsLabel.BringToFront();
-            }
-            else
-            {
-                _StatsLabel.SendToBack();
-            }
+            _card.SetCurrentTile(this);
+            ReloadTileUI();
         }
         public void SetCard(Card card)
         {
             _card = card;
             _Occupied = true;
-            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
-            _StatsLabel.SendToBack();
+            _card.SetCurrentTile(this);
+            ReloadTileUI();
         }
         public void MoveInCard(Card card)
         {
             _card = card;
             _Occupied = true;
-            if (_card.IsFaceDown) { ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0"); }
-            else 
-            { 
-                if(_card.IsASymbol) { ImageServer.LoadImage(_CardImage, CardImageType.Symbol, _card.Attribute.ToString()); }
-                else { ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, card.CardID.ToString()); }
-            }
-            if (card.Category == Category.Monster)
-            {
-                _StatsLabel.Text = _card.ATK + "/" + _card.DEF;
-                _StatsLabel.BringToFront();
-            }
-            else
-            {
-                _StatsLabel.SendToBack();
-            }
+            _card.SetCurrentTile(this);
+            ReloadTileUI();
         }
         public void RemoveCard()
         {
+            _card.SetCurrentTile(null);
             _card = null;
             _Occupied = false;
-            _CardImage.Image.Dispose();
-            _CardImage.Image = null;
-            _StatsLabel.SendToBack();
+            ReloadTileUI();
         }
         public void DestroyCard()
         {
-            _card.Discard();
+            _card.Destroy();
             _card = null;
             _Occupied = false;
-            _CardImage.Image.Dispose();
-            _CardImage.Image = null;
-            _StatsLabel.Visible = false;
+            _card.SetCurrentTile(null);
+            ReloadTileUI();
         }
         public List<Tile> GetAttackTargerCandidates(PlayerColor enemy)
         {
@@ -239,21 +268,7 @@ namespace DungeonDiceMonsters
             }            
 
             return hasIt;
-        }
-        public void SetTileColor()
-        {
-            switch (_Owner)
-            {
-                case PlayerColor.NONE: _CardImage.BackColor = Color.Transparent; _Border.BackColor = Color.Transparent; break;
-                case PlayerColor.RED: _CardImage.BackColor = Color.DarkRed; _Border.BackColor = Color.DarkRed; break;
-                case PlayerColor.BLUE: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
-            }
-
-            if( _IsSummonTile ) 
-            {
-                _CardImage.BackColor = Color.Orange;
-            }
-        }
+        }     
         public void MarkFreeToMove()
         {
             _CardImage.BackColor = Color.Green;            
@@ -669,13 +684,14 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        public Point Location { get { return _Border.Location; }}
+        public Point Location { get { return _Border.Location; }}       
         #endregion
 
         #region Data
         private PictureBox _Border;
         private PictureBox _CardImage;
-        private Label _StatsLabel;
+        private Label _StatsLabelATK;
+        private Label _StatsLabelDEF;
         private bool _Occupied = false;
         private bool _IsSummonTile = false;
         private Card _card = null;
