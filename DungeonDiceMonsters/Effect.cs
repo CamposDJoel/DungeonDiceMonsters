@@ -17,10 +17,17 @@ namespace DungeonDiceMonsters
             _OriginCard = originCard;
             _Type = type;
             _ID = GetEffectID(_OriginCard);
-            _Duration = GetEfectDuration(_ID);
-            _CanAffectNewCard = GetCanAffectNewCards(_ID);
+            switch (_Type)
+            {
+                case EffectType.Ability: _Duration = EffectDuration.Continuous; break;
+                case EffectType.Continuous: _Duration = EffectDuration.Continuous; break;
+                case EffectType.Ignition: _Duration = GetEfectDuration(_ID); break;
+                case EffectType.OnSummon: _Duration = EffectDuration.OneAndDone; break;
+            }
+            if(_Type == EffectType.Continuous) { _CanAffectNewCard = true; }
         }
 
+        public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
         public PlayerColor Owner{ get { return _OriginCard.Owner; } }
         public bool CanAffectNewCards { get { return _CanAffectNewCard; } }
@@ -49,6 +56,7 @@ namespace DungeonDiceMonsters
                 case "FIRE Symbol": return EffectID.FIRESymbol;
                 case "EARTH Symbol": return EffectID.EARTHSymbol;
                 case "WIND Symbol": return EffectID.WINDSymbol;
+                case "M-Warrior #1": return EffectID.MWarrior1_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -56,27 +64,7 @@ namespace DungeonDiceMonsters
         {
             switch(id) 
             {
-                case EffectID.DARKSymbol: return EffectDuration.Continuous;
-                case EffectID.LIGHTSymbol: return EffectDuration.Continuous;
-                case EffectID.WATERSymbol: return EffectDuration.Continuous;
-                case EffectID.FIRESymbol: return EffectDuration.Continuous;
-                case EffectID.EARTHSymbol: return EffectDuration.Continuous;
-                case EffectID.WINDSymbol: return EffectDuration.Continuous;
                 default: throw new Exception(string.Format("Effect ID: [{0}] doesn not have an Duration assigment.", id));
-            }
-        }
-
-        private static bool GetCanAffectNewCards(EffectID id)
-        {
-            switch (id)
-            {
-                case EffectID.DARKSymbol: return true;
-                case EffectID.LIGHTSymbol: return true;
-                case EffectID.WATERSymbol: return true;
-                case EffectID.FIRESymbol: return true;
-                case EffectID.EARTHSymbol: return true;
-                case EffectID.WINDSymbol: return true;
-                default: throw new Exception(string.Format("Effect ID: [{0}] doesn not have an Can Affect New Cards assigment.", id));
             }
         }
     }
@@ -101,6 +89,7 @@ namespace DungeonDiceMonsters
         WATERSymbol,
         FIRESymbol,
         EARTHSymbol,
-        WINDSymbol
+        WINDSymbol,
+        MWarrior1_OnSummon,
     }
 }

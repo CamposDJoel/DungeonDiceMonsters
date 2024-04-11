@@ -709,9 +709,12 @@ namespace DungeonDiceMonsters
             PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
         }  
         private void UpdateEffectLogs(string message)
-        {
-            _EffectsLog.Add(message);
-            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
+        { 
+            if(UserPlayerColor == TURNPLAYER)
+            {
+                _EffectsLog.Add(message);
+                File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
+            }            
         }
         #endregion
 
@@ -1064,6 +1067,7 @@ namespace DungeonDiceMonsters
             switch(thisEffect.ID) 
             {
                 case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
+                case EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
         }
@@ -1076,9 +1080,24 @@ namespace DungeonDiceMonsters
                     switch(thisActiveEffect.ID)
                     {
                         case EffectID.DARKSymbol: DarkSymbol_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
-                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function"));
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                     }
                 }
+            }
+        }
+        private void EndSummoningPhase()
+        {
+            //Proceed to finish the Summon Phase
+            UpdateBanner("MainPhase");
+
+            //Only enable the "End Turn" button for the TURN PLAYER
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                btnEndTurn.Visible = true;
+            }
+            else
+            {
+                btnEndTurn.Visible = false;
             }
         }
         #endregion
@@ -1870,7 +1889,6 @@ namespace DungeonDiceMonsters
                 Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), TURNPLAYER, false);
                 _CardsOnBoard.Add(thisCard);
                 _Tiles[tileId].SummonCard(thisCard);
-                _CardsOnBoard.Add(thisCard);
 
                 //Complete the summon
                 lblSummonMessage.Visible = false;
@@ -1883,19 +1901,18 @@ namespace DungeonDiceMonsters
                 UpdateEffectLogs(string.Format("Card Summoned: [{0}] Owned By: [{1}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.Owner));
                 CheckForActivedEffectsToApply(thisCard);
 
-                //Update Banner
-                UpdateBanner("MainPhase");
-
-                //Only enable the "End Turn" button for the TURN PLAYER
-                if (UserPlayerColor == TURNPLAYER)
+                //Now check if the Monster has an "On Summon" effect and try to activate
+                if(thisCard.HasOnSummonEffect && thisCard.Name == "M-Warrior #1") 
                 {
-                    btnEndTurn.Visible = true;
+                    //Create the effect object and activate
+                    Effect thisCardsEffect = new Effect(thisCard, EffectType.OnSummon);
+                    ActivateEffect(thisCardsEffect);
+                    _ActiveEffects.Add(thisCardsEffect);
                 }
                 else
                 {
-                    btnEndTurn.Visible = false;
-                }
-
+                    EndSummoningPhase();
+                }              
             }));
         }
         private void TileClick_MainPhase_Base()
@@ -2291,6 +2308,35 @@ namespace DungeonDiceMonsters
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, targetCard.Name, targetCard.Owner));
                 }
             }
+        }
+        private void MWarrior1_OnSummonActivation(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
+            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
+            PanelOnSummonEffect.Visible = true;
+            BoardForm.WaitNSeconds(2000);
+
+            //EFFECT DESCRIPTION
+            //Will increase the Attack of ANY monster on the board with the name "M-Warrior #2" by 500.
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}]", thisEffect.ID));
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsASymbol && thisCard.Name == "M-Warrior #2")
+                {
+                    thisCard.AdjustAttackBonus(500);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    //Reload The Tile UI for the card affected
+                    thisCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, thisCard.Name, thisCard.Owner));
+                }
+            }
+
+            //Now you can close the On Summon Panel
+            PanelOnSummonEffect.Visible = false;
+
+            //At this point end the summoning phase
+            EndSummoningPhase();
         }
         #endregion
 

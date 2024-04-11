@@ -154,6 +154,10 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.PicPhaseBanner = new System.Windows.Forms.PictureBox();
+            this.PanelOnSummonEffect = new System.Windows.Forms.Panel();
+            this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblOnSummonEffectDescriiption = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -195,6 +199,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).BeginInit();
+            this.PanelOnSummonEffect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -1688,6 +1694,53 @@
             this.PicPhaseBanner.TabIndex = 29;
             this.PicPhaseBanner.TabStop = false;
             // 
+            // PanelOnSummonEffect
+            // 
+            this.PanelOnSummonEffect.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.PanelOnSummonEffect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelOnSummonEffect.BackgroundImage")));
+            this.PanelOnSummonEffect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelOnSummonEffect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectDescriiption);
+            this.PanelOnSummonEffect.Controls.Add(this.label2);
+            this.PanelOnSummonEffect.Controls.Add(this.PicOnSummonCardImage);
+            this.PanelOnSummonEffect.Location = new System.Drawing.Point(291, 147);
+            this.PanelOnSummonEffect.Name = "PanelOnSummonEffect";
+            this.PanelOnSummonEffect.Size = new System.Drawing.Size(406, 267);
+            this.PanelOnSummonEffect.TabIndex = 30;
+            this.PanelOnSummonEffect.Visible = false;
+            // 
+            // PicOnSummonCardImage
+            // 
+            this.PicOnSummonCardImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicOnSummonCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicOnSummonCardImage.Image")));
+            this.PicOnSummonCardImage.Location = new System.Drawing.Point(25, 36);
+            this.PicOnSummonCardImage.Name = "PicOnSummonCardImage";
+            this.PicOnSummonCardImage.Size = new System.Drawing.Size(125, 178);
+            this.PicOnSummonCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicOnSummonCardImage.TabIndex = 0;
+            this.PicOnSummonCardImage.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(173, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 24);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Summon Effect";
+            // 
+            // lblOnSummonEffectDescriiption
+            // 
+            this.lblOnSummonEffectDescriiption.BackColor = System.Drawing.Color.Black;
+            this.lblOnSummonEffectDescriiption.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOnSummonEffectDescriiption.ForeColor = System.Drawing.Color.White;
+            this.lblOnSummonEffectDescriiption.Location = new System.Drawing.Point(171, 63);
+            this.lblOnSummonEffectDescriiption.Name = "lblOnSummonEffectDescriiption";
+            this.lblOnSummonEffectDescriiption.Size = new System.Drawing.Size(202, 151);
+            this.lblOnSummonEffectDescriiption.TabIndex = 2;
+            this.lblOnSummonEffectDescriiption.Text = "This is a test message for a on summon effect";
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1695,6 +1748,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 918);
+            this.Controls.Add(this.PanelOnSummonEffect);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelTurnStartMenu);
@@ -1771,6 +1825,9 @@
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).EndInit();
+            this.PanelOnSummonEffect.ResumeLayout(false);
+            this.PanelOnSummonEffect.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1902,5 +1959,9 @@
         private System.Windows.Forms.Panel PanelAttackerCard;
         private System.Windows.Forms.Panel PanelDefenderCard;
         private System.Windows.Forms.PictureBox PicPhaseBanner;
+        private System.Windows.Forms.Panel PanelOnSummonEffect;
+        private System.Windows.Forms.PictureBox PicOnSummonCardImage;
+        private System.Windows.Forms.Label lblOnSummonEffectDescriiption;
+        private System.Windows.Forms.Label label2;
     }
 }
