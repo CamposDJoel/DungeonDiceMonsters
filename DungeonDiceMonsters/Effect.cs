@@ -57,6 +57,7 @@ namespace DungeonDiceMonsters
                 case "EARTH Symbol": return EffectID.EARTHSymbol;
                 case "WIND Symbol": return EffectID.WINDSymbol;
                 case "M-Warrior #1": return EffectID.MWarrior1_OnSummon;
+                case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -91,5 +92,6 @@ namespace DungeonDiceMonsters
         EARTHSymbol,
         WINDSymbol,
         MWarrior1_OnSummon,
+        HitotsumeGiant_OnSummon,
     }
 }

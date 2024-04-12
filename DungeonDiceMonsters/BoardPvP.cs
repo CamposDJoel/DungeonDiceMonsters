@@ -1068,6 +1068,7 @@ namespace DungeonDiceMonsters
             {
                 case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
                 case EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
+                case EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
         }
@@ -1902,7 +1903,7 @@ namespace DungeonDiceMonsters
                 CheckForActivedEffectsToApply(thisCard);
 
                 //Now check if the Monster has an "On Summon" effect and try to activate
-                if(thisCard.HasOnSummonEffect && thisCard.Name == "M-Warrior #1") 
+                if(thisCard.HasOnSummonEffect && thisCard.Name == "Hitotsu-Me Giant") 
                 {
                     //Create the effect object and activate
                     Effect thisCardsEffect = new Effect(thisCard, EffectType.OnSummon);
@@ -2273,6 +2274,48 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Effect Activation Methods
+        private void DisplayOnSummonEffectPanel(Effect thisEffect)
+        {
+            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
+            PanelOnSummonEffect.Visible = true;
+            BoardForm.WaitNSeconds(2000);
+        }
+        private void HideOnSummonEffectPanel()
+        {
+            //Now you can close the On Summon Panel
+            PanelOnSummonEffect.Visible = false;
+        }
+        private void AdjustPlayerCrestCount(PlayerColor targetPlayer, Crest thisCrest, int amount)
+        {
+            //Set the Player Data Object to modify
+            PlayerData Player = RedData;
+            if (targetPlayer == PlayerColor.BLUE) { Player = BlueData; }
+
+            //Adjust the Crest 
+            if(amount > 0) 
+            {
+                //Use a loop to anime adding the crests
+                for(int x = 0; x < amount; x++)
+                {
+                    Player.AddCrests(thisCrest, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    LoadPlayersInfo();
+                    BoardForm.WaitNSeconds(200);
+                }
+            }
+            else
+            {
+                //Use a loop to anime removing the crests
+                for (int x = 0; x < amount; x++)
+                {
+                    Player.AddCrests(thisCrest, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    LoadPlayersInfo();
+                    BoardForm.WaitNSeconds(200);
+                }
+            }
+        }
         private void DarkSymbol_Activation(Effect thisEffect)
         {
             //EFFECT DESCRIPTION
@@ -2312,10 +2355,7 @@ namespace DungeonDiceMonsters
         private void MWarrior1_OnSummonActivation(Effect thisEffect)
         {
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
-            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
-            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
-            PanelOnSummonEffect.Visible = true;
-            BoardForm.WaitNSeconds(2000);
+            DisplayOnSummonEffectPanel(thisEffect);
 
             //EFFECT DESCRIPTION
             //Will increase the Attack of ANY monster on the board with the name "M-Warrior #2" by 500.
@@ -2332,8 +2372,22 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //Now you can close the On Summon Panel
-            PanelOnSummonEffect.Visible = false;
+            HideOnSummonEffectPanel();
+
+            //At this point end the summoning phase
+            EndSummoningPhase();
+        }
+        private void HitotsumeGiant_OnSummonActivation(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
+            DisplayOnSummonEffectPanel(thisEffect);
+
+            //EFFECT DESCRIPTION
+            // Add 3 [ATK] to the controller's crest pool
+            PlayerColor ControllersColor = thisEffect.Owner;
+            AdjustPlayerCrestCount(ControllersColor, Crest.ATK, 3);
+
+            HideOnSummonEffectPanel();
 
             //At this point end the summoning phase
             EndSummoningPhase();
