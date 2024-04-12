@@ -54,6 +54,7 @@ namespace DungeonDiceMonsters
         public string ContinuousEffect { get { return _cardInfo.ContinuousEffect; } }
         public string IgnitionEffect { get { return _cardInfo.IgnitionEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
+        public bool EffectsAreImplemented { get { return _cardInfo.EffectsAreImplemented; } }
         #endregion
 
         #region On Board Data

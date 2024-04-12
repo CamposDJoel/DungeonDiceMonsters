@@ -24,7 +24,8 @@
     "fusionMaterial1": "Blue-Eyes White Dragon",
     "fusionMaterial2": "Blue-Eyes White Dragon",
     "fusionMaterial3": "Blue-Eyes White Dragon",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "1",
@@ -51,7 +52,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "2",
@@ -78,7 +80,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "3",
@@ -105,7 +108,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "25833572",
@@ -132,7 +136,8 @@
     "fusionMaterial1": "Sanga of the Thunder",
     "fusionMaterial2": "Kazejin",
     "fusionMaterial3": "Suijin",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "48579379",
@@ -159,7 +164,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "33396948",
@@ -186,7 +192,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "89631139",
@@ -213,7 +220,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "5405694",
@@ -240,7 +248,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "Black Luster Ritual"
+    "ritualSpell": "Black Luster Ritual",
+    "effectsImplemented": false
   },
   {
     "id": "90660762",
@@ -267,7 +276,8 @@
     "fusionMaterial1": "Red-Eyes B. Dragon",
     "fusionMaterial2": "Meteor Dragon",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "38999596",
@@ -294,7 +304,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "39111158",
@@ -321,7 +332,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "69123138",
@@ -348,7 +360,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "Zera Ritual"
+    "ritualSpell": "Zera Ritual",
+    "effectsImplemented": false
   },
   {
     "id": "54752875",
@@ -375,7 +388,8 @@
     "fusionMaterial1": "Thunder Dragon",
     "fusionMaterial2": "Thunder Dragon",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "98434877",
@@ -402,7 +416,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "25955164",
@@ -429,7 +444,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "66889139",
@@ -456,7 +472,8 @@
     "fusionMaterial1": "Gaia the Fierce Knight",
     "fusionMaterial2": "Curse of Dragon",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "62340868",
@@ -483,7 +500,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "46986414",
@@ -510,7 +528,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "3627449",
@@ -537,7 +556,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "Novox’s Prayer"
+    "ritualSpell": "Novox’s Prayer",
+    "effectsImplemented": false
   },
   {
     "id": "6368038",
@@ -564,7 +584,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "74677422",
@@ -591,7 +612,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "41462083",
@@ -618,7 +640,8 @@
     "fusionMaterial1": "Baby Dragon",
     "fusionMaterial2": "Time Wizard",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "68171737",
@@ -645,7 +668,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "48766543",
@@ -672,7 +696,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "27054370",
@@ -699,7 +724,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "43352213",
@@ -726,7 +752,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "89832901",
@@ -753,7 +780,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "60862676",
@@ -780,7 +808,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "30243636",
@@ -807,7 +836,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "Hamburger Recipe"
+    "ritualSpell": "Hamburger Recipe",
+    "effectsImplemented": false
   },
   {
     "id": "64271667",
@@ -834,7 +864,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "32751480",
@@ -861,7 +892,8 @@
     "fusionMaterial1": "Giant Soldier of Stone",
     "fusionMaterial2": "Ancient Elf",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "17658803",
@@ -888,7 +920,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "31122090",
@@ -915,7 +948,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "69780745",
@@ -942,7 +976,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "58818411",
@@ -969,7 +1004,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "35565537",
@@ -996,7 +1032,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "28279543",
@@ -1023,7 +1060,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "4179849",
@@ -1050,7 +1088,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "31786629",
@@ -1077,7 +1116,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": true
   },
   {
     "id": "67284908",
@@ -1104,7 +1144,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "85326399",
@@ -1131,7 +1172,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "13039848",
@@ -1158,7 +1200,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "88819587",
@@ -1185,7 +1228,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "34460851",
@@ -1212,7 +1256,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "83464209",
@@ -1239,7 +1284,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "1641882",
@@ -1266,7 +1312,8 @@
     "fusionMaterial1": "Petit Angel",
     "fusionMaterial2": "Mystical Sheep #2",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "38142739",
@@ -1293,7 +1340,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "56342351",
@@ -1320,7 +1368,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "92731455",
@@ -1347,7 +1396,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "75356564",
@@ -1374,7 +1424,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "15401633",
@@ -1401,7 +1452,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "71625222",
@@ -1428,7 +1480,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "24611934",
@@ -1455,7 +1508,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "23771716",
@@ -1482,7 +1536,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "32452818",
@@ -1509,7 +1564,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "91152256",
@@ -1536,7 +1592,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "68401546",
@@ -1563,7 +1620,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "94773007",
@@ -1590,7 +1648,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "76184692",
@@ -1617,7 +1676,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": true
   },
   {
     "id": "44287299",
@@ -1644,7 +1704,8 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   },
   {
     "id": "43694075",
@@ -1671,6 +1732,7 @@
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
-    "ritualSpell": "-"
+    "ritualSpell": "-",
+    "effectsImplemented": false
   }
 ]

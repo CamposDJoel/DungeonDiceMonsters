@@ -116,6 +116,7 @@ namespace DungeonDiceMonsters
             _FusionMaterial2 = cardData.fusionMaterial2;
             _FusionMaterial3 = cardData.fusionMaterial3;
             _RitualCard = cardData.ritualSpell;
+            _EffectsImplemeted = cardData.effectsImplemented;
         }
         public CardInfo(Attribute attribute)
         {
@@ -172,6 +173,7 @@ namespace DungeonDiceMonsters
         public string ContinuousEffect { get { return _ContEffect; } }
         public string IgnitionEffect {  get { return _IgnitionEffect; } }
         public string Ability { get { return _Ability; } }
+        public bool EffectsAreImplemented { get { return _EffectsImplemeted; } }
         public Crest DiceFace(int index)
         {
             if(index < 0 || index > 5)
@@ -218,6 +220,7 @@ namespace DungeonDiceMonsters
         private string _FusionMaterial2;
         private string _FusionMaterial3;
         private string _RitualCard;
+        private bool _EffectsImplemeted;
         #endregion
     }
 

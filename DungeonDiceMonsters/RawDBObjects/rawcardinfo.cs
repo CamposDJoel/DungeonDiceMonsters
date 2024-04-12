@@ -71,5 +71,6 @@ namespace DungeonDiceMonsters
         public string fusionMaterial2 { get; set; }
         public string fusionMaterial3 { get; set; }
         public string ritualSpell { get; set; }
+        public bool effectsImplemented { get; set; }
     }
 }

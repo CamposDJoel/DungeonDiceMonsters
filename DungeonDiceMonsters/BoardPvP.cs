@@ -1920,14 +1920,14 @@ namespace DungeonDiceMonsters
                 CheckForActivedEffectsToApply(thisCard);
 
                 //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-                if(thisCard.HasOnSummonEffect && thisCard.Name == "M-Warrior #1") 
+                if(thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
                 {
                     //Create the effect object and activate
                     Effect thisCardsEffect = new Effect(thisCard, EffectType.OnSummon);
                     ActivateEffect(thisCardsEffect);
                     _ActiveEffects.Add(thisCardsEffect);
                 }
-                if (thisCard.HasContinuousEffect && thisCard.Name == "Thunder Dragon")
+                if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
                 {
                     //Create the effect object and activate
                     Effect thisCardsEffect = new Effect(thisCard, EffectType.Continuous);
