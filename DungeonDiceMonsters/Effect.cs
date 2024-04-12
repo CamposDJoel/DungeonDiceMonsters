@@ -19,7 +19,6 @@ namespace DungeonDiceMonsters
             _ID = GetEffectID(_OriginCard);
             switch (_Type)
             {
-                case EffectType.Ability: _Duration = EffectDuration.Continuous; break;
                 case EffectType.Continuous: _Duration = EffectDuration.Continuous; break;
                 case EffectType.Ignition: _Duration = GetEfectDuration(_ID); break;
                 case EffectType.OnSummon: _Duration = EffectDuration.OneAndDone; break;
@@ -75,7 +74,6 @@ namespace DungeonDiceMonsters
     public enum EffectType
     {
         OnSummon,
-        Ability,
         Continuous,
         Ignition
     }

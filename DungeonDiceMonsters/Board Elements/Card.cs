@@ -16,6 +16,29 @@ namespace DungeonDiceMonsters
             _Owner = owner;
             _CurrentLP = _cardInfo.LP;
             _IsFaceDown = isFaceDown;
+            if(HasAbility)
+            {
+                ApplyAbility();
+            }
+
+            void ApplyAbility()
+            {
+                switch (_cardInfo.Ability)
+                {
+                    case "Cannot be Target": _CanBeTarget = false; break;
+                    case "Move Cost: 2": _BaseMoveCost = 2; break;
+                    case "Move Cost: 3": _BaseMoveCost = 3; break;
+                    case "Attack Cost: 2": _BaseAttackCost = 2; break;
+                    case "Attack Cost: 3": _BaseAttackCost = 3; break;
+                    case "Defense Cost: 2": _BaseDefenseCost = 2; break;
+                    case "Defense Cost: 3": _BaseDefenseCost = 3; break;
+                    case "Attacks per Turn: 2": _BaseAttacksPerTurn = 2; break;
+                    case "Attacks per Turn: 3": _BaseAttacksPerTurn = 3; break;
+                    case "Moves per Turn: 2": _BaseMovesPerTurn = 2; break;
+                    case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
+                }
+                ResetOneTurnData();
+            }
         }
         public Card(int id, Attribute attribute, PlayerColor owner)
         {
@@ -69,6 +92,7 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region On Board Counters and Flags
+        public bool CanBeTarget { get { return _CanBeTarget; } }
         public int MoveCost { get { return _MoveCost; } }
         public int AttackCost { get { return _AttackCost; } }
         public int DefenseCost { get { return _DefenseCost; } }
@@ -98,8 +122,8 @@ namespace DungeonDiceMonsters
             _MoveCost = _BaseMoveCost;
             _AttackCost = _BaseAttackCost;
             _DefenseCost = _BaseDefenseCost;
-            _MovesAvailable = _BaseMovesAvaiable;
-            _AttacksAvailable = _BaseAttackAvaiable;
+            _MovesAvailable = _BaseMovesPerTurn;
+            _AttacksAvailable = _BaseAttacksPerTurn;
         }
         public void ReduceSpellboundCounter(int amount)
         {
@@ -157,12 +181,13 @@ namespace DungeonDiceMonsters
         private int _AttackBonus = 0;
         private int _DefenseBonus = 0;
 
-        //Base Amounts for Counters and Costs
+        //Base Amounts for Counters and Costs (Abilities)
         private int _BaseMoveCost = 1;
         private int _BaseAttackCost = 1;
         private int _BaseDefenseCost = 1;
-        private int _BaseMovesAvaiable = 1;
-        private int _BaseAttackAvaiable = 1;
+        private int _BaseMovesPerTurn = 1;
+        private int _BaseAttacksPerTurn = 1;
+        private bool _CanBeTarget = true;
        
         //Counters and Costs
         private int _MoveCost = 1;

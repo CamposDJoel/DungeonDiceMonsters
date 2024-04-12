@@ -349,6 +349,11 @@ namespace DungeonDiceMonsters
                         lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
                         lblCardText.Text = thisCard.ContinuousEffect;
+                        lblAttackLeftAmount.Text = string.Empty;
+                        lblMovesLeftAmount.Text = string.Empty;
+                        lblMovesCostAmount.Text = string.Empty;
+                        lblAttackCostAmount.Text = string.Empty;
+                        lblDefenseCostAmount.Text = string.Empty;
                     }
                     else
                     {
@@ -420,6 +425,21 @@ namespace DungeonDiceMonsters
                             fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
                         }
                         lblCardText.Text = fullcardtext;
+
+                        if (thisCard.Category == Category.Monster) { lblAttackLeftAmount.Text = thisCard.AttacksAvaiable.ToString(); }
+                        else { lblAttackLeftAmount.Text = string.Empty; }
+
+                        if (thisCard.Category == Category.Monster) { lblMovesLeftAmount.Text = thisCard.MovesAvaiable.ToString(); }
+                        else { lblMovesLeftAmount.Text = string.Empty; }
+                       
+                        if (thisCard.Category == Category.Monster) { lblMovesCostAmount.Text = thisCard.MoveCost.ToString(); }
+                        else { lblMovesCostAmount.Text = string.Empty; }
+
+                        if (thisCard.Category == Category.Monster) { lblAttackCostAmount.Text = thisCard.AttackCost.ToString(); }
+                        else { lblAttackCostAmount.Text = string.Empty; }
+
+                        if (thisCard.Category == Category.Monster) { lblDefenseCostAmount.Text = thisCard.DefenseCost.ToString(); }
+                        else { lblDefenseCostAmount.Text = string.Empty; }
                     }
                 }
             }
@@ -1927,7 +1947,7 @@ namespace DungeonDiceMonsters
                     ActivateEffect(thisCardsEffect);
                     _ActiveEffects.Add(thisCardsEffect);
                 }
-                if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
+                else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
                 {
                     //Create the effect object and activate
                     Effect thisCardsEffect = new Effect(thisCard, EffectType.Continuous);
@@ -2391,7 +2411,7 @@ namespace DungeonDiceMonsters
                     BoardForm.WaitNSeconds(200);
                 }
             }
-        }
+        }       
         #endregion
 
         #region "Dark Symbol"
@@ -2549,7 +2569,7 @@ namespace DungeonDiceMonsters
             BattlePhase,
             SetCard,
             SummonCard,
-        }        
+        }
     }
 
     public enum PlayerColor
