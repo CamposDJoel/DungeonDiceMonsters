@@ -30,13 +30,14 @@ namespace DungeonDiceMonsters
         public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
         public PlayerColor Owner{ get { return _OriginCard.Owner; } }
+        public EffectDuration Duration { get { return _Duration; } }
         public bool CanAffectNewCards { get { return _CanAffectNewCard; } }
+        public List<Card> AffectedByList { get { return _AffectedByList; } }
 
         public void AddAffectedByCard(Card thisCard)
         {
             _AffectedByList.Add(thisCard);
         }
-
 
         private EffectID _ID;
         private EffectType _Type;
@@ -58,6 +59,7 @@ namespace DungeonDiceMonsters
                 case "WIND Symbol": return EffectID.WINDSymbol;
                 case "M-Warrior #1": return EffectID.MWarrior1_OnSummon;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
+                case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -93,5 +95,6 @@ namespace DungeonDiceMonsters
         WINDSymbol,
         MWarrior1_OnSummon,
         HitotsumeGiant_OnSummon,
+        ThunderDragon_Continuous,
     }
 }

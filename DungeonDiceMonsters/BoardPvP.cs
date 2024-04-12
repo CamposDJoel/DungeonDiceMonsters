@@ -757,38 +757,9 @@ namespace DungeonDiceMonsters
                     case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
                     case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
-                    case "[ATTACK!]":
-                        _AttackBonusCrest = Convert.ToInt32(MessageTokens[2]);
-                        _AttackerIsReadyToBattle = true;
-                        lblWaitingforattacker.ForeColor = Color.Green;
-                        lblWaitingforattacker.Text = "Opponent is ready!";
-                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
-                        {
-                            PerformDamageCalculation();
-                        }
-                        break;
-                    case "[DEFEND!]":
-                        _DefenderDefended = true;
-                        _DefenseBonusCrest = Convert.ToInt32(MessageTokens[2]);
-                        _DefenderIsReadyToBattle = true;
-                        lblWaitingfordefender.ForeColor = Color.Green;
-                        lblWaitingfordefender.Text = "Opponent is ready!";
-                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
-                        {
-                            PerformDamageCalculation();
-                        }
-                        break;
-                    case "[PASS!]":
-                        _DefenderDefended = false;
-                        _DefenseBonusCrest = 0;
-                        _DefenderIsReadyToBattle = true;
-                        lblWaitingfordefender.ForeColor = Color.Green;
-                        lblWaitingfordefender.Text = "Opponent is ready!";
-                        if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
-                        {
-                            PerformDamageCalculation();
-                        }
-                        break;
+                    case "[ATTACK!]": BattleMessageReceived_Attack(Convert.ToInt32(MessageTokens[2]));  break;
+                    case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[PASS!]": BattleMessageReceived_Pass(); break;
                     case "[END BATTLE]": btnEndBattle_Base(); break;
                 }
             }
@@ -924,7 +895,7 @@ namespace DungeonDiceMonsters
                             PicDefenderDestroyed.Visible = true;
                             WaitNSeconds(1000);
                             //Remove the card from the actual tile
-                            _AttackTarger.DestroyCard();
+                            DestroyCard(_AttackTarger);
                         }
 
 
@@ -1062,6 +1033,50 @@ namespace DungeonDiceMonsters
                 }
             }));
         }
+        private void DestroyCard(Tile tileLocation)
+        {
+            //Save the ref of the Card Object before destroying it, we are going to need it
+            Card thisCard = tileLocation.CardInPlace;
+
+            //Now "Destroy" the card from the tile, this will remove the card link from the tile 
+            //and update the UI to show the card is gone
+            tileLocation.DestroyCard();
+
+            //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes
+            bool activeEffectFound = false;
+            int indexFound = -1;
+            for(int x = 0; x < _ActiveEffects.Count; x++)
+            {
+                //Set the ref to the effect object 
+                Effect thisEffect = _ActiveEffects[x];
+
+                //Check if the effect corresponds to the Origin Card 
+                if(thisEffect.OriginCard.OnBoardID == thisCard.OnBoardID)
+                {
+                    //and if this effect duration is Continuous
+                    if(thisEffect.Duration == EffectDuration.Continuous)
+                    {
+                        activeEffectFound = true;
+                        indexFound = x;
+                        break;
+                    }
+                }
+            }
+
+            //If an effect was found, perform it RemoveEffect method and then remove the effect from the active list
+            if(activeEffectFound) 
+            {
+                Effect thisEffect = _ActiveEffects[indexFound];
+                UpdateEffectLogs(string.Format("Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}] | Removing Continuous Effect: [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner, thisEffect.ID));
+                //then remove the effect from the Board
+                switch (thisEffect.ID)
+                {
+                    case EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect, indexFound); break;
+                    default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
+                }
+            }
+            _ActiveEffects.RemoveAt(indexFound);
+        }
         private void ActivateEffect(Effect thisEffect)
         {
             switch(thisEffect.ID) 
@@ -1069,6 +1084,7 @@ namespace DungeonDiceMonsters
                 case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
                 case EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
                 case EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
+                case EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
         }
@@ -1081,6 +1097,7 @@ namespace DungeonDiceMonsters
                     switch(thisActiveEffect.ID)
                     {
                         case EffectID.DARKSymbol: DarkSymbol_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                        case EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                     }
                 }
@@ -1899,14 +1916,21 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.MainPhaseBoard;
 
                 //Check for active effects that can affect this card
-                UpdateEffectLogs(string.Format("Card Summoned: [{0}] Owned By: [{1}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.Owner));
+                UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                 CheckForActivedEffectsToApply(thisCard);
 
-                //Now check if the Monster has an "On Summon" effect and try to activate
-                if(thisCard.HasOnSummonEffect && thisCard.Name == "Hitotsu-Me Giant") 
+                //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
+                if(thisCard.HasOnSummonEffect && thisCard.Name == "M-Warrior #1") 
                 {
                     //Create the effect object and activate
                     Effect thisCardsEffect = new Effect(thisCard, EffectType.OnSummon);
+                    ActivateEffect(thisCardsEffect);
+                    _ActiveEffects.Add(thisCardsEffect);
+                }
+                if (thisCard.HasContinuousEffect && thisCard.Name == "Thunder Dragon")
+                {
+                    //Create the effect object and activate
+                    Effect thisCardsEffect = new Effect(thisCard, EffectType.Continuous);
                     ActivateEffect(thisCardsEffect);
                     _ActiveEffects.Add(thisCardsEffect);
                 }
@@ -2218,6 +2242,47 @@ namespace DungeonDiceMonsters
                 btnEndTurn.Visible = true;
             }));
         }
+        private void BattleMessageReceived_Attack(int crestBonusAmount)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                _AttackBonusCrest = crestBonusAmount;
+                _AttackerIsReadyToBattle = true;
+                lblWaitingforattacker.ForeColor = Color.Green;
+                lblWaitingforattacker.Text = "Opponent is ready!";
+                if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                {
+                    PerformDamageCalculation();
+                }
+            }));      
+        }
+        private void BattleMessageReceived_Defend(int crestBonusAmount)
+        {
+            Invoke(new MethodInvoker(delegate () {
+                _DefenderDefended = true;
+                _DefenseBonusCrest = crestBonusAmount;
+                _DefenderIsReadyToBattle = true;
+                lblWaitingfordefender.ForeColor = Color.Green;
+                lblWaitingfordefender.Text = "Opponent is ready!";
+                if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                {
+                    PerformDamageCalculation();
+                }
+            }));
+        }
+        private void BattleMessageReceived_Pass()
+        {
+            Invoke(new MethodInvoker(delegate () {
+                _DefenderDefended = false;
+                _DefenseBonusCrest = 0;
+                _DefenderIsReadyToBattle = true;
+                lblWaitingfordefender.ForeColor = Color.Green;
+                lblWaitingfordefender.Text = "Opponent is ready!";
+                if (_AttackerIsReadyToBattle && _DefenderIsReadyToBattle)
+                {
+                    PerformDamageCalculation();
+                }
+            }));
+        }
         private void btnEndBattle_Base()
         {
             Invoke(new MethodInvoker(delegate () {
@@ -2274,10 +2339,21 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Effect Activation Methods
+
+        #region Share Methods for Effects Execution
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
             ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblOnSummonEffectType.Text = "Summon Effect";
             lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
+            PanelOnSummonEffect.Visible = true;
+            BoardForm.WaitNSeconds(2000);
+        }
+        private void DisplayContinuousEffectPanel(Effect thisEffect)
+        {
+            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblOnSummonEffectType.Text = "Continuous Effect";
+            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.ContinuousEffect;
             PanelOnSummonEffect.Visible = true;
             BoardForm.WaitNSeconds(2000);
         }
@@ -2293,10 +2369,10 @@ namespace DungeonDiceMonsters
             if (targetPlayer == PlayerColor.BLUE) { Player = BlueData; }
 
             //Adjust the Crest 
-            if(amount > 0) 
+            if (amount > 0)
             {
                 //Use a loop to anime adding the crests
-                for(int x = 0; x < amount; x++)
+                for (int x = 0; x < amount; x++)
                 {
                     Player.AddCrests(thisCrest, 1);
                     SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
@@ -2316,24 +2392,27 @@ namespace DungeonDiceMonsters
                 }
             }
         }
+        #endregion
+
+        #region "Dark Symbol"
         private void DarkSymbol_Activation(Effect thisEffect)
         {
             //EFFECT DESCRIPTION
             //Increase the ATK of all your DARK monsters on the board by 200.
             //This will apply no any new DARK monster the owner player summon.
             //During activation find all existing targets and give them the ATK increase.
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}]", thisEffect.ID));
-            foreach(Card thisCard in _CardsOnBoard)
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            foreach (Card thisCard in _CardsOnBoard)
             {
-                if(thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if(!thisCard.IsASymbol && thisCard.Attribute == Attribute.DARK)
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.DARK)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
                         //Reload The Tile UI for the card affected
                         thisCard.ReloadTileUI();
-                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, thisCard.Name, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
             }
@@ -2348,10 +2427,13 @@ namespace DungeonDiceMonsters
                     thisEffect.AddAffectedByCard(targetCard);
                     //Reload The Tile UI for the card affected
                     targetCard.ReloadTileUI();
-                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, targetCard.Name, targetCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
             }
         }
+        #endregion
+
+        #region "M-Warrior #1"
         private void MWarrior1_OnSummonActivation(Effect thisEffect)
         {
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
@@ -2359,16 +2441,16 @@ namespace DungeonDiceMonsters
 
             //EFFECT DESCRIPTION
             //Will increase the Attack of ANY monster on the board with the name "M-Warrior #2" by 500.
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}]", thisEffect.ID));
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsASymbol && thisCard.Name == "M-Warrior #2")
+                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2")
                 {
                     thisCard.AdjustAttackBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
                     //Reload The Tile UI for the card affected
                     thisCard.ReloadTileUI();
-                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] owned by [{2}]", thisEffect.ID, thisCard.Name, thisCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                 }
             }
 
@@ -2377,6 +2459,9 @@ namespace DungeonDiceMonsters
             //At this point end the summoning phase
             EndSummoningPhase();
         }
+        #endregion
+
+        #region "Hitotsu-Me Giant"
         private void HitotsumeGiant_OnSummonActivation(Effect thisEffect)
         {
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
@@ -2384,6 +2469,7 @@ namespace DungeonDiceMonsters
 
             //EFFECT DESCRIPTION
             // Add 3 [ATK] to the controller's crest pool
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             PlayerColor ControllersColor = thisEffect.Owner;
             AdjustPlayerCrestCount(ControllersColor, Crest.ATK, 3);
 
@@ -2392,6 +2478,64 @@ namespace DungeonDiceMonsters
             //At this point end the summoning phase
             EndSummoningPhase();
         }
+        #endregion
+
+        #region "Thunder Dragon"
+        private void ThunderDragon_Continuous(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
+            DisplayContinuousEffectPanel(thisEffect);
+
+            //EFFECT DESCRIPTION
+            //increase the DEF off all controller's owned Thunder-Type monsters by 500. (EXCEPT THE ORIGIN CARD)
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Thunder && thisCard.OnBoardID != thisEffect.OriginCard.OnBoardID)
+                    {
+                        thisCard.AdjustDefenseBonus(500);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+
+            HideOnSummonEffectPanel();
+
+            //At this point end the summoning phase
+            EndSummoningPhase();
+        }
+        private void ThunderDragon_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                if (targetCard.Type == Type.Thunder)
+                {
+                    targetCard.AdjustDefenseBonus(500);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    //Reload The Tile UI for the card affected
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        private void ThunderDragon_RemoveEffect(Effect thisEffect, int indexID)
+        {
+            //Remove Effect Description:
+            //DECREASE the DEF of all affected by monsters by 500
+            foreach(Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustDefenseBonus(-500);
+                //Reload The Tile UI for the card affected
+                thisCard.ReloadTileUI();
+                UpdateEffectLogs(string.Format("Effect Removed: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+            }
+        }
+        #endregion
         #endregion
 
         private enum GameState

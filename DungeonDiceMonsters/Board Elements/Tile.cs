@@ -170,9 +170,9 @@ namespace DungeonDiceMonsters
         public void DestroyCard()
         {
             _card.Destroy();
-            _card = null;
-            _Occupied = false;
             _card.SetCurrentTile(null);
+            _card = null;
+            _Occupied = false;            
             ReloadTileUI();
         }
         public List<Tile> GetAttackTargerCandidates(PlayerColor enemy)

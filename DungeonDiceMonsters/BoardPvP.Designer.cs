@@ -155,9 +155,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.PicPhaseBanner = new System.Windows.Forms.PictureBox();
             this.PanelOnSummonEffect = new System.Windows.Forms.Panel();
-            this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.lblOnSummonEffectDescriiption = new System.Windows.Forms.Label();
+            this.lblOnSummonEffectType = new System.Windows.Forms.Label();
+            this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -1701,34 +1701,13 @@
             this.PanelOnSummonEffect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelOnSummonEffect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectDescriiption);
-            this.PanelOnSummonEffect.Controls.Add(this.label2);
+            this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectType);
             this.PanelOnSummonEffect.Controls.Add(this.PicOnSummonCardImage);
             this.PanelOnSummonEffect.Location = new System.Drawing.Point(291, 147);
             this.PanelOnSummonEffect.Name = "PanelOnSummonEffect";
             this.PanelOnSummonEffect.Size = new System.Drawing.Size(406, 267);
             this.PanelOnSummonEffect.TabIndex = 30;
             this.PanelOnSummonEffect.Visible = false;
-            // 
-            // PicOnSummonCardImage
-            // 
-            this.PicOnSummonCardImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicOnSummonCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicOnSummonCardImage.Image")));
-            this.PicOnSummonCardImage.Location = new System.Drawing.Point(25, 36);
-            this.PicOnSummonCardImage.Name = "PicOnSummonCardImage";
-            this.PicOnSummonCardImage.Size = new System.Drawing.Size(125, 178);
-            this.PicOnSummonCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicOnSummonCardImage.TabIndex = 0;
-            this.PicOnSummonCardImage.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(173, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(165, 24);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Summon Effect";
             // 
             // lblOnSummonEffectDescriiption
             // 
@@ -1740,6 +1719,27 @@
             this.lblOnSummonEffectDescriiption.Size = new System.Drawing.Size(202, 151);
             this.lblOnSummonEffectDescriiption.TabIndex = 2;
             this.lblOnSummonEffectDescriiption.Text = "This is a test message for a on summon effect";
+            // 
+            // lblOnSummonEffectType
+            // 
+            this.lblOnSummonEffectType.AutoSize = true;
+            this.lblOnSummonEffectType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOnSummonEffectType.Location = new System.Drawing.Point(173, 20);
+            this.lblOnSummonEffectType.Name = "lblOnSummonEffectType";
+            this.lblOnSummonEffectType.Size = new System.Drawing.Size(165, 24);
+            this.lblOnSummonEffectType.TabIndex = 1;
+            this.lblOnSummonEffectType.Text = "Summon Effect";
+            // 
+            // PicOnSummonCardImage
+            // 
+            this.PicOnSummonCardImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicOnSummonCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicOnSummonCardImage.Image")));
+            this.PicOnSummonCardImage.Location = new System.Drawing.Point(25, 36);
+            this.PicOnSummonCardImage.Name = "PicOnSummonCardImage";
+            this.PicOnSummonCardImage.Size = new System.Drawing.Size(125, 178);
+            this.PicOnSummonCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicOnSummonCardImage.TabIndex = 0;
+            this.PicOnSummonCardImage.TabStop = false;
             // 
             // BoardPvP
             // 
@@ -1962,6 +1962,6 @@
         private System.Windows.Forms.Panel PanelOnSummonEffect;
         private System.Windows.Forms.PictureBox PicOnSummonCardImage;
         private System.Windows.Forms.Label lblOnSummonEffectDescriiption;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblOnSummonEffectType;
     }
 }
