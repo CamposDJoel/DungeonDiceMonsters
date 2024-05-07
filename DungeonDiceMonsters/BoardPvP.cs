@@ -150,19 +150,14 @@ namespace DungeonDiceMonsters
             _Tiles[227].ChangeOwner(PlayerColor.RED);           
             _Tiles[6].ChangeOwner(PlayerColor.BLUE);
 
-            //TEST: Add a new tile to and summon DM
-            _Tiles[226].ChangeOwner(PlayerColor.RED);
-            CardInfo thisCardInfo = CardDataBase.GetCardWithID(46986414);
-            Card DM = new Card(46986414, thisCardInfo, PlayerColor.RED, false);
-            _Tiles[226].SummonCard(DM);
-            _CardsOnBoard.Add(DM);
-
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
             _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
+            _CardsOnBoard.Add(_RedSymbol);
             RedData.AddSummoningTile(_Tiles[227]);
             _Tiles[227].SummonCard(_RedSymbol);
 
             _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
+            _CardsOnBoard.Add(_BlueSymbol);
             BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
@@ -1094,8 +1089,10 @@ namespace DungeonDiceMonsters
                     case EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect, indexFound); break;
                     default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
                 }
-            }
-            _ActiveEffects.RemoveAt(indexFound);
+
+                //Now remove the effect
+                _ActiveEffects.RemoveAt(indexFound);
+            }           
         }
         private void ActivateEffect(Effect thisEffect)
         {
