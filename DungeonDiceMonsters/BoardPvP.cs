@@ -363,6 +363,8 @@ namespace DungeonDiceMonsters
             _Tiles[201].ChangeOwner(PlayerColor.RED);
             _Tiles[214].ChangeOwner(PlayerColor.RED);
             _Tiles[226].ChangeOwner(PlayerColor.RED);
+            _Tiles[116].ChangeOwner(PlayerColor.RED);
+            _Tiles[104].ChangeOwner(PlayerColor.RED);
 
             //TEST add high ATK monsters adj to opps symbol
             CardInfo infoofblueeyes = CardDataBase.GetCardWithID(89631139);
@@ -384,6 +386,16 @@ namespace DungeonDiceMonsters
             Card koala = new Card(_CardsOnBoard.Count, koalainfo, PlayerColor.RED, false);
             _CardsOnBoard.Add(koala);
             _Tiles[123].SummonCard(koala);
+
+            CardInfo kazejininfo = CardDataBase.GetCardWithID(62340868);
+            Card kazejin = new Card(_CardsOnBoard.Count, kazejininfo, PlayerColor.RED, false);
+            _CardsOnBoard.Add(kazejin);
+            _Tiles[116].SummonCard(kazejin);
+
+            CardInfo gagainfo = CardDataBase.GetCardWithID(39674352);
+            Card gaga = new Card(_CardsOnBoard.Count, gagainfo, PlayerColor.RED, false);
+            _CardsOnBoard.Add(gaga);
+            _Tiles[104].SummonCard(gaga);
         }
         #endregion
 
@@ -738,27 +750,67 @@ namespace DungeonDiceMonsters
         {
             Point referencePoint = _CurrentTileSelected.Location;
             int X_Location = Cursor.Position.X;
-            if (X_Location > 929)
+            int Y_Location = Cursor.Position.Y;
+
+            int newX = referencePoint.X;
+            int newY = referencePoint.Y;
+
+            //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
+            if (X_Location > 700)
             {
-                PanelMoveMenu.Location = new Point(referencePoint.X - 83, referencePoint.Y - 55);
+                newX = newX - 83;
             }
+            //OTHERWISE: Display the Move Menu on the right side of the Tile.
             else
             {
-                PanelMoveMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 55);
+                newX = newX + 48;
             }
+
+            //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
+            if(Y_Location < 100)
+            {
+                newY = newY + 48;
+            }
+            //OTHERWISE: display the Move Menu on the row above
+            else
+            {
+                newY = newY - 77;
+            }
+            //Set the new location based on the mods above
+            PanelMoveMenu.Location = new Point(newX, newY);
         }
         private void PlaceAttackMenu()
         {
-            Point referencePoint = _CurrentTileSelected.Location;
+            Point referencePoint = _AttackerTile.Location;
             int X_Location = Cursor.Position.X;
-            if (X_Location > 929)
+            int Y_Location = Cursor.Position.Y;
+
+            int newX = referencePoint.X;
+            int newY = referencePoint.Y;
+
+            //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
+            if (X_Location > 700)
             {
-                PanelAttackMenu.Location = new Point(referencePoint.X - 85, referencePoint.Y - 30);
+                newX = newX - 83;
             }
+            //OTHERWISE: Display the Move Menu on the right side of the Tile.
             else
             {
-                PanelAttackMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y + 10);
+                newX = newX + 48;
             }
+
+            //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
+            if (Y_Location < 100)
+            {
+                newY = newY + 48;
+            }
+            //OTHERWISE: display the Move Menu on the row above
+            else
+            {
+                newY = newY - 27;
+            }
+            //Set the new location based on the mods above
+            PanelAttackMenu.Location = new Point(newX, newY);
             PanelAttackMenu.Visible = true;
         }
         private void OpenBattleMenu()
@@ -2264,25 +2316,25 @@ namespace DungeonDiceMonsters
                 //Set the location in relation to the Tile location and cursor location
                 Point referencePoint = _CurrentTileSelected.Location;
                 int X_Location = Cursor.Position.X;
-                if (X_Location > 929)
+                //IF the tile clicked is on the FAR RIGHT: Display the Action Menu on the left side of the Tile
+                if (X_Location > 700)
                 {
-                    PanelActionMenu.Location = new Point(referencePoint.X - 90, referencePoint.Y - 25);
+                    PanelActionMenu.Location = new Point(referencePoint.X - 83, referencePoint.Y - 25);
                 }
+                //OTHERWISE: Display the Action Menu on the right side of the Tile.
                 else
                 {
-                    PanelActionMenu.Location = new Point(referencePoint.X + 50, referencePoint.Y - 25);
+                    PanelActionMenu.Location = new Point(referencePoint.X + 48, referencePoint.Y - 25);
                 }
                 PanelActionMenu.Visible = true;
-                
+
 
                 //Determine if this card can attack if:
                 // 1. Has Attacks available left
                 // 2. Player has enough atack crest to pay its cost
                 // 3. Has at least 1 adjecent attack candidate
                 // 4. Card is a monster
-
-                PlayerColor TargetPlayerColor = PlayerColor.RED;
-                if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
+               
                 PlayerData UserPlayerData = RedData;
                 if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
                 PlayerData TurnPlayerData = RedData;
@@ -2304,9 +2356,8 @@ namespace DungeonDiceMonsters
                     lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
                 }
 
-
-                _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
+                //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
+                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK  || thiscard.Category != Category.Monster)
                 {
                     btnActionAttack.Enabled = false;
                 }
@@ -2396,18 +2447,25 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                _CurrentGameState = GameState.SelectingAttackTarger;
-
+                _AttackerTile = _CurrentTileSelected;
+             
+                PlayerColor TargetPlayerColor = PlayerColor.RED;
+                if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
+                _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
                 DisplayAttackCandidate();
                 PlaceAttackMenu();
 
                 PanelActionMenu.Visible = false;
+                _CurrentGameState = GameState.SelectingAttackTarger;
             }));
         }
         private void btnMoveMenuCancel_Base()
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Reload the card's tile before the mouse trigers hovering another tile.
+                _CurrentTileSelected.ReloadTileUI();
+                
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
@@ -2415,23 +2473,22 @@ namespace DungeonDiceMonsters
                 }
                 _MoveCandidates.Clear();
 
+                //Move Menu can close now
                 PanelMoveMenu.Visible = false;
 
                 //Return card to the OG spot
                 Card thiscard = _CurrentTileSelected.CardInPlace;
-                _CurrentTileSelected.ReloadTileUI();
                 _CurrentTileSelected.RemoveCard();
                 _InitialTileMove.MoveInCard(thiscard);
 
                 //Change the _current Selected card back to OG
                 _CurrentTileSelected = _InitialTileMove;
-                _CurrentTileSelected.Hover();
 
                 //Reload the Player info panel to reset the crest count
                 LoadPlayersInfo();
-
                 UpdateDebugWindow();
 
+                //Update game state and "End Turn" button will be visible again.
                 _CurrentGameState = GameState.MainPhaseBoard;
                 btnEndTurn.Visible = true;
             }));
@@ -2541,6 +2598,8 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Reload the card's tile before the mouse trigers hovering another tile.
+                _CurrentTileSelected.ReloadTileUI();
 
                 //Unmark all the attack candidates
                 foreach (Tile tile in _AttackCandidates)
@@ -2626,6 +2685,7 @@ namespace DungeonDiceMonsters
         private int _TMPMoveCrestCount = 0;
         private List<Tile> _AttackCandidates = new List<Tile>();
         private Tile _AttackTarger;
+        private Tile _AttackerTile = null;
         //Battle menu data
         private int _AttackBonusCrest = 0;
         private int _DefenseBonusCrest = 0;
