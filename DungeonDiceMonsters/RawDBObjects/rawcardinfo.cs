@@ -10,12 +10,7 @@ namespace DungeonDiceMonsters
     {
         /*public rawcardinfo(string dataLine) 
         {
-            //Separator used by Split()
-            string[] separator = new string[] { "\t" };
-            //Array of tokens (Size will be rewritten when Split() is called)
-            string[] tokens = new string[1];
-            //Split the data
-            tokens = dataLine.Split(separator, StringSplitOptions.None);
+            string[] tokens = dataLine.Split('|');
 
             id = tokens[1];
             name = tokens[0];
@@ -42,9 +37,7 @@ namespace DungeonDiceMonsters
             fusionMaterial2 = tokens[22];
             fusionMaterial3 = tokens[23];
             ritualSpell = tokens[24];
-            setpack = "NONE";
-            rarity = "Common";
-
+            effectsImplemented = Convert.ToBoolean(tokens[25]);
         }*/
         public string id { get; set; }
         public string name { get; set; }
