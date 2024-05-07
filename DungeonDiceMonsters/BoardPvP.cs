@@ -792,9 +792,15 @@ namespace DungeonDiceMonsters
                 lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                 lblDefenderDEF.Text = "DEF: " + Defender.DEF;
             }
+            else if (Defender.Category == Category.Symbol)
+            {
+                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardSymbol, Defender.Attribute.ToString());
+                lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
+                lblDefenderDEF.Text = "DEF: 0";
+            }
             else
             {
-                //TODO:
+                //TODO: implement atacking a Spell/Trap
             }
 
             //Hide the "Destroyed" labels just in case
@@ -845,36 +851,52 @@ namespace DungeonDiceMonsters
             else
             {
                 //Display the base Defend Controls Panel
-                PanelDefendControls.Visible = true;
-                _DefenseBonusCrest = 0;
-                lblDefenderBonus.Text = "Bonus: 0";
-                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
-                if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
-                else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }              
-                PanelDefendControls.Visible = true;
-                //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
-                if (Defender.DefenseCost > DefenderData.Crests_DEF)
+
+                if (Defender.Category == Category.Monster)
                 {
+                    PanelDefendControls.Visible = true;
+                    _DefenseBonusCrest = 0;
+                    lblDefenderBonus.Text = "Bonus: 0";
+                    PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                    if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
+                    else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }
+                    PanelDefendControls.Visible = true;
+                    //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
+                    if (Defender.DefenseCost > DefenderData.Crests_DEF)
+                    {
+                        btnBattleMenuDefend.Visible = false;
+                    }
+                    else
+                    {
+                        btnBattleMenuDefend.Visible = true;
+                    }
+                    //If defender monster has an advantage, enable the adv subpanel
+                    bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
+                    if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0)
+                    {
+                        PanelDefenderAdvBonus.Visible = true;
+                        //Show the + button at the start
+                        lblDefenderAdvMinus.Visible = false;
+                        lblDefenderAdvPlus.Visible = true;
+                    }
+                    else
+                    {
+                        PanelDefenderAdvBonus.Visible = false;
+                    }
+                }
+                else
+                {
+                    //Enable the Defense controls but only enable the PASS option
+                    //This is meant to work when defending with Symbols/Spells/Traps
+                    PanelDefendControls.Visible = true;
+                    _DefenseBonusCrest = 0;
+                    lblDefenderBonus.Text = "Bonus: 0";
+                    PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                    lblDefenderCrestCount.Text = "[DEF] to use: 0";
                     btnBattleMenuDefend.Visible = false;
-                }
-                else
-                {
-                    btnBattleMenuDefend.Visible = true;
-                }
-                //If defender monster has an advantage, enable the adv subpanel
-                bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
-                if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0)
-                {
-                    PanelDefenderAdvBonus.Visible = true;
-                    //Show the + button at the start
-                    lblDefenderAdvMinus.Visible = false;
-                    lblDefenderAdvPlus.Visible = true;
-                }
-                else
-                {
                     PanelDefenderAdvBonus.Visible = false;
                 }
-
+             
                 //Show the 'waiting for opponent' label on the other ide
                 lblWaitingforattacker.Visible = true;
                 lblWaitingfordefender.Visible = false;
@@ -1198,51 +1220,110 @@ namespace DungeonDiceMonsters
                 {
                     //Reduce the Symbol's LP and update player info panel
 
-                    //Perform the battle calculation
+                    //Step 1: Bonus Crests cant be use when attacking a symbol (from either player)
+                    lblAttackerBonus.Text = "Bonus: 0";
+                    lblDefenderBonus.Text = "Bonus: 0";
+
+                    //Step 2: Final Attack is the Attackers ATK without bonus
                     int FinalAttack = _CurrentTileSelected.CardInPlace.ATK;
+
+                    //Step 3: Final Defense is always 0
                     int FinalDefense = 0;
 
+                    //Step 4: Reduce the [ATK] from the attacker. Defender always "Passes"
+                    Card Attacker = _CurrentTileSelected.CardInPlace;
+                    Card Defender = _AttackTarger.CardInPlace;
+                    int creststoremoveATK = Attacker.AttackCost;
+                    PlayerData AttackerPlayerData = RedData;
+                    PlayerData DefenderPlayerData = BlueData;
+                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; }
+                    AttackerPlayerData.RemoveCrests(Crest.ATK, creststoremoveATK);
+                    LoadPlayersInfo();
+
+                    //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
                     if (Damage <= 0)
                     {
                         //Display the end battle button
                         lblBattleMenuDamage.Text = "Damage: 0";
                         btnEndBattle.Visible = true;
-                    }
-                    else
-                    {
-                        if (Damage > _BlueSymbol.LP) { Damage = _BlueSymbol.LP; }
-
-                        //Deal damage to the player
-                        int iterations = Damage / 10;
-
-                        int waittime = 0;
-                        if (iterations < 100) { waittime = 50; }
-                        else if (iterations < 200) { waittime = 30; }
-                        else if (iterations < 300) { waittime = 10; }
-                        else { waittime = 5; }
-
-                        for (int i = 0; i < iterations; i++)
+                        if (UserPlayerColor == TURNPLAYER)
                         {
-                            _BlueSymbol.ReduceLP(10);
-                            lblBlueLP.Text = _BlueSymbol.LP.ToString();
-                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                            WaitNSeconds(waittime);
-                        }
-
-                        if (_BlueSymbol.LP == 0)
-                        {
-                            //TODO: defender player loses the game
-                            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
-                            PanelBattleMenu.Visible = false;
-                            PanelEndGameResults.Visible = true;
-                            WaitNSeconds(5000);
-                            btnExit.Visible = true;
+                            btnEndBattle.Enabled = true;
                         }
                         else
                         {
-                            //otherwise let the attacker finish the battle phase
+                            btnEndBattle.Enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        //Step 5A: Show the final Damange Amount on the UI
+                        lblBattleMenuDamage.Text = string.Format("Damage: {0}", Damage);
+                    
+                        //Step 6D: if there is damage deal it to the player's symbol
+                        if (Damage > 0)
+                        {
+                            //Stablish the Defender Symbol
+                            Card DefenderSymbol = _RedSymbol;
+                            Label DefenderSymbolLPLabel = lblRedLP;
+                            if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
+
+                            //Deal the damage
+                            if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
+
+                            //Deal damage to the player
+                            int iterations = Damage / 10;
+
+                            int waittime = 0;
+                            if (iterations < 100) { waittime = 50; }
+                            else if (iterations < 200) { waittime = 30; }
+                            else if (iterations < 300) { waittime = 10; }
+                            else { waittime = 5; }
+
+                            for (int i = 0; i < iterations; i++)
+                            {
+                                DefenderSymbol.ReduceLP(10);
+                                DefenderSymbolLPLabel.Text = DefenderSymbol.LP.ToString();
+                                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                                WaitNSeconds(waittime);
+                            }
+
+                            if (DefenderSymbol.LP == 0)
+                            {
+                                //TODO: defender player loses the game
+                                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                                PanelBattleMenu.Visible = false;
+                                PanelEndGameResults.Visible = true;
+                                WaitNSeconds(5000);
+                                btnExit.Visible = true;
+                            }
+                            else
+                            {
+                                //otherwise let the attacker finish the battle phase
+                                btnEndBattle.Visible = true;
+                                if (UserPlayerColor == TURNPLAYER)
+                                {
+                                    btnEndBattle.Enabled = true;
+                                }
+                                else
+                                {
+                                    btnEndBattle.Enabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Display the end battle button
                             btnEndBattle.Visible = true;
+                            if (UserPlayerColor == TURNPLAYER)
+                            {
+                                btnEndBattle.Enabled = true;
+                            }
+                            else
+                            {
+                                btnEndBattle.Enabled = false;
+                            }
                         }
                     }
                 }
