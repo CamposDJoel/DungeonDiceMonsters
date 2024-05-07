@@ -74,6 +74,16 @@
             this.btnActionAttack = new System.Windows.Forms.Button();
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
+            this.lblDefenseCostAmount = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblAttackCostAmount = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lblMovesCostAmount = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblMovesLeftAmount = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblAttackLeftAmount = new System.Windows.Forms.Label();
+            this.lblAttackLeftLabel = new System.Windows.Forms.Label();
             this.lblStatsLP = new System.Windows.Forms.Label();
             this.lblStatsLPLabel = new System.Windows.Forms.Label();
             this.lblStatsDEF = new System.Windows.Forms.Label();
@@ -158,16 +168,6 @@
             this.lblOnSummonEffectDescriiption = new System.Windows.Forms.Label();
             this.lblOnSummonEffectType = new System.Windows.Forms.Label();
             this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
-            this.lblAttackLeftAmount = new System.Windows.Forms.Label();
-            this.lblAttackLeftLabel = new System.Windows.Forms.Label();
-            this.lblMovesLeftAmount = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblMovesCostAmount = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblAttackCostAmount = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.lblDefenseCostAmount = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -401,7 +401,7 @@
             this.panel2.Controls.Add(this.lblRedLP);
             this.panel2.Controls.Add(this.lblLPlabel2);
             this.panel2.Controls.Add(this.lblRedPlayerName);
-            this.panel2.Location = new System.Drawing.Point(3, 694);
+            this.panel2.Location = new System.Drawing.Point(3, 701);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 3;
@@ -581,7 +581,7 @@
             this.PanelBoard.Controls.Add(this.PanelActionMenu);
             this.PanelBoard.Location = new System.Drawing.Point(153, 4);
             this.PanelBoard.Name = "PanelBoard";
-            this.PanelBoard.Size = new System.Drawing.Size(632, 912);
+            this.PanelBoard.Size = new System.Drawing.Size(632, 920);
             this.PanelBoard.TabIndex = 4;
             // 
             // PanelAttackMenu
@@ -760,6 +760,111 @@
             this.PanelCardInfo.Size = new System.Drawing.Size(208, 290);
             this.PanelCardInfo.TabIndex = 5;
             // 
+            // lblDefenseCostAmount
+            // 
+            this.lblDefenseCostAmount.BackColor = System.Drawing.Color.Black;
+            this.lblDefenseCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDefenseCostAmount.ForeColor = System.Drawing.Color.White;
+            this.lblDefenseCostAmount.Location = new System.Drawing.Point(188, 271);
+            this.lblDefenseCostAmount.Name = "lblDefenseCostAmount";
+            this.lblDefenseCostAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblDefenseCostAmount.TabIndex = 31;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.Black;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(110, 271);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(77, 15);
+            this.label11.TabIndex = 30;
+            this.label11.Text = "Defense Cost:";
+            // 
+            // lblAttackCostAmount
+            // 
+            this.lblAttackCostAmount.BackColor = System.Drawing.Color.Black;
+            this.lblAttackCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackCostAmount.ForeColor = System.Drawing.Color.White;
+            this.lblAttackCostAmount.Location = new System.Drawing.Point(68, 271);
+            this.lblAttackCostAmount.Name = "lblAttackCostAmount";
+            this.lblAttackCostAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblAttackCostAmount.TabIndex = 29;
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.Black;
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(0, 271);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 15);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "Attack Cost:";
+            // 
+            // lblMovesCostAmount
+            // 
+            this.lblMovesCostAmount.BackColor = System.Drawing.Color.Black;
+            this.lblMovesCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMovesCostAmount.ForeColor = System.Drawing.Color.White;
+            this.lblMovesCostAmount.Location = new System.Drawing.Point(124, 252);
+            this.lblMovesCostAmount.Name = "lblMovesCostAmount";
+            this.lblMovesCostAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblMovesCostAmount.TabIndex = 27;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Black;
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(60, 252);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 15);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Move Cost:";
+            // 
+            // lblMovesLeftAmount
+            // 
+            this.lblMovesLeftAmount.BackColor = System.Drawing.Color.Black;
+            this.lblMovesLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMovesLeftAmount.ForeColor = System.Drawing.Color.White;
+            this.lblMovesLeftAmount.Location = new System.Drawing.Point(190, 233);
+            this.lblMovesLeftAmount.Name = "lblMovesLeftAmount";
+            this.lblMovesLeftAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblMovesLeftAmount.TabIndex = 25;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Black;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(120, 233);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 15);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Moves Left:";
+            // 
+            // lblAttackLeftAmount
+            // 
+            this.lblAttackLeftAmount.BackColor = System.Drawing.Color.Black;
+            this.lblAttackLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackLeftAmount.ForeColor = System.Drawing.Color.White;
+            this.lblAttackLeftAmount.Location = new System.Drawing.Point(70, 233);
+            this.lblAttackLeftAmount.Name = "lblAttackLeftAmount";
+            this.lblAttackLeftAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblAttackLeftAmount.TabIndex = 23;
+            // 
+            // lblAttackLeftLabel
+            // 
+            this.lblAttackLeftLabel.BackColor = System.Drawing.Color.Black;
+            this.lblAttackLeftLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackLeftLabel.ForeColor = System.Drawing.Color.White;
+            this.lblAttackLeftLabel.Location = new System.Drawing.Point(0, 233);
+            this.lblAttackLeftLabel.Name = "lblAttackLeftLabel";
+            this.lblAttackLeftLabel.Size = new System.Drawing.Size(69, 15);
+            this.lblAttackLeftLabel.TabIndex = 22;
+            this.lblAttackLeftLabel.Text = "Attacks Left:";
+            // 
             // lblStatsLP
             // 
             this.lblStatsLP.BackColor = System.Drawing.Color.Black;
@@ -896,7 +1001,7 @@
             this.PanelDimenFormSelector.Controls.Add(this.btnPreviousForm);
             this.PanelDimenFormSelector.Controls.Add(this.lblFormName);
             this.PanelDimenFormSelector.Controls.Add(this.PicCurrentForm);
-            this.PanelDimenFormSelector.Location = new System.Drawing.Point(787, 646);
+            this.PanelDimenFormSelector.Location = new System.Drawing.Point(787, 665);
             this.PanelDimenFormSelector.Name = "PanelDimenFormSelector";
             this.PanelDimenFormSelector.Size = new System.Drawing.Size(205, 258);
             this.PanelDimenFormSelector.TabIndex = 20;
@@ -1761,118 +1866,13 @@
             this.PicOnSummonCardImage.TabIndex = 0;
             this.PicOnSummonCardImage.TabStop = false;
             // 
-            // lblAttackLeftAmount
-            // 
-            this.lblAttackLeftAmount.BackColor = System.Drawing.Color.Black;
-            this.lblAttackLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttackLeftAmount.ForeColor = System.Drawing.Color.White;
-            this.lblAttackLeftAmount.Location = new System.Drawing.Point(70, 233);
-            this.lblAttackLeftAmount.Name = "lblAttackLeftAmount";
-            this.lblAttackLeftAmount.Size = new System.Drawing.Size(14, 15);
-            this.lblAttackLeftAmount.TabIndex = 23;
-            // 
-            // lblAttackLeftLabel
-            // 
-            this.lblAttackLeftLabel.BackColor = System.Drawing.Color.Black;
-            this.lblAttackLeftLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttackLeftLabel.ForeColor = System.Drawing.Color.White;
-            this.lblAttackLeftLabel.Location = new System.Drawing.Point(0, 233);
-            this.lblAttackLeftLabel.Name = "lblAttackLeftLabel";
-            this.lblAttackLeftLabel.Size = new System.Drawing.Size(69, 15);
-            this.lblAttackLeftLabel.TabIndex = 22;
-            this.lblAttackLeftLabel.Text = "Attacks Left:";
-            // 
-            // lblMovesLeftAmount
-            // 
-            this.lblMovesLeftAmount.BackColor = System.Drawing.Color.Black;
-            this.lblMovesLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMovesLeftAmount.ForeColor = System.Drawing.Color.White;
-            this.lblMovesLeftAmount.Location = new System.Drawing.Point(190, 233);
-            this.lblMovesLeftAmount.Name = "lblMovesLeftAmount";
-            this.lblMovesLeftAmount.Size = new System.Drawing.Size(14, 15);
-            this.lblMovesLeftAmount.TabIndex = 25;
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.Black;
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(120, 233);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 15);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Moves Left:";
-            // 
-            // lblMovesCostAmount
-            // 
-            this.lblMovesCostAmount.BackColor = System.Drawing.Color.Black;
-            this.lblMovesCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMovesCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblMovesCostAmount.Location = new System.Drawing.Point(124, 252);
-            this.lblMovesCostAmount.Name = "lblMovesCostAmount";
-            this.lblMovesCostAmount.Size = new System.Drawing.Size(14, 15);
-            this.lblMovesCostAmount.TabIndex = 27;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.Black;
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(60, 252);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(63, 15);
-            this.label7.TabIndex = 26;
-            this.label7.Text = "Move Cost:";
-            // 
-            // lblAttackCostAmount
-            // 
-            this.lblAttackCostAmount.BackColor = System.Drawing.Color.Black;
-            this.lblAttackCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttackCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblAttackCostAmount.Location = new System.Drawing.Point(68, 271);
-            this.lblAttackCostAmount.Name = "lblAttackCostAmount";
-            this.lblAttackCostAmount.Size = new System.Drawing.Size(14, 15);
-            this.lblAttackCostAmount.TabIndex = 29;
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.Black;
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(0, 271);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 15);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "Attack Cost:";
-            // 
-            // lblDefenseCostAmount
-            // 
-            this.lblDefenseCostAmount.BackColor = System.Drawing.Color.Black;
-            this.lblDefenseCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDefenseCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblDefenseCostAmount.Location = new System.Drawing.Point(188, 271);
-            this.lblDefenseCostAmount.Name = "lblDefenseCostAmount";
-            this.lblDefenseCostAmount.Size = new System.Drawing.Size(14, 15);
-            this.lblDefenseCostAmount.TabIndex = 31;
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.Black;
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(110, 271);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(77, 15);
-            this.label11.TabIndex = 30;
-            this.label11.Text = "Defense Cost:";
-            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(997, 918);
+            this.ClientSize = new System.Drawing.Size(997, 926);
             this.Controls.Add(this.PanelOnSummonEffect);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
