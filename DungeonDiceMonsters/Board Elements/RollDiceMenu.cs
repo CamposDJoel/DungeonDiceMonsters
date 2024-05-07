@@ -1022,39 +1022,33 @@ namespace DungeonDiceMonsters
                 }
 
                 //Display the Summon Set buttons for the dice that qualifyfir
-                bool canSummonSet = false;
                 switch (results[0])
                 {
                     //Normal Summon (Note that if there are not dimesion spaces, you cannot summon)
-                    case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; canSummonSet = true; } break;
+                    case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; } break;
                     //Set (Note that if there are not free summon tiles you cant set)
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; canSummonSet = true; } break;
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; } break;
                     //Ritual Summon (Note that if there are not dimesion spaces, you cannot summon)
-                    case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; canSummonSet = true; } break;
+                    case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; } break;
                 }
                 switch (results[1])
                 {
                     //Normal Summon
-                    case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; canSummonSet = true; } break;
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; canSummonSet = true; } break;
-                    case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; canSummonSet = true; } break;
+                    case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; } break;
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; } break;
+                    case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; } break;
                 }
                 switch (results[2])
                 {
                     //Normal Summon
-                    case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; canSummonSet = true; } break;
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; canSummonSet = true; } break;
-                    case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; canSummonSet = true; } break;
+                    case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; } break;
+                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; } break;
+                    case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; } break;
                 }
                 
                 _DiceRolled = true;
                 GroupDicesToRoll.Enabled = true;
-
-                if (!canSummonSet)
-                {
-                    //Display "Go to the board" button
-                    btnGoToBoard.Visible = true;
-                }
+                btnGoToBoard.Visible = true;
             }));
         }
         private void btnDice1Summon_Base()
