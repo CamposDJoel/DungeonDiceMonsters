@@ -251,7 +251,7 @@ namespace DungeonDiceMonsters
                 {
                     dices[x].Enabled = true;
                     if (dices[x].Image != null) { dices[x].Image.Dispose(); }
-                    if(_IsUserTurn || _RevealRollCards)
+                    if(_IsUserTurn)
                     {
                         ImageServer.LoadImage(dices[x], CardImageType.FullCardImage, _DiceToRoll[x].ID.ToString());
                     }
@@ -574,7 +574,6 @@ namespace DungeonDiceMonsters
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
-        private bool _RevealRollCards = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         #endregion
@@ -867,13 +866,6 @@ namespace DungeonDiceMonsters
                 PanelDeck.Enabled = false;
                 GroupDicesToRoll.Enabled = false;
                 btnRoll.Visible = false;
-
-                //If this is not the user's turn, reveal the face down cards in the Roll Slots
-                if (!_IsUserTurn)
-                {
-                    _RevealRollCards = true;
-                    LoadDiceToRoll();
-                }
 
                 //Roll the dice
                 int[] diceIndex = new int[3] { -1, -1, -1 };
