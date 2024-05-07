@@ -850,6 +850,7 @@ namespace DungeonDiceMonsters
                     Card Defender = _AttackTarger.CardInPlace;
                     int creststoremoveATK = _AttackBonusCrest + Attacker.AttackCost;
                     int creststoremoveDEF = _DefenseBonusCrest + Defender.DefenseCost;
+                    if (!_DefenderDefended) { creststoremoveDEF = 0; }
                     PlayerData AttackerPlayerData = RedData;
                     PlayerData DefenderPlayerData = BlueData;
                     if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; }
