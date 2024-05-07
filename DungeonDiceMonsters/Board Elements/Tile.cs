@@ -140,11 +140,18 @@ namespace DungeonDiceMonsters
         }
         public void SummonCard(Card card)
         {
-            _card = card;
-            _Occupied = true;
-            _IsSummonTile = true;
-            _card.SetCurrentTile(this);
-            ReloadTileUI();
+            if(_Occupied)
+            {
+                throw new Exception("Cannot summon on an already occupied tile");
+            }
+            else
+            {
+                _card = card;
+                _Occupied = true;
+                _IsSummonTile = true;
+                _card.SetCurrentTile(this);
+                ReloadTileUI();
+            }          
         }
         public void SetCard(Card card)
         {

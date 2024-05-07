@@ -172,6 +172,219 @@ namespace DungeonDiceMonsters
             ActivateEffect(symbolEffect);
             _ActiveEffects.Add(symbolEffect);
         }
+        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, bool testing)
+        {
+            //Save a reference to the NetworkStream of our active client connection to send messages to the server
+            ns = tmpns;
+
+            //Initialize Music
+            SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+
+            //Initalize Compents
+            InitializeComponent();
+
+            //Set Custom Event Listener
+            btnRoll.MouseEnter += OnMouseHoverSound;
+            btnViewBoard.MouseEnter += OnMouseHoverSound;
+            btnExit.MouseEnter += OnMouseHoverSound;
+            btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+
+            //Save Ref to each player's data
+            UserPlayerColor = UserColor;
+            RedData = Red; BlueData = Blue;
+
+            //Initialize the board tiles
+            int tileId = 0;
+            int Y_Location = 25;
+            int TILESIDE_SIZE = 48;
+            int CARDIMAGE_SIZE = TILESIDE_SIZE - 6;
+            for (int x = 0; x < 18; x++)
+            {
+                int X_Location = 2;
+                for (int y = 0; y < 13; y++)
+                {
+                    //Create the ATK/DEF label
+                    Label statsLabelDEF = new Label();
+                    PanelBoard.Controls.Add(statsLabelDEF);
+                    statsLabelDEF.AutoSize = false;
+                    statsLabelDEF.Location = new Point(X_Location + 23, Y_Location + 34);
+                    statsLabelDEF.Size = new Size(22, 11);
+                    statsLabelDEF.BorderStyle = BorderStyle.None;
+                    statsLabelDEF.ForeColor = Color.White;
+                    statsLabelDEF.Font = new Font("Calibri", 6, FontStyle.Bold);
+                    statsLabelDEF.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelDEF.Text = "9999";
+                    statsLabelDEF.Visible = false;
+
+                    Label statsLabelATK = new Label();
+                    PanelBoard.Controls.Add(statsLabelATK);
+                    statsLabelATK.AutoSize = false;
+                    statsLabelATK.Location = new Point(X_Location + 3, Y_Location + 34);
+                    statsLabelATK.Size = new Size(22, 11);
+                    statsLabelATK.BorderStyle = BorderStyle.None;
+                    statsLabelATK.ForeColor = Color.White;
+                    statsLabelATK.Font = new Font("Calibri", 6, FontStyle.Bold);
+                    statsLabelATK.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelATK.Text = "9999";
+                    statsLabelATK.Visible = false;
+
+                    //Create each inside picture box
+                    PictureBox insidePicture = new PictureBox();
+                    PanelBoard.Controls.Add(insidePicture);
+                    insidePicture.Location = new Point(X_Location + 3, Y_Location + 3);
+                    insidePicture.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
+                    insidePicture.BorderStyle = BorderStyle.None;
+                    insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                    insidePicture.BackColor = System.Drawing.Color.Transparent;
+                    insidePicture.Tag = tileId;
+                    insidePicture.MouseEnter += OnMouseEnterPicture;
+                    insidePicture.MouseLeave += OnMouseLeavePicture;
+                    insidePicture.Click += Tile_Click;
+
+                    //Create each border picture box 
+                    //(create this one after so it is created "behind" the inside picture
+                    PictureBox borderPicture = new PictureBox();
+                    PanelBoard.Controls.Add(borderPicture);
+                    borderPicture.Location = new Point(X_Location, Y_Location);
+                    borderPicture.Size = new Size(TILESIDE_SIZE, TILESIDE_SIZE);
+                    borderPicture.BorderStyle = BorderStyle.FixedSingle;
+                    borderPicture.BackColor = Color.Transparent;
+
+                    //create and add a new tile object using the above 2 picture boxes
+                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabelATK, statsLabelDEF));
+
+                    //update the Tile ID for the next one
+                    tileId++;
+
+                    //Move the X-Axis for the next picture
+                    X_Location += TILESIDE_SIZE;
+                }
+
+                //Move the Y-Axis for the next row of pictures
+                Y_Location += TILESIDE_SIZE;
+            }
+
+            //Link the tiles together
+            foreach (Tile tile in _Tiles)
+            {
+                //assign north links
+                if (tile.ID > 13)
+                {
+                    Tile linkedTile = _Tiles[tile.ID - 13];
+                    tile.SetAdjecentTileLink(TileDirection.North, linkedTile);
+                }
+
+                //assign south links
+                if (tile.ID < 216)
+                {
+                    Tile linkedTile = _Tiles[tile.ID + 13];
+                    tile.SetAdjecentTileLink(TileDirection.South, linkedTile);
+                }
+
+                //assign east links
+                if (tile.ID != 12 && tile.ID != 25 && tile.ID != 38 && tile.ID != 51 && tile.ID != 64
+                    && tile.ID != 77 && tile.ID != 90 && tile.ID != 103 && tile.ID != 116 && tile.ID != 129
+                    && tile.ID != 142 && tile.ID != 155 && tile.ID != 168 && tile.ID != 181 && tile.ID != 194
+                    && tile.ID != 207 && tile.ID != 220 && tile.ID != 233)
+                {
+                    Tile linkedTile = _Tiles[tile.ID + 1];
+                    tile.SetAdjecentTileLink(TileDirection.East, linkedTile);
+                }
+
+                //assign west links
+                if (tile.ID != 0 && tile.ID != 13 && tile.ID != 26 && tile.ID != 39 && tile.ID != 52
+                    && tile.ID != 65 && tile.ID != 78 && tile.ID != 91 && tile.ID != 104 && tile.ID != 117
+                    && tile.ID != 130 && tile.ID != 143 && tile.ID != 156 && tile.ID != 169 && tile.ID != 182
+                    && tile.ID != 195 && tile.ID != 208 && tile.ID != 221)
+                {
+                    Tile linkedTile = _Tiles[tile.ID - 1];
+                    tile.SetAdjecentTileLink(TileDirection.West, linkedTile);
+                }
+
+            }
+
+            //Set the starting tiles for each player
+            _Tiles[227].ChangeOwner(PlayerColor.RED);
+            _Tiles[6].ChangeOwner(PlayerColor.BLUE);
+
+            //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
+            _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
+            _CardsOnBoard.Add(_RedSymbol);
+            RedData.AddSummoningTile(_Tiles[227]);
+            _Tiles[227].SummonCard(_RedSymbol);
+
+            _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
+            _CardsOnBoard.Add(_BlueSymbol);
+            BlueData.AddSummoningTile(_Tiles[6]);
+            _Tiles[6].SummonCard(_BlueSymbol);
+
+            //TEST add Crests to both players
+            RedData.AddCrests(Crest.MOV, 20);
+            RedData.AddCrests(Crest.ATK, 20);
+            RedData.AddCrests(Crest.DEF, 20);
+            RedData.AddCrests(Crest.MAG, 20);
+            RedData.AddCrests(Crest.TRAP, 20);
+
+            BlueData.AddCrests(Crest.MOV, 20);
+            BlueData.AddCrests(Crest.ATK, 20);
+            BlueData.AddCrests(Crest.DEF, 20);
+            BlueData.AddCrests(Crest.MAG, 20);
+            BlueData.AddCrests(Crest.TRAP, 20);
+
+            //Initialize the Player's Info Panels
+            LoadPlayersInfo();
+
+            //Set the initial game state and start the turn start panel            
+            LaunchTurnStartPanel();
+
+            //Initialize both Symbols Continuous Effect
+            Effect symbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            ActivateEffect(symbolEffect);
+            _ActiveEffects.Add(symbolEffect);
+
+            //Set tiles
+            //Set the starting tiles for each player           
+            _Tiles[7].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[19].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[32].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[45].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[58].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[71].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[84].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[97].ChangeOwner(PlayerColor.BLUE);
+            _Tiles[110].ChangeOwner(PlayerColor.BLUE);
+
+            _Tiles[123].ChangeOwner(PlayerColor.RED);
+            _Tiles[136].ChangeOwner(PlayerColor.RED);
+            _Tiles[149].ChangeOwner(PlayerColor.RED);
+            _Tiles[162].ChangeOwner(PlayerColor.RED);
+            _Tiles[175].ChangeOwner(PlayerColor.RED);
+            _Tiles[188].ChangeOwner(PlayerColor.RED);
+            _Tiles[201].ChangeOwner(PlayerColor.RED);
+            _Tiles[214].ChangeOwner(PlayerColor.RED);
+            _Tiles[226].ChangeOwner(PlayerColor.RED);
+
+            //TEST add high ATK monsters adj to opps symbol
+            CardInfo infoofblueeyes = CardDataBase.GetCardWithID(89631139);
+            Card blueeyes = new Card(_CardsOnBoard.Count, infoofblueeyes, PlayerColor.RED, false);
+            _CardsOnBoard.Add(blueeyes);
+            _Tiles[7].SummonCard(blueeyes);
+
+            CardInfo infohito = CardDataBase.GetCardWithID(75745607);
+            Card hito = new Card(_CardsOnBoard.Count, infohito, PlayerColor.BLUE, false);
+            _CardsOnBoard.Add(hito);
+            _Tiles[226].SummonCard(hito);
+
+            CardInfo pegasusinfo = CardDataBase.GetCardWithID(27054370);
+            Card pegasus = new Card(_CardsOnBoard.Count, pegasusinfo, PlayerColor.BLUE, false);
+            _CardsOnBoard.Add(pegasus);
+            _Tiles[110].SummonCard(pegasus);
+
+            CardInfo koalainfo = CardDataBase.GetCardWithID(42129512);
+            Card koala = new Card(_CardsOnBoard.Count, koalainfo, PlayerColor.RED, false);
+            _CardsOnBoard.Add(koala);
+            _Tiles[123].SummonCard(koala);
+        }
         #endregion
 
         #region Public Methods
