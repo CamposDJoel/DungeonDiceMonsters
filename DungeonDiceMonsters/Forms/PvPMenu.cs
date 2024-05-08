@@ -44,22 +44,37 @@ namespace DungeonDiceMonsters
         {
             StaticPvPMenu = this;
             PanelDeckSelection.Visible = false;
+            lblWaitMessage.Visible = false;
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             int port = 5000;
             TcpClient client = new TcpClient();
-            client.Connect(ip, port);
 
+            try
+            {
+                client.Connect(ip, port);
+                ns = client.GetStream();
+                Thread thread = new Thread(o => ReceiveData((TcpClient)o));
+                thread.Start(client);
 
-            ns = client.GetStream();
-            Thread thread = new Thread(o => ReceiveData((TcpClient)o));
-            thread.Start(client);
-
-            //After connecting send your player name/deck to the server
-            string deckdata = _CurrentDeckSelected.GetDataStringLineForPVP();
-            SendData(string.Format("{0}|{1}|{2}", "[MC PLAYER INFO]",GameData.Name, deckdata));
+                //After connecting send your player name/deck to the server
+                string deckdata = _CurrentDeckSelected.GetDataStringLineForPVP();
+                SendData(string.Format("{0}|{1}|{2}", "[MC PLAYER INFO]", GameData.Name, deckdata));
+            }
+            catch
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                lblWaitMessage.Text = "Server unavailable, please try again later.";
+                lblWaitMessage.Visible = true;                           
+                BoardForm.WaitNSeconds(2000);
+                PanelDeckSelection.Visible = true;
+                lblWaitMessage.Visible = false;
+                btnExit.Visible = true;
+                btnFindMatch.Visible = true;
+            }
+            
         }
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {

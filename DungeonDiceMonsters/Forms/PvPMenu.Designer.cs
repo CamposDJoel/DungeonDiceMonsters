@@ -101,7 +101,7 @@
             this.lblWaitMessage.BackColor = System.Drawing.Color.Transparent;
             this.lblWaitMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWaitMessage.ForeColor = System.Drawing.Color.White;
-            this.lblWaitMessage.Location = new System.Drawing.Point(304, 303);
+            this.lblWaitMessage.Location = new System.Drawing.Point(223, 303);
             this.lblWaitMessage.Name = "lblWaitMessage";
             this.lblWaitMessage.Size = new System.Drawing.Size(353, 24);
             this.lblWaitMessage.TabIndex = 19;
