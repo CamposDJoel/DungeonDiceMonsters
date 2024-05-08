@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace DungeonDiceMonsters
 {
@@ -24,12 +25,12 @@ namespace DungeonDiceMonsters
         #region Private Data
         private NetworkStream ns;
         private static PvPMenu StaticPvPMenu;
-        private int _CurrentDeckIndexSelected;
         private Deck _CurrentDeckSelected;
         private string _OpponentName;
         private Deck _OpponentsDeck;
         private PlayerColor MyColor;
         private BoardPvP _CurrentBoardPVP;
+        Thread _Thread;
         #endregion
 
         #region Event Listeners
@@ -43,6 +44,7 @@ namespace DungeonDiceMonsters
         private void btnFindMatch_Click(object sender, EventArgs e)
         {
             StaticPvPMenu = this;
+            Enabled = false;
             PanelDeckSelection.Visible = false;
             lblWaitMessage.Visible = false;
             //Connect
@@ -56,8 +58,8 @@ namespace DungeonDiceMonsters
             {
                 client.Connect(ip, port);
                 ns = client.GetStream();
-                Thread thread = new Thread(o => ReceiveData((TcpClient)o));
-                thread.Start(client);
+                _Thread = new Thread(o => ReceiveData((TcpClient)o));
+                _Thread.Start(client);
 
                 //After connecting send your player name/deck to the server
                 string deckdata = _CurrentDeckSelected.GetDataStringLineForPVP();
@@ -66,6 +68,7 @@ namespace DungeonDiceMonsters
             catch
             {
                 SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                Enabled = true;
                 lblWaitMessage.Text = "Server unavailable, please try again later.";
                 lblWaitMessage.Visible = true;
                 BoardForm.WaitNSeconds(2000);
@@ -158,6 +161,21 @@ namespace DungeonDiceMonsters
                         StartMatch();
                     }));
                     break;
+                case "[OPPONENT DISCONNECT]":
+                    //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        _CurrentBoardPVP.Dispose();
+                        lblWaitMessage.Text = "Opponent disconnected, Match ENDED.";
+                        lblBluePlayerName.Visible = false;
+                        lblRedPlayerName.Visible = false;
+                        PanelDeckSelection.Visible = true;
+                        lblWaitMessage.Visible = true;
+                        btnExit.Visible = true;
+                        btnFindMatch.Visible = true;
+                        Show();
+                    }));               
+                    break;
                 default:
                     //ANY OTHER MESSAGE WILL BE FORWARDED TO THE BoardPVP
                     _CurrentBoardPVP.ReceiveMesageFromServer(DATARECEIVED);
@@ -181,6 +199,11 @@ namespace DungeonDiceMonsters
                 //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns);
                 _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, true);
                 Hide();
+                Enabled = true;
+                PanelDeckSelection.Visible = true;
+                lblWaitMessage.Visible = true;
+                btnExit.Visible = true;
+                btnFindMatch.Visible = true;
                 _CurrentBoardPVP.Show();
             }
             else
@@ -188,6 +211,11 @@ namespace DungeonDiceMonsters
                 //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns);
                 _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, true);
                 Hide();
+                Enabled = true;
+                PanelDeckSelection.Visible = true;
+                lblWaitMessage.Visible = true;
+                btnExit.Visible = true;
+                btnFindMatch.Visible = true;
                 _CurrentBoardPVP.Show();
             }
         }
@@ -206,8 +234,17 @@ namespace DungeonDiceMonsters
                 //to the active instance of the PvPMenu form to be processed.
                 string DATARECEIVED = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
                 StaticPvPMenu.MessageReceived(DATARECEIVED);
+
+                //If the Data received was the opponent disconnect notification, end the loop to disconnect client
+                if(DATARECEIVED == "[OPPONENT DISCONNECT]") 
+                {
+                    break;
+                }
             }
 
+            //Disconect
+            ns.Close();
+            client.Dispose();
         }
         private void SendData(string message)
         {

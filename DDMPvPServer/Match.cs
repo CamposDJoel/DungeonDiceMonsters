@@ -113,7 +113,6 @@ namespace DDMPvPServer
             }
             return output;
         }
-
         public void RemovePlayerInWaiting()
         {
             AddLogMessage("RED Player disconnected: Removing it from the match! - RED Spot available again.");
@@ -126,6 +125,15 @@ namespace DDMPvPServer
             REDPlayerReady = false;
             BLUEPlayerReady = false;
         }   
+        public void CloseMatch()
+        {
+            MatchClosed = true;
+            AddLogMessage("Match is now closed!!!");
+        }
+        public bool IsClosed()
+        {
+            return MatchClosed;
+        }
 
         private int MatchID;
         private int REDPlayerID = -1;
@@ -136,6 +144,7 @@ namespace DDMPvPServer
         private string BLUEPlayerDeckData = "NO SET";
         private bool REDPlayerReady = false;
         private bool BLUEPlayerReady = false;
+        private bool MatchClosed = false;
         private List<string> LogTrace = new List<string>();
 
     }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DDMPvPServer
 {
@@ -148,9 +149,26 @@ namespace DDMPvPServer
                 }
                 catch
                 {
-                    if (ActiveMatch.AreBothPlayersReady())
+                    if(ActiveMatch.IsClosed())
                     {
-                        //TODO: Handle when the Match has already being started
+                        //Both players already disconnected at this point, just break the loop
+                        break;
+                    }
+                    else if (ActiveMatch.AreBothPlayersReady())
+                    {
+                        staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} disconnected during the active match!", id));
+
+                        //Send the opponent player a notification message this player has been disconnected
+                        //Once this player receives the notification, their client app will disconnect them from the server manually.
+                        PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
+                        int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                        Opponetclient = list_clients[OpponentClientIDA];
+                        SendMessage("[OPPONENT DISCONNECT]", Opponetclient);
+
+                        //Then mark this match as closed, no more actions will be taken on this match
+                        ActiveMatch.AddLogMessage(string.Format("Player [{0}] disconnected in the middel of the match. Match will be closed.", ClientPlayerColor));
+                        ActiveMatch.CloseMatch();
+                        break;
                     }
                     else
                     {
