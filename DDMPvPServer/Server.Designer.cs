@@ -28,32 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Server));
             label1 = new Label();
-            txtConnectionLog = new TextBox();
             btnStart = new Button();
             btnStop = new Button();
             label2 = new Label();
             listMatches = new ListBox();
             label3 = new Label();
-            txtMatchOutput = new TextBox();
+            panel1 = new Panel();
+            txtMatchOutput = new Label();
+            panel2 = new Panel();
+            txtConnectionLog = new Label();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(200, 9);
+            label1.Location = new Point(190, 4);
             label1.Name = "label1";
             label1.Size = new Size(113, 15);
             label1.TabIndex = 0;
             label1.Text = "Connection Output:";
-            // 
-            // txtConnectionLog
-            // 
-            txtConnectionLog.Location = new Point(203, 25);
-            txtConnectionLog.Multiline = true;
-            txtConnectionLog.Name = "txtConnectionLog";
-            txtConnectionLog.Size = new Size(180, 72);
-            txtConnectionLog.TabIndex = 1;
             // 
             // btnStart
             // 
@@ -91,43 +88,78 @@
             listMatches.ItemHeight = 15;
             listMatches.Location = new Point(8, 133);
             listMatches.Name = "listMatches";
-            listMatches.Size = new Size(112, 184);
+            listMatches.Size = new Size(79, 184);
             listMatches.TabIndex = 5;
             listMatches.SelectedIndexChanged += listMatches_SelectedIndexChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(144, 115);
+            label3.Location = new Point(106, 115);
             label3.Name = "label3";
             label3.Size = new Size(108, 15);
             label3.TabIndex = 6;
             label3.Text = "Match Log Output:";
             // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(txtMatchOutput);
+            panel1.Location = new Point(104, 135);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(597, 182);
+            panel1.TabIndex = 8;
+            // 
             // txtMatchOutput
             // 
-            txtMatchOutput.Location = new Point(144, 134);
-            txtMatchOutput.Multiline = true;
+            txtMatchOutput.AutoSize = true;
+            txtMatchOutput.BackColor = Color.Black;
+            txtMatchOutput.ForeColor = Color.White;
+            txtMatchOutput.Location = new Point(5, 3);
             txtMatchOutput.Name = "txtMatchOutput";
-            txtMatchOutput.Size = new Size(259, 183);
-            txtMatchOutput.TabIndex = 7;
+            txtMatchOutput.Size = new Size(0, 15);
+            txtMatchOutput.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            panel2.AutoScroll = true;
+            panel2.Controls.Add(txtConnectionLog);
+            panel2.Location = new Point(192, 23);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(509, 89);
+            panel2.TabIndex = 9;
+            // 
+            // txtConnectionLog
+            // 
+            txtConnectionLog.AutoSize = true;
+            txtConnectionLog.BackColor = Color.Black;
+            txtConnectionLog.ForeColor = Color.White;
+            txtConnectionLog.Location = new Point(3, 3);
+            txtConnectionLog.Name = "txtConnectionLog";
+            txtConnectionLog.Size = new Size(0, 15);
+            txtConnectionLog.TabIndex = 0;
             // 
             // Server
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(418, 327);
-            Controls.Add(txtMatchOutput);
+            ClientSize = new Size(730, 327);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(listMatches);
             Controls.Add(label2);
             Controls.Add(btnStop);
             Controls.Add(btnStart);
-            Controls.Add(txtConnectionLog);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Server";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Server";
+            Text = "DDM - Server";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -135,12 +167,14 @@
         #endregion
 
         private Label label1;
-        private TextBox txtConnectionLog;
         private Button btnStart;
         private Button btnStop;
         private Label label2;
         private ListBox listMatches;
         private Label label3;
-        private TextBox txtMatchOutput;
+        private Panel panel1;
+        private Label txtMatchOutput;
+        private Panel panel2;
+        private Label txtConnectionLog;
     }
 }
