@@ -15,6 +15,7 @@ namespace DDMPvPServer
         public Match(int id)
         {
             MatchID = id;
+            AddLogMessage("Empty Match Created!");
         }
 
         public void addPlayer(int playerid)
@@ -22,12 +23,12 @@ namespace DDMPvPServer
             if (REDPlayerID == -1)
             {
                 REDPlayerID = playerid;
-                LogTrace.Add(string.Format("Client ID: {0} joined the match as Player RED.{1}", playerid, Environment.NewLine));
+                AddLogMessage(string.Format("Client ID: {0} joined the match as Player RED.", playerid));
             }
             else
             {
                 BLUEPlayerID = playerid;
-                LogTrace.Add(string.Format("Client ID: {0} joined the match as Player BLUE.{1}", playerid, Environment.NewLine));
+                AddLogMessage(string.Format("Client ID: {0} joined the match as Player BLUE.", playerid));
             }
         }
         public bool IsMatchFull()
@@ -49,7 +50,7 @@ namespace DDMPvPServer
         }
         public string GetDeckData(PlayerColor color)
         {
-            switch(color) 
+            switch (color)
             {
                 case PlayerColor.RED: return REDPlayerDeckData;
                 case PlayerColor.BLUE: return BLUEPlayerDeckData;
@@ -58,7 +59,7 @@ namespace DDMPvPServer
         }
         public PlayerColor GetPlayerColor(int id)
         {
-            if(REDPlayerID == id)
+            if (REDPlayerID == id)
             {
                 return PlayerColor.RED;
             }
@@ -75,14 +76,14 @@ namespace DDMPvPServer
                     REDPlayerName = name;
                     REDPlayerDeckData = deckdata;
                     REDPlayerReady = true;
-                    LogTrace.Add(string.Format("RED Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
+                    AddLogMessage(string.Format("RED Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
                     break;
                 case PlayerColor.BLUE:
                     BLUEPlayerName = name;
-                    BLUEPlayerDeckData  = deckdata;
+                    BLUEPlayerDeckData = deckdata;
                     BLUEPlayerReady = true;
-                    LogTrace.Add(string.Format("BLUE Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
-                    LogTrace.Add(string.Format("Both Players data received, MATCH IS READY!{0}", name, Environment.NewLine));
+                    AddLogMessage(string.Format("BLUE Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
+                    AddLogMessage(string.Format("Both Players data received, MATCH IS READY!{0}",  Environment.NewLine));
                     break;
             }
         }
@@ -101,18 +102,30 @@ namespace DDMPvPServer
         }
         public void AddLogMessage(string message)
         {
-            LogTrace.Add(message);
+            LogTrace.Add(string.Format("LOG#{0}:{1}{2}{3}--------------------",LogTrace.Count, Environment.NewLine, message, Environment.NewLine));
         }
         public string GetLogs()
         {
             string output = "";
-            foreach(string line in LogTrace)
+            foreach (string line in LogTrace)
             {
                 output += line + Environment.NewLine;
             }
             return output;
         }
 
+        public void RemovePlayerInWaiting()
+        {
+            AddLogMessage("RED Player disconnected: Removing it from the match! - RED Spot available again.");
+            REDPlayerID = -1;
+            BLUEPlayerID = -1;
+            REDPlayerName = "NO SET";
+            BLUEPlayerName = "NO SET";
+            REDPlayerDeckData = "NO SET";
+            BLUEPlayerDeckData = "NO SET";
+            REDPlayerReady = false;
+            BLUEPlayerReady = false;
+        }   
 
         private int MatchID;
         private int REDPlayerID = -1;
@@ -123,9 +136,9 @@ namespace DDMPvPServer
         private string BLUEPlayerDeckData = "NO SET";
         private bool REDPlayerReady = false;
         private bool BLUEPlayerReady = false;
-        private List<string> LogTrace = new List<string>();      
-    }
+        private List<string> LogTrace = new List<string>();
 
+    }
     public enum PlayerColor
     {
         NONE = 0,

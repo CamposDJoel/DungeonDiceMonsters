@@ -67,14 +67,14 @@ namespace DungeonDiceMonsters
             {
                 SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
                 lblWaitMessage.Text = "Server unavailable, please try again later.";
-                lblWaitMessage.Visible = true;                           
+                lblWaitMessage.Visible = true;
                 BoardForm.WaitNSeconds(2000);
                 PanelDeckSelection.Visible = true;
                 lblWaitMessage.Visible = false;
                 btnExit.Visible = true;
                 btnFindMatch.Visible = true;
             }
-            
+
         }
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -94,6 +94,10 @@ namespace DungeonDiceMonsters
                 btnFindMatch.Enabled = false;
             }
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
         #endregion
 
         #region Public Methods
@@ -109,18 +113,20 @@ namespace DungeonDiceMonsters
                 case "[WAITING FOR PLAYER 2]":
                     //Set the User as Player 1 (RED) - not player 2 has join thus only diplay user player info in
                     //the red area
-                    Invoke(new MethodInvoker(delegate () {
+                    Invoke(new MethodInvoker(delegate ()
+                    {
                         lblRedPlayerName.Text = "Red Player: " + GameData.Name;
                         lblRedPlayerName.Visible = true;
                         MyColor = PlayerColor.RED;
                         lblWaitMessage.Text = "Waiting for Player 2!";
                         lblWaitMessage.Visible = true;
-                    }));                   
+                    }));
                     break;
                 case "[OPPONENT DATA RED]":
                     //Data for Player 1 (RED) has been recevied, that means user is player 2 (BLUE) and the match is 
                     //ready to go, diplay opponent's data in the Red Section and user data in the Blue section.
-                    Invoke(new MethodInvoker(delegate () {
+                    Invoke(new MethodInvoker(delegate ()
+                    {
                         _OpponentName = MessageTokens[1];
                         _OpponentsDeck = new Deck();
                         _OpponentsDeck.InitializeFromPVPData(MessageTokens[2]);
@@ -132,14 +138,15 @@ namespace DungeonDiceMonsters
                         lblWaitMessage.Text = "Match found! - Starting Game...";
                         lblWaitMessage.Visible = true;
                         StartMatch();
-                    }));                  
+                    }));
                     break;
                 case "[OPPONENT DATA BLUE]":
                     //This is the follow up to "Waiting for Player 2" message key
                     //Data for Player 2 (BLUE) has been received, that means user was already in waiting mode
                     //and the User data is already displayed in the red area. Diplay the opponent info in the blue
                     //are and match is ready to go.
-                    Invoke(new MethodInvoker(delegate () {
+                    Invoke(new MethodInvoker(delegate ()
+                    {
                         _OpponentName = MessageTokens[1];
                         _OpponentsDeck = new Deck();
                         _OpponentsDeck = new Deck();
@@ -167,9 +174,9 @@ namespace DungeonDiceMonsters
 
             //Then Generate the PlayerData objects from each player to launch the 
             PlayerData user = new PlayerData(GameData.Name, _CurrentDeckSelected);
-            PlayerData opponent = new PlayerData(_OpponentName, _OpponentsDeck);            
+            PlayerData opponent = new PlayerData(_OpponentName, _OpponentsDeck);
 
-            if(MyColor == PlayerColor.RED)                   
+            if (MyColor == PlayerColor.RED)
             {
                 //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns);
                 _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, true);
@@ -182,7 +189,7 @@ namespace DungeonDiceMonsters
                 _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, true);
                 Hide();
                 _CurrentBoardPVP.Show();
-            }           
+            }
         }
         #endregion
 
@@ -210,3 +217,5 @@ namespace DungeonDiceMonsters
         #endregion
     }
 }
+
+        

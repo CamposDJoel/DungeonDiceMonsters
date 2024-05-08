@@ -15,8 +15,6 @@ namespace DDMPvPServer
         public Server()
         {
             InitializeComponent();
-            txtStaticConnectionLog = txtConnectionLog;
-            txtStaticMatchOutput = txtMatchOutput;
         }
 
         static readonly object _lock = new object();
@@ -25,10 +23,11 @@ namespace DDMPvPServer
         static int clinetcount = 1;
         static int matchcount = 1;
         static TcpListener? ServerSocket;
-        static TextBox? txtStaticConnectionLog;
-        static TextBox? txtStaticMatchOutput;
         Thread waitingforclients;
 
+        StringBuilder SB = new StringBuilder();
+
+        static Server staticServerObject;
 
         public static void WaitForClients()
         {
@@ -36,18 +35,17 @@ namespace DDMPvPServer
             {
                 TcpClient ConnectingClient = ServerSocket.AcceptTcpClient();
                 lock (_lock) list_clients.Add(clinetcount, ConnectingClient);
-                UpdateConnectionLog(string.Format("Client ID: {0} connected!{1}", clinetcount, Environment.NewLine));
+                staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} connected!", clinetcount));
 
                 //add the client to the current active match
                 Match activeMatch = list_Matches[matchcount];
                 activeMatch.addPlayer(clinetcount);
-                UpdateConnectionLog(string.Format("Client added to Match ID: {0}{1}", matchcount, Environment.NewLine));
-                UpdateMatchLogsDiplay(activeMatch);
+                staticServerObject.UpdateConnectionLog(string.Format("Client added to Match ID: {0}", matchcount));
 
                 if (activeMatch.IsMatchFull())
                 {
                     //THE CONNECTING PLAYER WILL BE PLAYER 2 AKA BLUE Player
-                    UpdateConnectionLog("2 Players joined the match, waiting for deck info to be exchanged." + Environment.NewLine);
+                    staticServerObject.UpdateConnectionLog("2 Players joined the match, waiting for deck info to be exchanged.");
                     //Send this conencting player the deck info of Player 1 (RED)
                     string RedsPlayerName = activeMatch.GetPlayerName(PlayerColor.RED);
                     string RedsDeckInfo = activeMatch.GetDeckData(PlayerColor.RED);
@@ -56,15 +54,14 @@ namespace DDMPvPServer
                     //Now create a new match to be open this match is now full
                     matchcount++;
                     list_Matches.Add(matchcount, new Match(matchcount));
-                    UpdateConnectionLog(string.Format("Match ID: {0} open for players.{1}", matchcount, Environment.NewLine));
+                    staticServerObject.AddMatchToListUI();
+                    staticServerObject.UpdateConnectionLog(string.Format("Match ID: {0} open for players.", matchcount));
                 }
                 else
                 {
-                    UpdateConnectionLog("Waiting for a second player to join the mathc...." + Environment.NewLine);
+                    staticServerObject.UpdateConnectionLog("Waiting for a second player to join the match....");
                     SendMessage("[WAITING FOR PLAYER 2]", ConnectingClient);
                 }
-
-                UpdateMatchLogsDiplay(activeMatch);
 
                 Thread t = new Thread(handle_clients);
                 t.Start(clinetcount);
@@ -79,68 +76,92 @@ namespace DDMPvPServer
 
             lock (_lock) client = list_clients[id];
 
+            //Step 1: Set a Ref to the Match this Client Belongs to
+            Match ActiveMatch = null;
+            foreach (KeyValuePair<int, Match> match in list_Matches)
+            {
+                Match thisMatch = match.Value;
+
+                if (thisMatch.ContainsPlayer(id))
+                {
+                    ActiveMatch = thisMatch;
+                    break;
+                }
+            }
+
             while (true)
             {
-                //Step 1: Set a Ref to the Match this Client Belongs to
-                Match ActiveMatch = null;
-                foreach (KeyValuePair<int, Match> match in list_Matches)
+                try
                 {
-                    Match thisMatch = match.Value;
+                    //Step 2: Extract the data received from this call (AKA var "data")
+                    NetworkStream stream = client.GetStream();
+                    byte[] buffer = new byte[1024];
 
-                    if (thisMatch.ContainsPlayer(id))
+                    int byte_count = stream.Read(buffer, 0, buffer.Length);
+                    if (byte_count == 0)
                     {
-                        ActiveMatch = thisMatch;
+                        break;
+                    }
+                    string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
+
+                    //Step 3: Parse this data
+                    string[] MessageTokens = data.Split('|');
+
+                    //Step 4: Handle this data
+                    string MessageKey = MessageTokens[0];
+
+                    //Step 5: Set the Client's Player Color
+                    PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
+
+                    //Log the message received
+                    ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, data));
+
+                    switch (MessageKey)
+                    {
+                        //In this case, one of the player that just connected to a match sent its 
+                        //Player info to exchange with the opponent
+                        case "[MC PLAYER INFO]":
+                            //Set the Player info to the match
+                            ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
+                            if (ActiveMatch.AreBothPlayersReady())
+                            {
+                                int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                                Opponetclient = list_clients[OpponentClientIDA];
+                                PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
+                                //Send the opponent player the Clients Deck Info
+                                string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
+                                string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
+                                string notificationResponse = string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo);
+                                SendMessage(notificationResponse, Opponetclient);
+                                ActiveMatch.AddLogMessage(string.Format("Sending [RED] a notification response: [{0}]", notificationResponse));
+                            }
+                            break;
+
+                        //All other messages will simply forward the messages to the opponent client
+                        default:
+                            int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                            Opponetclient = list_clients[OpponentClientID];
+                            SendMessage(data, Opponetclient);
+                            ActiveMatch.AddLogMessage("Message forwared to opponent player!");
+                            break;
+                    }
+                }
+                catch
+                {
+                    if (ActiveMatch.AreBothPlayersReady())
+                    {
+                        //TODO: Handle when the Match has already being started
+                    }
+                    else
+                    {
+                        //The match is waiting for the second player to join.
+                        //Remove this player form the match
+                        ActiveMatch.RemovePlayerInWaiting();
+                        staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} disconnected!", id));
+                        staticServerObject.UpdateConnectionLog(string.Format("Match ID: {0} open for players.", matchcount));
                         break;
                     }
                 }
-
-                //Step 2: Set the Client's Player Color
-                PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
-
-                //Step 3: Extract the data received from this call (AKA var "data")
-                NetworkStream stream = client.GetStream();
-                byte[] buffer = new byte[1024];
-                int byte_count = stream.Read(buffer, 0, buffer.Length);
-                if (byte_count == 0)
-                {
-                    break;
-                }
-                string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
-
-                //Step 5: Parse this data
-                string[] MessageTokens = data.Split('|');
-
-                //Step 6: Handle this data
-                string MessageKey = MessageTokens[0];
-                switch (MessageKey)
-                {
-                    //In this case, one of the player that just connected to a match sent its 
-                    //Player info to exchange with the opponent
-                    case "[MC PLAYER INFO]":
-                        //Set the Player info to the match
-                        ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
-                        if (ActiveMatch.AreBothPlayersReady())
-                        {
-                            int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
-                            Opponetclient = list_clients[OpponentClientIDA];
-                            PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
-                            //Send the opponent player the Clients Deck Info
-                            string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
-                            string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
-                            SendMessage(string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo), Opponetclient);
-                        }
-                        break;
-
-                    //All other messages will simply forward the messages to the opponent client
-                    default:
-                        int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
-                        Opponetclient = list_clients[OpponentClientID];
-                        SendMessage(data, Opponetclient);
-                        break;
-                }
-
-                //Update the match logs at the end of each iteration
-                UpdateMatchLogsDiplay(ActiveMatch);
             }
 
             lock (_lock) list_clients.Remove(id);
@@ -161,12 +182,17 @@ namespace DDMPvPServer
         {
             Application.Exit();
         }
-        private static void UpdateConnectionLog(string message)
+        private void UpdateConnectionLog(string message)
         {
-            //txtStaticConnectionLog.AppendText(message);
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SB.AppendLine(string.Format("LOG#{0}: {1}", SB.Length, message));
+                txtConnectionLog.Text = SB.ToString();
+            }));
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
+            staticServerObject = this;
             btnStart.Visible = false;
             ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
@@ -191,13 +217,22 @@ namespace DDMPvPServer
         {
             int indexSelected = listMatches.SelectedIndex + 1;
             Match selectedMatch = list_Matches[indexSelected];
-            txtMatchOutput.Clear();
-            txtMatchOutput.Text = selectedMatch.GetLogs();
+            UpdateMatchLogsDiplay(selectedMatch);
         }
-        private static void UpdateMatchLogsDiplay(Match activeMatch)
+        private void AddMatchToListUI()
         {
-            //txtStaticMatchOutput.Clear();
-            //txtStaticMatchOutput.Text = activeMatch.GetLogs();
+            Invoke(new MethodInvoker(delegate ()
+            {
+                listMatches.Items.Add(string.Format("ID: {0}", matchcount));
+            }));
+        }
+        private void UpdateMatchLogsDiplay(Match activeMatch)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                txtMatchOutput.Text = "";
+                txtMatchOutput.Text = activeMatch.GetLogs();
+            }));
         }
     }
 }
