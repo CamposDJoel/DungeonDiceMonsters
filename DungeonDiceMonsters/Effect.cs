@@ -12,6 +12,7 @@ namespace DungeonDiceMonsters
 {
     public class Effect
     {
+        #region Constructors
         public Effect(Card originCard, EffectType type)
         {
             _OriginCard = originCard;
@@ -23,29 +24,35 @@ namespace DungeonDiceMonsters
                 case EffectType.Ignition: _Duration = GetEfectDuration(_ID); break;
                 case EffectType.OnSummon: _Duration = EffectDuration.OneAndDone; break;
             }
-            if(_Type == EffectType.Continuous) { _CanAffectNewCard = true; }
         }
+        #endregion
 
+        #region Public Methods
         public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
         public PlayerColor Owner{ get { return _OriginCard.Owner; } }
         public EffectDuration Duration { get { return _Duration; } }
-        public bool CanAffectNewCards { get { return _CanAffectNewCard; } }
         public List<Card> AffectedByList { get { return _AffectedByList; } }
-
         public void AddAffectedByCard(Card thisCard)
         {
             _AffectedByList.Add(thisCard);
         }
+        #endregion
 
+        #region Data
         private EffectID _ID;
         private EffectType _Type;
         private EffectDuration _Duration;
         private Card _OriginCard;
         private List<Card> _AffectedByList = new List<Card>();
+        #endregion
 
-        private bool _CanAffectNewCard = false;
+        #region "React To" Flags
+        public bool ReactsToMonsterSummon { get; set; }
+        public bool ReactsToAttributeChange { get; set; }
+        #endregion
 
+        #region Private Methods
         private static EffectID GetEffectID(Card originCard) 
         {
             switch(originCard.Name) 
@@ -69,6 +76,7 @@ namespace DungeonDiceMonsters
                 default: throw new Exception(string.Format("Effect ID: [{0}] doesn not have an Duration assigment.", id));
             }
         }
+        #endregion
     }
 
     public enum EffectType
