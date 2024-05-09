@@ -499,6 +499,17 @@ namespace DungeonDiceMonsters
                 Application.DoEvents();
             }
         }
+        public void CloseWithoutShuttingDownTheApp()
+        {
+            if(_RollDiceForm !=  null)
+            {
+                _RollDiceForm.CloseWithoutShuttingDownTheApp();
+            }
+
+            //Raise this flag so the whole app doesnt shutdown when closing the form
+            _AppShutDownWhenClose = false;
+            Dispose();
+        }
         #endregion
 
         #region Private Methods
@@ -1497,7 +1508,10 @@ namespace DungeonDiceMonsters
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Environment.Exit(Environment.ExitCode);
+            if(_AppShutDownWhenClose)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }           
         }
         #endregion
 
@@ -2777,6 +2791,7 @@ namespace DungeonDiceMonsters
         //Active Effects Data
         private List<string> _EffectsLog = new List<string>();
         private List<Effect> _ActiveEffects = new List<Effect>();
+        private bool _AppShutDownWhenClose = true;
         #endregion
 
         #region Effect Activation Methods
