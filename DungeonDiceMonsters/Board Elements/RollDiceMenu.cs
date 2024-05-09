@@ -765,7 +765,7 @@ namespace DungeonDiceMonsters
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(Environment.ExitCode);
         }
         #endregion
 
