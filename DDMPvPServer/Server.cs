@@ -28,7 +28,7 @@ namespace DDMPvPServer
 
         StringBuilder SB = new StringBuilder();
 
-        static Server staticServerObject;
+        static Server? staticServerObject;
 
         public static void WaitForClients()
         {
@@ -73,12 +73,12 @@ namespace DDMPvPServer
         {
             int id = (int)o;
             TcpClient client;
-            TcpClient Opponetclient = null;
+            TcpClient? Opponetclient = null;
 
             lock (_lock) client = list_clients[id];
 
             //Step 1: Set a Ref to the Match this Client Belongs to
-            Match ActiveMatch = null;
+            Match? ActiveMatch = null;
             foreach (KeyValuePair<int, Match> match in list_Matches)
             {
                 Match thisMatch = match.Value;

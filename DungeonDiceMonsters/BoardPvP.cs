@@ -168,9 +168,12 @@ namespace DungeonDiceMonsters
             LaunchTurnStartPanel();
 
             //Initialize both Symbols Continuous Effect
-            Effect symbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
-            ActivateEffect(symbolEffect);
-            _ActiveEffects.Add(symbolEffect);
+            Effect RedsymbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            ActivateEffect(RedsymbolEffect);
+            _ActiveEffects.Add(RedsymbolEffect);
+            Effect BluesymbolEffect = new Effect(_BlueSymbol, EffectType.Continuous);
+            ActivateEffect(BluesymbolEffect);
+            _ActiveEffects.Add(BluesymbolEffect);
         }
         public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, bool testing)
         {
@@ -338,9 +341,13 @@ namespace DungeonDiceMonsters
             LaunchTurnStartPanel();
 
             //Initialize both Symbols Continuous Effect
-            Effect symbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
-            ActivateEffect(symbolEffect);
-            _ActiveEffects.Add(symbolEffect);
+            //Initialize both Symbols Continuous Effect
+            Effect RedsymbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            ActivateEffect(RedsymbolEffect);
+            _ActiveEffects.Add(RedsymbolEffect);
+            Effect BluesymbolEffect = new Effect(_BlueSymbol, EffectType.Continuous);
+            ActivateEffect(BluesymbolEffect);
+            _ActiveEffects.Add(BluesymbolEffect);
 
             //Set tiles
             //Set the starting tiles for each player           
@@ -1459,21 +1466,38 @@ namespace DungeonDiceMonsters
             switch(thisEffect.ID) 
             {
                 case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
+                case EffectID.LIGHTSymbol: LightSymbol_Activation(thisEffect); break;
+                case EffectID.WATERSymbol: WaterSymbol_Activation(thisEffect); break;
+                case EffectID.FIRESymbol: FireSymbol_Activation(thisEffect); break;
+                case EffectID.EARTHSymbol: EarthSymbol_Activation(thisEffect); break;
+                case EffectID.WINDSymbol: WindSymbol_Activation(thisEffect); break;
+
+
+
+
                 case EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
                 case EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
         }
-        private void CheckForActivedEffectsToApply(Card targetCard)
+        private void ResolveEffectsWithSummonReactionTo(Card targetCard)
         {
             foreach (Effect thisActiveEffect in _ActiveEffects)
             {
-                if(thisActiveEffect.CanAffectNewCards)
+                if(thisActiveEffect.ReactsToMonsterSummon)
                 {
                     switch(thisActiveEffect.ID)
                     {
-                        case EffectID.DARKSymbol: DarkSymbol_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                        case EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+
+
+
                         case EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                     }
@@ -2302,10 +2326,10 @@ namespace DungeonDiceMonsters
                 _CurrentTileSelected = _dimensionTiles[0];
                 _CurrentGameState = GameState.MainPhaseBoard;
 
-                //Check for active effects that can affect this card
+                //Check for active effects that react to monster summons
                 UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
-                CheckForActivedEffectsToApply(thisCard);
-
+                ResolveEffectsWithSummonReactionTo(thisCard);
+                              
                 //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
                 if(thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
                 {
@@ -2855,9 +2879,15 @@ namespace DungeonDiceMonsters
         {
             //EFFECT DESCRIPTION
             //Increase the ATK of all your DARK monsters on the board by 200.
-            //This will apply no any new DARK monster the owner player summon.
             //During activation find all existing targets and give them the ATK increase.
+            //This effect will reach to all summons: if the summon is the owner's monster and it a DARK Attribute: affect it.            
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (thisCard.Owner == thisEffect.Owner)
@@ -2873,15 +2903,252 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        private void DarkSymbol_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
+        private void DarkSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
+            //If the monster summon is from the same owner AND...
             if (targetCard.Owner == thisEffect.Owner)
             {
+                //is DARK Attribute...
                 if (targetCard.Attribute == Attribute.DARK)
                 {
+                    //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    //Reload The Tile UI for the card affected
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
+
+        #region "LIGHT Symbol"
+        private void LightSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your LIGHT monsters on the board by 200.
+            //During activation find all existing targets and give them the ATK increase.
+            //This effect will reach to all summons: if the summon is the owner's monster and it a LIGHT Attribute: affect it.            
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.LIGHT)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void LightSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is from the same owner AND...
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                //is LIGHT Attribute...
+                if (targetCard.Attribute == Attribute.LIGHT)
+                {
+                    //Give a 200 Attack Boost
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
+
+        #region "WATER Symbol"
+        private void WaterSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your WATER monsters on the board by 200.
+            //During activation find all existing targets and give them the ATK increase.
+            //This effect will react to all summons: if the summon is the owner's monster and its a WATER Attribute: affect it.            
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.WATER)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void WaterSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is from the same owner AND...
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                //is WATER Attribute...
+                if (targetCard.Attribute == Attribute.WATER)
+                {
+                    //Give a 200 Attack Boost
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
+
+        #region "FIRE Symbol"
+        private void FireSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your FIRE monsters on the board by 200.
+            //During activation find all existing targets and give them the ATK increase.
+            //This effect will react to all summons: if the summon is the owner's monster and its a FIRE Attribute: affect it.            
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.FIRE)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void FireSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is from the same owner AND...
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                //is FIRE Attribute...
+                if (targetCard.Attribute == Attribute.FIRE)
+                {
+                    //Give a 200 Attack Boost
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
+
+        #region "EARTH Symbol"
+        private void EarthSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your FIRE monsters on the board by 200.
+            //During activation find all existing targets and give them the ATK increase.
+            //This effect will react to all summons: if the summon is the owner's monster and its a EARTH Attribute: affect it.            
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.EARTH)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void EarthSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is from the same owner AND...
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                //is EARTH Attribute...
+                if (targetCard.Attribute == Attribute.EARTH)
+                {
+                    //Give a 200 Attack Boost
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    targetCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                }
+            }
+        }
+        #endregion
+
+        #region "WIND Symbol"
+        private void WindSymbol_Activation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION
+            //Increase the ATK of all your FIRE monsters on the board by 200.
+            //During activation find all existing targets and give them the ATK increase.
+            //This effect will react to all summons: if the summon is the owner's monster and its a WIND Attribute: affect it.            
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToAttributeChange = true;
+
+            //Step 2: Resolve the effect initial activation
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.Owner == thisEffect.Owner)
+                {
+                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.WIND)
+                    {
+                        thisCard.AdjustAttackBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        //Reload The Tile UI for the card affected
+                        thisCard.ReloadTileUI();
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    }
+                }
+            }
+        }
+        private void WindSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is from the same owner AND...
+            if (targetCard.Owner == thisEffect.Owner)
+            {
+                //is WIND Attribute...
+                if (targetCard.Attribute == Attribute.WIND)
+                {
+                    //Give a 200 Attack Boost
+                    targetCard.AdjustAttackBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
                     targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
