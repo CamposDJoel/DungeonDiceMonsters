@@ -212,7 +212,8 @@ namespace DDMPvPServer
         {
             staticServerObject = this;
             btnStart.Visible = false;
-            ServerSocket = new TcpListener(IPAddress.Parse("192.168.0.220"), 5000);
+            //ServerSocket = new TcpListener(IPAddress.Parse("192.168.0.220"), 5000);
+            ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
 
             //Start the first match

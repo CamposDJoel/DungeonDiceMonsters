@@ -50,7 +50,8 @@ namespace DungeonDiceMonsters
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
-            IPAddress ip = IPAddress.Parse("192.168.0.220");
+            //IPAddress ip = IPAddress.Parse("192.168.0.220");
+            IPAddress ip = IPAddress.Parse("127.0.0.1");
             int port = 5000;
             TcpClient client = new TcpClient();
 
@@ -59,6 +60,7 @@ namespace DungeonDiceMonsters
                 client.Connect(ip, port);
                 ns = client.GetStream();
                 _Thread = new Thread(o => ReceiveData((TcpClient)o));
+                _Thread.IsBackground = true;
                 _Thread.Start(client);
 
                 //After connecting send your player name/deck to the server
