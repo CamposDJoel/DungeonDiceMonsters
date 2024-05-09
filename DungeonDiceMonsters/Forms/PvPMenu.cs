@@ -167,6 +167,7 @@ namespace DungeonDiceMonsters
                     //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
                     Invoke(new MethodInvoker(delegate ()
                     {
+                        SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
                         _CurrentBoardPVP.CloseWithoutShuttingDownTheApp();
                         lblWaitMessage.Text = "Opponent disconnected, Match ENDED.";
                         lblBluePlayerName.Visible = false;
@@ -182,6 +183,7 @@ namespace DungeonDiceMonsters
                     //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
                     Invoke(new MethodInvoker(delegate ()
                     {
+                        SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
                         if (_CurrentBoardPVP != null) { _CurrentBoardPVP.CloseWithoutShuttingDownTheApp(); }
                         Enabled = true;
                         lblWaitMessage.Text = "Server was shutdown, Match ENDED.";
@@ -194,11 +196,28 @@ namespace DungeonDiceMonsters
                         Show();
                     }));
                     break;
+                case "[GAME OVER]":
+                    //Dont do anything, all we need is the client/server connection to be break
+                    //which should be done by now.
+                    break;
                 default:
                     //ANY OTHER MESSAGE WILL BE FORWARDED TO THE BoardPVP
                     _CurrentBoardPVP.ReceiveMesageFromServer(DATARECEIVED);
                     break;
             }
+        }
+        public void ReturnToPvPMenuFromGameOverBoard()
+        {
+            SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
+            _CurrentBoardPVP.CloseWithoutShuttingDownTheApp();
+            Enabled = true;
+            lblBluePlayerName.Visible = false;
+            lblRedPlayerName.Visible = false;
+            PanelDeckSelection.Visible = true;
+            lblWaitMessage.Visible = false;
+            btnExit.Visible = true;
+            btnFindMatch.Visible = true;
+            Show();
         }
         #endregion
 
@@ -214,8 +233,8 @@ namespace DungeonDiceMonsters
 
             if (MyColor == PlayerColor.RED)
             {
-                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns);
-                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, true);
+                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
@@ -226,8 +245,8 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns);
-                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, true);
+                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns,this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
@@ -256,7 +275,7 @@ namespace DungeonDiceMonsters
                     StaticPvPMenu.MessageReceived(DATARECEIVED);
 
                     //If the Data received was the opponent disconnect notification, end the loop to disconnect client
-                    if (DATARECEIVED == "[OPPONENT DISCONNECT]")
+                    if (DATARECEIVED == "[OPPONENT DISCONNECT]" || DATARECEIVED == "[GAME OVER]")
                     {
                         break;
                     }

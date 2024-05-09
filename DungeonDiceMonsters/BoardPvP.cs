@@ -15,10 +15,11 @@ namespace DungeonDiceMonsters
     public partial class BoardPvP : Form
     {
         #region Constructors
-        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns)
+        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, PvPMenu pvpmenu)
         {
             //Save a reference to the NetworkStream of our active client connection to send messages to the server
             ns = tmpns;
+            _PvPMenuRef = pvpmenu;
 
             //Initialize Music
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
@@ -175,10 +176,11 @@ namespace DungeonDiceMonsters
             ActivateEffect(BluesymbolEffect);
             _ActiveEffects.Add(BluesymbolEffect);
         }
-        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, bool testing)
+        public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, PvPMenu pvpmenu, bool testing)
         {
             //Save a reference to the NetworkStream of our active client connection to send messages to the server
             ns = tmpns;
+            _PvPMenuRef = pvpmenu;
 
             //Initialize Music
             SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
@@ -1252,12 +1254,7 @@ namespace DungeonDiceMonsters
 
                             if (DefenderSymbol.LP == 0)
                             {
-                                //TODO: defender player loses the game
-                                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
-                                PanelBattleMenu.Visible = false;
-                                PanelEndGameResults.Visible = true;
-                                WaitNSeconds(5000);
-                                btnExit.Visible = true;
+                                StartGameOver();
                             }
                             else
                             {
@@ -1363,12 +1360,7 @@ namespace DungeonDiceMonsters
 
                             if (DefenderSymbol.LP == 0)
                             {
-                                //TODO: defender player loses the game
-                                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
-                                PanelBattleMenu.Visible = false;
-                                PanelEndGameResults.Visible = true;
-                                WaitNSeconds(5000);
-                                btnExit.Visible = true;
+                                StartGameOver();
                             }
                             else
                             {
@@ -1521,6 +1513,19 @@ namespace DungeonDiceMonsters
                 lblActionInstruction.Visible = true;
             }
         }
+        private void StartGameOver()
+        {
+            //TODO: defender player loses the game
+            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+            PanelBattleMenu.Visible = false;
+            PanelEndGameResults.Visible = true;
+
+            //Send the server the gameover message
+            SendMessageToServer("[GAME OVER]");
+
+            WaitNSeconds(5000);
+            btnExit.Visible = true;
+        }
         #endregion
 
         #region Event Listeners
@@ -1536,6 +1541,10 @@ namespace DungeonDiceMonsters
             {
                 Environment.Exit(Environment.ExitCode);
             }           
+        }
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            _PvPMenuRef.ReturnToPvPMenuFromGameOverBoard();
         }
         #endregion
 
@@ -2816,6 +2825,7 @@ namespace DungeonDiceMonsters
         private List<string> _EffectsLog = new List<string>();
         private List<Effect> _ActiveEffects = new List<Effect>();
         private bool _AppShutDownWhenClose = true;
+        private PvPMenu _PvPMenuRef;
         #endregion
 
         #region Effect Activation Methods

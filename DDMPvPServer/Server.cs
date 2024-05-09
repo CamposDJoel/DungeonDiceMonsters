@@ -138,6 +138,15 @@ namespace DDMPvPServer
                             }
                             break;
 
+                        case "[GAME OVER]":
+                            staticServerObject.UpdateConnectionLog(string.Format("X Client ID: {0} disconnected during the Game Over!", id));
+                            ActiveMatch.AddLogMessage(string.Format("X Player [{0}] disconnected during the game over. Match will be closed.", ClientPlayerColor));
+                            ActiveMatch.CloseMatch();
+                            //Just forward this back to the same clieent so the thread can end the connection
+                            //from the client side.
+                            SendMessage("[GAME OVER]", client);
+                            break;
+
                         //All other messages will simply forward the messages to the opponent client
                         default:
                             int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
