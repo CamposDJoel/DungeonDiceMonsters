@@ -50,8 +50,8 @@ namespace DungeonDiceMonsters
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
-            //IPAddress ip = IPAddress.Parse("192.168.0.220");
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
+            IPAddress ip = IPAddress.Parse("192.168.0.220");
+            //IPAddress ip = IPAddress.Parse("127.0.0.1");
             int port = 5000;
             TcpClient client = new TcpClient();
 
@@ -227,8 +227,9 @@ namespace DungeonDiceMonsters
             //Start by having a 3 sec delay to pace of opening the baord form
             BoardForm.WaitNSeconds(3000);
 
+            Deck MyDeck = _CurrentDeckSelected.GetCopy();
             //Then Generate the PlayerData objects from each player to launch the 
-            PlayerData user = new PlayerData(GameData.Name, _CurrentDeckSelected);
+            PlayerData user = new PlayerData(GameData.Name, MyDeck);
             PlayerData opponent = new PlayerData(_OpponentName, _OpponentsDeck);
 
             if (MyColor == PlayerColor.RED)
