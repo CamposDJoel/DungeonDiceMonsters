@@ -405,7 +405,6 @@
             this.label1.Size = new System.Drawing.Size(91, 20);
             this.label1.TabIndex = 10;
             this.label1.Text = "Ready to use:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // PicDeckStatus
             // 
@@ -416,7 +415,6 @@
             this.PicDeckStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicDeckStatus.TabIndex = 11;
             this.PicDeckStatus.TabStop = false;
-            this.PicDeckStatus.Click += new System.EventHandler(this.PicDeckStatus_Click);
             // 
             // btnExit
             // 
