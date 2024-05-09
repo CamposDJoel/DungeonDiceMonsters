@@ -386,6 +386,7 @@ namespace DungeonDiceMonsters
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+            _CurrentDeckIndexSelected = thiPictureBoxIndex;
 
             int cardid = -1;
             if (thiPictureBoxIndex >= 20)
@@ -421,8 +422,17 @@ namespace DungeonDiceMonsters
         }
         private void StorageCard_click(object sender, EventArgs e)
         {
-            //Determine if the card can be moved
-            int cardid = _CurrentCardSelected.ID;
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+
+            //Save a ref to the current card in view
+            int startIndex = (_CurrentPage * 30) - 30;
+            int indexInStorasge = startIndex + thiPictureBoxIndex;
+
+            int cardid = StorageData.Cards[indexInStorasge].ID;
+            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
+
             bool CanBeMoved = false;
             if (_CurrentCardSelected.IsFusion)
             {
@@ -477,8 +487,25 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
 
-            //add the card in the current deck index selected
-            int cardid = _CurrentCardSelected.ID;
+            //Retrieve the index of the card image that was clicked
+            PictureBox thisPictureBox = (PictureBox)sender;
+            int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
+            _CurrentDeckIndexSelected = thiPictureBoxIndex;
+
+            int cardid = -1;
+            if (thiPictureBoxIndex >= 20)
+            {
+                int fusionIndex = thiPictureBoxIndex - 20;
+                cardid = _CurrentDeckSelected.GetFusionCardIDAtIndex(fusionIndex);
+            }
+            else
+            {
+                cardid = _CurrentDeckSelected.GetMainCardIDAtIndex(thiPictureBoxIndex);
+            }
+            _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
+
+
+            //add the card to the storage
             StorageData.AddCard(cardid);
 
             //Remove this one card from the Deck
@@ -628,15 +655,5 @@ namespace DungeonDiceMonsters
             Application.Exit();
         }
         #endregion
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PicDeckStatus_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
