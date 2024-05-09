@@ -530,6 +530,13 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        public void CloseWithoutShuttingDownTheApp()
+        {
+            //Raise this flag so the whole app doesnt shutdown when closing the form
+            _AppShutDownWhenClose = false;
+            Dispose();
+        }
+
         #region Send/Receive To/From Server Methods
         private void SendMessageToServer(string message)
         {
@@ -576,6 +583,7 @@ namespace DungeonDiceMonsters
         private bool _ValidDimensionAvailable = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
+        private bool _AppShutDownWhenClose = true;
         #endregion
 
         #region Events
@@ -765,7 +773,10 @@ namespace DungeonDiceMonsters
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Environment.Exit(Environment.ExitCode);
+            if (_AppShutDownWhenClose)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
         }
         #endregion
 

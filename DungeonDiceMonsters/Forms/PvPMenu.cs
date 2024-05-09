@@ -167,7 +167,7 @@ namespace DungeonDiceMonsters
                     //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
                     Invoke(new MethodInvoker(delegate ()
                     {
-                        _CurrentBoardPVP.Dispose();
+                        _CurrentBoardPVP.CloseWithoutShuttingDownTheApp();
                         lblWaitMessage.Text = "Opponent disconnected, Match ENDED.";
                         lblBluePlayerName.Visible = false;
                         lblRedPlayerName.Visible = false;
@@ -176,7 +176,23 @@ namespace DungeonDiceMonsters
                         btnExit.Visible = true;
                         btnFindMatch.Visible = true;
                         Show();
-                    }));               
+                    }));
+                    break;
+                case "[SERVER DISCONNECT]":
+                    //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        if (_CurrentBoardPVP != null) { _CurrentBoardPVP.CloseWithoutShuttingDownTheApp(); }
+                        Enabled = true;
+                        lblWaitMessage.Text = "Server was shutdown, Match ENDED.";
+                        lblBluePlayerName.Visible = false;
+                        lblRedPlayerName.Visible = false;
+                        PanelDeckSelection.Visible = true;
+                        lblWaitMessage.Visible = true;
+                        btnExit.Visible = true;
+                        btnFindMatch.Visible = true;
+                        Show();
+                    }));
                     break;
                 default:
                     //ANY OTHER MESSAGE WILL BE FORWARDED TO THE BoardPVP
@@ -230,19 +246,28 @@ namespace DungeonDiceMonsters
             byte[] receivedBytes = new byte[1024];
             int byte_count;
 
-            while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+            try
             {
-                //Set the Data Received and send it thur the non-static method
-                //to the active instance of the PvPMenu form to be processed.
-                string DATARECEIVED = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
-                StaticPvPMenu.MessageReceived(DATARECEIVED);
-
-                //If the Data received was the opponent disconnect notification, end the loop to disconnect client
-                if(DATARECEIVED == "[OPPONENT DISCONNECT]") 
+                while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
                 {
-                    break;
+                    //Set the Data Received and send it thur the non-static method
+                    //to the active instance of the PvPMenu form to be processed.
+                    string DATARECEIVED = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
+                    StaticPvPMenu.MessageReceived(DATARECEIVED);
+
+                    //If the Data received was the opponent disconnect notification, end the loop to disconnect client
+                    if (DATARECEIVED == "[OPPONENT DISCONNECT]")
+                    {
+                        break;
+                    }
                 }
             }
+            catch
+            {
+                //Send the form the "[SERVER DISCONNECT]" message so it handles the UI update
+                StaticPvPMenu.MessageReceived("[SERVER DISCONNECT]");
+            }
+
 
             //Disconect
             ns.Close();
@@ -257,4 +282,3 @@ namespace DungeonDiceMonsters
     }
 }
 
-        
