@@ -425,6 +425,8 @@ namespace DungeonDiceMonsters
             else
             {
                 btnEndTurn.Visible = false;
+                lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                lblActionInstruction.Visible = true;
             }
         }
         public void SetupSummonCardPhase(CardInfo card)
@@ -444,18 +446,18 @@ namespace DungeonDiceMonsters
             //Update the Phase Banner
             UpdateBanner("SummonPhase");
 
-            lblSummonMessage.Visible = true;
+            lblActionInstruction.Visible = true;
 
             if (UserPlayerColor == TURNPLAYER)
             {
-                lblSummonMessage.Text = "Select Tile to Dimension the Dice!";
+                lblActionInstruction.Text = "Select Tile to Dimension the Dice and summon!";
                 //Display the Dimension shape selector
                 UpdateDimensionPreview();
                 PanelDimenFormSelector.Visible = true;
             }
             else
             {
-                lblSummonMessage.Text = "Opponent is Selecting a Tile to Summon!";
+                lblActionInstruction.Text = "Opponent is Selecting a Tile to Dimension the Dice and summon!";
                 PanelDimenFormSelector.Visible = false;
             }
         }
@@ -481,7 +483,7 @@ namespace DungeonDiceMonsters
             {
                 _SetCandidates.Clear();
                 _SetCandidates = RedData.GetSetCardTileCandidates();
-                lblSetCardMessage.Visible = true;
+                //TODO change this: lblSetCardMessage.Visible = true;
                 foreach (Tile tile in _SetCandidates)
                 {
                     tile.MarkSetTarget();
@@ -1050,7 +1052,7 @@ namespace DungeonDiceMonsters
                     case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[END TURN]": btnEndTurn_Base(); break;
                     case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[2])); break;
-                    case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(); break;
+                    case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK CANCEL ACTION MENU]": btnActionCancel_Base(); break;
                     case "[CLICK MOVE ACTION MENU]": btnActionMove_Base(); break;
                     case "[CLICK CANCEL MOVE MENU]": btnMoveMenuCancel_Base(); break;
@@ -1480,6 +1482,8 @@ namespace DungeonDiceMonsters
             else
             {
                 btnEndTurn.Visible = false;
+                lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                lblActionInstruction.Visible = true;
             }
         }
         #endregion
@@ -1537,7 +1541,7 @@ namespace DungeonDiceMonsters
                 //Send the action message to the server
                 if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
                 {
-                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    //SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
 
                 //Perform the action
@@ -1555,7 +1559,7 @@ namespace DungeonDiceMonsters
                 //Send the action message to the server
                 if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
                 {
-                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    //SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
 
                 //Perform the action
@@ -1573,10 +1577,10 @@ namespace DungeonDiceMonsters
                         if (_CurrentTileSelected.CardInPlace.Owner == UserPlayerColor)
                         {
                             //Send the action message to the server
-                            SendMessageToServer("[CLICK TILE TO ACTION]|" + _CurrentGameState.ToString());
+                            SendMessageToServer(string.Format("[CLICK TILE TO ACTION]|{0}|{1}", _CurrentGameState.ToString(), _CurrentTileSelected.ID));
 
                             //Perform the action
-                            TileClick_MainPhase_Base();
+                            TileClick_MainPhase_Base(_CurrentTileSelected.ID);
                         }
                         else
                         {
@@ -1667,7 +1671,7 @@ namespace DungeonDiceMonsters
                         _Tiles[tileId].SetCard(thisCard);
 
                         //Once this action is completed, move to the main phase
-                        lblSetCardMessage.Visible = false;
+                        //TODO: Update this lblSetCardMessage.Visible = false;
                         _CurrentGameState = GameState.MainPhaseBoard;
                         btnEndTurn.Visible = true;
                     }
@@ -2173,6 +2177,8 @@ namespace DungeonDiceMonsters
                 PanelBoard.Enabled = true;
                 PanelTurnStartMenu.Visible = false;
                 //The "Exit Board View Menu" button will only be visible for the Turn Player
+                //Also, the player on waiting will have the Action Instruction visible stating
+                //the turn player is viewing the board
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnReturnToTurnMenu.Visible = true;
@@ -2180,6 +2186,8 @@ namespace DungeonDiceMonsters
                 else
                 {
                     btnReturnToTurnMenu.Visible = false;
+                    lblActionInstruction.Text = "Opponent is currently inspecting the board.";
+                    lblActionInstruction.Visible = true;
                 }
             }));
         }
@@ -2251,6 +2259,7 @@ namespace DungeonDiceMonsters
                 PanelBoard.Enabled = false;
                 btnReturnToTurnMenu.Visible = false;
                 PanelTurnStartMenu.Visible = true;
+                lblActionInstruction.Visible = false;
             }));
         }
         private void TileClick_SummonCard_Base(int tileId)
@@ -2273,7 +2282,7 @@ namespace DungeonDiceMonsters
                 _Tiles[tileId].SummonCard(thisCard);
 
                 //Complete the summon
-                lblSummonMessage.Visible = false;
+                lblActionInstruction.Visible = false;
                 PanelDimenFormSelector.Visible = false;
                 _CurrentDimensionForm = DimensionForms.CrossBase;
                 _CurrentTileSelected = _dimensionTiles[0];
@@ -2304,10 +2313,14 @@ namespace DungeonDiceMonsters
                 }              
             }));
         }
-        private void TileClick_MainPhase_Base()
+        private void TileClick_MainPhase_Base(int tileId)
         {
             Invoke(new MethodInvoker(delegate () {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Perform the on mouse enter even, this is for the NON TURN PLAYER who
+                //doesnt have hover actions happening on their end
+                OnMouseEnterPicture_Base(tileId);
 
                 //Hide the End Turn Button, this wont reappear until the player is done with the action
                 btnEndTurn.Visible = false;
@@ -2369,6 +2382,12 @@ namespace DungeonDiceMonsters
                 //TODO: Effects...
                 btnActionEffect.Enabled = false;
 
+                if(UserPlayerColor != TURNPLAYER)
+                {
+                    lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    lblActionInstruction.Visible = true;
+                }
+
                 //Change the game state
                 _CurrentGameState = GameState.ActionMenuDisplay;
 
@@ -2423,6 +2442,11 @@ namespace DungeonDiceMonsters
                 {
                     btnEndTurn.Visible = true;
                 }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
+                }
             }));
         }
         private void btnActionMove_Base()
@@ -2441,6 +2465,12 @@ namespace DungeonDiceMonsters
                 btnMoveMenuCancel.Enabled = true;
                 lblMoveMenuCrestCount.ForeColor = Color.Yellow;
                 PanelMoveMenu.Visible = true;
+
+                if (UserPlayerColor != TURNPLAYER)
+                {
+                    lblActionInstruction.Text = "Opponent is selecting a tile to move into!";
+                    lblActionInstruction.Visible = true;
+                }
             }));
         }
         private void btnActionAttack_Base()
@@ -2456,6 +2486,13 @@ namespace DungeonDiceMonsters
                 PlaceAttackMenu();
 
                 PanelActionMenu.Visible = false;
+
+                if (UserPlayerColor != TURNPLAYER)
+                {
+                    lblActionInstruction.Text = "Opponent is selecting an attack target!";
+                    lblActionInstruction.Visible = true;
+                }
+
                 _CurrentGameState = GameState.SelectingAttackTarger;
             }));
         }
@@ -2488,9 +2525,19 @@ namespace DungeonDiceMonsters
                 LoadPlayersInfo();
                 UpdateDebugWindow();
 
-                //Update game state and "End Turn" button will be visible again.
+                               
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
+                }
+
+                //Update game state 
                 _CurrentGameState = GameState.MainPhaseBoard;
-                btnEndTurn.Visible = true;
             }));
         }
         private void TileClick_MoveCard_Base(int tileId)
@@ -2568,6 +2615,11 @@ namespace DungeonDiceMonsters
                 {
                     btnEndTurn.Visible = true;
                 }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
+                }
             }));
         }
         private void TileClick_AttackTarget_Base(int tileId)
@@ -2589,6 +2641,8 @@ namespace DungeonDiceMonsters
                 }
                 _AttackCandidates.Clear();
 
+                lblActionInstruction.Visible = false;
+
                 //Open the Battle Panel
                 OpenBattleMenu();
                 _CurrentGameState = GameState.BattlePhase;
@@ -2609,8 +2663,18 @@ namespace DungeonDiceMonsters
 
                 _AttackCandidates.Clear();
                 PanelAttackMenu.Visible = false;
+                
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
+                }
+
                 _CurrentGameState = GameState.MainPhaseBoard;
-                btnEndTurn.Visible = true;
             }));
         }
         private void BattleMessageReceived_Attack(int crestBonusAmount)
@@ -2666,6 +2730,11 @@ namespace DungeonDiceMonsters
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
                 }
             }));
         }

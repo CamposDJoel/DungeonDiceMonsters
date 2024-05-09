@@ -121,7 +121,7 @@
             this.lblTurnStartMessage = new System.Windows.Forms.Label();
             this.btnReturnToTurnMenu = new System.Windows.Forms.Button();
             this.btnEndTurn = new System.Windows.Forms.Button();
-            this.lblSummonMessage = new System.Windows.Forms.Label();
+            this.lblActionInstruction = new System.Windows.Forms.Label();
             this.PanelBattleMenu = new System.Windows.Forms.Panel();
             this.PanelDefenderCard = new System.Windows.Forms.Panel();
             this.lblBattleMenuDEFLP = new System.Windows.Forms.Label();
@@ -158,7 +158,6 @@
             this.lblBattleMenuDamage = new System.Windows.Forms.Label();
             this.lblDefenderDEF = new System.Windows.Forms.Label();
             this.lblAttackerATK = new System.Windows.Forms.Label();
-            this.lblSetCardMessage = new System.Windows.Forms.Label();
             this.lblOponentActionWarning = new System.Windows.Forms.Label();
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
@@ -1292,18 +1291,18 @@
             this.btnEndTurn.Visible = false;
             this.btnEndTurn.Click += new System.EventHandler(this.btnEndTurn_Click);
             // 
-            // lblSummonMessage
+            // lblActionInstruction
             // 
-            this.lblSummonMessage.BackColor = System.Drawing.Color.Gold;
-            this.lblSummonMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblSummonMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummonMessage.Location = new System.Drawing.Point(9, 370);
-            this.lblSummonMessage.Name = "lblSummonMessage";
-            this.lblSummonMessage.Size = new System.Drawing.Size(134, 47);
-            this.lblSummonMessage.TabIndex = 24;
-            this.lblSummonMessage.Text = "Select Tile to Dimension the Dice!";
-            this.lblSummonMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblSummonMessage.Visible = false;
+            this.lblActionInstruction.BackColor = System.Drawing.Color.Gold;
+            this.lblActionInstruction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblActionInstruction.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblActionInstruction.Location = new System.Drawing.Point(7, 241);
+            this.lblActionInstruction.Name = "lblActionInstruction";
+            this.lblActionInstruction.Size = new System.Drawing.Size(134, 79);
+            this.lblActionInstruction.TabIndex = 24;
+            this.lblActionInstruction.Text = "Select Tile to Dimension the Dice!";
+            this.lblActionInstruction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblActionInstruction.Visible = false;
             // 
             // PanelBattleMenu
             // 
@@ -1751,19 +1750,6 @@
             this.lblAttackerATK.TabIndex = 13;
             this.lblAttackerATK.Text = "ATK: 1800";
             // 
-            // lblSetCardMessage
-            // 
-            this.lblSetCardMessage.BackColor = System.Drawing.Color.Green;
-            this.lblSetCardMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblSetCardMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSetCardMessage.Location = new System.Drawing.Point(11, 326);
-            this.lblSetCardMessage.Name = "lblSetCardMessage";
-            this.lblSetCardMessage.Size = new System.Drawing.Size(134, 37);
-            this.lblSetCardMessage.TabIndex = 27;
-            this.lblSetCardMessage.Text = "Select Tile to Set Card";
-            this.lblSetCardMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblSetCardMessage.Visible = false;
-            // 
             // lblOponentActionWarning
             // 
             this.lblOponentActionWarning.BackColor = System.Drawing.Color.Black;
@@ -1879,9 +1865,8 @@
             this.Controls.Add(this.PanelTurnStartMenu);
             this.Controls.Add(this.PanelBattleMenu);
             this.Controls.Add(this.lblOponentActionWarning);
-            this.Controls.Add(this.lblSetCardMessage);
             this.Controls.Add(this.btnEndTurn);
-            this.Controls.Add(this.lblSummonMessage);
+            this.Controls.Add(this.lblActionInstruction);
             this.Controls.Add(this.btnReturnToTurnMenu);
             this.Controls.Add(this.PanelDebug);
             this.Controls.Add(this.PanelDimenFormSelector);
@@ -2040,7 +2025,7 @@
         private System.Windows.Forms.Label lblTurnStartMessage;
         private System.Windows.Forms.Button btnReturnToTurnMenu;
         private System.Windows.Forms.Button btnEndTurn;
-        private System.Windows.Forms.Label lblSummonMessage;
+        private System.Windows.Forms.Label lblActionInstruction;
         private System.Windows.Forms.Panel PanelBattleMenu;
         private System.Windows.Forms.Panel PicDefender2;
         private System.Windows.Forms.PictureBox PicDefenderDestroyed;
@@ -2071,7 +2056,6 @@
         private System.Windows.Forms.Button btnBattleMenuAttack;
         private System.Windows.Forms.Label lblDefenderDEF;
         private System.Windows.Forms.Label lblAttackerATK;
-        private System.Windows.Forms.Label lblSetCardMessage;
         private System.Windows.Forms.Label lblOponentActionWarning;
         private System.Windows.Forms.Label lblMoveMenuCrestCount;
         private System.Windows.Forms.Panel PanelAttackControls;
