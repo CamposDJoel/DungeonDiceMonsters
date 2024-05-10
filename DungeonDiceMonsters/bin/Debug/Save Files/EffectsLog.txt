@@ -1,0 +1,3 @@
+Effect Activation: [DARKSymbol] - Origin Card Board ID: [0]
+Effect Activation: [WINDSymbol] - Origin Card Board ID: [1]
+Card Summoned: [Binding Chain] On Board ID: [8] Owned By: [RED] - Checking for Active Effects to Apply.
