@@ -912,7 +912,7 @@ namespace DungeonDiceMonsters
 
                 //If attacker monster has an advantage, enable the adv subpanel
                 bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
-                if (AttackerHasAdvantage)
+                if (AttackerHasAdvantage && Defender.Category == Category.Monster)
                 {
                     PanelAttackerAdvBonus.Visible = true;
                     //Show the + button at the start                    
@@ -957,7 +957,7 @@ namespace DungeonDiceMonsters
                     }
                     //If defender monster has an advantage, enable the adv subpanel
                     bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
-                    if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0)
+                    if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0 && Defender.Category == Category.Monster)
                     {
                         PanelDefenderAdvBonus.Visible = true;
                         //Show the + button at the start
