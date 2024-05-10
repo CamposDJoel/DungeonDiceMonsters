@@ -165,6 +165,10 @@ namespace DungeonDiceMonsters
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
 
+            //Load the CardInfo Panel
+            _CurrentTileSelected = _Tiles[0];
+            LoadCardInfoPanel();
+
             //Set the initial game state and start the turn start panel            
             LaunchTurnStartPanel();
 
@@ -338,6 +342,10 @@ namespace DungeonDiceMonsters
 
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
+
+            //Load the CardInfo Panel
+            _CurrentTileSelected = _Tiles[0];
+            LoadCardInfoPanel();
 
             //Set the initial game state and start the turn start panel            
             LaunchTurnStartPanel();
@@ -611,8 +619,8 @@ namespace DungeonDiceMonsters
                         lblStatsLP.Text = thisCard.LP.ToString();
                         lblCardText.Text = thisCard.ContinuousEffect;
                         lblAttackLeftAmount.Text = string.Empty;
-                        lblMovesLeftAmount.Text = string.Empty;
-                        lblMovesCostAmount.Text = string.Empty;
+                        lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
+                        lblMovesCostAmount.Text = thisCard.MoveCost.ToString();
                         lblAttackCostAmount.Text = string.Empty;
                         lblDefenseCostAmount.Text = string.Empty;
                         lblTurnCounters.Text = string.Empty;
@@ -642,17 +650,13 @@ namespace DungeonDiceMonsters
                             lblStatsDEF.Text = thisCard.DEF.ToString();
                             lblStatsLP.Text = thisCard.LP.ToString();
 
-                            if (thisCard.ATK > thisCard.ATK) { lblStatsATK.ForeColor = Color.Green; }
-                            else if (thisCard.ATK < thisCard.ATK) { lblStatsATK.ForeColor = Color.Red; }
+                            if (thisCard.ATK > thisCard.OriginalATK) { lblStatsATK.ForeColor = Color.Green; }
+                            else if (thisCard.ATK < thisCard.OriginalATK) { lblStatsATK.ForeColor = Color.Red; }
                             else { lblStatsATK.ForeColor = Color.White; }
 
-                            if (thisCard.DEF > thisCard.DEF) { lblStatsDEF.ForeColor = Color.Green; }
-                            else if (thisCard.DEF < thisCard.DEF) { lblStatsDEF.ForeColor = Color.Red; }
+                            if (thisCard.DEF > thisCard.OriginalDEF) { lblStatsDEF.ForeColor = Color.Green; }
+                            else if (thisCard.DEF < thisCard.OriginalDEF) { lblStatsDEF.ForeColor = Color.Red; }
                             else { lblStatsDEF.ForeColor = Color.White; }
-
-                            if (thisCard.LP > thisCard.LP) { lblStatsLP.ForeColor = Color.Green; }
-                            else if (thisCard.LP < thisCard.LP) { lblStatsLP.ForeColor = Color.Red; }
-                            else { lblStatsLP.ForeColor = Color.White; }
                         }
                         else
                         {

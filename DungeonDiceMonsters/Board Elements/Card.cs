@@ -59,6 +59,8 @@ namespace DungeonDiceMonsters
         public SecType SecType { get { return _cardInfo.SecType; } }
         public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
         public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
+        public int OriginalATK { get { return _cardInfo.ATK; } }
+        public int OriginalDEF { get { return _cardInfo.DEF; } }
         public int LP { get { return _CurrentLP; } }
         public Attribute Attribute { get { return _cardInfo.Attribute; } }
         public Category Category { get { return _cardInfo.Category; } }
