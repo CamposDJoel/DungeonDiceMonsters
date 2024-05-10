@@ -74,6 +74,15 @@
             this.btnActionAttack = new System.Windows.Forms.Button();
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
+            this.lblSpellboundCounters = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lblCounters = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblTurnCounters = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PicTurnCountersIcon = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblOnBoardBanner = new System.Windows.Forms.Label();
             this.lblDefenseCostAmount = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblAttackCostAmount = new System.Windows.Forms.Label();
@@ -188,6 +197,9 @@
             this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicTurnCountersIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).BeginInit();
             this.PanelDimenFormSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicCurrentForm)).BeginInit();
@@ -732,6 +744,15 @@
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelCardInfo.Controls.Add(this.lblSpellboundCounters);
+            this.PanelCardInfo.Controls.Add(this.pictureBox2);
+            this.PanelCardInfo.Controls.Add(this.lblCounters);
+            this.PanelCardInfo.Controls.Add(this.pictureBox1);
+            this.PanelCardInfo.Controls.Add(this.lblTurnCounters);
+            this.PanelCardInfo.Controls.Add(this.label3);
+            this.PanelCardInfo.Controls.Add(this.PicTurnCountersIcon);
+            this.PanelCardInfo.Controls.Add(this.label2);
+            this.PanelCardInfo.Controls.Add(this.lblOnBoardBanner);
             this.PanelCardInfo.Controls.Add(this.lblDefenseCostAmount);
             this.PanelCardInfo.Controls.Add(this.label11);
             this.PanelCardInfo.Controls.Add(this.lblAttackCostAmount);
@@ -756,27 +777,135 @@
             this.PanelCardInfo.Controls.Add(this.PicCardArtworkBottom);
             this.PanelCardInfo.Location = new System.Drawing.Point(787, 4);
             this.PanelCardInfo.Name = "PanelCardInfo";
-            this.PanelCardInfo.Size = new System.Drawing.Size(208, 290);
+            this.PanelCardInfo.Size = new System.Drawing.Size(208, 463);
             this.PanelCardInfo.TabIndex = 5;
+            // 
+            // lblSpellboundCounters
+            // 
+            this.lblSpellboundCounters.BackColor = System.Drawing.Color.Black;
+            this.lblSpellboundCounters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSpellboundCounters.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSpellboundCounters.ForeColor = System.Drawing.Color.White;
+            this.lblSpellboundCounters.Location = new System.Drawing.Point(162, 435);
+            this.lblSpellboundCounters.Name = "lblSpellboundCounters";
+            this.lblSpellboundCounters.Size = new System.Drawing.Size(20, 20);
+            this.lblSpellboundCounters.TabIndex = 40;
+            this.lblSpellboundCounters.Text = "9";
+            this.lblSpellboundCounters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(133, 431);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 39;
+            this.pictureBox2.TabStop = false;
+            // 
+            // lblCounters
+            // 
+            this.lblCounters.BackColor = System.Drawing.Color.Black;
+            this.lblCounters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCounters.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCounters.ForeColor = System.Drawing.Color.White;
+            this.lblCounters.Location = new System.Drawing.Point(103, 435);
+            this.lblCounters.Name = "lblCounters";
+            this.lblCounters.Size = new System.Drawing.Size(20, 20);
+            this.lblCounters.TabIndex = 38;
+            this.lblCounters.Text = "9";
+            this.lblCounters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(74, 431);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 37;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblTurnCounters
+            // 
+            this.lblTurnCounters.BackColor = System.Drawing.Color.Black;
+            this.lblTurnCounters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblTurnCounters.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurnCounters.ForeColor = System.Drawing.Color.White;
+            this.lblTurnCounters.Location = new System.Drawing.Point(43, 435);
+            this.lblTurnCounters.Name = "lblTurnCounters";
+            this.lblTurnCounters.Size = new System.Drawing.Size(20, 20);
+            this.lblTurnCounters.TabIndex = 36;
+            this.lblTurnCounters.Text = "9";
+            this.lblTurnCounters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(24, 417);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(152, 12);
+            this.label3.TabIndex = 35;
+            this.label3.Text = "------------Counters------------";
+            // 
+            // PicTurnCountersIcon
+            // 
+            this.PicTurnCountersIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicTurnCountersIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicTurnCountersIcon.Image")));
+            this.PicTurnCountersIcon.Location = new System.Drawing.Point(14, 431);
+            this.PicTurnCountersIcon.Name = "PicTurnCountersIcon";
+            this.PicTurnCountersIcon.Size = new System.Drawing.Size(28, 28);
+            this.PicTurnCountersIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicTurnCountersIcon.TabIndex = 34;
+            this.PicTurnCountersIcon.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(23, 354);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(155, 12);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "----------Action Costs----------";
+            // 
+            // lblOnBoardBanner
+            // 
+            this.lblOnBoardBanner.AutoSize = true;
+            this.lblOnBoardBanner.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOnBoardBanner.ForeColor = System.Drawing.Color.White;
+            this.lblOnBoardBanner.Location = new System.Drawing.Point(21, 301);
+            this.lblOnBoardBanner.Name = "lblOnBoardBanner";
+            this.lblOnBoardBanner.Size = new System.Drawing.Size(157, 12);
+            this.lblOnBoardBanner.TabIndex = 32;
+            this.lblOnBoardBanner.Text = "-------Available Actions-------";
             // 
             // lblDefenseCostAmount
             // 
             this.lblDefenseCostAmount.BackColor = System.Drawing.Color.Black;
             this.lblDefenseCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDefenseCostAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDefenseCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblDefenseCostAmount.Location = new System.Drawing.Point(188, 271);
+            this.lblDefenseCostAmount.Location = new System.Drawing.Point(141, 384);
             this.lblDefenseCostAmount.Name = "lblDefenseCostAmount";
             this.lblDefenseCostAmount.Size = new System.Drawing.Size(14, 15);
             this.lblDefenseCostAmount.TabIndex = 31;
+            this.lblDefenseCostAmount.Text = "9";
             // 
             // label11
             // 
             this.label11.BackColor = System.Drawing.Color.Black;
             this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(110, 271);
+            this.label11.Location = new System.Drawing.Point(45, 384);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(77, 15);
+            this.label11.Size = new System.Drawing.Size(95, 15);
             this.label11.TabIndex = 30;
             this.label11.Text = "Defense Cost:";
             // 
@@ -784,20 +913,23 @@
             // 
             this.lblAttackCostAmount.BackColor = System.Drawing.Color.Black;
             this.lblAttackCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackCostAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAttackCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblAttackCostAmount.Location = new System.Drawing.Point(68, 271);
+            this.lblAttackCostAmount.Location = new System.Drawing.Point(141, 368);
             this.lblAttackCostAmount.Name = "lblAttackCostAmount";
             this.lblAttackCostAmount.Size = new System.Drawing.Size(14, 15);
             this.lblAttackCostAmount.TabIndex = 29;
+            this.lblAttackCostAmount.Text = "9";
             // 
             // label9
             // 
             this.label9.BackColor = System.Drawing.Color.Black;
             this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(0, 271);
+            this.label9.Location = new System.Drawing.Point(45, 368);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 15);
+            this.label9.Size = new System.Drawing.Size(95, 15);
             this.label9.TabIndex = 28;
             this.label9.Text = "Attack Cost:";
             // 
@@ -805,20 +937,23 @@
             // 
             this.lblMovesCostAmount.BackColor = System.Drawing.Color.Black;
             this.lblMovesCostAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMovesCostAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMovesCostAmount.ForeColor = System.Drawing.Color.White;
-            this.lblMovesCostAmount.Location = new System.Drawing.Point(124, 252);
+            this.lblMovesCostAmount.Location = new System.Drawing.Point(141, 400);
             this.lblMovesCostAmount.Name = "lblMovesCostAmount";
             this.lblMovesCostAmount.Size = new System.Drawing.Size(14, 15);
             this.lblMovesCostAmount.TabIndex = 27;
+            this.lblMovesCostAmount.Text = "9";
             // 
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.Black;
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(60, 252);
+            this.label7.Location = new System.Drawing.Point(45, 400);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(63, 15);
+            this.label7.Size = new System.Drawing.Size(95, 15);
             this.label7.TabIndex = 26;
             this.label7.Text = "Move Cost:";
             // 
@@ -826,62 +961,70 @@
             // 
             this.lblMovesLeftAmount.BackColor = System.Drawing.Color.Black;
             this.lblMovesLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMovesLeftAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMovesLeftAmount.ForeColor = System.Drawing.Color.White;
-            this.lblMovesLeftAmount.Location = new System.Drawing.Point(190, 233);
+            this.lblMovesLeftAmount.Location = new System.Drawing.Point(133, 333);
             this.lblMovesLeftAmount.Name = "lblMovesLeftAmount";
-            this.lblMovesLeftAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblMovesLeftAmount.Size = new System.Drawing.Size(35, 15);
             this.lblMovesLeftAmount.TabIndex = 25;
+            this.lblMovesLeftAmount.Text = "9 / 9";
             // 
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.Black;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(120, 233);
+            this.label5.Location = new System.Drawing.Point(34, 333);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 15);
+            this.label5.Size = new System.Drawing.Size(95, 15);
             this.label5.TabIndex = 24;
-            this.label5.Text = "Moves Left:";
+            this.label5.Text = "Avail. Moves:";
             // 
             // lblAttackLeftAmount
             // 
             this.lblAttackLeftAmount.BackColor = System.Drawing.Color.Black;
             this.lblAttackLeftAmount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackLeftAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAttackLeftAmount.ForeColor = System.Drawing.Color.White;
-            this.lblAttackLeftAmount.Location = new System.Drawing.Point(70, 233);
+            this.lblAttackLeftAmount.Location = new System.Drawing.Point(133, 317);
             this.lblAttackLeftAmount.Name = "lblAttackLeftAmount";
-            this.lblAttackLeftAmount.Size = new System.Drawing.Size(14, 15);
+            this.lblAttackLeftAmount.Size = new System.Drawing.Size(35, 15);
             this.lblAttackLeftAmount.TabIndex = 23;
+            this.lblAttackLeftAmount.Text = "9 / 9";
             // 
             // lblAttackLeftLabel
             // 
             this.lblAttackLeftLabel.BackColor = System.Drawing.Color.Black;
             this.lblAttackLeftLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttackLeftLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAttackLeftLabel.ForeColor = System.Drawing.Color.White;
-            this.lblAttackLeftLabel.Location = new System.Drawing.Point(0, 233);
+            this.lblAttackLeftLabel.Location = new System.Drawing.Point(34, 317);
             this.lblAttackLeftLabel.Name = "lblAttackLeftLabel";
-            this.lblAttackLeftLabel.Size = new System.Drawing.Size(69, 15);
+            this.lblAttackLeftLabel.Size = new System.Drawing.Size(95, 15);
             this.lblAttackLeftLabel.TabIndex = 22;
-            this.lblAttackLeftLabel.Text = "Attacks Left:";
+            this.lblAttackLeftLabel.Text = "Avail. Attacks:";
             // 
             // lblStatsLP
             // 
             this.lblStatsLP.BackColor = System.Drawing.Color.Black;
             this.lblStatsLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsLP.ForeColor = System.Drawing.Color.White;
-            this.lblStatsLP.Location = new System.Drawing.Point(167, 72);
+            this.lblStatsLP.Location = new System.Drawing.Point(135, 104);
             this.lblStatsLP.Name = "lblStatsLP";
-            this.lblStatsLP.Size = new System.Drawing.Size(36, 15);
+            this.lblStatsLP.Size = new System.Drawing.Size(68, 22);
             this.lblStatsLP.TabIndex = 21;
             // 
             // lblStatsLPLabel
             // 
             this.lblStatsLPLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsLPLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsLPLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsLPLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsLPLabel.Location = new System.Drawing.Point(138, 72);
+            this.lblStatsLPLabel.Location = new System.Drawing.Point(83, 104);
             this.lblStatsLPLabel.Name = "lblStatsLPLabel";
-            this.lblStatsLPLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsLPLabel.Size = new System.Drawing.Size(52, 22);
             this.lblStatsLPLabel.TabIndex = 20;
             this.lblStatsLPLabel.Text = "LP";
             // 
@@ -889,20 +1032,22 @@
             // 
             this.lblStatsDEF.BackColor = System.Drawing.Color.Black;
             this.lblStatsDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsDEF.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsDEF.ForeColor = System.Drawing.Color.White;
-            this.lblStatsDEF.Location = new System.Drawing.Point(98, 72);
+            this.lblStatsDEF.Location = new System.Drawing.Point(135, 81);
             this.lblStatsDEF.Name = "lblStatsDEF";
-            this.lblStatsDEF.Size = new System.Drawing.Size(38, 15);
+            this.lblStatsDEF.Size = new System.Drawing.Size(68, 22);
             this.lblStatsDEF.TabIndex = 19;
             // 
             // lblStatsDEFLabel
             // 
             this.lblStatsDEFLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsDEFLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsDEFLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsDEFLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsDEFLabel.Location = new System.Drawing.Point(69, 72);
+            this.lblStatsDEFLabel.Location = new System.Drawing.Point(83, 81);
             this.lblStatsDEFLabel.Name = "lblStatsDEFLabel";
-            this.lblStatsDEFLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsDEFLabel.Size = new System.Drawing.Size(52, 22);
             this.lblStatsDEFLabel.TabIndex = 18;
             this.lblStatsDEFLabel.Text = "DEF";
             // 
@@ -910,19 +1055,20 @@
             // 
             this.lblStatsATK.BackColor = System.Drawing.Color.Black;
             this.lblStatsATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsATK.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsATK.ForeColor = System.Drawing.Color.White;
-            this.lblStatsATK.Location = new System.Drawing.Point(29, 72);
+            this.lblStatsATK.Location = new System.Drawing.Point(135, 58);
             this.lblStatsATK.Name = "lblStatsATK";
-            this.lblStatsATK.Size = new System.Drawing.Size(38, 15);
+            this.lblStatsATK.Size = new System.Drawing.Size(68, 22);
             this.lblStatsATK.TabIndex = 17;
             // 
             // lblCardText
             // 
             this.lblCardText.BackColor = System.Drawing.Color.Black;
             this.lblCardText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardText.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCardText.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardText.ForeColor = System.Drawing.Color.White;
-            this.lblCardText.Location = new System.Drawing.Point(0, 88);
+            this.lblCardText.Location = new System.Drawing.Point(0, 151);
             this.lblCardText.Name = "lblCardText";
             this.lblCardText.Size = new System.Drawing.Size(205, 145);
             this.lblCardText.TabIndex = 12;
@@ -931,10 +1077,11 @@
             // 
             this.lblStatsATKLabel.BackColor = System.Drawing.Color.Black;
             this.lblStatsATKLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStatsATKLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatsATKLabel.ForeColor = System.Drawing.Color.White;
-            this.lblStatsATKLabel.Location = new System.Drawing.Point(0, 72);
+            this.lblStatsATKLabel.Location = new System.Drawing.Point(83, 58);
             this.lblStatsATKLabel.Name = "lblStatsATKLabel";
-            this.lblStatsATKLabel.Size = new System.Drawing.Size(30, 15);
+            this.lblStatsATKLabel.Size = new System.Drawing.Size(52, 22);
             this.lblStatsATKLabel.TabIndex = 16;
             this.lblStatsATKLabel.Text = "ATK";
             // 
@@ -942,49 +1089,58 @@
             // 
             this.lblAttribute.BackColor = System.Drawing.Color.Black;
             this.lblAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAttribute.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAttribute.ForeColor = System.Drawing.Color.White;
-            this.lblAttribute.Location = new System.Drawing.Point(156, 37);
+            this.lblAttribute.Location = new System.Drawing.Point(0, 131);
             this.lblAttribute.Name = "lblAttribute";
-            this.lblAttribute.Size = new System.Drawing.Size(48, 15);
+            this.lblAttribute.Size = new System.Drawing.Size(55, 18);
             this.lblAttribute.TabIndex = 15;
+            this.lblAttribute.Text = "DIVINE";
             // 
             // lblCardType
             // 
             this.lblCardType.BackColor = System.Drawing.Color.Black;
             this.lblCardType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCardType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardType.ForeColor = System.Drawing.Color.White;
-            this.lblCardType.Location = new System.Drawing.Point(77, 53);
+            this.lblCardType.Location = new System.Drawing.Point(56, 131);
             this.lblCardType.Name = "lblCardType";
-            this.lblCardType.Size = new System.Drawing.Size(127, 15);
+            this.lblCardType.Size = new System.Drawing.Size(150, 18);
             this.lblCardType.TabIndex = 4;
+            this.lblCardType.Text = "Beast-Warrior/Fusion";
             // 
             // lblCardLevel
             // 
             this.lblCardLevel.BackColor = System.Drawing.Color.Black;
             this.lblCardLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCardLevel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardLevel.ForeColor = System.Drawing.Color.White;
-            this.lblCardLevel.Location = new System.Drawing.Point(77, 37);
+            this.lblCardLevel.Location = new System.Drawing.Point(4, 53);
             this.lblCardLevel.Name = "lblCardLevel";
-            this.lblCardLevel.Size = new System.Drawing.Size(35, 15);
+            this.lblCardLevel.Size = new System.Drawing.Size(47, 18);
             this.lblCardLevel.TabIndex = 3;
+            this.lblCardLevel.Text = "Lv. 12";
             // 
             // lblCardName
             // 
             this.lblCardName.BackColor = System.Drawing.Color.Black;
             this.lblCardName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCardName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardName.ForeColor = System.Drawing.Color.White;
-            this.lblCardName.Location = new System.Drawing.Point(77, 2);
+            this.lblCardName.Location = new System.Drawing.Point(3, 2);
             this.lblCardName.Name = "lblCardName";
-            this.lblCardName.Size = new System.Drawing.Size(128, 34);
+            this.lblCardName.Size = new System.Drawing.Size(202, 49);
             this.lblCardName.TabIndex = 2;
+            this.lblCardName.Text = "Gaia the Dragon Champion";
+            this.lblCardName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PicCardArtworkBottom
             // 
             this.PicCardArtworkBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicCardArtworkBottom.Image = ((System.Drawing.Image)(resources.GetObject("PicCardArtworkBottom.Image")));
-            this.PicCardArtworkBottom.Location = new System.Drawing.Point(0, 2);
+            this.PicCardArtworkBottom.Location = new System.Drawing.Point(4, 53);
             this.PicCardArtworkBottom.Name = "PicCardArtworkBottom";
-            this.PicCardArtworkBottom.Size = new System.Drawing.Size(68, 68);
+            this.PicCardArtworkBottom.Size = new System.Drawing.Size(77, 77);
             this.PicCardArtworkBottom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicCardArtworkBottom.TabIndex = 1;
             this.PicCardArtworkBottom.TabStop = false;
@@ -1219,7 +1375,7 @@
             this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
             this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
             this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartMessage);
-            this.PanelTurnStartMenu.Location = new System.Drawing.Point(250, 262);
+            this.PanelTurnStartMenu.Location = new System.Drawing.Point(250, 342);
             this.PanelTurnStartMenu.Name = "PanelTurnStartMenu";
             this.PanelTurnStartMenu.Size = new System.Drawing.Size(451, 248);
             this.PanelTurnStartMenu.TabIndex = 22;
@@ -1296,7 +1452,7 @@
             this.lblActionInstruction.BackColor = System.Drawing.Color.Gold;
             this.lblActionInstruction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblActionInstruction.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblActionInstruction.Location = new System.Drawing.Point(7, 241);
+            this.lblActionInstruction.Location = new System.Drawing.Point(8, 324);
             this.lblActionInstruction.Name = "lblActionInstruction";
             this.lblActionInstruction.Size = new System.Drawing.Size(134, 79);
             this.lblActionInstruction.TabIndex = 24;
@@ -1755,7 +1911,7 @@
             this.lblOponentActionWarning.BackColor = System.Drawing.Color.Black;
             this.lblOponentActionWarning.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOponentActionWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOponentActionWarning.Location = new System.Drawing.Point(814, 324);
+            this.lblOponentActionWarning.Location = new System.Drawing.Point(7, 236);
             this.lblOponentActionWarning.Name = "lblOponentActionWarning";
             this.lblOponentActionWarning.Size = new System.Drawing.Size(138, 82);
             this.lblOponentActionWarning.TabIndex = 4;
@@ -1799,7 +1955,7 @@
             this.PicPhaseBanner.BackColor = System.Drawing.Color.Black;
             this.PicPhaseBanner.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PicPhaseBanner.Image = ((System.Drawing.Image)(resources.GetObject("PicPhaseBanner.Image")));
-            this.PicPhaseBanner.Location = new System.Drawing.Point(787, 419);
+            this.PicPhaseBanner.Location = new System.Drawing.Point(787, 490);
             this.PicPhaseBanner.Name = "PicPhaseBanner";
             this.PicPhaseBanner.Size = new System.Drawing.Size(202, 75);
             this.PicPhaseBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1815,7 +1971,7 @@
             this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectDescriiption);
             this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectType);
             this.PanelOnSummonEffect.Controls.Add(this.PicOnSummonCardImage);
-            this.PanelOnSummonEffect.Location = new System.Drawing.Point(291, 147);
+            this.PanelOnSummonEffect.Location = new System.Drawing.Point(291, 230);
             this.PanelOnSummonEffect.Name = "PanelOnSummonEffect";
             this.PanelOnSummonEffect.Size = new System.Drawing.Size(406, 267);
             this.PanelOnSummonEffect.TabIndex = 30;
@@ -1905,6 +2061,10 @@
             this.PanelMoveMenu.ResumeLayout(false);
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelCardInfo.ResumeLayout(false);
+            this.PanelCardInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicTurnCountersIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtworkBottom)).EndInit();
             this.PanelDimenFormSelector.ResumeLayout(false);
             this.PanelDimenFormSelector.PerformLayout();
@@ -2083,5 +2243,14 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblAttackCostAmount;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblOnBoardBanner;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTurnCounters;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox PicTurnCountersIcon;
+        private System.Windows.Forms.Label lblSpellboundCounters;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label lblCounters;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

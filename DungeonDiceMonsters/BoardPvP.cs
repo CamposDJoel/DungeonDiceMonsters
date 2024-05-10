@@ -587,6 +587,14 @@ namespace DungeonDiceMonsters
                     lblStatsDEF.Text = string.Empty;
                     lblStatsLP.Text = string.Empty;
                     lblCardText.Text = "Opponent's Facedown card.";
+                    lblAttackLeftAmount.Text = string.Empty;
+                    lblMovesLeftAmount.Text = string.Empty;
+                    lblMovesCostAmount.Text = string.Empty;
+                    lblAttackCostAmount.Text = string.Empty;
+                    lblDefenseCostAmount.Text = string.Empty;
+                    lblTurnCounters.Text = string.Empty;
+                    lblCounters.Text = string.Empty;
+                    lblSpellboundCounters.Text = string.Empty;
                 }
                 else
                 {
@@ -607,6 +615,9 @@ namespace DungeonDiceMonsters
                         lblMovesCostAmount.Text = string.Empty;
                         lblAttackCostAmount.Text = string.Empty;
                         lblDefenseCostAmount.Text = string.Empty;
+                        lblTurnCounters.Text = string.Empty;
+                        lblCounters.Text = string.Empty;
+                        lblSpellboundCounters.Text = string.Empty;
                     }
                     else
                     {
@@ -679,10 +690,16 @@ namespace DungeonDiceMonsters
                         }
                         lblCardText.Text = fullcardtext;
 
-                        if (thisCard.Category == Category.Monster) { lblAttackLeftAmount.Text = thisCard.AttacksAvaiable.ToString(); }
+                        if (thisCard.Category == Category.Monster) 
+                        {
+                            lblAttackLeftAmount.Text = string.Format("{0} / {1}", thisCard.AttacksAvaiable, thisCard.AttacksPerTurn);
+                        }
                         else { lblAttackLeftAmount.Text = string.Empty; }
 
-                        if (thisCard.Category == Category.Monster) { lblMovesLeftAmount.Text = thisCard.MovesAvaiable.ToString(); }
+                        if (thisCard.Category == Category.Monster) 
+                        { 
+                            lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
+                        }
                         else { lblMovesLeftAmount.Text = string.Empty; }
                        
                         if (thisCard.Category == Category.Monster) { lblMovesCostAmount.Text = thisCard.MoveCost.ToString(); }
@@ -693,6 +710,10 @@ namespace DungeonDiceMonsters
 
                         if (thisCard.Category == Category.Monster) { lblDefenseCostAmount.Text = thisCard.DefenseCost.ToString(); }
                         else { lblDefenseCostAmount.Text = string.Empty; }
+
+                        lblTurnCounters.Text = thisCard.TurnCounters.ToString();
+                        lblCounters.Text = thisCard.Counters.ToString();
+                        lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
                     }
                 }
             }
@@ -709,6 +730,14 @@ namespace DungeonDiceMonsters
                 lblStatsDEF.Text = string.Empty;
                 lblStatsLP.Text = string.Empty;
                 lblCardText.Text = string.Empty;
+                lblAttackLeftAmount.Text = string.Empty;
+                lblMovesLeftAmount.Text = string.Empty;
+                lblMovesCostAmount.Text = string.Empty;
+                lblAttackCostAmount.Text = string.Empty;
+                lblDefenseCostAmount.Text = string.Empty;
+                lblTurnCounters.Text = string.Empty;
+                lblCounters.Text = string.Empty;
+                lblSpellboundCounters.Text = string.Empty;
             }
         }
         private void DisplayMoveCandidates()
