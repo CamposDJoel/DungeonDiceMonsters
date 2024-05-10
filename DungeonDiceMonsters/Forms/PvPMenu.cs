@@ -273,13 +273,32 @@ namespace DungeonDiceMonsters
                     //Set the Data Received and send it thur the non-static method
                     //to the active instance of the PvPMenu form to be processed.
                     string DATARECEIVED = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
-                    StaticPvPMenu.MessageReceived(DATARECEIVED);
 
-                    //If the Data received was the opponent disconnect notification, end the loop to disconnect client
-                    if (DATARECEIVED == "[OPPONENT DISCONNECT]" || DATARECEIVED == "[GAME OVER]")
+                    //Before you send the data. DATARECEIVED may content multiple messages from the server, split them
+                    string[] MessagesReceived = DATARECEIVED.Split('$');
+
+                    //Now use a for loop to handle each message individually
+
+                    bool disconectMessageReceived = false; 
+                    for(int x = 0; x < MessagesReceived.Length; x++) 
                     {
-                        break;
+                        string Message = MessagesReceived[x];   
+                        if(Message != "")
+                        {
+                            StaticPvPMenu.MessageReceived(Message);
+
+                            //If the Data received was the opponent disconnect notification, end the loop to disconnect client
+                            if (Message == "[OPPONENT DISCONNECT]" || Message == "[GAME OVER]")
+                            {
+                                disconectMessageReceived = true;
+                                break;
+                            }
+                        }
                     }
+
+                    //At the end of the Messages Processing, if "disconnectMessageReceived" flag was raise
+                    //end the while loop to end the thread
+                    if(disconectMessageReceived) { break; }
                 }
             }
             catch

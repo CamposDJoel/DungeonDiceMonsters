@@ -456,18 +456,29 @@ namespace DungeonDiceMonsters
             UpdateBanner("SummonPhase");
 
             lblActionInstruction.Visible = true;
+            PanelDimenFormSelector.Visible = true;
 
             if (UserPlayerColor == TURNPLAYER)
             {
                 lblActionInstruction.Text = "Select Tile to Dimension the Dice and summon!";
                 //Display the Dimension shape selector
                 UpdateDimensionPreview();
-                PanelDimenFormSelector.Visible = true;
+                //Enable the bttons of the Dimension Form Selector
+                btnPreviousForm.Enabled = true;
+                btnNextForm.Enabled = true;
+                BtnFormTurnLeft.Enabled = true;
+                btnFormFlip.Enabled = true;
+                BtnFormTurnRight.Enabled = true;
             }
             else
             {
                 lblActionInstruction.Text = "Opponent is Selecting a Tile to Dimension the Dice and summon!";
-                PanelDimenFormSelector.Visible = false;
+                //Disable the bttons of the Dimension Form Selector
+                btnPreviousForm.Enabled = false;
+                btnNextForm.Enabled = false;
+                BtnFormTurnLeft.Enabled = false;
+                btnFormFlip.Enabled = false;
+                BtnFormTurnRight.Enabled = false;
             }
         }
         public void SetupSetCardPhase(CardInfo card)
@@ -771,14 +782,14 @@ namespace DungeonDiceMonsters
         private void PlaceMoveMenu()
         {
             Point referencePoint = _CurrentTileSelected.Location;
-            int X_Location = Cursor.Position.X;
-            int Y_Location = Cursor.Position.Y;
+            int X_Location = referencePoint.X;
+            int Y_Location = referencePoint.Y;
 
             int newX = referencePoint.X;
             int newY = referencePoint.Y;
 
             //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
-            if (X_Location > 700)
+            if (X_Location > 500)
             {
                 newX = newX - 83;
             }
@@ -789,7 +800,7 @@ namespace DungeonDiceMonsters
             }
 
             //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
-            if(Y_Location < 100)
+            if(Y_Location < 30)
             {
                 newY = newY + 48;
             }
@@ -804,14 +815,14 @@ namespace DungeonDiceMonsters
         private void PlaceAttackMenu()
         {
             Point referencePoint = _AttackerTile.Location;
-            int X_Location = Cursor.Position.X;
-            int Y_Location = Cursor.Position.Y;
+            int X_Location = referencePoint.X;
+            int Y_Location = referencePoint.Y;
 
             int newX = referencePoint.X;
             int newY = referencePoint.Y;
 
             //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
-            if (X_Location > 700)
+            if (X_Location > 500)
             {
                 newX = newX - 83;
             }
@@ -822,7 +833,7 @@ namespace DungeonDiceMonsters
             }
 
             //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
-            if (Y_Location < 100)
+            if (Y_Location < 30)
             {
                 newY = newY + 48;
             }
@@ -1586,9 +1597,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard))
                 {
-                    //SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
 
                 //Perform the action
@@ -1604,9 +1615,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard) && _Tiles[tileID].IsOccupied)
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard))
                 {
-                    //SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
 
                 //Perform the action
@@ -1615,6 +1626,12 @@ namespace DungeonDiceMonsters
         }
         private void Tile_Click(object sender, EventArgs e)
         {
+            //Extract the TileID from the tile in action
+            //set the current tile selected
+            PictureBox thisPicture = sender as PictureBox;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            _CurrentTileSelected = _Tiles[tileID];
+
             if (UserPlayerColor == TURNPLAYER)
             {
                 if (_CurrentGameState == GameState.MainPhaseBoard)
@@ -1637,14 +1654,11 @@ namespace DungeonDiceMonsters
                 }
                 else if (_CurrentGameState == GameState.MovingCard)
                 {
-                    PictureBox thisPicture = (PictureBox)sender;
-                    int tileId = Convert.ToInt32(thisPicture.Tag);
-
                     //check this tile is one of the candidates
                     bool thisIsACandidate = false;
                     for (int x = 0; x < _MoveCandidates.Count; x++)
                     {
-                        if (_MoveCandidates[x].ID == tileId)
+                        if (_MoveCandidates[x].ID == tileID)
                         {
                             thisIsACandidate = true; break;
                         }
@@ -1653,10 +1667,10 @@ namespace DungeonDiceMonsters
                     if (thisIsACandidate)
                     {
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("[CLICK TILE TO MOVE]|{0}|{1}", _CurrentGameState.ToString(), tileId));
+                        SendMessageToServer(string.Format("[CLICK TILE TO MOVE]|{0}|{1}", _CurrentGameState.ToString(), tileID));
 
                         //Perform the action
-                        TileClick_MoveCard_Base(tileId);
+                        TileClick_MoveCard_Base(tileID);
                     }
                     else
                     {
@@ -1665,14 +1679,11 @@ namespace DungeonDiceMonsters
                 }
                 else if (_CurrentGameState == GameState.SelectingAttackTarger)
                 {
-                    PictureBox thisPicture = (PictureBox)sender;
-                    int tileId = Convert.ToInt32(thisPicture.Tag);
-
                     //check this tile is one of the candidates
                     bool thisIsACandidate = false;
                     for (int x = 0; x < _AttackCandidates.Count; x++)
                     {
-                        if (_AttackCandidates[x].ID == tileId)
+                        if (_AttackCandidates[x].ID == tileID)
                         {
                             thisIsACandidate = true;
                             break;
@@ -1682,10 +1693,10 @@ namespace DungeonDiceMonsters
                     if (thisIsACandidate)
                     {
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("[CLICK TILE TO ATTACK]|{0}|{1}", _CurrentGameState.ToString(), tileId));
+                        SendMessageToServer(string.Format("[CLICK TILE TO ATTACK]|{0}|{1}", _CurrentGameState.ToString(), tileID));
 
                         //Perform the action
-                        TileClick_AttackTarget_Base(tileId);
+                        TileClick_AttackTarget_Base(tileID);
                     }
                     else
                     {
@@ -1694,14 +1705,11 @@ namespace DungeonDiceMonsters
                 }
                 else if (_CurrentGameState == GameState.SetCard)
                 {
-                    PictureBox thisPicture = (PictureBox)sender;
-                    int tileId = Convert.ToInt32(thisPicture.Tag);
-
                     //check this tile is one of the candidates
                     bool thisIsACandidate = false;
                     for (int x = 0; x < _SetCandidates.Count; x++)
                     {
-                        if (_SetCandidates[x].ID == tileId)
+                        if (_SetCandidates[x].ID == tileID)
                         {
                             thisIsACandidate = true;
                             break;
@@ -1715,7 +1723,7 @@ namespace DungeonDiceMonsters
                         //Set Card here
                         Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
                         _CardsOnBoard.Add(thisCard);
-                        _Tiles[tileId].SetCard(thisCard);
+                        _Tiles[tileID].SetCard(thisCard);
 
                         //Once this action is completed, move to the main phase
                         //TODO: Update this lblSetCardMessage.Visible = false;
@@ -1729,16 +1737,13 @@ namespace DungeonDiceMonsters
                 }
                 else if (_CurrentGameState == GameState.SummonCard)
                 {
-                    PictureBox thisPicture = (PictureBox)sender;
-                    int tileId = Convert.ToInt32(thisPicture.Tag);
-
                     if (_validDimension)
                     {
                         //Send the action message to the server
-                        SendMessageToServer("[CLICK TILE TO SUMMON]|" + _CurrentGameState.ToString() + "|" + tileId);
+                        SendMessageToServer("[CLICK TILE TO SUMMON]|" + _CurrentGameState.ToString() + "|" + tileID);
 
                         //Perform the action
-                        TileClick_SummonCard_Base(tileId);
+                        TileClick_SummonCard_Base(tileID);
                     }
                     else
                     {
@@ -1970,6 +1975,7 @@ namespace DungeonDiceMonsters
         private void UpdateDimension_Base(int selectionID)
         {
             _CurrentDimensionForm = (DimensionForms)selectionID;
+            UpdateDimensionPreview();
         }
         #endregion
 
@@ -2261,7 +2267,7 @@ namespace DungeonDiceMonsters
 
                     //Check if it is valid or not (it becomes invalid if at least 1 tile is Null AND 
                     //if none of the tiles are adjecent to any other owned by the player)
-                    _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, UserPlayerColor);
+                    _validDimension = Dimension.IsThisDimensionValid(_dimensionTiles, TURNPLAYER);
 
                     //Draw the dimension shape
                     _dimensionTiles[0].MarkDimensionSummonTile();
@@ -2367,7 +2373,7 @@ namespace DungeonDiceMonsters
 
                 //Perform the on mouse enter even, this is for the NON TURN PLAYER who
                 //doesnt have hover actions happening on their end
-                OnMouseEnterPicture_Base(tileId);
+                //OnMouseEnterPicture_Base(tileId);
 
                 //Hide the End Turn Button, this wont reappear until the player is done with the action
                 btnEndTurn.Visible = false;
@@ -2375,9 +2381,9 @@ namespace DungeonDiceMonsters
                 //Open the Action menu
                 //Set the location in relation to the Tile location and cursor location
                 Point referencePoint = _CurrentTileSelected.Location;
-                int X_Location = Cursor.Position.X;
+                int X_Location = referencePoint.X;
                 //IF the tile clicked is on the FAR RIGHT: Display the Action Menu on the left side of the Tile
-                if (X_Location > 700)
+                if (X_Location > 500)
                 {
                     PanelActionMenu.Location = new Point(referencePoint.X - 83, referencePoint.Y - 25);
                 }
@@ -2448,6 +2454,7 @@ namespace DungeonDiceMonsters
 
                 //Clean up the board
                 btnEndTurn.Visible = false;
+                lblActionInstruction.Visible = false;
 
                 //All 1 turn data is reset for all monsters on the board
                 //and All non-permanent spellbound counters are reduced.
@@ -2503,6 +2510,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.MovingCard;
 
                 _InitialTileMove = _CurrentTileSelected;
+                _PreviousTileMove = _InitialTileMove;
 
                 PanelActionMenu.Visible = false;
                 DisplayMoveCandidates();
@@ -2561,8 +2569,8 @@ namespace DungeonDiceMonsters
                 PanelMoveMenu.Visible = false;
 
                 //Return card to the OG spot
-                Card thiscard = _CurrentTileSelected.CardInPlace;
-                _CurrentTileSelected.RemoveCard();
+                Card thiscard = _PreviousTileMove.CardInPlace;
+                _PreviousTileMove.RemoveCard();
                 _InitialTileMove.MoveInCard(thiscard);
 
                 //Change the _current Selected card back to OG
@@ -2593,10 +2601,11 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
 
                 //Move the card to this location
-                Card thiscard = _CurrentTileSelected.CardInPlace;
+                Card thiscard = _PreviousTileMove.CardInPlace;
 
                 _Tiles[tileId].MoveInCard(thiscard);
-                _CurrentTileSelected.RemoveCard();
+                _PreviousTileMove.RemoveCard();
+                _PreviousTileMove.ReloadTileUI();
 
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
@@ -2605,9 +2614,8 @@ namespace DungeonDiceMonsters
                 }
 
                 //Now change the selection to this one tile
-                _CurrentTileSelected.ReloadTileUI();
-                _CurrentTileSelected = _Tiles[tileId];
-                _CurrentTileSelected.Hover();
+                _PreviousTileMove = _Tiles[tileId];
+                _PreviousTileMove.Hover();
                 UpdateDebugWindow();
 
                 //Drecease the available crests to use
@@ -2646,7 +2654,7 @@ namespace DungeonDiceMonsters
                 PanelMoveMenu.Visible = false;
 
                 //Flag that this card moved already this turn
-                _CurrentTileSelected.CardInPlace.RemoveMoveCounter();
+                _PreviousTileMove.CardInPlace.RemoveMoveCounter();
 
                 //Apply the amoutn of crests used
                 PlayerData TurnPlayerData = RedData;
@@ -2798,6 +2806,7 @@ namespace DungeonDiceMonsters
         private List<Card> _CardsOnBoard = new List<Card>();
         private List<Tile> _MoveCandidates = new List<Tile>();
         private Tile _InitialTileMove = null;
+        private Tile _PreviousTileMove = null;
         private int _TMPMoveCrestCount = 0;
         private List<Tile> _AttackCandidates = new List<Tile>();
         private Tile _AttackTarger;

@@ -196,7 +196,11 @@ namespace DDMPvPServer
             client.Close();
         }
         public static void SendMessage(string data, TcpClient recepient)
-        {
+        { 
+            //append the data to be send with a "$" this is going to be used by the client
+            //to split the messages recieved. 
+            data+="$";
+
             byte[] buffer = Encoding.ASCII.GetBytes(data);
 
             lock (_lock)
