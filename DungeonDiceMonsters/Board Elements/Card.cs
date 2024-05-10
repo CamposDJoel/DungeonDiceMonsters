@@ -89,6 +89,8 @@ namespace DungeonDiceMonsters
         public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
         public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
         public int SpellboundCounter { get { return _SpellboundCounter; } }
+        public int TurnCounters { get { return _TurnCounters; } }
+        public int Counters { get { return _Counters; } }
         #endregion
 
         #region On Board Counters and Flags
@@ -98,6 +100,8 @@ namespace DungeonDiceMonsters
         public int DefenseCost { get { return _DefenseCost; } }
         public int MovesAvaiable { get { return _MovesAvailable; } }
         public int AttacksAvaiable { get { return _AttacksAvailable; } }
+        public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
+        public int MovesPerTurn { get { return _BaseMovesPerTurn; } }
         #endregion
 
         #region Public Funtions
@@ -195,10 +199,12 @@ namespace DungeonDiceMonsters
         private int _DefenseCost = 1;
         private int _MovesAvailable = 1;
         private int _AttacksAvailable = 1;
+        private int _TurnCounters = 0;
+        private int _Counters = 0;
+        private int _SpellboundCounter = 0;
 
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
-        private int _SpellboundCounter = 0;
         private bool _IsPemanentSpellbound = false;
         #endregion
     }
