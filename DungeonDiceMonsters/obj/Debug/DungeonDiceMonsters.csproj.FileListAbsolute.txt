@@ -2,7 +2,6 @@ D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Dunge
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\DungeonDiceMonsters.exe
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\DungeonDiceMonsters.pdb
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.AssemblyReference.cache
-D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.SuggestedBindingRedirects.cache
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.Properties.Resources.resources
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.StartScreen.resources
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.GenerateResource.cache
@@ -28,7 +27,6 @@ D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Newto
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\bin\Debug\Newtonsoft.Json.xml
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DeckBuilder.resources
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.JsonGenerator.resources
-D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.csproj.CopyComplete
 D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.MainMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.MainMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.FreeDuelMenu.resources
@@ -38,3 +36,11 @@ D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDic
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DiceSelectionAITest.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.BoardPvP.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.PvPMenu.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.BoardForm.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DiceSelectionAITest.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.BoardPvP.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.FreeDuelMenu.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.RollDiceMenu.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.RollDiceCPU.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.PvPMenu.resources
+D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonD.36C11CDB.Up2Date
