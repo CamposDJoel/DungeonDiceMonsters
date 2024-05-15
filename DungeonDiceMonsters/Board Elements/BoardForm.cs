@@ -102,14 +102,14 @@ namespace DungeonDiceMonsters
                 if (tile.ID > 13)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 13];
-                    tile.SetAdjecentTileLink(TileDirection.North, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.North, linkedTile);
                 }
 
                 //assign south links
                 if (tile.ID < 216)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 13];
-                    tile.SetAdjecentTileLink(TileDirection.South, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.South, linkedTile);
                 }
 
                 //assign east links
@@ -119,7 +119,7 @@ namespace DungeonDiceMonsters
                     && tile.ID != 207 && tile.ID != 220 && tile.ID != 233)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 1];
-                    tile.SetAdjecentTileLink(TileDirection.East, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.East, linkedTile);
                 }
 
                 //assign west links
@@ -129,7 +129,7 @@ namespace DungeonDiceMonsters
                     && tile.ID != 195 && tile.ID != 208 && tile.ID != 221)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 1];
-                    tile.SetAdjecentTileLink(TileDirection.West, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.West, linkedTile);
                 }
 
             }
@@ -241,14 +241,14 @@ namespace DungeonDiceMonsters
                 if (tile.ID > 13)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 13];
-                    tile.SetAdjecentTileLink(TileDirection.North, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.North, linkedTile);
                 }
 
                 //assign south links
                 if (tile.ID < 216)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 13];
-                    tile.SetAdjecentTileLink(TileDirection.South, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.South, linkedTile);
                 }
 
                 //assign east links
@@ -258,7 +258,7 @@ namespace DungeonDiceMonsters
                     && tile.ID != 207 && tile.ID != 220 && tile.ID != 233)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 1];
-                    tile.SetAdjecentTileLink(TileDirection.East, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.East, linkedTile);
                 }
 
                 //assign west links
@@ -268,7 +268,7 @@ namespace DungeonDiceMonsters
                     && tile.ID != 195 && tile.ID != 208 && tile.ID != 221)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 1];
-                    tile.SetAdjecentTileLink(TileDirection.West, linkedTile);
+                    tile.SetAdjecentTileLink(Tile.TileDirection.West, linkedTile);
                 }
 
             }
@@ -671,9 +671,9 @@ namespace DungeonDiceMonsters
             _MoveCandidates.Clear();
 
             //Display arrows to move
-            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.North))
+            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.North))
             {
-                Tile northTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.North);
+                Tile northTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.North);
                 if (northTile.Owner != PlayerColor.NONE)
                 {
                     if (!(northTile.IsOccupied))
@@ -685,9 +685,9 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.South))
+            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.South))
             {
-                Tile southTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.South);
+                Tile southTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.South);
                 if (southTile.Owner != PlayerColor.NONE)
                 {
                     if (!(southTile.IsOccupied))
@@ -699,9 +699,9 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.East))
+            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.East))
             {
-                Tile eastTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.East);
+                Tile eastTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.East);
                 if (eastTile.Owner != PlayerColor.NONE)
                 {
                     if (!(eastTile.IsOccupied))
@@ -713,9 +713,9 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            if (_CurrentTileSelected.HasAnAdjecentTile(TileDirection.West))
+            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.West))
             {
-                Tile westTile = _CurrentTileSelected.GetAdjencentTile(TileDirection.West);
+                Tile westTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.West);
                 if (westTile.Owner != PlayerColor.NONE)
                 {
                     if (!(westTile.IsOccupied))
@@ -853,10 +853,10 @@ namespace DungeonDiceMonsters
         private void UpdateDebugWindow()
         {
             lblDebugTileID.Text = "Tile ID: " + _CurrentTileSelected.ID;
-            lblDebugNorthAdj.Text = "North Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.North);
-            lblDebugSouthAdj.Text = "South Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.South);
-            lblDebugEastAdj.Text = "East Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.East);
-            lblDebugWestAdj.Text = "West Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(TileDirection.West);
+            lblDebugNorthAdj.Text = "North Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(Tile.TileDirection.North);
+            lblDebugSouthAdj.Text = "South Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(Tile.TileDirection.South);
+            lblDebugEastAdj.Text = "East Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(Tile.TileDirection.East);
+            lblDebugWestAdj.Text = "West Tile ID: " + _CurrentTileSelected.GetAdjencentTileID(Tile.TileDirection.West);
             lblDebugOwner.Text = "Owner: " + _CurrentTileSelected.Owner;
             lblDebugIsOccupied.Text = "Occupied: " + _CurrentTileSelected.IsOccupied.ToString();
             if (_CurrentTileSelected.IsOccupied)
