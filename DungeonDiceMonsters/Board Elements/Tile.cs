@@ -81,7 +81,7 @@ namespace DungeonDiceMonsters
                 if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
                 _CardImage.Image = null;
                 //if the Fiel Type value is set, load its image
-                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None)
+                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSummonTile)
                 {
                     ImageServer.LoadImage(_CardImage, CardImageType.FieldTile, _FieldType.ToString());
                 }
@@ -164,6 +164,7 @@ namespace DungeonDiceMonsters
         {
             _card = card;
             _Occupied = true;
+            _IsSummonTile = false;
             _card.SetCurrentTile(this);
             ReloadTileUI();
         }

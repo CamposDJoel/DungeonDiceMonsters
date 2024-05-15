@@ -154,12 +154,10 @@ namespace DungeonDiceMonsters
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
             _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
             _CardsOnBoard.Add(_RedSymbol);
-            RedData.AddSummoningTile(_Tiles[227]);
             _Tiles[227].SummonCard(_RedSymbol);
 
             _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
             _CardsOnBoard.Add(_BlueSymbol);
-            BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
             //Initialize the Player's Info Panels
@@ -319,12 +317,10 @@ namespace DungeonDiceMonsters
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
             _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
             _CardsOnBoard.Add(_RedSymbol);
-            RedData.AddSummoningTile(_Tiles[227]);
             _Tiles[227].SummonCard(_RedSymbol);
 
             _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
             _CardsOnBoard.Add(_BlueSymbol);
-            BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
             //TEST add Crests to both players
@@ -421,6 +417,18 @@ namespace DungeonDiceMonsters
         {
             return _Tiles;
         }
+        public List<Tile> GetUnoccupiedSummoningTiles(PlayerColor playerColor)
+        {
+            List<Tile> tiles = new List<Tile>();
+            foreach(Tile thisTile in _Tiles) 
+            {
+                if(thisTile.IsSummonTile && thisTile.Owner == playerColor && !thisTile.IsOccupied)
+                {
+                    tiles.Add(thisTile);
+                }
+            }
+            return tiles;
+        }
         public void SetupMainPhaseNoSummon()
         {
             //Switch to the Main Phase of the player
@@ -500,23 +508,26 @@ namespace DungeonDiceMonsters
             //Relaod the player info panels to update crests
             LoadPlayersInfo();
 
-            //Enable the Board Panel to interact with it
-            PanelBoard.Enabled = true;
-
             //Update the Phase Banner
             UpdateBanner("SummonPhase");
+            lblActionInstruction.Visible = true;
 
-            //Setup the tile candidates
+            _SetCandidates.Clear();
+            _SetCandidates = GetUnoccupiedSummoningTiles(TURNPLAYER);
+            DisplaySetCandidates();
+
+
             if (UserPlayerColor == TURNPLAYER)
             {
-                _SetCandidates.Clear();
-                _SetCandidates = RedData.GetSetCardTileCandidates();
-                //TODO change this: lblSetCardMessage.Visible = true;
-                foreach (Tile tile in _SetCandidates)
-                {
-                    tile.MarkSetTarget();
-                }
+                //Enable the Board Panel to interact with it
+                PanelBoard.Enabled = true;
+
+                lblActionInstruction.Text = "Select the tile to set the card at.";
             }
+            else
+            {
+                lblActionInstruction.Text = "Opponent is selecting the tile to set the card at.";
+            }                              
         }
         public static void WaitNSeconds(double milliseconds)
         {
@@ -844,6 +855,13 @@ namespace DungeonDiceMonsters
                 tile.MarkAttackTarget();
             }
         }
+        private void DisplaySetCandidates()
+        {
+            foreach (Tile tile in _SetCandidates)
+            {
+                tile.MarkSetTarget();
+            }
+        }
         private void PlaceMoveMenu()
         {
             Point referencePoint = _CurrentTileSelected.Location;
@@ -1146,6 +1164,7 @@ namespace DungeonDiceMonsters
                     //These messages will have a secondary key that will be used inside that form for processing.
                     case "[ROLL DICE FORM REQUEST]": _RollDiceForm.ReceiveMesageFromServer(DATARECEIVED); break;
                     case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[CLICK TILE TO SET]": TileClick_SetCard_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[END TURN]": btnEndTurn_Base(); break;
                     case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(Convert.ToInt32(MessageTokens[2])); break;
@@ -1581,6 +1600,7 @@ namespace DungeonDiceMonsters
             if (UserPlayerColor == TURNPLAYER)
             {
                 btnEndTurn.Visible = true;
+                lblActionInstruction.Visible = false;
             }
             else
             {
@@ -1662,7 +1682,7 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1680,7 +1700,7 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1783,17 +1803,11 @@ namespace DungeonDiceMonsters
 
                     if (thisIsACandidate)
                     {
-                        //TODO: Add a sounds effect here to set the card
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("[CLICK TILE TO SET]|{0}|{1}", _CurrentGameState.ToString(), tileID));
 
-                        //Set Card here
-                        Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
-                        _CardsOnBoard.Add(thisCard);
-                        _Tiles[tileID].SetCard(thisCard);
-
-                        //Once this action is completed, move to the main phase
-                        //TODO: Update this lblSetCardMessage.Visible = false;
-                        _CurrentGameState = GameState.MainPhaseBoard;
-                        btnEndTurn.Visible = true;
+                        //Perform the action
+                        TileClick_SetCard_Base(tileID);                        
                     }
                     else
                     {
@@ -2313,7 +2327,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard)
+                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SetCard)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     _CurrentTileSelected = _Tiles[tileId];
@@ -2352,6 +2366,13 @@ namespace DungeonDiceMonsters
                 {
                     _CurrentTileSelected.ReloadTileUI();
                     LoadFieldTypeDisplay(false);
+                }
+                else if (_CurrentGameState == GameState.SetCard)
+                {
+                    _CurrentTileSelected.ReloadTileUI();
+                    LoadFieldTypeDisplay(false);
+                    //Redraw the candudates
+                    DisplaySetCandidates();
                 }
                 else if (_CurrentGameState == GameState.SummonCard)
                 {
@@ -2432,6 +2453,19 @@ namespace DungeonDiceMonsters
                     EndSummoningPhase();
                 }              
             }));
+        }
+        private void TileClick_SetCard_Base(int tileId)
+        {
+            //TODO: Add a sounds effect here to set the card
+
+            //Set Card here
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
+            _CardsOnBoard.Add(thisCard);
+            _Tiles[tileId].SetCard(thisCard);
+
+            //Once this action is completed, move to the main phase
+            _CurrentGameState = GameState.MainPhaseBoard;
+            EndSummoningPhase();
         }
         private void TileClick_MainPhase_Base(int tileId)
         {
