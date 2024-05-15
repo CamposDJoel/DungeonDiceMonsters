@@ -140,11 +140,9 @@ namespace DungeonDiceMonsters
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
             _RedSymbol = new Card(_CardsOnBoard.Count, RedData.Deck.Symbol, PlayerColor.RED);
-            RedData.AddSummoningTile(_Tiles[227]);
             _Tiles[227].SummonCard(_RedSymbol);
 
             _BlueSymbol = new Card(_CardsOnBoard.Count, BlueData.Deck.Symbol, PlayerColor.BLUE);
-            BlueData.AddSummoningTile(_Tiles[6]);
             _Tiles[6].SummonCard(_BlueSymbol);
 
             //Initialize the Player's Info Panels
@@ -427,7 +425,7 @@ namespace DungeonDiceMonsters
 
             //Setup the tile candidates
             _SetCandidates.Clear();
-            _SetCandidates = RedData.GetSetCardTileCandidates();
+            //TODO: _SetCandidates = RedData.GetSetCardTileCandidates();
             lblSetCardMessage.Visible = true;
             foreach (Tile tile in _SetCandidates)
             {

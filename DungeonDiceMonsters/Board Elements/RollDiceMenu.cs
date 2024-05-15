@@ -83,7 +83,10 @@ namespace DungeonDiceMonsters
             {
                 lblInactiveWarning.Visible = true;
             }
-                       
+
+            //Initialize the flag of free summon tiles, this is going to be used to determine if the player can set Spell/Traps
+            _UnoccupiedSummonTiles = _PvPBoard.GetUnoccupiedSummoningTiles(_TurnPlayerColor).Count > 0;
+
             InitializeDeckComponents();
             LoadDeckPage();
             GenrateValidDimensions();
@@ -581,6 +584,7 @@ namespace DungeonDiceMonsters
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
+        private bool _UnoccupiedSummonTiles = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         private bool _AppShutDownWhenClose = true;
@@ -812,7 +816,7 @@ namespace DungeonDiceMonsters
                 }
 
                 //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
-                if (thisCard.Category != Category.Monster && _PlayerData.FreeSummonTiles == 0)
+                if (thisCard.Category != Category.Monster && !_UnoccupiedSummonTiles && _IsUserTurn)
                 {
                     lblNoSummonTilesWarning.Visible = true;
                 }
@@ -848,7 +852,7 @@ namespace DungeonDiceMonsters
                 }
 
                 //Verify if the no free summon tiles warnings need to be vanish
-                if (_PlayerData.FreeSummonTiles == 0)
+                if (!_UnoccupiedSummonTiles && _IsUserTurn)
                 {
                     if (_DiceToRoll.Count == 2)
                     {
@@ -863,6 +867,10 @@ namespace DungeonDiceMonsters
                         {
                             lblNoSummonTilesWarning.Visible = false;
                         }
+                    }
+                    else
+                    {
+                        lblNoSummonTilesWarning.Visible = false;
                     }
                 }
             }));
@@ -1038,7 +1046,7 @@ namespace DungeonDiceMonsters
                     //Normal Summon (Note that if there are not dimesion spaces, you cannot summon)
                     case 1: if (_ValidDimensionAvailable) { btnDice1Summon.Visible = true; } break;
                     //Set (Note that if there are not free summon tiles you cant set)
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice1Set.Visible = true; } break;
+                    case 2: if (_UnoccupiedSummonTiles) { btnDice1Set.Visible = true; } break;
                     //Ritual Summon (Note that if there are not dimesion spaces, you cannot summon)
                     case 4: if (_ValidDimensionAvailable) { btnDice1Ritual.Visible = true; } break;
                 }
@@ -1046,14 +1054,14 @@ namespace DungeonDiceMonsters
                 {
                     //Normal Summon
                     case 1: if (_ValidDimensionAvailable) { btnDice2Summon.Visible = true; } break;
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice2Set.Visible = true; } break;
+                    case 2: if (_UnoccupiedSummonTiles) { btnDice2Set.Visible = true; } break;
                     case 4: if (_ValidDimensionAvailable) { btnDice2Ritual.Visible = true; } break;
                 }
                 switch (results[2])
                 {
                     //Normal Summon
                     case 1: if (_ValidDimensionAvailable) { btnDice3Summon.Visible = true; } break;
-                    case 2: if (_PlayerData.FreeSummonTiles != 0) { btnDice3Set.Visible = true; } break;
+                    case 2: if (_UnoccupiedSummonTiles) { btnDice3Set.Visible = true; } break;
                     case 4: if (_ValidDimensionAvailable) { btnDice3Ritual.Visible = true; } break;
                 }
                 

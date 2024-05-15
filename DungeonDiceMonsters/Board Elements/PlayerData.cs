@@ -19,15 +19,6 @@ namespace DungeonDiceMonsters
         #region Public Accessors
         public string Name { get{ return _name;} }
         public Deck Deck { get { return _deck;} }
-        public int FreeSummonTiles { get 
-        {
-                int count = 0;
-                foreach(Tile tile in _SummoningTiles)
-                {
-                    if (!tile.IsOccupied) { count++; }
-                }
-                return count; } 
-        }
         public int Crests_MOV { get { return _MoveCrests; } }
         public int Crests_ATK { get { return _AttackCrests; } }
         public int Crests_DEF { get { return _DefenseCrests; } }
@@ -58,21 +49,6 @@ namespace DungeonDiceMonsters
                 case Crest.TRAP: _TrapCrests -= amount; break;
             }
         }
-        public void AddSummoningTile(Tile tile)
-        {
-            _SummoningTiles.Add(tile);
-        }
-        public List<Tile> GetSetCardTileCandidates()
-        {
-            List<Tile> candidates = new List<Tile>();
-
-            foreach (Tile tile in _SummoningTiles) 
-            {
-                if (!tile.IsOccupied) {  candidates.Add(tile); }
-            }
-
-            return candidates;
-        }
         #endregion
 
         #region Data
@@ -83,7 +59,6 @@ namespace DungeonDiceMonsters
         private int _DefenseCrests = 0;
         private int _MagicCrests = 0;
         private int _TrapCrests = 0;
-        private List<Tile> _SummoningTiles = new List<Tile>();
         #endregion
     }
 }
