@@ -176,6 +176,10 @@
             this.lblOnSummonEffectDescriiption = new System.Windows.Forms.Label();
             this.lblOnSummonEffectType = new System.Windows.Forms.Label();
             this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
+            this.PanelFieldType = new System.Windows.Forms.Panel();
+            this.lblFieldTypeName = new System.Windows.Forms.Label();
+            this.PicFieldTypeDisplay = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -222,6 +226,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).BeginInit();
             this.PanelOnSummonEffect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).BeginInit();
+            this.PanelFieldType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -743,7 +749,7 @@
             // PanelCardInfo
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
-            this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PanelCardInfo.Controls.Add(this.lblSpellboundCounters);
             this.PanelCardInfo.Controls.Add(this.pictureBox2);
             this.PanelCardInfo.Controls.Add(this.lblCounters);
@@ -1149,7 +1155,7 @@
             // PanelDimenFormSelector
             // 
             this.PanelDimenFormSelector.BackColor = System.Drawing.Color.Black;
-            this.PanelDimenFormSelector.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelDimenFormSelector.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PanelDimenFormSelector.Controls.Add(this.btnFormFlip);
             this.PanelDimenFormSelector.Controls.Add(this.BtnFormTurnRight);
             this.PanelDimenFormSelector.Controls.Add(this.BtnFormTurnLeft);
@@ -1956,7 +1962,7 @@
             this.PicPhaseBanner.BackColor = System.Drawing.Color.Black;
             this.PicPhaseBanner.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PicPhaseBanner.Image = ((System.Drawing.Image)(resources.GetObject("PicPhaseBanner.Image")));
-            this.PicPhaseBanner.Location = new System.Drawing.Point(787, 490);
+            this.PicPhaseBanner.Location = new System.Drawing.Point(787, 573);
             this.PicPhaseBanner.Name = "PicPhaseBanner";
             this.PicPhaseBanner.Size = new System.Drawing.Size(202, 75);
             this.PicPhaseBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -2010,6 +2016,53 @@
             this.PicOnSummonCardImage.TabIndex = 0;
             this.PicOnSummonCardImage.TabStop = false;
             // 
+            // PanelFieldType
+            // 
+            this.PanelFieldType.BackColor = System.Drawing.Color.Black;
+            this.PanelFieldType.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelFieldType.Controls.Add(this.lblFieldTypeName);
+            this.PanelFieldType.Controls.Add(this.PicFieldTypeDisplay);
+            this.PanelFieldType.Controls.Add(this.label4);
+            this.PanelFieldType.Location = new System.Drawing.Point(822, 482);
+            this.PanelFieldType.Name = "PanelFieldType";
+            this.PanelFieldType.Size = new System.Drawing.Size(130, 87);
+            this.PanelFieldType.TabIndex = 31;
+            this.PanelFieldType.Visible = false;
+            // 
+            // lblFieldTypeName
+            // 
+            this.lblFieldTypeName.BackColor = System.Drawing.Color.Black;
+            this.lblFieldTypeName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFieldTypeName.ForeColor = System.Drawing.Color.White;
+            this.lblFieldTypeName.Location = new System.Drawing.Point(1, 68);
+            this.lblFieldTypeName.Name = "lblFieldTypeName";
+            this.lblFieldTypeName.Size = new System.Drawing.Size(124, 18);
+            this.lblFieldTypeName.TabIndex = 7;
+            this.lblFieldTypeName.Text = "FIELD";
+            this.lblFieldTypeName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // PicFieldTypeDisplay
+            // 
+            this.PicFieldTypeDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFieldTypeDisplay.Location = new System.Drawing.Point(37, 17);
+            this.PicFieldTypeDisplay.Name = "PicFieldTypeDisplay";
+            this.PicFieldTypeDisplay.Size = new System.Drawing.Size(50, 50);
+            this.PicFieldTypeDisplay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFieldTypeDisplay.TabIndex = 6;
+            this.PicFieldTypeDisplay.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Black;
+            this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(1, 1);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(124, 18);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "FIELD";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2017,6 +2070,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
+            this.Controls.Add(this.PanelFieldType);
             this.Controls.Add(this.PanelOnSummonEffect);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
@@ -2100,6 +2154,8 @@
             this.PanelOnSummonEffect.ResumeLayout(false);
             this.PanelOnSummonEffect.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).EndInit();
+            this.PanelFieldType.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2253,5 +2309,9 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label lblCounters;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel PanelFieldType;
+        private System.Windows.Forms.Label lblFieldTypeName;
+        private System.Windows.Forms.PictureBox PicFieldTypeDisplay;
+        private System.Windows.Forms.Label label4;
     }
 }

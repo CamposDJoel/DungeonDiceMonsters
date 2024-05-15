@@ -2,8 +2,10 @@
 //9/8/2023
 //ImageServer Class
 
+using System;
 using System.Drawing;
 using System.IO;
+using System.Security.AccessControl;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -22,6 +24,7 @@ namespace DungeonDiceMonsters
                 case CardImageType.Symbol: box.Image = Symbol(arg1); break;
                 case CardImageType.FullCardSymbol: box.Image = FullCardSymbol(arg1); break;
                 case CardImageType.DimensionForm: box.Image = DimensionForm(arg1); break;
+                case CardImageType.FieldTile: box.Image = FieldTile(arg1); break;
             }
         }
         public static void LoadImageToPanel(Panel box, CardImageType type, string arg1)
@@ -31,6 +34,7 @@ namespace DungeonDiceMonsters
             {
                 case CardImageType.FullCardImage: box.BackgroundImage = FullCardImage(arg1); break;
                 case CardImageType.FullCardSymbol: box.BackgroundImage = FullCardSymbol(arg1); break;
+                case CardImageType.FieldTile: box.BackgroundImage = FieldTile(arg1); break;
             }
         }
 
@@ -71,7 +75,10 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Dices\\Level " + diceLevel + "\\" + faceType + faceValue + ".png");
         }                  
-        
+        private static Image FieldTile(string field) 
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Field Tiles\\" + field + ".jpg");
+        }
 
     }
 
@@ -86,5 +93,6 @@ namespace DungeonDiceMonsters
         FullCardSymbol,
         DimensionForm,
         PhaseBanner,
+        FieldTile
     }
 }

@@ -43,7 +43,8 @@ namespace DungeonDiceMonsters
 
 
             //_InsideBox image and _Stats
-            //Set the Card Image of the Card in the Tile, if this tile is occupied, otherwise Card Image will be null
+            //Set the Card Image of the Card in the Tile, if this tile is occupied, otherwise Card Image will be null unless it has
+            //a field type other than "None", in which case it will load the field image.
             //Card Image backcolor will be 
             //Sets the stats visible if the card is a face up card (monster)
             if (_Occupied)
@@ -79,6 +80,12 @@ namespace DungeonDiceMonsters
             {
                 if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
                 _CardImage.Image = null;
+                //if the Fiel Type value is set, load its image
+                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None)
+                {
+                    ImageServer.LoadImage(_CardImage, CardImageType.FieldTile, _FieldType.ToString());
+                }
+
                 _StatsLabelATK.Visible = false;
                 _StatsLabelDEF.Visible = false;
             }
@@ -278,7 +285,9 @@ namespace DungeonDiceMonsters
         }     
         public void MarkFreeToMove()
         {
-            _CardImage.BackColor = Color.Green;            
+            _CardImage.BackColor = Color.Green;
+            //In case the tile has a field type set, remove the card image temparely
+            if (_CardImage.Image != null) { _CardImage.Image.Dispose(); _CardImage.Image = null; }
         }
         public void MarkAttackTarget()
         {
@@ -651,6 +660,11 @@ namespace DungeonDiceMonsters
 
             return tiles;
         }
+        public void ChangeFieldType(FieldTypeValue field)
+        {
+            _FieldType = field;
+            ReloadTileUI();
+        }
         #endregion
 
         #region Private Methods
@@ -691,7 +705,8 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        public Point Location { get { return _Border.Location; }}       
+        public Point Location { get { return _Border.Location; }}      
+        public FieldTypeValue FieldType { get { return _FieldType; } }
         #endregion
 
         #region Data
@@ -707,14 +722,27 @@ namespace DungeonDiceMonsters
         private Tile _SouthTile = null;
         private Tile _EastTile = null;
         private Tile _WestTile = null;
+        private FieldTypeValue _FieldType = FieldTypeValue.None;
         #endregion
-    }
 
-    public enum TileDirection 
-    {
-        North,
-        South,
-        East,
-        West
-    }
+        #region Enums
+        public enum TileDirection
+        {
+            North,
+            South,
+            East,
+            West
+        }
+        public enum FieldTypeValue
+        {
+            None,
+            Forest,
+            Mountain,
+            Sogen,
+            Umi,
+            Wasteland,
+            Yami
+        }  
+        #endregion
+    }   
 }
