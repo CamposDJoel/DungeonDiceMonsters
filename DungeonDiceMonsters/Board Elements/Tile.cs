@@ -981,7 +981,12 @@ namespace DungeonDiceMonsters
             Sogen,
             Umi,
             Wasteland,
-            Yami
+            Yami,
+            Swamp,
+            Volcano,
+            Sanctuary,
+            Cyberworld,
+            Scrapyard
         }  
         #endregion
     }   

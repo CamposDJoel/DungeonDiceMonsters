@@ -56,7 +56,6 @@ namespace DungeonDiceMonsters
         #region "React To" Flags
         public bool ReactsToMonsterSummon { get; set; }
         public bool ReactsToAttributeChange { get; set; }
-        public bool ReactsToTileRemoval { get; set; }
         #endregion
 
         #region Private Methods
@@ -96,6 +95,11 @@ namespace DungeonDiceMonsters
                 case "Forest": return EffectID.Forest;
                 case "Yami": return EffectID.Yami;
                 case "Umi": return EffectID.Umi;
+                case "Volcano": return EffectID.Volcano;
+                case "Swamp": return EffectID.Swamp;
+                case "Sanctuary": return EffectID.Sanctuary;
+                case "Cyberworld": return EffectID.Cyberworld;
+                case "Scrapyard": return EffectID.Scrapyard;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -138,6 +142,11 @@ namespace DungeonDiceMonsters
             Forest,
             Umi,
             Yami,
+            Volcano,
+            Swamp,
+            Cyberworld,
+            Sanctuary,
+            Scrapyard,
             MWarrior1_OnSummon,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,

@@ -3146,6 +3146,11 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Forest: Forest_Activation(thisEffect); break;
                 case Effect.EffectID.Yami: Yami_Activation(thisEffect); break;
                 case Effect.EffectID.Umi: Umi_Activation(thisEffect); break;
+                case Effect.EffectID.Volcano: Volcano_Activation(thisEffect); break;
+                case Effect.EffectID.Swamp: Swamp_Activation(thisEffect); break;
+                case Effect.EffectID.Cyberworld: Cyberworld_Activation(thisEffect); break;
+                case Effect.EffectID.Sanctuary: Sanctuary_Activation(thisEffect); break;
+                case Effect.EffectID.Scrapyard: Scrapyard_Activation(thisEffect); break;
                 case Effect.EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
@@ -3609,7 +3614,7 @@ namespace DungeonDiceMonsters
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
-            thisEffect.ReactsToTileRemoval = true;
+            //Field Spells are one and done and do not react to other events
 
             //Step 2: Resolve the effect initial activation
             List<Tile> AllFieldActivationTiles = _CurrentTileSelected.GetFieldSpellActivationTiles(false);
@@ -3618,7 +3623,7 @@ namespace DungeonDiceMonsters
             //Highligh all the tiles in the field activation area
             foreach (Tile thisTile in AllFieldActivationTiles)
             {
-                thisTile.HighlightTile();
+                if (thisTile != null) { thisTile.HighlightTile(); }
             }
             WaitNSeconds(500);
             //then change the field type of all the active tiles
@@ -3631,7 +3636,7 @@ namespace DungeonDiceMonsters
             //finally. reset the all the tiles to clean up the UI
             foreach (Tile thisTile in AllFieldActivationTiles)
             {
-                thisTile.ReloadTileUI();
+                if (thisTile != null) { thisTile.ReloadTileUI(); }
             }
 
             //Step 3: Destroy the card once done
@@ -3663,6 +3668,26 @@ namespace DungeonDiceMonsters
         private void Umi_Activation(Effect thisEffect)
         {
             BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Umi);
+        }
+        private void Volcano_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Volcano);
+        }
+        private void Swamp_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Swamp);
+        }
+        private void Cyberworld_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Cyberworld);
+        }
+        private void Sanctuary_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Sanctuary);
+        }
+        private void Scrapyard_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Scrapyard);
         }
         #endregion
 

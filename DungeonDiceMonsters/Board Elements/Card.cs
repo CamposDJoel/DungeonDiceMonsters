@@ -198,10 +198,25 @@ namespace DungeonDiceMonsters
                     if (_cardInfo.Type == Type.Dinosaur || _cardInfo.Type == Type.Zombie || _cardInfo.Type == Type.Rock) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Yami:
-                    if (_cardInfo.Type == Type.Fiend || _cardInfo.Type == Type.Spellcaster) { willReceiveFieldTypeBonus = true; }
+                    if (_cardInfo.Type == Type.Fiend || _cardInfo.Type == Type.Spellcaster || _cardInfo.Type == Type.Illusion) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Umi:
                     if (_cardInfo.Type == Type.Fish || _cardInfo.Type == Type.SeaSerpent || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.Aqua) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Volcano:
+                    if (_cardInfo.Type == Type.Pyro) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Swamp:
+                    if (_cardInfo.Type == Type.Reptile || _cardInfo.Type == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Cyberworld:
+                    if (_cardInfo.Type == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Sanctuary:
+                    if (_cardInfo.Type == Type.Fairy) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Scrapyard:
+                    if (_cardInfo.Type == Type.Machine) { willReceiveFieldTypeBonus = true; }
                     break;
                 default: willReceiveFieldTypeBonus = false; break;
             }
