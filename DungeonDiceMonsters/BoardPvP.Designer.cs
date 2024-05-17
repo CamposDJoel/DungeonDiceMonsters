@@ -172,10 +172,17 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.PicPhaseBanner = new System.Windows.Forms.PictureBox();
-            this.PanelOnSummonEffect = new System.Windows.Forms.Panel();
-            this.lblOnSummonEffectDescriiption = new System.Windows.Forms.Label();
-            this.lblOnSummonEffectType = new System.Windows.Forms.Label();
-            this.PicOnSummonCardImage = new System.Windows.Forms.PictureBox();
+            this.PanelEffectActivationMenu = new System.Windows.Forms.Panel();
+            this.lblActivationRequirementOutput = new System.Windows.Forms.Label();
+            this.btnActivate = new System.Windows.Forms.Button();
+            this.btnEffectMenuCancel = new System.Windows.Forms.Button();
+            this.PanelCost = new System.Windows.Forms.Panel();
+            this.lblCostAmount = new System.Windows.Forms.Label();
+            this.PicCostCrest = new System.Windows.Forms.PictureBox();
+            this.lblCostLabel = new System.Windows.Forms.Label();
+            this.lblEffectMenuDescriiption = new System.Windows.Forms.Label();
+            this.lblEffectMenuTittle = new System.Windows.Forms.Label();
+            this.PicEffectMenuCardImage = new System.Windows.Forms.PictureBox();
             this.PanelFieldType = new System.Windows.Forms.Panel();
             this.lblFieldTypeName = new System.Windows.Forms.Label();
             this.PicFieldTypeDisplay = new System.Windows.Forms.PictureBox();
@@ -224,8 +231,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).BeginInit();
-            this.PanelOnSummonEffect.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).BeginInit();
+            this.PanelEffectActivationMenu.SuspendLayout();
+            this.PanelCost.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCostCrest)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicEffectMenuCardImage)).BeginInit();
             this.PanelFieldType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).BeginInit();
             this.SuspendLayout();
@@ -717,6 +726,7 @@
             this.btnActionEffect.TabIndex = 2;
             this.btnActionEffect.Text = "Effect";
             this.btnActionEffect.UseVisualStyleBackColor = false;
+            this.btnActionEffect.Click += new System.EventHandler(this.btnActionEffect_Click);
             // 
             // btnActionAttack
             // 
@@ -1969,52 +1979,140 @@
             this.PicPhaseBanner.TabIndex = 29;
             this.PicPhaseBanner.TabStop = false;
             // 
-            // PanelOnSummonEffect
+            // PanelEffectActivationMenu
             // 
-            this.PanelOnSummonEffect.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.PanelOnSummonEffect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelOnSummonEffect.BackgroundImage")));
-            this.PanelOnSummonEffect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PanelOnSummonEffect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectDescriiption);
-            this.PanelOnSummonEffect.Controls.Add(this.lblOnSummonEffectType);
-            this.PanelOnSummonEffect.Controls.Add(this.PicOnSummonCardImage);
-            this.PanelOnSummonEffect.Location = new System.Drawing.Point(291, 230);
-            this.PanelOnSummonEffect.Name = "PanelOnSummonEffect";
-            this.PanelOnSummonEffect.Size = new System.Drawing.Size(406, 267);
-            this.PanelOnSummonEffect.TabIndex = 30;
-            this.PanelOnSummonEffect.Visible = false;
+            this.PanelEffectActivationMenu.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.PanelEffectActivationMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelEffectActivationMenu.BackgroundImage")));
+            this.PanelEffectActivationMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelEffectActivationMenu.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelEffectActivationMenu.Controls.Add(this.lblActivationRequirementOutput);
+            this.PanelEffectActivationMenu.Controls.Add(this.btnActivate);
+            this.PanelEffectActivationMenu.Controls.Add(this.btnEffectMenuCancel);
+            this.PanelEffectActivationMenu.Controls.Add(this.PanelCost);
+            this.PanelEffectActivationMenu.Controls.Add(this.lblEffectMenuDescriiption);
+            this.PanelEffectActivationMenu.Controls.Add(this.lblEffectMenuTittle);
+            this.PanelEffectActivationMenu.Controls.Add(this.PicEffectMenuCardImage);
+            this.PanelEffectActivationMenu.Location = new System.Drawing.Point(253, 230);
+            this.PanelEffectActivationMenu.Name = "PanelEffectActivationMenu";
+            this.PanelEffectActivationMenu.Size = new System.Drawing.Size(433, 273);
+            this.PanelEffectActivationMenu.TabIndex = 30;
+            this.PanelEffectActivationMenu.Visible = false;
             // 
-            // lblOnSummonEffectDescriiption
+            // lblActivationRequirementOutput
             // 
-            this.lblOnSummonEffectDescriiption.BackColor = System.Drawing.Color.Black;
-            this.lblOnSummonEffectDescriiption.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOnSummonEffectDescriiption.ForeColor = System.Drawing.Color.White;
-            this.lblOnSummonEffectDescriiption.Location = new System.Drawing.Point(171, 63);
-            this.lblOnSummonEffectDescriiption.Name = "lblOnSummonEffectDescriiption";
-            this.lblOnSummonEffectDescriiption.Size = new System.Drawing.Size(202, 151);
-            this.lblOnSummonEffectDescriiption.TabIndex = 2;
-            this.lblOnSummonEffectDescriiption.Text = "This is a test message for a on summon effect";
+            this.lblActivationRequirementOutput.BackColor = System.Drawing.Color.Black;
+            this.lblActivationRequirementOutput.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblActivationRequirementOutput.ForeColor = System.Drawing.Color.Red;
+            this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 166);
+            this.lblActivationRequirementOutput.Name = "lblActivationRequirementOutput";
+            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 34);
+            this.lblActivationRequirementOutput.TabIndex = 27;
+            this.lblActivationRequirementOutput.Text = "Cost not met.";
+            this.lblActivationRequirementOutput.Visible = false;
             // 
-            // lblOnSummonEffectType
+            // btnActivate
             // 
-            this.lblOnSummonEffectType.AutoSize = true;
-            this.lblOnSummonEffectType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOnSummonEffectType.Location = new System.Drawing.Point(173, 20);
-            this.lblOnSummonEffectType.Name = "lblOnSummonEffectType";
-            this.lblOnSummonEffectType.Size = new System.Drawing.Size(165, 24);
-            this.lblOnSummonEffectType.TabIndex = 1;
-            this.lblOnSummonEffectType.Text = "Summon Effect";
+            this.btnActivate.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnActivate.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActivate.ForeColor = System.Drawing.Color.White;
+            this.btnActivate.Location = new System.Drawing.Point(177, 220);
+            this.btnActivate.Name = "btnActivate";
+            this.btnActivate.Size = new System.Drawing.Size(116, 30);
+            this.btnActivate.TabIndex = 25;
+            this.btnActivate.Text = "Activate";
+            this.btnActivate.UseVisualStyleBackColor = false;
+            this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
             // 
-            // PicOnSummonCardImage
+            // btnEffectMenuCancel
             // 
-            this.PicOnSummonCardImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicOnSummonCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicOnSummonCardImage.Image")));
-            this.PicOnSummonCardImage.Location = new System.Drawing.Point(25, 36);
-            this.PicOnSummonCardImage.Name = "PicOnSummonCardImage";
-            this.PicOnSummonCardImage.Size = new System.Drawing.Size(125, 178);
-            this.PicOnSummonCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicOnSummonCardImage.TabIndex = 0;
-            this.PicOnSummonCardImage.TabStop = false;
+            this.btnEffectMenuCancel.BackColor = System.Drawing.Color.DarkRed;
+            this.btnEffectMenuCancel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEffectMenuCancel.ForeColor = System.Drawing.Color.White;
+            this.btnEffectMenuCancel.Location = new System.Drawing.Point(303, 220);
+            this.btnEffectMenuCancel.Name = "btnEffectMenuCancel";
+            this.btnEffectMenuCancel.Size = new System.Drawing.Size(116, 30);
+            this.btnEffectMenuCancel.TabIndex = 26;
+            this.btnEffectMenuCancel.Text = "Cancel";
+            this.btnEffectMenuCancel.UseVisualStyleBackColor = false;
+            this.btnEffectMenuCancel.Click += new System.EventHandler(this.btnEffectMenuCancel_Click);
+            // 
+            // PanelCost
+            // 
+            this.PanelCost.BackColor = System.Drawing.Color.Black;
+            this.PanelCost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelCost.Controls.Add(this.lblCostAmount);
+            this.PanelCost.Controls.Add(this.PicCostCrest);
+            this.PanelCost.Controls.Add(this.lblCostLabel);
+            this.PanelCost.Location = new System.Drawing.Point(21, 221);
+            this.PanelCost.Name = "PanelCost";
+            this.PanelCost.Size = new System.Drawing.Size(132, 33);
+            this.PanelCost.TabIndex = 5;
+            // 
+            // lblCostAmount
+            // 
+            this.lblCostAmount.AutoSize = true;
+            this.lblCostAmount.BackColor = System.Drawing.Color.Transparent;
+            this.lblCostAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCostAmount.ForeColor = System.Drawing.Color.White;
+            this.lblCostAmount.Location = new System.Drawing.Point(87, 8);
+            this.lblCostAmount.Name = "lblCostAmount";
+            this.lblCostAmount.Size = new System.Drawing.Size(38, 17);
+            this.lblCostAmount.TabIndex = 6;
+            this.lblCostAmount.Text = "x 10";
+            // 
+            // PicCostCrest
+            // 
+            this.PicCostCrest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCostCrest.Location = new System.Drawing.Point(59, 3);
+            this.PicCostCrest.Name = "PicCostCrest";
+            this.PicCostCrest.Size = new System.Drawing.Size(25, 25);
+            this.PicCostCrest.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCostCrest.TabIndex = 5;
+            this.PicCostCrest.TabStop = false;
+            // 
+            // lblCostLabel
+            // 
+            this.lblCostLabel.AutoSize = true;
+            this.lblCostLabel.BackColor = System.Drawing.Color.Transparent;
+            this.lblCostLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCostLabel.ForeColor = System.Drawing.Color.White;
+            this.lblCostLabel.Location = new System.Drawing.Point(3, 8);
+            this.lblCostLabel.Name = "lblCostLabel";
+            this.lblCostLabel.Size = new System.Drawing.Size(55, 17);
+            this.lblCostLabel.TabIndex = 4;
+            this.lblCostLabel.Text = "COST:";
+            // 
+            // lblEffectMenuDescriiption
+            // 
+            this.lblEffectMenuDescriiption.BackColor = System.Drawing.Color.Black;
+            this.lblEffectMenuDescriiption.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEffectMenuDescriiption.ForeColor = System.Drawing.Color.White;
+            this.lblEffectMenuDescriiption.Location = new System.Drawing.Point(167, 41);
+            this.lblEffectMenuDescriiption.Name = "lblEffectMenuDescriiption";
+            this.lblEffectMenuDescriiption.Size = new System.Drawing.Size(241, 163);
+            this.lblEffectMenuDescriiption.TabIndex = 2;
+            this.lblEffectMenuDescriiption.Text = "This is a test message for a on summon effect";
+            // 
+            // lblEffectMenuTittle
+            // 
+            this.lblEffectMenuTittle.AutoSize = true;
+            this.lblEffectMenuTittle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEffectMenuTittle.Location = new System.Drawing.Point(186, 13);
+            this.lblEffectMenuTittle.Name = "lblEffectMenuTittle";
+            this.lblEffectMenuTittle.Size = new System.Drawing.Size(165, 24);
+            this.lblEffectMenuTittle.TabIndex = 1;
+            this.lblEffectMenuTittle.Text = "Summon Effect";
+            // 
+            // PicEffectMenuCardImage
+            // 
+            this.PicEffectMenuCardImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicEffectMenuCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicEffectMenuCardImage.Image")));
+            this.PicEffectMenuCardImage.Location = new System.Drawing.Point(16, 13);
+            this.PicEffectMenuCardImage.Name = "PicEffectMenuCardImage";
+            this.PicEffectMenuCardImage.Size = new System.Drawing.Size(141, 191);
+            this.PicEffectMenuCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicEffectMenuCardImage.TabIndex = 0;
+            this.PicEffectMenuCardImage.TabStop = false;
             // 
             // PanelFieldType
             // 
@@ -2071,7 +2169,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
             this.Controls.Add(this.PanelFieldType);
-            this.Controls.Add(this.PanelOnSummonEffect);
+            this.Controls.Add(this.PanelEffectActivationMenu);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelTurnStartMenu);
@@ -2151,9 +2249,12 @@
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).EndInit();
-            this.PanelOnSummonEffect.ResumeLayout(false);
-            this.PanelOnSummonEffect.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicOnSummonCardImage)).EndInit();
+            this.PanelEffectActivationMenu.ResumeLayout(false);
+            this.PanelEffectActivationMenu.PerformLayout();
+            this.PanelCost.ResumeLayout(false);
+            this.PanelCost.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCostCrest)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicEffectMenuCardImage)).EndInit();
             this.PanelFieldType.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).EndInit();
             this.ResumeLayout(false);
@@ -2286,10 +2387,10 @@
         private System.Windows.Forms.Panel PanelAttackerCard;
         private System.Windows.Forms.Panel PanelDefenderCard;
         private System.Windows.Forms.PictureBox PicPhaseBanner;
-        private System.Windows.Forms.Panel PanelOnSummonEffect;
-        private System.Windows.Forms.PictureBox PicOnSummonCardImage;
-        private System.Windows.Forms.Label lblOnSummonEffectDescriiption;
-        private System.Windows.Forms.Label lblOnSummonEffectType;
+        private System.Windows.Forms.Panel PanelEffectActivationMenu;
+        private System.Windows.Forms.PictureBox PicEffectMenuCardImage;
+        private System.Windows.Forms.Label lblEffectMenuDescriiption;
+        private System.Windows.Forms.Label lblEffectMenuTittle;
         private System.Windows.Forms.Label lblMovesLeftAmount;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblAttackLeftAmount;
@@ -2313,5 +2414,12 @@
         private System.Windows.Forms.Label lblFieldTypeName;
         private System.Windows.Forms.PictureBox PicFieldTypeDisplay;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel PanelCost;
+        private System.Windows.Forms.PictureBox PicCostCrest;
+        private System.Windows.Forms.Label lblCostLabel;
+        private System.Windows.Forms.Label lblCostAmount;
+        private System.Windows.Forms.Button btnActivate;
+        private System.Windows.Forms.Button btnEffectMenuCancel;
+        private System.Windows.Forms.Label lblActivationRequirementOutput;
     }
 }

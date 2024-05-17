@@ -243,6 +243,7 @@ namespace DungeonDiceMonsters
         Fairy,
         Fiend,
         Fish,
+        Illusion,
         Insect,
         Machine,
         Plant,

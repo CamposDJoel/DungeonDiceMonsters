@@ -3,6 +3,7 @@
 //Card Class
 
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace DungeonDiceMonsters
 {
@@ -104,6 +105,7 @@ namespace DungeonDiceMonsters
         public int AttacksAvaiable { get { return _AttacksAvailable; } }
         public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
         public int MovesPerTurn { get { return _BaseMovesPerTurn; } }
+        public bool EffectUsedThisTurn { get { return _EffectUsedThisTurn; } }
         #endregion
 
         #region Public Funtions
@@ -130,6 +132,7 @@ namespace DungeonDiceMonsters
             _DefenseCost = _BaseDefenseCost;
             _MovesAvailable = _BaseMovesPerTurn;
             _AttacksAvailable = _BaseAttacksPerTurn;
+            _EffectUsedThisTurn = false;
         }
         public void ReduceSpellboundCounter(int amount)
         {
@@ -166,9 +169,81 @@ namespace DungeonDiceMonsters
         {
             _CurrentTile = thisTile;
         }
+        public void FlipFaceUp()
+        {
+            _IsFaceDown = false;
+            ReloadTileUI();
+        }
         public void ReloadTileUI()
         {
             _CurrentTile.ReloadTileUI();
+        }
+        public void UpdateFieldTypeBonus()
+        {
+            //Step 1: Determine if the card can get a field bonus on the current tile
+            bool willReceiveFieldTypeBonus = false;
+            Tile.FieldTypeValue currentFieldType = _CurrentTile.FieldType;
+            switch (currentFieldType) 
+            {
+                case Tile.FieldTypeValue.Mountain:
+                    if (_cardInfo.Type == Type.Dragon || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.WingedBeast) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Sogen:
+                    if (_cardInfo.Type == Type.BeastWarrior || _cardInfo.Type == Type.Warrior) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Forest:
+                    if (_cardInfo.Type == Type.Insect || _cardInfo.Type == Type.Beast || _cardInfo.Type == Type.Plant || _cardInfo.Type == Type.BeastWarrior) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Wasteland:
+                    if (_cardInfo.Type == Type.Dinosaur || _cardInfo.Type == Type.Zombie || _cardInfo.Type == Type.Rock) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Yami:
+                    if (_cardInfo.Type == Type.Fiend || _cardInfo.Type == Type.Spellcaster || _cardInfo.Type == Type.Illusion) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Umi:
+                    if (_cardInfo.Type == Type.Fish || _cardInfo.Type == Type.SeaSerpent || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.Aqua) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Volcano:
+                    if (_cardInfo.Type == Type.Pyro) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Swamp:
+                    if (_cardInfo.Type == Type.Reptile || _cardInfo.Type == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Cyberworld:
+                    if (_cardInfo.Type == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Sanctuary:
+                    if (_cardInfo.Type == Type.Fairy) { willReceiveFieldTypeBonus = true; }
+                    break;
+                case Tile.FieldTypeValue.Scrapyard:
+                    if (_cardInfo.Type == Type.Machine) { willReceiveFieldTypeBonus = true; }
+                    break;
+                default: willReceiveFieldTypeBonus = false; break;
+            }
+
+            //Step 2: Give the monster the field bonus if it doesnt have one already 
+            if(willReceiveFieldTypeBonus) 
+            {
+                if(!_FieldBonusActive)
+                {
+                    _AttackBonus += 500;
+                    _DefenseBonus += 500;
+                    _FieldBonusActive = true;
+                }
+            }
+            //Step 3: Remove the field bonus if it had one
+            else
+            {
+                if(_FieldBonusActive)
+                {
+                    _AttackBonus -= 500;
+                    _DefenseBonus -= 500;
+                    _FieldBonusActive = false;
+                }
+            }
+
+            //Step 4: Reload the monster's tile UI
+            ReloadTileUI();
         }
         #endregion
 
@@ -181,6 +256,7 @@ namespace DungeonDiceMonsters
         private bool _IsFaceDown = false;
         private bool _IsASymbol = false;
         private Tile _CurrentTile;
+        private bool _FieldBonusActive = false;
 
         //Card Stats Data
         private int _CurrentLP;
@@ -204,6 +280,7 @@ namespace DungeonDiceMonsters
         private int _TurnCounters = 0;
         private int _Counters = 0;
         private int _SpellboundCounter = 0;
+        private bool _EffectUsedThisTurn = false;
 
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
