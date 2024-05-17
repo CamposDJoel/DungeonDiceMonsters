@@ -395,10 +395,15 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(pegasus);
             _Tiles[110].SummonCard(pegasus);
 
+            CardInfo umiinfo = CardDataBase.GetCardWithID(22702055);
+            Card umi = new Card(_CardsOnBoard.Count, umiinfo, PlayerColor.RED, true);
+            _CardsOnBoard.Add(umi);
+            _Tiles[123].SetCard(umi);
+
             CardInfo koalainfo = CardDataBase.GetCardWithID(42129512);
             Card koala = new Card(_CardsOnBoard.Count, koalainfo, PlayerColor.RED, false);
             _CardsOnBoard.Add(koala);
-            _Tiles[123].SummonCard(koala);
+            _Tiles[136].SummonCard(koala);
 
             CardInfo kazejininfo = CardDataBase.GetCardWithID(62340868);
             Card kazejin = new Card(_CardsOnBoard.Count, kazejininfo, PlayerColor.RED, false);
@@ -935,7 +940,7 @@ namespace DungeonDiceMonsters
             btnEndBattle.Visible = false;
 
             //Set the attacker's data
-            Card Attacker = _CurrentTileSelected.CardInPlace;
+            Card Attacker = _AttackerTile.CardInPlace;
             ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
@@ -968,7 +973,10 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                //TODO: implement atacking a Spell/Trap
+                //At this point, if the attack target was a face down card, it was flipped face up
+                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                lblBattleMenuDEFLP.Text = "LP: -";
+                lblDefenderDEF.Text = "DEF: -";
             }
 
             //Hide the "Destroyed" labels just in case
@@ -1499,18 +1507,27 @@ namespace DungeonDiceMonsters
                 else
                 {
                     //Destroy the defender card automatically
-                    SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, _AttackTarger.CardInPlace.CardID.ToString());
-
+                    
                     //Reduce the [ATK] from the attacker. Defender always "Passes"
                     Card Attacker = _CurrentTileSelected.CardInPlace;
                     ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, Attacker.AttackCost);
 
+                    SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
                     PicDefenderDestroyed.Visible = true;
                     lblBattleMenuDamage.Text = "Damage: 0";
                     WaitNSeconds(1000);
                     //Remove the card from the actual tile
                     _AttackTarger.DestroyCard();
+
+                    //Enable the end battle button for the turn player only
+                    if (UserPlayerColor == TURNPLAYER)
+                    {
+                        btnEndBattle.Enabled = true;
+                    }
+                    else
+                    {
+                        btnEndBattle.Enabled = false;
+                    }
 
                     //Display the end battle button
                     btnEndBattle.Visible = true;
@@ -2904,6 +2921,10 @@ namespace DungeonDiceMonsters
 
                 //Attack the card in this tile
                 _AttackTarger = _Tiles[tileId];
+
+                //if the card is facedow, flip it
+                _AttackTarger.CardInPlace.FlipFaceUp();
+                WaitNSeconds(1000);
 
                 //Close the Attack Menu and clear the color of all attack candidates
                 PanelAttackMenu.Visible = false;
