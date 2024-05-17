@@ -69,8 +69,16 @@ namespace DungeonDiceMonsters
                     }
                     else
                     {
-                        //The card will be a facedown Spell/Trap
-                        ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
+                        //The card will be a Spell/Trap
+                        if(_card.IsFaceDown)
+                        {
+                            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
+                        }
+                        else
+                        {
+                            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, _card.CardID.ToString());
+                        }
+                        
                         _StatsLabelATK.Visible = false;
                         _StatsLabelDEF.Visible = false;
                     }
@@ -162,17 +170,25 @@ namespace DungeonDiceMonsters
         }
         public void SetCard(Card card)
         {
-            _card = card;
-            _Occupied = true;
-            _IsSummonTile = false;
-            _card.SetCurrentTile(this);
-            ReloadTileUI();
+            if (_Occupied)
+            {
+                throw new Exception("Cannot set on an already occupied tile");
+            }
+            else
+            {
+                _card = card;
+                _Occupied = true;
+                _IsSummonTile = false;
+                _card.SetCurrentTile(this);
+                ReloadTileUI();
+            }            
         }
         public void MoveInCard(Card card)
         {
             _card = card;
             _Occupied = true;
             _card.SetCurrentTile(this);
+            _card.UpdateFieldTypeBonus();
             ReloadTileUI();
         }
         public void RemoveCard()
@@ -297,6 +313,10 @@ namespace DungeonDiceMonsters
         public void MarkSetTarget()
         {
             _CardImage.BackColor = Color.Green;
+        }
+        public void HighlightTile()
+        {
+            _Border.BackColor = Color.Yellow;
         }
         public void MarkDimensionTile(bool isValid)
         {
@@ -665,6 +685,225 @@ namespace DungeonDiceMonsters
         {
             _FieldType = field;
             ReloadTileUI();
+            //After the UI has been updated, if the tile is occupied by a monster
+            //check if the monster can receive a field type bonus
+            if(_Occupied)
+            {
+                if(_card.Category == Category.Monster) 
+                {
+                    _card.UpdateFieldTypeBonus();
+                }
+            }
+        }
+        public List<Tile> GetFieldSpellActivationTiles(bool returnCandidatesOnly)
+        {
+            List<Tile> Alltiles = new List<Tile>();
+            List<Tile> tiles = new List<Tile>();
+            //Tile (A1)
+            Tile tileA1 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileA1);
+            if (tileA1 != null) { if(tileA1.Owner != PlayerColor.NONE) tiles.Add(tileA1); }
+            //Tile (A2)
+            Tile tileA2 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.West, TileDirection.West});
+            Alltiles.Add(tileA2);
+            if (tileA2 != null) { if (tileA2.Owner != PlayerColor.NONE) tiles.Add(tileA2); }
+            //Tile (A3)
+            Tile tileA3 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.West });
+            Alltiles.Add(tileA3);
+            if (tileA3 != null) { if (tileA3.Owner != PlayerColor.NONE) tiles.Add(tileA3); }
+            //Tile (A4)
+            Tile tileA4 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North });
+            Alltiles.Add(tileA4);
+            if (tileA4 != null) { if (tileA4.Owner != PlayerColor.NONE) tiles.Add(tileA4); }
+            //Tile (A5)
+            Tile tileA5 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.East });
+            Alltiles.Add(tileA5);
+            if (tileA5 != null) { if (tileA5.Owner != PlayerColor.NONE) tiles.Add(tileA5); }
+            //Tile (A6)
+            Tile tileA6 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileA6);
+            if (tileA6 != null) { if (tileA6.Owner != PlayerColor.NONE) tiles.Add(tileA6); }
+            //Tile (A7)
+            Tile tileA7 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.North, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileA7);
+            if (tileA7 != null) { if (tileA7.Owner != PlayerColor.NONE) tiles.Add(tileA7); }
+
+            //Tile (B1)
+            Tile tileB1 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileB1);
+            if (tileB1 != null) { if (tileB1.Owner != PlayerColor.NONE) tiles.Add(tileB1); }
+            //Tile (B2)
+            Tile tileB2 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileB2);
+            if (tileB2 != null) { if (tileB2.Owner != PlayerColor.NONE) tiles.Add(tileB2); }
+            //Tile (B3)
+            Tile tileB3 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.West });
+            Alltiles.Add(tileB3);
+            if (tileB3 != null) { if (tileB3.Owner != PlayerColor.NONE) tiles.Add(tileB3); }
+            //Tile (B4)
+            Tile tileB4 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North });
+            Alltiles.Add(tileB4);
+            if (tileB4 != null) { if (tileB4.Owner != PlayerColor.NONE) tiles.Add(tileB4); }
+            //Tile (B5)
+            Tile tileB5 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.East });
+            Alltiles.Add(tileB5);
+            if (tileB5 != null) { if (tileB5.Owner != PlayerColor.NONE) tiles.Add(tileB5); }
+            //Tile (B6)
+            Tile tileB6 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileB6);
+            if (tileB6 != null) { if (tileB6.Owner != PlayerColor.NONE) tiles.Add(tileB6); }
+            //Tile (B7)
+            Tile tileB7 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.North, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileB7);
+            if (tileB7 != null) { if (tileB7.Owner != PlayerColor.NONE) tiles.Add(tileB7); }
+
+            //Tile (C1)
+            Tile tileC1 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileC1);
+            if (tileC1 != null) { if (tileC1.Owner != PlayerColor.NONE) tiles.Add(tileC1); }
+            //Tile (C2)
+            Tile tileC2 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileC2);
+            if (tileC2 != null) { if (tileC2.Owner != PlayerColor.NONE) tiles.Add(tileC2); }
+            //Tile (C3)
+            Tile tileC3 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.West });
+            Alltiles.Add(tileC3);
+            if (tileC3 != null) { if (tileC3.Owner != PlayerColor.NONE) tiles.Add(tileC3); }
+            //Tile (C4)
+            Tile tileC4 = GetTileInDirection(new List<TileDirection> { TileDirection.North });
+            Alltiles.Add(tileC4);
+            if (tileC4 != null) { if (tileC4.Owner != PlayerColor.NONE) tiles.Add(tileC4); }
+            //Tile (C5)
+            Tile tileC5 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.East });
+            Alltiles.Add(tileC5);
+            if (tileC5 != null) { if (tileC5.Owner != PlayerColor.NONE) tiles.Add(tileC5); }
+            //Tile (C6)
+            Tile tileC6 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileC6);
+            if (tileC6 != null) { if (tileC6.Owner != PlayerColor.NONE) tiles.Add(tileC6); }
+            //Tile (C7)
+            Tile tileC7 = GetTileInDirection(new List<TileDirection> { TileDirection.North, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileC7);
+            if (tileC7 != null) { if (tileC7.Owner != PlayerColor.NONE) tiles.Add(tileC7); }
+
+            //Tile (D1)
+            Tile tileD1 = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileD1);
+            if (tileD1 != null) { if (tileD1.Owner != PlayerColor.NONE) tiles.Add(tileD1); }
+            //Tile (D2)
+            Tile tileD2 = GetTileInDirection(new List<TileDirection> { TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileD2);
+            if (tileD2 != null) { if (tileD2.Owner != PlayerColor.NONE) tiles.Add(tileD2); }
+            //Tile (D3)
+            Tile tileD3 = GetTileInDirection(new List<TileDirection> { TileDirection.West });
+            Alltiles.Add(tileD3);
+            if (tileD3 != null) { if (tileD3.Owner != PlayerColor.NONE) tiles.Add(tileD3); }
+            //Tile (D4)
+            Tile tileD4 = this;
+            Alltiles.Add(this);
+            tiles.Add(tileD4);
+            //Tile (D5)
+            Tile tileD5 = GetTileInDirection(new List<TileDirection> { TileDirection.East });
+            Alltiles.Add(tileD5);
+            if (tileD5 != null) { if (tileD5.Owner != PlayerColor.NONE) tiles.Add(tileD5); }
+            //Tile (D6)
+            Tile tileD6 = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileD6);
+            if (tileD6 != null) { if (tileD6.Owner != PlayerColor.NONE) tiles.Add(tileD6); }
+            //Tile (D7)
+            Tile tileD7 = GetTileInDirection(new List<TileDirection> { TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileD7);
+            if (tileD7 != null) { if (tileD7.Owner != PlayerColor.NONE) tiles.Add(tileD7); }
+
+            //Tile (E1)
+            Tile tileE1 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileE1);
+            if (tileE1 != null) { if (tileE1.Owner != PlayerColor.NONE) tiles.Add(tileE1); }
+            //Tile (E2)
+            Tile tileE2 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileE2);
+            if (tileE2 != null) { if (tileE2.Owner != PlayerColor.NONE) tiles.Add(tileE2); }
+            //Tile (E3)
+            Tile tileE3 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.West });
+            Alltiles.Add(tileE3);
+            if (tileE3 != null) { if (tileE3.Owner != PlayerColor.NONE) tiles.Add(tileE3); }
+            //Tile (E4)
+            Tile tileE4 = GetTileInDirection(new List<TileDirection> { TileDirection.South });
+            Alltiles.Add(tileE4);
+            if (tileE4 != null) { if (tileE4.Owner != PlayerColor.NONE) tiles.Add(tileE4); }
+            //Tile (E5)
+            Tile tileE5 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.East });
+            Alltiles.Add(tileE5);
+            if (tileE5 != null) { if (tileE5.Owner != PlayerColor.NONE) tiles.Add(tileE5); }
+            //Tile (E6)
+            Tile tileE6 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileE6);
+            if (tileE6 != null) { if (tileE6.Owner != PlayerColor.NONE) tiles.Add(tileE6); }
+            //Tile (E7)
+            Tile tileE7 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileE7);
+            if (tileE7 != null) { if (tileE7.Owner != PlayerColor.NONE) tiles.Add(tileE7); }
+            Alltiles.Add(tileE7);
+
+            //Tile (F1)
+            Tile tileF1 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileF1);
+            if (tileF1 != null) { if (tileF1.Owner != PlayerColor.NONE) tiles.Add(tileF1); }
+            //Tile (F2)
+            Tile tileF2 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileF2);
+            if (tileF2 != null) { if (tileF2.Owner != PlayerColor.NONE) tiles.Add(tileF2); }
+            //Tile (F3)
+            Tile tileF3 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.West });
+            Alltiles.Add(tileF3);
+            if (tileF3 != null) { if (tileF3.Owner != PlayerColor.NONE) tiles.Add(tileF3); }
+            //Tile (F4)
+            Tile tileF4 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South });
+            Alltiles.Add(tileF4);
+            if (tileF4 != null) { if (tileF4.Owner != PlayerColor.NONE) tiles.Add(tileF4); }
+            //Tile (F5)
+            Tile tileF5 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.East });
+            Alltiles.Add(tileF5);
+            if (tileF5 != null) { if (tileF5.Owner != PlayerColor.NONE) tiles.Add(tileF5); }
+            //Tile (F6)
+            Tile tileF6 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileF6);
+            if (tileF6 != null) { if (tileF6.Owner != PlayerColor.NONE) tiles.Add(tileF6); }
+            //Tile (F7)
+            Tile tileF7 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileF7);
+            if (tileF7 != null) { if (tileF7.Owner != PlayerColor.NONE) tiles.Add(tileF7); }
+
+            //Tile (G1)
+            Tile tileG1 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.West, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileG1);
+            if (tileG1 != null) { if (tileG1.Owner != PlayerColor.NONE) tiles.Add(tileG1); }
+            //Tile (G2)
+            Tile tileG2 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.West, TileDirection.West });
+            Alltiles.Add(tileG2);
+            if (tileG2 != null) { if (tileG2.Owner != PlayerColor.NONE) tiles.Add(tileG2); }
+            //Tile (G3)
+            Tile tileG3 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.West });
+            Alltiles.Add(tileG3);
+            if (tileG3 != null) { if (tileG3.Owner != PlayerColor.NONE) tiles.Add(tileG3); }
+            //Tile (G4)
+            Tile tileG4 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South });
+            Alltiles.Add(tileG4);
+            if (tileG4 != null) { if (tileG4.Owner != PlayerColor.NONE) tiles.Add(tileG4); }
+            //Tile (G5)
+            Tile tileG5 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.East });
+            Alltiles.Add(tileG5);
+            if (tileG5 != null) { if (tileG5.Owner != PlayerColor.NONE) tiles.Add(tileG5); }
+            //Tile (G6)
+            Tile tileG6 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileG6);
+            if (tileG6 != null) { if (tileG6.Owner != PlayerColor.NONE) tiles.Add(tileG6); }
+            //Tile (G7)
+            Tile tileG7 = GetTileInDirection(new List<TileDirection> { TileDirection.South, TileDirection.South, TileDirection.South, TileDirection.East, TileDirection.East, TileDirection.East });
+            Alltiles.Add(tileG7);
+            if (tileG7 != null) { if (tileG7.Owner != PlayerColor.NONE) tiles.Add(tileG7); }
+
+            if (returnCandidatesOnly) { return tiles; } else { return Alltiles; }
         }
         #endregion
 

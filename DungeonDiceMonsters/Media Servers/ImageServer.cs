@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Security.AccessControl;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DungeonDiceMonsters
 {
@@ -25,6 +26,7 @@ namespace DungeonDiceMonsters
                 case CardImageType.FullCardSymbol: box.Image = FullCardSymbol(arg1); break;
                 case CardImageType.DimensionForm: box.Image = DimensionForm(arg1); break;
                 case CardImageType.FieldTile: box.Image = FieldTile(arg1); break;
+                case CardImageType.CrestIcon: box.Image = CrestIcon(arg1); break;
             }
         }
         public static void LoadImageToPanel(Panel box, CardImageType type, string arg1)
@@ -50,6 +52,10 @@ namespace DungeonDiceMonsters
         private static Image DeckStatusIcon(string status)
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\" + status + ".jpg");
+        }
+        private static Image CrestIcon(string icon)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\" + icon + ".png");
         }
         private static Image CharacterIcon(string c)
         {
@@ -93,6 +99,7 @@ namespace DungeonDiceMonsters
         FullCardSymbol,
         DimensionForm,
         PhaseBanner,
-        FieldTile
+        FieldTile,
+        CrestIcon,
     }
 }

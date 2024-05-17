@@ -8,7 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
@@ -70,8 +70,8 @@ namespace DungeonDiceMonsters
                     statsLabelATK.Font = new Font("Calibri", 6, FontStyle.Bold);
                     statsLabelATK.TextAlign = ContentAlignment.TopLeft;
                     statsLabelATK.Text = "9999";
-                    statsLabelATK.Visible = false;                                                                     
-                   
+                    statsLabelATK.Visible = false;
+
                     //Create each inside picture box
                     PictureBox insidePicture = new PictureBox();
                     PanelBoard.Controls.Add(insidePicture);
@@ -93,7 +93,7 @@ namespace DungeonDiceMonsters
                     borderPicture.Size = new Size(TILESIDE_SIZE, TILESIDE_SIZE);
                     borderPicture.BorderStyle = BorderStyle.FixedSingle;
                     borderPicture.BackColor = Color.Transparent;
-                 
+
                     //create and add a new tile object using the above 2 picture boxes
                     _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabelATK, statsLabelDEF));
 
@@ -148,7 +148,7 @@ namespace DungeonDiceMonsters
             }
 
             //Set the starting tiles for each player
-            _Tiles[227].ChangeOwner(PlayerColor.RED);           
+            _Tiles[227].ChangeOwner(PlayerColor.RED);
             _Tiles[6].ChangeOwner(PlayerColor.BLUE);
 
             //Summon both Symbols: Blue on TIle ID 6 and Red on Tile ID 227
@@ -171,10 +171,10 @@ namespace DungeonDiceMonsters
             LaunchTurnStartPanel();
 
             //Initialize both Symbols Continuous Effect
-            Effect RedsymbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            Effect RedsymbolEffect = new Effect(_RedSymbol, Effect.EffectType.Continuous);
             ActivateEffect(RedsymbolEffect);
             _ActiveEffects.Add(RedsymbolEffect);
-            Effect BluesymbolEffect = new Effect(_BlueSymbol, EffectType.Continuous);
+            Effect BluesymbolEffect = new Effect(_BlueSymbol, Effect.EffectType.Continuous);
             ActivateEffect(BluesymbolEffect);
             _ActiveEffects.Add(BluesymbolEffect);
         }
@@ -348,10 +348,10 @@ namespace DungeonDiceMonsters
 
             //Initialize both Symbols Continuous Effect
             //Initialize both Symbols Continuous Effect
-            Effect RedsymbolEffect = new Effect(_RedSymbol, EffectType.Continuous);
+            Effect RedsymbolEffect = new Effect(_RedSymbol, Effect.EffectType.Continuous);
             ActivateEffect(RedsymbolEffect);
             _ActiveEffects.Add(RedsymbolEffect);
-            Effect BluesymbolEffect = new Effect(_BlueSymbol, EffectType.Continuous);
+            Effect BluesymbolEffect = new Effect(_BlueSymbol, Effect.EffectType.Continuous);
             ActivateEffect(BluesymbolEffect);
             _ActiveEffects.Add(BluesymbolEffect);
 
@@ -420,9 +420,9 @@ namespace DungeonDiceMonsters
         public List<Tile> GetUnoccupiedSummoningTiles(PlayerColor playerColor)
         {
             List<Tile> tiles = new List<Tile>();
-            foreach(Tile thisTile in _Tiles) 
+            foreach (Tile thisTile in _Tiles)
             {
-                if(thisTile.IsSummonTile && thisTile.Owner == playerColor && !thisTile.IsOccupied)
+                if (thisTile.IsSummonTile && thisTile.Owner == playerColor && !thisTile.IsOccupied)
                 {
                     tiles.Add(thisTile);
                 }
@@ -527,7 +527,7 @@ namespace DungeonDiceMonsters
             else
             {
                 lblActionInstruction.Text = "Opponent is selecting the tile to set the card at.";
-            }                              
+            }
         }
         public static void WaitNSeconds(double milliseconds)
         {
@@ -540,7 +540,7 @@ namespace DungeonDiceMonsters
         }
         public void CloseWithoutShuttingDownTheApp()
         {
-            if(_RollDiceForm !=  null)
+            if (_RollDiceForm != null)
             {
                 _RollDiceForm.CloseWithoutShuttingDownTheApp();
             }
@@ -705,18 +705,18 @@ namespace DungeonDiceMonsters
                         }
                         lblCardText.Text = fullcardtext;
 
-                        if (thisCard.Category == Category.Monster) 
+                        if (thisCard.Category == Category.Monster)
                         {
                             lblAttackLeftAmount.Text = string.Format("{0} / {1}", thisCard.AttacksAvaiable, thisCard.AttacksPerTurn);
                         }
                         else { lblAttackLeftAmount.Text = string.Empty; }
 
-                        if (thisCard.Category == Category.Monster) 
-                        { 
+                        if (thisCard.Category == Category.Monster)
+                        {
                             lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
                         }
                         else { lblMovesLeftAmount.Text = string.Empty; }
-                       
+
                         if (thisCard.Category == Category.Monster) { lblMovesCostAmount.Text = thisCard.MoveCost.ToString(); }
                         else { lblMovesCostAmount.Text = string.Empty; }
 
@@ -757,7 +757,7 @@ namespace DungeonDiceMonsters
         }
         private void LoadFieldTypeDisplay(bool isHovering)
         {
-            if(isHovering && _CurrentTileSelected.Owner != PlayerColor.NONE)
+            if (isHovering && _CurrentTileSelected.Owner != PlayerColor.NONE)
             {
                 //Panel will display
                 PanelFieldType.Visible = true;
@@ -768,7 +768,7 @@ namespace DungeonDiceMonsters
                 else { PicFieldTypeDisplay.BackColor = Color.DarkBlue; }
 
                 //If field type is set, load the proper image
-                if(_CurrentTileSelected.FieldType != Tile.FieldTypeValue.None)
+                if (_CurrentTileSelected.FieldType != Tile.FieldTypeValue.None)
                 {
                     ImageServer.LoadImage(PicFieldTypeDisplay, CardImageType.FieldTile, _CurrentTileSelected.FieldType.ToString());
 
@@ -778,7 +778,7 @@ namespace DungeonDiceMonsters
                     if (PicFieldTypeDisplay.Image != null) { PicFieldTypeDisplay.Image.Dispose(); }
                     PicFieldTypeDisplay.Image = null;
                 }
-                
+
                 //Update the Field Type name label
                 lblFieldTypeName.Text = _CurrentTileSelected.FieldType.ToString();
             }
@@ -883,7 +883,7 @@ namespace DungeonDiceMonsters
             }
 
             //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
-            if(Y_Location < 30)
+            if (Y_Location < 30)
             {
                 newY = newY + 48;
             }
@@ -941,7 +941,7 @@ namespace DungeonDiceMonsters
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
 
             //Update the LP labels to reflect the Color owner
-            if(TURNPLAYER == PlayerColor.RED)
+            if (TURNPLAYER == PlayerColor.RED)
             {
                 PanelAttackerCard.BackColor = Color.DarkRed;
                 PanelDefenderCard.BackColor = Color.MidnightBlue;
@@ -985,7 +985,7 @@ namespace DungeonDiceMonsters
 
             //Display either the ATTACK/DEFEND controls based on the user player
             if (UserPlayerColor == TURNPLAYER)
-            {              
+            {
                 //Display the base Attack Controls Panel
                 _AttackBonusCrest = 0;
                 lblAttackerBonus.Text = "Bonus: 0";
@@ -1064,7 +1064,7 @@ namespace DungeonDiceMonsters
                     btnBattleMenuDefend.Visible = false;
                     PanelDefenderAdvBonus.Visible = false;
                 }
-             
+
                 //Show the 'waiting for opponent' label on the other ide
                 lblWaitingforattacker.Visible = true;
                 lblWaitingfordefender.Visible = false;
@@ -1089,6 +1089,19 @@ namespace DungeonDiceMonsters
                 case Attribute.EARTH: if (defender.Attribute == Attribute.WIND) { return true; } else { return false; }
                 case Attribute.WIND: if (defender.Attribute == Attribute.WATER) { return true; } else { return false; }
                 default: return false;
+            }
+        }
+        private void ReduceCrestsToPlayer(PlayerColor playerColor, Crest crestToBeReduced, int amountToBeReduce)
+        {
+            PlayerData playerData = RedData;
+            if (playerColor == PlayerColor.BLUE) { playerData = BlueData; }
+
+            for (int x = 0; x < amountToBeReduce; x++)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                playerData.RemoveCrests(crestToBeReduced, 1);
+                LoadPlayersInfo();
+                BoardForm.WaitNSeconds(200);
             }
         }
         private void UpdateDebugWindow()
@@ -1123,16 +1136,16 @@ namespace DungeonDiceMonsters
         }
         private void UpdateBanner(string currentPhase)
         {
-            if(PicPhaseBanner.Image  != null) { PicPhaseBanner.Image.Dispose(); }
+            if (PicPhaseBanner.Image != null) { PicPhaseBanner.Image.Dispose(); }
             PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
-        }  
+        }
         private void UpdateEffectLogs(string message)
-        { 
-            if(UserPlayerColor == TURNPLAYER)
+        {
+            if (UserPlayerColor == TURNPLAYER)
             {
                 _EffectsLog.Add(message);
                 File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
-            }            
+            }
         }
         #endregion
 
@@ -1176,7 +1189,10 @@ namespace DungeonDiceMonsters
                     case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
                     case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
                     case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
-                    case "[ATTACK!]": BattleMessageReceived_Attack(Convert.ToInt32(MessageTokens[2]));  break;
+                    case "[CLICK EFFECT ACTION MENU]": btnActionEffect_Base(); break;
+                    case "[CLICK ACTIVATE EFFECT MENU]": btnEffectMenuActivate_Base(); break;
+                    case "[CLICK CANCEL EFFECT MENU]": btnEffectMenuCancel_Base(); break;
+                    case "[ATTACK!]": BattleMessageReceived_Attack(Convert.ToInt32(MessageTokens[2])); break;
                     case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[2])); break;
                     case "[PASS!]": BattleMessageReceived_Pass(); break;
                     case "[END BATTLE]": btnEndBattle_Base(); break;
@@ -1257,10 +1273,10 @@ namespace DungeonDiceMonsters
                     if (!_DefenderDefended) { creststoremoveDEF = 0; }
                     PlayerData AttackerPlayerData = RedData;
                     PlayerData DefenderPlayerData = BlueData;
-                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; }
-                    AttackerPlayerData.RemoveCrests(Crest.ATK, creststoremoveATK);
-                    DefenderPlayerData.RemoveCrests(Crest.DEF, creststoremoveDEF);
-                    LoadPlayersInfo();
+                    PlayerColor DefenderColor = PlayerColor.BLUE;
+                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; DefenderColor = PlayerColor.RED; }
+                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, creststoremoveATK);
+                    ReduceCrestsToPlayer(DefenderColor, Crest.DEF, creststoremoveDEF);
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
@@ -1396,13 +1412,7 @@ namespace DungeonDiceMonsters
 
                     //Step 4: Reduce the [ATK] from the attacker. Defender always "Passes"
                     Card Attacker = _CurrentTileSelected.CardInPlace;
-                    Card Defender = _AttackTarger.CardInPlace;
-                    int creststoremoveATK = Attacker.AttackCost;
-                    PlayerData AttackerPlayerData = RedData;
-                    PlayerData DefenderPlayerData = BlueData;
-                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; }
-                    AttackerPlayerData.RemoveCrests(Crest.ATK, creststoremoveATK);
-                    LoadPlayersInfo();
+                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, Attacker.AttackCost);
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
@@ -1424,7 +1434,7 @@ namespace DungeonDiceMonsters
                     {
                         //Step 5A: Show the final Damange Amount on the UI
                         lblBattleMenuDamage.Text = string.Format("Damage: {0}", Damage);
-                    
+
                         //Step 6D: if there is damage deal it to the player's symbol
                         if (Damage > 0)
                         {
@@ -1491,6 +1501,11 @@ namespace DungeonDiceMonsters
                     //Destroy the defender card automatically
                     SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
                     ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, _AttackTarger.CardInPlace.CardID.ToString());
+
+                    //Reduce the [ATK] from the attacker. Defender always "Passes"
+                    Card Attacker = _CurrentTileSelected.CardInPlace;
+                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, Attacker.AttackCost);
+
                     PicDefenderDestroyed.Visible = true;
                     lblBattleMenuDamage.Text = "Damage: 0";
                     WaitNSeconds(1000);
@@ -1504,6 +1519,8 @@ namespace DungeonDiceMonsters
         }
         private void DestroyCard(Tile tileLocation)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+
             //Save the ref of the Card Object before destroying it, we are going to need it
             Card thisCard = tileLocation.CardInPlace;
 
@@ -1514,16 +1531,16 @@ namespace DungeonDiceMonsters
             //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes
             bool activeEffectFound = false;
             int indexFound = -1;
-            for(int x = 0; x < _ActiveEffects.Count; x++)
+            for (int x = 0; x < _ActiveEffects.Count; x++)
             {
                 //Set the ref to the effect object 
                 Effect thisEffect = _ActiveEffects[x];
 
                 //Check if the effect corresponds to the Origin Card 
-                if(thisEffect.OriginCard.OnBoardID == thisCard.OnBoardID)
+                if (thisEffect.OriginCard.OnBoardID == thisCard.OnBoardID)
                 {
-                    //and if this effect duration is Continuous
-                    if(thisEffect.Duration == EffectDuration.Continuous)
+                    //and if this is a continuos effect or one-turn ignition effect
+                    if (thisEffect.Type == Effect.EffectType.Continuous || thisEffect.IsAOneTurnIgnition)
                     {
                         activeEffectFound = true;
                         indexFound = x;
@@ -1533,65 +1550,45 @@ namespace DungeonDiceMonsters
             }
 
             //If an effect was found, perform it RemoveEffect method and then remove the effect from the active list
-            if(activeEffectFound) 
+            if (activeEffectFound)
             {
                 Effect thisEffect = _ActiveEffects[indexFound];
                 UpdateEffectLogs(string.Format("Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}] | Removing Continuous Effect: [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner, thisEffect.ID));
                 //then remove the effect from the Board
                 switch (thisEffect.ID)
                 {
-                    case EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect, indexFound); break;
+                    case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect, indexFound); break;
                     default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
                 }
 
                 //Now remove the effect
                 _ActiveEffects.RemoveAt(indexFound);
-            }           
-        }
-        private void ActivateEffect(Effect thisEffect)
-        {
-            switch(thisEffect.ID) 
-            {
-                case EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
-                case EffectID.LIGHTSymbol: LightSymbol_Activation(thisEffect); break;
-                case EffectID.WATERSymbol: WaterSymbol_Activation(thisEffect); break;
-                case EffectID.FIRESymbol: FireSymbol_Activation(thisEffect); break;
-                case EffectID.EARTHSymbol: EarthSymbol_Activation(thisEffect); break;
-                case EffectID.WINDSymbol: WindSymbol_Activation(thisEffect); break;
-
-
-
-
-                case EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
-                case EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
-                case EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
-                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
         }
         private void ResolveEffectsWithSummonReactionTo(Card targetCard)
         {
             foreach (Effect thisActiveEffect in _ActiveEffects)
             {
-                if(thisActiveEffect.ReactsToMonsterSummon)
+                if (thisActiveEffect.ReactsToMonsterSummon)
                 {
-                    switch(thisActiveEffect.ID)
+                    switch (thisActiveEffect.ID)
                     {
-                        case EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                        case EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                        case EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                        case EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                        case EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                        case EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
 
 
 
-                        case EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                     }
                 }
             }
         }
-        private void EndSummoningPhase()
+        private void EnterMainPhase()
         {
             //Proceed to finish the Summon Phase
             UpdateBanner("MainPhase");
@@ -1608,6 +1605,8 @@ namespace DungeonDiceMonsters
                 lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
                 lblActionInstruction.Visible = true;
             }
+
+            _CurrentGameState = GameState.MainPhaseBoard;
         }
         private void StartGameOver()
         {
@@ -1625,7 +1624,6 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Event Listeners
-
         #region Generic Listeners
         private void OnMouseHoverSound(object sender, EventArgs e)
         {
@@ -1633,10 +1631,10 @@ namespace DungeonDiceMonsters
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if(_AppShutDownWhenClose)
+            if (_AppShutDownWhenClose)
             {
                 Environment.Exit(Environment.ExitCode);
-            }           
+            }
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -1807,7 +1805,7 @@ namespace DungeonDiceMonsters
                         SendMessageToServer(string.Format("[CLICK TILE TO SET]|{0}|{1}", _CurrentGameState.ToString(), tileID));
 
                         //Perform the action
-                        TileClick_SetCard_Base(tileID);                        
+                        TileClick_SetCard_Base(tileID);
                     }
                     else
                     {
@@ -2092,6 +2090,17 @@ namespace DungeonDiceMonsters
                 btnActionAttack_Base();
             }
         }
+        private void btnActionEffect_Click(object sender, EventArgs e)
+        {
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK EFFECT ACTION MENU]|" + _CurrentGameState.ToString());
+
+                //Perform the action
+                btnActionEffect_Base();
+            }
+        }
         private void btnMoveMenuFinish_Click(object sender, EventArgs e)
         {
             if (UserPlayerColor == TURNPLAYER)
@@ -2231,7 +2240,7 @@ namespace DungeonDiceMonsters
                 Card Defender = _AttackTarger.CardInPlace;
 
                 _DefenseBonusCrest++;
-                if (_DefenseBonusCrest == 5 || (Defender.DefenseCost +_DefenseBonusCrest + 1) > DefenderData.Crests_DEF)
+                if (_DefenseBonusCrest == 5 || (Defender.DefenseCost + _DefenseBonusCrest + 1) > DefenderData.Crests_DEF)
                 {
                     lblDefenderAdvMinus.Visible = false;
                 }
@@ -2267,6 +2276,31 @@ namespace DungeonDiceMonsters
 
             //Perform the action
             btnEndBattle_Base();
+        }
+        #endregion
+
+        #region Effect Menu
+        private void btnEffectMenuCancel_Click(object sender, EventArgs e)
+        {
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK CANCEL EFFECT MENU]|" + _CurrentGameState.ToString());
+
+                //Perform the action
+                btnEffectMenuCancel_Base();
+            }
+        }
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Send the action message to the server
+                SendMessageToServer("[CLICK ACTIVATE EFFECT MENU]|" + _CurrentGameState.ToString());
+
+                //Perform the action
+                btnEffectMenuActivate_Base();
+            }
         }
         #endregion
         #endregion
@@ -2405,7 +2439,8 @@ namespace DungeonDiceMonsters
         }
         private void TileClick_SummonCard_Base(int tileId)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 //TODO: I need a sound effect here 
 
                 //Initialize the Dimension tiles again (Oppoenent's UI doesnt get them initialize them on hover)
@@ -2427,31 +2462,30 @@ namespace DungeonDiceMonsters
                 PanelDimenFormSelector.Visible = false;
                 _CurrentDimensionForm = DimensionForms.CrossBase;
                 _CurrentTileSelected = _dimensionTiles[0];
-                _CurrentGameState = GameState.MainPhaseBoard;
 
                 //Check for active effects that react to monster summons
                 UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                 ResolveEffectsWithSummonReactionTo(thisCard);
-                              
+
                 //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-                if(thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
+                if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
                 {
                     //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, EffectType.OnSummon);
+                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
                     ActivateEffect(thisCardsEffect);
                     _ActiveEffects.Add(thisCardsEffect);
                 }
                 else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
                 {
                     //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, EffectType.Continuous);
+                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
                     ActivateEffect(thisCardsEffect);
                     _ActiveEffects.Add(thisCardsEffect);
                 }
                 else
                 {
-                    EndSummoningPhase();
-                }              
+                    EnterMainPhase();
+                }
             }));
         }
         private void TileClick_SetCard_Base(int tileId)
@@ -2463,23 +2497,95 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(thisCard);
             _Tiles[tileId].SetCard(thisCard);
 
+            //Reset the UI of all the candidate tiles
+            foreach (Tile thisTile in _SetCandidates)
+            {
+                if (thisTile.ID != tileId) { thisTile.ReloadTileUI(); }
+            }
+
             //Once this action is completed, move to the main phase
-            _CurrentGameState = GameState.MainPhaseBoard;
-            EndSummoningPhase();
+            EnterMainPhase();
         }
         private void TileClick_MainPhase_Base(int tileId)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
 
-                //Perform the on mouse enter even, this is for the NON TURN PLAYER who
-                //doesnt have hover actions happening on their end
-                //OnMouseEnterPicture_Base(tileId);
+                //Step 1: Open the Action menu by setting its dynamic location and making it visible
+                PositionActionMenu();
+                PanelActionMenu.Visible = true;
+                btnActionCancel.Enabled = true;
 
-                //Hide the End Turn Button, this wont reappear until the player is done with the action
-                btnEndTurn.Visible = false;
+                //Step 2: Generate the Card object on the card in action, we'll use it later.
+                Card thiscard = _CurrentTileSelected.CardInPlace;
 
-                //Open the Action menu
+                //Step 3A: Enable the Action Buttons based on the card in action
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    //Hide the End Turn Button for the turn player 
+                    btnEndTurn.Visible = false;
+
+                    //genrate the PlayerData object of the attacker and the actual user
+                    PlayerData UserPlayerData = RedData;
+                    if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
+                    PlayerData TurnPlayerData = RedData;
+                    if (TURNPLAYER == PlayerColor.BLUE)
+                    {
+                        TurnPlayerData = BlueData;
+                    }
+
+                    //Check if Card can move                
+                    if (CanCardMove(thiscard, TurnPlayerData))
+                    {
+                        btnActionMove.Enabled = true;
+                        _TMPMoveCrestCount = TurnPlayerData.Crests_MOV;
+                        lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
+                    }
+                    else
+                    {
+                        btnActionMove.Enabled = false;
+                    }
+
+                    //Check if Card can attack
+                    if (CanCardAttack(thiscard, TurnPlayerData))
+                    {
+                        btnActionAttack.Enabled = true;
+                    }
+                    else
+                    {
+                        btnActionAttack.Enabled = false;
+                    }
+
+                    //Check if Card has an effect to activate
+                    if (DoesCardHasAnEffectToActivate(thiscard))
+                    {
+                        btnActionEffect.Enabled = true;
+                    }
+                    else
+                    {
+                        btnActionEffect.Enabled = false;
+                    }
+                }
+                //Step 3B: Disable the Action Button for the non-turn player
+                else
+                {
+                    //Show the action message to the opposite player
+                    lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    lblActionInstruction.Visible = true;
+                    btnActionMove.Enabled = false;
+                    btnActionAttack.Enabled = false;
+                    btnActionMove.Enabled = false;
+                    btnActionCancel.Enabled = false;
+                }
+
+                //Change the game state
+                _CurrentGameState = GameState.ActionMenuDisplay;
+
+            }));
+
+            void PositionActionMenu()
+            {
                 //Set the location in relation to the Tile location and cursor location
                 Point referencePoint = _CurrentTileSelected.Location;
                 int X_Location = referencePoint.X;
@@ -2493,63 +2599,52 @@ namespace DungeonDiceMonsters
                 {
                     PanelActionMenu.Location = new Point(referencePoint.X + 48, referencePoint.Y - 25);
                 }
-                PanelActionMenu.Visible = true;
-
-
+            }
+            bool CanCardMove(Card thiscard, PlayerData TurnPlayerData)
+            {
+                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            bool CanCardAttack(Card thiscard, PlayerData TurnPlayerData)
+            {
                 //Determine if this card can attack if:
                 // 1. Has Attacks available left
                 // 2. Player has enough atack crest to pay its cost
-                // 3. Has at least 1 adjecent attack candidate
-                // 4. Card is a monster
-               
-                PlayerData UserPlayerData = RedData;
-                if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
-                PlayerData TurnPlayerData = RedData;
-                if (TURNPLAYER == PlayerColor.BLUE)
-                {
-                    TurnPlayerData = BlueData;
-                }
-
-                //Disable the unavailable actions
-                Card thiscard = _CurrentTileSelected.CardInPlace;
-                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV)
-                {
-                    btnActionMove.Enabled = false;
-                }
-                else
-                {
-                    btnActionMove.Enabled = true;
-                    _TMPMoveCrestCount = TurnPlayerData.Crests_MOV;
-                    lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
-                }
+                // 3. Card is a monster
 
                 //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > UserPlayerData.Crests_ATK  || thiscard.Category != Category.Monster)
+                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster)
                 {
-                    btnActionAttack.Enabled = false;
+                    return false;
                 }
                 else
                 {
-                    btnActionAttack.Enabled = true;
+                    return true;
                 }
-
-                //TODO: Effects...
-                btnActionEffect.Enabled = false;
-
-                if(UserPlayerColor != TURNPLAYER)
+            }
+            bool DoesCardHasAnEffectToActivate(Card thiscard)
+            {
+                if (thiscard.Category == Category.Monster && thiscard.HasIgnitionEffect)
                 {
-                    lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
-                    lblActionInstruction.Visible = true;
+                    return true;
                 }
-
-                //Change the game state
-                _CurrentGameState = GameState.ActionMenuDisplay;
-
-            }));
+                else if (thiscard.Category == Category.Spell && (thiscard.HasContinuousEffect || thiscard.HasIgnitionEffect))
+                {
+                    return true;
+                }
+                else { return false; }
+            }
         }
         private void btnEndTurn_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 //Update the Phase Banner
                 UpdateBanner("EndPhase");
 
@@ -2587,7 +2682,8 @@ namespace DungeonDiceMonsters
         }
         private void btnActionCancel_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Close the Action menu/Card info panel and return to the MainPhase Stage 
                 _CurrentTileSelected.ReloadTileUI();
@@ -2606,7 +2702,8 @@ namespace DungeonDiceMonsters
         }
         private void btnActionMove_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 _CurrentGameState = GameState.MovingCard;
 
@@ -2631,10 +2728,11 @@ namespace DungeonDiceMonsters
         }
         private void btnActionAttack_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 _AttackerTile = _CurrentTileSelected;
-             
+
                 PlayerColor TargetPlayerColor = PlayerColor.RED;
                 if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
                 _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
@@ -2652,13 +2750,28 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.SelectingAttackTarger;
             }));
         }
+        private void btnActionEffect_Base()
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Step 1: Change the game state and hide the action menu
+                _CurrentGameState = GameState.ActionMenuDisplay;
+                PanelActionMenu.Visible = false;
+
+                //Step 2: Open the Effect Menu
+                DisplayIgnitionEfectPanel(_CurrentTileSelected.CardInPlace);
+            }));
+        }
         private void btnMoveMenuCancel_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Reload the card's tile before the mouse trigers hovering another tile.
                 _CurrentTileSelected.ReloadTileUI();
-                
+
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
@@ -2681,7 +2794,7 @@ namespace DungeonDiceMonsters
                 LoadPlayersInfo();
                 UpdateDebugWindow();
 
-                               
+
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
@@ -2698,14 +2811,15 @@ namespace DungeonDiceMonsters
         }
         private void TileClick_MoveCard_Base(int tileId)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
 
                 //Move the card to this location
                 Card thiscard = _PreviousTileMove.CardInPlace;
 
-                _Tiles[tileId].MoveInCard(thiscard);
                 _PreviousTileMove.RemoveCard();
+                _Tiles[tileId].MoveInCard(thiscard);
                 _PreviousTileMove.ReloadTileUI();
 
                 //Now clear the borders of all the candidates tiles to their og color
@@ -2743,7 +2857,8 @@ namespace DungeonDiceMonsters
         }
         private void btnMoveMenuFinish_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
@@ -2780,7 +2895,8 @@ namespace DungeonDiceMonsters
         }
         private void TileClick_AttackTarget_Base(int tileId)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
 
                 //Remove an Attack Available Counter from this card
@@ -2806,7 +2922,8 @@ namespace DungeonDiceMonsters
         }
         private void btnAttackMenuCancel_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Reload the card's tile before the mouse trigers hovering another tile.
                 _CurrentTileSelected.ReloadTileUI();
@@ -2819,7 +2936,7 @@ namespace DungeonDiceMonsters
 
                 _AttackCandidates.Clear();
                 PanelAttackMenu.Visible = false;
-                
+
                 if (UserPlayerColor == TURNPLAYER)
                 {
                     btnEndTurn.Visible = true;
@@ -2833,9 +2950,78 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.MainPhaseBoard;
             }));
         }
+        private void btnEffectMenuActivate_Base()
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Step 1: Hide the Active/Cancel buttons to prevent any input while
+                //the cost is reduce from the player's crest pool
+                btnActivate.Visible = false;
+                btnEffectMenuCancel.Visible = false;
+
+                //Step 2: Flip the facedown card (if it was a facedown card)
+                if (_CardEffectToBeActivated.OriginCard.IsFaceDown)
+                {
+                    _CardEffectToBeActivated.OriginCard.FlipFaceUp();
+                    //Reveal the hidden info for the opposite player
+                    if (UserPlayerColor != TURNPLAYER)
+                    {
+                        ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, _CardEffectToBeActivated.OriginCard.CardID.ToString());
+                        lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
+                        lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
+                        ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                        lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
+                        lblCostAmount.ForeColor = Color.White;
+                        PanelCost.Visible = true;
+                    }
+                }
+
+                //Step 3: Reduce the cost from the player's crest pool
+                ReduceCrestsToPlayer(TURNPLAYER, _CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount);
+
+                //Step 4: Give a small pause to allow the opposite player to see the effect revealed on their end
+                BoardForm.WaitNSeconds(2000);
+
+                //Step 5: Close the Effect Menu and active the effect
+                PanelEffectActivationMenu.Visible = false;
+                BoardForm.WaitNSeconds(500);
+                ActivateEffect(_CardEffectToBeActivated);
+
+                //NOTE: The ActivateEffect() will decide the direction of the next game state
+                //based on the Activation method of the specific effect that will be activated.
+            }));
+        }
+        private void btnEffectMenuCancel_Base()
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Close the Effect Menu and return to the main phase
+                PanelEffectActivationMenu.Visible = false;
+                _CurrentTileSelected.ReloadTileUI();
+
+                //Reset UI for each player
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    btnEndTurn.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is inspecting the board for his next action!";
+                    lblActionInstruction.Visible = true;
+                }
+
+                //Update the gamestate
+                _CurrentGameState = GameState.MainPhaseBoard;
+            }));
+        }
         private void BattleMessageReceived_Attack(int crestBonusAmount)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 _AttackBonusCrest = crestBonusAmount;
                 _AttackerIsReadyToBattle = true;
                 lblWaitingforattacker.ForeColor = Color.Green;
@@ -2844,11 +3030,12 @@ namespace DungeonDiceMonsters
                 {
                     PerformDamageCalculation();
                 }
-            }));      
+            }));
         }
         private void BattleMessageReceived_Defend(int crestBonusAmount)
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 _DefenderDefended = true;
                 _DefenseBonusCrest = crestBonusAmount;
                 _DefenderIsReadyToBattle = true;
@@ -2862,7 +3049,8 @@ namespace DungeonDiceMonsters
         }
         private void BattleMessageReceived_Pass()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 _DefenderDefended = false;
                 _DefenseBonusCrest = 0;
                 _DefenderIsReadyToBattle = true;
@@ -2876,7 +3064,8 @@ namespace DungeonDiceMonsters
         }
         private void btnEndBattle_Base()
         {
-            Invoke(new MethodInvoker(delegate () {
+            Invoke(new MethodInvoker(delegate ()
+            {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 _CurrentTileSelected.ReloadTileUI();
                 PanelBattleMenu.Visible = false;
@@ -2936,31 +3125,148 @@ namespace DungeonDiceMonsters
         private List<Effect> _ActiveEffects = new List<Effect>();
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
+        private Effect _CardEffectToBeActivated;
         #endregion
 
         #region Effect Activation Methods
-
         #region Share Methods for Effects Execution
+        private void ActivateEffect(Effect thisEffect)
+        {
+            switch (thisEffect.ID)
+            {
+                case Effect.EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.LIGHTSymbol: LightSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.WATERSymbol: WaterSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.FIRESymbol: FireSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.EARTHSymbol: EarthSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.WINDSymbol: WindSymbol_Activation(thisEffect); break;
+                case Effect.EffectID.Mountain: Mountain_Activation(thisEffect); break;
+                case Effect.EffectID.Sogen: Sogen_Activation(thisEffect); break;
+                case Effect.EffectID.Wasteland: Wasteland_Activation(thisEffect); break;
+                case Effect.EffectID.Forest: Forest_Activation(thisEffect); break;
+                case Effect.EffectID.Yami: Yami_Activation(thisEffect); break;
+                case Effect.EffectID.Umi: Umi_Activation(thisEffect); break;
+                case Effect.EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
+            }
+        }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
-            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
-            lblOnSummonEffectType.Text = "Summon Effect";
-            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
-            PanelOnSummonEffect.Visible = true;
+            ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblEffectMenuTittle.Text = "Summon Effect";
+            lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
+            PanelEffectActivationMenu.Visible = true;
             BoardForm.WaitNSeconds(2000);
         }
-        private void DisplayContinuousEffectPanel(Effect thisEffect)
+        private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
         {
-            ImageServer.LoadImage(PicOnSummonCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
-            lblOnSummonEffectType.Text = "Continuous Effect";
-            lblOnSummonEffectDescriiption.Text = thisEffect.OriginCard.ContinuousEffect;
-            PanelOnSummonEffect.Visible = true;
+            ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            lblEffectMenuTittle.Text = "Continuous Effect";
+            lblEffectMenuDescriiption.Text = thisEffect.OriginCard.ContinuousEffect;
+            PanelEffectActivationMenu.Visible = true;
             BoardForm.WaitNSeconds(2000);
+        }
+        private void DisplayIgnitionEfectPanel(Card thisCard)
+        {
+            //Create the Effect Object,
+            //This will initialize the _CardEffectToBeActivated to be use across the other methods for
+            //this effect activation sequence.
+            if (thisCard.Category == Category.Monster && thisCard.HasIgnitionEffect)
+            {
+                _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
+            }
+            else if (thisCard.Category == Category.Spell)
+            {
+                if (thisCard.HasContinuousEffect)
+                {
+                    _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Continuous);
+                }
+                else if (thisCard.HasIgnitionEffect)
+                {
+                    _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
+                }
+            }
+
+            //Now load the actual Effect Menu Panel
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                //Show the full menu for the turn player
+                //Card Image
+                ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisCard.CardID.ToString());
+                //Effect Type Title
+                lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
+                //Effect Text
+                lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
+                //Cost
+                if (_CardEffectToBeActivated.HasACost)
+                {
+                    ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                    lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
+                    lblCostAmount.ForeColor = Color.White;
+                    PanelCost.Visible = true;
+
+                    //Activate button
+                    //Check if the activation cost is met
+                    if (IsCostMet(_CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount))
+                    {
+                        //then check if the activation requirements is met
+                        string ActivationRequirementStatus = GetActivationRequirementStatus(_CardEffectToBeActivated.ID);
+                        if (ActivationRequirementStatus == "Requirements Met")
+                        {
+                            lblActivationRequirementOutput.Visible = false;
+                            btnActivate.Visible = true;
+                            btnActivate.Enabled = true;
+                        }
+                        else
+                        {
+                            lblActivationRequirementOutput.Text = ActivationRequirementStatus;
+                            lblActivationRequirementOutput.Visible = true;
+                            btnActivate.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        lblActivationRequirementOutput.Text = "Cost not met.";
+                        lblActivationRequirementOutput.Visible = true;
+                        lblCostAmount.ForeColor = Color.Red;
+                        btnActivate.Visible = false;
+                    }
+                }
+                else
+                {
+                    PanelCost.Visible = false;
+                }
+
+                btnEffectMenuCancel.Enabled = true;
+            }
+            else
+            {
+                //Load the Effect Menu with hidden info
+                //Card Image will be face down
+                ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, "0");
+                //Effect Type Title
+                lblEffectMenuTittle.Text = "Effect";
+                //Effect Text
+                lblEffectMenuDescriiption.Text = "Hidden";
+                //Hide the cost panel regardless if the effect has a cost
+                PanelCost.Visible = false;
+                lblActivationRequirementOutput.Visible = false;
+                btnActivate.Visible = true;
+                //disable both actyion buttons to prevent the opposite player from interacting with them
+                btnActivate.Enabled = false;
+                btnEffectMenuCancel.Enabled = false;
+            }
+
+            //Now show the effect menu itself
+            btnEffectMenuCancel.Visible = true;
+            PanelEffectActivationMenu.Visible = true;
         }
         private void HideOnSummonEffectPanel()
         {
             //Now you can close the On Summon Panel
-            PanelOnSummonEffect.Visible = false;
+            PanelEffectActivationMenu.Visible = false;
         }
         private void AdjustPlayerCrestCount(PlayerColor targetPlayer, Crest thisCrest, int amount)
         {
@@ -2991,7 +3297,26 @@ namespace DungeonDiceMonsters
                     BoardForm.WaitNSeconds(200);
                 }
             }
-        }       
+        }
+        private bool IsCostMet(Crest crestCost, int amount)
+        {
+            PlayerData turnPlayerData = RedData;
+            if (TURNPLAYER == PlayerColor.BLUE) { turnPlayerData = BlueData; }
+
+            switch (crestCost)
+            {
+                case Crest.MAG: return amount <= turnPlayerData.Crests_MAG;
+                case Crest.TRAP: return amount <= turnPlayerData.Crests_TRAP;
+                case Crest.ATK: return amount <= turnPlayerData.Crests_ATK;
+                case Crest.DEF: return amount <= turnPlayerData.Crests_DEF;
+                case Crest.MOV: return amount <= turnPlayerData.Crests_MOV;
+                default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
+            }
+        }
+        private string GetActivationRequirementStatus(Effect.EffectID thisEffectID)
+        {
+            return "Requirements Met";
+        }
         #endregion
 
         #region "Dark Symbol"
@@ -3276,6 +3601,71 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Base Field Spells
+        private void BaseFieldSpellActivation(Effect thisEffect, Tile.FieldTypeValue fieldType)
+        {
+            //EFFECT DESCRIPTION
+            //Change the field type of all the active tile in the field activation area (7x7 tile grid)       
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToTileRemoval = true;
+
+            //Step 2: Resolve the effect initial activation
+            List<Tile> AllFieldActivationTiles = _CurrentTileSelected.GetFieldSpellActivationTiles(false);
+            List<Tile> FieldActivationTiles = _CurrentTileSelected.GetFieldSpellActivationTiles(true);
+
+            //Highligh all the tiles in the field activation area
+            foreach (Tile thisTile in AllFieldActivationTiles)
+            {
+                thisTile.HighlightTile();
+            }
+            WaitNSeconds(500);
+            //then change the field type of all the active tiles
+            foreach (Tile thisTile in FieldActivationTiles)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                thisTile.ChangeFieldType(fieldType);
+                BoardForm.WaitNSeconds(300);
+            }
+            //finally. reset the all the tiles to clean up the UI
+            foreach (Tile thisTile in AllFieldActivationTiles)
+            {
+                thisTile.ReloadTileUI();
+            }
+
+            //Step 3: Destroy the card once done
+            DestroyCard(_CurrentTileSelected);
+
+            //Step 4: Once activation resolution is over, return to the main phase
+            EnterMainPhase();
+        }
+        private void Mountain_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Mountain);
+        }
+        private void Sogen_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Sogen);
+        }
+        private void Forest_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Forest);
+        }
+        private void Wasteland_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Wasteland);
+        }
+        private void Yami_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Yami);
+        }
+        private void Umi_Activation(Effect thisEffect)
+        {
+            BaseFieldSpellActivation(thisEffect, Tile.FieldTypeValue.Umi);
+        }
+        #endregion
+
         #region "M-Warrior #1"
         private void MWarrior1_OnSummonActivation(Effect thisEffect)
         {
@@ -3300,7 +3690,7 @@ namespace DungeonDiceMonsters
             HideOnSummonEffectPanel();
 
             //At this point end the summoning phase
-            EndSummoningPhase();
+            EnterMainPhase();
         }
         #endregion
 
@@ -3319,7 +3709,7 @@ namespace DungeonDiceMonsters
             HideOnSummonEffectPanel();
 
             //At this point end the summoning phase
-            EndSummoningPhase();
+            EnterMainPhase();
         }
         #endregion
 
@@ -3327,7 +3717,7 @@ namespace DungeonDiceMonsters
         private void ThunderDragon_Continuous(Effect thisEffect)
         {
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
-            DisplayContinuousEffectPanel(thisEffect);
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
 
             //EFFECT DESCRIPTION
             //increase the DEF off all controller's owned Thunder-Type monsters by 500. (EXCEPT THE ORIGIN CARD)
@@ -3350,7 +3740,7 @@ namespace DungeonDiceMonsters
             HideOnSummonEffectPanel();
 
             //At this point end the summoning phase
-            EndSummoningPhase();
+            EnterMainPhase();
         }
         private void ThunderDragon_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
         {
@@ -3370,7 +3760,7 @@ namespace DungeonDiceMonsters
         {
             //Remove Effect Description:
             //DECREASE the DEF of all affected by monsters by 500
-            foreach(Card thisCard in thisEffect.AffectedByList)
+            foreach (Card thisCard in thisEffect.AffectedByList)
             {
                 thisCard.AdjustDefenseBonus(-500);
                 //Reload The Tile UI for the card affected
@@ -3393,8 +3783,9 @@ namespace DungeonDiceMonsters
             BattlePhase,
             SetCard,
             SummonCard,
+            EffectMenuDisplay
         }
-        #endregion
+        #endregion      
     }
 
     public enum PlayerColor
@@ -3402,5 +3793,5 @@ namespace DungeonDiceMonsters
         NONE,
         RED,
         BLUE,
-    }    
+    }
 }
