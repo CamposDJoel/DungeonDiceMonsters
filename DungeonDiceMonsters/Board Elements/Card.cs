@@ -174,6 +174,10 @@ namespace DungeonDiceMonsters
             _IsFaceDown = false;
             ReloadTileUI();
         }
+        public void MarkEffectUsedThisTurn()
+        {
+            _EffectUsedThisTurn = true;
+        }
         public void ReloadTileUI()
         {
             _CurrentTile.ReloadTileUI();

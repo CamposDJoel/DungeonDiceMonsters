@@ -61,22 +61,22 @@ namespace DungeonDiceMonsters
         #region Private Methods
         private void InitializeCost()
         {
-            if (_EffectText.Contains("[MAG")) { _CrestCost = Crest.MAG; }
-            if (_EffectText.Contains("[TRAP")) { _CrestCost = Crest.TRAP; }
-            if (_EffectText.Contains("[ATK")) { _CrestCost = Crest.ATK; }
-            if (_EffectText.Contains("[DEF")) { _CrestCost = Crest.DEF; }
-            if (_EffectText.Contains("[MOV")) { _CrestCost = Crest.MOV; }
+            if (_EffectText.StartsWith("[MAG")) { _CrestCost = Crest.MAG; }
+            if (_EffectText.StartsWith("[TRAP")) { _CrestCost = Crest.TRAP; }
+            if (_EffectText.StartsWith("[ATK")) { _CrestCost = Crest.ATK; }
+            if (_EffectText.StartsWith("[DEF")) { _CrestCost = Crest.DEF; }
+            if (_EffectText.StartsWith("[MOV")) { _CrestCost = Crest.MOV; }
 
-            if(_EffectText.Contains(" 1]")) { _CostAmount = 1; }
-            if(_EffectText.Contains(" 2]")) { _CostAmount = 2; }
-            if(_EffectText.Contains(" 3]")) { _CostAmount = 3; }
-            if(_EffectText.Contains(" 4]")) { _CostAmount = 4; }
-            if(_EffectText.Contains(" 5]")) { _CostAmount = 5; }
-            if(_EffectText.Contains(" 6]")) { _CostAmount = 6; }
-            if(_EffectText.Contains(" 7]")) { _CostAmount = 7; }
-            if(_EffectText.Contains(" 8]")) { _CostAmount = 8; }
-            if(_EffectText.Contains(" 9]")) { _CostAmount = 9; }
-            if(_EffectText.Contains(" 10]")) { _CostAmount = 10; }
+            if(_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
+            if(_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
+            if(_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
+            if(_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
+            if(_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
+            if(_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
+            if(_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
+            if(_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
+            if(_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
+            if(_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
         }
         private static EffectID GetEffectID(Card originCard, EffectType type) 
         {

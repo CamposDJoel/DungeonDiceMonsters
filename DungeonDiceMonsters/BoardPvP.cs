@@ -1112,6 +1112,19 @@ namespace DungeonDiceMonsters
                 BoardForm.WaitNSeconds(200);
             }
         }
+        private void IncreaseCrestsToPlayer(PlayerColor playerColor, Crest crestToBeIncreased, int amountToBeIncreased)
+        {
+            PlayerData playerData = RedData;
+            if (playerColor == PlayerColor.BLUE) { playerData = BlueData; }
+
+            for (int x = 0; x < amountToBeIncreased; x++)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                playerData.AddCrests(crestToBeIncreased, 1);
+                LoadPlayersInfo();
+                BoardForm.WaitNSeconds(200);
+            }
+        }
         private void UpdateDebugWindow()
         {
             lblDebugTileID.Text = "Tile ID: " + _CurrentTileSelected.ID;
@@ -2656,7 +2669,7 @@ namespace DungeonDiceMonsters
                 {
                     return true;
                 }
-                else if (thiscard.Category == Category.Spell && (thiscard.HasContinuousEffect || thiscard.HasIgnitionEffect))
+                else if (thiscard.Category == Category.Spell && thiscard.IsFaceDown && (thiscard.HasContinuousEffect || thiscard.HasIgnitionEffect))
                 {
                     return true;
                 }
@@ -3178,6 +3191,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Sanctuary: Sanctuary_Activation(thisEffect); break;
                 case Effect.EffectID.Scrapyard: Scrapyard_Activation(thisEffect); break;
                 case Effect.EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.MWarrior1_Ignition: MWarrior1_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.MWarrior2_OnSummon: MWarrior2_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
@@ -3232,6 +3247,27 @@ namespace DungeonDiceMonsters
             //Now load the actual Effect Menu Panel
             if (UserPlayerColor == TURNPLAYER)
             {
+                LoadItVisible();      
+            }
+            else
+            {
+                //Load the Effect Menu with hidden info if it was face down
+                if(thisCard.IsFaceDown)
+                {
+                    LoadItHidden();
+                }
+                else
+                {
+                    LoadItVisible();
+                }
+            }
+
+            //Now show the effect menu itself
+            btnEffectMenuCancel.Visible = true;
+            PanelEffectActivationMenu.Visible = true;
+
+            void LoadItVisible()
+            {
                 //Show the full menu for the turn player
                 //Card Image
                 ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisCard.CardID.ToString());
@@ -3240,14 +3276,21 @@ namespace DungeonDiceMonsters
                 //Effect Text
                 lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
                 //Cost
-                if (_CardEffectToBeActivated.HasACost)
-                {
-                    ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
-                    lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
-                    lblCostAmount.ForeColor = Color.White;
-                    PanelCost.Visible = true;
+                ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
+                lblCostAmount.ForeColor = Color.White;
+                PanelCost.Visible = true;
 
-                    //Activate button
+                //Activate button
+                if (thisCard.EffectUsedThisTurn)
+                {
+                    lblActivationRequirementOutput.Text = "Effect already used this turn.";
+                    lblActivationRequirementOutput.Visible = true;
+                    btnActivate.Visible = false;
+                    PanelCost.Visible = false;
+                }
+                else
+                {
                     //Check if the activation cost is met
                     if (IsCostMet(_CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount))
                     {
@@ -3257,7 +3300,6 @@ namespace DungeonDiceMonsters
                         {
                             lblActivationRequirementOutput.Visible = false;
                             btnActivate.Visible = true;
-                            btnActivate.Enabled = true;
                         }
                         else
                         {
@@ -3274,16 +3316,22 @@ namespace DungeonDiceMonsters
                         btnActivate.Visible = false;
                     }
                 }
+                
+                //Set the buttons ENABLE for the turn player and DISABLE for the opponent
+                if(UserPlayerColor == TURNPLAYER)
+                {
+                    btnActivate.Enabled = true;
+                    btnEffectMenuCancel.Enabled = true;
+                }
                 else
                 {
-                    PanelCost.Visible = false;
+                    btnActivate.Enabled = false;
+                    btnEffectMenuCancel.Enabled = false;
                 }
-
-                btnEffectMenuCancel.Enabled = true;
             }
-            else
+
+            void LoadItHidden()
             {
-                //Load the Effect Menu with hidden info
                 //Card Image will be face down
                 ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, "0");
                 //Effect Type Title
@@ -3298,10 +3346,6 @@ namespace DungeonDiceMonsters
                 btnActivate.Enabled = false;
                 btnEffectMenuCancel.Enabled = false;
             }
-
-            //Now show the effect menu itself
-            btnEffectMenuCancel.Visible = true;
-            PanelEffectActivationMenu.Visible = true;
         }
         private void HideEffectMenuPanel()
         {
@@ -3754,6 +3798,56 @@ namespace DungeonDiceMonsters
                 }
             }
           
+            //This monster does not have a continuous effect to active, move into the Main Phase
+            EnterMainPhase();
+        }
+        private void MWarrior1_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:
+            //Add 1 [DEF] to the owener's crest pool
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            IncreaseCrestsToPlayer(thisEffect.Owner, Crest.DEF, 1);
+
+            //Flag the Effect Activation this turn
+            thisEffect.OriginCard.MarkEffectUsedThisTurn();
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region "M-Warrior #2"
+        private void MWarrior2_OnSummonActivation(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
+            DisplayOnSummonEffectPanel(thisEffect);
+
+            //Set the "Reaction To" flags
+            //This effect is a One-Time activation, does not reach to any event.
+
+            //Hide the panel now to resolve the effect
+            HideEffectMenuPanel();
+
+            //EFFECT DESCRIPTION
+            //Will increase the Attack of your monsters on the board with the name "M-Warrior #1" by 500.
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #1" && thisCard.Owner == thisEffect.Owner)
+                {
+                    thisCard.AdjustAttackBonus(500);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    //Reload The Tile UI for the card affected
+                    SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                    thisCard.ReloadTileUI();
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                }
+            }
+
             //This monster does not have a continuous effect to active, move into the Main Phase
             EnterMainPhase();
         }
