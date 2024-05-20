@@ -64,6 +64,11 @@ namespace DungeonDiceMonsters
         InvalidClick,
         Attack,
         LPReduce,
-        CardDestroyed
+        CardDestroyed,
+        SummonMonster,
+        EffectMenu,
+        SetCard,
+        Cancel,
+        EffectApplied
     }
 }
