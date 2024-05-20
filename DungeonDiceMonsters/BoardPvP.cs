@@ -1596,9 +1596,6 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-
-
-
                         case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                     }
@@ -2458,7 +2455,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                //TODO: I need a sound effect here 
+                SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
 
                 //Initialize the Dimension tiles again (Oppoenent's UI doesnt get them initialize them on hover)
                 _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
@@ -2473,6 +2470,9 @@ namespace DungeonDiceMonsters
                 Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), TURNPLAYER, false);
                 _CardsOnBoard.Add(thisCard);
                 _Tiles[tileId].SummonCard(thisCard);
+
+                //Wait 1 sec for the sound effect to finish
+                WaitNSeconds(1000);
 
                 //Complete the summon
                 lblActionInstruction.Visible = false;
@@ -2507,7 +2507,7 @@ namespace DungeonDiceMonsters
         }
         private void TileClick_SetCard_Base(int tileId)
         {
-            //TODO: Add a sounds effect here to set the card
+            SoundServer.PlaySoundEffect(SoundEffect.SetCard);
 
             //Set Card here
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
@@ -2701,7 +2701,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Cancel);
                 //Close the Action menu/Card info panel and return to the MainPhase Stage 
                 _CurrentTileSelected.ReloadTileUI();
                 PanelActionMenu.Visible = false;
@@ -2785,7 +2785,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Cancel);
                 //Reload the card's tile before the mouse trigers hovering another tile.
                 _CurrentTileSelected.ReloadTileUI();
 
@@ -2945,7 +2945,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Cancel);
                 //Reload the card's tile before the mouse trigers hovering another tile.
                 _CurrentTileSelected.ReloadTileUI();
 
@@ -3018,7 +3018,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Cancel);
 
                 //Close the Effect Menu and return to the main phase
                 PanelEffectActivationMenu.Visible = false;
@@ -3180,11 +3180,19 @@ namespace DungeonDiceMonsters
         }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
+            //Load the menu with the On Summon effect
             ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Summon Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffect;
+            //Hide the elements not needed.
+            lblActivationRequirementOutput.Text = "";
+            PanelCost.Visible = false;
+            btnActivate.Visible = false;
+            btnEffectMenuCancel.Visible = false;
+            //Wait 2 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
-            BoardForm.WaitNSeconds(2000);
+            WaitNSeconds(2000);
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
         {
@@ -3196,6 +3204,7 @@ namespace DungeonDiceMonsters
         }
         private void DisplayIgnitionEfectPanel(Card thisCard)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             //Create the Effect Object,
             //This will initialize the _CardEffectToBeActivated to be use across the other methods for
             //this effect activation sequence.
@@ -3289,7 +3298,7 @@ namespace DungeonDiceMonsters
             btnEffectMenuCancel.Visible = true;
             PanelEffectActivationMenu.Visible = true;
         }
-        private void HideOnSummonEffectPanel()
+        private void HideEffectMenuPanel()
         {
             //Now you can close the On Summon Panel
             PanelEffectActivationMenu.Visible = false;
@@ -3718,24 +3727,29 @@ namespace DungeonDiceMonsters
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
             DisplayOnSummonEffectPanel(thisEffect);
 
+            //Set the "Reaction To" flags
+            //This effect is a One-Time activation, does not reach to any event.
+
+            //Hide the panel now to resolve the effect
+            HideEffectMenuPanel();
+
             //EFFECT DESCRIPTION
-            //Will increase the Attack of ANY monster on the board with the name "M-Warrior #2" by 500.
+            //Will increase the Attack of your monsters on the board with the name "M-Warrior #2" by 500.
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2")
+                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2" && thisCard.Owner == thisEffect.Owner)
                 {
                     thisCard.AdjustAttackBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
                     //Reload The Tile UI for the card affected
+                    SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
                     thisCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                 }
             }
-
-            HideOnSummonEffectPanel();
-
-            //At this point end the summoning phase
+          
+            //This monster does not have a continuous effect to active, move into the Main Phase
             EnterMainPhase();
         }
         #endregion
@@ -3752,7 +3766,7 @@ namespace DungeonDiceMonsters
             PlayerColor ControllersColor = thisEffect.Owner;
             AdjustPlayerCrestCount(ControllersColor, Crest.ATK, 3);
 
-            HideOnSummonEffectPanel();
+            HideEffectMenuPanel();
 
             //At this point end the summoning phase
             EnterMainPhase();
@@ -3783,7 +3797,7 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            HideOnSummonEffectPanel();
+            HideEffectMenuPanel();
 
             //At this point end the summoning phase
             EnterMainPhase();
@@ -3831,7 +3845,7 @@ namespace DungeonDiceMonsters
             SummonCard,
             EffectMenuDisplay
         }
-        #endregion      
+        #endregion
     }
 
     public enum PlayerColor
