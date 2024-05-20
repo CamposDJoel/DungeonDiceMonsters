@@ -3193,6 +3193,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MWarrior1_OnSummon: MWarrior1_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior1_Ignition: MWarrior1_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior2_OnSummon: MWarrior2_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.MWarrior2_Ignition: MWarrior2_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
@@ -3849,6 +3850,23 @@ namespace DungeonDiceMonsters
             }
 
             //This monster does not have a continuous effect to active, move into the Main Phase
+            EnterMainPhase();
+        }
+        private void MWarrior2_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:
+            //Add 1 [ATK] to the owener's crest pool
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            IncreaseCrestsToPlayer(thisEffect.Owner, Crest.ATK, 1);
+
+            //Flag the Effect Activation this turn
+            thisEffect.OriginCard.MarkEffectUsedThisTurn();
+
+            //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
         #endregion
