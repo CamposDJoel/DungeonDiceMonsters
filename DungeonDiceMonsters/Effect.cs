@@ -18,7 +18,7 @@ namespace DungeonDiceMonsters
         {
             _OriginCard = originCard;
             _Type = type;
-            _ID = GetEffectID(_OriginCard);
+            _ID = GetEffectID(_OriginCard, type);
             _EffectText = GetEffectText(_OriginCard, _Type);
             _IsOneTurnIgnition = IsAOneTurnIgnitionEffect(_EffectText);
             InitializeCost();
@@ -61,24 +61,24 @@ namespace DungeonDiceMonsters
         #region Private Methods
         private void InitializeCost()
         {
-            if (_EffectText.Contains("[MAG")) { _CrestCost = Crest.MAG; }
-            if (_EffectText.Contains("[TRAP")) { _CrestCost = Crest.TRAP; }
-            if (_EffectText.Contains("[ATK")) { _CrestCost = Crest.ATK; }
-            if (_EffectText.Contains("[DEF")) { _CrestCost = Crest.DEF; }
-            if (_EffectText.Contains("[MOV")) { _CrestCost = Crest.MOV; }
+            if (_EffectText.StartsWith("[MAG")) { _CrestCost = Crest.MAG; }
+            if (_EffectText.StartsWith("[TRAP")) { _CrestCost = Crest.TRAP; }
+            if (_EffectText.StartsWith("[ATK")) { _CrestCost = Crest.ATK; }
+            if (_EffectText.StartsWith("[DEF")) { _CrestCost = Crest.DEF; }
+            if (_EffectText.StartsWith("[MOV")) { _CrestCost = Crest.MOV; }
 
-            if(_EffectText.Contains(" 1]")) { _CostAmount = 1; }
-            if(_EffectText.Contains(" 2]")) { _CostAmount = 2; }
-            if(_EffectText.Contains(" 3]")) { _CostAmount = 3; }
-            if(_EffectText.Contains(" 4]")) { _CostAmount = 4; }
-            if(_EffectText.Contains(" 5]")) { _CostAmount = 5; }
-            if(_EffectText.Contains(" 6]")) { _CostAmount = 6; }
-            if(_EffectText.Contains(" 7]")) { _CostAmount = 7; }
-            if(_EffectText.Contains(" 8]")) { _CostAmount = 8; }
-            if(_EffectText.Contains(" 9]")) { _CostAmount = 9; }
-            if(_EffectText.Contains(" 10]")) { _CostAmount = 10; }
+            if(_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
+            if(_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
+            if(_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
+            if(_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
+            if(_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
+            if(_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
+            if(_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
+            if(_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
+            if(_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
+            if(_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
         }
-        private static EffectID GetEffectID(Card originCard) 
+        private static EffectID GetEffectID(Card originCard, EffectType type) 
         {
             switch(originCard.Name) 
             {
@@ -88,7 +88,6 @@ namespace DungeonDiceMonsters
                 case "FIRE Symbol": return EffectID.FIRESymbol;
                 case "EARTH Symbol": return EffectID.EARTHSymbol;
                 case "WIND Symbol": return EffectID.WINDSymbol;
-                case "M-Warrior #1": return EffectID.MWarrior1_OnSummon;
                 case "Mountain": return EffectID.Mountain;
                 case "Sogen": return EffectID.Sogen;
                 case "Wasteland": return EffectID.Wasteland;
@@ -100,6 +99,8 @@ namespace DungeonDiceMonsters
                 case "Sanctuary": return EffectID.Sanctuary;
                 case "Cyberworld": return EffectID.Cyberworld;
                 case "Scrapyard": return EffectID.Scrapyard;
+                case "M-Warrior #1": if (type == EffectType.OnSummon) { return EffectID.MWarrior1_OnSummon; } else { return EffectID.MWarrior1_Ignition; }
+                case "M-Warrior #2": if (type == EffectType.OnSummon) { return EffectID.MWarrior2_OnSummon; } else { return EffectID.MWarrior2_Ignition; }
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -148,6 +149,9 @@ namespace DungeonDiceMonsters
             Sanctuary,
             Scrapyard,
             MWarrior1_OnSummon,
+            MWarrior1_Ignition,
+            MWarrior2_OnSummon,
+            MWarrior2_Ignition,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,
         }
