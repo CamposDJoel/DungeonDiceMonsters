@@ -3784,7 +3784,7 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //EFFECT DESCRIPTION
-            //Will increase the Attack of your monsters on the board with the name "M-Warrior #2" by 500.
+            //Will increase the ATK of all your monsters on the board with the name "M-Warrior #2" by 500.
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
@@ -3834,13 +3834,13 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //EFFECT DESCRIPTION
-            //Will increase the Attack of your monsters on the board with the name "M-Warrior #1" by 500.
+            //Will increase the DEF of all your monsters on the board with the name "M-Warrior #1" by 500.
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #1" && thisCard.Owner == thisEffect.Owner)
                 {
-                    thisCard.AdjustAttackBonus(500);
+                    thisCard.AdjustDefenseBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
                     //Reload The Tile UI for the card affected
                     SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
