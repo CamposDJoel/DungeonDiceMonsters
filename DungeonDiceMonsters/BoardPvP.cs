@@ -2455,6 +2455,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
+                _CurrentGameState = GameState.NOINPUT;
                 SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
 
                 //Initialize the Dimension tiles again (Oppoenent's UI doesnt get them initialize them on hover)
@@ -2507,21 +2508,25 @@ namespace DungeonDiceMonsters
         }
         private void TileClick_SetCard_Base(int tileId)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.SetCard);
-
-            //Set Card here
-            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
-            _CardsOnBoard.Add(thisCard);
-            _Tiles[tileId].SetCard(thisCard);
-
-            //Reset the UI of all the candidate tiles
-            foreach (Tile thisTile in _SetCandidates)
+            Invoke(new MethodInvoker(delegate ()
             {
-                if (thisTile.ID != tileId) { thisTile.ReloadTileUI(); }
-            }
+                _CurrentGameState = GameState.NOINPUT;
+                SoundServer.PlaySoundEffect(SoundEffect.SetCard);
 
-            //Once this action is completed, move to the main phase
-            EnterMainPhase();
+                //Set Card here
+                Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSet.ID), TURNPLAYER, true);
+                _CardsOnBoard.Add(thisCard);
+                _Tiles[tileId].SetCard(thisCard);
+
+                //Reset the UI of all the candidate tiles
+                foreach (Tile thisTile in _SetCandidates)
+                {
+                    if (thisTile.ID != tileId) { thisTile.ReloadTileUI(); }
+                }
+
+                //Once this action is completed, move to the main phase
+                EnterMainPhase();
+            }));            
         }
         private void TileClick_MainPhase_Base(int tileId)
         {
@@ -3834,6 +3839,7 @@ namespace DungeonDiceMonsters
         #region Enums
         private enum GameState
         {
+            NOINPUT,
             TurnStartMenu,
             BoardViewMode,
             MainPhaseBoard,
