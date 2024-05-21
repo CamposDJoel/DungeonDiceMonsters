@@ -33,6 +33,9 @@ namespace DungeonDiceMonsters
             btnViewBoard.MouseEnter += OnMouseHoverSound;
             btnExit.MouseEnter += OnMouseHoverSound;
             btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon1.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon2.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon3.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -196,6 +199,9 @@ namespace DungeonDiceMonsters
             btnViewBoard.MouseEnter += OnMouseHoverSound;
             btnExit.MouseEnter += OnMouseHoverSound;
             btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon1.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon2.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon3.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -928,9 +934,9 @@ namespace DungeonDiceMonsters
             else
             {
                 //Use a loop to anime removing the crests
-                for (int x = 0; x < amount; x++)
+                for (int x = amount; x >= 1; x--)
                 {
-                    Player.AddCrests(thisCrest, 1);
+                    Player.RemoveCrests(thisCrest, 1);
                     SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
                     LoadPlayersInfo();
                     BoardForm.WaitNSeconds(200);
@@ -1035,7 +1041,10 @@ namespace DungeonDiceMonsters
                     case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[2])); break;
                     case "[PASS!]": BattleMessageReceived_Pass(); break;
                     case "[END BATTLE]": btnEndBattle_Base(); break;
-                    case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[2]); break;
+                    case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[2], MessageTokens[3], MessageTokens[4]); break;
+                    case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
+                    case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[2])); break;
                 }
             }
             else
@@ -1046,6 +1055,40 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
+        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId)
+        {
+            //then summon the card
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
+            _CardsOnBoard.Add(thisCard);
+            _Tiles[tileId].SummonCard(thisCard);
+
+            //Wait 1 sec for the sound effect to finish
+            WaitNSeconds(1000);
+
+            //Check for active effects that react to monster summons
+            UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+            ResolveEffectsWithSummonReactionTo(thisCard);
+
+            //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
+            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
+                ActivateEffect(thisCardsEffect);
+                _ActiveEffects.Add(thisCardsEffect);
+            }
+            else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
+                ActivateEffect(thisCardsEffect);
+                _ActiveEffects.Add(thisCardsEffect);
+            }
+            else
+            {
+                EnterMainPhase();
+            }
+        }
         private void LaunchTurnStartPanel()
         {
             //Depending on the TURNPLAYER enable/disable the buttons
@@ -1468,6 +1511,62 @@ namespace DungeonDiceMonsters
             WaitNSeconds(5000);
             btnExit.Visible = true;
         }
+        private void PromptPlayerToSelectFusionMaterial()
+        {
+            //Prompts the player to select the fusion material on index 0 
+            //in the _FusionMaterialsToBeUsed list
+
+            //Step 1: Set the card name of the Fusion Material that will be selected
+            string FusionMaterial = _FusionMaterialsToBeUsed[0];
+
+            //Step 2: Display on the UI the Fusion Material candidates
+            DisplayFusionMaterialCandidates();
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                lblActionInstruction.Text = string.Format("Select a [{0}] as fusion material!", FusionMaterial);
+                lblActionInstruction.Visible = true;
+            }
+            else
+            {
+                lblActionInstruction.Text = "Opponent is selecting a fusion material!";
+                lblActionInstruction.Visible = true;
+            }
+
+            //Step 3: Change the game state so the turn player can select the tile of the candidate
+            _CurrentGameState = GameState.FusionMaterialCandidateSelection;
+
+            void DisplayFusionMaterialCandidates()
+            {
+                //Just in case, reset the tile UI of the previous list
+                if (_FusionCandidateTiles.Count > 0)
+                {
+                    foreach (Tile thisTile in _FusionCandidateTiles)
+                    {
+                        thisTile.ReloadTileUI();
+                    }
+                }
+
+
+                //Generate the Tile list candidates for this Fusion Materials
+                _FusionCandidateTiles.Clear();
+                foreach (Tile thisTile in _Tiles)
+                {
+                    if (thisTile.IsOccupied)
+                    {
+                        if (thisTile.CardInPlace.Name == FusionMaterial && thisTile.CardInPlace.Owner == TURNPLAYER)
+                        {
+                            _FusionCandidateTiles.Add(thisTile);
+                        }
+                    }
+                }
+
+                //Now mark the Candidates
+                foreach (Tile thisTile in _FusionCandidateTiles)
+                {
+                    thisTile.MarkFusionMaterialTarget();
+                }
+            }
+        }
         #endregion
 
         #region Event Listeners
@@ -1527,7 +1626,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
+                    _CurrentGameState == GameState.FusionMaterialCandidateSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1545,7 +1646,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
+                     _CurrentGameState == GameState.FusionMaterialCandidateSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1668,6 +1771,36 @@ namespace DungeonDiceMonsters
 
                         //Perform the action
                         TileClick_SummonCard_Base(tileID);
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionMaterialCandidateSelection)
+                {
+                    if(_FusionCandidateTiles.Contains(_CurrentTileSelected))
+                    {
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION MATERIAL]", _CurrentGameState.ToString(), tileID));
+
+                        //Perform the action
+                        TileClick_FusionMaterial_Base(tileID);
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionSummonTileSelection)
+                {
+                    if (_FusionSummonTiles.Contains(_CurrentTileSelected))
+                    {
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION SUMMON]", _CurrentGameState.ToString(), tileID));
+
+                        //Perform the action
+                        TileClick_FusionSummon_Base(tileID);
                     }
                     else
                     {
@@ -2150,6 +2283,33 @@ namespace DungeonDiceMonsters
             }
         }
         #endregion
+
+        #region Fusion Controls
+        private void btnFusionSummon1_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "0"));
+
+            //Perform the action
+            btnFusionSummon_Base("0");
+        }
+        private void btnFusionSummon2_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "1"));
+
+            //Perform the action
+            btnFusionSummon_Base("1");
+        }
+        private void btnFusionSummon3_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "2"));
+
+            //Perform the action
+            btnFusionSummon_Base("2");
+        }
+        #endregion
         #endregion
 
         #region Base Player Actions
@@ -2208,7 +2368,8 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SetCard)
+                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     _CurrentTileSelected = _Tiles[tileId];
@@ -2258,7 +2419,6 @@ namespace DungeonDiceMonsters
                 else if (_CurrentGameState == GameState.SummonCard)
                 {
                     //Restore the possible dimmension tiles to their OG colors
-                    SoundServer.PlaySoundEffect(SoundEffect.Hover);
 
                     //Use the following function to get the ref to the tiles that compose the dimension
                     Tile[] dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
@@ -2267,6 +2427,14 @@ namespace DungeonDiceMonsters
                     for (int x = 0; x < dimensionTiles.Length; x++)
                     {
                         if (dimensionTiles[x] != null) { dimensionTiles[x].ReloadTileUI(); }
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionMaterialCandidateSelection) 
+                {
+                    _CurrentTileSelected.ReloadTileUI();
+                    if(_FusionCandidateTiles.Contains(_CurrentTileSelected))
+                    {
+                        _CurrentTileSelected.MarkFusionMaterialTarget();
                     }
                 }
             }));
@@ -2291,6 +2459,8 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
                 SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
 
+                _CurrentTileSelected = _Tiles[tileId];
+
                 //Initialize the Dimension tiles again (Oppoenent's UI doesnt get them initialize them on hover)
                 _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
 
@@ -2299,44 +2469,14 @@ namespace DungeonDiceMonsters
                 {
                     tile.ChangeOwner(TURNPLAYER);
                 }
-
-                //then summon the card
-                Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), TURNPLAYER, false);
-                _CardsOnBoard.Add(thisCard);
-                _Tiles[tileId].SummonCard(thisCard);
-
-                //Wait 1 sec for the sound effect to finish
-                WaitNSeconds(1000);
-
-                //Complete the summon
+               
+                //Clean the UI
                 lblActionInstruction.Visible = false;
                 PanelDimenFormSelector.Visible = false;
                 _CurrentDimensionForm = DimensionForms.CrossBase;
-                _CurrentTileSelected = _dimensionTiles[0];
 
-                //Check for active effects that react to monster summons
-                UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
-                ResolveEffectsWithSummonReactionTo(thisCard);
-
-                //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-                if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
-                {
-                    //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
-                    ActivateEffect(thisCardsEffect);
-                    _ActiveEffects.Add(thisCardsEffect);
-                }
-                else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
-                {
-                    //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
-                    ActivateEffect(thisCardsEffect);
-                    _ActiveEffects.Add(thisCardsEffect);
-                }
-                else
-                {
-                    EnterMainPhase();
-                }
+                //Now run the Master Summon Monster function
+                SummonMonster(_CardToBeSummon, tileId);
             }));
         }
         private void TileClick_SetCard_Base(int tileId)
@@ -2373,6 +2513,7 @@ namespace DungeonDiceMonsters
                 btnActionCancel.Enabled = true;
 
                 //Step 2: Generate the Card object on the card in action, we'll use it later.
+                _CurrentTileSelected = _Tiles[tileId];
                 Card thiscard = _CurrentTileSelected.CardInPlace;
 
                 //Step 3A: Enable the Action Buttons based on the card in action
@@ -2425,8 +2566,15 @@ namespace DungeonDiceMonsters
                 //Step 3B: Disable the Action Button for the non-turn player
                 else
                 {
-                    //Show the action message to the opposite player
-                    lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    //Show the action message to the opposite player                    
+                    if(thiscard.IsFaceDown)
+                    {
+                        lblActionInstruction.Text = "Opponent selected a face-down card for action!";
+                    }
+                    else
+                    {
+                        lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    }
                     lblActionInstruction.Visible = true;
                     btnActionMove.Enabled = false;
                     btnActionAttack.Enabled = false;
@@ -2828,7 +2976,7 @@ namespace DungeonDiceMonsters
                                 //Use the CardInfo to create the list of materials
                                 List<string> fusionMaterials = thisFusionCard.GetFusionMaterials();
 
-                                //Check if all the fusion materials exist on the board
+                                //Check if all the fusion materials exist on the board under the turn player's control
                                 List<int> candidatesFound = new List<int>();
                                 foreach (string thisMeterial in fusionMaterials)
                                 {
@@ -3238,7 +3386,8 @@ namespace DungeonDiceMonsters
                         ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
                         lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                         lblCostAmount.ForeColor = Color.White;
-                        PanelCost.Visible = true;
+                        PanelCost.Visible = true;                       
+                        LoadCardInfoPanel();
                     }
                 }
 
@@ -3347,26 +3496,107 @@ namespace DungeonDiceMonsters
                 }
             }));
         }
-        private void ReadyFusionCandidatesReceived(string strcandidates)
+        private void ReadyFusionCandidatesReceived(string strcandidate1, string strcandidate2, string strcandidate3)
         {
             Invoke(new MethodInvoker(delegate ()
             {
                 _FusionCardsReadyForFusion.Clear();
 
-                string[] candidates = strcandidates.Split('|');
-                foreach (string candidate in candidates)
-                {
-                    if (candidate == "0")
-                    {
-                        //ignore it
-                    }
-                    else
-                    {
-                        int id = Convert.ToInt32(candidate);
-                        _FusionCardsReadyForFusion.Add(id);
-                    }
-                }
+                if (strcandidate1 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate1)); }
+                if (strcandidate2 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate2)); }
+                if (strcandidate3 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate3)); }
+
             }));           
+        }
+        private void btnFusionSummon_Base(string selectionIndex)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                //Initialize the fusion summon of card in index 0
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _IndexOfFusionCardSelected = Convert.ToInt32(selectionIndex);
+                int fusionID = _FusionCardsReadyForFusion[_IndexOfFusionCardSelected];
+                _FusionToBeSummoned = CardDataBase.GetCardWithID(fusionID);
+                _FusionMaterialsToBeUsed.Clear();
+                _FusionSummonTiles.Clear();
+                _FusionMaterialsToBeUsed = _FusionToBeSummoned.GetFusionMaterials();
+                PanelFusionMonsterSelector.Visible = false;
+
+                //Now the UI will prompt the turn player to select the first fusion material
+                PromptPlayerToSelectFusionMaterial();
+            }));
+        }
+        private void TileClick_FusionMaterial_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+                //Destroy the selected card and remove the fusion material from the _FusionMaterialsToBeUsed
+                Tile thisTile = _Tiles[tileId];
+                thisTile.DestroyCard();
+                _FusionMaterialsToBeUsed.RemoveAt(0);
+
+                //Save the reference to the tile of this Fusion Material so we know which tiles
+                //can be selected to summon the fusion monster at
+                _FusionSummonTiles.Add(thisTile);
+
+                //Now, if the _FusionMaterialsToBeUsed still contiains fusions materials to be selected,
+                //repeat the selection process until all of them have been selected
+                if (_FusionMaterialsToBeUsed.Count > 0)
+                {
+                    PromptPlayerToSelectFusionMaterial();
+                }
+                else
+                {
+                    //Mark the candidate tiles to summon the fusion monster at
+                    DisplayFusionSummonTileCandidates();
+
+                    //Change the game state so the turn player can select the tile to summon at
+                    _CurrentGameState = GameState.FusionSummonTileSelection;
+                }
+
+            }));
+
+            void DisplayFusionSummonTileCandidates()
+            {
+                foreach (Tile thisTile in _FusionSummonTiles)
+                {
+                    thisTile.MarkFreeToMove();
+                }
+
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    lblActionInstruction.Text = "Select Tile to Fusion Summon!";
+                    lblActionInstruction.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is selecting the Tile to Fusion Summon.";
+                    lblActionInstruction.Visible = true;
+                }
+            }
+        }
+        private void TileClick_FusionSummon_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                _CurrentGameState = GameState.NOINPUT;
+                SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
+
+                //reset the tiles of the summon candidates
+                foreach (Tile tile in _FusionSummonTiles)
+                {
+                    tile.ReloadTileUI();
+                }
+
+                //Remove the fusion to be summoned from the fusion deck
+                PlayerData playerdata = GetTurnPlayerPlayerData();
+                playerdata.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
+
+                //Now run the Master Summon Monster function
+                SummonMonster(_FusionToBeSummoned, tileId);
+            }));
         }
         #endregion
 
@@ -3411,7 +3641,13 @@ namespace DungeonDiceMonsters
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
         private Effect _CardEffectToBeActivated;
+        //Fusion Sequence Data
         private List<int> _FusionCardsReadyForFusion = new List<int>();
+        private CardInfo _FusionToBeSummoned;
+        private List<string> _FusionMaterialsToBeUsed = new List<string>();
+        private List<Tile> _FusionCandidateTiles = new List<Tile>();
+        private List<Tile> _FusionSummonTiles = new List<Tile>();
+        private int _IndexOfFusionCardSelected = -1;
         #endregion
 
         #region Effect Activation Methods
@@ -3952,6 +4188,9 @@ namespace DungeonDiceMonsters
             //and allow the player to select one
             DisplayFusionSelectorMenu();
 
+            //Destroy the Polymerization card
+            _CurrentTileSelected.DestroyCard();
+
             //Change the game state and the player is now ready to pick the fusion monster
             _CurrentGameState = GameState.FusionSelectorMenu;
 
@@ -4024,7 +4263,10 @@ namespace DungeonDiceMonsters
 
                 if (UserPlayerColor != TURNPLAYER)
                 {
-                    //Disable all 3 buttons
+                    //Disable all 3 buttons and hide the 3 monsters
+                    ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, "0");
+                    ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, "0");
+                    ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, "0");
                     btnFusionSummon1.Enabled = false;
                     btnFusionSummon2.Enabled = false;
                     btnFusionSummon3.Enabled = false;
@@ -4126,9 +4368,11 @@ namespace DungeonDiceMonsters
             SetCard,
             SummonCard,
             EffectMenuDisplay,
-            FusionSelectorMenu
+            FusionSelectorMenu,
+            FusionMaterialCandidateSelection,
+            FusionSummonTileSelection
         }
-        #endregion
+        #endregion                  
     }
 
     public enum PlayerColor
