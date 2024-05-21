@@ -101,6 +101,7 @@ namespace DungeonDiceMonsters
                 case "Scrapyard": return EffectID.Scrapyard;
                 case "M-Warrior #1": if (type == EffectType.OnSummon) { return EffectID.MWarrior1_OnSummon; } else { return EffectID.MWarrior1_Ignition; }
                 case "M-Warrior #2": if (type == EffectType.OnSummon) { return EffectID.MWarrior2_OnSummon; } else { return EffectID.MWarrior2_Ignition; }
+                case "Polymerization": return EffectID.Polymerization;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -152,6 +153,7 @@ namespace DungeonDiceMonsters
             MWarrior1_Ignition,
             MWarrior2_OnSummon,
             MWarrior2_Ignition,
+            Polymerization,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,
         }
