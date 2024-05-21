@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace DungeonDiceMonsters
 {
@@ -32,6 +33,9 @@ namespace DungeonDiceMonsters
             btnViewBoard.MouseEnter += OnMouseHoverSound;
             btnExit.MouseEnter += OnMouseHoverSound;
             btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon1.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon2.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon3.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -195,6 +199,9 @@ namespace DungeonDiceMonsters
             btnViewBoard.MouseEnter += OnMouseHoverSound;
             btnExit.MouseEnter += OnMouseHoverSound;
             btnReturnToTurnMenu.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon1.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon2.MouseEnter += OnMouseHoverSound;
+            btnFusionSummon3.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -395,17 +402,17 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(pegasus);
             _Tiles[110].SummonCard(pegasus);
 
-            CardInfo umiinfo = CardDataBase.GetCardWithID(22702055);
+            CardInfo umiinfo = CardDataBase.GetCardWithID(24094653);
             Card umi = new Card(_CardsOnBoard.Count, umiinfo, PlayerColor.RED, true);
             _CardsOnBoard.Add(umi);
             _Tiles[123].SetCard(umi);
 
-            CardInfo koalainfo = CardDataBase.GetCardWithID(42129512);
+            CardInfo koalainfo = CardDataBase.GetCardWithID(89631139);
             Card koala = new Card(_CardsOnBoard.Count, koalainfo, PlayerColor.RED, false);
             _CardsOnBoard.Add(koala);
             _Tiles[136].SummonCard(koala);
 
-            CardInfo kazejininfo = CardDataBase.GetCardWithID(62340868);
+            CardInfo kazejininfo = CardDataBase.GetCardWithID(89631139);
             Card kazejin = new Card(_CardsOnBoard.Count, kazejininfo, PlayerColor.RED, false);
             _CardsOnBoard.Add(kazejin);
             _Tiles[116].SummonCard(kazejin);
@@ -853,13 +860,6 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        private void DisplayAttackCandidate()
-        {
-            foreach (Tile tile in _AttackCandidates)
-            {
-                tile.MarkAttackTarget();
-            }
-        }
         private void DisplaySetCandidates()
         {
             foreach (Tile tile in _SetCandidates)
@@ -899,193 +899,7 @@ namespace DungeonDiceMonsters
             }
             //Set the new location based on the mods above
             PanelMoveMenu.Location = new Point(newX, newY);
-        }
-        private void PlaceAttackMenu()
-        {
-            Point referencePoint = _AttackerTile.Location;
-            int X_Location = referencePoint.X;
-            int Y_Location = referencePoint.Y;
-
-            int newX = referencePoint.X;
-            int newY = referencePoint.Y;
-
-            //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
-            if (X_Location > 500)
-            {
-                newX = newX - 83;
-            }
-            //OTHERWISE: Display the Move Menu on the right side of the Tile.
-            else
-            {
-                newX = newX + 48;
-            }
-
-            //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
-            if (Y_Location < 30)
-            {
-                newY = newY + 48;
-            }
-            //OTHERWISE: display the Move Menu on the row above
-            else
-            {
-                newY = newY - 27;
-            }
-            //Set the new location based on the mods above
-            PanelAttackMenu.Location = new Point(newX, newY);
-            PanelAttackMenu.Visible = true;
-        }
-        private void OpenBattleMenu()
-        {
-            PanelBattleMenu.Visible = true;
-            btnEndBattle.Visible = false;
-
-            //Set the attacker's data
-            Card Attacker = _AttackerTile.CardInPlace;
-            ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
-            lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
-            lblAttackerATK.Text = "ATK: " + Attacker.ATK;
-
-            //Update the LP labels to reflect the Color owner
-            if (TURNPLAYER == PlayerColor.RED)
-            {
-                PanelAttackerCard.BackColor = Color.DarkRed;
-                PanelDefenderCard.BackColor = Color.MidnightBlue;
-            }
-            else
-            {
-                PanelAttackerCard.BackColor = Color.MidnightBlue;
-                PanelDefenderCard.BackColor = Color.DarkRed;
-            }
-
-            //Set the defender's data. if the defender is a non-monster place the clear data.
-            Card Defender = _AttackTarger.CardInPlace;
-            if (Defender.Category == Category.Monster)
-            {
-                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
-                lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
-                lblDefenderDEF.Text = "DEF: " + Defender.DEF;
-            }
-            else if (Defender.Category == Category.Symbol)
-            {
-                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardSymbol, Defender.Attribute.ToString());
-                lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
-                lblDefenderDEF.Text = "DEF: 0";
-            }
-            else
-            {
-                //At this point, if the attack target was a face down card, it was flipped face up
-                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
-                lblBattleMenuDEFLP.Text = "LP: -";
-                lblDefenderDEF.Text = "DEF: -";
-            }
-
-            //Hide the "Destroyed" labels just in case
-            PicAttackerDestroyed.Visible = false;
-            PicDefenderDestroyed.Visible = false;
-
-            //Set the initial Damage Calculation as "?"
-            //Damage calculation will be done after both player set their Atk/Def
-            //choices (defender has to choose if they defend if can)
-            //also both player have the choice to add advantage bonuses if available
-            lblBattleMenuDamage.Text = "Damage: ?";
-            lblAttackerBonus.Text = "Bonus: ?";
-            lblDefenderBonus.Text = "Bonus: ?";
-
-            //Display either the ATTACK/DEFEND controls based on the user player
-            if (UserPlayerColor == TURNPLAYER)
-            {
-                //Display the base Attack Controls Panel
-                _AttackBonusCrest = 0;
-                lblAttackerBonus.Text = "Bonus: 0";
-                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
-                lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
-                PanelAttackControls.Visible = true;
-
-                //If attacker monster has an advantage, enable the adv subpanel
-                bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
-                if (AttackerHasAdvantage && Defender.Category == Category.Monster)
-                {
-                    PanelAttackerAdvBonus.Visible = true;
-                    //Show the + button at the start                    
-                    lblAttackerAdvMinus.Visible = false;
-                    lblAttackerAdvPlus.Visible = true;
-                }
-                else
-                {
-                    PanelAttackerAdvBonus.Visible = false;
-                }
-
-                //Show the 'waiting for opponent' label on the other ide
-                lblWaitingfordefender.Visible = true;
-                lblWaitingforattacker.Visible = false;
-                lblWaitingfordefender.Text = "Waiting for opponent...";
-                lblWaitingfordefender.ForeColor = Color.Yellow;
-
-                //Hide the Defend Controsl
-                PanelDefendControls.Visible = false;
-            }
-            else
-            {
-                //Display the base Defend Controls Panel
-
-                if (Defender.Category == Category.Monster)
-                {
-                    PanelDefendControls.Visible = true;
-                    _DefenseBonusCrest = 0;
-                    lblDefenderBonus.Text = "Bonus: 0";
-                    PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
-                    if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
-                    else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }
-                    PanelDefendControls.Visible = true;
-                    //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
-                    if (Defender.DefenseCost > DefenderData.Crests_DEF)
-                    {
-                        btnBattleMenuDefend.Visible = false;
-                    }
-                    else
-                    {
-                        btnBattleMenuDefend.Visible = true;
-                    }
-                    //If defender monster has an advantage, enable the adv subpanel
-                    bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
-                    if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0 && Defender.Category == Category.Monster)
-                    {
-                        PanelDefenderAdvBonus.Visible = true;
-                        //Show the + button at the start
-                        lblDefenderAdvMinus.Visible = false;
-                        lblDefenderAdvPlus.Visible = true;
-                    }
-                    else
-                    {
-                        PanelDefenderAdvBonus.Visible = false;
-                    }
-                }
-                else
-                {
-                    //Enable the Defense controls but only enable the PASS option
-                    //This is meant to work when defending with Symbols/Spells/Traps
-                    PanelDefendControls.Visible = true;
-                    _DefenseBonusCrest = 0;
-                    lblDefenderBonus.Text = "Bonus: 0";
-                    PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
-                    lblDefenderCrestCount.Text = "[DEF] to use: 0";
-                    btnBattleMenuDefend.Visible = false;
-                    PanelDefenderAdvBonus.Visible = false;
-                }
-
-                //Show the 'waiting for opponent' label on the other ide
-                lblWaitingforattacker.Visible = true;
-                lblWaitingfordefender.Visible = false;
-                lblWaitingforattacker.Text = "Waiting for opponent...";
-                lblWaitingforattacker.ForeColor = Color.Yellow;
-
-                //Hide the Attack Controls
-                PanelAttackControls.Visible = false;
-            }
-
-            //Update the Phase Banner
-            UpdateBanner("BattlePhase");
-        }
+        }              
         private bool HasAttributeAdvantage(Card attacker, Card defender)
         {
             switch (attacker.Attribute)
@@ -1099,30 +913,34 @@ namespace DungeonDiceMonsters
                 default: return false;
             }
         }
-        private void ReduceCrestsToPlayer(PlayerColor playerColor, Crest crestToBeReduced, int amountToBeReduce)
+        private void AdjustPlayerCrestCount(PlayerColor targetPlayer, Crest thisCrest, int amount)
         {
-            PlayerData playerData = RedData;
-            if (playerColor == PlayerColor.BLUE) { playerData = BlueData; }
+            //Set the Player Data Object to modify
+            PlayerData Player = RedData;
+            if (targetPlayer == PlayerColor.BLUE) { Player = BlueData; }
 
-            for (int x = 0; x < amountToBeReduce; x++)
+            //Adjust the Crest 
+            if (amount > 0)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                playerData.RemoveCrests(crestToBeReduced, 1);
-                LoadPlayersInfo();
-                BoardForm.WaitNSeconds(200);
+                //Use a loop to anime adding the crests
+                for (int x = 0; x < amount; x++)
+                {
+                    Player.AddCrests(thisCrest, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    LoadPlayersInfo();
+                    BoardForm.WaitNSeconds(200);
+                }
             }
-        }
-        private void IncreaseCrestsToPlayer(PlayerColor playerColor, Crest crestToBeIncreased, int amountToBeIncreased)
-        {
-            PlayerData playerData = RedData;
-            if (playerColor == PlayerColor.BLUE) { playerData = BlueData; }
-
-            for (int x = 0; x < amountToBeIncreased; x++)
+            else
             {
-                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                playerData.AddCrests(crestToBeIncreased, 1);
-                LoadPlayersInfo();
-                BoardForm.WaitNSeconds(200);
+                //Use a loop to anime removing the crests
+                for (int x = amount; x >= 1; x--)
+                {
+                    Player.RemoveCrests(thisCrest, 1);
+                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                    LoadPlayersInfo();
+                    BoardForm.WaitNSeconds(200);
+                }
             }
         }
         private void UpdateDebugWindow()
@@ -1145,9 +963,9 @@ namespace DungeonDiceMonsters
                 lblDebugCardOwner.Text = "Card: No Card In Tile.";
             }
 
-            int Y_Location = Cursor.Position.Y;
-            int X_Location = Cursor.Position.X;
-            lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
+            //int Y_Location = Cursor.Position.Y;
+            //int X_Location = Cursor.Position.X;
+            //lblMouseCords.Text = "Mouse Cords: (" + X_Location + "," + Y_Location + ")";
         }
         private void UpdateDimensionPreview()
         {
@@ -1167,6 +985,12 @@ namespace DungeonDiceMonsters
                 _EffectsLog.Add(message);
                 File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
             }
+        }
+        private PlayerData GetTurnPlayerPlayerData()
+        {
+            PlayerData playerData = RedData;
+            if (TURNPLAYER == PlayerColor.BLUE) { playerData = BlueData; }
+            return playerData;
         }
         #endregion
 
@@ -1217,6 +1041,10 @@ namespace DungeonDiceMonsters
                     case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[2])); break;
                     case "[PASS!]": BattleMessageReceived_Pass(); break;
                     case "[END BATTLE]": btnEndBattle_Base(); break;
+                    case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[2], MessageTokens[3], MessageTokens[4]); break;
+                    case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
+                    case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[2])); break;
+                    case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[2])); break;
                 }
             }
             else
@@ -1227,6 +1055,40 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
+        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId)
+        {
+            //then summon the card
+            Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
+            _CardsOnBoard.Add(thisCard);
+            _Tiles[tileId].SummonCard(thisCard);
+
+            //Wait 1 sec for the sound effect to finish
+            WaitNSeconds(1000);
+
+            //Check for active effects that react to monster summons
+            UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+            ResolveEffectsWithSummonReactionTo(thisCard);
+
+            //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
+            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
+                ActivateEffect(thisCardsEffect);
+                _ActiveEffects.Add(thisCardsEffect);
+            }
+            else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
+                ActivateEffect(thisCardsEffect);
+                _ActiveEffects.Add(thisCardsEffect);
+            }
+            else
+            {
+                EnterMainPhase();
+            }
+        }
         private void LaunchTurnStartPanel()
         {
             //Depending on the TURNPLAYER enable/disable the buttons
@@ -1296,8 +1158,9 @@ namespace DungeonDiceMonsters
                     PlayerData DefenderPlayerData = BlueData;
                     PlayerColor DefenderColor = PlayerColor.BLUE;
                     if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; DefenderColor = PlayerColor.RED; }
-                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, creststoremoveATK);
-                    ReduceCrestsToPlayer(DefenderColor, Crest.DEF, creststoremoveDEF);
+                    
+                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -creststoremoveATK);
+                    AdjustPlayerCrestCount(DefenderColor, Crest.DEF, -creststoremoveDEF);
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
@@ -1433,7 +1296,7 @@ namespace DungeonDiceMonsters
 
                     //Step 4: Reduce the [ATK] from the attacker. Defender always "Passes"
                     Card Attacker = _CurrentTileSelected.CardInPlace;
-                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, Attacker.AttackCost);
+                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -Attacker.AttackCost);
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
@@ -1523,7 +1386,7 @@ namespace DungeonDiceMonsters
                     
                     //Reduce the [ATK] from the attacker. Defender always "Passes"
                     Card Attacker = _CurrentTileSelected.CardInPlace;
-                    ReduceCrestsToPlayer(TURNPLAYER, Crest.ATK, Attacker.AttackCost);
+                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -Attacker.AttackCost);
 
                     SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
                     PicDefenderDestroyed.Visible = true;
@@ -1648,6 +1511,62 @@ namespace DungeonDiceMonsters
             WaitNSeconds(5000);
             btnExit.Visible = true;
         }
+        private void PromptPlayerToSelectFusionMaterial()
+        {
+            //Prompts the player to select the fusion material on index 0 
+            //in the _FusionMaterialsToBeUsed list
+
+            //Step 1: Set the card name of the Fusion Material that will be selected
+            string FusionMaterial = _FusionMaterialsToBeUsed[0];
+
+            //Step 2: Display on the UI the Fusion Material candidates
+            DisplayFusionMaterialCandidates();
+            if (UserPlayerColor == TURNPLAYER)
+            {
+                lblActionInstruction.Text = string.Format("Select a [{0}] as fusion material!", FusionMaterial);
+                lblActionInstruction.Visible = true;
+            }
+            else
+            {
+                lblActionInstruction.Text = "Opponent is selecting a fusion material!";
+                lblActionInstruction.Visible = true;
+            }
+
+            //Step 3: Change the game state so the turn player can select the tile of the candidate
+            _CurrentGameState = GameState.FusionMaterialCandidateSelection;
+
+            void DisplayFusionMaterialCandidates()
+            {
+                //Just in case, reset the tile UI of the previous list
+                if (_FusionCandidateTiles.Count > 0)
+                {
+                    foreach (Tile thisTile in _FusionCandidateTiles)
+                    {
+                        thisTile.ReloadTileUI();
+                    }
+                }
+
+
+                //Generate the Tile list candidates for this Fusion Materials
+                _FusionCandidateTiles.Clear();
+                foreach (Tile thisTile in _Tiles)
+                {
+                    if (thisTile.IsOccupied)
+                    {
+                        if (thisTile.CardInPlace.Name == FusionMaterial && thisTile.CardInPlace.Owner == TURNPLAYER)
+                        {
+                            _FusionCandidateTiles.Add(thisTile);
+                        }
+                    }
+                }
+
+                //Now mark the Candidates
+                foreach (Tile thisTile in _FusionCandidateTiles)
+                {
+                    thisTile.MarkFusionMaterialTarget();
+                }
+            }
+        }
         #endregion
 
         #region Event Listeners
@@ -1707,7 +1626,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
+                    _CurrentGameState == GameState.FusionMaterialCandidateSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1725,7 +1646,9 @@ namespace DungeonDiceMonsters
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard))
+                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
+                     _CurrentGameState == GameState.FusionMaterialCandidateSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
                 }
@@ -1848,6 +1771,36 @@ namespace DungeonDiceMonsters
 
                         //Perform the action
                         TileClick_SummonCard_Base(tileID);
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionMaterialCandidateSelection)
+                {
+                    if(_FusionCandidateTiles.Contains(_CurrentTileSelected))
+                    {
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION MATERIAL]", _CurrentGameState.ToString(), tileID));
+
+                        //Perform the action
+                        TileClick_FusionMaterial_Base(tileID);
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionSummonTileSelection)
+                {
+                    if (_FusionSummonTiles.Contains(_CurrentTileSelected))
+                    {
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION SUMMON]", _CurrentGameState.ToString(), tileID));
+
+                        //Perform the action
+                        TileClick_FusionSummon_Base(tileID);
                     }
                     else
                     {
@@ -2330,6 +2283,33 @@ namespace DungeonDiceMonsters
             }
         }
         #endregion
+
+        #region Fusion Controls
+        private void btnFusionSummon1_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "0"));
+
+            //Perform the action
+            btnFusionSummon_Base("0");
+        }
+        private void btnFusionSummon2_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "1"));
+
+            //Perform the action
+            btnFusionSummon_Base("1");
+        }
+        private void btnFusionSummon3_Click(object sender, EventArgs e)
+        {
+            //Send the action message to the server
+            SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "2"));
+
+            //Perform the action
+            btnFusionSummon_Base("2");
+        }
+        #endregion
         #endregion
 
         #region Base Player Actions
@@ -2388,7 +2368,8 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard || _CurrentGameState == GameState.SetCard)
+                if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
+                    _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     _CurrentTileSelected = _Tiles[tileId];
@@ -2438,7 +2419,6 @@ namespace DungeonDiceMonsters
                 else if (_CurrentGameState == GameState.SummonCard)
                 {
                     //Restore the possible dimmension tiles to their OG colors
-                    SoundServer.PlaySoundEffect(SoundEffect.Hover);
 
                     //Use the following function to get the ref to the tiles that compose the dimension
                     Tile[] dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
@@ -2447,6 +2427,14 @@ namespace DungeonDiceMonsters
                     for (int x = 0; x < dimensionTiles.Length; x++)
                     {
                         if (dimensionTiles[x] != null) { dimensionTiles[x].ReloadTileUI(); }
+                    }
+                }
+                else if (_CurrentGameState == GameState.FusionMaterialCandidateSelection) 
+                {
+                    _CurrentTileSelected.ReloadTileUI();
+                    if(_FusionCandidateTiles.Contains(_CurrentTileSelected))
+                    {
+                        _CurrentTileSelected.MarkFusionMaterialTarget();
                     }
                 }
             }));
@@ -2471,6 +2459,8 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
                 SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
 
+                _CurrentTileSelected = _Tiles[tileId];
+
                 //Initialize the Dimension tiles again (Oppoenent's UI doesnt get them initialize them on hover)
                 _dimensionTiles = _Tiles[tileId].GetDimensionTiles(_CurrentDimensionForm);
 
@@ -2479,44 +2469,14 @@ namespace DungeonDiceMonsters
                 {
                     tile.ChangeOwner(TURNPLAYER);
                 }
-
-                //then summon the card
-                Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(_CardToBeSummon.ID), TURNPLAYER, false);
-                _CardsOnBoard.Add(thisCard);
-                _Tiles[tileId].SummonCard(thisCard);
-
-                //Wait 1 sec for the sound effect to finish
-                WaitNSeconds(1000);
-
-                //Complete the summon
+               
+                //Clean the UI
                 lblActionInstruction.Visible = false;
                 PanelDimenFormSelector.Visible = false;
                 _CurrentDimensionForm = DimensionForms.CrossBase;
-                _CurrentTileSelected = _dimensionTiles[0];
 
-                //Check for active effects that react to monster summons
-                UpdateEffectLogs(string.Format("Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}] - Checking for Active Effects to Apply.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
-                ResolveEffectsWithSummonReactionTo(thisCard);
-
-                //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-                if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
-                {
-                    //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
-                    ActivateEffect(thisCardsEffect);
-                    _ActiveEffects.Add(thisCardsEffect);
-                }
-                else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
-                {
-                    //Create the effect object and activate
-                    Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
-                    ActivateEffect(thisCardsEffect);
-                    _ActiveEffects.Add(thisCardsEffect);
-                }
-                else
-                {
-                    EnterMainPhase();
-                }
+                //Now run the Master Summon Monster function
+                SummonMonster(_CardToBeSummon, tileId);
             }));
         }
         private void TileClick_SetCard_Base(int tileId)
@@ -2553,6 +2513,7 @@ namespace DungeonDiceMonsters
                 btnActionCancel.Enabled = true;
 
                 //Step 2: Generate the Card object on the card in action, we'll use it later.
+                _CurrentTileSelected = _Tiles[tileId];
                 Card thiscard = _CurrentTileSelected.CardInPlace;
 
                 //Step 3A: Enable the Action Buttons based on the card in action
@@ -2605,11 +2566,19 @@ namespace DungeonDiceMonsters
                 //Step 3B: Disable the Action Button for the non-turn player
                 else
                 {
-                    //Show the action message to the opposite player
-                    lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    //Show the action message to the opposite player                    
+                    if(thiscard.IsFaceDown)
+                    {
+                        lblActionInstruction.Text = "Opponent selected a face-down card for action!";
+                    }
+                    else
+                    {
+                        lblActionInstruction.Text = string.Format("Opponent selected {0} for action!", thiscard.Name);
+                    }
                     lblActionInstruction.Visible = true;
                     btnActionMove.Enabled = false;
                     btnActionAttack.Enabled = false;
+                    btnActionEffect.Enabled = false;
                     btnActionMove.Enabled = false;
                     btnActionCancel.Enabled = false;
                 }
@@ -2771,7 +2740,7 @@ namespace DungeonDiceMonsters
                 PlayerColor TargetPlayerColor = PlayerColor.RED;
                 if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
                 _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(TargetPlayerColor);
-                DisplayAttackCandidate();
+                DisplayAttackCandidates();
                 PlaceAttackMenu();
 
                 PanelActionMenu.Visible = false;
@@ -2784,6 +2753,48 @@ namespace DungeonDiceMonsters
 
                 _CurrentGameState = GameState.SelectingAttackTarger;
             }));
+
+            void DisplayAttackCandidates()
+            {
+                foreach (Tile tile in _AttackCandidates)
+                {
+                    tile.MarkAttackTarget();
+                }
+            }
+            void PlaceAttackMenu()
+            {
+                Point referencePoint = _AttackerTile.Location;
+                int X_Location = referencePoint.X;
+                int Y_Location = referencePoint.Y;
+
+                int newX = referencePoint.X;
+                int newY = referencePoint.Y;
+
+                //IF the tile clicked is on the FAR RIGHT: Display the Move Menu on the left side of the Tile
+                if (X_Location > 500)
+                {
+                    newX = newX - 83;
+                }
+                //OTHERWISE: Display the Move Menu on the right side of the Tile.
+                else
+                {
+                    newX = newX + 48;
+                }
+
+                //IF the tile clicked in on the TOP ROW: Display the Move Menu on the row below
+                if (Y_Location < 30)
+                {
+                    newY = newY + 48;
+                }
+                //OTHERWISE: display the Move Menu on the row above
+                else
+                {
+                    newY = newY - 27;
+                }
+                //Set the new location based on the mods above
+                PanelAttackMenu.Location = new Point(newX, newY);
+                PanelAttackMenu.Visible = true;
+            }
         }
         private void btnActionEffect_Base()
         {
@@ -2798,6 +2809,215 @@ namespace DungeonDiceMonsters
                 //Step 2: Open the Effect Menu
                 DisplayIgnitionEfectPanel(_CurrentTileSelected.CardInPlace);
             }));
+
+            void DisplayIgnitionEfectPanel(Card thisCard)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
+                //Create the Effect Object,
+                //This will initialize the _CardEffectToBeActivated to be use across the other methods for
+                //this effect activation sequence.
+                if (thisCard.Category == Category.Monster && thisCard.HasIgnitionEffect)
+                {
+                    _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
+                }
+                else if (thisCard.Category == Category.Spell)
+                {
+                    if (thisCard.HasContinuousEffect)
+                    {
+                        _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Continuous);
+                    }
+                    else if (thisCard.HasIgnitionEffect)
+                    {
+                        _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
+                    }
+                }
+
+                //Now load the actual Effect Menu Panel
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    LoadItVisible();
+                }
+                else
+                {
+                    //Load the Effect Menu with hidden info if it was face down
+                    if (thisCard.IsFaceDown)
+                    {
+                        LoadItHidden();
+                    }
+                    else
+                    {
+                        LoadItVisible();
+                    }
+                }
+
+                //Now show the effect menu itself
+                btnEffectMenuCancel.Visible = true;
+                PanelEffectActivationMenu.Visible = true;
+
+                void LoadItVisible()
+                {
+                    //Show the full menu for the turn player
+                    //Card Image
+                    ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisCard.CardID.ToString());
+                    //Effect Type Title
+                    lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
+                    //Effect Text
+                    lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
+                    //Cost
+                    ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                    lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
+                    lblCostAmount.ForeColor = Color.White;
+                    PanelCost.Visible = true;
+
+                    //Activate button
+                    if (thisCard.EffectUsedThisTurn)
+                    {
+                        lblActivationRequirementOutput.Text = "Effect already used this turn.";
+                        lblActivationRequirementOutput.Visible = true;
+                        btnActivate.Visible = false;
+                        PanelCost.Visible = false;
+                    }
+                    else
+                    {
+                        //Check if the activation cost is met
+                        if (IsCostMet(_CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount))
+                        {
+                            //then check if the activation requirements is met
+                            string ActivationRequirementStatus = GetActivationRequirementStatus(_CardEffectToBeActivated.ID);
+                            if (ActivationRequirementStatus == "Requirements Met")
+                            {
+                                lblActivationRequirementOutput.Visible = false;
+                                btnActivate.Visible = true;
+                            }
+                            else
+                            {
+                                lblActivationRequirementOutput.Text = ActivationRequirementStatus;
+                                lblActivationRequirementOutput.Visible = true;
+                                btnActivate.Visible = false;
+                            }
+                        }
+                        else
+                        {
+                            lblActivationRequirementOutput.Text = "Cost not met.";
+                            lblActivationRequirementOutput.Visible = true;
+                            lblCostAmount.ForeColor = Color.Red;
+                            btnActivate.Visible = false;
+                        }
+                    }
+
+                    //Set the buttons ENABLE for the turn player and DISABLE for the opponent
+                    if (UserPlayerColor == TURNPLAYER)
+                    {
+                        btnActivate.Enabled = true;
+                        btnEffectMenuCancel.Enabled = true;
+                    }
+                    else
+                    {
+                        btnActivate.Enabled = false;
+                        btnEffectMenuCancel.Enabled = false;
+                    }
+                }
+                void LoadItHidden()
+                {
+                    //Card Image will be face down
+                    ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, "0");
+                    //Effect Type Title
+                    lblEffectMenuTittle.Text = "Effect";
+                    //Effect Text
+                    lblEffectMenuDescriiption.Text = "Hidden";
+                    //Hide the cost panel regardless if the effect has a cost
+                    PanelCost.Visible = false;
+                    lblActivationRequirementOutput.Visible = false;
+                    btnActivate.Visible = true;
+                    //disable both actyion buttons to prevent the opposite player from interacting with them
+                    btnActivate.Enabled = false;
+                    btnEffectMenuCancel.Enabled = false;
+                }
+                bool IsCostMet(Crest crestCost, int amount)
+                {
+                    PlayerData turnPlayerData = RedData;
+                    if (TURNPLAYER == PlayerColor.BLUE) { turnPlayerData = BlueData; }
+
+                    switch (crestCost)
+                    {
+                        case Crest.MAG: return amount <= turnPlayerData.Crests_MAG;
+                        case Crest.TRAP: return amount <= turnPlayerData.Crests_TRAP;
+                        case Crest.ATK: return amount <= turnPlayerData.Crests_ATK;
+                        case Crest.DEF: return amount <= turnPlayerData.Crests_DEF;
+                        case Crest.MOV: return amount <= turnPlayerData.Crests_MOV;
+                        default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
+                    }
+                }
+                string GetActivationRequirementStatus(Effect.EffectID thisEffectID)
+                {
+                    switch (thisEffectID)
+                    {
+                        case Effect.EffectID.Polymerization: return Polymerization_MetsRequirement();
+                        default: return "Requirements Met";
+                    }
+
+                    string Polymerization_MetsRequirement()
+                    {
+                        //First check if the turn player has cards in the fusion deck
+                        PlayerData playerData = GetTurnPlayerPlayerData();
+
+                        //If the player has card in the fusion deck still               
+                        if (playerData.Deck.FusionDeckSize > 0)
+                        {
+                            _FusionCardsReadyForFusion.Clear();
+                            bool AtLeastOneFusionRequirementsMet = false;
+                            //Check each card in the Fusion Deck to see if the player has the materials on the board
+                            for (int i = 0; i < playerData.Deck.FusionDeckSize; i++)
+                            {
+                                //Create the CardInfo Object as we dont have a Card Object created yet
+                                int thisFusionCardID = playerData.Deck.GetFusionCardIDAtIndex(i);
+                                CardInfo thisFusionCard = CardDataBase.GetCardWithID(thisFusionCardID);
+
+                                //Use the CardInfo to create the list of materials
+                                List<string> fusionMaterials = thisFusionCard.GetFusionMaterials();
+
+                                //Check if all the fusion materials exist on the board under the turn player's control
+                                List<int> candidatesFound = new List<int>();
+                                foreach (string thisMeterial in fusionMaterials)
+                                {
+                                    for (int x = 0; x < _CardsOnBoard.Count; x++)
+                                    {
+                                        Card thisCardOnTheBoard = _CardsOnBoard[x];
+                                        if (thisCardOnTheBoard.Name == thisMeterial && !thisCardOnTheBoard.IsDiscardted && 
+                                            thisCardOnTheBoard.Owner == TURNPLAYER &&!candidatesFound.Contains(x))
+                                        {
+                                            candidatesFound.Add(x);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                bool AllFusionMaterialsFound = fusionMaterials.Count == candidatesFound.Count;
+                                if (AllFusionMaterialsFound)
+                                {
+                                    _FusionCardsReadyForFusion.Add(thisFusionCardID);
+                                    AtLeastOneFusionRequirementsMet = true;
+                                }
+                            }
+
+                            if (AtLeastOneFusionRequirementsMet) 
+                            {
+                                //Opponent will not run this requirement validation, so send the 
+                                //_fusionCardsReadyForFusion candidates to the oppoenent
+                                string candidate1 = _FusionCardsReadyForFusion[0].ToString();
+                                string candidate2 = "0";
+                                if(_FusionCardsReadyForFusion.Count > 1) { candidate2 = _FusionCardsReadyForFusion[1].ToString(); }
+                                string candidate3 = "0";
+                                if (_FusionCardsReadyForFusion.Count > 2) { candidate3 = _FusionCardsReadyForFusion[2].ToString(); }
+                                SendMessageToServer(string.Format("{0}|{1}|{2}|{3}|{4}", "[READY FUSION CANDIDATES]", _CurrentGameState.ToString(), candidate1, candidate2, candidate3));
+                                return "Requirements Met"; 
+                            }
+                            else { return "No fusion requirements met."; }
+                        }
+                        else { return "No cards in the Fusion Deck."; }
+                    }
+                }
+            }
         }
         private void btnMoveMenuCancel_Base()
         {
@@ -2958,6 +3178,159 @@ namespace DungeonDiceMonsters
                 OpenBattleMenu();
                 _CurrentGameState = GameState.BattlePhase;
             }));
+
+            void OpenBattleMenu()
+            {
+                PanelBattleMenu.Visible = true;
+                btnEndBattle.Visible = false;
+
+                //Set the attacker's data
+                Card Attacker = _AttackerTile.CardInPlace;
+                ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
+                lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
+                lblAttackerATK.Text = "ATK: " + Attacker.ATK;
+
+                //Update the LP labels to reflect the Color owner
+                if (TURNPLAYER == PlayerColor.RED)
+                {
+                    PanelAttackerCard.BackColor = Color.DarkRed;
+                    PanelDefenderCard.BackColor = Color.MidnightBlue;
+                }
+                else
+                {
+                    PanelAttackerCard.BackColor = Color.MidnightBlue;
+                    PanelDefenderCard.BackColor = Color.DarkRed;
+                }
+
+                //Set the defender's data. if the defender is a non-monster place the clear data.
+                Card Defender = _AttackTarger.CardInPlace;
+                if (Defender.Category == Category.Monster)
+                {
+                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                    lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
+                    lblDefenderDEF.Text = "DEF: " + Defender.DEF;
+                }
+                else if (Defender.Category == Category.Symbol)
+                {
+                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardSymbol, Defender.Attribute.ToString());
+                    lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
+                    lblDefenderDEF.Text = "DEF: 0";
+                }
+                else
+                {
+                    //At this point, if the attack target was a face down card, it was flipped face up
+                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                    lblBattleMenuDEFLP.Text = "LP: -";
+                    lblDefenderDEF.Text = "DEF: -";
+                }
+
+                //Hide the "Destroyed" labels just in case
+                PicAttackerDestroyed.Visible = false;
+                PicDefenderDestroyed.Visible = false;
+
+                //Set the initial Damage Calculation as "?"
+                //Damage calculation will be done after both player set their Atk/Def
+                //choices (defender has to choose if they defend if can)
+                //also both player have the choice to add advantage bonuses if available
+                lblBattleMenuDamage.Text = "Damage: ?";
+                lblAttackerBonus.Text = "Bonus: ?";
+                lblDefenderBonus.Text = "Bonus: ?";
+
+                //Display either the ATTACK/DEFEND controls based on the user player
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    //Display the base Attack Controls Panel
+                    _AttackBonusCrest = 0;
+                    lblAttackerBonus.Text = "Bonus: 0";
+                    PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                    lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
+                    PanelAttackControls.Visible = true;
+
+                    //If attacker monster has an advantage, enable the adv subpanel
+                    bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
+                    if (AttackerHasAdvantage && Defender.Category == Category.Monster)
+                    {
+                        PanelAttackerAdvBonus.Visible = true;
+                        //Show the + button at the start                    
+                        lblAttackerAdvMinus.Visible = false;
+                        lblAttackerAdvPlus.Visible = true;
+                    }
+                    else
+                    {
+                        PanelAttackerAdvBonus.Visible = false;
+                    }
+
+                    //Show the 'waiting for opponent' label on the other ide
+                    lblWaitingfordefender.Visible = true;
+                    lblWaitingforattacker.Visible = false;
+                    lblWaitingfordefender.Text = "Waiting for opponent...";
+                    lblWaitingfordefender.ForeColor = Color.Yellow;
+
+                    //Hide the Defend Controsl
+                    PanelDefendControls.Visible = false;
+                }
+                else
+                {
+                    //Display the base Defend Controls Panel
+
+                    if (Defender.Category == Category.Monster)
+                    {
+                        PanelDefendControls.Visible = true;
+                        _DefenseBonusCrest = 0;
+                        lblDefenderBonus.Text = "Bonus: 0";
+                        PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                        if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
+                        else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }
+                        PanelDefendControls.Visible = true;
+                        //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
+                        if (Defender.DefenseCost > DefenderData.Crests_DEF)
+                        {
+                            btnBattleMenuDefend.Visible = false;
+                        }
+                        else
+                        {
+                            btnBattleMenuDefend.Visible = true;
+                        }
+                        //If defender monster has an advantage, enable the adv subpanel
+                        bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
+                        if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0 && Defender.Category == Category.Monster)
+                        {
+                            PanelDefenderAdvBonus.Visible = true;
+                            //Show the + button at the start
+                            lblDefenderAdvMinus.Visible = false;
+                            lblDefenderAdvPlus.Visible = true;
+                        }
+                        else
+                        {
+                            PanelDefenderAdvBonus.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        //Enable the Defense controls but only enable the PASS option
+                        //This is meant to work when defending with Symbols/Spells/Traps
+                        PanelDefendControls.Visible = true;
+                        _DefenseBonusCrest = 0;
+                        lblDefenderBonus.Text = "Bonus: 0";
+                        PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                        lblDefenderCrestCount.Text = "[DEF] to use: 0";
+                        btnBattleMenuDefend.Visible = false;
+                        PanelDefenderAdvBonus.Visible = false;
+                    }
+
+                    //Show the 'waiting for opponent' label on the other ide
+                    lblWaitingforattacker.Visible = true;
+                    lblWaitingfordefender.Visible = false;
+                    lblWaitingforattacker.Text = "Waiting for opponent...";
+                    lblWaitingforattacker.ForeColor = Color.Yellow;
+
+                    //Hide the Attack Controls
+                    PanelAttackControls.Visible = false;
+                }
+
+                //Update the Phase Banner
+                UpdateBanner("BattlePhase");
+            }
         }
         private void btnAttackMenuCancel_Base()
         {
@@ -3013,12 +3386,13 @@ namespace DungeonDiceMonsters
                         ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
                         lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                         lblCostAmount.ForeColor = Color.White;
-                        PanelCost.Visible = true;
+                        PanelCost.Visible = true;                       
+                        LoadCardInfoPanel();
                     }
                 }
 
                 //Step 3: Reduce the cost from the player's crest pool
-                ReduceCrestsToPlayer(TURNPLAYER, _CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount);
+                AdjustPlayerCrestCount(TURNPLAYER, _CardEffectToBeActivated.CrestCost, -_CardEffectToBeActivated.CostAmount);
 
                 //Step 4: Give a small pause to allow the opposite player to see the effect revealed on their end
                 BoardForm.WaitNSeconds(2000);
@@ -3122,6 +3496,108 @@ namespace DungeonDiceMonsters
                 }
             }));
         }
+        private void ReadyFusionCandidatesReceived(string strcandidate1, string strcandidate2, string strcandidate3)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                _FusionCardsReadyForFusion.Clear();
+
+                if (strcandidate1 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate1)); }
+                if (strcandidate2 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate2)); }
+                if (strcandidate3 != "0") { _FusionCardsReadyForFusion.Add(Convert.ToInt32(strcandidate3)); }
+
+            }));           
+        }
+        private void btnFusionSummon_Base(string selectionIndex)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                //Initialize the fusion summon of card in index 0
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                _IndexOfFusionCardSelected = Convert.ToInt32(selectionIndex);
+                int fusionID = _FusionCardsReadyForFusion[_IndexOfFusionCardSelected];
+                _FusionToBeSummoned = CardDataBase.GetCardWithID(fusionID);
+                _FusionMaterialsToBeUsed.Clear();
+                _FusionSummonTiles.Clear();
+                _FusionMaterialsToBeUsed = _FusionToBeSummoned.GetFusionMaterials();
+                PanelFusionMonsterSelector.Visible = false;
+
+                //Now the UI will prompt the turn player to select the first fusion material
+                PromptPlayerToSelectFusionMaterial();
+            }));
+        }
+        private void TileClick_FusionMaterial_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+                //Destroy the selected card and remove the fusion material from the _FusionMaterialsToBeUsed
+                Tile thisTile = _Tiles[tileId];
+                thisTile.DestroyCard();
+                _FusionMaterialsToBeUsed.RemoveAt(0);
+
+                //Save the reference to the tile of this Fusion Material so we know which tiles
+                //can be selected to summon the fusion monster at
+                _FusionSummonTiles.Add(thisTile);
+
+                //Now, if the _FusionMaterialsToBeUsed still contiains fusions materials to be selected,
+                //repeat the selection process until all of them have been selected
+                if (_FusionMaterialsToBeUsed.Count > 0)
+                {
+                    PromptPlayerToSelectFusionMaterial();
+                }
+                else
+                {
+                    //Mark the candidate tiles to summon the fusion monster at
+                    DisplayFusionSummonTileCandidates();
+
+                    //Change the game state so the turn player can select the tile to summon at
+                    _CurrentGameState = GameState.FusionSummonTileSelection;
+                }
+
+            }));
+
+            void DisplayFusionSummonTileCandidates()
+            {
+                foreach (Tile thisTile in _FusionSummonTiles)
+                {
+                    thisTile.MarkFreeToMove();
+                }
+
+                if (UserPlayerColor == TURNPLAYER)
+                {
+                    lblActionInstruction.Text = "Select Tile to Fusion Summon!";
+                    lblActionInstruction.Visible = true;
+                }
+                else
+                {
+                    lblActionInstruction.Text = "Opponent is selecting the Tile to Fusion Summon.";
+                    lblActionInstruction.Visible = true;
+                }
+            }
+        }
+        private void TileClick_FusionSummon_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                _CurrentGameState = GameState.NOINPUT;
+                SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
+
+                //reset the tiles of the summon candidates
+                foreach (Tile tile in _FusionSummonTiles)
+                {
+                    tile.ReloadTileUI();
+                }
+
+                //Remove the fusion to be summoned from the fusion deck
+                PlayerData playerdata = GetTurnPlayerPlayerData();
+                playerdata.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
+
+                //Now run the Master Summon Monster function
+                SummonMonster(_FusionToBeSummoned, tileId);
+            }));
+        }
         #endregion
 
         #region Data
@@ -3165,6 +3641,13 @@ namespace DungeonDiceMonsters
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
         private Effect _CardEffectToBeActivated;
+        //Fusion Sequence Data
+        private List<int> _FusionCardsReadyForFusion = new List<int>();
+        private CardInfo _FusionToBeSummoned;
+        private List<string> _FusionMaterialsToBeUsed = new List<string>();
+        private List<Tile> _FusionCandidateTiles = new List<Tile>();
+        private List<Tile> _FusionSummonTiles = new List<Tile>();
+        private int _IndexOfFusionCardSelected = -1;
         #endregion
 
         #region Effect Activation Methods
@@ -3194,6 +3677,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MWarrior1_Ignition: MWarrior1_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior2_OnSummon: MWarrior2_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior2_Ignition: MWarrior2_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.Polymerization: Polymerization_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
@@ -3222,186 +3706,12 @@ namespace DungeonDiceMonsters
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.ContinuousEffect;
             PanelEffectActivationMenu.Visible = true;
             BoardForm.WaitNSeconds(2000);
-        }
-        private void DisplayIgnitionEfectPanel(Card thisCard)
-        {
-            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
-            //Create the Effect Object,
-            //This will initialize the _CardEffectToBeActivated to be use across the other methods for
-            //this effect activation sequence.
-            if (thisCard.Category == Category.Monster && thisCard.HasIgnitionEffect)
-            {
-                _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
-            }
-            else if (thisCard.Category == Category.Spell)
-            {
-                if (thisCard.HasContinuousEffect)
-                {
-                    _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Continuous);
-                }
-                else if (thisCard.HasIgnitionEffect)
-                {
-                    _CardEffectToBeActivated = new Effect(thisCard, Effect.EffectType.Ignition);
-                }
-            }
-
-            //Now load the actual Effect Menu Panel
-            if (UserPlayerColor == TURNPLAYER)
-            {
-                LoadItVisible();      
-            }
-            else
-            {
-                //Load the Effect Menu with hidden info if it was face down
-                if(thisCard.IsFaceDown)
-                {
-                    LoadItHidden();
-                }
-                else
-                {
-                    LoadItVisible();
-                }
-            }
-
-            //Now show the effect menu itself
-            btnEffectMenuCancel.Visible = true;
-            PanelEffectActivationMenu.Visible = true;
-
-            void LoadItVisible()
-            {
-                //Show the full menu for the turn player
-                //Card Image
-                ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisCard.CardID.ToString());
-                //Effect Type Title
-                lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
-                //Effect Text
-                lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
-                //Cost
-                ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
-                lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
-                lblCostAmount.ForeColor = Color.White;
-                PanelCost.Visible = true;
-
-                //Activate button
-                if (thisCard.EffectUsedThisTurn)
-                {
-                    lblActivationRequirementOutput.Text = "Effect already used this turn.";
-                    lblActivationRequirementOutput.Visible = true;
-                    btnActivate.Visible = false;
-                    PanelCost.Visible = false;
-                }
-                else
-                {
-                    //Check if the activation cost is met
-                    if (IsCostMet(_CardEffectToBeActivated.CrestCost, _CardEffectToBeActivated.CostAmount))
-                    {
-                        //then check if the activation requirements is met
-                        string ActivationRequirementStatus = GetActivationRequirementStatus(_CardEffectToBeActivated.ID);
-                        if (ActivationRequirementStatus == "Requirements Met")
-                        {
-                            lblActivationRequirementOutput.Visible = false;
-                            btnActivate.Visible = true;
-                        }
-                        else
-                        {
-                            lblActivationRequirementOutput.Text = ActivationRequirementStatus;
-                            lblActivationRequirementOutput.Visible = true;
-                            btnActivate.Visible = false;
-                        }
-                    }
-                    else
-                    {
-                        lblActivationRequirementOutput.Text = "Cost not met.";
-                        lblActivationRequirementOutput.Visible = true;
-                        lblCostAmount.ForeColor = Color.Red;
-                        btnActivate.Visible = false;
-                    }
-                }
-                
-                //Set the buttons ENABLE for the turn player and DISABLE for the opponent
-                if(UserPlayerColor == TURNPLAYER)
-                {
-                    btnActivate.Enabled = true;
-                    btnEffectMenuCancel.Enabled = true;
-                }
-                else
-                {
-                    btnActivate.Enabled = false;
-                    btnEffectMenuCancel.Enabled = false;
-                }
-            }
-
-            void LoadItHidden()
-            {
-                //Card Image will be face down
-                ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, "0");
-                //Effect Type Title
-                lblEffectMenuTittle.Text = "Effect";
-                //Effect Text
-                lblEffectMenuDescriiption.Text = "Hidden";
-                //Hide the cost panel regardless if the effect has a cost
-                PanelCost.Visible = false;
-                lblActivationRequirementOutput.Visible = false;
-                btnActivate.Visible = true;
-                //disable both actyion buttons to prevent the opposite player from interacting with them
-                btnActivate.Enabled = false;
-                btnEffectMenuCancel.Enabled = false;
-            }
-        }
+        }       
         private void HideEffectMenuPanel()
         {
             //Now you can close the On Summon Panel
             PanelEffectActivationMenu.Visible = false;
-        }
-        private void AdjustPlayerCrestCount(PlayerColor targetPlayer, Crest thisCrest, int amount)
-        {
-            //Set the Player Data Object to modify
-            PlayerData Player = RedData;
-            if (targetPlayer == PlayerColor.BLUE) { Player = BlueData; }
-
-            //Adjust the Crest 
-            if (amount > 0)
-            {
-                //Use a loop to anime adding the crests
-                for (int x = 0; x < amount; x++)
-                {
-                    Player.AddCrests(thisCrest, 1);
-                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                    LoadPlayersInfo();
-                    BoardForm.WaitNSeconds(200);
-                }
-            }
-            else
-            {
-                //Use a loop to anime removing the crests
-                for (int x = 0; x < amount; x++)
-                {
-                    Player.AddCrests(thisCrest, 1);
-                    SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                    LoadPlayersInfo();
-                    BoardForm.WaitNSeconds(200);
-                }
-            }
-        }
-        private bool IsCostMet(Crest crestCost, int amount)
-        {
-            PlayerData turnPlayerData = RedData;
-            if (TURNPLAYER == PlayerColor.BLUE) { turnPlayerData = BlueData; }
-
-            switch (crestCost)
-            {
-                case Crest.MAG: return amount <= turnPlayerData.Crests_MAG;
-                case Crest.TRAP: return amount <= turnPlayerData.Crests_TRAP;
-                case Crest.ATK: return amount <= turnPlayerData.Crests_ATK;
-                case Crest.DEF: return amount <= turnPlayerData.Crests_DEF;
-                case Crest.MOV: return amount <= turnPlayerData.Crests_MOV;
-                default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
-            }
-        }
-        private string GetActivationRequirementStatus(Effect.EffectID thisEffectID)
-        {
-            return "Requirements Met";
-        }
+        }                   
         #endregion
 
         #region "Dark Symbol"
@@ -3811,7 +4121,7 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION:
             //Add 1 [DEF] to the owener's crest pool
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
-            IncreaseCrestsToPlayer(thisEffect.Owner, Crest.DEF, 1);
+            AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
 
             //Flag the Effect Activation this turn
             thisEffect.OriginCard.MarkEffectUsedThisTurn();
@@ -3861,13 +4171,109 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION:
             //Add 1 [ATK] to the owener's crest pool
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
-            IncreaseCrestsToPlayer(thisEffect.Owner, Crest.ATK, 1);
+            AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
 
             //Flag the Effect Activation this turn
             thisEffect.OriginCard.MarkEffectUsedThisTurn();
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Polymerization
+        private void Polymerization_IgnitionActivation(Effect thisEffect)
+        {
+            //TODO: Continue here, display the fusion cards that correspond to the _FusionCardsReadyForFusion
+            //and allow the player to select one
+            DisplayFusionSelectorMenu();
+
+            //Destroy the Polymerization card
+            _CurrentTileSelected.DestroyCard();
+
+            //Change the game state and the player is now ready to pick the fusion monster
+            _CurrentGameState = GameState.FusionSelectorMenu;
+
+            void DisplayFusionSelectorMenu()
+            {
+                //Use the previously set list _FusionCardsReadyForFusion to display the available options to summon
+                //Check the 3 fusion card slots in the deck
+
+                PlayerData playerData = GetTurnPlayerPlayerData();
+
+                //Check slot 1
+                bool fusionCard1TobeDisplayed = false;
+                if(playerData.Deck.FusionDeckSize >= 1)
+                {
+                    int fusionCard1Id = playerData.Deck.GetFusionCardIDAtIndex(0);
+                    if(_FusionCardsReadyForFusion.Contains(fusionCard1Id))
+                    {
+                        fusionCard1TobeDisplayed = true;
+                        ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, fusionCard1Id.ToString());
+                        PicFusionOption1.Visible = true;
+                        btnFusionSummon1.Visible = true;
+                        btnFusionSummon1.Enabled = true;
+                    }
+                }
+                if(!fusionCard1TobeDisplayed)
+                {
+                    PicFusionOption1.Visible = false;
+                    btnFusionSummon1.Visible = false;
+                }
+
+                //Check slot 2
+                bool fusionCard2TobeDisplayed = false;
+                if (playerData.Deck.FusionDeckSize >= 2)
+                {
+                    int fusionCard2Id = playerData.Deck.GetFusionCardIDAtIndex(1);
+                    if (_FusionCardsReadyForFusion.Contains(fusionCard2Id))
+                    {
+                        fusionCard2TobeDisplayed = true;
+                        ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, fusionCard2Id.ToString());
+                        PicFusionOption2.Visible = true;
+                        btnFusionSummon2.Visible = true;
+                        btnFusionSummon2.Enabled = true;
+                    }
+                }
+                if (!fusionCard2TobeDisplayed)
+                {
+                    PicFusionOption2.Visible = false;
+                    btnFusionSummon2.Visible = false;
+                }
+
+                //Check slot 3
+                bool fusionCard3TobeDisplayed = false;
+                if (playerData.Deck.FusionDeckSize == 3)
+                {
+                    int fusionCard3Id = playerData.Deck.GetFusionCardIDAtIndex(2);
+                    if (_FusionCardsReadyForFusion.Contains(fusionCard3Id))
+                    {
+                        fusionCard3TobeDisplayed = true;
+                        ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, fusionCard3Id.ToString());
+                        PicFusionOption3.Visible = true;
+                        btnFusionSummon3.Visible = true;
+                        btnFusionSummon3.Enabled = true;
+                    }
+                }
+                if (!fusionCard3TobeDisplayed)
+                {
+                    PicFusionOption3.Visible = false;
+                    btnFusionSummon3.Visible = false;
+                }
+
+                if (UserPlayerColor != TURNPLAYER)
+                {
+                    //Disable all 3 buttons and hide the 3 monsters
+                    ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, "0");
+                    ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, "0");
+                    ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, "0");
+                    btnFusionSummon1.Enabled = false;
+                    btnFusionSummon2.Enabled = false;
+                    btnFusionSummon3.Enabled = false;
+                }
+
+                PanelFusionMonsterSelector.Visible = true;
+            }
         }
         #endregion
 
@@ -3961,9 +4367,12 @@ namespace DungeonDiceMonsters
             BattlePhase,
             SetCard,
             SummonCard,
-            EffectMenuDisplay
+            EffectMenuDisplay,
+            FusionSelectorMenu,
+            FusionMaterialCandidateSelection,
+            FusionSummonTileSelection
         }
-        #endregion
+        #endregion                  
     }
 
     public enum PlayerColor

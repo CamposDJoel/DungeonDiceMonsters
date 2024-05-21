@@ -3,6 +3,7 @@
 //Card Info (Ver 2) Class
 
 using System;
+using System.Collections.Generic;
 
 namespace DungeonDiceMonsters
 {
@@ -163,6 +164,7 @@ namespace DungeonDiceMonsters
         public int DiceLevel { get { return _DiceLevel; } }
         public string FusionMaterial1 { get { return _FusionMaterial1; } }
         public string FusionMaterial2 { get { return _FusionMaterial2; } }
+        public bool HasThirdFusionMaterial { get { return _FusionMaterial3 != "-"; } }
         public string FusionMaterial3 { get { return _FusionMaterial3; } }
         public string RitualCard { get { return _RitualCard; } }
         public bool HasOnSummonEffect { get { return _OnSummonEffect != "-"; } }
@@ -195,6 +197,14 @@ namespace DungeonDiceMonsters
             {
                 return _CrestValue[index];
             }
+        }
+        public List<string> GetFusionMaterials()
+        {
+            List<string> fusionMaterials = new List<string>();
+            fusionMaterials.Add(FusionMaterial1);
+            fusionMaterials.Add(FusionMaterial2);
+            if (HasThirdFusionMaterial) { fusionMaterials.Add(FusionMaterial3); }
+            return fusionMaterials;
         }
         #endregion
 

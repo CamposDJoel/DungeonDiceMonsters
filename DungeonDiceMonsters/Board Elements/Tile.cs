@@ -314,6 +314,10 @@ namespace DungeonDiceMonsters
         {
             _CardImage.BackColor = Color.Green;
         }
+        public void MarkFusionMaterialTarget()
+        {
+            _Border.BackColor = Color.Green;
+        }
         public void HighlightTile()
         {
             _Border.BackColor = Color.Yellow;

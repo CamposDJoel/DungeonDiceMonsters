@@ -187,6 +187,14 @@
             this.lblFieldTypeName = new System.Windows.Forms.Label();
             this.PicFieldTypeDisplay = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.PanelFusionMonsterSelector = new System.Windows.Forms.Panel();
+            this.btnFusionSummon3 = new System.Windows.Forms.Button();
+            this.PicFusionOption3 = new System.Windows.Forms.PictureBox();
+            this.btnFusionSummon2 = new System.Windows.Forms.Button();
+            this.PicFusionOption2 = new System.Windows.Forms.PictureBox();
+            this.btnFusionSummon1 = new System.Windows.Forms.Button();
+            this.PicFusionOption1 = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -237,6 +245,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicEffectMenuCardImage)).BeginInit();
             this.PanelFieldType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).BeginInit();
+            this.PanelFusionMonsterSelector.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -1388,7 +1400,7 @@
             this.PanelTurnStartMenu.BackColor = System.Drawing.Color.DimGray;
             this.PanelTurnStartMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelTurnStartMenu.BackgroundImage")));
             this.PanelTurnStartMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelTurnStartMenu.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PanelTurnStartMenu.Controls.Add(this.btnViewBoard);
             this.PanelTurnStartMenu.Controls.Add(this.btnRoll);
             this.PanelTurnStartMenu.Controls.Add(this.lblTurnStartMessage);
@@ -2161,6 +2173,108 @@
             this.label4.Text = "FIELD";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // PanelFusionMonsterSelector
+            // 
+            this.PanelFusionMonsterSelector.BackColor = System.Drawing.Color.SteelBlue;
+            this.PanelFusionMonsterSelector.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelFusionMonsterSelector.Controls.Add(this.btnFusionSummon3);
+            this.PanelFusionMonsterSelector.Controls.Add(this.PicFusionOption3);
+            this.PanelFusionMonsterSelector.Controls.Add(this.btnFusionSummon2);
+            this.PanelFusionMonsterSelector.Controls.Add(this.PicFusionOption2);
+            this.PanelFusionMonsterSelector.Controls.Add(this.btnFusionSummon1);
+            this.PanelFusionMonsterSelector.Controls.Add(this.PicFusionOption1);
+            this.PanelFusionMonsterSelector.Controls.Add(this.label6);
+            this.PanelFusionMonsterSelector.Location = new System.Drawing.Point(327, 349);
+            this.PanelFusionMonsterSelector.Name = "PanelFusionMonsterSelector";
+            this.PanelFusionMonsterSelector.Size = new System.Drawing.Size(265, 166);
+            this.PanelFusionMonsterSelector.TabIndex = 32;
+            this.PanelFusionMonsterSelector.Visible = false;
+            // 
+            // btnFusionSummon3
+            // 
+            this.btnFusionSummon3.BackColor = System.Drawing.Color.Indigo;
+            this.btnFusionSummon3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFusionSummon3.ForeColor = System.Drawing.Color.White;
+            this.btnFusionSummon3.Location = new System.Drawing.Point(176, 115);
+            this.btnFusionSummon3.Name = "btnFusionSummon3";
+            this.btnFusionSummon3.Size = new System.Drawing.Size(68, 37);
+            this.btnFusionSummon3.TabIndex = 8;
+            this.btnFusionSummon3.Text = "Fusion Summon";
+            this.btnFusionSummon3.UseVisualStyleBackColor = false;
+            this.btnFusionSummon3.Click += new System.EventHandler(this.btnFusionSummon3_Click);
+            // 
+            // PicFusionOption3
+            // 
+            this.PicFusionOption3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionOption3.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionOption3.Image")));
+            this.PicFusionOption3.Location = new System.Drawing.Point(179, 34);
+            this.PicFusionOption3.Name = "PicFusionOption3";
+            this.PicFusionOption3.Size = new System.Drawing.Size(58, 77);
+            this.PicFusionOption3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionOption3.TabIndex = 7;
+            this.PicFusionOption3.TabStop = false;
+            this.PicFusionOption3.Visible = false;
+            // 
+            // btnFusionSummon2
+            // 
+            this.btnFusionSummon2.BackColor = System.Drawing.Color.Indigo;
+            this.btnFusionSummon2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFusionSummon2.ForeColor = System.Drawing.Color.White;
+            this.btnFusionSummon2.Location = new System.Drawing.Point(96, 115);
+            this.btnFusionSummon2.Name = "btnFusionSummon2";
+            this.btnFusionSummon2.Size = new System.Drawing.Size(68, 37);
+            this.btnFusionSummon2.TabIndex = 6;
+            this.btnFusionSummon2.Text = "Fusion Summon";
+            this.btnFusionSummon2.UseVisualStyleBackColor = false;
+            this.btnFusionSummon2.Click += new System.EventHandler(this.btnFusionSummon2_Click);
+            // 
+            // PicFusionOption2
+            // 
+            this.PicFusionOption2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionOption2.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionOption2.Image")));
+            this.PicFusionOption2.Location = new System.Drawing.Point(101, 34);
+            this.PicFusionOption2.Name = "PicFusionOption2";
+            this.PicFusionOption2.Size = new System.Drawing.Size(58, 77);
+            this.PicFusionOption2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionOption2.TabIndex = 5;
+            this.PicFusionOption2.TabStop = false;
+            this.PicFusionOption2.Visible = false;
+            // 
+            // btnFusionSummon1
+            // 
+            this.btnFusionSummon1.BackColor = System.Drawing.Color.Indigo;
+            this.btnFusionSummon1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFusionSummon1.ForeColor = System.Drawing.Color.White;
+            this.btnFusionSummon1.Location = new System.Drawing.Point(16, 115);
+            this.btnFusionSummon1.Name = "btnFusionSummon1";
+            this.btnFusionSummon1.Size = new System.Drawing.Size(68, 37);
+            this.btnFusionSummon1.TabIndex = 4;
+            this.btnFusionSummon1.Text = "Fusion Summon";
+            this.btnFusionSummon1.UseVisualStyleBackColor = false;
+            this.btnFusionSummon1.Click += new System.EventHandler(this.btnFusionSummon1_Click);
+            // 
+            // PicFusionOption1
+            // 
+            this.PicFusionOption1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionOption1.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionOption1.Image")));
+            this.PicFusionOption1.Location = new System.Drawing.Point(21, 34);
+            this.PicFusionOption1.Name = "PicFusionOption1";
+            this.PicFusionOption1.Size = new System.Drawing.Size(58, 77);
+            this.PicFusionOption1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionOption1.TabIndex = 3;
+            this.PicFusionOption1.TabStop = false;
+            this.PicFusionOption1.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(10, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(241, 24);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Select Fusion Monster:";
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2168,6 +2282,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
+            this.Controls.Add(this.PanelFusionMonsterSelector);
             this.Controls.Add(this.PanelFieldType);
             this.Controls.Add(this.PanelEffectActivationMenu);
             this.Controls.Add(this.PicPhaseBanner);
@@ -2257,6 +2372,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicEffectMenuCardImage)).EndInit();
             this.PanelFieldType.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicFieldTypeDisplay)).EndInit();
+            this.PanelFusionMonsterSelector.ResumeLayout(false);
+            this.PanelFusionMonsterSelector.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2421,5 +2541,13 @@
         private System.Windows.Forms.Button btnActivate;
         private System.Windows.Forms.Button btnEffectMenuCancel;
         private System.Windows.Forms.Label lblActivationRequirementOutput;
+        private System.Windows.Forms.Panel PanelFusionMonsterSelector;
+        private System.Windows.Forms.Button btnFusionSummon1;
+        private System.Windows.Forms.PictureBox PicFusionOption1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnFusionSummon3;
+        private System.Windows.Forms.PictureBox PicFusionOption3;
+        private System.Windows.Forms.Button btnFusionSummon2;
+        private System.Windows.Forms.PictureBox PicFusionOption2;
     }
 }
