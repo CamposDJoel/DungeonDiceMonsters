@@ -148,7 +148,7 @@ namespace DungeonDiceMonsters
                 CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
                 _DeckCardImageList.Add(CardImage);
                 CardImage.Tag = pictureIndex;
-                //CardImage.Click += new EventHandler(DeckCard_click);
+                CardImage.Click += new EventHandler(DeckCard_click);
                 CardImage.MouseEnter += new EventHandler(OnMouseEnterDeckCard);
 
                 X_Location2 += 58;

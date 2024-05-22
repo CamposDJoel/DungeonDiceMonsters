@@ -572,7 +572,7 @@ namespace DungeonDiceMonsters
                         lblStatsATK.Text = "";
                         lblStatsDEF.Text = "";
                         lblStatsLP.Text = thisCard.LP.ToString();
-                        lblCardText.Text = thisCard.ContinuousEffect;
+                        lblCardText.Text = thisCard.ContinuousEffectText;
                     }
                     else
                     {

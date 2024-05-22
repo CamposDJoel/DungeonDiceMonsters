@@ -81,6 +81,9 @@
             this.txtIgnitionEffect = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.txtAbility = new System.Windows.Forms.TextBox();
+            this.txtFullCardData = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btnFullCardStringAddToDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numLevel)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDiceLevel)).BeginInit();
@@ -721,12 +724,43 @@
             this.txtAbility.Size = new System.Drawing.Size(152, 24);
             this.txtAbility.TabIndex = 40;
             // 
+            // txtFullCardData
+            // 
+            this.txtFullCardData.Location = new System.Drawing.Point(557, 23);
+            this.txtFullCardData.Name = "txtFullCardData";
+            this.txtFullCardData.Size = new System.Drawing.Size(230, 20);
+            this.txtFullCardData.TabIndex = 41;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(555, 7);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(136, 13);
+            this.label10.TabIndex = 42;
+            this.label10.Text = "Enter a full card data string:";
+            // 
+            // btnFullCardStringAddToDB
+            // 
+            this.btnFullCardStringAddToDB.BackColor = System.Drawing.Color.Green;
+            this.btnFullCardStringAddToDB.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnFullCardStringAddToDB.Location = new System.Drawing.Point(710, 44);
+            this.btnFullCardStringAddToDB.Name = "btnFullCardStringAddToDB";
+            this.btnFullCardStringAddToDB.Size = new System.Drawing.Size(77, 27);
+            this.btnFullCardStringAddToDB.TabIndex = 43;
+            this.btnFullCardStringAddToDB.Text = "Add To DB";
+            this.btnFullCardStringAddToDB.UseVisualStyleBackColor = false;
+            this.btnFullCardStringAddToDB.Click += new System.EventHandler(this.btnFullCardStringAddToDB_Click);
+            // 
             // JsonGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnFullCardStringAddToDB);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtFullCardData);
             this.Controls.Add(this.txtAbility);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.txtIgnitionEffect);
@@ -826,5 +860,8 @@
         private System.Windows.Forms.TextBox txtIgnitionEffect;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox txtAbility;
+        private System.Windows.Forms.TextBox txtFullCardData;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnFullCardStringAddToDB;
     }
 }

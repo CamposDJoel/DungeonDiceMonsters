@@ -4,10 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Converters;
 
 namespace DungeonDiceMonsters
 {
@@ -55,6 +51,7 @@ namespace DungeonDiceMonsters
 
         #region "React To" Flags
         public bool ReactsToMonsterSummon { get; set; }
+        public bool ReactsToMonsterDestroyed { get; set; }
         public bool ReactsToAttributeChange { get; set; }
         #endregion
 
@@ -102,6 +99,7 @@ namespace DungeonDiceMonsters
                 case "M-Warrior #1": if (type == EffectType.OnSummon) { return EffectID.MWarrior1_OnSummon; } else { return EffectID.MWarrior1_Ignition; }
                 case "M-Warrior #2": if (type == EffectType.OnSummon) { return EffectID.MWarrior2_OnSummon; } else { return EffectID.MWarrior2_Ignition; }
                 case "Polymerization": return EffectID.Polymerization;
+                case "Karbonala Warrior": if (type == EffectType.Continuous) { return EffectID.KarbonalaWarrior_Continuous; } else { return EffectID.KarbonalaWarrior_Ignition; }
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -115,9 +113,9 @@ namespace DungeonDiceMonsters
         {
             switch (type) 
             {
-                case EffectType.OnSummon: return originCard.OnSummonEffect.ToString();
-                case EffectType.Continuous: return originCard.ContinuousEffect.ToString();
-                case EffectType.Ignition: return originCard.IgnitionEffect.ToString();
+                case EffectType.OnSummon: return originCard.OnSummonEffectText;
+                case EffectType.Continuous: return originCard.ContinuousEffectText;
+                case EffectType.Ignition: return originCard.IgnitionEffectText;
                 default: throw new Exception(string.Format("Effect type not defined to get Effect Text. EffectType:[{0}]", type));
             }
         }
@@ -154,6 +152,8 @@ namespace DungeonDiceMonsters
             MWarrior2_OnSummon,
             MWarrior2_Ignition,
             Polymerization,
+            KarbonalaWarrior_Continuous,
+            KarbonalaWarrior_Ignition,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,
         }
