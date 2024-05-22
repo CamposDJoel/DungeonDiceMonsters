@@ -14,6 +14,7 @@ namespace DungeonDiceMonsters
         {
             //Convert all the raw info into the actual Card Info
             _Id = Convert.ToInt32(cardData.id);
+            _CardNumber = Convert.ToInt32(cardData.cardNumber);
             _Name = cardData.name;
             switch (cardData.category)
             {
@@ -136,6 +137,7 @@ namespace DungeonDiceMonsters
 
         #region Public Accesors
         public int ID { get { return _Id; } }
+        public int CardNumber { get { return _CardNumber; } }
         public string Name { get { return _Name; } }
         public int Level { get { return _MonsterLevel; } }
         public Attribute Attribute { get { return _Attribute; } }
@@ -210,6 +212,7 @@ namespace DungeonDiceMonsters
 
         #region Private Data
         private int _Id;
+        private int _CardNumber;
         private string _Name;
         private Category _Category;
         private Type _Type;

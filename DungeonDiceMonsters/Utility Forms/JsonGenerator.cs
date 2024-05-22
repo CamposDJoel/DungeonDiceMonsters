@@ -15,7 +15,7 @@ namespace DungeonDiceMonsters
         public JsonGenerator()
         {
             InitializeComponent();
-
+            
             //Initialize the DB Read raw data from json file
             string jsonFilePath = Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json";
             string rawdata = File.ReadAllText(jsonFilePath);
@@ -32,7 +32,7 @@ namespace DungeonDiceMonsters
 
             ReloadDBList();
             WriteRawlistintoTXT();
-
+            
             //loadNewDB();
 
 
@@ -363,6 +363,88 @@ namespace DungeonDiceMonsters
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnFullCardStringAddToDB_Click(object sender, EventArgs e)
+        {
+            string fullCardString = txtFullCardData.Text;
+            string[] tokens = fullCardString.Split('|');
+
+            //Gather all the data to create a new rawcardinfo object
+            string name = tokens[0];
+            string cardNumber = tokens[1];
+            string id = tokens[2];
+            string category = tokens[3];
+            string type = tokens[4];
+            string secType = tokens[5];
+            string attribute = tokens[6];
+            string atk = tokens[7];
+            string def = tokens[8];
+            string lp = tokens[9];
+            string level = tokens[10];
+            //Dice info
+            string diceLevel = tokens[11];
+            string face1 = tokens[12];
+            string face2 = tokens[13];
+            string face3 = tokens[14];
+            string face4 = tokens[15];
+            string face5 = tokens[16];
+            string face6 = tokens[17];
+            //effects
+            string onSummonEffect = tokens[18];
+            string contiEfect = tokens[19];
+            string ability = tokens[20];
+            string ignitionEffect = tokens[21];   
+            //Fusion Materials
+            string fusionMaterial1 = tokens[22];
+            string fusionMaterial2 = tokens[23];
+            string fusionMaterial3 = tokens[24];
+            //Ritual spell
+            string ritualSpell = tokens[25];
+            //Implemented
+            string effectImplemented = tokens[26];
+            
+
+            //add a new rawcardinfo instance to the DB list based on the data above.
+            rawcardinfo newcard = new rawcardinfo();
+            newcard.id = id;
+            newcard.cardNumber = cardNumber;
+            newcard.name = name;
+            newcard.monsterLevel = level;
+            newcard.category = category;
+            newcard.attribute = attribute;
+            newcard.type = type;
+            newcard.sectype = secType;
+            newcard.monsterLevel = atk;
+            newcard.def = def;
+            newcard.lp = lp;
+            //TODO EFECTS
+            newcard.onSummonEffect = onSummonEffect;
+            newcard.continuousEffect = contiEfect;
+            newcard.ignitionEffect = ignitionEffect;
+            newcard.ability = ability;
+            newcard.diceLevel = diceLevel;
+            newcard.face1 = face1;
+            newcard.face2 = face2;
+            newcard.face3 = face3;
+            newcard.face4 = face4;
+            newcard.face5 = face5;
+            newcard.face6 = face6;
+            //last items
+            newcard.fusionMaterial1 = fusionMaterial1;
+            newcard.fusionMaterial2 = fusionMaterial2;
+            newcard.fusionMaterial3 = fusionMaterial3;
+            newcard.ritualSpell = ritualSpell;
+            newcard.effectsImplemented = Convert.ToBoolean(effectImplemented);
+
+            CardDataBase.rawCardList.Add(newcard);
+
+            //Override the JSON file based on the new rawlist
+            string output = JsonConvert.SerializeObject(CardDataBase.rawCardList);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\DB\\CardListDB.json", output);
+
+            //Reload the DB list
+            ReloadDBList();
         }
     }
 }

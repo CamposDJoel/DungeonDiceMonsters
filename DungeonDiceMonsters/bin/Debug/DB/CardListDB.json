@@ -1,6 +1,7 @@
 [
   {
     "id": "8058240",
+    "cardNumber": "1",
     "name": "Binding Chain",
     "category": "Monster",
     "type": "Fairy",
@@ -29,6 +30,7 @@
   },
   {
     "id": "57935140",
+    "cardNumber": "2",
     "name": "Tenderness",
     "category": "Monster",
     "type": "Fairy",
@@ -57,6 +59,7 @@
   },
   {
     "id": "85309439",
+    "cardNumber": "3",
     "name": "Ray & Temperature",
     "category": "Monster",
     "type": "Fairy",
@@ -85,6 +88,7 @@
   },
   {
     "id": "63515678",
+    "cardNumber": "4",
     "name": "Mystical Capture Chain",
     "category": "Monster",
     "type": "Fairy",
@@ -113,6 +117,7 @@
   },
   {
     "id": "1929294",
+    "cardNumber": "5",
     "name": "Key Mace",
     "category": "Monster",
     "type": "Fairy",
@@ -141,6 +146,7 @@
   },
   {
     "id": "41158734",
+    "cardNumber": "6",
     "name": "Apocatequil",
     "category": "Monster",
     "type": "Thunder",
@@ -169,6 +175,7 @@
   },
   {
     "id": "80770678",
+    "cardNumber": "7",
     "name": "Spirit of the Harp",
     "category": "Monster",
     "type": "Fairy",
@@ -197,6 +204,7 @@
   },
   {
     "id": "91939608",
+    "cardNumber": "8",
     "name": "Rogue Doll",
     "category": "Monster",
     "type": "Spellcaster",
@@ -225,6 +233,7 @@
   },
   {
     "id": "79629370",
+    "cardNumber": "9",
     "name": "Maiden of the Moonlight",
     "category": "Monster",
     "type": "Spellcaster",
@@ -253,6 +262,7 @@
   },
   {
     "id": "2863439",
+    "cardNumber": "10",
     "name": "Fiend Refrection #2",
     "category": "Monster",
     "type": "Winged Beast",
@@ -281,6 +291,7 @@
   },
   {
     "id": "31122090",
+    "cardNumber": "11",
     "name": "Gyakutenno Megami",
     "category": "Monster",
     "type": "Fairy",
@@ -309,6 +320,7 @@
   },
   {
     "id": "86088138",
+    "cardNumber": "12",
     "name": "Ocubeam",
     "category": "Monster",
     "type": "Fairy",
@@ -337,6 +349,7 @@
   },
   {
     "id": "75850803",
+    "cardNumber": "13",
     "name": "LaMoon",
     "category": "Monster",
     "type": "Spellcaster",
@@ -365,6 +378,7 @@
   },
   {
     "id": "35565537",
+    "cardNumber": "14",
     "name": "Dark Witch",
     "category": "Monster",
     "type": "Fairy",
@@ -393,6 +407,7 @@
   },
   {
     "id": "2971090",
+    "cardNumber": "15",
     "name": "Orion the Battle King",
     "category": "Monster",
     "type": "Fairy",
@@ -421,6 +436,7 @@
   },
   {
     "id": "89631139",
+    "cardNumber": "16",
     "name": "Blue-Eyes White Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -449,6 +465,7 @@
   },
   {
     "id": "25955164",
+    "cardNumber": "17",
     "name": "Sanga of the Thunder",
     "category": "Monster",
     "type": "Thunder",
@@ -477,6 +494,7 @@
   },
   {
     "id": "6740720",
+    "cardNumber": "18",
     "name": "Seiyaryu",
     "category": "Monster",
     "type": "Dragon",
@@ -505,6 +523,7 @@
   },
   {
     "id": "62397231",
+    "cardNumber": "19",
     "name": "Hyozanryu",
     "category": "Monster",
     "type": "Dragon",
@@ -533,6 +552,7 @@
   },
   {
     "id": "31447217",
+    "cardNumber": "20",
     "name": "Wingweaver",
     "category": "Monster",
     "type": "Fairy",
@@ -561,6 +581,7 @@
   },
   {
     "id": "69579761",
+    "cardNumber": "21",
     "name": "Des Koala",
     "category": "Monster",
     "type": "Beast",
@@ -589,6 +610,7 @@
   },
   {
     "id": "25882881",
+    "cardNumber": "22",
     "name": "Dokuroizo the Grim Reaper",
     "category": "Monster",
     "type": "Zombie",
@@ -617,6 +639,7 @@
   },
   {
     "id": "66602787",
+    "cardNumber": "23",
     "name": "Saggi the Dark Clown",
     "category": "Monster",
     "type": "Spellcaster",
@@ -645,6 +668,7 @@
   },
   {
     "id": "6400512",
+    "cardNumber": "24",
     "name": "Cyber Commander",
     "category": "Monster",
     "type": "Machine",
@@ -673,6 +697,7 @@
   },
   {
     "id": "21239280",
+    "cardNumber": "25",
     "name": "Bone Mouse",
     "category": "Monster",
     "type": "Zombie",
@@ -701,6 +726,7 @@
   },
   {
     "id": "21417692",
+    "cardNumber": "26",
     "name": "Dark Elf",
     "category": "Monster",
     "type": "Spellcaster",
@@ -729,6 +755,7 @@
   },
   {
     "id": "71280811",
+    "cardNumber": "27",
     "name": "Yaranzo",
     "category": "Monster",
     "type": "Zombie",
@@ -757,6 +784,7 @@
   },
   {
     "id": "95265975",
+    "cardNumber": "28",
     "name": "Ghoul with an Appetite",
     "category": "Monster",
     "type": "Zombie",
@@ -785,6 +813,7 @@
   },
   {
     "id": "24611934",
+    "cardNumber": "29",
     "name": "Ryu-Kishin Powered",
     "category": "Monster",
     "type": "Fiend",
@@ -813,6 +842,7 @@
   },
   {
     "id": "11384280",
+    "cardNumber": "30",
     "name": "Cannon Soldier",
     "category": "Monster",
     "type": "Machine",
@@ -841,6 +871,7 @@
   },
   {
     "id": "48649353",
+    "cardNumber": "31",
     "name": "Ushi Oni",
     "category": "Monster",
     "type": "Fiend",
@@ -869,6 +900,7 @@
   },
   {
     "id": "28279543",
+    "cardNumber": "32",
     "name": "Curse of Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -897,6 +929,7 @@
   },
   {
     "id": "70781052",
+    "cardNumber": "33",
     "name": "Summoned Skull",
     "category": "Monster",
     "type": "Fiend",
@@ -925,6 +958,7 @@
   },
   {
     "id": "24433920",
+    "cardNumber": "34",
     "name": "Pendulum Machine",
     "category": "Monster",
     "type": "Machine",
@@ -953,6 +987,7 @@
   },
   {
     "id": "33621868",
+    "cardNumber": "35",
     "name": "Giganto",
     "category": "Monster",
     "type": "Machine",
@@ -981,6 +1016,7 @@
   },
   {
     "id": "38999506",
+    "cardNumber": "36",
     "name": "Cosmo Queen",
     "category": "Monster",
     "type": "Spellcaster",
@@ -1009,6 +1045,7 @@
   },
   {
     "id": "39111158",
+    "cardNumber": "37",
     "name": "Tri-Horned Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -1037,6 +1074,7 @@
   },
   {
     "id": "66516792",
+    "cardNumber": "38",
     "name": "Serpent Night Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -1065,6 +1103,7 @@
   },
   {
     "id": "38277918",
+    "cardNumber": "39",
     "name": "Mikazukinoyaiba",
     "category": "Monster",
     "type": "Dragon",
@@ -1093,6 +1132,7 @@
   },
   {
     "id": "74677422",
+    "cardNumber": "40",
     "name": "Red-Eyes B. Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -1121,6 +1161,7 @@
   },
   {
     "id": "97240270",
+    "cardNumber": "41",
     "name": "Mad Lobster",
     "category": "Monster",
     "type": "Aqua",
@@ -1149,6 +1190,7 @@
   },
   {
     "id": "48109103",
+    "cardNumber": "42",
     "name": "Kappa Avenger",
     "category": "Monster",
     "type": "Aqua",
@@ -1177,6 +1219,7 @@
   },
   {
     "id": "25109950",
+    "cardNumber": "43",
     "name": "The Little Swordsman of Aile",
     "category": "Monster",
     "type": "Warrior",
@@ -1205,6 +1248,7 @@
   },
   {
     "id": "94412545",
+    "cardNumber": "44",
     "name": "Mechaleon",
     "category": "Monster",
     "type": "Reptile",
@@ -1233,6 +1277,7 @@
   },
   {
     "id": "18914778",
+    "cardNumber": "45",
     "name": "Change Slime",
     "category": "Monster",
     "type": "Aqua",
@@ -1261,6 +1306,7 @@
   },
   {
     "id": "4042268",
+    "cardNumber": "46",
     "name": "Island Turtle",
     "category": "Monster",
     "type": "Aqua",
@@ -1289,6 +1335,7 @@
   },
   {
     "id": "71829750",
+    "cardNumber": "47",
     "name": "Serpentine Princess",
     "category": "Monster",
     "type": "Reptile",
@@ -1317,6 +1364,7 @@
   },
   {
     "id": "53713014",
+    "cardNumber": "48",
     "name": "Crazy Fish",
     "category": "Monster",
     "type": "Fish",
@@ -1345,6 +1393,7 @@
   },
   {
     "id": "46821314",
+    "cardNumber": "49",
     "name": "Humanoid Slime",
     "category": "Monster",
     "type": "Aqua",
@@ -1373,6 +1422,7 @@
   },
   {
     "id": "23771716",
+    "cardNumber": "50",
     "name": "7 Colored Fish",
     "category": "Monster",
     "type": "Fish",
@@ -1401,6 +1451,7 @@
   },
   {
     "id": "67371383",
+    "cardNumber": "51",
     "name": "Amphibian Beast",
     "category": "Monster",
     "type": "Fish",
@@ -1429,6 +1480,7 @@
   },
   {
     "id": "6631034",
+    "cardNumber": "52",
     "name": "Frostosaurus",
     "category": "Monster",
     "type": "Dinosaur",
@@ -1457,6 +1509,7 @@
   },
   {
     "id": "23659124",
+    "cardNumber": "53",
     "name": "Sea King Dragon",
     "category": "Monster",
     "type": "Sea Serpent",
@@ -1485,6 +1538,7 @@
   },
   {
     "id": "55998462",
+    "cardNumber": "54",
     "name": "Metal Fish",
     "category": "Monster",
     "type": "Machine",
@@ -1513,6 +1567,7 @@
   },
   {
     "id": "11714098",
+    "cardNumber": "55",
     "name": "30,000-Year White Turtle",
     "category": "Monster",
     "type": "Aqua",
@@ -1541,6 +1596,7 @@
   },
   {
     "id": "56649609",
+    "cardNumber": "56",
     "name": "Phantasm Spiral Dragon",
     "category": "Monster",
     "type": "Wyrm",
@@ -1569,6 +1625,7 @@
   },
   {
     "id": "32626733",
+    "cardNumber": "57",
     "name": "Spiral Serpent",
     "category": "Monster",
     "type": "Sea Serpent",
@@ -1597,6 +1654,7 @@
   },
   {
     "id": "98434877",
+    "cardNumber": "58",
     "name": "Suijin",
     "category": "Monster",
     "type": "Aqua",
@@ -1625,6 +1683,7 @@
   },
   {
     "id": "39674352",
+    "cardNumber": "59",
     "name": "Gogiga Gagagigo",
     "category": "Monster",
     "type": "Reptile",
@@ -1653,6 +1712,7 @@
   },
   {
     "id": "55063751",
+    "cardNumber": "60",
     "name": "Gameciel, the Sea Turtle Kaiju",
     "category": "Monster",
     "type": "Aqua",
@@ -1681,6 +1741,7 @@
   },
   {
     "id": "26082229",
+    "cardNumber": "61",
     "name": "Invasion of Flames",
     "category": "Monster",
     "type": "Pyro",
@@ -1709,6 +1770,7 @@
   },
   {
     "id": "41859700",
+    "cardNumber": "62",
     "name": "Burning Algae",
     "category": "Monster",
     "type": "Pyro",
@@ -1737,6 +1799,7 @@
   },
   {
     "id": "22411609",
+    "cardNumber": "63",
     "name": "Volcanic Trooper",
     "category": "Monster",
     "type": "Pyro",
@@ -1765,6 +1828,7 @@
   },
   {
     "id": "81599449",
+    "cardNumber": "64",
     "name": "Chemicritter Carbo Crab",
     "category": "Monster",
     "type": "Aqua",
@@ -1793,6 +1857,7 @@
   },
   {
     "id": "13179332",
+    "cardNumber": "65",
     "name": "Charcoal Inpachi",
     "category": "Monster",
     "type": "Pyro",
@@ -1821,6 +1886,7 @@
   },
   {
     "id": "78009994",
+    "cardNumber": "66",
     "name": "Dragonic Guard",
     "category": "Monster",
     "type": "Dragon",
@@ -1849,6 +1915,7 @@
   },
   {
     "id": "41089128",
+    "cardNumber": "67",
     "name": "Flame Ruler",
     "category": "Monster",
     "type": "Pyro",
@@ -1877,6 +1944,7 @@
   },
   {
     "id": "48094997",
+    "cardNumber": "68",
     "name": "Battle Footballer",
     "category": "Monster",
     "type": "Machine",
@@ -1905,6 +1973,7 @@
   },
   {
     "id": "21051146",
+    "cardNumber": "69",
     "name": "Blast Magician",
     "category": "Monster",
     "type": "Spellcaster",
@@ -1933,6 +2002,7 @@
   },
   {
     "id": "74823665",
+    "cardNumber": "70",
     "name": "Inferno",
     "category": "Monster",
     "type": "Pyro",
@@ -1961,6 +2031,7 @@
   },
   {
     "id": "27054370",
+    "cardNumber": "71",
     "name": "Firewing Pegasus",
     "category": "Monster",
     "type": "Beast",
@@ -1989,6 +2060,7 @@
   },
   {
     "id": "60862676",
+    "cardNumber": "72",
     "name": "Flame Cerberus",
     "category": "Monster",
     "type": "Pyro",
@@ -2017,6 +2089,7 @@
   },
   {
     "id": "78984772",
+    "cardNumber": "73",
     "name": "Twin-Headed Fire Dragon",
     "category": "Monster",
     "type": "Pyro",
@@ -2045,6 +2118,7 @@
   },
   {
     "id": "70345785",
+    "cardNumber": "74",
     "name": "Yamadron",
     "category": "Monster",
     "type": "Dragon",
@@ -2073,6 +2147,7 @@
   },
   {
     "id": "14977074",
+    "cardNumber": "75",
     "name": "Garoozis",
     "category": "Monster",
     "type": "Beast-Warrior",
@@ -2101,6 +2176,7 @@
   },
   {
     "id": "46412900",
+    "cardNumber": "76",
     "name": "Volcanic Emperor",
     "category": "Monster",
     "type": "Pyro",
@@ -2129,6 +2205,7 @@
   },
   {
     "id": "59834564",
+    "cardNumber": "77",
     "name": "Bonfire Colosus",
     "category": "Monster",
     "type": "Beast-Warrior",
@@ -2157,6 +2234,7 @@
   },
   {
     "id": "50426119",
+    "cardNumber": "78",
     "name": "Degrade Buster",
     "category": "Monster",
     "type": "Cyberse",
@@ -2185,6 +2263,7 @@
   },
   {
     "id": "75745607",
+    "cardNumber": "79",
     "name": "Hino-Kagu-Tsuchi",
     "category": "Monster",
     "type": "Pyro",
@@ -2213,6 +2292,7 @@
   },
   {
     "id": "35842855",
+    "cardNumber": "80",
     "name": "Pyrorex the Elemental Lord",
     "category": "Monster",
     "type": "Dinosaur",
@@ -2241,6 +2321,7 @@
   },
   {
     "id": "13039848",
+    "cardNumber": "81",
     "name": "Giant Soldier of Stone",
     "category": "Monster",
     "type": "Rock",
@@ -2269,6 +2350,7 @@
   },
   {
     "id": "86421986",
+    "cardNumber": "82",
     "name": "Ancient Tree of Enlightenment",
     "category": "Monster",
     "type": "Plant",
@@ -2297,6 +2379,7 @@
   },
   {
     "id": "43500484",
+    "cardNumber": "83",
     "name": "Darkworld Thorns",
     "category": "Monster",
     "type": "Plant",
@@ -2325,6 +2408,7 @@
   },
   {
     "id": "756652",
+    "cardNumber": "84",
     "name": "Doron",
     "category": "Monster",
     "type": "Warrior",
@@ -2353,6 +2437,7 @@
   },
   {
     "id": "81492226",
+    "cardNumber": "85",
     "name": "Ancient Jar",
     "category": "Monster",
     "type": "Rock",
@@ -2381,6 +2466,7 @@
   },
   {
     "id": "86652646",
+    "cardNumber": "86",
     "name": "Skull Dog Marron",
     "category": "Monster",
     "type": "Beast",
@@ -2409,6 +2495,7 @@
   },
   {
     "id": "39168895",
+    "cardNumber": "87",
     "name": "Berserk Gorilla",
     "category": "Monster",
     "type": "Beast",
@@ -2437,6 +2524,7 @@
   },
   {
     "id": "48305365",
+    "cardNumber": "88",
     "name": "Axe Raider",
     "category": "Monster",
     "type": "Warrior",
@@ -2465,6 +2553,7 @@
   },
   {
     "id": "69140098",
+    "cardNumber": "89",
     "name": "Gemini Elf",
     "category": "Monster",
     "type": "Spellcaster",
@@ -2493,6 +2582,7 @@
   },
   {
     "id": "68516705",
+    "cardNumber": "90",
     "name": "Mystic Horseman",
     "category": "Monster",
     "type": "Beast",
@@ -2521,6 +2611,7 @@
   },
   {
     "id": "47986555",
+    "cardNumber": "91",
     "name": "Millennium Golem",
     "category": "Monster",
     "type": "Rock",
@@ -2549,6 +2640,7 @@
   },
   {
     "id": "39239728",
+    "cardNumber": "92",
     "name": "Royal Guard",
     "category": "Monster",
     "type": "Machine",
@@ -2577,6 +2669,7 @@
   },
   {
     "id": "43352213",
+    "cardNumber": "93",
     "name": "Nekogal #2",
     "category": "Monster",
     "type": "Beast-Warrior",
@@ -2605,6 +2698,7 @@
   },
   {
     "id": "52584282",
+    "cardNumber": "94",
     "name": "Hercules Bettle",
     "category": "Monster",
     "type": "Insect",
@@ -2633,6 +2727,7 @@
   },
   {
     "id": "82818645",
+    "cardNumber": "95",
     "name": "Rock Spirit",
     "category": "Monster",
     "type": "Spellcaster",
@@ -2661,6 +2756,7 @@
   },
   {
     "id": "76232340",
+    "cardNumber": "96",
     "name": "Sengenjin",
     "category": "Monster",
     "type": "Beast-Warrior",
@@ -2689,6 +2785,7 @@
   },
   {
     "id": "14141448",
+    "cardNumber": "97",
     "name": "Great Moth",
     "category": "Monster",
     "type": "Insect",
@@ -2717,6 +2814,7 @@
   },
   {
     "id": "42129512",
+    "cardNumber": "98",
     "name": "Big Koala",
     "category": "Monster",
     "type": "Beast",
@@ -2745,6 +2843,7 @@
   },
   {
     "id": "6368038",
+    "cardNumber": "99",
     "name": "Gaia the Fierce Knight",
     "category": "Monster",
     "type": "Warrior",
@@ -2773,6 +2872,7 @@
   },
   {
     "id": "73304257",
+    "cardNumber": "100",
     "name": "Alpha, the Master of Beast",
     "category": "Monster",
     "type": "Beast",
@@ -2801,6 +2901,7 @@
   },
   {
     "id": "53693416",
+    "cardNumber": "101",
     "name": "Eagle Eye",
     "category": "Monster",
     "type": "Winged Beast",
@@ -2829,6 +2930,7 @@
   },
   {
     "id": "40196604",
+    "cardNumber": "102",
     "name": "Dark Shade",
     "category": "Monster",
     "type": "Fiend",
@@ -2857,6 +2959,7 @@
   },
   {
     "id": "33064647",
+    "cardNumber": "103",
     "name": "One-eyed Shield Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -2885,6 +2988,7 @@
   },
   {
     "id": "28470714",
+    "cardNumber": "104",
     "name": "Bladefly",
     "category": "Monster",
     "type": "Insect",
@@ -2913,6 +3017,7 @@
   },
   {
     "id": "1474910",
+    "cardNumber": "105",
     "name": "Bee List Soldier",
     "category": "Monster",
     "type": "Insect",
@@ -2941,6 +3046,7 @@
   },
   {
     "id": "25920413",
+    "cardNumber": "106",
     "name": "Alien Skull",
     "category": "Monster",
     "type": "Reptile",
@@ -2969,6 +3075,7 @@
   },
   {
     "id": "75252099",
+    "cardNumber": "107",
     "name": "Bird of Roses",
     "category": "Monster",
     "type": "Plant",
@@ -2997,6 +3104,7 @@
   },
   {
     "id": "45547649",
+    "cardNumber": "108",
     "name": "Birdface",
     "category": "Monster",
     "type": "Winged Beast",
@@ -3025,6 +3133,7 @@
   },
   {
     "id": "41396436",
+    "cardNumber": "109",
     "name": "Blue-winged Crown",
     "category": "Monster",
     "type": "Winged Beast",
@@ -3053,6 +3162,7 @@
   },
   {
     "id": "21830679",
+    "cardNumber": "110",
     "name": "Clock Wyvern",
     "category": "Monster",
     "type": "Cyberse",
@@ -3081,6 +3191,7 @@
   },
   {
     "id": "17573739",
+    "cardNumber": "111",
     "name": "Alector, Sovereign of Birds",
     "category": "Monster",
     "type": "Winged Beast",
@@ -3109,6 +3220,7 @@
   },
   {
     "id": "35712107",
+    "cardNumber": "112",
     "name": "Monstrous Bird",
     "category": "Monster",
     "type": "Winged Beast",
@@ -3137,6 +3249,7 @@
   },
   {
     "id": "17658803",
+    "cardNumber": "113",
     "name": "Luster Dragon #2",
     "category": "Monster",
     "type": "Dragon",
@@ -3165,6 +3278,7 @@
   },
   {
     "id": "48766543",
+    "cardNumber": "114",
     "name": "Cyber-Tech Alligator",
     "category": "Monster",
     "type": "Machine",
@@ -3193,6 +3307,7 @@
   },
   {
     "id": "44800181",
+    "cardNumber": "115",
     "name": "Combo Master",
     "category": "Monster",
     "type": "Warrior",
@@ -3221,6 +3336,7 @@
   },
   {
     "id": "62340868",
+    "cardNumber": "116",
     "name": "Kazejin",
     "category": "Monster",
     "type": "Spellcaster",
@@ -3249,6 +3365,7 @@
   },
   {
     "id": "86489182",
+    "cardNumber": "117",
     "name": "Simorgh, Bird of Ancestry",
     "category": "Monster",
     "type": "Winged Beast",
@@ -3277,6 +3394,7 @@
   },
   {
     "id": "10530913",
+    "cardNumber": "118",
     "name": "Sylvan Sagequoia",
     "category": "Monster",
     "type": "Plant",
@@ -3305,6 +3423,7 @@
   },
   {
     "id": "11819616",
+    "cardNumber": "119",
     "name": "Tytannial, Princess of Camellias",
     "category": "Monster",
     "type": "Plant",
@@ -3333,6 +3452,7 @@
   },
   {
     "id": "90247311",
+    "cardNumber": "120",
     "name": "Yellow Dragon Ninja",
     "category": "Monster",
     "type": "Dinosaur",
@@ -3361,6 +3481,7 @@
   },
   {
     "id": "87430998",
+    "cardNumber": "121",
     "name": "Forest",
     "category": "Spell",
     "type": "Field",
@@ -3389,6 +3510,7 @@
   },
   {
     "id": "50913601",
+    "cardNumber": "122",
     "name": "Mountain",
     "category": "Spell",
     "type": "Field",
@@ -3417,6 +3539,7 @@
   },
   {
     "id": "86318356",
+    "cardNumber": "123",
     "name": "Sogen",
     "category": "Spell",
     "type": "Field",
@@ -3445,6 +3568,7 @@
   },
   {
     "id": "22702055",
+    "cardNumber": "124",
     "name": "Umi",
     "category": "Spell",
     "type": "Field",
@@ -3473,6 +3597,7 @@
   },
   {
     "id": "23424603",
+    "cardNumber": "125",
     "name": "Wasteland",
     "category": "Spell",
     "type": "Field",
@@ -3501,6 +3626,7 @@
   },
   {
     "id": "59197169",
+    "cardNumber": "126",
     "name": "Yami",
     "category": "Spell",
     "type": "Field",
@@ -3529,6 +3655,7 @@
   },
   {
     "id": "19384334",
+    "cardNumber": "127",
     "name": "Volcano",
     "category": "Spell",
     "type": "Field",
@@ -3557,6 +3684,7 @@
   },
   {
     "id": "54306223",
+    "cardNumber": "128",
     "name": "Swamp",
     "category": "Spell",
     "type": "Field",
@@ -3585,6 +3713,7 @@
   },
   {
     "id": "61583217",
+    "cardNumber": "129",
     "name": "Cyberworld",
     "category": "Spell",
     "type": "Field",
@@ -3613,6 +3742,7 @@
   },
   {
     "id": "56433456",
+    "cardNumber": "130",
     "name": "Sanctuary",
     "category": "Spell",
     "type": "Field",
@@ -3641,6 +3771,7 @@
   },
   {
     "id": "1050684",
+    "cardNumber": "131",
     "name": "Scrapyard",
     "category": "Spell",
     "type": "Field",
@@ -3669,6 +3800,7 @@
   },
   {
     "id": "56342351",
+    "cardNumber": "132",
     "name": "M-Warrior #1",
     "category": "Monster",
     "type": "Warrior",
@@ -3697,6 +3829,7 @@
   },
   {
     "id": "92731455",
+    "cardNumber": "133",
     "name": "M-Warrior #2",
     "category": "Monster",
     "type": "Warrior",
@@ -3725,6 +3858,7 @@
   },
   {
     "id": "24094653",
+    "cardNumber": "134",
     "name": "Polymerization",
     "category": "Spell",
     "type": "Normal",
@@ -3753,6 +3887,7 @@
   },
   {
     "id": "23995346",
+    "cardNumber": "135",
     "name": "Blue-Eyes Ultimate Dragon",
     "category": "Monster",
     "type": "Dragon",
@@ -3776,6 +3911,35 @@
     "fusionMaterial1": "Blue-Eyes White Dragon",
     "fusionMaterial2": "Blue-Eyes White Dragon",
     "fusionMaterial3": "Blue-Eyes White Dragon",
+    "ritualSpell": "-",
+    "effectsImplemented": true
+  },
+  {
+    "id": "54541900",
+    "cardNumber": "136",
+    "name": "Karbonala Warrior",
+    "category": "Monster",
+    "type": "Warrior",
+    "sectype": "Fusion",
+    "attribute": "EARTH",
+    "atk": "1500",
+    "def": "1200",
+    "lp": "1350",
+    "monsterLevel": "4",
+    "diceLevel": "2",
+    "face1": "STAR 2",
+    "face2": "STAR 2",
+    "face3": "STAR 2",
+    "face4": "STAR 2",
+    "face5": "MAG 4",
+    "face6": "MAG 2",
+    "onSummonEffect": "-",
+    "continuousEffect": "Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board.",
+    "ability": "-",
+    "ignitionEffect": "[MAG 4] - Add 2 [ATK] and 2 [DEF] to your crest pool.",
+    "fusionMaterial1": "M-Warrior #1",
+    "fusionMaterial2": "M-Warrior #2",
+    "fusionMaterial3": "-",
     "ritualSpell": "-",
     "effectsImplemented": true
   }

@@ -12,34 +12,36 @@ namespace DungeonDiceMonsters
         {
             string[] tokens = dataLine.Split('|');
 
-            id = tokens[1];
+            id = tokens[2];
             name = tokens[0];
-            category = tokens[2];
-            type = tokens[3];
-            sectype = tokens[4];
-            attribute = tokens[5];
-            atk = tokens[6];
-            def = tokens[7];
-            lp = tokens[8];
-            monsterLevel = tokens[9];
-            diceLevel = tokens[10];
-            face1 = tokens[11];
-            face2 = tokens[12];
-            face3 = tokens[13];
-            face4 = tokens[14];
-            face5 = tokens[15];
-            face6 = tokens[16];
-            onSummonEffect = tokens[17];
-            continuousEffect = tokens[18];
-            ability = tokens[19];
-            ignitionEffect = tokens[20];
-            fusionMaterial1 = tokens[21];
-            fusionMaterial2 = tokens[22];
-            fusionMaterial3 = tokens[23];
-            ritualSpell = tokens[24];
-            effectsImplemented = Convert.ToBoolean(tokens[25]);
+            cardNumber = tokens[1];
+            category = tokens[3];
+            type = tokens[4];
+            sectype = tokens[5];
+            attribute = tokens[6];
+            atk = tokens[7];
+            def = tokens[8];
+            lp = tokens[9];
+            monsterLevel = tokens[10];
+            diceLevel = tokens[11];
+            face1 = tokens[12];
+            face2 = tokens[13];
+            face3 = tokens[14];
+            face4 = tokens[15];
+            face5 = tokens[16];
+            face6 = tokens[17];
+            onSummonEffect = tokens[18];
+            continuousEffect = tokens[19];
+            ability = tokens[20];
+            ignitionEffect = tokens[21];
+            fusionMaterial1 = tokens[22];
+            fusionMaterial2 = tokens[23];
+            fusionMaterial3 = tokens[24];
+            ritualSpell = tokens[25];
+            effectsImplemented = Convert.ToBoolean(tokens[26]);
         }*/
         public string id { get; set; }
+        public string cardNumber { get; set; }
         public string name { get; set; }
         public string category { get; set; }
         public string type { get; set; }
