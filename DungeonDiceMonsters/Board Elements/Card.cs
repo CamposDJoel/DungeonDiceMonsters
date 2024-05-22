@@ -2,6 +2,7 @@
 //9/12/2023
 //Card Class
 
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -21,6 +22,7 @@ namespace DungeonDiceMonsters
             {
                 ApplyAbility();
             }
+            InitializeEffects();
 
             void ApplyAbility()
             {
@@ -40,6 +42,21 @@ namespace DungeonDiceMonsters
                 }
                 ResetOneTurnData();
             }
+            void InitializeEffects()
+            {
+                if(HasOnSummonEffect)
+                {
+                    _OnSummonEffectObject = new Effect(this, Effect.EffectType.OnSummon);
+                }
+                if(HasContinuousEffect)
+                {
+                    _ContinuousEffectObject = new Effect(this, Effect.EffectType.Continuous);
+                }
+                if(HasIgnitionEffect)
+                {
+                    _IgnitionEffectObject = new Effect(this, Effect.EffectType.Ignition);
+                }
+            }
         }
         public Card(int id, Attribute attribute, PlayerColor owner)
         {
@@ -48,6 +65,7 @@ namespace DungeonDiceMonsters
             _Owner = owner;
             _CurrentLP = _cardInfo.LP;
             _IsASymbol = true;
+            _ContinuousEffectObject = new Effect(this, Effect.EffectType.Continuous);
         }
         #endregion
 
@@ -75,10 +93,13 @@ namespace DungeonDiceMonsters
         public bool HasOnSummonEffect { get { return _cardInfo.HasOnSummonEffect; } }
         public bool HasContinuousEffect { get { return _cardInfo.HasContinuousEffect; } }
         public bool HasIgnitionEffect { get { return _cardInfo.HasIgnitionEffect; } }
+        public Effect OnSummonEffect { get { return _OnSummonEffectObject; } }
+        public Effect ContinuousEffect { get { return _ContinuousEffectObject; } }
+        public Effect IgnitionEffect { get { return _IgnitionEffectObject; } }
         public bool HasAbility { get { return _cardInfo.HasAbility; } }
-        public string OnSummonEffect { get { return _cardInfo.OnSummonEffect; } }
-        public string ContinuousEffect { get { return _cardInfo.ContinuousEffect; } }
-        public string IgnitionEffect { get { return _cardInfo.IgnitionEffect; } }
+        public string OnSummonEffectText { get { return _cardInfo.OnSummonEffect; } }
+        public string ContinuousEffectText { get { return _cardInfo.ContinuousEffect; } }
+        public string IgnitionEffectText { get { return _cardInfo.IgnitionEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
         public bool EffectsAreImplemented { get { return _cardInfo.EffectsAreImplemented; } }
         #endregion
@@ -289,6 +310,11 @@ namespace DungeonDiceMonsters
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
         private bool _IsPemanentSpellbound = false;
+
+        //Effects
+        private Effect _OnSummonEffectObject;
+        private Effect _ContinuousEffectObject;
+        private Effect _IgnitionEffectObject;
         #endregion
     }
 }
