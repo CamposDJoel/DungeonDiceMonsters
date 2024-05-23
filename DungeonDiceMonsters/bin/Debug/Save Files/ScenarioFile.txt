@@ -1,0 +1,26 @@
+RED TILES
+102|103|104|105|106|116|123|136|149|162|175|188|201|214|226
+BLUE TILES
+5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110
+---------------------------------------
+RED MONSTERS|6
+92731455|7|M-Warrior #2
+27054370|110|Firewing Pegasus
+56342351|136|M-Warrior #1
+89631139|116|Blue-Eyes White Dragon
+89631139|123|Blue-Eyes White Dragon
+89631139|175|Blue-Eyes White Dragon
+-----------------------------------------
+BLUE MONSTERS|3
+75745607|226|Hino-Kagu-Tsuchi
+6740720|30|Seiyaryu
+35842855|84|Pyrorex the Elemental Lord
+------------------------------------
+RED SET CARDS|1
+24094653|188|Polymerization
+----------------------------------------
+BLUE SET CARDS|1
+24094653|19|Polymerization
+-----------------------------------------
+RED CRESTS|20|20|20|20|20
+BLUE CRESTS|20|20|20|20|20
