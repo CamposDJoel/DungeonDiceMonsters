@@ -59,7 +59,7 @@ namespace DungeonDiceMonsters
                     statsLabelDEF.BorderStyle = BorderStyle.None;
                     statsLabelDEF.ForeColor = Color.White;
                     statsLabelDEF.Font = new Font("Calibri", 6, FontStyle.Bold);
-                    statsLabelDEF.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelDEF.TextAlign = System.Drawing.ContentAlignment.TopLeft;
                     statsLabelDEF.Text = "9999";
                     statsLabelDEF.Visible = false;
 
@@ -71,7 +71,7 @@ namespace DungeonDiceMonsters
                     statsLabelATK.BorderStyle = BorderStyle.None;
                     statsLabelATK.ForeColor = Color.White;
                     statsLabelATK.Font = new Font("Calibri", 6, FontStyle.Bold);
-                    statsLabelATK.TextAlign = ContentAlignment.TopLeft;
+                    statsLabelATK.TextAlign = System.Drawing.ContentAlignment.TopLeft;
                     statsLabelATK.Text = "9999";
                     statsLabelATK.Visible = false;
 
@@ -324,19 +324,6 @@ namespace DungeonDiceMonsters
             _CardsOnBoard.Add(_BlueSymbol);
             _Tiles[6].SummonCard(_BlueSymbol);
 
-            //TEST add Crests to both players
-            RedData.AddCrests(Crest.MOV, 20);
-            RedData.AddCrests(Crest.ATK, 20);
-            RedData.AddCrests(Crest.DEF, 20);
-            RedData.AddCrests(Crest.MAG, 20);
-            RedData.AddCrests(Crest.TRAP, 20);
-
-            BlueData.AddCrests(Crest.MOV, 20);
-            BlueData.AddCrests(Crest.ATK, 20);
-            BlueData.AddCrests(Crest.DEF, 20);
-            BlueData.AddCrests(Crest.MAG, 20);
-            BlueData.AddCrests(Crest.TRAP, 20);
-
             //Initialize the Player's Info Panels
             LoadPlayersInfo();
 
@@ -350,65 +337,143 @@ namespace DungeonDiceMonsters
             ActivateEffect(_RedSymbol.ContinuousEffect);
             ActivateEffect(_BlueSymbol.ContinuousEffect);
 
-            //Set tiles
-            //Set the starting tiles for each player           
-            _Tiles[7].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[19].ChangeOwner(PlayerColor.BLUE); _Tiles[19].ChangeFieldType(Tile.FieldTypeValue.Forest);
-            _Tiles[32].ChangeOwner(PlayerColor.BLUE); _Tiles[32].ChangeFieldType(Tile.FieldTypeValue.Mountain);
-            _Tiles[45].ChangeOwner(PlayerColor.BLUE); _Tiles[45].ChangeFieldType(Tile.FieldTypeValue.Sogen);
-            _Tiles[58].ChangeOwner(PlayerColor.BLUE); _Tiles[58].ChangeFieldType(Tile.FieldTypeValue.Umi);
-            _Tiles[71].ChangeOwner(PlayerColor.BLUE); _Tiles[71].ChangeFieldType(Tile.FieldTypeValue.Wasteland);
-            _Tiles[84].ChangeOwner(PlayerColor.BLUE); _Tiles[84].ChangeFieldType(Tile.FieldTypeValue.Yami);
-            _Tiles[97].ChangeOwner(PlayerColor.BLUE);
-            _Tiles[110].ChangeOwner(PlayerColor.BLUE); _Tiles[110].ChangeFieldType(Tile.FieldTypeValue.Sogen);
+            //Load the scenario file to set the board
+            LoadScenarioFile();
+           
+            void LoadScenarioFile()
+            {
+                //Stream that reads the actual save file.
+                StreamReader SR_SaveFile = new StreamReader(
+                    Directory.GetCurrentDirectory() + "\\Save Files\\ScenarioFile.txt");
 
-            _Tiles[123].ChangeOwner(PlayerColor.RED);
-            _Tiles[136].ChangeOwner(PlayerColor.RED);
-            _Tiles[149].ChangeOwner(PlayerColor.RED);
-            _Tiles[162].ChangeOwner(PlayerColor.RED);
-            _Tiles[175].ChangeOwner(PlayerColor.RED);
-            _Tiles[188].ChangeOwner(PlayerColor.RED);
-            _Tiles[201].ChangeOwner(PlayerColor.RED);
-            _Tiles[214].ChangeOwner(PlayerColor.RED);
-            _Tiles[226].ChangeOwner(PlayerColor.RED);
-            _Tiles[116].ChangeOwner(PlayerColor.RED);
-            _Tiles[104].ChangeOwner(PlayerColor.RED);
+                //Line[0] = "RED TILES" Header
+                string Line = SR_SaveFile.ReadLine();
 
-            //TEST add high ATK monsters adj to opps symbol
-            CardInfo infoofblueeyes = CardDataBase.GetCardWithID(92731455);
-            Card blueeyes = new Card(_CardsOnBoard.Count, infoofblueeyes, PlayerColor.RED, false);
-            _CardsOnBoard.Add(blueeyes);
-            _Tiles[7].SummonCard(blueeyes);
+                //Line[1] = tile ids
+                Line = SR_SaveFile.ReadLine();
+                string[] RedTileIds = Line.Split('|');
+                foreach(string thisTileId in RedTileIds)
+                {
+                    int intThisTileID = Convert.ToInt32(thisTileId);
+                    _Tiles[intThisTileID].ChangeOwner(PlayerColor.RED);
+                }
 
-            CardInfo infohito = CardDataBase.GetCardWithID(75745607);
-            Card hito = new Card(_CardsOnBoard.Count, infohito, PlayerColor.BLUE, false);
-            _CardsOnBoard.Add(hito);
-            _Tiles[226].SummonCard(hito);
+                //Line[2] = "BLUE TILES" Header
+                Line = SR_SaveFile.ReadLine();
 
-            CardInfo pegasusinfo = CardDataBase.GetCardWithID(27054370);
-            Card pegasus = new Card(_CardsOnBoard.Count, pegasusinfo, PlayerColor.BLUE, false);
-            _CardsOnBoard.Add(pegasus);
-            _Tiles[110].SummonCard(pegasus);
+                //Line[3] = tile ids
+                Line = SR_SaveFile.ReadLine();
+                string[] BlueTileIds = Line.Split('|');
+                foreach (string thisTileId in BlueTileIds)
+                {
+                    int intThisTileID = Convert.ToInt32(thisTileId);
+                    _Tiles[intThisTileID].ChangeOwner(PlayerColor.BLUE);
+                }
 
-            CardInfo umiinfo = CardDataBase.GetCardWithID(24094653);
-            Card umi = new Card(_CardsOnBoard.Count, umiinfo, PlayerColor.RED, true);
-            _CardsOnBoard.Add(umi);
-            _Tiles[123].SetCard(umi);
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
 
-            CardInfo koalainfo = CardDataBase.GetCardWithID(56342351);
-            Card koala = new Card(_CardsOnBoard.Count, koalainfo, PlayerColor.RED, false);
-            _CardsOnBoard.Add(koala);
-            _Tiles[136].SummonCard(koala);
+                //Line[4] = RED MONSTERS COUNT
+                Line = SR_SaveFile.ReadLine();
+                string[] RedMonsterHeader = Line.Split('|');
+                int RedMonsterCount = Convert.ToInt32(RedMonsterHeader[1]);
 
-            CardInfo kazejininfo = CardDataBase.GetCardWithID(56342351);
-            Card kazejin = new Card(_CardsOnBoard.Count, kazejininfo, PlayerColor.RED, false);
-            _CardsOnBoard.Add(kazejin);
-            _Tiles[116].SummonCard(kazejin);
+                //Line[5-N]
+                for(int x = 0; x < RedMonsterCount; x++)
+                {
+                    Line = SR_SaveFile.ReadLine();
+                    string[] MonsterInfo = Line.Split('|');
+                    int thisMonsterId = Convert.ToInt32(MonsterInfo[0]);
+                    int thisTileId = Convert.ToInt32(MonsterInfo[1]);
+                    CardInfo thisRedMonsterInfo = CardDataBase.GetCardWithID(thisMonsterId);
+                    Card thisCard = new Card(thisMonsterId, thisRedMonsterInfo, PlayerColor.RED, false);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[thisTileId].SummonCard(thisCard);
+                }
 
-            CardInfo gagainfo = CardDataBase.GetCardWithID(39674352);
-            Card gaga = new Card(_CardsOnBoard.Count, gagainfo, PlayerColor.RED, false);
-            _CardsOnBoard.Add(gaga);
-            _Tiles[104].SummonCard(gaga);
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
+
+                //Line[6] = BLUE MONSTERS COUNT
+                Line = SR_SaveFile.ReadLine();
+                string[] BlueMonsterHeader = Line.Split('|');
+                int BlueMonsterCount = Convert.ToInt32(BlueMonsterHeader[1]);
+               
+                //Line[6-N]
+                for (int x = 0; x < BlueMonsterCount; x++)
+                {
+                    Line = SR_SaveFile.ReadLine();
+                    string[] MonsterInfo = Line.Split('|');
+                    int thisMonsterId = Convert.ToInt32(MonsterInfo[0]);
+                    int thisTileId = Convert.ToInt32(MonsterInfo[1]);
+                    CardInfo thisBlueMonsterInfo = CardDataBase.GetCardWithID(thisMonsterId);
+
+                    Card thisCard = new Card(thisMonsterId, thisBlueMonsterInfo, PlayerColor.BLUE, false);
+                    _CardsOnBoard.Add(thisCard);
+                    _Tiles[thisTileId].SummonCard(thisCard);
+                }
+
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
+
+                //Line[7] = RED SET CARDS COUNT
+                Line = SR_SaveFile.ReadLine();
+                string[] RedSetCardsHeader = Line.Split('|');
+                int RedSetCardsCount = Convert.ToInt32(RedSetCardsHeader[1]);
+                for (int x = 0; x < RedSetCardsCount; x++)
+                {
+                    Line = SR_SaveFile.ReadLine();
+                    string[] CardInfo = Line.Split('|');
+                    int thisCardId = Convert.ToInt32(CardInfo[0]);
+                    int thisTileId = Convert.ToInt32(CardInfo[1]);
+                    CardInfo thisRedCardInfo = CardDataBase.GetCardWithID(thisCardId);
+                    Card thisSetCard = new Card(_CardsOnBoard.Count, thisRedCardInfo, PlayerColor.RED, true);
+                    _CardsOnBoard.Add(thisSetCard);
+                    _Tiles[thisTileId].SetCard(thisSetCard);
+                }
+
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
+
+                //Line[8] = BLUE SET CARDS COUNT
+                Line = SR_SaveFile.ReadLine();
+                string[] BlueSetCardsHeader = Line.Split('|');
+                int BlueSetCardsCount = Convert.ToInt32(BlueSetCardsHeader[1]);
+                for (int x = 0; x < BlueSetCardsCount; x++)
+                {
+                    Line = SR_SaveFile.ReadLine();
+                    string[] CardInfo = Line.Split('|');
+                    int thisCardId = Convert.ToInt32(CardInfo[0]);
+                    int thisTileId = Convert.ToInt32(CardInfo[1]);
+                    CardInfo thisBlueCardInfo = CardDataBase.GetCardWithID(thisCardId);
+                    Card thisSetCard = new Card(_CardsOnBoard.Count, thisBlueCardInfo, PlayerColor.BLUE, true);
+                    _CardsOnBoard.Add(thisSetCard);
+                    _Tiles[thisTileId].SetCard(thisSetCard);
+                }
+
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
+
+                //LINE[9] = Red Crests
+                Line = SR_SaveFile.ReadLine();
+                string[] RedCrestsData = Line.Split('|');
+                RedData.AddCrests(Crest.MOV, Convert.ToInt32(RedCrestsData[1]));
+                RedData.AddCrests(Crest.ATK, Convert.ToInt32(RedCrestsData[2]));
+                RedData.AddCrests(Crest.DEF, Convert.ToInt32(RedCrestsData[3]));
+                RedData.AddCrests(Crest.MAG, Convert.ToInt32(RedCrestsData[4]));
+                RedData.AddCrests(Crest.TRAP, Convert.ToInt32(RedCrestsData[5]));
+
+                //LINE[10] = Blue Crests
+                Line = SR_SaveFile.ReadLine();
+                string[] BlueCrestsData = Line.Split('|');
+                BlueData.AddCrests(Crest.MOV, Convert.ToInt32(BlueCrestsData[1]));
+                BlueData.AddCrests(Crest.ATK, Convert.ToInt32(BlueCrestsData[2]));
+                BlueData.AddCrests(Crest.DEF, Convert.ToInt32(BlueCrestsData[3]));
+                BlueData.AddCrests(Crest.MAG, Convert.ToInt32(BlueCrestsData[4]));
+                BlueData.AddCrests(Crest.TRAP, Convert.ToInt32(BlueCrestsData[5]));
+
+                SR_SaveFile.Close();
+            }
         }
         #endregion
 
