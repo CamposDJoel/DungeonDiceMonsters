@@ -39,6 +39,9 @@ namespace DungeonDiceMonsters
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
             RedData = Red; BlueData = Blue;
+            //RED player is the starting player so initialize the TURNPLAYERDATA
+            TURNPLAYERDATA = RedData;
+            OPPONENTPLAYERDATA = BlueData;
 
             //Initialize the board tiles
             int tileId = 0;
@@ -200,6 +203,9 @@ namespace DungeonDiceMonsters
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
             RedData = Red; BlueData = Blue;
+            //RED player is the starting player so initialize the TURNPLAYERDATA
+            TURNPLAYERDATA = RedData;
+            OPPONENTPLAYERDATA = BlueData;
 
             //Initialize the board tiles
             int tileId = 0;
@@ -836,61 +842,24 @@ namespace DungeonDiceMonsters
         }
         private void DisplayMoveCandidates()
         {
+            //Clear the current candidate list
             _MoveCandidates.Clear();
 
-            //Display arrows to move
-            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.North))
+            //Check each adjencent tile in every direction, if the Tile is Active and is not occupied, then it is a move candidate
+            List<Tile.TileDirection> DirectionsToCheck = new List<Tile.TileDirection>() { Tile.TileDirection.North, Tile.TileDirection.South, Tile.TileDirection.East, Tile.TileDirection.West };
+            foreach(Tile.TileDirection thisDirection in DirectionsToCheck)
             {
-                Tile northTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.North);
-                if (northTile.Owner != PlayerColor.NONE)
+                if (_PreviousTileMove.HasAnAdjecentTile(thisDirection))
                 {
-                    if (!(northTile.IsOccupied))
+                    Tile thisTile = _PreviousTileMove.GetAdjencentTile(thisDirection);
+                    if (thisTile.Owner != PlayerColor.NONE)
                     {
-                        //Change the Adjencent tile's border to gree to mark that you can move
-                        northTile.MarkFreeToMove();
-                        _MoveCandidates.Add(northTile);
-                    }
-                }
-            }
-
-            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.South))
-            {
-                Tile southTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.South);
-                if (southTile.Owner != PlayerColor.NONE)
-                {
-                    if (!(southTile.IsOccupied))
-                    {
-                        //Change the Adjencent tile's border to gree to mark that you can move
-                        southTile.MarkFreeToMove();
-                        _MoveCandidates.Add(southTile);
-                    }
-                }
-            }
-
-            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.East))
-            {
-                Tile eastTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.East);
-                if (eastTile.Owner != PlayerColor.NONE)
-                {
-                    if (!(eastTile.IsOccupied))
-                    {
-                        //Change the Adjencent tile's border to gree to mark that you can move
-                        eastTile.MarkFreeToMove();
-                        _MoveCandidates.Add(eastTile);
-                    }
-                }
-            }
-
-            if (_CurrentTileSelected.HasAnAdjecentTile(Tile.TileDirection.West))
-            {
-                Tile westTile = _CurrentTileSelected.GetAdjencentTile(Tile.TileDirection.West);
-                if (westTile.Owner != PlayerColor.NONE)
-                {
-                    if (!(westTile.IsOccupied))
-                    {
-                        //Change the Adjencent tile's border to gree to mark that you can move
-                        westTile.MarkFreeToMove();
-                        _MoveCandidates.Add(westTile);
+                        if (!thisTile.IsOccupied)
+                        {
+                            //Change the Adjencent tile's border to gree to mark that you can move
+                            thisTile.MarkFreeToMove();
+                            _MoveCandidates.Add(thisTile);
+                        }
                     }
                 }
             }
@@ -904,7 +873,7 @@ namespace DungeonDiceMonsters
         }
         private void PlaceMoveMenu()
         {
-            Point referencePoint = _CurrentTileSelected.Location;
+            Point referencePoint = _PreviousTileMove.Location;
             int X_Location = referencePoint.X;
             int Y_Location = referencePoint.Y;
 
@@ -951,8 +920,7 @@ namespace DungeonDiceMonsters
         private void AdjustPlayerCrestCount(PlayerColor targetPlayer, Crest thisCrest, int amount)
         {
             //Set the Player Data Object to modify
-            PlayerData Player = RedData;
-            if (targetPlayer == PlayerColor.BLUE) { Player = BlueData; }
+            PlayerData Player = GetPlayerData(targetPlayer);
 
             //Adjust the Crest 
             if (amount > 0)
@@ -1026,11 +994,11 @@ namespace DungeonDiceMonsters
                 File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\EffectsLog.txt", _EffectsLog);
             }
         }
-        private PlayerData GetTurnPlayerPlayerData()
+        private PlayerData GetPlayerData(PlayerColor thisColor)
         {
-            PlayerData playerData = RedData;
-            if (TURNPLAYER == PlayerColor.BLUE) { playerData = BlueData; }
-            return playerData;
+            PlayerData Player = RedData;
+            if (thisColor == PlayerColor.BLUE) { Player = BlueData; }
+            return Player;
         }
         #endregion
 
@@ -1186,7 +1154,7 @@ namespace DungeonDiceMonsters
             }
         }
         private void LaunchTurnStartPanel()
-        {
+        {            
             //Depending on the TURNPLAYER enable/disable the buttons
             //Only the TURN PLAYER can take action
             if (UserPlayerColor == TURNPLAYER)
@@ -1227,6 +1195,10 @@ namespace DungeonDiceMonsters
                 //Handle the results based on the type of attack target
                 if (_AttackTarger.CardInPlace.Category == Category.Monster)
                 {
+                    //Step 0: Define the Attaker/Defender Card Objects
+                    Card Attacker = _AttackerTile.CardInPlace;
+                    Card Defender = _AttackTarger.CardInPlace;
+
                     //Step 1: Determine the BonusCrest (if ANY)
                     // _AttackBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
                     // _DefenseBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
@@ -1235,27 +1207,24 @@ namespace DungeonDiceMonsters
                     lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
 
                     //Step 2: Calculate the Final Attack Value (Attacker's Base ATK + (Bonus [ATK] used * 200))
-                    int FinalAttack = _AttackerTile.CardInPlace.ATK + (_AttackBonusCrest * 200);
+                    int FinalAttack = Attacker.ATK + (_AttackBonusCrest * 200);
 
                     //Step 3: Calculate the Final Defense Value (if Defender choose to defend) (Defender's Base DEF + (Bonus [DEF] used * 200))
                     int FinalDefense = 0;
                     if (_DefenderDefended)
                     {
-                        FinalDefense = _AttackTarger.CardInPlace.DEF + (_DefenseBonusCrest * 200);
+                        FinalDefense = Defender.DEF + (_DefenseBonusCrest * 200);
                     }
 
-                    //Step 4: Reduce the [ATK] and [DEF] to the respective player. 
-                    Card Attacker = _AttackerTile.CardInPlace;
-                    Card Defender = _AttackTarger.CardInPlace;
+                    //Step 4: Reduce the [ATK] and [DEF] to the respective player.                   
                     int creststoremoveATK = _AttackBonusCrest + Attacker.AttackCost;
                     int creststoremoveDEF = _DefenseBonusCrest + Defender.DefenseCost;
                     if (!_DefenderDefended) { creststoremoveDEF = 0; }
-                    PlayerData AttackerPlayerData = RedData;
-                    PlayerData DefenderPlayerData = BlueData;
-                    PlayerColor DefenderColor = PlayerColor.BLUE;
-                    if (TURNPLAYER == PlayerColor.BLUE) { AttackerPlayerData = BlueData; DefenderPlayerData = RedData; DefenderColor = PlayerColor.RED; }
-                    
-                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -creststoremoveATK);
+                    PlayerData AttackerPlayerData = TURNPLAYERDATA;
+                    PlayerData DefenderPlayerData = OPPONENTPLAYERDATA;
+                    PlayerColor AttackerColor = TURNPLAYER;
+                    PlayerColor DefenderColor = OPPONENTPLAYER;                   
+                    AdjustPlayerCrestCount(AttackerColor, Crest.ATK, -creststoremoveATK);
                     AdjustPlayerCrestCount(DefenderColor, Crest.DEF, -creststoremoveDEF);
 
                     //Step 5: Perform the calculation
@@ -1522,14 +1491,7 @@ namespace DungeonDiceMonsters
             {
                 Effect thisEffect = thisCard.ContinuousEffect;
                 UpdateEffectLogs(string.Format("Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}] | Removing Continuous Effect: [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner, thisEffect.ID));
-                //then remove the effect from the Board
-                switch (thisEffect.ID)
-                {
-                    case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect); break;
-                    default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
-                }
-                //Remove the effect from the Active effect list
-                _ActiveEffects.Remove(thisEffect);
+                RemoveEffect(thisEffect);
             }
 
             //Finally, check if any active effects react to a card destryuction
@@ -1774,19 +1736,8 @@ namespace DungeonDiceMonsters
                 else if (_CurrentGameState == GameState.MovingCard)
                 {
                     //check this tile is one of the candidates
-                    bool thisIsACandidate = false;
-                    for (int x = 0; x < _MoveCandidates.Count; x++)
+                    if (_MoveCandidates.Contains(thisTile))
                     {
-                        if (_MoveCandidates[x].ID == tileID)
-                        {
-                            thisIsACandidate = true; break;
-                        }
-                    }
-
-                    if (thisIsACandidate)
-                    {
-                        _CurrentGameState = GameState.NOINPUT;
-
                         //Send the action message to the server
                         SendMessageToServer(string.Format("[CLICK TILE TO MOVE]|{0}|{1}", _CurrentGameState.ToString(), tileID));
 
@@ -2288,7 +2239,7 @@ namespace DungeonDiceMonsters
                 lblAttackerAdvPlus.Visible = true;
                 lblAttackerBonusCrest.Text = _AttackBonusCrest.ToString();
                 lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
-                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                PlayerData AttackerData = TURNPLAYERDATA;
                 Card Attacker = _AttackerTile.CardInPlace;
                 lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
             }
@@ -2298,7 +2249,7 @@ namespace DungeonDiceMonsters
             if (_AttackBonusCrest < 5)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                PlayerData AttackerData = TURNPLAYERDATA;
                 Card Attacker = _AttackerTile.CardInPlace;
 
                 _AttackBonusCrest++;
@@ -2327,7 +2278,7 @@ namespace DungeonDiceMonsters
                 lblDefenderAdvPlus.Visible = true;
                 lblDefenderBonusCrest.Text = _DefenseBonusCrest.ToString();
                 lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
-                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                PlayerData DefenderData = OPPONENTPLAYERDATA;
                 Card Defender = _AttackTarger.CardInPlace;
                 lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF);
             }
@@ -2337,7 +2288,7 @@ namespace DungeonDiceMonsters
             if (_DefenseBonusCrest < 5)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                PlayerData DefenderData = OPPONENTPLAYERDATA;
                 Card Defender = _AttackTarger.CardInPlace;
 
                 _DefenseBonusCrest++;
@@ -2663,17 +2614,11 @@ namespace DungeonDiceMonsters
                     //Hide the End Turn Button for the turn player 
                     btnEndTurn.Visible = false;
 
-                    //genrate the PlayerData object of the attacker and the actual user
-                    PlayerData UserPlayerData = RedData;
-                    if (TURNPLAYER == PlayerColor.BLUE) { UserPlayerData = BlueData; }
-                    PlayerData TurnPlayerData = GetTurnPlayerPlayerData();
-
-
                     //Check if Card can move                
-                    if (CanCardMove(thiscard, TurnPlayerData))
+                    if (CanCardMove(thiscard, TURNPLAYERDATA))
                     {
                         btnActionMove.Enabled = true;
-                        _TMPMoveCrestCount = TurnPlayerData.Crests_MOV;
+                        _TMPMoveCrestCount = TURNPLAYERDATA.Crests_MOV;
                         lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
                     }
                     else
@@ -2682,7 +2627,7 @@ namespace DungeonDiceMonsters
                     }
 
                     //Check if Card can attack
-                    if (CanCardAttack(thiscard, TurnPlayerData))
+                    if (CanCardAttack(thiscard, TURNPLAYERDATA))
                     {
                         btnActionAttack.Enabled = true;
                     }
@@ -2810,10 +2755,29 @@ namespace DungeonDiceMonsters
                 }
 
                 //1 turn effects are removed.
-                //TODO
+                foreach(Effect thisEffect in _ActiveEffects)
+                {
+                    if(thisEffect.IsAOneTurnIgnition)
+                    {
+                        RemoveEffect(thisEffect);
+                    }
+                }
 
                 //Change the TURNPLAYER
-                if (TURNPLAYER == PlayerColor.RED) { TURNPLAYER = PlayerColor.BLUE; } else { TURNPLAYER = PlayerColor.RED; }
+                if (TURNPLAYER == PlayerColor.RED) 
+                { 
+                    TURNPLAYER = PlayerColor.BLUE;
+                    TURNPLAYERDATA = BlueData;
+                    OPPONENTPLAYER = PlayerColor.RED;
+                    OPPONENTPLAYERDATA = RedData;
+                }
+                else 
+                { 
+                    TURNPLAYER = PlayerColor.RED;
+                    TURNPLAYERDATA = RedData;
+                    OPPONENTPLAYER = PlayerColor.BLUE;
+                    OPPONENTPLAYERDATA = BlueData;
+                }
 
                 //Start the TURN at the TURN START PHASE
                 LaunchTurnStartPanel();
@@ -2839,26 +2803,42 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate ()
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                
+
+                //Set the initial tile reference to use during the move sequence
                 _InitialTileMove = _CurrentTileSelected;
                 _PreviousTileMove = _InitialTileMove;
 
+                //Hide the Action menu
                 PanelActionMenu.Visible = false;
+
+                //Generate and display the Move Tile Candidates and display the Move Menu
                 DisplayMoveCandidates();
                 PlaceMoveMenu();
 
-                btnMoveMenuFinish.Enabled = false;
-                btnMoveMenuCancel.Enabled = true;
-                lblMoveMenuCrestCount.ForeColor = Color.Yellow;
-                PanelMoveMenu.Visible = true;
-
-                if (UserPlayerColor != TURNPLAYER)
+                //Set the initial Enable status for the Move Menu Buttons
+                if (UserPlayerColor == TURNPLAYER)
                 {
+                    //Finish button will be disable as no move have been performed yet
+                    btnMoveMenuFinish.Enabled = false;
+                    btnMoveMenuCancel.Enabled = true;
+                }
+                else
+                {
+                    //Both buttons will be disable for the opponent player
+                    btnMoveMenuFinish.Enabled = false;
+                    btnMoveMenuCancel.Enabled = false;
+                    //additionally update the intruction message for the opponent
                     lblActionInstruction.Text = "Opponent is selecting a tile to move into!";
                     lblActionInstruction.Visible = true;
                 }
 
-                PanelBoard.Enabled = true;
+                //The mov available crest count will show yellow for both players
+                _TMPMoveCrestCount = TURNPLAYERDATA.Crests_MOV;
+                lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
+                lblMoveMenuCrestCount.ForeColor = Color.Yellow;
+
+                //Now display the Move Menu and update the game state
+                PanelMoveMenu.Visible = true;
                 _CurrentGameState = GameState.MovingCard;
             }));
         }
@@ -3069,16 +3049,13 @@ namespace DungeonDiceMonsters
                 }
                 bool IsCostMet(Crest crestCost, int amount)
                 {
-                    PlayerData turnPlayerData = RedData;
-                    if (TURNPLAYER == PlayerColor.BLUE) { turnPlayerData = BlueData; }
-
                     switch (crestCost)
                     {
-                        case Crest.MAG: return amount <= turnPlayerData.Crests_MAG;
-                        case Crest.TRAP: return amount <= turnPlayerData.Crests_TRAP;
-                        case Crest.ATK: return amount <= turnPlayerData.Crests_ATK;
-                        case Crest.DEF: return amount <= turnPlayerData.Crests_DEF;
-                        case Crest.MOV: return amount <= turnPlayerData.Crests_MOV;
+                        case Crest.MAG: return amount <= TURNPLAYERDATA.Crests_MAG;
+                        case Crest.TRAP: return amount <= TURNPLAYERDATA.Crests_TRAP;
+                        case Crest.ATK: return amount <= TURNPLAYERDATA.Crests_ATK;
+                        case Crest.DEF: return amount <= TURNPLAYERDATA.Crests_DEF;
+                        case Crest.MOV: return amount <= TURNPLAYERDATA.Crests_MOV;
                         default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
                     }
                 }
@@ -3092,11 +3069,8 @@ namespace DungeonDiceMonsters
 
                     string Polymerization_MetsRequirement()
                     {
-                        //First check if the turn player has cards in the fusion deck
-                        PlayerData playerData = GetTurnPlayerPlayerData();
-
                         //If the player has card in the fusion deck still               
-                        if (playerData.Deck.FusionDeckSize > 0)
+                        if (TURNPLAYERDATA.Deck.FusionDeckSize > 0)
                         {
                             //Clear the Fusion Cards ready for fusion
                             _FusionCardsReadyForFusion[0] = false;
@@ -3104,10 +3078,10 @@ namespace DungeonDiceMonsters
                             _FusionCardsReadyForFusion[2] = false;
                             bool AtLeastOneFusionRequirementsMet = false;
                             //Check each card in the Fusion Deck to see if the player has the materials on the board
-                            for (int i = 0; i < playerData.Deck.FusionDeckSize; i++)
+                            for (int i = 0; i < TURNPLAYERDATA.Deck.FusionDeckSize; i++)
                             {
                                 //Create the CardInfo Object as we dont have a Card Object created yet
-                                int thisFusionCardID = playerData.Deck.GetFusionCardIDAtIndex(i);
+                                int thisFusionCardID = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(i);
                                 CardInfo thisFusionCard = CardDataBase.GetCardWithID(thisFusionCardID);
 
                                 //Use the CardInfo to create the list of materials
@@ -3197,10 +3171,10 @@ namespace DungeonDiceMonsters
 
                 //Move the card to this location
                 Card thiscard = _PreviousTileMove.CardInPlace;
+                Tile tileToMoveInto = _Tiles[tileId];
 
                 _PreviousTileMove.RemoveCard();
-                _Tiles[tileId].MoveInCard(thiscard);
-                _PreviousTileMove.ReloadTileUI();
+                tileToMoveInto.MoveInCard(thiscard);               
 
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
@@ -3209,14 +3183,24 @@ namespace DungeonDiceMonsters
                 }
 
                 //Now change the selection to this one tile
-                _PreviousTileMove = _Tiles[tileId];
-                _PreviousTileMove.Hover();
-                UpdateDebugWindow();
+                _PreviousTileMove = tileToMoveInto;
 
                 //Drecease the available crests to use
                 _TMPMoveCrestCount -= thiscard.MoveCost;
                 lblMoveMenuCrestCount.Text = string.Format("[MOV]x {0}", _TMPMoveCrestCount);
 
+                //Enable both the Finish and Cancel buttons for the TURNPLAYER but keep them disable for the opponent
+                if(UserPlayerColor == TURNPLAYER)
+                {
+                    btnMoveMenuFinish.Enabled = true;
+                    btnMoveMenuCancel.Enabled = true;
+                }
+                else
+                {
+                    btnMoveMenuFinish.Enabled = false;
+                    btnMoveMenuCancel.Enabled = false;
+                }
+                PlaceMoveMenu();
 
                 //Now display the next round of move candidate if there are any MOV crest left.
                 if (thiscard.MoveCost > _TMPMoveCrestCount)
@@ -3228,11 +3212,7 @@ namespace DungeonDiceMonsters
                 else
                 {
                     DisplayMoveCandidates();
-                }
-
-                PlaceMoveMenu();
-                btnMoveMenuFinish.Enabled = true;
-                btnMoveMenuCancel.Enabled = true;
+                }                
             }));
         }
         private void btnMoveMenuFinish_Base()
@@ -3246,20 +3226,16 @@ namespace DungeonDiceMonsters
                     _MoveCandidates[x].ReloadTileUI();
                 }
                 _MoveCandidates.Clear();
-
                 PanelMoveMenu.Visible = false;
 
                 //Flag that this card moved already this turn
                 _PreviousTileMove.CardInPlace.RemoveMoveCounter();
 
                 //Apply the amoutn of crests used
-                PlayerData TurnPlayerData = RedData;
-                if (TURNPLAYER == PlayerColor.BLUE) { TurnPlayerData = BlueData; }
+                int amountUsed = TURNPLAYERDATA.Crests_MOV - _TMPMoveCrestCount;
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.MOV, -amountUsed);
 
-                int amountUsed = TurnPlayerData.Crests_MOV - _TMPMoveCrestCount;
-                TurnPlayerData.RemoveCrests(Crest.MOV, amountUsed);
-                LoadPlayersInfo();
-
+                //Return to the Main Phase to end the Move Sequence
                 EnterMainPhase();
             }));
         }
@@ -3357,7 +3333,7 @@ namespace DungeonDiceMonsters
                     //Display the base Attack Controls Panel
                     _AttackBonusCrest = 0;
                     lblAttackerBonus.Text = "Bonus: 0";
-                    PlayerData AttackerData = RedData; if (TURNPLAYER == PlayerColor.BLUE) { AttackerData = BlueData; }
+                    PlayerData AttackerData = TURNPLAYERDATA;
                     lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
                     PanelAttackControls.Visible = true;
 
@@ -3393,7 +3369,7 @@ namespace DungeonDiceMonsters
                         PanelDefendControls.Visible = true;
                         _DefenseBonusCrest = 0;
                         lblDefenderBonus.Text = "Bonus: 0";
-                        PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                        PlayerData DefenderData = OPPONENTPLAYERDATA;
                         if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
                         else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }
                         PanelDefendControls.Visible = true;
@@ -3427,7 +3403,7 @@ namespace DungeonDiceMonsters
                         PanelDefendControls.Visible = true;
                         _DefenseBonusCrest = 0;
                         lblDefenderBonus.Text = "Bonus: 0";
-                        PlayerData DefenderData = RedData; if (TURNPLAYER == PlayerColor.RED) { DefenderData = BlueData; }
+                        PlayerData DefenderData = OPPONENTPLAYERDATA;
                         lblDefenderCrestCount.Text = "[DEF] to use: 0";
                         btnBattleMenuDefend.Visible = false;
                         PanelDefenderAdvBonus.Visible = false;
@@ -3604,8 +3580,7 @@ namespace DungeonDiceMonsters
                 //Initialize the fusion summon of card in index 0
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 _IndexOfFusionCardSelected = Convert.ToInt32(selectionIndex);
-                PlayerData turnPlayerData = GetTurnPlayerPlayerData();
-                int fusionID = turnPlayerData.Deck.GetFusionCardIDAtIndex(_IndexOfFusionCardSelected);
+                int fusionID = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(_IndexOfFusionCardSelected);
                 _FusionToBeSummoned = CardDataBase.GetCardWithID(fusionID);
                 _FusionMaterialsToBeUsed.Clear();
                 _FusionSummonTiles.Clear();
@@ -3679,10 +3654,15 @@ namespace DungeonDiceMonsters
             {
                 _CurrentGameState = GameState.NOINPUT;
                 SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
-                
+
+                //Reset the tileUI of all the Tile Candidates to summon trhe card
+                foreach(Tile thisTile in _FusionSummonTiles)
+                {
+                    thisTile.ReloadTileUI();
+                }
+
                 //Remove the fusion to be summoned from the fusion deck
-                PlayerData playerdata = GetTurnPlayerPlayerData();
-                playerdata.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
+                TURNPLAYERDATA.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
 
                 //Now run the Master Summon Monster function
                 SummonMonster(_FusionToBeSummoned, tileId);
@@ -3692,7 +3672,10 @@ namespace DungeonDiceMonsters
 
         #region Data
         private PlayerColor TURNPLAYER = PlayerColor.RED;
+        private PlayerColor OPPONENTPLAYER = PlayerColor.BLUE;
         private PlayerColor UserPlayerColor;
+        private PlayerData TURNPLAYERDATA;
+        private PlayerData OPPONENTPLAYERDATA;
         private GameState _CurrentGameState = GameState.MainPhaseBoard;
         private PlayerData RedData;
         private PlayerData BlueData;
@@ -3774,6 +3757,17 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
+        }
+        private void RemoveEffect(Effect thisEffect)
+        {
+            //then remove the effect from the Board
+            switch (thisEffect.ID)
+            {
+                case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect); break;
+                default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
+            }
+            //Remove the effect from the Active effect list
+            _ActiveEffects.Remove(thisEffect);
         }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
@@ -4314,12 +4308,10 @@ namespace DungeonDiceMonsters
                 //Use the previously set list _FusionCardsReadyForFusion to display the available options to summon
                 //Check the 3 fusion card slots in the deck
 
-                PlayerData playerData = GetTurnPlayerPlayerData();
-
                 //Check slot 1
                 if (_FusionCardsReadyForFusion[0])
                 {
-                    int fusionCard1Id = playerData.Deck.GetFusionCardIDAtIndex(0);
+                    int fusionCard1Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(0);
                     if(UserPlayerColor == TURNPLAYER)
                     {
                         ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, fusionCard1Id.ToString());
@@ -4342,7 +4334,7 @@ namespace DungeonDiceMonsters
                 //Check slot 2
                 if (_FusionCardsReadyForFusion[1])
                 {
-                    int fusionCard2Id = playerData.Deck.GetFusionCardIDAtIndex(1);
+                    int fusionCard2Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(1);
                     if (UserPlayerColor == TURNPLAYER)
                     {
                         ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, fusionCard2Id.ToString());
@@ -4365,7 +4357,7 @@ namespace DungeonDiceMonsters
                 //Check slot 3
                 if (_FusionCardsReadyForFusion[2])
                 {
-                    int fusionCard3Id = playerData.Deck.GetFusionCardIDAtIndex(2);
+                    int fusionCard3Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(2);
                     if (UserPlayerColor == TURNPLAYER)
                     {
                         ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, fusionCard3Id.ToString());
@@ -4383,6 +4375,12 @@ namespace DungeonDiceMonsters
                 {
                     PicFusionOption3.Visible = false;
                     btnFusionSummon3.Visible = false;
+                }
+
+                //Update the message for the opponent
+                if(UserPlayerColor != TURNPLAYER)
+                {
+                    lblActionInstruction.Text = "Opponent is selecting a Fusion Monster to summon.";
                 }
 
                 PanelFusionMonsterSelector.Visible = true;
