@@ -3341,10 +3341,13 @@ namespace DungeonDiceMonsters
                     bool AttackerHasAdvantage = HasAttributeAdvantage(Attacker, Defender);
                     if (AttackerHasAdvantage && Defender.Category == Category.Monster)
                     {
-                        PanelAttackerAdvBonus.Visible = true;
+                        //Start the bonus crests at default 0
+                        _AttackBonusCrest = 0;
+                        lblAttackerBonusCrest.Text = "0";
                         //Show the + button at the start                    
                         lblAttackerAdvMinus.Visible = false;
                         lblAttackerAdvPlus.Visible = true;
+                        PanelAttackerAdvBonus.Visible = true;
                     }
                     else
                     {
@@ -3386,10 +3389,12 @@ namespace DungeonDiceMonsters
                         bool DefenderHasAdvantage = HasAttributeAdvantage(Defender, Attacker);
                         if (DefenderHasAdvantage && DefenderData.Crests_DEF > 0 && Defender.Category == Category.Monster)
                         {
-                            PanelDefenderAdvBonus.Visible = true;
+                            _DefenseBonusCrest = 0;
+                            lblDefenderBonusCrest.Text = "0";
                             //Show the + button at the start
                             lblDefenderAdvMinus.Visible = false;
                             lblDefenderAdvPlus.Visible = true;
+                            PanelDefenderAdvBonus.Visible = true;
                         }
                         else
                         {
