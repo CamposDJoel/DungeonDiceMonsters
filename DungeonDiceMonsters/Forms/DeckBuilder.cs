@@ -182,7 +182,7 @@ namespace DungeonDiceMonsters
                     int cardID = StorageData.Cards[iterator].ID;
 
                     //Populate the card image with the card ID
-                    ImageServer.LoadImage(_CardImageList[x], CardImageType.FullCardImage, cardID.ToString());
+                    _CardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
 
                     //Update the amount label
                     _CardAmountList[x].Text = StorageData.Cards[iterator].Amount.ToString();
@@ -214,7 +214,7 @@ namespace DungeonDiceMonsters
                         int cardID = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
 
                         //Populate the card image with the card ID
-                        ImageServer.LoadImage(_DeckCardImageList[x], CardImageType.FullCardImage, cardID.ToString());
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
                     }                    
                 }
             }
@@ -236,16 +236,16 @@ namespace DungeonDiceMonsters
                     int cardID = _CurrentDeckSelected.GetFusionCardIDAtIndex(x);
 
                     //Populate the card image with the card ID
-                    ImageServer.LoadImage(_DeckCardImageList[x + 20], CardImageType.FullCardImage, cardID.ToString());
+                    _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID.ToString());
                 }
             }
 
             //Update the Symbol
             _CurrentSymbolSelection = _CurrentDeckSelected.Symbol;
-            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
 
             //Set the Ready flag
-            ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
+            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
         }
         private void LoadCardInfoPanel()
         {
@@ -255,7 +255,7 @@ namespace DungeonDiceMonsters
             int cardID = thisCard.ID;
 
             //Populate the UI
-            ImageServer.LoadImage(PicCardArtwork, CardImageType.CardArtwork, cardID.ToString());
+            PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID.ToString());
 
             lblID.Text = cardID.ToString();
             lblCardName.Text = thisCard.Name;
@@ -475,8 +475,7 @@ namespace DungeonDiceMonsters
                 LoadDeckPage();
 
                 //Reload the Deck Status
-                ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
-
+                PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
             }
             else
             {
@@ -523,8 +522,8 @@ namespace DungeonDiceMonsters
             LoadStoragePage();
             LoadDeckPage();
 
-            //Reload the Deck Status
-            ImageServer.LoadImage(PicDeckStatus, CardImageType.DeckStatusIcon, _CurrentDeckSelected.UseStatus.ToString());
+            //Reload the Deck Status 
+            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -627,8 +626,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
-            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
-
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
         private void btnSymbolNext_Click(object sender, EventArgs e)
@@ -647,7 +645,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
-            ImageServer.LoadImage(PicSymbol, CardImageType.Symbol, _CurrentSymbolSelection.ToString());
+            PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)

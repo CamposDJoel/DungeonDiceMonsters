@@ -50,7 +50,7 @@ namespace DungeonDiceMonsters
                     CardImage.Location = new Point(2, 2);
                     CardImage.BorderStyle = BorderStyle.FixedSingle;
                     CardImage.Size = new Size(52, 68);
-                    ImageServer.LoadImage(CardImage, CardImageType.FullCardImage, "0");
+                    CardImage.Image = ImageServer.FullCardImage("0");
                     CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
 
                     X_Location += 58;
@@ -76,7 +76,7 @@ namespace DungeonDiceMonsters
                 CardImage.Location = new Point(2, 2);
                 CardImage.BorderStyle = BorderStyle.FixedSingle;
                 CardImage.Size = new Size(52, 68);
-                ImageServer.LoadImage(CardImage, CardImageType.FullCardImage, "0");
+                CardImage.Image = ImageServer.FullCardImage("0");
                 CardImage.SizeMode = PictureBoxSizeMode.StretchImage;
 
                 X_Location2 += 58;
@@ -152,18 +152,18 @@ namespace DungeonDiceMonsters
             //Place cards in the selection
             if (diceSelection.Count == 1)
             {
-                ImageServer.LoadImage(PicDice1, CardImageType.FullCardImage, "0");
+                PicDice1.Image = ImageServer.FullCardImage("0");
             }
             if (diceSelection.Count == 2)
             {
-                ImageServer.LoadImage(PicDice1, CardImageType.FullCardImage, "0");
-                ImageServer.LoadImage(PicDice2, CardImageType.FullCardImage, "0");
+                PicDice1.Image = ImageServer.FullCardImage("0");
+                PicDice2.Image = ImageServer.FullCardImage("0");
             }
             if (diceSelection.Count == 3)
             {
-                ImageServer.LoadImage(PicDice1, CardImageType.FullCardImage, "0");
-                ImageServer.LoadImage(PicDice2, CardImageType.FullCardImage, "0");
-                ImageServer.LoadImage(PicDice3, CardImageType.FullCardImage, "0");
+                PicDice1.Image = ImageServer.FullCardImage("0");
+                PicDice2.Image = ImageServer.FullCardImage("0");
+                PicDice3.Image = ImageServer.FullCardImage("0");
             }
 
             //Another delay
