@@ -5,9 +5,7 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Security.AccessControl;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DungeonDiceMonsters
 {
@@ -39,11 +37,15 @@ namespace DungeonDiceMonsters
                 case CardImageType.FieldTile: box.BackgroundImage = FieldTile(arg1); break;
             }
         }
+        public static void RemoveImageFromPanel(Panel box)
+        {
+            if (box.BackgroundImage != null) { box.BackgroundImage.Dispose(); }
+            box.BackgroundImage = null;
+        }
 
         private static Image FullCardImage(string id)
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\" + id + ".jpeg");
-            //return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Full Size Cards\\0.jpeg");
         }
         private static Image CardArtworkImage(string id)
         {
@@ -85,7 +87,6 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Field Tiles\\" + field + ".jpg");
         }
-
     }
 
     public enum CardImageType

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -12,7 +13,7 @@ namespace DungeonDiceMonsters
     public class Tile
     {
         #region Constructors
-        public Tile(PictureBox inside, PictureBox border, Label statsLabel, Label statsLabel3)
+        public Tile(Panel inside, PictureBox border, Label statsLabel, Label statsLabel3)
         {
             _Border = border;
             _CardImage = inside;
@@ -52,14 +53,15 @@ namespace DungeonDiceMonsters
                 //If the Card is a symbol load the Symbol card artwork
                 if (_card.IsASymbol)
                 {
-                    ImageServer.LoadImage(_CardImage, CardImageType.Symbol, _card.Attribute.ToString());
+                    _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Symbols\\" + _card.Attribute.ToString() + ".png");
                 }
                 else
                 {
                     //if the Card is a Monster (Faceup) load the monster artwork and stats
                     if (_card.Category == Category.Monster)
                     {
-                        ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, _card.CardID.ToString());
+                        _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + _card.CardID.ToString() + ".jpg");
+
                         _StatsLabelATK.Text = _card.ATK.ToString();
                         _StatsLabelDEF.Text = _card.DEF.ToString();
                         _StatsLabelATK.ForeColor = _card.GetATKStatus();
@@ -72,11 +74,11 @@ namespace DungeonDiceMonsters
                         //The card will be a Spell/Trap
                         if(_card.IsFaceDown)
                         {
-                            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, "0");
+                            _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\0.jpg");
                         }
                         else
                         {
-                            ImageServer.LoadImage(_CardImage, CardImageType.CardArtwork, _card.CardID.ToString());
+                            _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + _card.CardID.ToString() + ".jpg");
                         }
                         
                         _StatsLabelATK.Visible = false;
@@ -86,12 +88,11 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                if (_CardImage.Image != null) { _CardImage.Image.Dispose(); }
-                _CardImage.Image = null;
+                ImageServer.RemoveImageFromPanel(_CardImage);
                 //if the Fiel Type value is set, load its image
                 if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSummonTile)
                 {
-                    ImageServer.LoadImage(_CardImage, CardImageType.FieldTile, _FieldType.ToString());
+                    _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Field Tiles\\" + _FieldType.ToString() + ".jpg");
                 }
 
                 _StatsLabelATK.Visible = false;
@@ -304,7 +305,7 @@ namespace DungeonDiceMonsters
         {
             _CardImage.BackColor = Color.Green;
             //In case the tile has a field type set, remove the card image temparely
-            if (_CardImage.Image != null) { _CardImage.Image.Dispose(); _CardImage.Image = null; }
+            if (_CardImage.BackgroundImage != null) { _CardImage.BackgroundImage.Dispose(); _CardImage.BackgroundImage = null; }
         }
         public void MarkAttackTarget()
         {
@@ -955,7 +956,7 @@ namespace DungeonDiceMonsters
 
         #region Data
         private PictureBox _Border;
-        private PictureBox _CardImage;
+        private Panel _CardImage;
         private Label _StatsLabelATK;
         private Label _StatsLabelDEF;
         private bool _Occupied = false;
