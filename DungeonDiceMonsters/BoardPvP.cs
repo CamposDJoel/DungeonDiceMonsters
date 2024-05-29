@@ -79,12 +79,12 @@ namespace DungeonDiceMonsters
                     statsLabelATK.Visible = false;
 
                     //Create each inside picture box
-                    PictureBox insidePicture = new PictureBox();
+                    Panel insidePicture = new Panel();
                     PanelBoard.Controls.Add(insidePicture);
                     insidePicture.Location = new Point(X_Location + 3, Y_Location + 3);
                     insidePicture.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     insidePicture.BorderStyle = BorderStyle.None;
-                    insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                    insidePicture.BackgroundImageLayout = ImageLayout.Stretch;
                     insidePicture.BackColor = System.Drawing.Color.Transparent;
                     insidePicture.Tag = tileId;
                     insidePicture.MouseEnter += OnMouseEnterPicture;
@@ -243,13 +243,13 @@ namespace DungeonDiceMonsters
                     statsLabelATK.Visible = false;
 
                     //Create each inside picture box
-                    PictureBox insidePicture = new PictureBox();
+                    Panel insidePicture = new Panel();
                     PanelBoard.Controls.Add(insidePicture);
                     insidePicture.Location = new Point(X_Location + 3, Y_Location + 3);
                     insidePicture.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     insidePicture.BorderStyle = BorderStyle.None;
-                    insidePicture.SizeMode = PictureBoxSizeMode.StretchImage;
-                    insidePicture.BackColor = System.Drawing.Color.Transparent;
+                    insidePicture.BackgroundImageLayout = ImageLayout.Stretch;
+                    insidePicture.BackColor = Color.Transparent;
                     insidePicture.Tag = tileId;
                     insidePicture.MouseEnter += OnMouseEnterPicture;
                     insidePicture.MouseLeave += OnMouseLeavePicture;
@@ -1667,7 +1667,7 @@ namespace DungeonDiceMonsters
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
                 //Extract the TileID from the tile in action
-                PictureBox thisPicture = sender as PictureBox;
+                Panel thisPicture = sender as Panel;
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
@@ -1687,7 +1687,7 @@ namespace DungeonDiceMonsters
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
                 //Extract the TileID from the tile in action
-                PictureBox thisPicture = sender as PictureBox;
+                Panel thisPicture = sender as Panel;
                 int tileID = Convert.ToInt32(thisPicture.Tag);
 
                 //Send the action message to the server
@@ -1709,7 +1709,7 @@ namespace DungeonDiceMonsters
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
                 //set the current tile selected
-                PictureBox thisPicture = sender as PictureBox;
+                Panel thisPicture = sender as Panel;
                 int tileID = Convert.ToInt32(thisPicture.Tag);
                 Tile thisTile = _Tiles[tileID];
 
