@@ -194,11 +194,11 @@ namespace DungeonDiceMonsters
                     //Populate the card image with the card ID
                     if (_IsUserTurn)
                     {
-                        ImageServer.LoadImage(_DeckCardImageList[x], CardImageType.FullCardImage, cardID.ToString());
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
                     }
                     else
                     {
-                        ImageServer.LoadImage(_DeckCardImageList[x], CardImageType.FullCardImage, "0");
+                        _DeckCardImageList[x].Image = ImageServer.FullCardImage("0");
                     }
                 }
             }
@@ -226,11 +226,11 @@ namespace DungeonDiceMonsters
                     //Populate the card image with the card ID                    
                     if (_IsUserTurn)
                     {
-                        ImageServer.LoadImage(_DeckCardImageList[x + 20], CardImageType.FullCardImage, cardID.ToString());
+                        _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID.ToString());
                     }
                     else
                     {
-                        ImageServer.LoadImage(_DeckCardImageList[x + 20], CardImageType.FullCardImage, "0");
+                        _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage("0");
                     }
                 }
             }
@@ -256,11 +256,11 @@ namespace DungeonDiceMonsters
                     if (dices[x].Image != null) { dices[x].Image.Dispose(); }
                     if(_IsUserTurn)
                     {
-                        ImageServer.LoadImage(dices[x], CardImageType.FullCardImage, _DiceToRoll[x].ID.ToString());
+                        dices[x].Image = ImageServer.FullCardImage(_DiceToRoll[x].ID.ToString());
                     }
                     else
                     {
-                        ImageServer.LoadImage(dices[x], CardImageType.FullCardImage, "0");
+                        dices[x].Image = ImageServer.FullCardImage("0");
                     }
                 }
             }
@@ -313,7 +313,7 @@ namespace DungeonDiceMonsters
             int cardID = thisCard.ID;
 
             //Populate the UI
-            ImageServer.LoadImage(PicCardArtwork, CardImageType.CardArtwork, cardID.ToString());
+            PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID.ToString());
 
             lblID.Text = cardID.ToString();
             lblCardName.Text = thisCard.Name;

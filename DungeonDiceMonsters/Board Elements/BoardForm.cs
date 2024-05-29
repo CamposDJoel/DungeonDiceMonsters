@@ -508,8 +508,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            ImageServer.LoadImage(PicBlueSymbol, CardImageType.Symbol, _BlueSymbol.Attribute.ToString());
-            ImageServer.LoadImage(PicRedSymbol, CardImageType.Symbol, _RedSymbol.Attribute.ToString());
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute.ToString());
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute.ToString());
 
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
@@ -548,7 +548,7 @@ namespace DungeonDiceMonsters
 
                 if(thisCard.IsFaceDown && thisCard.Owner == PlayerColor.BLUE)
                 {
-                    ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
+                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                     lblCardName.Text = string.Empty;
                     lblCardType.Text = string.Empty;
@@ -563,7 +563,7 @@ namespace DungeonDiceMonsters
                 {
                     if(thisCard.IsASymbol)
                     {
-                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.Symbol, thisCard.Attribute.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.Attribute.ToString());
 
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = "";
@@ -577,7 +577,7 @@ namespace DungeonDiceMonsters
                     else
                     {
                         //Populate the UI
-                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, cardID.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID.ToString());
 
                         lblCardName.Text = thisCard.Name;
 
@@ -651,7 +651,7 @@ namespace DungeonDiceMonsters
             else
             {
                 PanelCardInfo.BackColor = Color.Gray;
-                ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
+                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                 lblCardName.Text = string.Empty;
                 lblCardType.Text = string.Empty;
@@ -766,7 +766,7 @@ namespace DungeonDiceMonsters
 
             //Set the attacker's data
             Card Attacker = _CurrentTileSelected.CardInPlace;
-            ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
+            PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID.ToString());
             lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
             lblAttackerATK.Text = "ATK: " + Attacker.ATK;
 
@@ -774,7 +774,7 @@ namespace DungeonDiceMonsters
             Card Defender = _AttackTarger.CardInPlace;
             if(Defender.Category == Category.Monster)
             {
-                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID.ToString());
                 lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                 lblDefenderDEF.Text = "DEF: " + Defender.DEF;
             }
@@ -782,11 +782,11 @@ namespace DungeonDiceMonsters
             {
                 if (Defender.IsASymbol)
                 {
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardSymbol, Defender.Attribute.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute.ToString());
                 }
                 else
                 {
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, "0");
+                    PicDefender2.BackgroundImage = ImageServer.FullCardImage("0");
                 }              
                 lblBattleMenuDEFLP.Text = "";
                 lblDefenderDEF.Text = "";
@@ -874,7 +874,7 @@ namespace DungeonDiceMonsters
         }
         private void UpdateDimensionPreview()
         {
-            ImageServer.LoadImage(PicCurrentForm, CardImageType.DimensionForm, _CurrentDimensionForm.ToString());
+            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm.ToString());
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
         #endregion
@@ -1507,7 +1507,7 @@ namespace DungeonDiceMonsters
             {
                 //Destroy the defender card automatically
                 SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
-                ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, _AttackTarger.CardInPlace.CardID.ToString());
+                PicDefender2.BackgroundImage = ImageServer.FullCardImage(_AttackTarger.CardInPlace.CardID.ToString());
                 PicDefenderDestroyed.Visible = true;
                 lblBattleMenuDamage.Text = "Damage: 0";
                 WaitNSeconds(1000);

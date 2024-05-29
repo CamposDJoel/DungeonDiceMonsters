@@ -610,8 +610,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            ImageServer.LoadImage(PicBlueSymbol, CardImageType.Symbol, _BlueSymbol.Attribute.ToString());
-            ImageServer.LoadImage(PicRedSymbol, CardImageType.Symbol, _RedSymbol.Attribute.ToString());
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute.ToString());
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute.ToString());
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
             lblBlueLP.Text = _BlueSymbol.LP.ToString();
@@ -649,7 +649,7 @@ namespace DungeonDiceMonsters
 
                 if (thisCard.IsFaceDown && thisCard.Owner != UserPlayerColor)
                 {
-                    ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
+                    PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                     lblCardName.Text = string.Empty;
                     lblCardType.Text = string.Empty;
@@ -672,7 +672,7 @@ namespace DungeonDiceMonsters
                 {
                     if (thisCard.IsASymbol)
                     {
-                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.Symbol, thisCard.Attribute.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.FullCardSymbol(thisCard.Attribute.ToString());
 
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = string.Empty;
@@ -694,7 +694,7 @@ namespace DungeonDiceMonsters
                     else
                     {
                         //Populate the UI
-                        ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, cardID.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID.ToString());
                         lblCardName.Text = thisCard.Name;
 
                         string secondaryType = thisCard.SecType.ToString();
@@ -788,7 +788,7 @@ namespace DungeonDiceMonsters
             else
             {
                 PanelCardInfo.BackColor = Color.Gray;
-                ImageServer.LoadImage(PicCardArtworkBottom, CardImageType.CardArtwork, "0");
+                PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                 lblCardName.Text = string.Empty;
                 lblCardType.Text = string.Empty;
@@ -823,8 +823,7 @@ namespace DungeonDiceMonsters
                 //If field type is set, load the proper image
                 if (thisTile.FieldType != Tile.FieldTypeValue.None)
                 {
-                    ImageServer.LoadImage(PicFieldTypeDisplay, CardImageType.FieldTile, thisTile.FieldType.ToString());
-
+                    PicFieldTypeDisplay.Image = ImageServer.FieldTile(thisTile.FieldType.ToString());
                 }
                 else
                 {
@@ -978,7 +977,7 @@ namespace DungeonDiceMonsters
         private void UpdateDimensionPreview()
         {
             //Update UI
-            ImageServer.LoadImage(PicCurrentForm, CardImageType.DimensionForm, _CurrentDimensionForm.ToString());
+            PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm.ToString());
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
         private void UpdateBanner(string currentPhase)
@@ -2972,13 +2971,13 @@ namespace DungeonDiceMonsters
                 {
                     //Show the full menu for the turn player
                     //Card Image
-                    ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisCard.CardID.ToString());
+                    PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
                     //Effect Type Title
                     lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
                     //Effect Text
                     lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
                     //Cost
-                    ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                    PicCostCrest.Image = ImageServer.CrestIcon(_CardEffectToBeActivated.CrestCost.ToString());
                     lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                     lblCostAmount.ForeColor = Color.White;
                     PanelCost.Visible = true;
@@ -3034,7 +3033,7 @@ namespace DungeonDiceMonsters
                 void LoadItHidden()
                 {
                     //Card Image will be face down
-                    ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, "0");
+                    PicEffectMenuCardImage.Image = ImageServer.FullCardImage("0");
                     //Effect Type Title
                     lblEffectMenuTittle.Text = "Effect";
                     //Effect Text
@@ -3277,7 +3276,7 @@ namespace DungeonDiceMonsters
 
                 //Set the attacker's data
                 Card Attacker = _AttackerTile.CardInPlace;
-                ImageServer.LoadImageToPanel(PicAttacker, CardImageType.FullCardImage, Attacker.CardID.ToString());
+                PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID.ToString());
                 lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
                 lblAttackerATK.Text = "ATK: " + Attacker.ATK;
 
@@ -3297,20 +3296,20 @@ namespace DungeonDiceMonsters
                 Card Defender = _AttackTarger.CardInPlace;
                 if (Defender.Category == Category.Monster)
                 {
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID.ToString());
                     lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                     lblDefenderDEF.Text = "DEF: " + Defender.DEF;
                 }
                 else if (Defender.Category == Category.Symbol)
                 {
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardSymbol, Defender.Attribute.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute.ToString());
                     lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                     lblDefenderDEF.Text = "DEF: 0";
                 }
                 else
                 {
                     //At this point, if the attack target was a face down card, it was flipped face up
-                    ImageServer.LoadImageToPanel(PicDefender2, CardImageType.FullCardImage, Defender.CardID.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID.ToString());
                     lblBattleMenuDEFLP.Text = "LP: -";
                     lblDefenderDEF.Text = "DEF: -";
                 }
@@ -3466,10 +3465,10 @@ namespace DungeonDiceMonsters
                     //Reveal the hidden info for the opposite player
                     if (UserPlayerColor != TURNPLAYER)
                     {
-                        ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, _CardEffectToBeActivated.OriginCard.CardID.ToString());
+                        PicEffectMenuCardImage.Image = ImageServer.FullCardImage(_CardEffectToBeActivated.OriginCard.CardID.ToString());
                         lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
                         lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
-                        ImageServer.LoadImage(PicCostCrest, CardImageType.CrestIcon, _CardEffectToBeActivated.CrestCost.ToString());
+                        PicCostCrest.Image = ImageServer.CrestIcon(_CardEffectToBeActivated.CrestCost.ToString());
                         lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                         lblCostAmount.ForeColor = Color.White;
                         PanelCost.Visible = true;                       
@@ -3778,7 +3777,7 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             //Load the menu with the On Summon effect
-            ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Summon Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffectText;
             //Hide the elements not needed.
@@ -3792,7 +3791,7 @@ namespace DungeonDiceMonsters
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
         {
-            ImageServer.LoadImage(PicEffectMenuCardImage, CardImageType.FullCardImage, thisEffect.OriginCard.CardID.ToString());
+            PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Continuous Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.ContinuousEffectText;
             //Hide the elements not needed.
@@ -4319,12 +4318,12 @@ namespace DungeonDiceMonsters
                     int fusionCard1Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(0);
                     if(UserPlayerColor == TURNPLAYER)
                     {
-                        ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, fusionCard1Id.ToString());
+                        PicFusionOption1.Image = ImageServer.FullCardImage(fusionCard1Id.ToString());
                         btnFusionSummon1.Enabled = true;
                     }
                     else
                     {
-                        ImageServer.LoadImage(PicFusionOption1, CardImageType.FullCardImage, "0");
+                        PicFusionOption1.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon1.Enabled = false;
                     }    
                     PicFusionOption1.Visible = true;
@@ -4342,12 +4341,12 @@ namespace DungeonDiceMonsters
                     int fusionCard2Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(1);
                     if (UserPlayerColor == TURNPLAYER)
                     {
-                        ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, fusionCard2Id.ToString());
+                        PicFusionOption2.Image = ImageServer.FullCardImage(fusionCard2Id.ToString());
                         btnFusionSummon2.Enabled = true;
                     }
                     else
                     {
-                        ImageServer.LoadImage(PicFusionOption2, CardImageType.FullCardImage, "0");
+                        PicFusionOption2.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon2.Enabled = false;
                     }
                     PicFusionOption2.Visible = true;
@@ -4365,12 +4364,12 @@ namespace DungeonDiceMonsters
                     int fusionCard3Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(2);
                     if (UserPlayerColor == TURNPLAYER)
                     {
-                        ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, fusionCard3Id.ToString());
+                        PicFusionOption3.Image = ImageServer.FullCardImage(fusionCard3Id.ToString());
                         btnFusionSummon3.Enabled = true;
                     }
                     else
                     {
-                        ImageServer.LoadImage(PicFusionOption3, CardImageType.FullCardImage, "0");
+                        PicFusionOption3.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon3.Enabled = false;
                     }
                     PicFusionOption3.Visible = true;

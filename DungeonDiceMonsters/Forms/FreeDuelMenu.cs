@@ -52,7 +52,7 @@ namespace DungeonDiceMonsters
                 if (GameData.IsCharacterUnlocked((Character)x))
                 {
                     Borders[x].Visible = true;
-                    ImageServer.LoadImage(Characters[x], CardImageType.CharacterIcon, ((Character)x).ToString());
+                    Characters[x].Image = ImageServer.CharacterIcon(((Character)x).ToString());
                     Characters[x].Visible = true;
 
                     Characters[x].MouseEnter += OnMouseEnterPicture;
