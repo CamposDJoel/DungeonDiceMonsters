@@ -688,6 +688,8 @@ namespace DungeonDiceMonsters
                     lblMovesCostAmount.Text = string.Empty;
                     lblAttackCostAmount.Text = string.Empty;
                     lblDefenseCostAmount.Text = string.Empty;
+                    lblAttackRangeAmount.Text = string.Empty;
+                    lblMoveRangeAmount.Text = string.Empty;
                     lblTurnCounters.Text = string.Empty;
                     lblCounters.Text = string.Empty;
                     lblSpellboundCounters.Text = string.Empty;
@@ -711,6 +713,8 @@ namespace DungeonDiceMonsters
                         lblMovesCostAmount.Text = thisCard.MoveCost.ToString();
                         lblAttackCostAmount.Text = string.Empty;
                         lblDefenseCostAmount.Text = string.Empty;
+                        lblAttackRangeAmount.Text = string.Empty;
+                        lblMoveRangeAmount.Text = "1";
                         lblTurnCounters.Text = string.Empty;
                         lblCounters.Text = string.Empty;
                         lblSpellboundCounters.Text = string.Empty;
@@ -794,14 +798,18 @@ namespace DungeonDiceMonsters
                         }
                         else { lblMovesLeftAmount.Text = string.Empty; }
 
-                        if (thisCard.Category == Category.Monster) { lblMovesCostAmount.Text = thisCard.MoveCost.ToString(); }
-                        else { lblMovesCostAmount.Text = string.Empty; }
+                        lblMovesCostAmount.Text = thisCard.MoveCost.ToString();
 
                         if (thisCard.Category == Category.Monster) { lblAttackCostAmount.Text = thisCard.AttackCost.ToString(); }
                         else { lblAttackCostAmount.Text = string.Empty; }
 
                         if (thisCard.Category == Category.Monster) { lblDefenseCostAmount.Text = thisCard.DefenseCost.ToString(); }
                         else { lblDefenseCostAmount.Text = string.Empty; }
+
+                        if (thisCard.Category == Category.Monster) { lblAttackRangeAmount.Text = thisCard.AttackRange.ToString(); }
+                        else { lblAttackRangeAmount.Text = string.Empty; }
+
+                        lblMoveRangeAmount.Text = thisCard.MoveRange.ToString();
 
                         lblTurnCounters.Text = thisCard.TurnCounters.ToString();
                         lblCounters.Text = thisCard.Counters.ToString();
@@ -827,6 +835,8 @@ namespace DungeonDiceMonsters
                 lblMovesCostAmount.Text = string.Empty;
                 lblAttackCostAmount.Text = string.Empty;
                 lblDefenseCostAmount.Text = string.Empty;
+                lblAttackRangeAmount.Text = string.Empty;
+                lblMoveRangeAmount.Text = string.Empty;
                 lblTurnCounters.Text = string.Empty;
                 lblCounters.Text = string.Empty;
                 lblSpellboundCounters.Text = string.Empty;
