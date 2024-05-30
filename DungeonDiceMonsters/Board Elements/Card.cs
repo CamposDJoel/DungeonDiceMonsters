@@ -127,6 +127,7 @@ namespace DungeonDiceMonsters
         public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
         public int MovesPerTurn { get { return _BaseMovesPerTurn; } }
         public bool EffectUsedThisTurn { get { return _EffectUsedThisTurn; } }
+        public int AttackRange { get { return _AttackRange; } }
         #endregion
 
         #region Public Funtions
@@ -310,6 +311,10 @@ namespace DungeonDiceMonsters
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
         private bool _IsPemanentSpellbound = false;
+
+        //Ranges
+        private int _AttackRange = 1;
+        //TODO: private int _MoveRango = 1;
 
         //Effects
         private Effect _OnSummonEffectObject;

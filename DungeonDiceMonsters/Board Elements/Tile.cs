@@ -43,6 +43,9 @@ namespace DungeonDiceMonsters
                 _CardImage.BackColor = Color.Orange;
             }
 
+            //Hide the overlay icon (this should only be visible in specific situations)
+            _OverlayIcon.Visible = false;
+
 
             //_InsideBox image and _Stats
             //Set the Card Image of the Card in the Tile, if this tile is occupied, otherwise Card Image will be null unless it has
@@ -208,61 +211,195 @@ namespace DungeonDiceMonsters
             _Occupied = false;            
             ReloadTileUI();
         }
-        public List<Tile> GetAttackTargerCandidates(PlayerColor enemy)
+        public List<Tile> GetAttackRangeTiles(bool returnCandidatesOnly)
         {
-            List<Tile> candidates = new List<Tile>();
+            List<Tile> tiles = new List<Tile>();
 
-            if (HasAnAdjecentEnemyCard(TileDirection.North, enemy)){ candidates.Add(_NorthTile); }
-            if (HasAnAdjecentEnemyCard(TileDirection.South, enemy)){ candidates.Add(_SouthTile); }
-            if (HasAnAdjecentEnemyCard(TileDirection.East, enemy)){ candidates.Add(_EastTile); }
-            if (HasAnAdjecentEnemyCard(TileDirection.West, enemy)){ candidates.Add(_WestTile); }
+            //Set the attack range to use
+            int attackRange = _card.AttackRange;
 
-            return candidates;
-        }
-        private bool HasAnAdjecentEnemyCard(TileDirection direction, PlayerColor enemy)
-        {
-            bool hasIt = false;
-            switch (direction) 
+            //Gather the north tiles
+            for (int i = 0; i < attackRange; i++)
             {
-                case TileDirection.North:
-                    if(HasAnAdjecentTile(TileDirection.North))
-                    {
-                        if(_NorthTile.IsOccupied)
-                        {
-                            if (_NorthTile.CardInPlace.Owner == enemy) { hasIt = true; }
-                        }
-                    }
-                break;
-                case TileDirection.South:
-                    if (HasAnAdjecentTile(TileDirection.South))
-                    {
-                        if (_SouthTile.IsOccupied)
-                        {
-                            if (_SouthTile.CardInPlace.Owner == enemy) { hasIt = true; }
-                        }
-                    }
+                List<TileDirection> northDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    northDirections.Add(TileDirection.North);
+                }
+                Tile thisNorthTile = GetTileInDirection(northDirections);
+                if (thisNorthTile == null) 
+                {
                     break;
-                case TileDirection.East:
-                    if (HasAnAdjecentTile(TileDirection.East))
-                    {
-                        if (_EastTile.IsOccupied)
+                }
+                else
+                {
+                    if (thisNorthTile.IsActive)
+                    {                      
+                        if(returnCandidatesOnly)
                         {
-                            if (_EastTile.CardInPlace.Owner == enemy) { hasIt = true; }
+                            if(thisNorthTile.IsOccupied)
+                            {
+                                if(thisNorthTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisNorthTile);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisNorthTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisNorthTile.IsOccupied)
+                        {
+                            break;
                         }
                     }
-                    break;
-                case TileDirection.West:
-                    if (HasAnAdjecentTile(TileDirection.West))
+                    else
                     {
-                        if (_WestTile.IsOccupied)
-                        {
-                            if (_WestTile.CardInPlace.Owner == enemy) { hasIt = true; }
-                        }
+                        break;
                     }
-                    break;
+                }               
             }
 
-            return hasIt;
+            //Gather the south tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> southDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    southDirections.Add(TileDirection.South);
+                }
+                Tile thisSouthTile = GetTileInDirection(southDirections);
+                if (thisSouthTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisSouthTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisSouthTile.IsOccupied)
+                            {
+                                if (thisSouthTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisSouthTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisSouthTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisSouthTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the east tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> eastDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    eastDirections.Add(TileDirection.East);
+                }
+                Tile thisEastTile = GetTileInDirection(eastDirections);
+                if (thisEastTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisEastTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisEastTile.IsOccupied)
+                            {
+                                if (thisEastTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisEastTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisEastTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisEastTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the west tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> westDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    westDirections.Add(TileDirection.West);
+                }
+                Tile thisWestTile = GetTileInDirection(westDirections);
+                if (thisWestTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisWestTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisWestTile.IsOccupied)
+                            {
+                                if (thisWestTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisWestTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisWestTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisWestTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return tiles;
         }
         public bool HasAnAdjecentTileOwnBy(PlayerColor expectedOwner)
         {
@@ -310,7 +447,9 @@ namespace DungeonDiceMonsters
         }
         public void MarkAttackTarget()
         {
-            _Border.BackColor = Color.Chartreuse;
+            //Place the overlay icon of the attack target
+            _OverlayIcon.Image = ImageServer.AttackTargetIcon();
+            _OverlayIcon.Visible = true;
         }
         public void MarkSetTarget()
         {
@@ -935,6 +1074,7 @@ namespace DungeonDiceMonsters
         public int ID { get { return (int)_CardImage.Tag; } }
         public Card CardInPlace { get { return _card; } }
         public bool IsOccupied { get { return _Occupied; } }
+        public bool IsActive { get { return Owner != PlayerColor.NONE; } }
         public bool IsSummonTile { get { return _IsSummonTile; } }
         public PlayerColor Owner { get { return _Owner; } }
         public int CardID

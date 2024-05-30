@@ -60,5 +60,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Field Tiles\\" + field + ".jpg");
         }
+        public static Image AttackTargetIcon()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Attack Target.png");
+        }
     }
 }

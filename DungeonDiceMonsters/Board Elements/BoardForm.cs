@@ -991,7 +991,7 @@ namespace DungeonDiceMonsters
                         // 4. Card is a monster
 
 
-                        _AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerColor.BLUE);
+                        //_AttackCandidates = _CurrentTileSelected.GetAttackTargerCandidates(PlayerColor.BLUE);
                         if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > RedData.Crests_ATK || _AttackCandidates.Count == 0 || thiscard.Category != Category.Monster)
                         {
                             btnActionAttack.Enabled = false;
