@@ -13,10 +13,11 @@ namespace DungeonDiceMonsters
     public class Tile
     {
         #region Constructors
-        public Tile(Panel inside, PictureBox border, Label statsLabel, Label statsLabel3)
+        public Tile(Panel inside, PictureBox border, PictureBox overlayIcon, Label statsLabel, Label statsLabel3)
         {
             _Border = border;
             _CardImage = inside;
+            _OverlayIcon = overlayIcon;
             _StatsLabelATK = statsLabel;
             _StatsLabelDEF = statsLabel3;
         }
@@ -957,6 +958,7 @@ namespace DungeonDiceMonsters
         #region Data
         private PictureBox _Border;
         private Panel _CardImage;
+        private PictureBox _OverlayIcon;
         private Label _StatsLabelATK;
         private Label _StatsLabelDEF;
         private bool _Occupied = false;

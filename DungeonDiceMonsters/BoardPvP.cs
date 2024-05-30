@@ -85,11 +85,21 @@ namespace DungeonDiceMonsters
                     insidePicture.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     insidePicture.BorderStyle = BorderStyle.None;
                     insidePicture.BackgroundImageLayout = ImageLayout.Stretch;
-                    insidePicture.BackColor = System.Drawing.Color.Transparent;
+                    insidePicture.BackColor = Color.Transparent;
                     insidePicture.Tag = tileId;
                     insidePicture.MouseEnter += OnMouseEnterPicture;
                     insidePicture.MouseLeave += OnMouseLeavePicture;
                     insidePicture.Click += Tile_Click;
+
+                    //Create the overlay icon picture box
+                    PictureBox overlayIcon = new PictureBox();
+                    insidePicture.Controls.Add(overlayIcon);
+                    overlayIcon.Location = new Point(0, 0);
+                    overlayIcon.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
+                    overlayIcon.BorderStyle = BorderStyle.None;
+                    overlayIcon.BackgroundImageLayout= ImageLayout.Stretch;
+                    overlayIcon.BackColor = Color.Transparent;
+                    overlayIcon.Visible = false;
 
                     //Create each border picture box 
                     //(create this one after so it is created "behind" the inside picture
@@ -101,7 +111,7 @@ namespace DungeonDiceMonsters
                     borderPicture.BackColor = Color.Transparent;
 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabelATK, statsLabelDEF));
+                    _Tiles.Add(new Tile(insidePicture, borderPicture, overlayIcon, statsLabelATK, statsLabelDEF));
 
                     //update the Tile ID for the next one
                     tileId++;
@@ -255,6 +265,16 @@ namespace DungeonDiceMonsters
                     insidePicture.MouseLeave += OnMouseLeavePicture;
                     insidePicture.Click += Tile_Click;
 
+                    //Create the overlay icon picture box
+                    PictureBox overlayIcon = new PictureBox();
+                    insidePicture.Controls.Add(overlayIcon);
+                    overlayIcon.Location = new Point(0, 0);
+                    overlayIcon.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
+                    overlayIcon.BorderStyle = BorderStyle.None;
+                    overlayIcon.BackgroundImageLayout = ImageLayout.Stretch;
+                    overlayIcon.BackColor = Color.Transparent;
+                    overlayIcon.Visible = false;
+
                     //Create each border picture box 
                     //(create this one after so it is created "behind" the inside picture
                     PictureBox borderPicture = new PictureBox();
@@ -265,7 +285,7 @@ namespace DungeonDiceMonsters
                     borderPicture.BackColor = Color.Transparent;
 
                     //create and add a new tile object using the above 2 picture boxes
-                    _Tiles.Add(new Tile(insidePicture, borderPicture, statsLabelATK, statsLabelDEF));
+                    _Tiles.Add(new Tile(insidePicture, borderPicture, overlayIcon, statsLabelATK, statsLabelDEF));
 
                     //update the Tile ID for the next one
                     tileId++;
