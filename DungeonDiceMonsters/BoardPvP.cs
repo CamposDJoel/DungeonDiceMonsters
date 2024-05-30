@@ -89,7 +89,7 @@ namespace DungeonDiceMonsters
                     insidePicture.Tag = tileId;
                     insidePicture.MouseEnter += OnMouseEnterPicture;
                     insidePicture.MouseLeave += OnMouseLeavePicture;
-                    insidePicture.Click += Tile_Click;
+                    insidePicture.Click += Tile_Click_OnInsidePicture;
 
                     //Create the overlay icon picture box
                     PictureBox overlayIcon = new PictureBox();
@@ -97,8 +97,10 @@ namespace DungeonDiceMonsters
                     overlayIcon.Location = new Point(0, 0);
                     overlayIcon.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     overlayIcon.BorderStyle = BorderStyle.None;
-                    overlayIcon.BackgroundImageLayout= ImageLayout.Stretch;
+                    overlayIcon.SizeMode = PictureBoxSizeMode.StretchImage;
                     overlayIcon.BackColor = Color.Transparent;
+                    overlayIcon.Tag = tileId;
+                    overlayIcon.Click += Tile_Click_OnOverlay;
                     overlayIcon.Visible = false;
 
                     //Create each border picture box 
@@ -263,7 +265,7 @@ namespace DungeonDiceMonsters
                     insidePicture.Tag = tileId;
                     insidePicture.MouseEnter += OnMouseEnterPicture;
                     insidePicture.MouseLeave += OnMouseLeavePicture;
-                    insidePicture.Click += Tile_Click;
+                    insidePicture.Click += Tile_Click_OnInsidePicture;
 
                     //Create the overlay icon picture box
                     PictureBox overlayIcon = new PictureBox();
@@ -271,8 +273,10 @@ namespace DungeonDiceMonsters
                     overlayIcon.Location = new Point(0, 0);
                     overlayIcon.Size = new Size(CARDIMAGE_SIZE, CARDIMAGE_SIZE);
                     overlayIcon.BorderStyle = BorderStyle.None;
-                    overlayIcon.BackgroundImageLayout = ImageLayout.Stretch;
+                    overlayIcon.SizeMode = PictureBoxSizeMode.StretchImage;
                     overlayIcon.BackColor = Color.Transparent;
+                    overlayIcon.Tag = tileId;
+                    overlayIcon.Click += Tile_Click_OnOverlay;
                     overlayIcon.Visible = false;
 
                     //Create each border picture box 
@@ -1721,15 +1725,23 @@ namespace DungeonDiceMonsters
                 }               
             }
         }
-        private void Tile_Click(object sender, EventArgs e)
+        private void Tile_Click_OnOverlay(object sender, EventArgs e)
         {
-            //Extract the TileID from the tile in action
-            
+            PictureBox thisPicture = sender as PictureBox;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            Tile_Click(tileID);
+        }
+        private void Tile_Click_OnInsidePicture(object sender, EventArgs e)
+        {
+            Panel thisPicture = sender as Panel;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            Tile_Click(tileID);
+        }
+        private void Tile_Click(int tileID)
+        {
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
-                //set the current tile selected
-                Panel thisPicture = sender as Panel;
-                int tileID = Convert.ToInt32(thisPicture.Tag);
+                //Declate the Tile Object
                 Tile thisTile = _Tiles[tileID];
 
                 if (_CurrentGameState == GameState.MainPhaseBoard)
@@ -2866,28 +2878,38 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate ()
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+                //Step 1: Save the ref to the tile of the monster in action.
                 _AttackerTile = _CurrentTileSelected;
 
-                PlayerColor TargetPlayerColor = PlayerColor.RED;
-                if (TURNPLAYER == PlayerColor.RED) { TargetPlayerColor = PlayerColor.BLUE; }
-                _AttackCandidates = _AttackerTile.GetAttackTargerCandidates(TargetPlayerColor);
-                DisplayAttackCandidates();
+                //Step 2: Generate the Tile List of all the active tile within the monster's attack range
+                _AttackRangeTiles = _AttackerTile.GetAttackRangeTiles(false);
+                _AttackCandidates = _AttackerTile.GetAttackRangeTiles(true);
+
+                //Step 3: Update the UI by showing the attack range/attack candidates and the Attack Menu
+                DisplayAttackCandidates(_AttackRangeTiles);
                 PlaceAttackMenu();
 
+                //Step 4: Hide the Action Menu and Update the instruction message to the opponent
                 PanelActionMenu.Visible = false;
-
                 if (UserPlayerColor != TURNPLAYER)
                 {
                     lblActionInstruction.Text = "Opponent is selecting an attack target!";
                     lblActionInstruction.Visible = true;
                 }
 
-                PanelBoard.Enabled = true;
+                //Finally, change the game state so the turn player is locked into selecting an attack target or cancelling the action
                 _CurrentGameState = GameState.SelectingAttackTarger;
             }));
 
-            void DisplayAttackCandidates()
+            void DisplayAttackCandidates(List<Tile> AttackRangeTiles)
             {
+                //First highlight all the tiles within the attack range
+                foreach(Tile thisTile in AttackRangeTiles)
+                {
+                    thisTile.HighlightTile();
+                }
+                //Then place the attack target overlay icon on the attack target candidates
                 foreach (Tile tile in _AttackCandidates)
                 {
                     tile.MarkAttackTarget();
@@ -3274,14 +3296,18 @@ namespace DungeonDiceMonsters
                 _AttackTarger.CardInPlace.FlipFaceUp();
                 WaitNSeconds(1000);
 
-                //Close the Attack Menu and clear the color of all attack candidates
-                PanelAttackMenu.Visible = false;
-                foreach (Tile tile in _AttackCandidates)
+                //Close the Attack Menu and Reset the UI of all the Attack Range Tiles
+                PanelAttackMenu.Visible = false;               
+                foreach (Tile tile in _AttackRangeTiles)
                 {
                     tile.ReloadTileUI();
                 }
+
+                //Clear the lists just in case
+                _AttackRangeTiles.Clear();
                 _AttackCandidates.Clear();
 
+                //Intructions message can be hidden for both players during the battle phase
                 lblActionInstruction.Visible = false;
 
                 //Open the Battle Panel
@@ -3452,18 +3478,20 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate ()
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Cancel);
-                //Reload the card's tile before the mouse trigers hovering another tile.
-                _CurrentTileSelected.ReloadTileUI();
 
-                //Unmark all the attack candidates
-                foreach (Tile tile in _AttackCandidates)
+                //Reset the UI of all the Attack Range Tiles
+                foreach (Tile tile in _AttackRangeTiles)
                 {
                     tile.ReloadTileUI();
                 }
+                _AttackerTile.ReloadTileUI();
 
+                //Clear the lists just in case
+                _AttackRangeTiles.Clear();
                 _AttackCandidates.Clear();
-                PanelAttackMenu.Visible = false;
 
+                //Close the action menu and return to the main phase
+                PanelAttackMenu.Visible = false;
                 EnterMainPhase();
             }));
         }
@@ -3710,7 +3738,9 @@ namespace DungeonDiceMonsters
         private Tile _InitialTileMove = null;
         private Tile _PreviousTileMove = null;
         private int _TMPMoveCrestCount = 0;
+        //Attack Action Data
         private List<Tile> _AttackCandidates = new List<Tile>();
+        private List<Tile> _AttackRangeTiles = new List<Tile>();
         private Tile _AttackTarger;
         private Tile _AttackerTile = null;
         //Battle menu data
