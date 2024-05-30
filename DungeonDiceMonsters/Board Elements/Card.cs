@@ -128,6 +128,7 @@ namespace DungeonDiceMonsters
         public int MovesPerTurn { get { return _BaseMovesPerTurn; } }
         public bool EffectUsedThisTurn { get { return _EffectUsedThisTurn; } }
         public int AttackRange { get { return _AttackRange; } }
+        public int MoveRange { get { return _MoveRange; } }
         #endregion
 
         #region Public Funtions
@@ -314,7 +315,7 @@ namespace DungeonDiceMonsters
 
         //Ranges
         private int _AttackRange = 1;
-        //TODO: private int _MoveRango = 1;
+        private int _MoveRange = 1;
 
         //Effects
         private Effect _OnSummonEffectObject;

@@ -866,25 +866,12 @@ namespace DungeonDiceMonsters
         private void DisplayMoveCandidates()
         {
             //Clear the current candidate list
-            _MoveCandidates.Clear();
+            _MoveCandidates = _PreviousTileMove.GetMoveRangeTiles();
 
-            //Check each adjencent tile in every direction, if the Tile is Active and is not occupied, then it is a move candidate
-            List<Tile.TileDirection> DirectionsToCheck = new List<Tile.TileDirection>() { Tile.TileDirection.North, Tile.TileDirection.South, Tile.TileDirection.East, Tile.TileDirection.West };
-            foreach(Tile.TileDirection thisDirection in DirectionsToCheck)
+            //Mark the candidate tiles
+            foreach(Tile thisTile in _MoveCandidates)
             {
-                if (_PreviousTileMove.HasAnAdjecentTile(thisDirection))
-                {
-                    Tile thisTile = _PreviousTileMove.GetAdjencentTile(thisDirection);
-                    if (thisTile.Owner != PlayerColor.NONE)
-                    {
-                        if (!thisTile.IsOccupied)
-                        {
-                            //Change the Adjencent tile's border to gree to mark that you can move
-                            thisTile.MarkFreeToMove();
-                            _MoveCandidates.Add(thisTile);
-                        }
-                    }
-                }
+                thisTile.MarkMoveTarget();
             }
         }
         private void DisplaySetCandidates()
@@ -3291,11 +3278,7 @@ namespace DungeonDiceMonsters
 
                 //Attack the card in this tile
                 _AttackTarger = _Tiles[tileId];
-
-                //if the card is facedow, flip it
-                _AttackTarger.CardInPlace.FlipFaceUp();
-                WaitNSeconds(1000);
-
+               
                 //Close the Attack Menu and Reset the UI of all the Attack Range Tiles
                 PanelAttackMenu.Visible = false;               
                 foreach (Tile tile in _AttackRangeTiles)
@@ -3309,6 +3292,10 @@ namespace DungeonDiceMonsters
 
                 //Intructions message can be hidden for both players during the battle phase
                 lblActionInstruction.Visible = false;
+
+                //if the card is facedow, flip it
+                _AttackTarger.CardInPlace.FlipFaceUp();
+                WaitNSeconds(1000);
 
                 //Open the Battle Panel
                 OpenBattleMenu();
@@ -3685,7 +3672,7 @@ namespace DungeonDiceMonsters
             {
                 foreach (Tile thisTile in _FusionSummonTiles)
                 {
-                    thisTile.MarkFreeToMove();
+                    thisTile.MarkMoveTarget();
                 }
 
                 if (UserPlayerColor == TURNPLAYER)
