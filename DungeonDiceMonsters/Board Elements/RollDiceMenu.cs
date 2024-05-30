@@ -114,6 +114,15 @@ namespace DungeonDiceMonsters
                     CardBox.Size = new Size(58, 74);
                     _DeckCardPanelList.Add(CardBox);
 
+                    //Initialize the DiceLvIcon
+                    PictureBox DiceLevelIcon = new PictureBox();
+                    CardBox.Controls.Add(DiceLevelIcon);
+                    DiceLevelIcon.Location = new Point(2, 45);
+                    DiceLevelIcon.Size = new Size(25, 25);
+                    DiceLevelIcon.BorderStyle = BorderStyle.FixedSingle;
+                    DiceLevelIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                    _DeckDiceLevelIconImageList.Add(DiceLevelIcon);
+
                     //Initialize the card Image
                     PictureBox CardImage = new PictureBox();
                     CardBox.Controls.Add(CardImage);
@@ -190,15 +199,31 @@ namespace DungeonDiceMonsters
 
                     //Get the card ID of the card to be displayed
                     int cardID = _PlayerData.Deck.GetMainCardIDAtIndex(x);
+                    CardInfo thisCard = CardDataBase.GetCardWithID(cardID);
 
-                    //Populate the card image with the card ID
+                    //Populate the card image with the card ID and show the dice level icon
                     if (_IsUserTurn)
                     {
                         _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
+                        
+                        //Load the dice level icon
+                        if(thisCard.SecType == SecType.Ritual)
+                        {
+                            _DeckDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCard.DiceLevel, "RITU", thisCard.DiceLevel);
+                        }
+                        else
+                        {
+                            _DeckDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCard.DiceLevel, "STAR", thisCard.DiceLevel);
+                        }
+
+
+                        _DeckDiceLevelIconImageList[x].Visible = true;
                     }
                     else
                     {
                         _DeckCardImageList[x].Image = ImageServer.FullCardImage("0");
+                        _DeckDiceLevelIconImageList[x].Visible = false;
+
                     }
                 }
             }
@@ -581,6 +606,7 @@ namespace DungeonDiceMonsters
         private PlayerColor _TurnPlayerColor = PlayerColor.NONE;
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
+        private List<PictureBox> _DeckDiceLevelIconImageList = new List<PictureBox>();
         private bool _DiceRolled = false;
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
