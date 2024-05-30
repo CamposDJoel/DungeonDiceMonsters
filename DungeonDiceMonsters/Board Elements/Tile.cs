@@ -210,197 +210,7 @@ namespace DungeonDiceMonsters
             _card = null;
             _Occupied = false;            
             ReloadTileUI();
-        }
-        public List<Tile> GetAttackRangeTiles(bool returnCandidatesOnly)
-        {
-            List<Tile> tiles = new List<Tile>();
-
-            //Set the attack range to use
-            int attackRange = _card.AttackRange;
-
-            //Gather the north tiles
-            for (int i = 0; i < attackRange; i++)
-            {
-                List<TileDirection> northDirections = new List<TileDirection>();
-                for (int j = 0; j <= i; j++)
-                {
-                    northDirections.Add(TileDirection.North);
-                }
-                Tile thisNorthTile = GetTileInDirection(northDirections);
-                if (thisNorthTile == null) 
-                {
-                    break;
-                }
-                else
-                {
-                    if (thisNorthTile.IsActive)
-                    {                      
-                        if(returnCandidatesOnly)
-                        {
-                            if(thisNorthTile.IsOccupied)
-                            {
-                                if(thisNorthTile.CardInPlace.Owner != _card.Owner)
-                                {
-                                    tiles.Add(thisNorthTile);
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            tiles.Add(thisNorthTile);
-                        }
-
-                        //If this tile was occupied break the loop
-                        if (thisNorthTile.IsOccupied)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }               
-            }
-
-            //Gather the south tiles
-            for (int i = 0; i < attackRange; i++)
-            {
-                List<TileDirection> southDirections = new List<TileDirection>();
-                for (int j = 0; j <= i; j++)
-                {
-                    southDirections.Add(TileDirection.South);
-                }
-                Tile thisSouthTile = GetTileInDirection(southDirections);
-                if (thisSouthTile == null)
-                {
-                    break;
-                }
-                else
-                {
-                    if (thisSouthTile.IsActive)
-                    {
-                        if (returnCandidatesOnly)
-                        {
-                            if (thisSouthTile.IsOccupied)
-                            {
-                                if (thisSouthTile.CardInPlace.Owner != _card.Owner)
-                                {
-                                    tiles.Add(thisSouthTile);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            tiles.Add(thisSouthTile);
-                        }
-
-                        //If this tile was occupied break the loop
-                        if (thisSouthTile.IsOccupied)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            //Gather the east tiles
-            for (int i = 0; i < attackRange; i++)
-            {
-                List<TileDirection> eastDirections = new List<TileDirection>();
-                for (int j = 0; j <= i; j++)
-                {
-                    eastDirections.Add(TileDirection.East);
-                }
-                Tile thisEastTile = GetTileInDirection(eastDirections);
-                if (thisEastTile == null)
-                {
-                    break;
-                }
-                else
-                {
-                    if (thisEastTile.IsActive)
-                    {
-                        if (returnCandidatesOnly)
-                        {
-                            if (thisEastTile.IsOccupied)
-                            {
-                                if (thisEastTile.CardInPlace.Owner != _card.Owner)
-                                {
-                                    tiles.Add(thisEastTile);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            tiles.Add(thisEastTile);
-                        }
-
-                        //If this tile was occupied break the loop
-                        if (thisEastTile.IsOccupied)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            //Gather the west tiles
-            for (int i = 0; i < attackRange; i++)
-            {
-                List<TileDirection> westDirections = new List<TileDirection>();
-                for (int j = 0; j <= i; j++)
-                {
-                    westDirections.Add(TileDirection.West);
-                }
-                Tile thisWestTile = GetTileInDirection(westDirections);
-                if (thisWestTile == null)
-                {
-                    break;
-                }
-                else
-                {
-                    if (thisWestTile.IsActive)
-                    {
-                        if (returnCandidatesOnly)
-                        {
-                            if (thisWestTile.IsOccupied)
-                            {
-                                if (thisWestTile.CardInPlace.Owner != _card.Owner)
-                                {
-                                    tiles.Add(thisWestTile);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            tiles.Add(thisWestTile);
-                        }
-
-                        //If this tile was occupied break the loop
-                        if (thisWestTile.IsOccupied)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return tiles;
-        }
+        }       
         public bool HasAnAdjecentTileOwnBy(PlayerColor expectedOwner)
         {
             bool hasIt = false;
@@ -439,8 +249,9 @@ namespace DungeonDiceMonsters
 
             return hasIt;
         }     
-        public void MarkFreeToMove()
+        public void MarkMoveTarget()
         {
+            _Border.BackColor = Color.Yellow;
             _CardImage.BackColor = Color.Green;
             //In case the tile has a field type set, remove the card image temparely
             if (_CardImage.BackgroundImage != null) { _CardImage.BackgroundImage.Dispose(); _CardImage.BackgroundImage = null; }
@@ -1049,6 +860,337 @@ namespace DungeonDiceMonsters
             if (tileG7 != null) { if (tileG7.Owner != PlayerColor.NONE) tiles.Add(tileG7); }
 
             if (returnCandidatesOnly) { return tiles; } else { return Alltiles; }
+        }
+        public List<Tile> GetAttackRangeTiles(bool returnCandidatesOnly)
+        {
+            List<Tile> tiles = new List<Tile>();
+
+            //Set the attack range to use
+            int attackRange = _card.AttackRange;
+
+            //Gather the north tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> northDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    northDirections.Add(TileDirection.North);
+                }
+                Tile thisNorthTile = GetTileInDirection(northDirections);
+                if (thisNorthTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisNorthTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisNorthTile.IsOccupied)
+                            {
+                                if (thisNorthTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisNorthTile);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisNorthTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisNorthTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the south tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> southDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    southDirections.Add(TileDirection.South);
+                }
+                Tile thisSouthTile = GetTileInDirection(southDirections);
+                if (thisSouthTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisSouthTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisSouthTile.IsOccupied)
+                            {
+                                if (thisSouthTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisSouthTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisSouthTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisSouthTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the east tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> eastDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    eastDirections.Add(TileDirection.East);
+                }
+                Tile thisEastTile = GetTileInDirection(eastDirections);
+                if (thisEastTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisEastTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisEastTile.IsOccupied)
+                            {
+                                if (thisEastTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisEastTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisEastTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisEastTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the west tiles
+            for (int i = 0; i < attackRange; i++)
+            {
+                List<TileDirection> westDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    westDirections.Add(TileDirection.West);
+                }
+                Tile thisWestTile = GetTileInDirection(westDirections);
+                if (thisWestTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisWestTile.IsActive)
+                    {
+                        if (returnCandidatesOnly)
+                        {
+                            if (thisWestTile.IsOccupied)
+                            {
+                                if (thisWestTile.CardInPlace.Owner != _card.Owner)
+                                {
+                                    tiles.Add(thisWestTile);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tiles.Add(thisWestTile);
+                        }
+
+                        //If this tile was occupied break the loop
+                        if (thisWestTile.IsOccupied)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return tiles;
+        }
+        public List<Tile> GetMoveRangeTiles()
+        {
+            List<Tile> tiles = new List<Tile>();
+
+            //Set the attack range to use
+            int moveRange = _card.MoveRange;
+
+            //Gather the north tiles
+            for (int i = 0; i < moveRange; i++)
+            {
+                List<TileDirection> northDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    northDirections.Add(TileDirection.North);
+                }
+                Tile thisNorthTile = GetTileInDirection(northDirections);
+                if (thisNorthTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisNorthTile.IsActive)
+                    {
+                        if (thisNorthTile.IsOccupied)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            tiles.Add(thisNorthTile);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the south tiles
+            for (int i = 0; i < moveRange; i++)
+            {
+                List<TileDirection> southDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    southDirections.Add(TileDirection.South);
+                }
+                Tile thisSouthTile = GetTileInDirection(southDirections);
+                if (thisSouthTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisSouthTile.IsActive)
+                    {
+                        if (thisSouthTile.IsOccupied)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            tiles.Add(thisSouthTile);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the east tiles
+            for (int i = 0; i < moveRange; i++)
+            {
+                List<TileDirection> eastDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    eastDirections.Add(TileDirection.East);
+                }
+                Tile thisEastTile = GetTileInDirection(eastDirections);
+                if (thisEastTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisEastTile.IsActive)
+                    {
+                        if (thisEastTile.IsOccupied)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            tiles.Add(thisEastTile);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Gather the west tiles
+            for (int i = 0; i < moveRange; i++)
+            {
+                List<TileDirection> westDirections = new List<TileDirection>();
+                for (int j = 0; j <= i; j++)
+                {
+                    westDirections.Add(TileDirection.West);
+                }
+                Tile thisWestTile = GetTileInDirection(westDirections);
+                if (thisWestTile == null)
+                {
+                    break;
+                }
+                else
+                {
+                    if (thisWestTile.IsActive)
+                    {
+                        if (thisWestTile.IsOccupied)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            tiles.Add(thisWestTile);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return tiles;
         }
         #endregion
 

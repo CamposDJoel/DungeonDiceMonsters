@@ -677,7 +677,7 @@ namespace DungeonDiceMonsters
                     if (!(northTile.IsOccupied))
                     {
                         //Change the Adjencent tile's border to gree to mark that you can move
-                        northTile.MarkFreeToMove();
+                        northTile.MarkMoveTarget();
                         _MoveCandidates.Add(northTile);
                     }
                 }
@@ -691,7 +691,7 @@ namespace DungeonDiceMonsters
                     if (!(southTile.IsOccupied))
                     {
                         //Change the Adjencent tile's border to gree to mark that you can move
-                        southTile.MarkFreeToMove();
+                        southTile.MarkMoveTarget();
                         _MoveCandidates.Add(southTile);
                     }
                 }
@@ -705,7 +705,7 @@ namespace DungeonDiceMonsters
                     if (!(eastTile.IsOccupied))
                     {
                         //Change the Adjencent tile's border to gree to mark that you can move
-                        eastTile.MarkFreeToMove();
+                        eastTile.MarkMoveTarget();
                         _MoveCandidates.Add(eastTile);
                     }
                 }
@@ -719,7 +719,7 @@ namespace DungeonDiceMonsters
                     if (!(westTile.IsOccupied))
                     {
                         //Change the Adjencent tile's border to gree to mark that you can move
-                        westTile.MarkFreeToMove();
+                        westTile.MarkMoveTarget();
                         _MoveCandidates.Add(westTile);
                     }
                 }
