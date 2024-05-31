@@ -512,12 +512,12 @@ namespace DungeonDiceMonsters
         {
             return _Tiles;
         }
-        public List<Tile> GetUnoccupiedSummoningTiles(PlayerColor playerColor)
+        public List<Tile> GetUnoccupiedSpellTrapZoneTiles(PlayerColor playerColor)
         {
             List<Tile> tiles = new List<Tile>();
             foreach (Tile thisTile in _Tiles)
             {
-                if (thisTile.IsSummonTile && thisTile.Owner == playerColor && !thisTile.IsOccupied)
+                if (thisTile.IsSpellTrapZone && thisTile.Owner == playerColor && !thisTile.IsOccupied)
                 {
                     tiles.Add(thisTile);
                 }
@@ -587,7 +587,7 @@ namespace DungeonDiceMonsters
             lblActionInstruction.Visible = true;
 
             _SetCandidates.Clear();
-            _SetCandidates = GetUnoccupiedSummoningTiles(TURNPLAYER);
+            _SetCandidates = GetUnoccupiedSpellTrapZoneTiles(TURNPLAYER);
             DisplaySetCandidates();
 
 
@@ -596,11 +596,11 @@ namespace DungeonDiceMonsters
                 //Enable the Board Panel to interact with it
                 PanelBoard.Enabled = true;
 
-                lblActionInstruction.Text = "Select the tile to set the card at.";
+                lblActionInstruction.Text = "Select the Spell/Trap Zone tile to set the card at.";
             }
             else
             {
-                lblActionInstruction.Text = "Opponent is selecting the tile to set the card at.";
+                lblActionInstruction.Text = "Opponent is selecting the Spell/Trap Zone tile to set the card at.";
             }
 
             //Switch to the Set Card Phase of the player
