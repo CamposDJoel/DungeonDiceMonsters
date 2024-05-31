@@ -68,5 +68,13 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Effect Target.png");
         }
+        public static Image SpellTrapZone()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SpellTrapZone.png");
+        }
+        public static Image FaceDownSetCard()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SetFacedownCard.png");
+        }
     }
 }

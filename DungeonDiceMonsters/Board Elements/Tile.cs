@@ -38,9 +38,12 @@ namespace DungeonDiceMonsters
                 case PlayerColor.BLUE: _CardImage.BackColor = Color.DarkBlue; _Border.BackColor = Color.DarkBlue; break;
             }
             //If the tile is a "Summoning Tile" update its backcolor to Orange
-            if (_IsSummonTile)
+            if (_IsSpellTrapZone)
             {
-                _CardImage.BackColor = Color.Orange;
+                if(!IsOccupied)
+                {
+                    _CardImage.BackgroundImage = ImageServer.SpellTrapZone();
+                }                
             }
 
             //Hide the overlay icon (this should only be visible in specific situations)
@@ -78,7 +81,7 @@ namespace DungeonDiceMonsters
                         //The card will be a Spell/Trap
                         if(_card.IsFaceDown)
                         {
-                            _CardImage.BackgroundImage = ImageServer.CardArtworkImage("0");
+                            _CardImage.BackgroundImage = ImageServer.FaceDownSetCard();
                         }
                         else
                         {
@@ -92,9 +95,10 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                ImageServer.RemoveImageFromPanel(_CardImage);
+                if (!_IsSpellTrapZone) { ImageServer.RemoveImageFromPanel(_CardImage); }
+                
                 //if the Fiel Type value is set, load its image
-                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSummonTile)
+                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSpellTrapZone)
                 {
                     _CardImage.BackgroundImage = ImageServer.FieldTile(_FieldType.ToString());
                 }
@@ -168,7 +172,7 @@ namespace DungeonDiceMonsters
             {
                 _card = card;
                 _Occupied = true;
-                _IsSummonTile = true;
+                _IsSpellTrapZone = true;
                 _card.SetCurrentTile(this);
                 ReloadTileUI();
             }          
@@ -183,7 +187,7 @@ namespace DungeonDiceMonsters
             {
                 _card = card;
                 _Occupied = true;
-                _IsSummonTile = false;
+                _IsSpellTrapZone = false;
                 _card.SetCurrentTile(this);
                 ReloadTileUI();
             }            
@@ -1224,7 +1228,7 @@ namespace DungeonDiceMonsters
         public Card CardInPlace { get { return _card; } }
         public bool IsOccupied { get { return _Occupied; } }
         public bool IsActive { get { return Owner != PlayerColor.NONE; } }
-        public bool IsSummonTile { get { return _IsSummonTile; } }
+        public bool IsSpellTrapZone { get { return _IsSpellTrapZone; } }
         public PlayerColor Owner { get { return _Owner; } }
         public int CardID
         {
@@ -1251,7 +1255,7 @@ namespace DungeonDiceMonsters
         private Label _StatsLabelATK;
         private Label _StatsLabelDEF;
         private bool _Occupied = false;
-        private bool _IsSummonTile = false;
+        private bool _IsSpellTrapZone = false;
         private Card _card = null;
         private PlayerColor _Owner = PlayerColor.NONE;
         private Tile _NorthTile = null;

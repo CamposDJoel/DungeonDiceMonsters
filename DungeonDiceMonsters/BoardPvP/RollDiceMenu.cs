@@ -85,7 +85,7 @@ namespace DungeonDiceMonsters
             }
 
             //Initialize the flag of free summon tiles, this is going to be used to determine if the player can set Spell/Traps
-            _UnoccupiedSummonTiles = _PvPBoard.GetUnoccupiedSummoningTiles(_TurnPlayerColor).Count > 0;
+            _UnoccupiedSummonTiles = _PvPBoard.GetUnoccupiedSpellTrapZoneTiles(_TurnPlayerColor).Count > 0;
 
             InitializeDeckComponents();
             LoadDeckPage();
