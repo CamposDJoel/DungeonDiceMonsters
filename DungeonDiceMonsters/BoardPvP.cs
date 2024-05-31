@@ -3897,6 +3897,7 @@ namespace DungeonDiceMonsters
         #region Share Methods for Effects Execution
         private void ActivateEffect(Effect thisEffect)
         {
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             switch (thisEffect.ID)
             {
                 case Effect.EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
@@ -4017,8 +4018,7 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your DARK monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will reach to all summons: if the summon is the owner's monster and it a DARK Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //This effect will reach to all summons: if the summon is the owner's monster and it a DARK Attribute: affect it.                       
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4093,7 +4093,6 @@ namespace DungeonDiceMonsters
             //Increase the ATK of all your LIGHT monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
             //This effect will reach to all summons: if the summon is the owner's monster and it a LIGHT Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4168,7 +4167,6 @@ namespace DungeonDiceMonsters
             //Increase the ATK of all your WATER monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
             //This effect will react to all summons: if the summon is the owner's monster and its a WATER Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4243,7 +4241,6 @@ namespace DungeonDiceMonsters
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
             //This effect will react to all summons: if the summon is the owner's monster and its a FIRE Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4318,7 +4315,6 @@ namespace DungeonDiceMonsters
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
             //This effect will react to all summons: if the summon is the owner's monster and its a EARTH Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4393,7 +4389,6 @@ namespace DungeonDiceMonsters
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
             //This effect will react to all summons: if the summon is the owner's monster and its a WIND Attribute: affect it.            
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
@@ -4466,7 +4461,6 @@ namespace DungeonDiceMonsters
         {
             //EFFECT DESCRIPTION
             //Change the field type of all the active tile in the field activation area (7x7 tile grid)       
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
 
             //Step 1: Set the "Reaction To" flags
             //Field Spells are one and done and do not react to other events
@@ -4560,7 +4554,6 @@ namespace DungeonDiceMonsters
 
             //EFFECT DESCRIPTION
             //Will increase the ATK of all your monsters on the board with the name "M-Warrior #2" by 500.
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2" && thisCard.Owner == thisEffect.Owner)
@@ -4583,9 +4576,7 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //And Resolve the effect
-            //EFFECT DESCRIPTION:
-            //Add 1 [DEF] to the owener's crest pool
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //EFFECT DESCRIPTION: Add 1 [DEF] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
 
             //NO more action needed, return to the Main Phase
@@ -4605,9 +4596,7 @@ namespace DungeonDiceMonsters
             //Hide the panel now to resolve the effect
             HideEffectMenuPanel();
 
-            //EFFECT DESCRIPTION
-            //Will increase the DEF of all your monsters on the board with the name "M-Warrior #1" by 500.
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //EFFECT DESCRIPTION:Will increase the DEF of all your monsters on the board with the name "M-Warrior #1" by 500.
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #1" && thisCard.Owner == thisEffect.Owner)
@@ -4630,9 +4619,7 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //And Resolve the effect
-            //EFFECT DESCRIPTION:
-            //Add 1 [ATK] to the owener's crest pool
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //EFFECT DESCRIPTION: Add 1 [ATK] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
 
             //NO more action needed, return to the Main Phase
@@ -4748,9 +4735,7 @@ namespace DungeonDiceMonsters
             thisEffect.ReactsToMonsterDestroyed = true;
 
             //Step 3: Resolve the effect
-            //EFFECT DESCRIPTION
-            //Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if(!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
@@ -4798,9 +4783,7 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //And Resolve the effect
-            //EFFECT DESCRIPTION:
-            //Add 2 [ATK] and 2 [DEF] to the owener's crest pool
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            //EFFECT DESCRIPTION: Add 2 [ATK] and 2 [DEF] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 2);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 2);
 
@@ -4819,10 +4802,7 @@ namespace DungeonDiceMonsters
             thisEffect.ReactsToAttributeChange = true;           
 
             //And Resolve the effect
-            //EFFECT DESCRIPTION:
-            //Target 1 opponent monster; change its attributo to FIRE until the end of this turn.
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}] | Target 1 opponent monster to change its attribute to FIRE until the end of this turn.", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
-            
+            //EFFECT DESCRIPTION: Target 1 opponent monster; change its attributo to FIRE until the end of this turn.
 
             //Generate the Target Candidate list
             _EffectTargetCandidates.Clear();
@@ -4919,11 +4899,8 @@ namespace DungeonDiceMonsters
             //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
             DisplayOnSummonEffectPanel(thisEffect);
 
-            //EFFECT DESCRIPTION
-            // Add 3 [ATK] to the controller's crest pool
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
-            PlayerColor ControllersColor = thisEffect.Owner;
-            AdjustPlayerCrestCount(ControllersColor, Crest.ATK, 3);
+            //EFFECT DESCRIPTION: Add 3 [ATK] to the controller's crest pool
+            AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, 3);
 
             HideEffectMenuPanel();
 
@@ -4940,7 +4917,6 @@ namespace DungeonDiceMonsters
 
             //EFFECT DESCRIPTION
             //increase the DEF off all controller's owned Thunder-Type monsters by 500. (EXCEPT THE ORIGIN CARD)
-            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (thisCard.Owner == thisEffect.Owner)
