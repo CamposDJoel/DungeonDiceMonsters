@@ -508,8 +508,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute.ToString());
-            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute.ToString());
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.CurrentAttribute.ToString());
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.CurrentAttribute.ToString());
 
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
@@ -563,12 +563,12 @@ namespace DungeonDiceMonsters
                 {
                     if(thisCard.IsASymbol)
                     {
-                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.Attribute.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.CurrentAttribute.ToString());
 
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = "";
                         lblCardLevel.Text = "";
-                        lblAttribute.Text = thisCard.Attribute.ToString();
+                        lblAttribute.Text = thisCard.CurrentAttribute.ToString();
                         lblStatsATK.Text = "";
                         lblStatsDEF.Text = "";
                         lblStatsLP.Text = thisCard.LP.ToString();
@@ -589,7 +589,7 @@ namespace DungeonDiceMonsters
                         if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
                         else { lblCardLevel.Text = ""; }
 
-                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
+                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.CurrentAttribute.ToString(); }
                         else { lblAttribute.Text = ""; }
 
                         if (thisCard.Category == Category.Monster)
@@ -627,12 +627,12 @@ namespace DungeonDiceMonsters
 
                         if (thisCard.HasOnSummonEffect)
                         {
-                            fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+                            fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffectText + "\n\n";
                         }
 
                         if (thisCard.HasContinuousEffect)
                         {
-                            fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+                            fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffectText + "\n\n";
                         }
 
                         if (thisCard.HasAbility)
@@ -642,7 +642,7 @@ namespace DungeonDiceMonsters
 
                         if (thisCard.HasIgnitionEffect)
                         {
-                            fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+                            fullcardtext = fullcardtext + thisCard.IgnitionEffectText + "\n\n";
                         }
                         lblCardText.Text = fullcardtext;
                     }
@@ -782,7 +782,7 @@ namespace DungeonDiceMonsters
             {
                 if (Defender.IsASymbol)
                 {
-                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.CurrentAttribute.ToString());
                 }
                 else
                 {
@@ -837,14 +837,14 @@ namespace DungeonDiceMonsters
         }
         private bool HasAttributeAdvantage(Card attacker, Card defender)
         {
-            switch (attacker.Attribute)
+            switch (attacker.CurrentAttribute)
             {
-                case Attribute.LIGHT: if (defender.Attribute == Attribute.DARK) { return true; } else { return false; }
-                case Attribute.DARK: if (defender.Attribute == Attribute.LIGHT) { return true; } else { return false; }
-                case Attribute.WATER: if (defender.Attribute == Attribute.FIRE) { return true; } else { return false; }
-                case Attribute.FIRE: if (defender.Attribute == Attribute.EARTH) { return true; } else { return false; }
-                case Attribute.EARTH: if (defender.Attribute == Attribute.WIND) { return true; } else { return false; }
-                case Attribute.WIND: if (defender.Attribute == Attribute.WATER) { return true; } else { return false; }
+                case Attribute.LIGHT: if (defender.CurrentAttribute == Attribute.DARK) { return true; } else { return false; }
+                case Attribute.DARK: if (defender.CurrentAttribute == Attribute.LIGHT) { return true; } else { return false; }
+                case Attribute.WATER: if (defender.CurrentAttribute == Attribute.FIRE) { return true; } else { return false; }
+                case Attribute.FIRE: if (defender.CurrentAttribute == Attribute.EARTH) { return true; } else { return false; }
+                case Attribute.EARTH: if (defender.CurrentAttribute == Attribute.WIND) { return true; } else { return false; }
+                case Attribute.WIND: if (defender.CurrentAttribute == Attribute.WATER) { return true; } else { return false; }
                 default: return false;
             }
         }    

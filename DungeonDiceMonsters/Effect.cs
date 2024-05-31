@@ -36,6 +36,10 @@ namespace DungeonDiceMonsters
         {
             _AffectedByList.Add(thisCard);
         }
+        public void RemoveAffectedByCard(Card thisCard)
+        {
+            _AffectedByList.Remove(thisCard);
+        }
         #endregion
 
         #region Data
@@ -100,6 +104,7 @@ namespace DungeonDiceMonsters
                 case "M-Warrior #2": if (type == EffectType.OnSummon) { return EffectID.MWarrior2_OnSummon; } else { return EffectID.MWarrior2_Ignition; }
                 case "Polymerization": return EffectID.Polymerization;
                 case "Karbonala Warrior": if (type == EffectType.Continuous) { return EffectID.KarbonalaWarrior_Continuous; } else { return EffectID.KarbonalaWarrior_Ignition; }
+                case "Fire Kraken": return EffectID.FireKraken;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -154,6 +159,7 @@ namespace DungeonDiceMonsters
             Polymerization,
             KarbonalaWarrior_Continuous,
             KarbonalaWarrior_Ignition,
+            FireKraken,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,
         }
