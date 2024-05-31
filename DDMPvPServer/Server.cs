@@ -13,7 +13,9 @@ namespace DDMPvPServer
 {
     public partial class Server : Form
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Server()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             InitializeComponent();
         }
@@ -34,9 +36,13 @@ namespace DDMPvPServer
         {
             while (true)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 TcpClient ConnectingClient = ServerSocket.AcceptTcpClient();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 lock (_lock) list_clients.Add(clinetcount, ConnectingClient);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} connected!", clinetcount));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                 //add the client to the current active match
                 Match activeMatch = list_Matches[matchcount];
@@ -64,7 +70,9 @@ namespace DDMPvPServer
                     SendMessage("[WAITING FOR PLAYER 2]", ConnectingClient);
                 }
 
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
                 Thread t = new Thread(handle_clients);
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
                 t.Start(clinetcount);
                 clinetcount++;
             }
@@ -112,7 +120,9 @@ namespace DDMPvPServer
                     string MessageKey = MessageTokens[0];
 
                     //Step 5: Set the Client's Player Color
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                     //Log the message received
                     ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, data));
@@ -139,7 +149,9 @@ namespace DDMPvPServer
                             break;
 
                         case "[GAME OVER]":
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                             staticServerObject.UpdateConnectionLog(string.Format("X Client ID: {0} disconnected during the Game Over!", id));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                             ActiveMatch.AddLogMessage(string.Format("X Player [{0}] disconnected during the game over. Match will be closed.", ClientPlayerColor));
                             ActiveMatch.CloseMatch();
                             //Just forward this back to the same clieent so the thread can end the connection
@@ -158,14 +170,17 @@ namespace DDMPvPServer
                 }
                 catch
                 {
-                    if(ActiveMatch.IsClosed())
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                    if (ActiveMatch.IsClosed())
                     {
                         //Both players already disconnected at this point, just break the loop
                         break;
                     }
                     else if (ActiveMatch.AreBothPlayersReady())
                     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} disconnected during the active match!", id));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                         //Send the opponent player a notification message this player has been disconnected
                         //Once this player receives the notification, their client app will disconnect them from the server manually.
@@ -184,10 +199,13 @@ namespace DDMPvPServer
                         //The match is waiting for the second player to join.
                         //Remove this player form the match
                         ActiveMatch.RemovePlayerInWaiting();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         staticServerObject.UpdateConnectionLog(string.Format("Client ID: {0} disconnected!", id));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                         staticServerObject.UpdateConnectionLog(string.Format("Match ID: {0} open for players.", matchcount));
                         break;
                     }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
             }
 
@@ -241,7 +259,9 @@ namespace DDMPvPServer
         private void btnStop_Click(object sender, EventArgs e)
         {
             btnStop.Visible = false;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             ServerSocket.Stop();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             list_Matches.Clear();
             btnStart.Visible = true;
         }
