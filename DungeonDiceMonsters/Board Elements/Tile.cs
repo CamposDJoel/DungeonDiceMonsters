@@ -57,14 +57,14 @@ namespace DungeonDiceMonsters
                 //If the Card is a symbol load the Symbol card artwork
                 if (_card.IsASymbol)
                 {
-                    _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Symbols\\" + _card.Attribute.ToString() + ".png");
+                    _CardImage.BackgroundImage = ImageServer.Symbol(_card.CurrentAttribute.ToString());
                 }
                 else
                 {
                     //if the Card is a Monster (Faceup) load the monster artwork and stats
                     if (_card.Category == Category.Monster)
                     {
-                        _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + _card.CardID.ToString() + ".jpg");
+                        _CardImage.BackgroundImage = ImageServer.CardArtworkImage(_card.CardID.ToString());
 
                         _StatsLabelATK.Text = _card.ATK.ToString();
                         _StatsLabelDEF.Text = _card.DEF.ToString();
@@ -78,11 +78,11 @@ namespace DungeonDiceMonsters
                         //The card will be a Spell/Trap
                         if(_card.IsFaceDown)
                         {
-                            _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\0.jpg");
+                            _CardImage.BackgroundImage = ImageServer.CardArtworkImage("0");
                         }
                         else
                         {
-                            _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Artwork\\" + _card.CardID.ToString() + ".jpg");
+                            _CardImage.BackgroundImage = ImageServer.CardArtworkImage(_card.CardID.ToString());
                         }
                         
                         _StatsLabelATK.Visible = false;
@@ -96,7 +96,7 @@ namespace DungeonDiceMonsters
                 //if the Fiel Type value is set, load its image
                 if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSummonTile)
                 {
-                    _CardImage.BackgroundImage = Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Field Tiles\\" + _FieldType.ToString() + ".jpg");
+                    _CardImage.BackgroundImage = ImageServer.FieldTile(_FieldType.ToString());
                 }
 
                 _StatsLabelATK.Visible = false;
@@ -260,6 +260,13 @@ namespace DungeonDiceMonsters
         {
             //Place the overlay icon of the attack target
             _OverlayIcon.Image = ImageServer.AttackTargetIcon();
+            _OverlayIcon.Visible = true;
+        }
+        public void MarkEffectTarget()
+        {
+            _Border.BackColor = Color.Green;
+            //Place the overlay icon of the attack target
+            _OverlayIcon.Image = ImageServer.EffectTargetIcon();
             _OverlayIcon.Visible = true;
         }
         public void MarkSetTarget()

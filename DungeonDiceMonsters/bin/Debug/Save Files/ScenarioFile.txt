@@ -9,7 +9,7 @@ RED MONSTERS|6
 56342351|136|M-Warrior #1
 89631139|116|Blue-Eyes White Dragon
 89631139|123|Blue-Eyes White Dragon
-89631139|175|Blue-Eyes White Dragon
+46534755|175|Fire Kraken
 -----------------------------------------
 BLUE MONSTERS|4
 75745607|226|Hino-Kagu-Tsuchi

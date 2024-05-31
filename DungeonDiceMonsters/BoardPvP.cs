@@ -188,8 +188,8 @@ namespace DungeonDiceMonsters
             LaunchTurnStartPanel();
 
             //Initialize both Symbols Continuous Effect
-            ActivateEffect(_RedSymbol.ContinuousEffect);
-            ActivateEffect(_BlueSymbol.ContinuousEffect);
+            ActivateEffect(_RedSymbol.GetContinuousEffect());
+            ActivateEffect(_BlueSymbol.GetContinuousEffect());
         }
         public BoardPvP(PlayerData Red, PlayerData Blue, PlayerColor UserColor, NetworkStream tmpns, PvPMenu pvpmenu, bool testing)
         {
@@ -364,8 +364,8 @@ namespace DungeonDiceMonsters
             LaunchTurnStartPanel();
 
             //Initialize both Symbols Continuous Effect
-            ActivateEffect(_RedSymbol.ContinuousEffect);
-            ActivateEffect(_BlueSymbol.ContinuousEffect);
+            ActivateEffect(_RedSymbol.GetContinuousEffect());
+            ActivateEffect(_BlueSymbol.GetContinuousEffect());
 
             //Load the scenario file to set the board
             LoadScenarioFile();
@@ -416,7 +416,7 @@ namespace DungeonDiceMonsters
                     int thisMonsterId = Convert.ToInt32(MonsterInfo[0]);
                     int thisTileId = Convert.ToInt32(MonsterInfo[1]);
                     CardInfo thisRedMonsterInfo = CardDataBase.GetCardWithID(thisMonsterId);
-                    Card thisCard = new Card(thisMonsterId, thisRedMonsterInfo, PlayerColor.RED, false);
+                    Card thisCard = new Card(_CardsOnBoard.Count, thisRedMonsterInfo, PlayerColor.RED, false);
                     _CardsOnBoard.Add(thisCard);
                     _Tiles[thisTileId].SummonCard(thisCard);
                 }
@@ -438,7 +438,7 @@ namespace DungeonDiceMonsters
                     int thisTileId = Convert.ToInt32(MonsterInfo[1]);
                     CardInfo thisBlueMonsterInfo = CardDataBase.GetCardWithID(thisMonsterId);
 
-                    Card thisCard = new Card(thisMonsterId, thisBlueMonsterInfo, PlayerColor.BLUE, false);
+                    Card thisCard = new Card(_CardsOnBoard.Count, thisBlueMonsterInfo, PlayerColor.BLUE, false);
                     _CardsOnBoard.Add(thisCard);
                     _Tiles[thisTileId].SummonCard(thisCard);
                 }
@@ -634,8 +634,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.Attribute.ToString());
-            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.Attribute.ToString());
+            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.CurrentAttribute.ToString());
+            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.CurrentAttribute.ToString());
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
             lblBlueLP.Text = _BlueSymbol.LP.ToString();
@@ -698,12 +698,12 @@ namespace DungeonDiceMonsters
                 {
                     if (thisCard.IsASymbol)
                     {
-                        PicCardArtworkBottom.Image = ImageServer.FullCardSymbol(thisCard.Attribute.ToString());
+                        PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.CurrentAttribute.ToString());
 
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = string.Empty;
                         lblCardLevel.Text = string.Empty;
-                        lblAttribute.Text = thisCard.Attribute.ToString();
+                        lblAttribute.Text = thisCard.CurrentAttribute.ToString();
                         lblStatsATK.Text = string.Empty;
                         lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
@@ -733,7 +733,7 @@ namespace DungeonDiceMonsters
                         if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
                         else { lblCardLevel.Text = ""; }
 
-                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
+                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.CurrentAttribute.ToString(); }
                         else { lblAttribute.Text = ""; }
 
                         if (thisCard.Category == Category.Monster)
@@ -926,14 +926,14 @@ namespace DungeonDiceMonsters
         }              
         private bool HasAttributeAdvantage(Card attacker, Card defender)
         {
-            switch (attacker.Attribute)
+            switch (attacker.CurrentAttribute)
             {
-                case Attribute.LIGHT: if (defender.Attribute == Attribute.DARK) { return true; } else { return false; }
-                case Attribute.DARK: if (defender.Attribute == Attribute.LIGHT) { return true; } else { return false; }
-                case Attribute.WATER: if (defender.Attribute == Attribute.FIRE) { return true; } else { return false; }
-                case Attribute.FIRE: if (defender.Attribute == Attribute.EARTH) { return true; } else { return false; }
-                case Attribute.EARTH: if (defender.Attribute == Attribute.WIND) { return true; } else { return false; }
-                case Attribute.WIND: if (defender.Attribute == Attribute.WATER) { return true; } else { return false; }
+                case Attribute.LIGHT: if (defender.CurrentAttribute == Attribute.DARK) { return true; } else { return false; }
+                case Attribute.DARK: if (defender.CurrentAttribute == Attribute.LIGHT) { return true; } else { return false; }
+                case Attribute.WATER: if (defender.CurrentAttribute == Attribute.FIRE) { return true; } else { return false; }
+                case Attribute.FIRE: if (defender.CurrentAttribute == Attribute.EARTH) { return true; } else { return false; }
+                case Attribute.EARTH: if (defender.CurrentAttribute == Attribute.WIND) { return true; } else { return false; }
+                case Attribute.WIND: if (defender.CurrentAttribute == Attribute.WATER) { return true; } else { return false; }
                 default: return false;
             }
         }
@@ -1114,6 +1114,7 @@ namespace DungeonDiceMonsters
                 case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
                 case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[2])); break;
                 case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[2])); break;
+                case "[CLICK TILE TO EFFECT TARGET]": TileClick_EffectTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
             }
         }
         #endregion
@@ -1507,11 +1508,13 @@ namespace DungeonDiceMonsters
             tileLocation.DestroyCard();
 
             //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes
-            if(_ActiveEffects.Contains(thisCard.ContinuousEffect))
+            foreach(Effect thisActiveEffect in _ActiveEffects)
             {
-                Effect thisEffect = thisCard.ContinuousEffect;
-                UpdateEffectLogs(string.Format("Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}] | Removing Continuous Effect: [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner, thisEffect.ID));
-                RemoveEffect(thisEffect);
+                if (thisActiveEffect.OriginCard == thisCard && thisActiveEffect.Type == Effect.EffectType.Continuous)
+                {
+                    UpdateEffectLogs(string.Format("Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}] | Removing Continuous Effect: [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner, thisActiveEffect.ID));
+                    RemoveEffect(thisActiveEffect);
+                }
             }
 
             //Finally, check if any active effects react to a card destryuction
@@ -1618,6 +1621,48 @@ namespace DungeonDiceMonsters
                 {
                     thisTile.MarkFusionMaterialTarget();
                 }
+            }
+        }
+        private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
+        {
+            UpdateEffectLogs(string.Format("Card [{0}] with On Board Id [{1}] Attribute was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
+
+            //NOTE REGARDING: "modifierEffect" argument
+            //Some effect reactions are going to need to know which effect was the one that created the Attribut change on the monster
+            //in order to validate if they react to it or not.
+            //For example: Fire Kraken will change the attribute of a monster but that same action will trigger a reaction check on attribute change
+            //which Fire Kraken WILL do. We do not want Fire Kraken's effect to react to its own effect lol so I need to know which is the effect that
+            //cause the modification, and if that effect is the same as the one being validating for reaction, it should NOT REACT.
+
+            //Attribute changes can make active effects to be override and thus removed from the active effects list
+            //Use the following list to flag those effects and after all the effects in the active effect lists have been check for reaction,
+            //remove them.
+            //WE CANNOT REMOVE EFFECTS FROM THE _ActiveEffect LIST WHILE THE FOREACH LOOP IS ACTIVE
+            _EffectsToBeRemovedByAttributeChangeReaction.Clear();
+
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if (thisActiveEffect.ReactsToAttributeChange)
+                {
+                    switch (thisActiveEffect.ID)
+                    {
+                        case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FireKraken: FireKraken_ReactTo_AttributeChange(thisActiveEffect, targetCard, modifierEffect); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
+                    }
+                }
+            }
+
+            //Now safely remove any effects that need to be remove
+            foreach(Effect thisEffectToRemove in _EffectsToBeRemovedByAttributeChangeReaction)
+            {
+               _ActiveEffects.Remove(thisEffectToRemove);
+                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
             }
         }
         #endregion
@@ -1878,6 +1923,23 @@ namespace DungeonDiceMonsters
 
                         //Perform the action
                         TileClick_FusionSummon_Base(tileID);
+                    }
+                    else
+                    {
+                        SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                    }
+                }
+                else if (_CurrentGameState == GameState.EffectTargetSelection)
+                {
+                    if (_EffectTargetCandidates.Contains(thisTile))
+                    {
+                        _CurrentGameState = GameState.NOINPUT;
+
+                        //Send the action message to the server
+                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO EFFECT TARGET]", _CurrentGameState.ToString(), tileID));
+
+                        //Perform the action
+                        TileClick_EffectTarget_Base(tileID);
                     }
                     else
                     {
@@ -2783,12 +2845,17 @@ namespace DungeonDiceMonsters
                 }
 
                 //1 turn effects are removed.
+                List<Effect> effectsToBeRemove = new List<Effect>();
                 foreach(Effect thisEffect in _ActiveEffects)
                 {
                     if(thisEffect.IsAOneTurnIgnition)
                     {
-                        RemoveEffect(thisEffect);
+                        effectsToBeRemove.Add(thisEffect);
                     }
+                }
+                foreach(Effect thisEffect in effectsToBeRemove)
+                {
+                    RemoveEffect(thisEffect);
                 }
 
                 //Change the TURNPLAYER
@@ -2970,17 +3037,17 @@ namespace DungeonDiceMonsters
                 _CardEffectToBeActivated = null;
                 if (thisCard.Category == Category.Monster && thisCard.HasIgnitionEffect)
                 {
-                    _CardEffectToBeActivated = thisCard.IgnitionEffect;
+                    _CardEffectToBeActivated = thisCard.GetIgnitionEffect();
                 }
                 else if (thisCard.Category == Category.Spell)
                 {
                     if (thisCard.HasContinuousEffect)
                     {
-                        _CardEffectToBeActivated = thisCard.ContinuousEffect;
+                        _CardEffectToBeActivated = thisCard.GetContinuousEffect();
                     }
                     else if (thisCard.HasIgnitionEffect)
                     {
-                        _CardEffectToBeActivated = thisCard.IgnitionEffect;
+                        _CardEffectToBeActivated = thisCard.GetIgnitionEffect();
                     }
                 }
 
@@ -3102,6 +3169,7 @@ namespace DungeonDiceMonsters
                     switch (thisEffectID)
                     {
                         case Effect.EffectID.Polymerization: return Polymerization_MetsRequirement();
+                        case Effect.EffectID.FireKraken: return FireKraken_MetsRequirement();
                         default: return "Requirements Met";
                     }
 
@@ -3164,6 +3232,29 @@ namespace DungeonDiceMonsters
                             else { return "No fusion requirements met."; }
                         }
                         else { return "No cards in the Fusion Deck."; }
+                    }
+                    string FireKraken_MetsRequirement()
+                    {
+                        //REQUIREMENT: Opponent must have any 1 monster on the board
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if(!thisBoardCard.IsDiscardted && thisBoardCard.Owner == OPPONENTPLAYER)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
                     }
                 }
             }
@@ -3345,7 +3436,7 @@ namespace DungeonDiceMonsters
                 }
                 else if (Defender.Category == Category.Symbol)
                 {
-                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.Attribute.ToString());
+                    PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.CurrentAttribute.ToString());
                     lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                     lblDefenderDEF.Text = "DEF: 0";
                 }
@@ -3524,10 +3615,13 @@ namespace DungeonDiceMonsters
                 //Step 3: Reduce the cost from the player's crest pool
                 AdjustPlayerCrestCount(TURNPLAYER, _CardEffectToBeActivated.CrestCost, -_CardEffectToBeActivated.CostAmount);
 
-                //Step 4: Give a small pause to allow the opposite player to see the effect revealed on their end
+                //Step 4:Flag the Effect Activation this turn
+                _CardEffectToBeActivated.OriginCard.MarkEffectUsedThisTurn();
+
+                //Step 5: Give a small pause to allow the opposite player to see the effect revealed on their end
                 WaitNSeconds(2000);
 
-                //Step 5: Close the Effect Menu and active the effect
+                //Step 6: Close the Effect Menu and active the effect
                 PanelEffectActivationMenu.Visible = false;
                 WaitNSeconds(500);
                 ActivateEffect(_CardEffectToBeActivated);
@@ -3717,6 +3811,27 @@ namespace DungeonDiceMonsters
                 SummonMonster(_FusionToBeSummoned, tileId);
             }));
         }
+        private void TileClick_EffectTarget_Base(int tileId)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+                //Step 1: Reset the UI of all the target candidates
+                foreach (Tile thisTile in _EffectTargetCandidates)
+                {
+                    thisTile.ReloadTileUI();
+                }
+
+                //Step 2: Highlight the selected target for the opponent to have clear visibility of which one was selected
+                Tile TargetTile = _Tiles[tileId];
+                TargetTile.HighlightTile();
+
+                //Step 3: Go to the "Post target" method for the selected effect
+                //The _CurrentPostTargetEffect will drive the direction of this method execution
+                GoToPostTargetEffect(TargetTile);
+            }));          
+        }
         #endregion
 
         #region Data
@@ -3740,6 +3855,9 @@ namespace DungeonDiceMonsters
         private List<Tile> _AttackRangeTiles = new List<Tile>();
         private Tile _AttackTarger;
         private Tile _AttackerTile = null;
+        //Effect Action Data
+        private List<Tile> _EffectTargetCandidates = new List<Tile>();
+        private PostTargetState _CurrentPostTargetState = PostTargetState.NONE;      
         //Battle menu data
         private int _AttackBonusCrest = 0;
         private int _DefenseBonusCrest = 0;
@@ -3765,6 +3883,7 @@ namespace DungeonDiceMonsters
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
         private Effect _CardEffectToBeActivated;
+        private List<Effect> _EffectsToBeRemovedByAttributeChangeReaction = new List<Effect>();
         //Fusion Sequence Data
         private bool[] _FusionCardsReadyForFusion = new bool[3];
         private CardInfo _FusionToBeSummoned;
@@ -3804,6 +3923,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Polymerization: Polymerization_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Ignition: KarbonalaWarrior_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.FireKraken: FireKraken_IgnitionActivation(thisEffect);  break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
@@ -3815,6 +3935,7 @@ namespace DungeonDiceMonsters
             switch (thisEffect.ID)
             {
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FireKraken: FireKraken_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
             //Remove the effect from the Active effect list
@@ -3855,6 +3976,39 @@ namespace DungeonDiceMonsters
             //Now you can close the On Summon Panel
             PanelEffectActivationMenu.Visible = false;
         }                   
+        private void InitializeEffectTargetSelection()
+        {
+            //Step 0: _EffectTargetCandidates list has already been initialize by the effect activation method
+
+            //Step 1: Highlight and place the "target" overlay icon in the tiles of the target candidates
+            foreach (Tile thisCandidate in _EffectTargetCandidates)
+            {
+                thisCandidate.MarkEffectTarget();
+            }
+
+            //Step 2: Update the Instruction Message for both players
+            if(UserPlayerColor == TURNPLAYER)
+            {
+                lblActionInstruction.Text = "Select a target!";
+            }
+            else
+            {
+                lblActionInstruction.Text = "Opponent is selecting a target!";
+            }
+            lblActionInstruction.Visible = true;
+
+            //Step 3: Change the game state so the player can make its action
+            _CurrentGameState = GameState.EffectTargetSelection;
+        }
+        private void GoToPostTargetEffect(Tile TargetTile)
+        {
+            UpdateEffectLogs(string.Format("Target Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID));
+
+            switch (_CurrentPostTargetState)
+            {
+                case PostTargetState.FireKrakenEffect: FireKraken_PostTargetEffect(TargetTile);  break;
+            }
+        }
         #endregion
 
         #region "Dark Symbol"
@@ -3875,12 +4029,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.DARK)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.DARK)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -3895,14 +4047,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is DARK Attribute...
-                if (targetCard.Attribute == Attribute.DARK)
+                if (targetCard.CurrentAttribute == Attribute.DARK)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void DarkSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Dark Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Dark Symbol's effect's affected by list and the target card is NOT longer DARK,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.DARK)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer a DARK attribute monster. The effects of Dark Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Dark Symbol's effect's affected by list and the target card is NOW DARK and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if(!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.DARK && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now a DARK attribute monster. Dark Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -3925,12 +4104,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.LIGHT)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.LIGHT)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -3945,14 +4122,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is LIGHT Attribute...
-                if (targetCard.Attribute == Attribute.LIGHT)
+                if (targetCard.CurrentAttribute == Attribute.LIGHT)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void LightSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Light Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Light Symbol's effect's affected by list and the target card is NOT longer LIGHT,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.LIGHT)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer a LIGHT attribute monster. The effects of Light Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Light Symbol's effect's affected by list and the target card is NOW Light and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.LIGHT && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now a LIGHT attribute monster. Light Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -3975,12 +4179,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.WATER)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.WATER)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -3995,14 +4197,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is WATER Attribute...
-                if (targetCard.Attribute == Attribute.WATER)
+                if (targetCard.CurrentAttribute == Attribute.WATER)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void WaterSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Water Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Water Symbol's effect's affected by list and the target card is NOT longer WATER,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.WATER)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer a WATER attribute monster. The effects of Water Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Water Symbol's effect's affected by list and the target card is NOW WATER and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.WATER && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now a WATER attribute monster. Water Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -4025,12 +4254,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.FIRE)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.FIRE)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -4045,14 +4272,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is FIRE Attribute...
-                if (targetCard.Attribute == Attribute.FIRE)
+                if (targetCard.CurrentAttribute == Attribute.FIRE)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void FireSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Fire Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Fire Symbol's effect's affected by list and the target card is NOT longer FIRE,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.FIRE)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer a FIRE attribute monster. The effects of Fire Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Fire Symbol's effect's affected by list and the target card is NOW WATER and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.FIRE && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now a FIRE attribute monster. Fire Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -4075,12 +4329,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.EARTH)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.EARTH)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -4095,14 +4347,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is EARTH Attribute...
-                if (targetCard.Attribute == Attribute.EARTH)
+                if (targetCard.CurrentAttribute == Attribute.EARTH)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void EarthSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Earth Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Earth Symbol's effect's affected by list and the target card is NOT longer EARTH,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.EARTH)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer an EARTH attribute monster. The effects of Earth Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Earth Symbol's effect's affected by list and the target card is NOW EARTH and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now an EARTH attribute monster. Earth Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -4125,12 +4404,10 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Owner == thisEffect.Owner)
                 {
-                    if (!thisCard.IsASymbol && thisCard.Attribute == Attribute.WIND)
+                    if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.WIND)
                     {
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
                         UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                     }
                 }
@@ -4145,14 +4422,41 @@ namespace DungeonDiceMonsters
             if (targetCard.Owner == thisEffect.Owner)
             {
                 //is WIND Attribute...
-                if (targetCard.Attribute == Attribute.WIND)
+                if (targetCard.CurrentAttribute == Attribute.WIND)
                 {
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    targetCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied: [{0}] Origin Card Board ID: [{1}] | TO: [{2}] On Board ID: [{3}] Owned by [{4}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
                 }
+            }
+        }
+        private void WindSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card that changed its attributed was the Card affected by this Wind Symbol's effect
+            //then check if this Card needs a stat boost modification
+
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //if the target card WAS already in the Wind Symbol's effect's affected by list and the target card is NOT longer WIND,
+            //then reduce the attack boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.WIND)
+            {
+                targetCard.AdjustAttackBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer a WIND attribute monster. The effects of Wind Symbol do not apply to it anymore.");
+            }
+            //if the target card was NOT in the Wind Symbol's effect's affected by list and the target card is NOW WIND and both have the same owner
+            //then increase the attack boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Owner)
+            {
+                targetCard.AdjustAttackBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is now a WIND attribute monster. Wind Symbol's effect will now apply to this card.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
             }
         }
         #endregion
@@ -4284,9 +4588,6 @@ namespace DungeonDiceMonsters
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
 
-            //Flag the Effect Activation this turn
-            thisEffect.OriginCard.MarkEffectUsedThisTurn();
-
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -4333,9 +4634,6 @@ namespace DungeonDiceMonsters
             //Add 1 [ATK] to the owener's crest pool
             UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
-
-            //Flag the Effect Activation this turn
-            thisEffect.OriginCard.MarkEffectUsedThisTurn();
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -4459,7 +4757,6 @@ namespace DungeonDiceMonsters
                 {
                     thisEffect.OriginCard.AdjustAttackBonus(500);
                     thisEffect.OriginCard.AdjustDefenseBonus(500);
-                    thisEffect.OriginCard.ReloadTileUI();
                     UpdateEffectLogs(string.Format("Effect Applied to Origin Card: [{0}] | BY: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
                 }
             }
@@ -4480,7 +4777,6 @@ namespace DungeonDiceMonsters
                 //Give an extra boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(500);
                 thisEffect.OriginCard.AdjustDefenseBonus(500);
-                thisEffect.OriginCard.ReloadTileUI();
                 UpdateEffectLogs(string.Format("Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost increased by 500.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
             }
         }
@@ -4493,7 +4789,6 @@ namespace DungeonDiceMonsters
                 //reduce boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(-500);
                 thisEffect.OriginCard.AdjustDefenseBonus(-500);
-                thisEffect.OriginCard.ReloadTileUI();
                 UpdateEffectLogs(string.Format("Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 500.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
             }
         }
@@ -4509,11 +4804,112 @@ namespace DungeonDiceMonsters
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 2);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 2);
 
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Fire Kraken
+        private void FireKraken_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToAttributeChange = true;           
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:
+            //Target 1 opponent monster; change its attributo to FIRE until the end of this turn.
+            UpdateEffectLogs(string.Format("Effect Activation: [{0}] - Origin Card Board ID: [{1}] | Target 1 opponent monster to change its attribute to FIRE until the end of this turn.", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+            
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach(Card thisCard in _CardsOnBoard)
+            {
+                if(!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Owner == OPPONENTPLAYER)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.",_EffectTargetCandidates.Count));
+
             //Flag the Effect Activation this turn
             thisEffect.OriginCard.MarkEffectUsedThisTurn();
 
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.FireKrakenEffect;
+            InitializeEffectTargetSelection();          
+        }
+        private void FireKraken_PostTargetEffect(Tile TargetTile)
+        {           
+            //Restore the ref to the effect being used
+            Effect thisEffect = _CardEffectToBeActivated;
+
+            //Now apply the effect into the target
+            Card targetCard = TargetTile.CardInPlace;
+            
+            //Resolve the effect: change the monster's attribute to FIRE
+            targetCard.ChangeAttribute(Attribute.FIRE);
+            thisEffect.AddAffectedByCard(targetCard);
+
+            //Add this effect to the list of active effects
+            _ActiveEffects.Add(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card's Attribute was changed to FIRE.");
+
+            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
+            ResolveEffectsWithAttributeChangeReactionTo(targetCard, thisEffect);
+
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        private void FireKraken_RemoveEffect(Effect thisEffect)
+        {
+            //At the end of the turn remove the changes applied by this effect
+            //Restore the Attribute of the affected by card to its original one
+            Card theAffectedCard = thisEffect.AffectedByList[0];
+            theAffectedCard.ResetAttribute();
+
+            //Now remove this effect from the active effect list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("Effect to be removed during the end phase: [{0}] Origin Card Board ID: [{1}] | This effect removal reset the affected monster [{2}] with On Board ID [{3}]'s Attribute back to its original value [{4}].", thisEffect.ID, thisEffect.OriginCard.OnBoardID, theAffectedCard.Name, theAffectedCard.OnBoardID, theAffectedCard.CurrentAttribute));
+
+            //This action modified a monster's attribute, check for other active effects that will react to it.
+            ResolveEffectsWithAttributeChangeReactionTo(theAffectedCard, thisEffect);
+        }
+        private void FireKraken_ReactTo_AttributeChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
+        {
+            //If the target card that changed its attributed was the Card affected by this Fire Kraken active effect
+            //then remove this effect from the active effect list.
+            //Whatever effect that changed the attribute of the target card will take over this effect.
+            //Therefore, at the end of the turn, this effect will NOT reset the affected by monster's attribute back to its original.
+            UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+
+            //This effect cannot react to itself...
+            if(modifierEffect == thisEffect)
+            {
+                UpdateEffectLogs("Effect cannot react to its own effect resolution.");
+            }
+            else
+            {
+                if (thisEffect.AffectedByList.Contains(targetCard))
+                {
+                    UpdateEffectLogs("Reaction: This Card already had an Attribute Mod applied by this effect. The new effect that mod its Attribute again will override this effect. This effect will be remove from the active effects list.");
+                    //DO NOT DO THIS: _ActiveEffects.Remove(thisEffect);
+                    //We cannot remove effects from the ActiveEffect list while the reaction validations are taken place
+                    //Add this effect to the _EffectsToBeRemoved... list so it can be done at the end.
+                    _EffectsToBeRemovedByAttributeChangeReaction.Add(thisEffect);
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }                    
         }
         #endregion
 
@@ -4610,7 +5006,13 @@ namespace DungeonDiceMonsters
             EffectMenuDisplay,
             FusionSelectorMenu,
             FusionMaterialCandidateSelection,
-            FusionSummonTileSelection
+            FusionSummonTileSelection,
+            EffectTargetSelection,
+        }
+        private enum PostTargetState
+        {
+            NONE,
+            FireKrakenEffect
         }
         #endregion                  
     }

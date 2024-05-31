@@ -2,9 +2,7 @@
 //9/12/2023
 //Card Class
 
-using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace DungeonDiceMonsters
 {
@@ -22,8 +20,12 @@ namespace DungeonDiceMonsters
             {
                 ApplyAbility();
             }
-            InitializeEffects();
+            InitializeMultableDataFields();
 
+            void InitializeMultableDataFields()
+            {
+                _CurrentAttribute = _cardInfo.Attribute;
+            }
             void ApplyAbility()
             {
                 switch (_cardInfo.Ability)
@@ -42,21 +44,6 @@ namespace DungeonDiceMonsters
                 }
                 ResetOneTurnData();
             }
-            void InitializeEffects()
-            {
-                if(HasOnSummonEffect)
-                {
-                    _OnSummonEffectObject = new Effect(this, Effect.EffectType.OnSummon);
-                }
-                if(HasContinuousEffect)
-                {
-                    _ContinuousEffectObject = new Effect(this, Effect.EffectType.Continuous);
-                }
-                if(HasIgnitionEffect)
-                {
-                    _IgnitionEffectObject = new Effect(this, Effect.EffectType.Ignition);
-                }
-            }
         }
         public Card(int id, Attribute attribute, PlayerColor owner)
         {
@@ -65,7 +52,7 @@ namespace DungeonDiceMonsters
             _Owner = owner;
             _CurrentLP = _cardInfo.LP;
             _IsASymbol = true;
-            _ContinuousEffectObject = new Effect(this, Effect.EffectType.Continuous);
+            _CurrentAttribute = _cardInfo.Attribute;
         }
         #endregion
 
@@ -81,7 +68,8 @@ namespace DungeonDiceMonsters
         public int OriginalATK { get { return _cardInfo.ATK; } }
         public int OriginalDEF { get { return _cardInfo.DEF; } }
         public int LP { get { return _CurrentLP; } }
-        public Attribute Attribute { get { return _cardInfo.Attribute; } }
+        public Attribute CurrentAttribute { get { return _CurrentAttribute; } }
+        public Attribute OriginalAttribute { get { return _cardInfo.Attribute; } }
         public Category Category { get { return _cardInfo.Category; } }
         //fusion Materials
         public string FusionMaterial1 { get { return _cardInfo.FusionMaterial1; } }
@@ -93,9 +81,6 @@ namespace DungeonDiceMonsters
         public bool HasOnSummonEffect { get { return _cardInfo.HasOnSummonEffect; } }
         public bool HasContinuousEffect { get { return _cardInfo.HasContinuousEffect; } }
         public bool HasIgnitionEffect { get { return _cardInfo.HasIgnitionEffect; } }
-        public Effect OnSummonEffect { get { return _OnSummonEffectObject; } }
-        public Effect ContinuousEffect { get { return _ContinuousEffectObject; } }
-        public Effect IgnitionEffect { get { return _IgnitionEffectObject; } }
         public bool HasAbility { get { return _cardInfo.HasAbility; } }
         public string OnSummonEffectText { get { return _cardInfo.OnSummonEffect; } }
         public string ContinuousEffectText { get { return _cardInfo.ContinuousEffect; } }
@@ -115,6 +100,7 @@ namespace DungeonDiceMonsters
         public int SpellboundCounter { get { return _SpellboundCounter; } }
         public int TurnCounters { get { return _TurnCounters; } }
         public int Counters { get { return _Counters; } }
+        public Tile CurrentTile { get { return _CurrentTile; } }
         #endregion
 
         #region On Board Counters and Flags
@@ -167,14 +153,17 @@ namespace DungeonDiceMonsters
                 _IsUnderSpellbound = false;
                 _SpellboundCounter = 0;
             }
+            ReloadTileUI();
         }
         public void AdjustAttackBonus(int amount)
         {
             _AttackBonus += amount;
+            ReloadTileUI();
         }
         public void AdjustDefenseBonus(int amount)
         {
             _DefenseBonus += amount;
+            ReloadTileUI();
         }
         public Color GetATKStatus()
         {
@@ -272,6 +261,26 @@ namespace DungeonDiceMonsters
             //Step 4: Reload the monster's tile UI
             ReloadTileUI();
         }
+        public Effect GetOnSummonEffect()
+        {
+            return new Effect(this, Effect.EffectType.OnSummon);
+        }
+        public Effect GetContinuousEffect()
+        {
+            return new Effect(this, Effect.EffectType.Continuous);
+        }
+        public Effect GetIgnitionEffect()
+        {
+           return new Effect(this, Effect.EffectType.Ignition);
+        }
+        public void ChangeAttribute(Attribute newAttribute)
+        {
+            _CurrentAttribute = newAttribute;
+        }
+        public void ResetAttribute()
+        {
+            _CurrentAttribute = _cardInfo.Attribute;
+        }
         #endregion
 
         #region Data
@@ -289,6 +298,9 @@ namespace DungeonDiceMonsters
         private int _CurrentLP;
         private int _AttackBonus = 0;
         private int _DefenseBonus = 0;
+
+        //Mutable data fields
+        private Attribute _CurrentAttribute;
 
         //Base Amounts for Counters and Costs (Abilities)
         private int _BaseMoveCost = 1;
@@ -316,11 +328,6 @@ namespace DungeonDiceMonsters
         //Ranges
         private int _AttackRange = 1;
         private int _MoveRange = 1;
-
-        //Effects
-        private Effect _OnSummonEffectObject;
-        private Effect _ContinuousEffectObject;
-        private Effect _IgnitionEffectObject;
         #endregion
     }
 }
