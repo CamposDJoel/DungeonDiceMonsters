@@ -71,8 +71,8 @@ namespace DungeonDiceMonsters
             {
                 Tile thisTile = _Tiles[tileId];
                 if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
-                    _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection 
-                    || _CurrentGameState == GameState.FusionSummonTileSelection)
+                _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection
+                || _CurrentGameState == GameState.FusionSummonTileSelection || _CurrentGameState == GameState.MovingCard)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     thisTile.Hover();
@@ -146,6 +146,14 @@ namespace DungeonDiceMonsters
                     if (_FusionSummonTiles.Contains(thisTile))
                     {
                         thisTile.MarkFusionSummonTile();
+                    }
+                }
+                else if (_CurrentGameState == GameState.MovingCard)
+                {
+                    thisTile.ReloadTileUI();
+                    if (_MoveCandidates.Contains(thisTile))
+                    {
+                        thisTile.MarkMoveTarget();
                     }
                 }
             }));

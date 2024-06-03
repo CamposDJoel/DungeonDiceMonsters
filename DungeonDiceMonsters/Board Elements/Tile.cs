@@ -269,7 +269,6 @@ namespace DungeonDiceMonsters
         }     
         public void MarkMoveTarget()
         {
-            _Border.BackColor = Color.Yellow;
             _CardImage.BackColor = Color.Green;
             //In case the tile has a field type set, remove the card image temparely
             if (_CardImage.BackgroundImage != null) { _CardImage.BackgroundImage.Dispose(); _CardImage.BackgroundImage = null; }

@@ -3,6 +3,7 @@
 //Partial Class for BoardPvP (Event Listeners)
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -86,10 +87,19 @@ namespace DungeonDiceMonsters
             //Only allow this event if the user is the TURN PLAYER
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
+                List<GameState> StatesElegible = new List<GameState> 
+                {
+                    GameState.BoardViewMode,
+                    GameState.MainPhaseBoard,
+                    GameState.SummonCard,
+                    GameState.SetCard,
+                    GameState.FusionMaterialCandidateSelection,
+                    GameState.FusionSummonTileSelection,
+                    GameState.MovingCard,
+                };
+
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
-                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
-                    _CurrentGameState == GameState.FusionMaterialCandidateSelection || _CurrentGameState == GameState.FusionSummonTileSelection))
+                if (StatesElegible.Contains(_CurrentGameState))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
@@ -116,10 +126,19 @@ namespace DungeonDiceMonsters
         {
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
+                List<GameState> StatesElegible = new List<GameState>
+                {
+                    GameState.BoardViewMode,
+                    GameState.MainPhaseBoard,
+                    GameState.SummonCard,
+                    GameState.SetCard,
+                    GameState.FusionMaterialCandidateSelection,
+                    GameState.FusionSummonTileSelection,
+                    GameState.MovingCard,
+                };
+
                 //Send the action message to the server
-                if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
-                    _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
-                     _CurrentGameState == GameState.FusionMaterialCandidateSelection || _CurrentGameState == GameState.FusionSummonTileSelection))
+                if (StatesElegible.Contains(_CurrentGameState))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
