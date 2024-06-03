@@ -132,14 +132,14 @@ namespace DungeonDiceMonsters
             foreach (Tile tile in _Tiles)
             {
                 //assign north links
-                if (tile.ID > 13)
+                if (tile.ID >= 13)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 13];
                     tile.SetAdjecentTileLink(Tile.TileDirection.North, linkedTile);
                 }
 
                 //assign south links
-                if (tile.ID < 216)
+                if (tile.ID <= 220)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 13];
                     tile.SetAdjecentTileLink(Tile.TileDirection.South, linkedTile);
@@ -310,14 +310,14 @@ namespace DungeonDiceMonsters
             foreach (Tile tile in _Tiles)
             {
                 //assign north links
-                if (tile.ID > 13)
+                if (tile.ID >= 13)
                 {
                     Tile linkedTile = _Tiles[tile.ID - 13];
                     tile.SetAdjecentTileLink(Tile.TileDirection.North, linkedTile);
                 }
 
                 //assign south links
-                if (tile.ID < 216)
+                if (tile.ID <= 220)
                 {
                     Tile linkedTile = _Tiles[tile.ID + 13];
                     tile.SetAdjecentTileLink(Tile.TileDirection.South, linkedTile);
