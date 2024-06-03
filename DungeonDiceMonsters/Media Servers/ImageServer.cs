@@ -76,5 +76,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SetFacedownCard.png");
         }
+        public static Image FusionMaterialTarget()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\FusionTarget.png");
+        }
     }
 }

@@ -87,8 +87,8 @@ namespace DungeonDiceMonsters
                     insidePicture.BackgroundImageLayout = ImageLayout.Stretch;
                     insidePicture.BackColor = Color.Transparent;
                     insidePicture.Tag = tileId;
-                    insidePicture.MouseEnter += OnMouseEnterPicture;
-                    insidePicture.MouseLeave += OnMouseLeavePicture;
+                    insidePicture.MouseEnter += OnMouseEnterPicture_OnInsidePicture;
+                    insidePicture.MouseLeave += OnMouseLeavePicture_OnInsidePicture;
                     insidePicture.Click += Tile_Click_OnInsidePicture;
 
                     //Create the overlay icon picture box
@@ -101,6 +101,8 @@ namespace DungeonDiceMonsters
                     overlayIcon.BackColor = Color.Transparent;
                     overlayIcon.Tag = tileId;
                     overlayIcon.Click += Tile_Click_OnOverlay;
+                    overlayIcon.MouseEnter += OnMouseEnterPicture_OnOverlay;
+                    overlayIcon.MouseLeave += OnMouseLeavePicture_OnOverlay;
                     overlayIcon.Visible = false;
 
                     //Create each border picture box 
@@ -263,8 +265,8 @@ namespace DungeonDiceMonsters
                     insidePicture.BackgroundImageLayout = ImageLayout.Stretch;
                     insidePicture.BackColor = Color.Transparent;
                     insidePicture.Tag = tileId;
-                    insidePicture.MouseEnter += OnMouseEnterPicture;
-                    insidePicture.MouseLeave += OnMouseLeavePicture;
+                    insidePicture.MouseEnter += OnMouseEnterPicture_OnInsidePicture;
+                    insidePicture.MouseLeave += OnMouseLeavePicture_OnInsidePicture;
                     insidePicture.Click += Tile_Click_OnInsidePicture;
 
                     //Create the overlay icon picture box
@@ -277,6 +279,8 @@ namespace DungeonDiceMonsters
                     overlayIcon.BackColor = Color.Transparent;
                     overlayIcon.Tag = tileId;
                     overlayIcon.Click += Tile_Click_OnOverlay;
+                    overlayIcon.MouseEnter += OnMouseEnterPicture_OnOverlay;
+                    overlayIcon.MouseLeave += OnMouseLeavePicture_OnOverlay;
                     overlayIcon.Visible = false;
 
                     //Create each border picture box 
@@ -1075,12 +1079,19 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
-        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId)
+        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId, bool dimensionSummon)
         {
             //then summon the card
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
-            _Tiles[tileId].SummonCard(thisCard);
+            if (dimensionSummon) 
+            {
+                _Tiles[tileId].SummonCard(thisCard);
+            }
+            else
+            {
+                _Tiles[tileId].NonDimensionSummon(thisCard);
+            }
 
             //Wait 1 sec for the sound effect to finish
             WaitNSeconds(1000);

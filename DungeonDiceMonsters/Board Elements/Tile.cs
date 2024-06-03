@@ -177,6 +177,20 @@ namespace DungeonDiceMonsters
                 ReloadTileUI();
             }          
         }
+        public void NonDimensionSummon(Card card)
+        {
+            if (_Occupied)
+            {
+                throw new Exception("Cannot summon on an already occupied tile");
+            }
+            else
+            {
+                _card = card;
+                _Occupied = true;
+                _card.SetCurrentTile(this);
+                ReloadTileUI();
+            }
+        }
         public void SetCard(Card card)
         {
             if (_Occupied)
@@ -280,6 +294,15 @@ namespace DungeonDiceMonsters
         public void MarkFusionMaterialTarget()
         {
             _Border.BackColor = Color.Green;
+            //Place the overlay icon of the attack target
+            _OverlayIcon.Image = ImageServer.FusionMaterialTarget();
+            _OverlayIcon.Visible = true;
+        }
+        public void MarkFusionSummonTile()
+        {
+            _CardImage.BackColor = Color.Green;
+            //In case the tile has a field type set, remove the card image temparely
+            if (_CardImage.BackgroundImage != null) { _CardImage.BackgroundImage.Dispose(); _CardImage.BackgroundImage = null; }
         }
         public void HighlightTile()
         {
