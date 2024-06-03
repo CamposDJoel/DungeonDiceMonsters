@@ -71,7 +71,8 @@ namespace DungeonDiceMonsters
             {
                 Tile thisTile = _Tiles[tileId];
                 if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
-                    _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection)
+                    _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection 
+                    || _CurrentGameState == GameState.FusionSummonTileSelection)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     thisTile.Hover();
@@ -139,6 +140,14 @@ namespace DungeonDiceMonsters
                         thisTile.MarkFusionMaterialTarget();
                     }
                 }
+                else if (_CurrentGameState == GameState.FusionSummonTileSelection)
+                {
+                    thisTile.ReloadTileUI();
+                    if (_FusionSummonTiles.Contains(thisTile))
+                    {
+                        thisTile.MarkFusionSummonTile();
+                    }
+                }
             }));
         }
         private void TileClick_SummonCard_Base(int tileId)
@@ -163,7 +172,7 @@ namespace DungeonDiceMonsters
                 _CurrentDimensionForm = DimensionForms.CrossBase;
 
                 //Now run the Master Summon Monster function
-                SummonMonster(_CardToBeSummon, tileId);
+                SummonMonster(_CardToBeSummon, tileId, true);
             }));
         }
         private void TileClick_SetCard_Base(int tileId)
@@ -611,7 +620,7 @@ namespace DungeonDiceMonsters
             {
                 foreach (Tile thisTile in _FusionSummonTiles)
                 {
-                    thisTile.MarkMoveTarget();
+                    thisTile.MarkFusionSummonTile();
                 }
 
                 if (UserPlayerColor == TURNPLAYER)
@@ -643,7 +652,7 @@ namespace DungeonDiceMonsters
                 TURNPLAYERDATA.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
 
                 //Now run the Master Summon Monster function
-                SummonMonster(_FusionToBeSummoned, tileId);
+                SummonMonster(_FusionToBeSummoned, tileId, false);
             }));
         }
         private void TileClick_EffectTarget_Base(int tileId)

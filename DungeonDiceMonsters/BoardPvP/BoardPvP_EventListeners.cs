@@ -67,19 +67,29 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Board Tiles
-        private void OnMouseEnterPicture(object sender, EventArgs e)
+        private void OnMouseEnterPicture_OnOverlay(object sender, EventArgs e)
+        {
+            //Extract the TileID from the tile in action
+            PictureBox thisPicture = sender as PictureBox;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            OnMouseEnterPicture(tileID);
+        }
+        private void OnMouseEnterPicture_OnInsidePicture(object sender, EventArgs e)
+        {
+            //Extract the TileID from the tile in action
+            Panel thisPicture = sender as Panel;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            OnMouseEnterPicture(tileID);
+        }
+        private void OnMouseEnterPicture(int tileID)
         {
             //Only allow this event if the user is the TURN PLAYER
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
-                //Extract the TileID from the tile in action
-                Panel thisPicture = sender as Panel;
-                int tileID = Convert.ToInt32(thisPicture.Tag);
-
                 //Send the action message to the server
                 if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
                     _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
-                    _CurrentGameState == GameState.FusionMaterialCandidateSelection))
+                    _CurrentGameState == GameState.FusionMaterialCandidateSelection || _CurrentGameState == GameState.FusionSummonTileSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
@@ -88,18 +98,28 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        private void OnMouseLeavePicture(object sender, EventArgs e)
+        private void OnMouseLeavePicture_OnOverlay(object sender, EventArgs e)
+        {
+            //Extract the TileID from the tile in action
+            PictureBox thisPicture = sender as PictureBox;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            OnMouseLeavePicture(tileID);
+        }
+        private void OnMouseLeavePicture_OnInsidePicture(object sender, EventArgs e)
+        {
+            //Extract the TileID from the tile in action
+            Panel thisPicture = sender as Panel;
+            int tileID = Convert.ToInt32(thisPicture.Tag);
+            OnMouseLeavePicture(tileID);
+        }
+        private void OnMouseLeavePicture(int tileID)
         {
             if (UserPlayerColor == TURNPLAYER && _CurrentGameState != GameState.NOINPUT)
             {
-                //Extract the TileID from the tile in action
-                Panel thisPicture = sender as Panel;
-                int tileID = Convert.ToInt32(thisPicture.Tag);
-
                 //Send the action message to the server
                 if ((_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
                     _CurrentGameState == GameState.SummonCard || _CurrentGameState == GameState.SetCard ||
-                     _CurrentGameState == GameState.FusionMaterialCandidateSelection))
+                     _CurrentGameState == GameState.FusionMaterialCandidateSelection || _CurrentGameState == GameState.FusionSummonTileSelection))
                 {
                     SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
 
