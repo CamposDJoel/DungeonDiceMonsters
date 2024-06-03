@@ -74,6 +74,7 @@
             this.btnActionAttack = new System.Windows.Forms.Button();
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
+            this.PicCardAttribute = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.lblMoveRangeAmount = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -105,7 +106,6 @@
             this.lblStatsATK = new System.Windows.Forms.Label();
             this.lblCardText = new System.Windows.Forms.Label();
             this.lblStatsATKLabel = new System.Windows.Forms.Label();
-            this.lblAttribute = new System.Windows.Forms.Label();
             this.lblCardType = new System.Windows.Forms.Label();
             this.lblCardLevel = new System.Windows.Forms.Label();
             this.lblCardName = new System.Windows.Forms.Label();
@@ -221,6 +221,7 @@
             this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicTurnCountersIcon)).BeginInit();
@@ -777,6 +778,7 @@
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelCardInfo.Controls.Add(this.PicCardAttribute);
             this.PanelCardInfo.Controls.Add(this.label8);
             this.PanelCardInfo.Controls.Add(this.lblMoveRangeAmount);
             this.PanelCardInfo.Controls.Add(this.label12);
@@ -808,7 +810,6 @@
             this.PanelCardInfo.Controls.Add(this.lblStatsATK);
             this.PanelCardInfo.Controls.Add(this.lblCardText);
             this.PanelCardInfo.Controls.Add(this.lblStatsATKLabel);
-            this.PanelCardInfo.Controls.Add(this.lblAttribute);
             this.PanelCardInfo.Controls.Add(this.lblCardType);
             this.PanelCardInfo.Controls.Add(this.lblCardLevel);
             this.PanelCardInfo.Controls.Add(this.lblCardName);
@@ -817,6 +818,16 @@
             this.PanelCardInfo.Name = "PanelCardInfo";
             this.PanelCardInfo.Size = new System.Drawing.Size(208, 476);
             this.PanelCardInfo.TabIndex = 5;
+            // 
+            // PicCardAttribute
+            // 
+            this.PicCardAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCardAttribute.Location = new System.Drawing.Point(139, 51);
+            this.PicCardAttribute.Name = "PicCardAttribute";
+            this.PicCardAttribute.Size = new System.Drawing.Size(20, 20);
+            this.PicCardAttribute.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCardAttribute.TabIndex = 46;
+            this.PicCardAttribute.TabStop = false;
             // 
             // label8
             // 
@@ -1181,18 +1192,6 @@
             this.lblStatsATKLabel.Size = new System.Drawing.Size(52, 22);
             this.lblStatsATKLabel.TabIndex = 16;
             this.lblStatsATKLabel.Text = "ATK";
-            // 
-            // lblAttribute
-            // 
-            this.lblAttribute.BackColor = System.Drawing.Color.Black;
-            this.lblAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAttribute.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAttribute.ForeColor = System.Drawing.Color.White;
-            this.lblAttribute.Location = new System.Drawing.Point(148, 53);
-            this.lblAttribute.Name = "lblAttribute";
-            this.lblAttribute.Size = new System.Drawing.Size(57, 18);
-            this.lblAttribute.TabIndex = 15;
-            this.lblAttribute.Text = "WATER";
             // 
             // lblCardType
             // 
@@ -2399,6 +2398,7 @@
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelCardInfo.ResumeLayout(false);
             this.PanelCardInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicTurnCountersIcon)).EndInit();
@@ -2503,7 +2503,6 @@
         private System.Windows.Forms.Label lblStatsATK;
         private System.Windows.Forms.Label lblCardText;
         private System.Windows.Forms.Label lblStatsATKLabel;
-        private System.Windows.Forms.Label lblAttribute;
         private System.Windows.Forms.Label lblCardType;
         private System.Windows.Forms.Label lblCardLevel;
         private System.Windows.Forms.Label lblCardName;
@@ -2623,5 +2622,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblAttackRangeAmount;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.PictureBox PicCardAttribute;
     }
 }

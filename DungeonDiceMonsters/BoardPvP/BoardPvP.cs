@@ -682,7 +682,7 @@ namespace DungeonDiceMonsters
                     lblCardName.Text = string.Empty;
                     lblCardType.Text = string.Empty;
                     lblCardLevel.Text = string.Empty;
-                    lblAttribute.Text = string.Empty;
+                    PicCardAttribute.Visible = false;
                     lblStatsATK.Text = string.Empty;
                     lblStatsDEF.Text = string.Empty;
                     lblStatsLP.Text = string.Empty;
@@ -707,7 +707,8 @@ namespace DungeonDiceMonsters
                         lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
                         lblCardType.Text = string.Empty;
                         lblCardLevel.Text = string.Empty;
-                        lblAttribute.Text = thisCard.CurrentAttribute.ToString();
+                        PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
+                        PicCardAttribute.Visible = true;
                         lblStatsATK.Text = string.Empty;
                         lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
@@ -737,8 +738,8 @@ namespace DungeonDiceMonsters
                         if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
                         else { lblCardLevel.Text = ""; }
 
-                        if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.CurrentAttribute.ToString(); }
-                        else { lblAttribute.Text = ""; }
+                        PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
+                        PicCardAttribute.Visible = true;
 
                         if (thisCard.Category == Category.Monster)
                         {
@@ -829,7 +830,7 @@ namespace DungeonDiceMonsters
                 lblCardName.Text = string.Empty;
                 lblCardType.Text = string.Empty;
                 lblCardLevel.Text = string.Empty;
-                lblAttribute.Text = string.Empty;
+                PicCardAttribute.Visible = false;
                 lblStatsATK.Text = string.Empty;
                 lblStatsDEF.Text = string.Empty;
                 lblStatsLP.Text = string.Empty;
