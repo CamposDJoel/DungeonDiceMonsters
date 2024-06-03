@@ -279,6 +279,10 @@ namespace DungeonDiceMonsters
             _OverlayIcon.Image = ImageServer.AttackTargetIcon();
             _OverlayIcon.Visible = true;
         }
+        public void HighlightAttackRange()
+        {
+            _Border.BackColor = Color.Orange;
+        }
         public void MarkEffectTarget()
         {
             _Border.BackColor = Color.Green;
