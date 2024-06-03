@@ -765,29 +765,29 @@ namespace DungeonDiceMonsters
                         string fullcardtext = "";
                         if (thisCard.SecType == SecType.Fusion)
                         {
-                            string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                            string fusionMaterials = thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
                             if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
                             fullcardtext = fullcardtext + fusionMaterials + "\n\n";
                         }
 
                         if (thisCard.HasOnSummonEffect)
                         {
-                            fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffectText + "\n\n";
+                            fullcardtext = fullcardtext + "(On Summon) - " + thisCard.OnSummonEffectText + "\n\n";
                         }
 
                         if (thisCard.HasContinuousEffect)
                         {
-                            fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffectText + "\n\n";
+                            fullcardtext = fullcardtext + "(Continuous) - " + thisCard.ContinuousEffectText + "\n\n";
                         }
 
                         if (thisCard.HasAbility)
                         {
-                            fullcardtext = fullcardtext + "[Ability] - " + thisCard.Ability + "\n\n";
+                            fullcardtext = fullcardtext + "(Ability) - " + thisCard.Ability + "\n\n";
                         }
 
                         if (thisCard.HasIgnitionEffect)
                         {
-                            fullcardtext = fullcardtext + thisCard.IgnitionEffectText + "\n\n";
+                            fullcardtext = fullcardtext + "(Effect)" + thisCard.IgnitionEffectText + "\n\n";
                         }
                         lblCardText.Text = fullcardtext;
 
