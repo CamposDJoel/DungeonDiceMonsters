@@ -96,6 +96,7 @@ namespace DungeonDiceMonsters
                     GameState.FusionMaterialCandidateSelection,
                     GameState.FusionSummonTileSelection,
                     GameState.MovingCard,
+                    GameState.SelectingAttackTarger,
                 };
 
                 //Send the action message to the server
@@ -135,6 +136,7 @@ namespace DungeonDiceMonsters
                     GameState.FusionMaterialCandidateSelection,
                     GameState.FusionSummonTileSelection,
                     GameState.MovingCard,
+                    GameState.SelectingAttackTarger,
                 };
 
                 //Send the action message to the server

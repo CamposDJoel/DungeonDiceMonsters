@@ -72,7 +72,8 @@ namespace DungeonDiceMonsters
                 Tile thisTile = _Tiles[tileId];
                 if (_CurrentGameState == GameState.BoardViewMode || _CurrentGameState == GameState.MainPhaseBoard ||
                 _CurrentGameState == GameState.SetCard || _CurrentGameState == GameState.FusionMaterialCandidateSelection
-                || _CurrentGameState == GameState.FusionSummonTileSelection || _CurrentGameState == GameState.MovingCard)
+                || _CurrentGameState == GameState.FusionSummonTileSelection || _CurrentGameState == GameState.MovingCard 
+                || _CurrentGameState == GameState.SelectingAttackTarger)
                 {
                     SoundServer.PlaySoundEffect(SoundEffect.Hover);
                     thisTile.Hover();
@@ -154,6 +155,20 @@ namespace DungeonDiceMonsters
                     if (_MoveCandidates.Contains(thisTile))
                     {
                         thisTile.MarkMoveTarget();
+                    }
+                }
+                else if (_CurrentGameState == GameState.SelectingAttackTarger)
+                {
+                    thisTile.ReloadTileUI();
+
+                    if(_AttackRangeTiles.Contains(thisTile))
+                    {
+                        thisTile.HighlightAttackRange();
+                    }
+
+                    if(_AttackCandidates.Contains(thisTile))
+                    {
+                        thisTile.MarkAttackTarget();
                     }
                 }
             }));
@@ -870,7 +885,7 @@ namespace DungeonDiceMonsters
                 //First highlight all the tiles within the attack range
                 foreach (Tile thisTile in AttackRangeTiles)
                 {
-                    thisTile.HighlightTile();
+                    thisTile.HighlightAttackRange();    
                 }
                 //Then place the attack target overlay icon on the attack target candidates
                 foreach (Tile tile in _AttackCandidates)
