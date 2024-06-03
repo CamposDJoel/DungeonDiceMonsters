@@ -80,5 +80,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\FusionTarget.png");
         }
+        public static Image AttributeIcon(Attribute thisAtt)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Attributes\\" + thisAtt + ".png");
+        }
     }
 }
