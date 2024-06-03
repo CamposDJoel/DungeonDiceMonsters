@@ -351,8 +351,7 @@ namespace DungeonDiceMonsters
             if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }
 
-            if (thisCard.Category == Category.Monster) { lblAttribute.Text = thisCard.Attribute.ToString(); }
-            else { lblAttribute.Text = ""; }
+            PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.Attribute);
 
             lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
 
@@ -365,24 +364,24 @@ namespace DungeonDiceMonsters
             string fullcardtext = "";
             if (thisCard.SecType == SecType.Fusion)
             {
-                string fusionMaterials = "[Fusion] " + thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
+                string fusionMaterials = thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
                 if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
                 fullcardtext = fullcardtext + fusionMaterials + "\n\n";
             }
 
             if (thisCard.HasOnSummonEffect)
             {
-                fullcardtext = fullcardtext + "[On Summon] - " + thisCard.OnSummonEffect + "\n\n";
+                fullcardtext = fullcardtext + "(On Summon) - " + thisCard.OnSummonEffect + "\n\n";
             }
 
             if (thisCard.HasContinuousEffect)
             {
-                fullcardtext = fullcardtext + "[Continuous] - " + thisCard.ContinuousEffect + "\n\n";
+                fullcardtext = fullcardtext + "(Continuous) - " + thisCard.ContinuousEffect + "\n\n";
             }
 
             if (thisCard.HasAbility)
             {
-                fullcardtext = fullcardtext + "[Ability] - " + thisCard.Ability + "\n\n";
+                fullcardtext = fullcardtext + "(Ability) - " + thisCard.Ability + "\n\n";
             }
 
             if (thisCard.HasIgnitionEffect)
