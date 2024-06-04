@@ -49,7 +49,7 @@ namespace DungeonDiceMonsters
         {
             _id = id;
             _cardInfo = new CardInfo(attribute);
-            _Controller = Controller;
+            _Controller = owner;
             _CurrentLP = _cardInfo.LP;
             _IsASymbol = true;
             _CurrentAttribute = _cardInfo.Attribute;
@@ -280,6 +280,11 @@ namespace DungeonDiceMonsters
         public void ResetAttribute()
         {
             _CurrentAttribute = _cardInfo.Attribute;
+        }
+        public void SwitchController()
+        {
+            if (_Controller == PlayerColor.RED) { _Controller = PlayerColor.BLUE; }
+            else { _Controller = PlayerColor.RED; }
         }
         #endregion
 
