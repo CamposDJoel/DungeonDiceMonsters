@@ -18,7 +18,7 @@ BLUE MONSTERS|4
 67371383|111|Amphibian Beast
 ------------------------------------
 RED SET CARDS|1
-24094653|188|Polymerization
+4031928|188|Change of Heart
 ----------------------------------------
 BLUE SET CARDS|1
 24094653|19|Polymerization
