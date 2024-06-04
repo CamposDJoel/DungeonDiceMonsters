@@ -74,6 +74,7 @@
             this.btnActionAttack = new System.Windows.Forms.Button();
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
+            this.PicCardMonsterType = new System.Windows.Forms.PictureBox();
             this.PicCardAttribute = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.lblMoveRangeAmount = new System.Windows.Forms.Label();
@@ -221,6 +222,7 @@
             this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -778,6 +780,7 @@
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelCardInfo.Controls.Add(this.PicCardMonsterType);
             this.PanelCardInfo.Controls.Add(this.PicCardAttribute);
             this.PanelCardInfo.Controls.Add(this.label8);
             this.PanelCardInfo.Controls.Add(this.lblMoveRangeAmount);
@@ -819,9 +822,17 @@
             this.PanelCardInfo.Size = new System.Drawing.Size(208, 476);
             this.PanelCardInfo.TabIndex = 5;
             // 
+            // PicCardMonsterType
+            // 
+            this.PicCardMonsterType.Location = new System.Drawing.Point(29, 41);
+            this.PicCardMonsterType.Name = "PicCardMonsterType";
+            this.PicCardMonsterType.Size = new System.Drawing.Size(25, 25);
+            this.PicCardMonsterType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCardMonsterType.TabIndex = 47;
+            this.PicCardMonsterType.TabStop = false;
+            // 
             // PicCardAttribute
             // 
-            this.PicCardAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PicCardAttribute.Location = new System.Drawing.Point(2, 41);
             this.PicCardAttribute.Name = "PicCardAttribute";
             this.PicCardAttribute.Size = new System.Drawing.Size(25, 25);
@@ -1197,14 +1208,14 @@
             // 
             this.lblCardType.BackColor = System.Drawing.Color.Black;
             this.lblCardType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCardType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCardType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCardType.ForeColor = System.Drawing.Color.White;
-            this.lblCardType.Location = new System.Drawing.Point(29, 45);
+            this.lblCardType.Location = new System.Drawing.Point(55, 45);
             this.lblCardType.Name = "lblCardType";
-            this.lblCardType.Size = new System.Drawing.Size(170, 18);
+            this.lblCardType.Size = new System.Drawing.Size(145, 18);
             this.lblCardType.TabIndex = 4;
             this.lblCardType.Text = "Beast-Warrior/Fusion";
-            this.lblCardType.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblCardType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblCardLevel
             // 
@@ -2398,6 +2409,7 @@
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelCardInfo.ResumeLayout(false);
             this.PanelCardInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -2623,5 +2635,6 @@
         private System.Windows.Forms.Label lblAttackRangeAmount;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox PicCardAttribute;
+        private System.Windows.Forms.PictureBox PicCardMonsterType;
     }
 }

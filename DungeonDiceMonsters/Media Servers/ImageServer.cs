@@ -84,5 +84,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Attributes\\" + thisAtt + ".png");
         }
+        public static Image MonsterTypeIcon(string type)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Monster Types\\" + type + ".png");
+        }
     }
 }
