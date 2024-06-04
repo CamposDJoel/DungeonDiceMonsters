@@ -9,11 +9,11 @@ namespace DungeonDiceMonsters
     public class Card
     {
         #region Constructors
-        public Card(int id, CardInfo info, PlayerColor owner, bool isFaceDown)
+        public Card(int id, CardInfo info, PlayerColor controller, bool isFaceDown)
         {
             _id = id;
             _cardInfo = info;
-            _Owner = owner;
+            _Controller = controller;
             _CurrentLP = _cardInfo.LP;
             _IsFaceDown = isFaceDown;
             if(HasAbility)
@@ -49,7 +49,7 @@ namespace DungeonDiceMonsters
         {
             _id = id;
             _cardInfo = new CardInfo(attribute);
-            _Owner = owner;
+            _Controller = Controller;
             _CurrentLP = _cardInfo.LP;
             _IsASymbol = true;
             _CurrentAttribute = _cardInfo.Attribute;
@@ -91,7 +91,7 @@ namespace DungeonDiceMonsters
 
         #region On Board Data
         public int OnBoardID { get { return _id; } }       
-        public PlayerColor Owner { get { return _Owner; } }
+        public PlayerColor Controller { get { return _Controller; } }
         public bool IsFaceDown { get { return _IsFaceDown; } }
         public bool IsDiscardted { get { return _IsDestroyed; } }
         public bool IsASymbol { get { return _IsASymbol; } }
@@ -287,7 +287,7 @@ namespace DungeonDiceMonsters
         //Card Board Data
         private int _id = -1;
         private CardInfo _cardInfo;
-        private PlayerColor _Owner;
+        private PlayerColor _Controller;
         private bool _IsDestroyed = false;
         private bool _IsFaceDown = false;
         private bool _IsASymbol = false;

@@ -926,7 +926,7 @@ namespace DungeonDiceMonsters
                         {
                             if (thisNorthTile.IsOccupied)
                             {
-                                if (thisNorthTile.CardInPlace.Owner != _card.Owner)
+                                if (thisNorthTile.CardInPlace.Controller != _card.Controller)
                                 {
                                     tiles.Add(thisNorthTile);
                                 }
@@ -972,7 +972,7 @@ namespace DungeonDiceMonsters
                         {
                             if (thisSouthTile.IsOccupied)
                             {
-                                if (thisSouthTile.CardInPlace.Owner != _card.Owner)
+                                if (thisSouthTile.CardInPlace.Controller != _card.Controller)
                                 {
                                     tiles.Add(thisSouthTile);
                                 }
@@ -1017,7 +1017,7 @@ namespace DungeonDiceMonsters
                         {
                             if (thisEastTile.IsOccupied)
                             {
-                                if (thisEastTile.CardInPlace.Owner != _card.Owner)
+                                if (thisEastTile.CardInPlace.Controller != _card.Controller)
                                 {
                                     tiles.Add(thisEastTile);
                                 }
@@ -1062,7 +1062,7 @@ namespace DungeonDiceMonsters
                         {
                             if (thisWestTile.IsOccupied)
                             {
-                                if (thisWestTile.CardInPlace.Owner != _card.Owner)
+                                if (thisWestTile.CardInPlace.Controller != _card.Controller)
                                 {
                                     tiles.Add(thisWestTile);
                                 }

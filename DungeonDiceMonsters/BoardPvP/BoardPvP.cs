@@ -666,7 +666,7 @@ namespace DungeonDiceMonsters
                 int cardID = thisCard.CardID;
 
                 //Set the Panel Back Color based on whose the card owner
-                if (thisCard.Owner == PlayerColor.RED)
+                if (thisCard.Controller == PlayerColor.RED)
                 {
                     PanelCardInfo.BackColor = Color.DarkRed;
                 }
@@ -675,7 +675,7 @@ namespace DungeonDiceMonsters
                     PanelCardInfo.BackColor = Color.DarkBlue;
                 }
 
-                if (thisCard.IsFaceDown && thisCard.Owner != UserPlayerColor)
+                if (thisCard.IsFaceDown && thisCard.Controller != UserPlayerColor)
                 {
                     PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
@@ -705,7 +705,7 @@ namespace DungeonDiceMonsters
                     {
                         PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.CurrentAttribute.ToString());
 
-                        lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
+                        lblCardName.Text = thisCard.Controller + "'s " + thisCard.Name;
                         lblCardType.Text = string.Empty;
                         lblCardLevel.Text = string.Empty;
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
@@ -997,7 +997,7 @@ namespace DungeonDiceMonsters
                 if (_CurrentTileSelected.IsOccupied)
                 {
                     lblDebugCard.Text = "Card: " + _CurrentTileSelected.CardInPlace.CardID + "-Name:" + _CurrentTileSelected.CardInPlace.Name;
-                    lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Owner;
+                    lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Controller;
                 }
                 else
                 {
@@ -1104,7 +1104,7 @@ namespace DungeonDiceMonsters
             WaitNSeconds(1000);
 
             //Check for active effects that react to monster summons
-            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
             ResolveEffectsWithSummonReactionTo(thisCard);
 
             //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
@@ -1136,12 +1136,12 @@ namespace DungeonDiceMonsters
                         UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
                         switch (thisActiveEffect.ID)
                         {
-                            case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
@@ -1161,7 +1161,7 @@ namespace DungeonDiceMonsters
             //and update the UI to show the card is gone
             tileLocation.DestroyCard();
 
-            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
 
 
             //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes

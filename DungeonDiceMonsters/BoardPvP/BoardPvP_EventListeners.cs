@@ -172,7 +172,7 @@ namespace DungeonDiceMonsters
                 {
                     if (thisTile.IsOccupied)
                     {
-                        if (thisTile.CardInPlace.Owner == UserPlayerColor)
+                        if (thisTile.CardInPlace.Controller == UserPlayerColor)
                         {
                             _CurrentGameState = GameState.NOINPUT;
 
