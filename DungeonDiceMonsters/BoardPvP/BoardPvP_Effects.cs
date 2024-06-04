@@ -12,7 +12,7 @@ namespace DungeonDiceMonsters
         #region Share Methods for Effects Execution
         private void ActivateEffect(Effect thisEffect)
         {
-            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [{0}] - Origin Card Board ID: [{1}] Owner: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [{0}] - Origin Card Board ID: [{1}].Controller: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
             switch (thisEffect.ID)
             {
                 case Effect.EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
@@ -119,7 +119,7 @@ namespace DungeonDiceMonsters
         }
         private void GoToPostTargetEffect(Tile TargetTile)
         {
-            UpdateEffectLogs(string.Format("Target Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}] Owner: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Owner));
+            UpdateEffectLogs(string.Format("Target Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}].Controller: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Controller));
 
             switch (_CurrentPostTargetState)
             {
@@ -214,7 +214,7 @@ namespace DungeonDiceMonsters
                 {
                     if (thisTile.IsOccupied)
                     {
-                        if (thisTile.CardInPlace.Name == FusionMaterial && thisTile.CardInPlace.Owner == TURNPLAYER)
+                        if (thisTile.CardInPlace.Name == FusionMaterial && thisTile.CardInPlace.Controller == TURNPLAYER)
                         {
                             _FusionCandidateTiles.Add(thisTile);
                         }
@@ -236,24 +236,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your DARK monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will reach to all summons: if the summon is the owner's monster and it a DARK Attribute: affect it.                       
+            //This effect will reach to all summons: if the summon is the.Controller's monster and it a DARK Attribute: affect it.                       
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.DARK)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is DARK Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is DARK Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -263,10 +264,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void DarkSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void DarkSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is DARK Attribute...
                 if (targetCard.CurrentAttribute == Attribute.DARK)
@@ -274,7 +275,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -291,9 +292,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer a DARK attribute monster. The effects of Dark Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Dark Symbol's effect's affected by list and the target card is NOW DARK and both have the same owner
+            //if the target card was NOT in the Dark Symbol's effect's affected by list and the target card is NOW DARK and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.DARK && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.DARK && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -312,24 +313,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your LIGHT monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will reach to all summons: if the summon is the owner's monster and it a LIGHT Attribute: affect it.            
+            //This effect will reach to all summons: if the summon is the.Controller's monster and it a LIGHT Attribute: affect it.            
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.LIGHT)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is LIGHT Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is LIGHT Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -339,10 +341,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void LightSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void LightSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is LIGHT Attribute...
                 if (targetCard.CurrentAttribute == Attribute.LIGHT)
@@ -350,7 +352,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is LIGHT Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is LIGHT Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -367,9 +369,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer a LIGHT attribute monster. The effects of Light Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Light Symbol's effect's affected by list and the target card is NOW Light and both have the same owner
+            //if the target card was NOT in the Light Symbol's effect's affected by list and the target card is NOW Light and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.LIGHT && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.LIGHT && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -388,24 +390,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your WATER monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will react to all summons: if the summon is the owner's monster and its a WATER Attribute: affect it.            
+            //This effect will react to all summons: if the summon is the.Controller's monster and its a WATER Attribute: affect it.            
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.WATER)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is WATER Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is WATER Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -415,10 +418,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void WaterSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void WaterSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is WATER Attribute...
                 if (targetCard.CurrentAttribute == Attribute.WATER)
@@ -426,7 +429,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -443,9 +446,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer a WATER attribute monster. The effects of Water Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Water Symbol's effect's affected by list and the target card is NOW WATER and both have the same owner
+            //if the target card was NOT in the Water Symbol's effect's affected by list and the target card is NOW WATER and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.WATER && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.WATER && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -464,24 +467,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will react to all summons: if the summon is the owner's monster and its a FIRE Attribute: affect it.            
+            //This effect will react to all summons: if the summon is the.Controller's monster and its a FIRE Attribute: affect it.            
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.FIRE)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is FIRE Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is FIRE Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -491,10 +495,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void FireSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void FireSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is FIRE Attribute...
                 if (targetCard.CurrentAttribute == Attribute.FIRE)
@@ -502,7 +506,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is FIRE Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is FIRE Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -519,9 +523,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer a FIRE attribute monster. The effects of Fire Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Fire Symbol's effect's affected by list and the target card is NOW WATER and both have the same owner
+            //if the target card was NOT in the Fire Symbol's effect's affected by list and the target card is NOW WATER and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.FIRE && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.FIRE && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -540,24 +544,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will react to all summons: if the summon is the owner's monster and its a EARTH Attribute: affect it.            
+            //This effect will react to all summons: if the summon is the.Controller's monster and its a EARTH Attribute: affect it.            
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.EARTH)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is EARTH Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is EARTH Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -567,10 +572,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void EarthSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void EarthSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is EARTH Attribute...
                 if (targetCard.CurrentAttribute == Attribute.EARTH)
@@ -578,7 +583,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is EARTH Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is EARTH Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -595,9 +600,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer an EARTH attribute monster. The effects of Earth Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Earth Symbol's effect's affected by list and the target card is NOW EARTH and both have the same owner
+            //if the target card was NOT in the Earth Symbol's effect's affected by list and the target card is NOW EARTH and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -616,24 +621,25 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION
             //Increase the ATK of all your FIRE monsters on the board by 200.
             //During activation find all existing targets and give them the ATK increase.
-            //This effect will react to all summons: if the summon is the owner's monster and its a WIND Attribute: affect it.            
+            //This effect will react to all summons: if the summon is the.Controller's monster and its a WIND Attribute: affect it.            
 
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToAttributeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
 
             bool effectAppliedToAtLeastOneCard = false;
             //Step 2: Resolve the effect initial activation
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsASymbol && thisCard.CurrentAttribute == Attribute.WIND)
                     {
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(200);
                         thisEffect.AddAffectedByCard(thisCard);
-                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is WIND Attribute and Owned by the effect owner. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is WIND Attribute and Owned by the effect.Controller. Increase its ATK by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -643,10 +649,10 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void WindSymbol_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        private void WindSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same owner AND...
-            if (targetCard.Owner == thisEffect.Owner)
+            //If the monster summon is from the same.Controller AND...
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 //is WIND Attribute...
                 if (targetCard.CurrentAttribute == Attribute.WIND)
@@ -654,7 +660,7 @@ namespace DungeonDiceMonsters
                     //Give a 200 Attack Boost
                     targetCard.AdjustAttackBonus(200);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is WIND Attribute and Owned by the effect owner. Increase its ATK by 200."));
+                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is WIND Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
                 }
             }
         }
@@ -671,9 +677,9 @@ namespace DungeonDiceMonsters
                 thisEffect.RemoveAffectedByCard(targetCard);
                 UpdateEffectLogs("TARGET CARD is not longer a WIND attribute monster. The effects of Wind Symbol do not apply to it anymore.");
             }
-            //if the target card was NOT in the Wind Symbol's effect's affected by list and the target card is NOW WIND and both have the same owner
+            //if the target card was NOT in the Wind Symbol's effect's affected by list and the target card is NOW WIND and both have the same.Controller
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Owner)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
@@ -788,12 +794,12 @@ namespace DungeonDiceMonsters
             //Will increase the ATK of all your monsters on the board with the name "M-Warrior #2" by 500.
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2" && thisCard.Owner == thisEffect.Owner)
+                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #2" && thisCard.Controller == thisEffect.Owner)
                 {
                     thisCard.AdjustAttackBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
                     SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's ATK increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's ATK increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
 
@@ -808,7 +814,7 @@ namespace DungeonDiceMonsters
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [DEF] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
-            UpdateEffectLogs("Effect Resolved: Added 1 [DEF] to owner's crest pool.");
+            UpdateEffectLogs("Effect Resolved: Added 1 [DEF] to.Controller's crest pool.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -830,12 +836,12 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION:Will increase the DEF of all your monsters on the board with the name "M-Warrior #1" by 500.
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #1" && thisCard.Owner == thisEffect.Owner)
+                if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Name == "M-Warrior #1" && thisCard.Controller == thisEffect.Owner)
                 {
                     thisCard.AdjustDefenseBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
                     SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's DEF increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's DEF increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
 
@@ -850,7 +856,7 @@ namespace DungeonDiceMonsters
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [ATK] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
-            UpdateEffectLogs("Effect Resolved: Added 1 [ATK] to owner's crest pool.");
+            UpdateEffectLogs("Effect Resolved: Added 1 [ATK] to.Controller's crest pool.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -972,7 +978,7 @@ namespace DungeonDiceMonsters
                 {
                     thisEffect.OriginCard.AdjustAttackBonus(500);
                     thisEffect.OriginCard.AdjustDefenseBonus(500);
-                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
 
@@ -985,7 +991,7 @@ namespace DungeonDiceMonsters
         }
         private void KarbonalaWarrior_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is M-Warrior #1 or M-Warrior #2 regardless of owner
+            //If the monster summon is M-Warrior #1 or M-Warrior #2 regardless of.Controller
             if (targetCard.Name == "M-Warrior #1" || targetCard.Name == "M-Warrior #2")
             {
                 //Give an extra boost to the origin monster
@@ -996,7 +1002,7 @@ namespace DungeonDiceMonsters
         }
         private void KarbonalaWarrior_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
         {
-            //If the monster destroyed was M-Warrior #1 or M-Warrior #2 regardless of owner
+            //If the monster destroyed was M-Warrior #1 or M-Warrior #2 regardless of.Controller
             if (targetCard.Name == "M-Warrior #1" || targetCard.Name == "M-Warrior #2")
             {
                 //reduce boost to the origin monster
@@ -1014,7 +1020,7 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION: Add 2 [ATK] and 2 [DEF] to the owener's crest pool
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 2);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 2);
-            UpdateEffectLogs("Effect Resolved: Added 1 [ATK] and 1 [DEF] to owner's crest pool.");
+            UpdateEffectLogs("Effect Resolved: Added 1 [ATK] and 1 [DEF] to.Controller's crest pool.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -1037,7 +1043,7 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Owner == OPPONENTPLAYER)
+                if (!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Controller == OPPONENTPLAYER)
                 {
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }
@@ -1147,7 +1153,7 @@ namespace DungeonDiceMonsters
             //increase the DEF off all controller's owned Thunder-Type monsters by 500. (EXCEPT THE ORIGIN CARD)
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Owner == thisEffect.Owner)
+                if (thisCard.Controller == thisEffect.Owner)
                 {
                     if (!thisCard.IsDiscardted && thisCard.Type == Type.Thunder && thisCard.OnBoardID != thisEffect.OriginCard.OnBoardID)
                     {
@@ -1155,7 +1161,7 @@ namespace DungeonDiceMonsters
                         thisEffect.AddAffectedByCard(thisCard);
                         //Reload The Tile UI for the card affected
                         thisCard.ReloadTileUI();
-                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
@@ -1167,13 +1173,13 @@ namespace DungeonDiceMonsters
         }
         private void ThunderDragon_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
         {
-            if (targetCard.Owner == thisEffect.Owner)
+            if (targetCard.Controller == thisEffect.Owner)
             {
                 if (targetCard.Type == Type.Thunder)
                 {
                     targetCard.AdjustDefenseBonus(500);
                     thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}] - Increased the card's DEF by 500.", thisEffect.ID, targetCard.Name, targetCard.OnBoardID, targetCard.Owner));
+                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}] - Increased the card's DEF by 500.", thisEffect.ID, targetCard.Name, targetCard.OnBoardID, targetCard.Controller));
                 }
             }
         }
@@ -1186,7 +1192,7 @@ namespace DungeonDiceMonsters
                 thisCard.AdjustDefenseBonus(-500);
                 //Reload The Tile UI for the card affected
                 thisCard.ReloadTileUI();
-                UpdateEffectLogs(string.Format("Effect Removed: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Owner));
+                UpdateEffectLogs(string.Format("Effect Removed: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
             }
         }
         #endregion

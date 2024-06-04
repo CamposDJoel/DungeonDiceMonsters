@@ -24,7 +24,7 @@ namespace DungeonDiceMonsters
         #region Public Methods
         public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
-        public PlayerColor Owner{ get { return _OriginCard.Owner; } }
+        public PlayerColor Owner{ get { return _OriginCard.Controller; } }
         public EffectType Type { get { return _Type; } }
         public bool IsAOneTurnIgnition { get { return _IsOneTurnIgnition; } }
         public List<Card> AffectedByList { get { return _AffectedByList; } }
@@ -57,6 +57,7 @@ namespace DungeonDiceMonsters
         public bool ReactsToMonsterSummon { get; set; }
         public bool ReactsToMonsterDestroyed { get; set; }
         public bool ReactsToAttributeChange { get; set; }
+        public bool ReactsToMonsterControlChange { get; set; }
         #endregion
 
         #region Private Methods

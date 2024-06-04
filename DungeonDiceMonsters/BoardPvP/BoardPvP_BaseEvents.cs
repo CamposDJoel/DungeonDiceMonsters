@@ -1115,7 +1115,7 @@ namespace DungeonDiceMonsters
                                     {
                                         Card thisCardOnTheBoard = _CardsOnBoard[x];
                                         if (thisCardOnTheBoard.Name == thisMeterial && !thisCardOnTheBoard.IsDiscardted &&
-                                            thisCardOnTheBoard.Owner == TURNPLAYER && !candidatesFound.Contains(x))
+                                            thisCardOnTheBoard.Controller == TURNPLAYER && !candidatesFound.Contains(x))
                                         {
                                             candidatesFound.Add(x);
                                             break;
@@ -1154,7 +1154,7 @@ namespace DungeonDiceMonsters
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Owner == OPPONENTPLAYER)
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER)
                             {
                                 monsterFound = true;
                                 break;

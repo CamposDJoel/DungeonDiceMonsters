@@ -537,7 +537,7 @@ namespace DungeonDiceMonsters
                 int cardID = thisCard.CardID;
 
                 //Set the Panel Back Color based on whose the card owner
-                if (_CurrentTileSelected.CardInPlace.Owner == PlayerColor.RED)
+                if (_CurrentTileSelected.CardInPlace.Controller == PlayerColor.RED)
                 {
                     PanelCardInfo.BackColor = Color.DarkRed;
                 }
@@ -546,7 +546,7 @@ namespace DungeonDiceMonsters
                     PanelCardInfo.BackColor = Color.DarkBlue;
                 }
 
-                if(thisCard.IsFaceDown && thisCard.Owner == PlayerColor.BLUE)
+                if(thisCard.IsFaceDown && thisCard.Controller == PlayerColor.BLUE)
                 {
                     PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
@@ -565,7 +565,7 @@ namespace DungeonDiceMonsters
                     {
                         PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.CurrentAttribute.ToString());
 
-                        lblCardName.Text = thisCard.Owner + "'s " + thisCard.Name;
+                        lblCardName.Text = thisCard.Controller + "'s " + thisCard.Name;
                         lblCardType.Text = "";
                         lblCardLevel.Text = "";
                         lblAttribute.Text = thisCard.CurrentAttribute.ToString();
@@ -860,7 +860,7 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected.IsOccupied)
             {
                 lblDebugCard.Text = "Card: " + _CurrentTileSelected.CardInPlace.CardID + "-Name:" + _CurrentTileSelected.CardInPlace.Name;
-                lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Owner;
+                lblDebugCardOwner.Text = "Card Owner: " + _CurrentTileSelected.CardInPlace.Controller;
             }
             else
             {
@@ -949,7 +949,7 @@ namespace DungeonDiceMonsters
             {
                 if (_CurrentTileSelected.IsOccupied)
                 {
-                    if (_CurrentTileSelected.CardInPlace.Owner == PlayerColor.RED)
+                    if (_CurrentTileSelected.CardInPlace.Controller == PlayerColor.RED)
                     {
                         SoundServer.PlaySoundEffect(SoundEffect.Click);
 
