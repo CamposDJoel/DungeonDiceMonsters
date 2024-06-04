@@ -683,6 +683,7 @@ namespace DungeonDiceMonsters
                     lblCardType.Text = string.Empty;
                     lblCardLevel.Text = string.Empty;
                     PicCardAttribute.Visible = false;
+                    PicCardMonsterType.Visible = false;
                     lblStatsATK.Text = string.Empty;
                     lblStatsDEF.Text = string.Empty;
                     lblStatsLP.Text = string.Empty;
@@ -709,6 +710,7 @@ namespace DungeonDiceMonsters
                         lblCardLevel.Text = string.Empty;
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
                         PicCardAttribute.Visible = true;
+                        PicCardMonsterType.Visible = false;
                         lblStatsATK.Text = string.Empty;
                         lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
@@ -740,6 +742,9 @@ namespace DungeonDiceMonsters
 
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
                         PicCardAttribute.Visible = true;
+
+                        PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.Type.ToString());
+                        PicCardMonsterType.Visible = true;
 
                         if (thisCard.Category == Category.Monster)
                         {
@@ -831,6 +836,7 @@ namespace DungeonDiceMonsters
                 lblCardType.Text = string.Empty;
                 lblCardLevel.Text = string.Empty;
                 PicCardAttribute.Visible = false;
+                PicCardMonsterType.Visible = false;
                 lblStatsATK.Text = string.Empty;
                 lblStatsDEF.Text = string.Empty;
                 lblStatsLP.Text = string.Empty;

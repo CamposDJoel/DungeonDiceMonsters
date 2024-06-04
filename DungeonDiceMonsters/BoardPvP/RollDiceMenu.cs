@@ -352,6 +352,7 @@ namespace DungeonDiceMonsters
             else { lblCardLevel.Text = ""; }
 
             PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.Attribute);
+            PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.TypeAsString);
 
             lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
 
