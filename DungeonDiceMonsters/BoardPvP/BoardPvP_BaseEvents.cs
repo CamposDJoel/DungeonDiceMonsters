@@ -674,6 +674,9 @@ namespace DungeonDiceMonsters
                 //Remove the fusion to be summoned from the fusion deck
                 TURNPLAYERDATA.Deck.RemoveFusionAtIndex(_IndexOfFusionCardSelected);
 
+                //Now we can discard the Polymerization card
+                DestroyCard(_EffectOriginTile);
+
                 //Now run the Master Summon Monster function
                 SummonMonster(_FusionToBeSummoned, tileId, false);
             }));
@@ -938,16 +941,21 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.ActionMenuDisplay;
                 PanelActionMenu.Visible = false;
 
+                //Set the Effect Origin Tile for later use
+                _EffectOriginTile = _CurrentTileSelected;
+
                 //Step 2: Open the Effect Menu
-                DisplayIgnitionEfectPanel(_CurrentTileSelected.CardInPlace);
+                DisplayIgnitionEfectPanel();
             }));
 
-            void DisplayIgnitionEfectPanel(Card thisCard)
+            void DisplayIgnitionEfectPanel()
             {
                 SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
                 //Create the Effect Object,
                 //This will initialize the _CardEffectToBeActivated to be use across the other methods for
                 //this effect activation sequence.
+                Card thisCard = _EffectOriginTile.CardInPlace;
+
                 _CardEffectToBeActivated = null;
                 if (thisCard.Category == Category.Monster && thisCard.HasIgnitionEffect)
                 {
@@ -1083,7 +1091,8 @@ namespace DungeonDiceMonsters
                     switch (thisEffectID)
                     {
                         case Effect.EffectID.Polymerization: return Polymerization_MetsRequirement();
-                        case Effect.EffectID.FireKraken: return FireKraken_MetsRequirement();
+                        case Effect.EffectID.FireKraken: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.ChangeOfHeart: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
@@ -1147,14 +1156,14 @@ namespace DungeonDiceMonsters
                         }
                         else { return "No cards in the Fusion Deck."; }
                     }
-                    string FireKraken_MetsRequirement()
+                    string OpponentHasAnyOneMonsterThatCanBeTarget()
                     {
-                        //REQUIREMENT: Opponent must have any 1 monster on the board
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
 
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER)
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
                             {
                                 monsterFound = true;
                                 break;

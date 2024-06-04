@@ -106,6 +106,7 @@ namespace DungeonDiceMonsters
                 case "Polymerization": return EffectID.Polymerization;
                 case "Karbonala Warrior": if (type == EffectType.Continuous) { return EffectID.KarbonalaWarrior_Continuous; } else { return EffectID.KarbonalaWarrior_Ignition; }
                 case "Fire Kraken": return EffectID.FireKraken;
+                case "Change of Heart": return EffectID.ChangeOfHeart;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
                 case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
@@ -161,6 +162,7 @@ namespace DungeonDiceMonsters
             KarbonalaWarrior_Continuous,
             KarbonalaWarrior_Ignition,
             FireKraken,
+            ChangeOfHeart,
             HitotsumeGiant_OnSummon,
             ThunderDragon_Continuous,
         }

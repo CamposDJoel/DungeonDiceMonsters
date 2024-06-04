@@ -1136,12 +1136,12 @@ namespace DungeonDiceMonsters
                         UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
                         switch (thisActiveEffect.ID)
                         {
-                            case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_NewMonsterUnderYourControl(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
@@ -1571,6 +1571,7 @@ namespace DungeonDiceMonsters
         private Tile _AttackTarger;
         private Tile _AttackerTile = null;
         //Effect Action Data
+        private Tile _EffectOriginTile = null;
         private List<Tile> _EffectTargetCandidates = new List<Tile>();
         private PostTargetState _CurrentPostTargetState = PostTargetState.NONE;      
         //Battle menu data
@@ -1598,7 +1599,6 @@ namespace DungeonDiceMonsters
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
         private Effect _CardEffectToBeActivated;
-        private List<Effect> _EffectsToBeRemovedByAttributeChangeReaction = new List<Effect>();
         //Fusion Sequence Data
         private bool[] _FusionCardsReadyForFusion = new bool[3];
         private CardInfo _FusionToBeSummoned;
@@ -1630,7 +1630,8 @@ namespace DungeonDiceMonsters
         private enum PostTargetState
         {
             NONE,
-            FireKrakenEffect
+            FireKrakenEffect,
+            ChangeOfHeartEffect,
         }
         #endregion                  
     }

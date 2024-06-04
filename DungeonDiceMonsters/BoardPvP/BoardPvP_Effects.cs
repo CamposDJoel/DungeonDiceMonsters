@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 
 namespace DungeonDiceMonsters
 {
@@ -40,6 +41,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Ignition: KarbonalaWarrior_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.FireKraken: FireKraken_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
@@ -53,6 +55,7 @@ namespace DungeonDiceMonsters
             {
                 case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.FireKraken: FireKraken_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
             //Remove the effect from the Active effect list
@@ -124,6 +127,7 @@ namespace DungeonDiceMonsters
             switch (_CurrentPostTargetState)
             {
                 case PostTargetState.FireKrakenEffect: FireKraken_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ChangeOfHeartEffect: ChangeOfHeart_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -141,7 +145,7 @@ namespace DungeonDiceMonsters
             //Use the following list to flag those effects and after all the effects in the active effect lists have been check for reaction,
             //remove them.
             //WE CANNOT REMOVE EFFECTS FROM THE _ActiveEffect LIST WHILE THE FOREACH LOOP IS ACTIVE
-            _EffectsToBeRemovedByAttributeChangeReaction.Clear();
+            List<Effect> _EffectRemovalListByAttrChange = new List<Effect>();
 
             foreach (Effect thisActiveEffect in _ActiveEffects)
             {
@@ -150,20 +154,65 @@ namespace DungeonDiceMonsters
                     UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
                     switch (thisActiveEffect.ID)
                     {
-                        case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_AttributeChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.FireKraken: FireKraken_ReactTo_AttributeChange(thisActiveEffect, targetCard, modifierEffect); break;
+                        case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FireKraken: FireKraken_ReactTo_AttributeChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByAttrChange); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
             }
 
             //Now safely remove any effects that need to be remove
-            foreach (Effect thisEffectToRemove in _EffectsToBeRemovedByAttributeChangeReaction)
+            foreach (Effect thisEffectToRemove in _EffectRemovalListByAttrChange)
+            {
+                _ActiveEffects.Remove(thisEffectToRemove);
+                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
+            }
+
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+        }
+        private void ResolveEffectsWithMonsterControllerChangeReactionTo(Card targetCard, Effect modifierEffect)
+        {
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Card [{0}] with On Board Id [{1}] Controller was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
+
+            //NOTE REGARDING: "modifierEffect" argument
+            //Some effect reactions are going to need to know which effect was the one that trigger the controller change event.
+            //in order to validate if they react to it or not.
+            //For example: Change of Heart will change the controller of a monster but that same action will trigger a reaction check on controller change
+            //which Change of Heart WILL do. We do not want Change of Heart's effect to react to its own effect lol so I need to know which is the effect that
+            //cause the modification, and if that effect is the same as the one being validating for reaction, it should NOT REACT.
+
+            //Controller changes can make active effects to be override and thus removed from the active effects list
+            //Use the following list to flag those effects and after all the effects in the active effect lists have been check for reaction,
+            //remove them.
+            //WE CANNOT REMOVE EFFECTS FROM THE _ActiveEffect LIST WHILE THE FOREACH LOOP IS ACTIVE
+
+            List<Effect> _EffectRemovalListByMonsterControllerChange = new List<Effect>();
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if (thisActiveEffect.ReactsToMonsterControlChange)
+                {
+                    UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                    switch (thisActiveEffect.ID)
+                    {
+                        case Effect.EffectID.DARKSymbol: DarkSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.LIGHTSymbol: LightSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WATERSymbol: WaterSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
+                    }
+                }
+            }
+
+            //Now safely remove any effects that need to be remove
+            foreach (Effect thisEffectToRemove in _EffectRemovalListByMonsterControllerChange)
             {
                 _ActiveEffects.Remove(thisEffectToRemove);
                 UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
@@ -264,41 +313,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void DarkSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void DarkSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is DARK Attribute...
-                if (targetCard.CurrentAttribute == Attribute.DARK)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void DarkSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Dark Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Dark Symbol's effect's affected by list and the target card is NOT longer DARK,
+            //if the target card WAS already in the Dark Symbol's effect's "affected by" list and the target card is NOT DARK AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.DARK)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.DARK || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer a DARK attribute monster. The effects of Dark Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Dark Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Dark Symbol's effect's affected by list and the target card is NOW DARK and both have the same.Controller
+            //if the target card was NOT in the Dark Symbol's effect's affected by list and the target card is DARK and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
             else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.DARK && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now a DARK attribute monster. Dark Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Dark Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -341,41 +377,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void LightSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void LightSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is LIGHT Attribute...
-                if (targetCard.CurrentAttribute == Attribute.LIGHT)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is LIGHT Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void LightSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Light Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Light Symbol's effect's affected by list and the target card is NOT longer LIGHT,
+            //if the target card WAS already in the Light Symbol's effect's "affected by" list and the target card is NOT LIGHT AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.LIGHT)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.LIGHT || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer a LIGHT attribute monster. The effects of Light Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Light Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Light Symbol's effect's affected by list and the target card is NOW Light and both have the same.Controller
+            //if the target card was NOT in the Light Symbol's effect's affected by list and the target card is Light and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
             else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.LIGHT && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now a LIGHT attribute monster. Light Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -418,41 +441,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void WaterSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void WaterSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is WATER Attribute...
-                if (targetCard.CurrentAttribute == Attribute.WATER)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is DARK Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void WaterSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Water Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Water Symbol's effect's affected by list and the target card is NOT longer WATER,
+            //if the target card WAS already in the Water Symbol's effect's "affected by" list and the target card is NOT WATER AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.WATER)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.WATER || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer a WATER attribute monster. The effects of Water Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Water Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Water Symbol's effect's affected by list and the target card is NOW WATER and both have the same.Controller
+            //if the target card was NOT in the Water Symbol's effect's affected by list and the target card is WATER and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
             else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.WATER && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now a WATER attribute monster. Water Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Water Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -495,41 +505,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void FireSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void FireSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is FIRE Attribute...
-                if (targetCard.CurrentAttribute == Attribute.FIRE)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is FIRE Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void FireSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Fire Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Fire Symbol's effect's affected by list and the target card is NOT longer FIRE,
+            //if the target card WAS already in the Fire Symbol's effect's "affected by" list and the target card is NOT FIRE AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.FIRE)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.FIRE || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer a FIRE attribute monster. The effects of Fire Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Fire Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Fire Symbol's effect's affected by list and the target card is NOW WATER and both have the same.Controller
+            //if the target card was NOT in the Fire Symbol's effect's affected by list and the target card is Fire and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
             else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.FIRE && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now a FIRE attribute monster. Fire Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Fire Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -572,41 +569,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void EarthSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void EarthSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is EARTH Attribute...
-                if (targetCard.CurrentAttribute == Attribute.EARTH)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is EARTH Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void EarthSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Earth Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Earth Symbol's effect's affected by list and the target card is NOT longer EARTH,
+            //if the target card WAS already in the Earth Symbol's effect's "affected by" list and the target card is NOT EARTH AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.EARTH)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.EARTH || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer an EARTH attribute monster. The effects of Earth Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Earth Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Earth Symbol's effect's affected by list and the target card is NOW EARTH and both have the same.Controller
+            //if the target card was NOT in the Earth Symbol's effect's affected by list and the target card is EARTH and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
             else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now an EARTH attribute monster. Earth Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Earth Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -649,41 +633,28 @@ namespace DungeonDiceMonsters
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
         }
-        private void WindSymbol_ReactTo_NewMonsterUnderYourControl(Effect thisEffect, Card targetCard)
+        private void WindSymbol_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
         {
-            //If the monster summon is from the same.Controller AND...
-            if (targetCard.Controller == thisEffect.Owner)
-            {
-                //is WIND Attribute...
-                if (targetCard.CurrentAttribute == Attribute.WIND)
-                {
-                    //Give a 200 Attack Boost
-                    targetCard.AdjustAttackBonus(200);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Reacted: Summoned Card is WIND Attribute and Owned by the effect.Controller. Increase its ATK by 200."));
-                }
-            }
-        }
-        private void WindSymbol_ReactTo_AttributeChange(Effect thisEffect, Card targetCard)
-        {
-            //If the target card that changed its attributed was the Card affected by this Wind Symbol's effect
-            //then check if this Card needs a stat boost modification
+            //This "React To" should apply to any Summon or Modification of ATTRIBUTE or CONTROLLER
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The attribute of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
 
-            //if the target card WAS already in the Wind Symbol's effect's affected by list and the target card is NOT longer WIND,
+            //if the target card WAS already in the Wind Symbol's effect's "affected by" list and the target card is NOT WIND AND/OR controller by the effect's owner anymore,
             //then reduce the attack boost and remove the target card from the affected by list
-            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute != Attribute.WIND)
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.CurrentAttribute != Attribute.WIND || targetCard.Controller != thisEffect.Owner))
             {
                 targetCard.AdjustAttackBonus(-200);
                 thisEffect.RemoveAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is not longer a WIND attribute monster. The effects of Wind Symbol do not apply to it anymore.");
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Wind Symbol will not apply to this card anymore. ATK boost was reduced by 200");
             }
-            //if the target card was NOT in the Wind Symbol's effect's affected by list and the target card is NOW WIND and both have the same.Controller
+            //if the target card was NOT in the Wind Symbol's effect's affected by list and the target card is WIND and controlled by the effect's owner
             //then increase the attack boost and add the target card to the affected by list
-            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.EARTH && thisEffect.Owner == targetCard.Controller)
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.CurrentAttribute == Attribute.WIND && thisEffect.Owner == targetCard.Controller)
             {
                 targetCard.AdjustAttackBonus(200);
                 thisEffect.AddAffectedByCard(targetCard);
-                UpdateEffectLogs("TARGET CARD is now a WIND attribute monster. Wind Symbol's effect will now apply to this card.");
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Wind Symbol's effect will now apply to this card. ATK boost was increased by 200.");
             }
             else
             {
@@ -865,10 +836,7 @@ namespace DungeonDiceMonsters
 
         #region Polymerization
         private void Polymerization_IgnitionActivation(Effect thisEffect)
-        {
-            //Destroy the Polymerization card
-            _CurrentTileSelected.DestroyCard();
-
+        {           
             //Now display the Fusion Selector Menu
             DisplayFusionSelectorMenu();
 
@@ -1043,15 +1011,12 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Controller == OPPONENTPLAYER)
+                if (!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Controller == OPPONENTPLAYER && thisCard.CanBeTarget)
                 {
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }
             }
             UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
-
-            //Flag the Effect Activation this turn
-            thisEffect.OriginCard.MarkEffectUsedThisTurn();
 
             //The Target selection will handle takin the player to the next game state
             _CurrentPostTargetState = PostTargetState.FireKrakenEffect;
@@ -1097,7 +1062,7 @@ namespace DungeonDiceMonsters
             //This action modified a monster's attribute, check for other active effects that will react to it.
             ResolveEffectsWithAttributeChangeReactionTo(theAffectedCard, thisEffect);
         }
-        private void FireKraken_ReactTo_AttributeChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
+        private void FireKraken_ReactTo_AttributeChange(Effect thisEffect, Card targetCard, Effect modifierEffect, List<Effect> _removalList)
         {
             //If the target card that changed its attributed was the Card affected by this Fire Kraken active effect
             //then remove this effect from the active effect list.
@@ -1117,7 +1082,107 @@ namespace DungeonDiceMonsters
                     //DO NOT DO THIS: _ActiveEffects.Remove(thisEffect);
                     //We cannot remove effects from the ActiveEffect list while the reaction validations are taken place
                     //Add this effect to the _EffectsToBeRemoved... list so it can be done at the end.
-                    _EffectsToBeRemovedByAttributeChangeReaction.Add(thisEffect);
+                    _removalList.Add(thisEffect);
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        #endregion
+
+        #region Change of Heart
+        private void ChangeOfHeart_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+           
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 opponent monster; take control of it until the end of this turn
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Category == Category.Monster && thisCard.Controller == OPPONENTPLAYER && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.ChangeOfHeartEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void ChangeOfHeart_PostTargetEffect(Tile TargetTile)
+        {
+            //Restore the ref to the effect being used
+            Effect thisEffect = _CardEffectToBeActivated;
+
+            //Now apply the effect into the target
+            Card targetCard = TargetTile.CardInPlace;
+
+            //Resolve the effect: change the monster's controllers to the TURNPLAYER
+            targetCard.SwitchController();
+            thisEffect.AddAffectedByCard(targetCard);
+
+            //Add this effect to the list of active effects
+            _ActiveEffects.Add(thisEffect);
+
+            //Now we can discard the card
+            DestroyCard(_EffectOriginTile);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("Post Target Resolution: Target Card's controller has been switched. New controller: [{0}]", targetCard.Controller));
+
+            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
+            ResolveEffectsWithMonsterControllerChangeReactionTo(targetCard, thisEffect);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void ChangeOfHeart_RemoveEffect(Effect thisEffect)
+        {
+            //At the end of the turn remove the changes applied by this effect
+            //Switch the Control back to the opponent
+            Card theAffectedCard = thisEffect.AffectedByList[0];
+            theAffectedCard.SwitchController();
+
+            //Now remove this effect from the active effect list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("This effect removal switched the controller of Card [{0}] with On Board ID [{1}] back to the opponent: [{2}].", theAffectedCard.Name, theAffectedCard.OnBoardID, theAffectedCard.Controller));
+
+            //This action switched a monster's controller, check for other active effects that will react to it.
+            ResolveEffectsWithMonsterControllerChangeReactionTo(theAffectedCard, thisEffect);
+        }
+        private void ChangeOfHeart_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect, List<Effect> _removalList)
+        {
+            //If the target card that had its controlled change was the Card affected by this Change of Heart active effect
+            //then remove this effect from the active effect list.
+            //Whatever effect that changed the controller of the target card will take over this effect.
+            //Therefore, at the end of the turn, this effect will switch the control of this monster back to your opponent. 
+
+            //This effect cannot react to itself...
+            if (modifierEffect == thisEffect)
+            {
+                UpdateEffectLogs("Effect cannot react to its own effect resolution.");
+            }
+            else
+            {
+                if (thisEffect.AffectedByList.Contains(targetCard))
+                {
+                    UpdateEffectLogs("Reaction: This Card already had a Controllerd Swtich applied by this effect. The new effect that switched its controller again will override this effect. This effect will be remove from the active effects list.");
+                    //DO NOT DO THIS: _ActiveEffects.Remove(thisEffect);
+                    //We cannot remove effects from the ActiveEffect list while the reaction validations are taken place
+                    //Add this effect to the _EffectsToBeRemoved... list so it can be done at the end.
+                    _removalList.Add(thisEffect);
                 }
                 else
                 {
