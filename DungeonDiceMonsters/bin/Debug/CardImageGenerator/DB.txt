@@ -1,0 +1,2 @@
+Karbonala Warrior|136|54541900|Monster|Warrior|Fusion|EARTH|1500|1200|1350|4|2|STAR 2|STAR 2|STAR 2|STAR 2|MAG 4|MAG 2|-|Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board.|-|[MAG 4] - Add 2 [ATK] and 2 [DEF] to your crest pool.|M-Warrior #1|M-Warrior #2|-|-|TRUE
+Change of Heart|138|4031928|Spell|Normal|NONE|SPELL|0|0|0|0|5|STAR 5|MAG 1|DEF 1|DEF 1|DEF 1|TRAP 1|-|-|-|[MAG 7] - Target 1 monster your opponent controls; take control of it until the end of this turn.|-|-|-|-|TRUE
