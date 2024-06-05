@@ -42,8 +42,9 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.KarbonalaWarrior_Ignition: KarbonalaWarrior_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.FireKraken: FireKraken_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ThunderDragon: ThunderDragon_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
-                case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_Continuous(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -53,13 +54,11 @@ namespace DungeonDiceMonsters
             //then remove the effect from the Board
             switch (thisEffect.ID)
             {
-                case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.FireKraken: FireKraken_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
-            //Remove the effect from the Active effect list
-            _ActiveEffects.Remove(thisEffect);
         }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
@@ -70,12 +69,31 @@ namespace DungeonDiceMonsters
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffectText;
             //Hide the elements not needed.
             lblActivationRequirementOutput.Text = "";
+            lblActivationRequirementOutput.Visible = false;
             PanelCost.Visible = false;
             btnActivate.Visible = false;
             btnEffectMenuCancel.Visible = false;
             //Wait 2 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
-            WaitNSeconds(2000);
+            WaitNSeconds(4000);
+        }
+        private void DisplayOnSummonEffectPanel(Effect thisEffect, string missingRequirements)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
+            //Load the menu with the On Summon effect
+            PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
+            lblEffectMenuTittle.Text = "Summon Effect";
+            lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffectText;
+            //Hide the elements not needed.
+            PanelCost.Visible = false;
+            btnActivate.Visible = false;
+            btnEffectMenuCancel.Visible = false;
+            //Show the missing requirements
+            lblActivationRequirementOutput.Text = missingRequirements;
+            lblActivationRequirementOutput.Visible = true;
+            //Wait 2 sec for players to reach the effect
+            PanelEffectActivationMenu.Visible = true;
+            WaitNSeconds(4000);
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
         {
@@ -84,12 +102,13 @@ namespace DungeonDiceMonsters
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.ContinuousEffectText;
             //Hide the elements not needed.
             lblActivationRequirementOutput.Text = "";
+            lblActivationRequirementOutput.Visible = false;
             PanelCost.Visible = false;
             btnActivate.Visible = false;
             btnEffectMenuCancel.Visible = false;
             //Wait 2 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
-            WaitNSeconds(2000);
+            WaitNSeconds(4000);
         }
         private void HideEffectMenuPanel()
         {
@@ -128,6 +147,7 @@ namespace DungeonDiceMonsters
             {
                 case PostTargetState.FireKrakenEffect: FireKraken_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ChangeOfHeartEffect: ChangeOfHeart_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ThunderDragonEffect: ThunderDragon_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -206,6 +226,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -1053,7 +1074,7 @@ namespace DungeonDiceMonsters
             Card theAffectedCard = thisEffect.AffectedByList[0];
             theAffectedCard.ResetAttribute();
 
-            //Now remove this effect from the active effect list
+            //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
@@ -1153,7 +1174,7 @@ namespace DungeonDiceMonsters
             Card theAffectedCard = thisEffect.AffectedByList[0];
             theAffectedCard.SwitchController();
 
-            //Now remove this effect from the active effect list
+            //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
@@ -1209,56 +1230,188 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region "Thunder Dragon"
-        private void ThunderDragon_Continuous(Effect thisEffect)
+        private void ThunderDragon_OnSummonActivation(Effect thisEffect)
         {
-            //Since this is a CONTINUOUS, display the Effect Panel for 2 secs then execute the effect
+            //ON SUMMON EFFECT will not activate if the monster was Transform Summoned (Transformed into)
+            if(thisEffect.OriginCard.WasTransformedInto)
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was transformed into. Effect wont activate.");
+                UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                HideEffectMenuPanel();
+                //Simply enter the main phase.
+                EnterMainPhase();
+            }
+            else
+            {
+                //This ON SUMMON EFFECT needs a valid target candidate
+                //We need to determine if there is a candidate or not first
+                _EffectTargetCandidates.Clear();
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsASymbol && !thisCard.IsDiscardted && thisCard.Controller == thisEffect.Owner &&
+                        (thisCard.Type == Type.Thunder || thisCard.Type == Type.Dragon) && thisCard.OriginalATK <= 1500)
+                    {
+                        //This is a candidate
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+                if (_EffectTargetCandidates.Count > 0)
+                {
+                    //Proceed with the effect activation path
+                    DisplayOnSummonEffectPanel(thisEffect);
+                    HideEffectMenuPanel();
+
+                    //Set the "Reaction To" flags
+                    //This effect is a One-Time activation, does not reach to any event.
+
+                    //The Target selection will handle takin the player to the next game state
+                    _CurrentPostTargetState = PostTargetState.ThunderDragonEffect;
+                    InitializeEffectTargetSelection();
+                }
+                else
+                {
+                    //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets for activation. Effect wont activate.");
+                    UpdateEffectLogs("There are not proper effect targets for this this effect. Effect will not activate.");
+                    HideEffectMenuPanel();
+                    //Simply enter the main phase.
+                    EnterMainPhase();
+                }
+            }
+        }
+        private void ThunderDragon_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Transform target into "Thunder Dragon" Card ID: 31786629
+            TransformMonster(TargetTile, 31786629);
+
+            //This effect summons a monster, the TransformMonster() method will handle reaching the next game state.
+        }
+        #endregion
+
+        #region "Twin-Headed Thunder Dragon"
+        private void TwinHeadedThunderDragon_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel then execute the effect
             DisplayOnSummonContinuousEffectPanel(thisEffect);
 
-            //EFFECT DESCRIPTION
-            //increase the DEF off all controller's owned Thunder-Type monsters by 500. (EXCEPT THE ORIGIN CARD)
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Increase Attack Range Bonus +1 for each "Twin-Headed Thunder Dragon" from the same controller.
+            thisEffect.CustomInt1 = 0;
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (thisCard.Controller == thisEffect.Owner)
+                if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard && 
+                    thisCard.Controller == thisEffect.Owner)
                 {
-                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Thunder && thisCard.OnBoardID != thisEffect.OriginCard.OnBoardID)
+                    thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                    thisEffect.CustomInt1++;
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel and enter the Main Phase
+            HideEffectMenuPanel();
+            EnterMainPhase();
+        }
+        private void TwinHeadedThunderDragon_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is "Twin-Headed Thunder Dragon" controlled by the same player
+            if (targetCard.Name == "Twin-Headed Thunder Dragon" && targetCard.Controller == thisEffect.Owner)
+            {
+                //Increase the origin card's attack range bonus +1
+                thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the origin card's attack range +1.");
+            }
+        }
+        private void TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
+        {
+            //If the monster destroyed was "Twin-Headed Thunder Dragon" controlled by the same player
+            if (targetCard.Name == "Twin-Headed Thunder Dragon" && targetCard.Controller == thisEffect.Owner)
+            {
+                //Reduce the origin card's attack range bonus -1
+                thisEffect.OriginCard.AdjustAttackRangeBonus(-1);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs("Effect Reacted: Reduced the origin card's attack range -1.");
+            }
+        }
+        private void TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(Effect thisEffect, Card targetCard)
+        {
+            //This effect can react to the controller change of its own origin card
+            if(targetCard == thisEffect.OriginCard)
+            {
+                //if this is the case, recalculate the Attack Range bonus by reseting the Attack Range Bonus
+                //provided by this effect previously using the "CustonInt1" field
+                int currentAttackRangeBonus = thisEffect.CustomInt1;
+                targetCard.AdjustAttackRangeBonus(-currentAttackRangeBonus);
+                thisEffect.CustomInt1 = 0;
+
+                UpdateEffectLogs("Effect Reacted: This effect's origin card changed controller. This card needs to reset its effect based on the new controller's status.");
+                UpdateEffectLogs(string.Format("The Attack Range bonus of this Card by this effect was [{0}], this will be reverted and recalculated.", currentAttackRangeBonus));
+
+                //Now that this effect has "removed" itself from when this target monster was controlled
+                //by the opposite player, recalculate the Attack Range bonus as it was activated for the first time.
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard &&
+                        thisCard.Controller == thisEffect.Owner)
                     {
-                        thisCard.AdjustDefenseBonus(500);
-                        thisEffect.AddAffectedByCard(thisCard);
-                        //Reload The Tile UI for the card affected
-                        thisCard.ReloadTileUI();
-                        UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                        thisEffect.CustomInt1++;
+                        UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
             }
-
-            HideEffectMenuPanel();
-
-            //At this point end the summoning phase
-            EnterMainPhase();
-        }
-        private void ThunderDragon_TryToApplyToNewCard(Effect thisEffect, Card targetCard)
-        {
-            if (targetCard.Controller == thisEffect.Owner)
+            else
             {
-                if (targetCard.Type == Type.Thunder)
+                //If the monster who had its controller changed is "Twin-Headed Thunder Dragon"
+                if (targetCard.Name == "Twin-Headed Thunder Dragon")
                 {
-                    targetCard.AdjustDefenseBonus(500);
-                    thisEffect.AddAffectedByCard(targetCard);
-                    UpdateEffectLogs(string.Format("Effect Applied: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}] - Increased the card's DEF by 500.", thisEffect.ID, targetCard.Name, targetCard.OnBoardID, targetCard.Controller));
+                    //Then check who is the new controller
+
+                    //if controller by the same player
+                    if (targetCard.Controller == thisEffect.Owner)
+                    {
+                        //Increase the origin card's attack range bonus +1
+                        thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                        UpdateEffectLogs("Effect Reacted: Increase the origin card's attack range +1.");
+                    }
+                    else
+                    {
+                        //Reduce the origin card's attack range bonus -1
+                        thisEffect.OriginCard.AdjustAttackRangeBonus(-1);
+                        UpdateEffectLogs("Effect Reacted: Reduced the origin card's attack range -1.");
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
                 }
             }
         }
-        private void ThunderDragon_RemoveEffect(Effect thisEffect)
+        private void TwinHeadedThunderDragon_RemoveEffect(Effect thisEffect)
         {
-            //Remove Effect Description:
-            //DECREASE the DEF of all affected by monsters by 500
-            foreach (Card thisCard in thisEffect.AffectedByList)
-            {
-                thisCard.AdjustDefenseBonus(-500);
-                //Reload The Tile UI for the card affected
-                thisCard.ReloadTileUI();
-                UpdateEffectLogs(string.Format("Effect Removed: [{0}] | TO: [{1}] On Board ID: [{2}] Owned by [{3}]", thisEffect.ID, thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-            }
+            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
+            //is now discarted.
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
+
         }
         #endregion
     }

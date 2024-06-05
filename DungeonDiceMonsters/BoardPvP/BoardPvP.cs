@@ -743,7 +743,7 @@ namespace DungeonDiceMonsters
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
                         PicCardAttribute.Visible = true;
 
-                        PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.Type.ToString());
+                        PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.TypeAsString);
                         PicCardMonsterType.Visible = true;
 
                         if (thisCard.Category == Category.Monster)
@@ -1086,18 +1086,26 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
-        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId, bool dimensionSummon)
+        private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId, SummonType thisSummonType)
         {
             //then summon the card
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
-            if (dimensionSummon) 
+
+            //Normal and Ritual summons are the only ones that dimension a dice on the board.
+            if (thisSummonType == SummonType.Normal || thisSummonType == SummonType.Ritual) 
             {
                 _Tiles[tileId].SummonCard(thisCard);
             }
             else
             {
                 _Tiles[tileId].NonDimensionSummon(thisCard);
+            }
+
+            //if this was a Transform Summon flag the monster as such
+            if(thisSummonType == SummonType.Transform)
+            {
+                thisCard.MarkAsTransformedInto();
             }
 
             //Wait 1 sec for the sound effect to finish
@@ -1111,13 +1119,13 @@ namespace DungeonDiceMonsters
             if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
             {
                 //Create the effect object and activate
-                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.OnSummon);
+                Effect thisCardsEffect = thisCard.GetOnSummonEffect();
                 ActivateEffect(thisCardsEffect);
             }
             else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
             {
                 //Create the effect object and activate
-                Effect thisCardsEffect = new Effect(thisCard, Effect.EffectType.Continuous);
+                Effect thisCardsEffect = thisCard.GetContinuousEffect();
                 ActivateEffect(thisCardsEffect);
             }
             else
@@ -1143,7 +1151,7 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
-                            case Effect.EffectID.ThunderDragon_Continuous: ThunderDragon_TryToApplyToNewCard(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1165,13 +1173,18 @@ namespace DungeonDiceMonsters
 
 
             //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes
+            List<Effect> effectsToBeRemoved = new List<Effect>();
             foreach (Effect thisActiveEffect in _ActiveEffects)
             {
                 if (thisActiveEffect.OriginCard == thisCard && thisActiveEffect.Type == Effect.EffectType.Continuous)
                 {
-                    UpdateEffectLogs(string.Format("Removing Continuous Effect: [{0}]", thisActiveEffect.ID));
-                    RemoveEffect(thisActiveEffect);
+                    effectsToBeRemoved.Add(thisActiveEffect);
                 }
+            }
+            //Actually remove the effect from the active list
+            foreach (Effect thisActiveEffect in effectsToBeRemoved)
+            {
+                RemoveEffect(thisActiveEffect);
             }
 
             //Finally, check if any active effects react to a card destryuction
@@ -1185,10 +1198,28 @@ namespace DungeonDiceMonsters
                     switch (thisEffect.ID)
                     {
                         case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         default: throw new Exception(string.Format("This effect id: [{0}] does not have a React to Monster Destroyed method assigned", thisEffect.ID));
                     }
                 }
             }
+        }
+        private void TransformMonster(Tile tileLocation, int newMonsterID)
+        {
+            //Step 1: Destroy the monster to be transformed
+            string oldMonstersName = tileLocation.CardInPlace.Name;
+            string oldMonsterOnBoardId = tileLocation.CardInPlace.OnBoardID.ToString();
+            DestroyCard(tileLocation);
+
+            //Step 2: Create the CardInfo for the monster to transform into
+            CardInfo thisNewMonsterInfo = CardDataBase.GetCardWithID(newMonsterID);
+            string newMonstersName = thisNewMonsterInfo.Name;
+
+            //Step 3: Update effect logs
+            UpdateEffectLogs(string.Format("Card [{0}] with On Board ID [{1}] was transformed into [{2}].", oldMonstersName, oldMonsterOnBoardId, newMonstersName));
+
+            //Step 4: Now Transform Summon the new monster
+            SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
         }
         private void LaunchTurnStartPanel()
         {            
@@ -1632,6 +1663,14 @@ namespace DungeonDiceMonsters
             NONE,
             FireKrakenEffect,
             ChangeOfHeartEffect,
+            ThunderDragonEffect,
+        }
+        private enum SummonType
+        {
+            Normal,
+            Ritual,
+            Fusion,
+            Transform,
         }
         #endregion                  
     }

@@ -95,6 +95,7 @@ namespace DungeonDiceMonsters
         public bool IsFaceDown { get { return _IsFaceDown; } }
         public bool IsDiscardted { get { return _IsDestroyed; } }
         public bool IsASymbol { get { return _IsASymbol; } }
+        public bool WasTransformedInto { get { return _WasTransformedInto; } }
         public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
         public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
         public int SpellboundCounter { get { return _SpellboundCounter; } }
@@ -113,8 +114,21 @@ namespace DungeonDiceMonsters
         public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
         public int MovesPerTurn { get { return _BaseMovesPerTurn; } }
         public bool EffectUsedThisTurn { get { return _EffectUsedThisTurn; } }
-        public int AttackRange { get { return _AttackRange; } }
-        public int MoveRange { get { return _MoveRange; } }
+        public int AttackRange {
+            get
+            {
+                int finalRange = _AttackRange + _AttackRangeBonus;
+                if (finalRange < 1) { return 1; } else { return finalRange; }
+            }
+        }
+        public int MoveRange 
+        { 
+            get 
+            {
+                int finalRange = _MoveRange + _MoveRangeBonus;
+                if (finalRange < 1) { return 1; } else { return finalRange; }
+            }
+        }
         #endregion
 
         #region Public Funtions
@@ -164,6 +178,14 @@ namespace DungeonDiceMonsters
         {
             _DefenseBonus += amount;
             ReloadTileUI();
+        }
+        public void AdjustAttackRangeBonus(int amount)
+        {
+            _AttackRangeBonus += amount;
+        }
+        public void AdjustMoveRangeBonus(int amount)
+        {
+            _MoveRangeBonus += amount;
         }
         public Color GetATKStatus()
         {
@@ -286,6 +308,10 @@ namespace DungeonDiceMonsters
             if (_Controller == PlayerColor.RED) { _Controller = PlayerColor.BLUE; }
             else { _Controller = PlayerColor.RED; }
         }
+        public void MarkAsTransformedInto()
+        {
+            _WasTransformedInto = true;
+        }
         #endregion
 
         #region Data
@@ -298,6 +324,7 @@ namespace DungeonDiceMonsters
         private bool _IsASymbol = false;
         private Tile _CurrentTile;
         private bool _FieldBonusActive = false;
+        private bool _WasTransformedInto = false;
 
         //Card Stats Data
         private int _CurrentLP;
@@ -333,6 +360,8 @@ namespace DungeonDiceMonsters
         //Ranges
         private int _AttackRange = 1;
         private int _MoveRange = 1;
+        private int _AttackRangeBonus = 0;
+        private int _MoveRangeBonus = 0;
         #endregion
     }
 }

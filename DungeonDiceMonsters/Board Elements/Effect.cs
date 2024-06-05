@@ -32,6 +32,8 @@ namespace DungeonDiceMonsters
         public bool HasACost { get { return _CrestCost != Crest.NONE; } }
         public Crest CrestCost { get { return _CrestCost; } }
         public int CostAmount {  get { return _CostAmount; } }
+        //Custom Fields
+        public int CustomInt1 { get; set; }
         public void AddAffectedByCard(Card thisCard)
         {
             _AffectedByList.Add(thisCard);
@@ -108,7 +110,8 @@ namespace DungeonDiceMonsters
                 case "Fire Kraken": return EffectID.FireKraken;
                 case "Change of Heart": return EffectID.ChangeOfHeart;
                 case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
-                case "Thunder Dragon": return EffectID.ThunderDragon_Continuous;
+                case "Thunder Dragon": return EffectID.ThunderDragon;
+                case "Twin-Headed Thunder Dragon": return EffectID.TwinHeadedThunderDragon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -163,8 +166,9 @@ namespace DungeonDiceMonsters
             KarbonalaWarrior_Ignition,
             FireKraken,
             ChangeOfHeart,
+            ThunderDragon,
+            TwinHeadedThunderDragon,
             HitotsumeGiant_OnSummon,
-            ThunderDragon_Continuous,
         }
         #endregion
     }

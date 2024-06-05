@@ -4,12 +4,12 @@ BLUE TILES
 5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110|111
 ---------------------------------------
 RED MONSTERS|6
-92731455|7|M-Warrior #2
-27054370|110|Firewing Pegasus
-56342351|136|M-Warrior #1
-89631139|116|Blue-Eyes White Dragon
-89631139|123|Blue-Eyes White Dragon
-46534755|175|Fire Kraken
+31786629|7|Thunder Dragon
+31786629|110|Thunder Dragon
+31786629|136|Thunder Dragon
+31786629|116|Thunder Dragon
+31786629|123|Thunder Dragon
+31786629|175|Thunder Dragon
 -----------------------------------------
 BLUE MONSTERS|4
 75745607|226|Hino-Kagu-Tsuchi
@@ -17,11 +17,13 @@ BLUE MONSTERS|4
 35842855|84|Pyrorex the Elemental Lord
 67371383|111|Amphibian Beast
 ------------------------------------
-RED SET CARDS|1
-4031928|188|Change of Heart
+RED SET CARDS|3
+24094653|188|Polymerization
+24094653|104|Polymerization
+24094653|201|Polymerization
 ----------------------------------------
 BLUE SET CARDS|1
-24094653|19|Polymerization
+4031928|19|Change of heart
 -----------------------------------------
 RED CRESTS|20|20|20|20|20
 BLUE CRESTS|20|20|20|20|20
