@@ -4020,7 +4020,7 @@
     "face4": "ATK 2",
     "face5": "ATK 1",
     "face6": "ATK 3",
-    "onSummonEffect": "If this card was not transformed into, Target 1 Thunder or Dragon type monster with 1600 or lower ATK your control; transform it into “Thunder Dragon”.",
+    "onSummonEffect": "If this card was not transformed into, Target 1 Thunder or Dragon type monster with 1500 or lower ATK your control; transform it into “Thunder Dragon”.",
     "continuousEffect": "-",
     "ability": "-",
     "ignitionEffect": "-",

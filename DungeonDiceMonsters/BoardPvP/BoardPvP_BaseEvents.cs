@@ -195,7 +195,7 @@ namespace DungeonDiceMonsters
                 _CurrentDimensionForm = DimensionForms.CrossBase;
 
                 //Now run the Master Summon Monster function
-                SummonMonster(_CardToBeSummon, tileId, true);
+                SummonMonster(_CardToBeSummon, tileId, SummonType.Normal);
             }));
         }
         private void TileClick_SetCard_Base(int tileId)
@@ -678,7 +678,7 @@ namespace DungeonDiceMonsters
                 DestroyCard(_EffectOriginTile);
 
                 //Now run the Master Summon Monster function
-                SummonMonster(_FusionToBeSummoned, tileId, false);
+                SummonMonster(_FusionToBeSummoned, tileId, SummonType.Fusion);
             }));
         }
         private void TileClick_EffectTarget_Base(int tileId)
