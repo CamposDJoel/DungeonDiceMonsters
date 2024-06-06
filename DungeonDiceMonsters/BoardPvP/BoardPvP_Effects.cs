@@ -37,14 +37,25 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MWarrior1_Ignition: MWarrior1_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior2_OnSummon: MWarrior2_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.MWarrior2_Ignition: MWarrior2_IgnitionActivation(thisEffect); break;
-                case Effect.EffectID.Polymerization: Polymerization_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.Polymerization_Ignition: Polymerization_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Ignition: KarbonalaWarrior_IgnitionActivation(thisEffect); break;
-                case Effect.EffectID.FireKraken: FireKraken_IgnitionActivation(thisEffect); break;
-                case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_IgnitionActivation(thisEffect); break;
-                case Effect.EffectID.ThunderDragon: ThunderDragon_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.FireKraken_Ignition: FireKraken_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ThunderDragon_OnSummon: ThunderDragon_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousActivation(thisEffect); break;
-                case Effect.EffectID.HitotsumeGiant_OnSummon: HitotsumeGiant_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.HitotsumeGiant_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 3); break;
+                case Effect.EffectID.MasterExpert_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MAG, 3); break;
+                case Effect.EffectID.BigEye_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MAG, 3); break;
+                case Effect.EffectID.ThatWhichFeedsonLife_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 3); break;
+                case Effect.EffectID.TheThingintheCrater_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 3); break;
+                case Effect.EffectID.Fireyarou_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 3); break;
+                case Effect.EffectID.GoddesswiththeThirdEye_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 3); break;
+                case Effect.EffectID.MoonEnvoy_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.ATK, 3); break;
+                case Effect.EffectID.ArmaKnight_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.ATK, 3); break;
+                case Effect.EffectID.WaterGirl_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 3); break;
+                case Effect.EffectID.WingedDragonGuardianoftheFortress2_OnSummmon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 3); break;
+                case Effect.EffectID.KillerNeedle_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 3); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -54,8 +65,8 @@ namespace DungeonDiceMonsters
             //then remove the effect from the Board
             switch (thisEffect.ID)
             {
-                case Effect.EffectID.FireKraken: FireKraken_RemoveEffect(thisEffect); break;
-                case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FireKraken_Ignition: FireKraken_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
@@ -180,7 +191,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.FireKraken: FireKraken_ReactTo_AttributeChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByAttrChange); break;
+                        case Effect.EffectID.FireKraken_Ignition: FireKraken_ReactTo_AttributeChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByAttrChange); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -225,7 +236,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.ChangeOfHeart: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
@@ -1211,23 +1222,7 @@ namespace DungeonDiceMonsters
                 }
             }
         }
-        #endregion
-
-        #region "Hitotsu-Me Giant"
-        private void HitotsumeGiant_OnSummonActivation(Effect thisEffect)
-        {
-            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 2 secs then execute the effect
-            DisplayOnSummonEffectPanel(thisEffect);
-
-            //EFFECT DESCRIPTION: Add 3 [ATK] to the controller's crest pool
-            AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, 3);
-
-            HideEffectMenuPanel();
-
-            //At this point end the summoning phase
-            EnterMainPhase();
-        }
-        #endregion
+        #endregion      
 
         #region "Thunder Dragon"
         private void ThunderDragon_OnSummonActivation(Effect thisEffect)
@@ -1412,6 +1407,22 @@ namespace DungeonDiceMonsters
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
 
+        }
+        #endregion
+
+        #region Crest Boosters
+        private void CrestBooster_OnSummonActivation(Effect thisEffect, Crest crestToAdd, int amount)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 4 secs then execute the effect
+            DisplayOnSummonEffectPanel(thisEffect);
+
+            //EFFECT DESCRIPTION: Add whatever [ ] crest to the controller's crest pool by the amout set
+            AdjustPlayerCrestCount(TURNPLAYER, crestToAdd, amount);
+
+            HideEffectMenuPanel();
+
+            //At this point end the summoning phase
+            EnterMainPhase();
         }
         #endregion
     }
