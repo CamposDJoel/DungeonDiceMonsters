@@ -202,6 +202,9 @@ namespace DungeonDiceMonsters
 
             if(selection.Count == 3)
             {
+                ImageServer.ClearImage(Pic1);
+                ImageServer.ClearImage(Pic2);
+                ImageServer.ClearImage(Pic3);
                 Pic1.Image = ImageServer.FullCardImage(selection[0].ToString());
                 Pic2.Image = ImageServer.FullCardImage(selection[1].ToString());
                 Pic3.Image = ImageServer.FullCardImage(selection[2].ToString());
@@ -209,6 +212,9 @@ namespace DungeonDiceMonsters
 
             if (selection.Count == 2)
             {
+                ImageServer.ClearImage(Pic1);
+                ImageServer.ClearImage(Pic2);
+                ImageServer.ClearImage(Pic3);
                 Pic1.Image = ImageServer.FullCardImage(selection[0].ToString());
                 Pic2.Image = ImageServer.FullCardImage(selection[1].ToString());
                 Pic3.Image = ImageServer.FullCardImage("0");
@@ -216,6 +222,9 @@ namespace DungeonDiceMonsters
 
             if (selection.Count == 1)
             {
+                ImageServer.ClearImage(Pic1);
+                ImageServer.ClearImage(Pic2);
+                ImageServer.ClearImage(Pic3);
                 Pic1.Image = ImageServer.FullCardImage(selection[0].ToString());
                 Pic2.Image = ImageServer.FullCardImage("0");
                 Pic3.Image = ImageServer.FullCardImage("0");

@@ -182,6 +182,7 @@ namespace DungeonDiceMonsters
                     int cardID = StorageData.Cards[iterator].ID;
 
                     //Populate the card image with the card ID
+                    ImageServer.ClearImage(_CardImageList[x]);
                     _CardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
 
                     //Update the amount label
@@ -214,6 +215,7 @@ namespace DungeonDiceMonsters
                         int cardID = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
 
                         //Populate the card image with the card ID
+                        ImageServer.ClearImage(_DeckCardImageList[x]);
                         _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
                     }                    
                 }
@@ -236,6 +238,7 @@ namespace DungeonDiceMonsters
                     int cardID = _CurrentDeckSelected.GetFusionCardIDAtIndex(x);
 
                     //Populate the card image with the card ID
+                    ImageServer.ClearImage(_DeckCardImageList[x + 20]);
                     _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID.ToString());
                 }
             }
