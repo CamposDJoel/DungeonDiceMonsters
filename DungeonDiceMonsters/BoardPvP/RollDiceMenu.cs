@@ -383,23 +383,30 @@ namespace DungeonDiceMonsters
 
             if (thisCard.HasOnSummonEffect)
             {
-                fullcardtext = fullcardtext + "(On Summon) - " + thisCard.OnSummonEffect + "\n\n";
-            }
-
-            if (thisCard.HasContinuousEffect)
-            {
-                fullcardtext = fullcardtext + "(Continuous) - " + thisCard.ContinuousEffect + "\n\n";
+                fullcardtext = fullcardtext + "(ON SUMMON) - " + thisCard.OnSummonEffect + "\n\n";
             }
 
             if (thisCard.HasAbility)
             {
-                fullcardtext = fullcardtext + "(Ability) - " + thisCard.Ability + "\n\n";
+                fullcardtext = fullcardtext + "(ABILITY) - " + thisCard.Ability + "\n\n";
             }
+
+
+            if (thisCard.HasContinuousEffect)
+            {
+                fullcardtext = fullcardtext + "(CONTINUOUS) - " + thisCard.ContinuousEffect + "\n\n";
+            }           
 
             if (thisCard.HasIgnitionEffect)
             {
-                fullcardtext = fullcardtext + thisCard.IgnitionEffect + "\n\n";
+                fullcardtext = fullcardtext + "(EFFECT)" + thisCard.IgnitionEffect + "\n\n";
             }
+
+            if (thisCard.HasTriggerEffect)
+            {
+                fullcardtext = fullcardtext + "(TRIGGER)" + thisCard.TriggerEffect + "\n\n";
+            }
+
             lblCardText.Text = fullcardtext;
 
             //Dice Faces
