@@ -75,7 +75,7 @@ namespace DungeonDiceMonsters
                     CardBox.Controls.Add(amountLabel);
                     amountLabel.Location = new Point(2, 2);
                     amountLabel.BorderStyle = BorderStyle.FixedSingle;
-                    amountLabel.Size = new Size(20, 15);
+                    amountLabel.Size = new Size(30, 15);
                     amountLabel.BackColor = Color.Black;
                     amountLabel.ForeColor = Color.White;
                     _CardAmountList.Add(amountLabel);
@@ -165,7 +165,7 @@ namespace DungeonDiceMonsters
                 int iterator = startIndex + x;
                
                 //If the itearator reached past the last card in the Card DB vanish the card from view
-                if (iterator >= StorageData.Cards.Count)
+                if (iterator >= StorageData.GetCardCount())
                 {
                     _CardPanelList[x].Visible = false;
                     _StorageIDsInCurrentPage[x] = 0;
@@ -173,20 +173,20 @@ namespace DungeonDiceMonsters
                 else
                 {
                     //Update the ID of the card in this slow
-                    _StorageIDsInCurrentPage[x] = StorageData.Cards[iterator].ID;
+                    _StorageIDsInCurrentPage[x] = StorageData.GetCardID(iterator);
 
                     //Make the card panel visible
                     _CardPanelList[x].Visible = true;
 
                     //Get the card ID of the card to be displayed
-                    int cardID = StorageData.Cards[iterator].ID;
+                    int cardID = StorageData.GetCardID(iterator);
 
                     //Populate the card image with the card ID
                     ImageServer.ClearImage(_CardImageList[x]);
                     _CardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
 
                     //Update the amount label
-                    _CardAmountList[x].Text = StorageData.Cards[iterator].Amount.ToString();
+                    _CardAmountList[x].Text = string.Format("x{0}", StorageData.GetAmount(iterator).ToString());
                 }
             }
         }
@@ -418,7 +418,7 @@ namespace DungeonDiceMonsters
             int startIndex = (_CurrentPage * 30) - 30;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            int cardid = StorageData.Cards[indexInStorasge].ID;
+            int cardid = StorageData.GetCardID(indexInStorasge);
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             SetStorageSelector(thiPictureBoxIndex);
@@ -433,7 +433,7 @@ namespace DungeonDiceMonsters
             int startIndex = (_CurrentPage * 30) - 30;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            int cardid = StorageData.Cards[indexInStorasge].ID;
+            int cardid = StorageData.GetCardID(indexInStorasge);
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             bool CanBeMoved = false;
@@ -531,9 +531,12 @@ namespace DungeonDiceMonsters
         private void btnNext_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            _CurrentPage++;
-
-            if(_CurrentPage == 6 ) { _CurrentPage = 1; }
+          
+            if (_CurrentPage == 10) { _CurrentPage = 1; }
+            else
+            {
+                _CurrentPage++;
+            }
             lblStorage.Text = "Storage Page: " + _CurrentPage;
             LoadStoragePage();
             SetStorageSelector(0);
@@ -551,9 +554,9 @@ namespace DungeonDiceMonsters
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            _CurrentPage--;
-
-            if (_CurrentPage == 0) { _CurrentPage = 5; }
+           
+            if (_CurrentPage == 1) { _CurrentPage = 10; }
+            else { _CurrentPage--; }
             lblStorage.Text = "Storage Page: " + _CurrentPage;
             LoadStoragePage();
             SetStorageSelector(0);

@@ -8,7 +8,7 @@ namespace DungeonDiceMonsters
 {
     public static class StorageData
     {
-        public static List<StorageSlot> Cards = new List<StorageSlot>();
+        private static List<StorageSlot> Cards = new List<StorageSlot>();
 
         public static int GetCardID(int index)
         {
@@ -68,6 +68,10 @@ namespace DungeonDiceMonsters
                     Cards.RemoveAt(indexOfCard);
                 }
             }
+        }
+        public static int GetCardCount()
+        {
+            return Cards.Count;
         }
     }
 
