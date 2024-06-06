@@ -799,6 +799,14 @@ namespace DungeonDiceMonsters
                 EnterMainPhase();
             }));
         }
+        private void UpdateDimension_Base(int selectionID)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                _CurrentDimensionForm = (DimensionForms)selectionID;
+                UpdateDimensionPreview();
+            }));
+        }
         #endregion
 
         #region Action Menu

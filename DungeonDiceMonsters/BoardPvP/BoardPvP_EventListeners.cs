@@ -554,12 +554,7 @@ namespace DungeonDiceMonsters
             SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
-        }
-        private void UpdateDimension_Base(int selectionID)
-        {
-            _CurrentDimensionForm = (DimensionForms)selectionID;
-            UpdateDimensionPreview();
-        }
+        }       
         #endregion
 
         #region Action Menu

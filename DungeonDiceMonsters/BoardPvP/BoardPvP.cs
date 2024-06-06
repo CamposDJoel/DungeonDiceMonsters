@@ -1067,7 +1067,17 @@ namespace DungeonDiceMonsters
 
             bool validMessage = false;
 
-            if (MessageKey.StartsWith("[") && MessageKey.EndsWith("]")) { validMessage = true; }
+            if (MessageKey.StartsWith("[") && MessageKey.EndsWith("]")) 
+            { 
+                if(MessageKey == "[ON MOUSE ENTER TILE]" || MessageKey == "[ON MOUSE LEAVE TILE]")
+                {
+                    if (MessageTokens.Length > 1 && MessageTokens[1] != "") { validMessage = true; }
+                }
+                else
+                {
+                    validMessage = true;
+                }
+            }
 
             if(validMessage)
             {

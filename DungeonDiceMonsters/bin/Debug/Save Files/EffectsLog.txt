@@ -6,12 +6,12 @@ No Cards were affected by it.
 No Cards were affected by it.
 -----------------------------------------------------------------------------------------
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [LALA Li-oon] On Board ID: [2] Owned By: [RED]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Weather Control] On Board ID: [2] Owned By: [RED]
 Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [0]
-Effect did not react.
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
 Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [1]
 Effect did not react.
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [LALALioon_OnSummon] - Origin Card Board ID: [2].Controller: [RED]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [WeatherControl_OnSummon] - Origin Card Board ID: [2].Controller: [RED]
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
