@@ -727,8 +727,9 @@
             // txtFullCardData
             // 
             this.txtFullCardData.Location = new System.Drawing.Point(557, 23);
+            this.txtFullCardData.Multiline = true;
             this.txtFullCardData.Name = "txtFullCardData";
-            this.txtFullCardData.Size = new System.Drawing.Size(230, 20);
+            this.txtFullCardData.Size = new System.Drawing.Size(230, 37);
             this.txtFullCardData.TabIndex = 41;
             // 
             // label10
@@ -744,7 +745,7 @@
             // 
             this.btnFullCardStringAddToDB.BackColor = System.Drawing.Color.Green;
             this.btnFullCardStringAddToDB.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnFullCardStringAddToDB.Location = new System.Drawing.Point(710, 44);
+            this.btnFullCardStringAddToDB.Location = new System.Drawing.Point(710, 62);
             this.btnFullCardStringAddToDB.Name = "btnFullCardStringAddToDB";
             this.btnFullCardStringAddToDB.Size = new System.Drawing.Size(77, 27);
             this.btnFullCardStringAddToDB.TabIndex = 43;
