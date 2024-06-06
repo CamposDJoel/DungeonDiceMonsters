@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
@@ -123,6 +124,18 @@ namespace DungeonDiceMonsters
                 case "Water Girl": return EffectID.WaterGirl_OnSummon;
                 case "Winged Dragon, Guardian of the Fortress #2": return EffectID.WingedDragonGuardianoftheFortress2_OnSummmon;
                 case "Killer Needle": return EffectID.KillerNeedle_OnSummon;
+                case "Hurricail": return EffectID.Hurricail_OnSummon;
+                case "LALA Li-oon": return EffectID.LALALioon_OnSummon;
+                case "The Melting Red Shadow": return EffectID.TheMeltingRedShadow_OnSummon;
+                case "Tentacle Plant": return EffectID.TentaclePlant_OnSummon;
+                case "Skelengel": return EffectID.Skelengel_OnSummon;
+                case "Weather Control": return EffectID.WeatherControl_OnSummon;
+                case "People Running Around": return EffectID.PeopleRunningAround_OnSummon;
+                case "Flame Dancer": return EffectID.FlameDancer_OnSummon;
+                case "Archfiend Marmot of Nefariousness": return EffectID.ArchfiendMarmotofNefariousness_OnSummon;
+                case "Haniwa": return EffectID.Haniwa_OnSummon;
+                case "Boo Koo": return EffectID.BooKoo_OnSummon;
+                case "Curtain of the Dark Ones": return EffectID.CurtainoftheDarkOnes_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -190,7 +203,19 @@ namespace DungeonDiceMonsters
             ArmaKnight_OnSummon,
             WaterGirl_OnSummon,
             WingedDragonGuardianoftheFortress2_OnSummmon,
-            KillerNeedle_OnSummon
+            KillerNeedle_OnSummon,
+            Hurricail_OnSummon,
+            LALALioon_OnSummon,
+            TheMeltingRedShadow_OnSummon,
+            TentaclePlant_OnSummon,
+            Skelengel_OnSummon,
+            WeatherControl_OnSummon,
+            PeopleRunningAround_OnSummon,
+            FlameDancer_OnSummon,
+            ArchfiendMarmotofNefariousness_OnSummon,
+            Haniwa_OnSummon,
+            BooKoo_OnSummon,
+            CurtainoftheDarkOnes_OnSummon,
         }
         #endregion
     }
