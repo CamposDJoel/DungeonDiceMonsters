@@ -81,11 +81,13 @@ namespace DungeonDiceMonsters
         public bool HasOnSummonEffect { get { return _cardInfo.HasOnSummonEffect; } }
         public bool HasContinuousEffect { get { return _cardInfo.HasContinuousEffect; } }
         public bool HasIgnitionEffect { get { return _cardInfo.HasIgnitionEffect; } }
+        public bool HasTriggerEffect { get { return _cardInfo.HasTriggerEffect; } } 
         public bool HasAbility { get { return _cardInfo.HasAbility; } }
         public string OnSummonEffectText { get { return _cardInfo.OnSummonEffect; } }
         public string ContinuousEffectText { get { return _cardInfo.ContinuousEffect; } }
         public string IgnitionEffectText { get { return _cardInfo.IgnitionEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
+        public string TriggerEffect { get { return _cardInfo.TriggerEffect; } } 
         public bool EffectsAreImplemented { get { return _cardInfo.EffectsAreImplemented; } }
         #endregion
 

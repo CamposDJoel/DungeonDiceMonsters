@@ -130,10 +130,11 @@ YGO_Fillout Monster Card
 	${ContinuEffect}=		Get From List       ${COLUMNS}		19
 	${Ability}=				Get From List       ${COLUMNS}		20
 	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
-	${FusionMaterial1}=		Get From List       ${COLUMNS}		22
-	${FusionMaterial2}=		Get From List       ${COLUMNS}		23
-	${FusionMaterial3}=		Get From List       ${COLUMNS}		24
-	${RitualSpell}=			Get From List       ${COLUMNS}		25
+	${TriggerEffect}=		Get From List       ${COLUMNS}		22
+	${FusionMaterial1}=		Get From List       ${COLUMNS}		23
+	${FusionMaterial2}=		Get From List       ${COLUMNS}		24
+	${FusionMaterial3}=		Get From List       ${COLUMNS}		25
+	${RitualSpell}=			Get From List       ${COLUMNS}		26
 	
 	${cardtext}=			Set Variable		${EMPTY}
 	
@@ -148,6 +149,7 @@ YGO_Fillout Monster Card
 	${cardtext}=			Run Keyword if		"${OnSummonEffect}"!="-"		Set Variable		${cardtext} (ON SUMMON) - ${OnSummonEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		${cardtext} (CONTINUOUS) ${ContinuEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		${cardtext} (EFFECT) - ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		${cardtext} (TRIGGER) - ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
 	
 	#//Set the filenae directory for the artwork to be used
@@ -198,10 +200,12 @@ YGO_Fillout Spell Card
 	${cardface6}=			Get From List       ${COLUMNS}		17
 	${ContinuEffect}=		Get From List       ${COLUMNS}		19
 	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
+	${TriggerEffect}=		Get From List       ${COLUMNS}		22
 	
 	${cardtext}=			Set Variable		${EMPTY}
-	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
 	
 	

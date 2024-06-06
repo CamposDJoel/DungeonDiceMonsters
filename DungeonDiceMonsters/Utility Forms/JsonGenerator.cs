@@ -404,15 +404,16 @@ namespace DungeonDiceMonsters
             string onSummonEffect = tokens[18];
             string contiEfect = tokens[19];
             string ability = tokens[20];
-            string ignitionEffect = tokens[21];   
+            string ignitionEffect = tokens[21];
+            string triggerEffect = tokens[22];
             //Fusion Materials
-            string fusionMaterial1 = tokens[22];
-            string fusionMaterial2 = tokens[23];
-            string fusionMaterial3 = tokens[24];
+            string fusionMaterial1 = tokens[23];
+            string fusionMaterial2 = tokens[24];
+            string fusionMaterial3 = tokens[25];
             //Ritual spell
-            string ritualSpell = tokens[25];
+            string ritualSpell = tokens[26];
             //Implemented
-            string effectImplemented = tokens[26];
+            string effectImplemented = tokens[27];
             
 
             //add a new rawcardinfo instance to the DB list based on the data above.
@@ -433,6 +434,7 @@ namespace DungeonDiceMonsters
             newcard.onSummonEffect = onSummonEffect;
             newcard.continuousEffect = contiEfect;
             newcard.ignitionEffect = ignitionEffect;
+            newcard.triggerEffect = triggerEffect;
             newcard.ability = ability;
             newcard.diceLevel = diceLevel;
             newcard.face1 = face1;

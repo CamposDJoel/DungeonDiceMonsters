@@ -114,6 +114,7 @@ namespace DungeonDiceMonsters
             _ContEffect = cardData.continuousEffect;
             _IgnitionEffect = cardData.ignitionEffect;
             _Ability = cardData.ability;
+            _TriggerEffect = cardData.triggerEffect;
             _FusionMaterial1 = cardData.fusionMaterial1;
             _FusionMaterial2 = cardData.fusionMaterial2;
             _FusionMaterial3 = cardData.fusionMaterial3;
@@ -172,11 +173,13 @@ namespace DungeonDiceMonsters
         public bool HasOnSummonEffect { get { return _OnSummonEffect != "-"; } }
         public bool HasContinuousEffect { get { return _ContEffect != "-"; } }  
         public bool HasIgnitionEffect { get { return _IgnitionEffect != "-"; } }
+        public bool HasTriggerEffect { get { return _TriggerEffect != "-"; } }
         public bool HasAbility { get {  return _Ability != "-"; } }
         public string OnSummonEffect {  get { return _OnSummonEffect; } }
         public string ContinuousEffect { get { return _ContEffect; } }
         public string IgnitionEffect {  get { return _IgnitionEffect; } }
         public string Ability { get { return _Ability; } }
+        public string TriggerEffect { get { return _TriggerEffect; } }
         public bool EffectsAreImplemented { get { return _EffectsImplemeted; } }
         public Crest DiceFace(int index)
         {
@@ -229,6 +232,7 @@ namespace DungeonDiceMonsters
         private string _ContEffect;
         private string _IgnitionEffect;
         private string _Ability;
+        private string _TriggerEffect;
         private string _FusionMaterial1;
         private string _FusionMaterial2;
         private string _FusionMaterial3;
