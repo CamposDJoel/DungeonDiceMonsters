@@ -245,9 +245,11 @@ namespace DungeonDiceMonsters
 
             //Update the Symbol
             _CurrentSymbolSelection = _CurrentDeckSelected.Symbol;
+            ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
 
             //Set the Ready flag
+            ImageServer.ClearImage(PicDeckStatus);
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
         }
         private void LoadCardInfoPanel()
@@ -258,6 +260,7 @@ namespace DungeonDiceMonsters
             int cardID = thisCard.ID;
 
             //Populate the UI
+            ImageServer.ClearImage(PicCardArtwork);
             PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID.ToString());
 
             lblID.Text = cardID.ToString();
@@ -271,6 +274,8 @@ namespace DungeonDiceMonsters
             if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }
 
+            ImageServer.ClearImage(PicCardAttribute);
+            ImageServer.ClearImage(PicCardMonsterType);
             PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.Attribute);
             PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.TypeAsString);
 
@@ -312,13 +317,12 @@ namespace DungeonDiceMonsters
             lblCardText.Text = fullcardtext;
 
             //Dice Faces
-            if (PicDiceFace1.Image != null) { PicDiceFace1.Image.Dispose(); }
-            if (PicDiceFace2.Image != null) { PicDiceFace1.Image.Dispose(); }
-            if (PicDiceFace3.Image != null) { PicDiceFace1.Image.Dispose(); }
-            if (PicDiceFace4.Image != null) { PicDiceFace1.Image.Dispose(); }
-            if (PicDiceFace5.Image != null) { PicDiceFace1.Image.Dispose(); }
-            if (PicDiceFace6.Image != null) { PicDiceFace1.Image.Dispose(); }
-
+            ImageServer.ClearImage(PicDiceFace1);
+            ImageServer.ClearImage(PicDiceFace2);
+            ImageServer.ClearImage(PicDiceFace3);
+            ImageServer.ClearImage(PicDiceFace4);
+            ImageServer.ClearImage(PicDiceFace5);
+            ImageServer.ClearImage(PicDiceFace6);
             PicDiceFace1.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(0).ToString(), thisCard.DiceFaceValue(0));
             PicDiceFace2.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(1).ToString(), thisCard.DiceFaceValue(1));
             PicDiceFace3.Image = ImageServer.DiceFace(thisCard.DiceLevel, thisCard.DiceFace(2).ToString(), thisCard.DiceFaceValue(2));
@@ -478,6 +482,7 @@ namespace DungeonDiceMonsters
                 LoadDeckPage();
 
                 //Reload the Deck Status
+                ImageServer.ClearImage(PicDeckStatus);
                 PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
             }
             else
@@ -526,6 +531,7 @@ namespace DungeonDiceMonsters
             LoadDeckPage();
 
             //Reload the Deck Status 
+            ImageServer.ClearImage(PicDeckStatus);
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
         }
         private void btnNext_Click(object sender, EventArgs e)
@@ -632,6 +638,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
+            ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }
@@ -651,6 +658,7 @@ namespace DungeonDiceMonsters
             }
 
             //Update the image
+            ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
         }

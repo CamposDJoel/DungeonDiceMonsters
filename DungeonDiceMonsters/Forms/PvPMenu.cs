@@ -88,6 +88,7 @@ namespace DungeonDiceMonsters
             bool DeckIsReadyToUse = _CurrentDeckSelected.UseStatus;
 
             //Set the Ready flag
+            ImageServer.ClearImage(PicDeckStatus);
             PicDeckStatus.Image = ImageServer.DeckStatusIcon(DeckIsReadyToUse.ToString());
 
             if (DeckIsReadyToUse)
