@@ -56,6 +56,18 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.WaterGirl_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 3); break;
                 case Effect.EffectID.WingedDragonGuardianoftheFortress2_OnSummmon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 3); break;
                 case Effect.EffectID.KillerNeedle_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 3); break;
+                case Effect.EffectID.Hurricail_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.ATK, 7); break;
+                case Effect.EffectID.LALALioon_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MAG, 7); break;
+                case Effect.EffectID.TheMeltingRedShadow_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 7); break;
+                case Effect.EffectID.TentaclePlant_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
+                case Effect.EffectID.Skelengel_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
+                case Effect.EffectID.WeatherControl_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
+                case Effect.EffectID.PeopleRunningAround_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MAG, 7); break;
+                case Effect.EffectID.FlameDancer_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.ATK, 7); break;
+                case Effect.EffectID.ArchfiendMarmotofNefariousness_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.MOV, 7); break;
+                case Effect.EffectID.Haniwa_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
+                case Effect.EffectID.BooKoo_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
+                case Effect.EffectID.CurtainoftheDarkOnes_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
