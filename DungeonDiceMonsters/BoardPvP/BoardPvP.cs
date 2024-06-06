@@ -1062,45 +1062,52 @@ namespace DungeonDiceMonsters
         {
             //Step 1: Extract the Message Key and GameState
             string[] MessageTokens = DATARECEIVED.Split('|');
+
             string MessageKey = MessageTokens[0];
-            string strGameState = MessageTokens[1];
-           
-            switch (MessageKey)
+
+            bool validMessage = false;
+
+            if (MessageKey.StartsWith("[") && MessageKey.EndsWith("]")) { validMessage = true; }
+
+            if(validMessage)
             {
-                case "[View Board Action]": btnViewBoard_Base(); break;
-                case "[ON MOUSE ENTER TILE]": OnMouseEnterPicture_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[ON MOUSE LEAVE TILE]": OnMouseLeavePicture_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[EXIT VIEW BOARD MODE]": btnReturnToTurnMenu_Base(); break;
-                case "[Roll Dice Action]": btnRoll_Base(); break;
-                //Messages from the RollDiceMenu From will have a share Message Key so they can be forward it to the form
-                //These messages will have a secondary key that will be used inside that form for processing.
-                case "[ROLL DICE FORM REQUEST]": _RollDiceForm.ReceiveMesageFromServer(DATARECEIVED); break;
-                case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK TILE TO SET]": TileClick_SetCard_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[END TURN]": btnEndTurn_Base(); break;
-                case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK CANCEL ACTION MENU]": btnActionCancel_Base(); break;
-                case "[CLICK MOVE ACTION MENU]": btnActionMove_Base(); break;
-                case "[CLICK CANCEL MOVE MENU]": btnMoveMenuCancel_Base(); break;
-                case "[CLICK TILE TO MOVE]": TileClick_MoveCard_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK FINISH MOVE MENU]": btnMoveMenuFinish_Base(); break;
-                case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
-                case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
-                case "[CLICK EFFECT ACTION MENU]": btnActionEffect_Base(); break;
-                case "[CLICK ACTIVATE EFFECT MENU]": btnEffectMenuActivate_Base(); break;
-                case "[CLICK CANCEL EFFECT MENU]": btnEffectMenuCancel_Base(); break;
-                case "[ATTACK!]": BattleMessageReceived_Attack(Convert.ToInt32(MessageTokens[2])); break;
-                case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[2])); break;
-                case "[PASS!]": BattleMessageReceived_Pass(); break;
-                case "[END BATTLE]": btnEndBattle_Base(); break;
-                case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[2], MessageTokens[3], MessageTokens[4]); break;
-                case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
-                case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[2])); break;
-                case "[CLICK TILE TO EFFECT TARGET]": TileClick_EffectTarget_Base(Convert.ToInt32(MessageTokens[2])); break;
-            }
+                switch (MessageKey)
+                {
+                    case "[View Board Action]": btnViewBoard_Base(); break;
+                    case "[ON MOUSE ENTER TILE]": OnMouseEnterPicture_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[ON MOUSE LEAVE TILE]": OnMouseLeavePicture_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[EXIT VIEW BOARD MODE]": btnReturnToTurnMenu_Base(); break;
+                    case "[Roll Dice Action]": btnRoll_Base(); break;
+                    //Messages from the RollDiceMenu From will have a share Message Key so they can be forward it to the form
+                    //These messages will have a secondary key that will be used inside that form for processing.
+                    case "[ROLL DICE FORM REQUEST]": _RollDiceForm.ReceiveMesageFromServer(DATARECEIVED); break;
+                    case "[CLICK TILE TO SUMMON]": TileClick_SummonCard_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK TILE TO SET]": TileClick_SetCard_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[END TURN]": btnEndTurn_Base(); break;
+                    case "[CHANGE DIMENSION SELECTION]": UpdateDimension_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK TILE TO ACTION]": TileClick_MainPhase_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK CANCEL ACTION MENU]": btnActionCancel_Base(); break;
+                    case "[CLICK MOVE ACTION MENU]": btnActionMove_Base(); break;
+                    case "[CLICK CANCEL MOVE MENU]": btnMoveMenuCancel_Base(); break;
+                    case "[CLICK TILE TO MOVE]": TileClick_MoveCard_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK FINISH MOVE MENU]": btnMoveMenuFinish_Base(); break;
+                    case "[CLICK ATTACK ACTION MENU]": btnActionAttack_Base(); break;
+                    case "[CLICK TILE TO ATTACK]": TileClick_AttackTarget_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK CANCEL ATTACK MENU]": btnAttackMenuCancel_Base(); break;
+                    case "[CLICK EFFECT ACTION MENU]": btnActionEffect_Base(); break;
+                    case "[CLICK ACTIVATE EFFECT MENU]": btnEffectMenuActivate_Base(); break;
+                    case "[CLICK CANCEL EFFECT MENU]": btnEffectMenuCancel_Base(); break;
+                    case "[ATTACK!]": BattleMessageReceived_Attack(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[DEFEND!]": BattleMessageReceived_Defend(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[PASS!]": BattleMessageReceived_Pass(); break;
+                    case "[END BATTLE]": btnEndBattle_Base(); break;
+                    case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[1], MessageTokens[2], MessageTokens[3]); break;
+                    case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
+                    case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[CLICK TILE TO EFFECT TARGET]": TileClick_EffectTarget_Base(Convert.ToInt32(MessageTokens[1])); break;
+                }
+            }           
         }
         #endregion
 

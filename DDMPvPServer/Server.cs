@@ -100,11 +100,12 @@ namespace DDMPvPServer
 
             while (true)
             {
+                
                 try
                 {
                     //Step 2: Extract the data received from this call (AKA var "data")
                     NetworkStream stream = client.GetStream();
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[2048];
 
                     int byte_count = stream.Read(buffer, 0, buffer.Length);
                     if (byte_count == 0)
@@ -122,7 +123,7 @@ namespace DDMPvPServer
                         if (Message != "")
                         {
                             //Step 3: Parse this data
-                            string[] MessageTokens = data.Split('|');
+                            string[] MessageTokens = Message.Split('|');
 
                             //Step 4: Handle this data
                             string MessageKey = MessageTokens[0];
@@ -133,7 +134,7 @@ namespace DDMPvPServer
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                             //Log the message received
-                            ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, data));
+                            ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, Message));
 
                             switch (MessageKey)
                             {
@@ -217,6 +218,7 @@ namespace DDMPvPServer
                     }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
+                
             }
 
             lock (_lock) list_clients.Remove(id);
