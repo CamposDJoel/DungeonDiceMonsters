@@ -75,6 +75,7 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             //Load the menu with the On Summon effect
+            ImageServer.ClearImage(PicEffectMenuCardImage);
             PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Summon Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffectText;
@@ -92,6 +93,7 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             //Load the menu with the On Summon effect
+            ImageServer.ClearImage(PicEffectMenuCardImage);
             PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Summon Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.OnSummonEffectText;
@@ -107,7 +109,8 @@ namespace DungeonDiceMonsters
             WaitNSeconds(4000);
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
-        {
+        {           
+            ImageServer.ClearImage(PicEffectMenuCardImage);
             PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Continuous Effect";
             lblEffectMenuDescriiption.Text = thisEffect.OriginCard.ContinuousEffectText;
@@ -886,11 +889,13 @@ namespace DungeonDiceMonsters
                     int fusionCard1Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(0);
                     if (UserPlayerColor == TURNPLAYER)
                     {
+                        ImageServer.ClearImage(PicFusionOption1);
                         PicFusionOption1.Image = ImageServer.FullCardImage(fusionCard1Id.ToString());
                         btnFusionSummon1.Enabled = true;
                     }
                     else
                     {
+                        ImageServer.ClearImage(PicFusionOption1);
                         PicFusionOption1.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon1.Enabled = false;
                     }
@@ -909,11 +914,13 @@ namespace DungeonDiceMonsters
                     int fusionCard2Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(1);
                     if (UserPlayerColor == TURNPLAYER)
                     {
+                        ImageServer.ClearImage(PicFusionOption2);
                         PicFusionOption2.Image = ImageServer.FullCardImage(fusionCard2Id.ToString());
                         btnFusionSummon2.Enabled = true;
                     }
                     else
                     {
+                        ImageServer.ClearImage(PicFusionOption2);
                         PicFusionOption2.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon2.Enabled = false;
                     }
@@ -932,11 +939,13 @@ namespace DungeonDiceMonsters
                     int fusionCard3Id = TURNPLAYERDATA.Deck.GetFusionCardIDAtIndex(2);
                     if (UserPlayerColor == TURNPLAYER)
                     {
+                        ImageServer.ClearImage(PicFusionOption3);
                         PicFusionOption3.Image = ImageServer.FullCardImage(fusionCard3Id.ToString());
                         btnFusionSummon3.Enabled = true;
                     }
                     else
                     {
+                        ImageServer.ClearImage(PicFusionOption3);
                         PicFusionOption3.Image = ImageServer.FullCardImage("0");
                         btnFusionSummon3.Enabled = false;
                     }

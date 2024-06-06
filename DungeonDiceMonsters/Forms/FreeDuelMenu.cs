@@ -52,6 +52,7 @@ namespace DungeonDiceMonsters
                 if (GameData.IsCharacterUnlocked((Character)x))
                 {
                     Borders[x].Visible = true;
+                    ImageServer.ClearImage(Characters[x]);
                     Characters[x].Image = ImageServer.CharacterIcon(((Character)x).ToString());
                     Characters[x].Visible = true;
 

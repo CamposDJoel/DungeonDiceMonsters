@@ -638,6 +638,8 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
+            ImageServer.ClearImage(PicBlueSymbol);
+            ImageServer.ClearImage(PicRedSymbol);
             PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.CurrentAttribute.ToString());
             PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.CurrentAttribute.ToString());
 
@@ -677,6 +679,7 @@ namespace DungeonDiceMonsters
 
                 if (thisCard.IsFaceDown && thisCard.Controller != UserPlayerColor)
                 {
+                    ImageServer.ClearImage(PicCardArtworkBottom);
                     PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                     lblCardName.Text = string.Empty;
@@ -703,11 +706,13 @@ namespace DungeonDiceMonsters
                 {
                     if (thisCard.IsASymbol)
                     {
+                        ImageServer.ClearImage(PicCardArtworkBottom);
                         PicCardArtworkBottom.Image = ImageServer.Symbol(thisCard.CurrentAttribute.ToString());
 
                         lblCardName.Text = thisCard.Controller + "'s " + thisCard.Name;
                         lblCardType.Text = string.Empty;
                         lblCardLevel.Text = string.Empty;
+                        ImageServer.ClearImage(PicCardAttribute);
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
                         PicCardAttribute.Visible = true;
                         PicCardMonsterType.Visible = false;
@@ -729,6 +734,7 @@ namespace DungeonDiceMonsters
                     else
                     {
                         //Populate the UI
+                        ImageServer.ClearImage(PicCardArtworkBottom);
                         PicCardArtworkBottom.Image = ImageServer.CardArtworkImage(cardID.ToString());
                         lblCardName.Text = thisCard.Name;
 
@@ -740,9 +746,11 @@ namespace DungeonDiceMonsters
                         if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Lv. " + thisCard.Level; }
                         else { lblCardLevel.Text = ""; }
 
+                        ImageServer.ClearImage(PicCardAttribute);
                         PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.CurrentAttribute);
                         PicCardAttribute.Visible = true;
 
+                        ImageServer.ClearImage(PicCardMonsterType);
                         PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.TypeAsString);
                         PicCardMonsterType.Visible = true;
 
@@ -830,6 +838,7 @@ namespace DungeonDiceMonsters
             else
             {
                 PanelCardInfo.BackColor = Color.Gray;
+                ImageServer.ClearImage(PicCardArtworkBottom);
                 PicCardArtworkBottom.Image = ImageServer.CardArtworkImage("0");
 
                 lblCardName.Text = string.Empty;
@@ -868,12 +877,12 @@ namespace DungeonDiceMonsters
                 //If field type is set, load the proper image
                 if (thisTile.FieldType != Tile.FieldTypeValue.None)
                 {
+                    ImageServer.ClearImage(PicFieldTypeDisplay);
                     PicFieldTypeDisplay.Image = ImageServer.FieldTile(thisTile.FieldType.ToString());
                 }
                 else
                 {
-                    if (PicFieldTypeDisplay.Image != null) { PicFieldTypeDisplay.Image.Dispose(); }
-                    PicFieldTypeDisplay.Image = null;
+                    ImageServer.ClearImage(PicFieldTypeDisplay);
                 }
 
                 //Update the Field Type name label
@@ -1009,12 +1018,13 @@ namespace DungeonDiceMonsters
         private void UpdateDimensionPreview()
         {
             //Update UI
+            ImageServer.ClearImage(PicCurrentForm);
             PicCurrentForm.Image = ImageServer.DimensionForm(_CurrentDimensionForm.ToString());
             lblFormName.Text = _CurrentDimensionForm.ToString();
         }
         private void UpdateBanner(string currentPhase)
         {
-            if (PicPhaseBanner.Image != null) { PicPhaseBanner.Image.Dispose(); }
+            ImageServer.ClearImage(PicPhaseBanner);
             PicPhaseBanner.Image = ImageServer.PhaseBanner(TURNPLAYER, currentPhase);
         }
         private void UpdateEffectLogs(string message)

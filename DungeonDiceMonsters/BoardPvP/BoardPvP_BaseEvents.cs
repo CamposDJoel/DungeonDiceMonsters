@@ -450,6 +450,7 @@ namespace DungeonDiceMonsters
 
                 //Set the attacker's data
                 Card Attacker = _AttackerTile.CardInPlace;
+                ImageServer.ClearImage(PicAttacker);
                 PicAttacker.BackgroundImage = ImageServer.FullCardImage(Attacker.CardID.ToString());
                 lblBattleMenuATALP.Text = "LP: " + Attacker.LP;
                 lblAttackerATK.Text = "ATK: " + Attacker.ATK;
@@ -470,12 +471,14 @@ namespace DungeonDiceMonsters
                 Card Defender = _AttackTarger.CardInPlace;
                 if (Defender.Category == Category.Monster)
                 {
+                    ImageServer.ClearImage(PicDefender2);
                     PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID.ToString());
                     lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                     lblDefenderDEF.Text = "DEF: " + Defender.DEF;
                 }
                 else if (Defender.Category == Category.Symbol)
                 {
+                    ImageServer.ClearImage(PicDefender2);
                     PicDefender2.BackgroundImage = ImageServer.FullCardSymbol(Defender.CurrentAttribute.ToString());
                     lblBattleMenuDEFLP.Text = "LP: " + Defender.LP;
                     lblDefenderDEF.Text = "DEF: 0";
@@ -483,6 +486,7 @@ namespace DungeonDiceMonsters
                 else
                 {
                     //At this point, if the attack target was a face down card, it was flipped face up
+                    ImageServer.ClearImage(PicDefender2);
                     PicDefender2.BackgroundImage = ImageServer.FullCardImage(Defender.CardID.ToString());
                     lblBattleMenuDEFLP.Text = "LP: -";
                     lblDefenderDEF.Text = "DEF: -";
@@ -999,12 +1003,14 @@ namespace DungeonDiceMonsters
                 {
                     //Show the full menu for the turn player
                     //Card Image
+                    ImageServer.ClearImage(PicEffectMenuCardImage);
                     PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
                     //Effect Type Title
                     lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
                     //Effect Text
                     lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
                     //Cost
+                    ImageServer.ClearImage(PicCostCrest);
                     PicCostCrest.Image = ImageServer.CrestIcon(_CardEffectToBeActivated.CrestCost.ToString());
                     lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                     lblCostAmount.ForeColor = Color.White;
@@ -1061,6 +1067,7 @@ namespace DungeonDiceMonsters
                 void LoadItHidden()
                 {
                     //Card Image will be face down
+                    ImageServer.ClearImage(PicEffectMenuCardImage);
                     PicEffectMenuCardImage.Image = ImageServer.FullCardImage("0");
                     //Effect Type Title
                     lblEffectMenuTittle.Text = "Effect";
@@ -1288,9 +1295,11 @@ namespace DungeonDiceMonsters
                     //Reveal the hidden info for the opposite player
                     if (UserPlayerColor != TURNPLAYER)
                     {
+                        ImageServer.ClearImage(PicEffectMenuCardImage);
                         PicEffectMenuCardImage.Image = ImageServer.FullCardImage(_CardEffectToBeActivated.OriginCard.CardID.ToString());
                         lblEffectMenuTittle.Text = string.Format("{0} Effect", _CardEffectToBeActivated.Type);
                         lblEffectMenuDescriiption.Text = _CardEffectToBeActivated.EffectText;
+                        ImageServer.ClearImage(PicCostCrest);
                         PicCostCrest.Image = ImageServer.CrestIcon(_CardEffectToBeActivated.CrestCost.ToString());
                         lblCostAmount.Text = string.Format("x {0}", _CardEffectToBeActivated.CostAmount);
                         lblCostAmount.ForeColor = Color.White;
