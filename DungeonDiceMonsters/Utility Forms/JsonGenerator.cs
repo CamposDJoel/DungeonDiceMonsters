@@ -33,14 +33,14 @@ namespace DungeonDiceMonsters
             ReloadDBList();
             WriteRawlistintoTXT();
 
-            /*
+            
             List<string> cardlist = new List<string>();
             foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
             {
                 cardlist.Add(rawcardinfo.id + "|9|" + rawcardinfo.name);              
             }
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\DB\\fullcardlist.txt", cardlist);
-            */
+            
 
 
             //loadNewDB();
