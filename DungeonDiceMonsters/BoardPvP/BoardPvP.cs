@@ -1052,6 +1052,9 @@ namespace DungeonDiceMonsters
         #region TCPServer Connection Methods
         private void SendMessageToServer(string message)
         {
+            //Add the split mark
+            message += "$";
+            //and send it
             byte[] buffer = Encoding.ASCII.GetBytes(message);
             ns.Write(buffer, 0, buffer.Length);
         }

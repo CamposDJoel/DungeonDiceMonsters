@@ -235,8 +235,8 @@ namespace DungeonDiceMonsters
 
             if (MyColor == PlayerColor.RED)
             {
-                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this);
-                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this, true);
+                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
@@ -247,8 +247,8 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, this);
-                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns,this, true);
+                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns,this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
