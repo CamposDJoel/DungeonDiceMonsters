@@ -26,16 +26,19 @@ namespace DungeonDiceMonsters
                 Lines.Add(deckData);
             }
 
-            //Line[d + 1] : The list of cards in the storage
-            string storageDataString = "";
-            string storageDataAmountString = "";
-            for (int x = 0; x < StorageData.Cards.Count; x++)
+            //Line[4]: Storage card count
+            int storageCardCount = StorageData.GetCardCount();
+            Lines.Add(storageCardCount.ToString());
+
+            //Line [5 + n]: each card
+            for (int x = 0; x < storageCardCount; x++)
             {
-                storageDataString = storageDataString + StorageData.Cards[x].ID.ToString() + "|";
-                storageDataAmountString = storageDataAmountString + StorageData.Cards[x].Amount.ToString() + "|";
+                int cardId = StorageData.GetCardID(x);
+                string amount = StorageData.GetAmount(x).ToString();
+                string cardName = CardDataBase.GetCardWithID(cardId).Name;
+
+                Lines.Add(string.Format("{0}|{1}|{2}", cardId.ToString(), amount, cardName));
             }
-            Lines.Add(storageDataString);
-            Lines.Add(storageDataAmountString);
 
             //Write the file
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
@@ -64,25 +67,24 @@ namespace DungeonDiceMonsters
                 DecksData.Decks[x].InitializeFromSaveData(Tokens);
             }
 
-            //Line[4] : The list of cards in the storage
+            //Line[4]: Storage Card Count
             Line = SR_SaveFile.ReadLine();
-            string[] CardIDs = Line.Split('|');
+            int storageCardCount = Convert.ToInt32(Line);
 
-            //Line[5] : The amounts of the cards in storage
-            Line = SR_SaveFile.ReadLine();
-            string[] Amounts = Line.Split('|');
-
-            //Add the cards
-            for (int y = 0; y < CardIDs.Length-1; y++)
+            //Line [5 + n]: each card in the storage
+            for (int y = 0; y < storageCardCount; y++)
             {
-                int amount = Convert.ToInt32(Amounts[y]);
-                int cardid = Convert.ToInt32(CardIDs[y]);
+                Line = SR_SaveFile.ReadLine();
+                string[] tokens = Line.Split('|');
 
-                for(int x = 0; x < amount; x++)
+                int cardid = Convert.ToInt32(tokens[0]);
+                int amount = Convert.ToInt32(tokens[1]);
+                
+                for (int x = 0; x < amount; x++)
                 {
                     StorageData.AddCard(cardid);
                 }
-            }         
+            }       
 
             //Close the stream
             SR_SaveFile.Close();
