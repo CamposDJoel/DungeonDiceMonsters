@@ -105,13 +105,24 @@ namespace DungeonDiceMonsters
                 case "Scrapyard": return EffectID.Scrapyard;
                 case "M-Warrior #1": if (type == EffectType.OnSummon) { return EffectID.MWarrior1_OnSummon; } else { return EffectID.MWarrior1_Ignition; }
                 case "M-Warrior #2": if (type == EffectType.OnSummon) { return EffectID.MWarrior2_OnSummon; } else { return EffectID.MWarrior2_Ignition; }
-                case "Polymerization": return EffectID.Polymerization;
+                case "Polymerization": return EffectID.Polymerization_Ignition;
                 case "Karbonala Warrior": if (type == EffectType.Continuous) { return EffectID.KarbonalaWarrior_Continuous; } else { return EffectID.KarbonalaWarrior_Ignition; }
-                case "Fire Kraken": return EffectID.FireKraken;
-                case "Change of Heart": return EffectID.ChangeOfHeart;
-                case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
-                case "Thunder Dragon": return EffectID.ThunderDragon;
+                case "Fire Kraken": return EffectID.FireKraken_Ignition;
+                case "Change of Heart": return EffectID.ChangeOfHeart_Ignition;
+                case "Thunder Dragon": return EffectID.ThunderDragon_OnSummon;
                 case "Twin-Headed Thunder Dragon": return EffectID.TwinHeadedThunderDragon;
+                case "Hitotsu-Me Giant": return EffectID.HitotsumeGiant_OnSummon;
+                case "Master & Expert": return EffectID.MasterExpert_OnSummon;
+                case "Big Eye": return EffectID.BigEye_OnSummon;
+                case "That Which Feeds on Life": return EffectID.ThatWhichFeedsonLife_OnSummon;
+                case "The Thing in the Crater": return EffectID.TheThingintheCrater_OnSummon;
+                case "Fireyarou": return EffectID.Fireyarou_OnSummon;
+                case "Goddess with the Third Eye": return EffectID.GoddesswiththeThirdEye_OnSummon;
+                case "Moon Envoy": return EffectID.MoonEnvoy_OnSummon;
+                case "Arma Knight": return EffectID.ArmaKnight_OnSummon;
+                case "Water Girl": return EffectID.WaterGirl_OnSummon;
+                case "Winged Dragon, Guardian of the Fortress #2": return EffectID.WingedDragonGuardianoftheFortress2_OnSummmon;
+                case "Killer Needle": return EffectID.KillerNeedle_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -161,14 +172,25 @@ namespace DungeonDiceMonsters
             MWarrior1_Ignition,
             MWarrior2_OnSummon,
             MWarrior2_Ignition,
-            Polymerization,
+            Polymerization_Ignition,
             KarbonalaWarrior_Continuous,
             KarbonalaWarrior_Ignition,
-            FireKraken,
-            ChangeOfHeart,
-            ThunderDragon,
+            FireKraken_Ignition,
+            ChangeOfHeart_Ignition,
+            ThunderDragon_OnSummon,
             TwinHeadedThunderDragon,
             HitotsumeGiant_OnSummon,
+            MasterExpert_OnSummon,
+            BigEye_OnSummon,
+            ThatWhichFeedsonLife_OnSummon,
+            TheThingintheCrater_OnSummon,
+            Fireyarou_OnSummon,
+            GoddesswiththeThirdEye_OnSummon,
+            MoonEnvoy_OnSummon,
+            ArmaKnight_OnSummon,
+            WaterGirl_OnSummon,
+            WingedDragonGuardianoftheFortress2_OnSummmon,
+            KillerNeedle_OnSummon
         }
         #endregion
     }

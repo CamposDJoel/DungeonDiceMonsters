@@ -95,7 +95,7 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                if (!_IsSpellTrapZone) { ImageServer.RemoveImageFromPanel(_CardImage); }
+                if (!_IsSpellTrapZone) { ImageServer.ClearImage(_CardImage); }
                 
                 //if the Fiel Type value is set, load its image
                 if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSpellTrapZone)

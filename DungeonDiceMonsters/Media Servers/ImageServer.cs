@@ -11,7 +11,12 @@ namespace DungeonDiceMonsters
 {
     public static class ImageServer
     {
-        public static void RemoveImageFromPanel(Panel box)
+        public static void ClearImage(PictureBox box)
+        {
+            if(box.Image != null) { box.Image.Dispose(); }
+            box.Image = null;
+        }
+        public static void ClearImage(Panel box)
         {
             if (box.BackgroundImage != null) { box.BackgroundImage.Dispose(); }
             box.BackgroundImage = null;

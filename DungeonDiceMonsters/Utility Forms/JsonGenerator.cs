@@ -415,7 +415,8 @@ namespace DungeonDiceMonsters
             newcard.attribute = attribute;
             newcard.type = type;
             newcard.sectype = secType;
-            newcard.monsterLevel = atk;
+            newcard.monsterLevel = level;
+            newcard.atk = atk;
             newcard.def = def;
             newcard.lp = lp;
             //TODO EFECTS

@@ -1090,9 +1090,9 @@ namespace DungeonDiceMonsters
                 {
                     switch (thisEffectID)
                     {
-                        case Effect.EffectID.Polymerization: return Polymerization_MetsRequirement();
-                        case Effect.EffectID.FireKraken: return OpponentHasAnyOneMonsterThatCanBeTarget();
-                        case Effect.EffectID.ChangeOfHeart: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.Polymerization_Ignition: return Polymerization_MetsRequirement();
+                        case Effect.EffectID.FireKraken_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
