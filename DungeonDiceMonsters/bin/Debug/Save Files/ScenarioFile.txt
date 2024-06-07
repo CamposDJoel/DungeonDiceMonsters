@@ -20,7 +20,7 @@ BLUE MONSTERS|4
 RED SET CARDS|3
 24094653|188|Polymerization
 24094653|104|Polymerization
-24094653|201|Polymerization
+4206964|201|Trap Hole
 ----------------------------------------
 BLUE SET CARDS|1
 4031928|19|Change of heart

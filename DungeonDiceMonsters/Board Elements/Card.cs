@@ -97,6 +97,7 @@ namespace DungeonDiceMonsters
         public string OnSummonEffectText { get { return _cardInfo.OnSummonEffect; } }
         public string ContinuousEffectText { get { return _cardInfo.ContinuousEffect; } }
         public string IgnitionEffectText { get { return _cardInfo.IgnitionEffect; } }
+        public string TriggerEffectText { get { return _cardInfo.TriggerEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
         public string TriggerEffect { get { return _cardInfo.TriggerEffect; } } 
         public bool EffectsAreImplemented { get { return _cardInfo.EffectsAreImplemented; } }
@@ -115,6 +116,7 @@ namespace DungeonDiceMonsters
         public int TurnCounters { get { return _TurnCounters; } }
         public int Counters { get { return _Counters; } }
         public Tile CurrentTile { get { return _CurrentTile; } }
+        public TriggeredBy TriggerEvent { get { return _TriggerEvent; } }
         #endregion
 
         #region On Board Counters and Flags
@@ -308,6 +310,10 @@ namespace DungeonDiceMonsters
         {
            return new Effect(this, Effect.EffectType.Ignition);
         }
+        public Effect GetTriggerEffect()
+        {
+            return new Effect(this, Effect.EffectType.Trigger);
+        }
         public void ChangeAttribute(Attribute newAttribute)
         {
             _CurrentAttribute = newAttribute;
@@ -324,6 +330,12 @@ namespace DungeonDiceMonsters
         public void MarkAsTransformedInto()
         {
             _WasTransformedInto = true;
+        }
+        public void SpellboundIt(int turns)
+        {
+            _IsUnderSpellbound = true;
+            _SpellboundCounter = turns;
+            ReloadTileUI();
         }
         #endregion
 
@@ -381,7 +393,7 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region enums
-        private enum TriggeredBy
+        public enum TriggeredBy
         {
             None = 0,
             MonsterSummon,

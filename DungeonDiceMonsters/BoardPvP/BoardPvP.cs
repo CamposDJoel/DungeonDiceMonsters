@@ -1224,16 +1224,105 @@ namespace DungeonDiceMonsters
         {
             UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 4 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
             _CurrentGameState = GameState.NOINPUT;
-            //If there are cards with trigger effects that are triger by summons, activate them
-            //NOTE: Trigger effects that activate in response to summons WONT MOVE THE GAME STATE
-            //so after one executes, the workflow will continue on this method
-            //then enter the main phase
+            
+            UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+          
+            //Check if any cards on the board can be activated by (TRIGGER) effects that respond to Summons
+            //RULE: ONLY 1 TRIGGER EFFECT can be activated, the first one that meets the cost/coditions will activate
+            CheckForTriggeredBySummonsEffects();
 
             //Summon Sequence Completed, remove this card from the CardsBeingSummon list
             CardsBeingSummoned.RemoveAt(0);
-            UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
-            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
-            EnterMainPhase();
+
+            void CheckForTriggeredBySummonsEffects()
+            {
+                UpdateEffectLogs("-----   Checking for Cards with trigger effects by Monster Summons    ------");
+
+                //Check all the cards on the board to find the FIRST card that mets its cost and activation requirements
+                Effect EffectToBeActivated = null;
+                foreach(Card thisCardOnTheBoard in _CardsOnBoard)
+                {
+                    if(thisCardOnTheBoard.IsFaceDown && thisCardOnTheBoard.HasTriggerEffect && thisCardOnTheBoard.TriggerEvent == Card.TriggeredBy.MonsterSummon)
+                    {
+                        //Now check the cost to activate
+                        Effect thisTriggerEffect = thisCardOnTheBoard.GetTriggerEffect();
+                        if(IsCostMet(thisTriggerEffect.CrestCost, thisTriggerEffect.CostAmount))
+                        {
+                            //Now check the condition requirements
+                            string requirmentMetCondition = GetActivationRequirementStatus(thisTriggerEffect);
+                            if(requirmentMetCondition == "Requirements Met")
+                            {
+                                UpdateEffectLogs("Ctivation requirements MET");
+                                EffectToBeActivated = thisTriggerEffect;
+                                break;
+                            }
+                            else
+                            {
+                                UpdateEffectLogs(string.Format("Activation Requirements Not Met: {0}", requirmentMetCondition));
+                            }
+
+                        }
+                    }
+                }
+
+                //Finally, check if a effect will be activated.
+                if(EffectToBeActivated != null)
+                {
+                    ActivateEffect(EffectToBeActivated);
+                }
+                //If not, enter the Main Phase
+                else
+                {
+                    UpdateEffectLogs("No trigger effects could activate, entering the Main Phase now.");
+                    EnterMainPhase();
+                }
+            }
+            bool IsCostMet(Crest crestCost, int amount)
+            {
+                switch (crestCost)
+                {
+                    case Crest.MAG: return amount <= TURNPLAYERDATA.Crests_MAG;
+                    case Crest.TRAP: return amount <= TURNPLAYERDATA.Crests_TRAP;
+                    case Crest.ATK: return amount <= TURNPLAYERDATA.Crests_ATK;
+                    case Crest.DEF: return amount <= TURNPLAYERDATA.Crests_DEF;
+                    case Crest.MOV: return amount <= TURNPLAYERDATA.Crests_MOV;
+                    default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
+                }
+            }
+            string GetActivationRequirementStatus(Effect thisEffect)
+            {
+                UpdateEffectLogs(string.Format(">>Getting activation requirements for  effect [{0}] with onwer [{1}]", thisEffect.ID, thisEffect.Owner));
+                switch (thisEffect.ID)
+                {
+                    case Effect.EffectID.TrapHole_Trigger: return TrapHole_MetsRequirement();
+                    case Effect.EffectID.AcidTrapHole_Trigger: return AcidTrapHole_MetRequirement();
+                    default: return "Requirements Met";
+                }
+
+                string TrapHole_MetsRequirement()
+                {
+                    if(thisCard.Controller != thisEffect.Owner && thisCard.ATK >= 1000) 
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster and/or its ATK is not 1000 or more. | Summoned Card Owner: [{0}] ATK [{1}]", thisCard.Controller, thisCard.ATK);
+                    }
+                }
+                string AcidTrapHole_MetRequirement()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.DEF <= 2000)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster and/or its DEF is not 2000 or less. | Summoned Card Owner: [{0}] DEF [{1}]", thisCard.Controller, thisCard.DEF);
+                    }
+                }
+            }
         }
         private void DestroyCard(Tile tileLocation)
         {

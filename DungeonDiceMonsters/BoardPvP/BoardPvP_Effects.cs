@@ -67,6 +67,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Haniwa_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
                 case Effect.EffectID.BooKoo_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
                 case Effect.EffectID.CurtainoftheDarkOnes_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
+                case Effect.EffectID.TrapHole_Trigger: TrapHole_TriggerActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -132,7 +133,34 @@ namespace DungeonDiceMonsters
             PanelCost.Visible = false;
             btnActivate.Visible = false;
             btnEffectMenuCancel.Visible = false;
-            //Wait 2 sec for players to reach the effect
+            //Wait 4 sec for players to reach the effect
+            PanelEffectActivationMenu.Visible = true;
+            WaitNSeconds(4000);
+            //Reduce the cost automatically
+            AdjustPlayerCrestCount(thisEffect.Owner, thisEffect.CrestCost, thisEffect.CostAmount);
+        }
+        private void DisplayTriggerEffectPanel(Effect thisEffect)
+        {
+            //Flip the face down card
+            thisEffect.OriginCard.FlipFaceUp();
+
+            ImageServer.ClearImage(PicEffectMenuCardImage);
+            PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
+            lblEffectMenuTittle.Text = "Trigger Effect";
+            lblEffectMenuDescriiption.Text = thisEffect.OriginCard.TriggerEffectText;
+            //Hide the elements not needed.
+            lblActivationRequirementOutput.Text = "";
+            lblActivationRequirementOutput.Visible = false;
+            //Cost
+            ImageServer.ClearImage(PicCostCrest);
+            PicCostCrest.Image = ImageServer.CrestIcon(thisEffect.CrestCost.ToString());
+            lblCostAmount.Text = string.Format("x {0}", thisEffect.CostAmount);
+            lblCostAmount.ForeColor = System.Drawing.Color.White;
+            PanelCost.Visible = true;
+
+            btnActivate.Visible = false;
+            btnEffectMenuCancel.Visible = false;
+            //Wait 4 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
             WaitNSeconds(4000);
         }
@@ -984,7 +1012,7 @@ namespace DungeonDiceMonsters
         #region Karbonala Warrior
         private void KarbonalaWarrior_ContinuousActivation(Effect thisEffect)
         {
-            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 2 secs then execute the effect
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 4 secs then execute the effect
             DisplayOnSummonContinuousEffectPanel(thisEffect);
 
             //Step 2: Set the "Reaction To" flags
@@ -1458,6 +1486,29 @@ namespace DungeonDiceMonsters
 
             //Enter Summon phase 3
             SummonMonster_Phase3(thisEffect.OriginCard);
+        }
+        #endregion
+
+        #region Trap Hole
+        private void TrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.SpellboundIt(3);
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] was spellbounded for 3 turns.", summonedCard.Name, summonedCard.OnBoardID, summonedCard.Controller));
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
         }
         #endregion
     }
