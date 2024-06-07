@@ -1112,7 +1112,7 @@ namespace DungeonDiceMonsters
                     case "[PASS!]": BattleMessageReceived_Pass(); break;
                     case "[END BATTLE]": btnEndBattle_Base(); break;
                     case "[READY FUSION CANDIDATES]": ReadyFusionCandidatesReceived(MessageTokens[1], MessageTokens[2], MessageTokens[3]); break;
-                    case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[2]); break;
+                    case "[FUSION SELECTION MENU SELECT]": btnFusionSummon_Base(MessageTokens[1]); break;
                     case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[1])); break;
                     case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[1])); break;
                     case "[CLICK TILE TO EFFECT TARGET]": TileClick_EffectTarget_Base(Convert.ToInt32(MessageTokens[1])); break;
