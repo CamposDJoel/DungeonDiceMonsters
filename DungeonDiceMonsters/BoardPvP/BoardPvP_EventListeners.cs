@@ -102,7 +102,7 @@ namespace DungeonDiceMonsters
                 //Send the action message to the server
                 if (StatesElegible.Contains(_CurrentGameState))
                 {
-                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE ENTER TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    SendMessageToServer(string.Format("{0}|{1}", "[ON MOUSE ENTER TILE]", tileID.ToString()));
 
                     //Perform the action
                     OnMouseEnterPicture_Base(tileID);
@@ -142,7 +142,7 @@ namespace DungeonDiceMonsters
                 //Send the action message to the server
                 if (StatesElegible.Contains(_CurrentGameState))
                 {
-                    SendMessageToServer(string.Format("{0}|{1}|{2}", "[ON MOUSE LEAVE TILE]", _CurrentGameState.ToString(), tileID.ToString()));
+                    SendMessageToServer(string.Format("{0}|{1}", "[ON MOUSE LEAVE TILE]", tileID.ToString()));
 
                     //Perform the action
                     OnMouseLeavePicture_Base(tileID);
@@ -177,7 +177,7 @@ namespace DungeonDiceMonsters
                             _CurrentGameState = GameState.NOINPUT;
 
                             //Send the action message to the server
-                            SendMessageToServer(string.Format("[CLICK TILE TO ACTION]|{0}|{1}", _CurrentGameState.ToString(), tileID));
+                            SendMessageToServer(string.Format("[CLICK TILE TO ACTION]|{0}", tileID));
 
                             //Perform the action
                             TileClick_MainPhase_Base(tileID);
@@ -194,7 +194,7 @@ namespace DungeonDiceMonsters
                     if (_MoveCandidates.Contains(thisTile))
                     {
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("[CLICK TILE TO MOVE]|{0}|{1}", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("[CLICK TILE TO MOVE]|{0}", tileID));
 
                         //Perform the action
                         TileClick_MoveCard_Base(tileID);
@@ -222,7 +222,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("[CLICK TILE TO ATTACK]|{0}|{1}", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("[CLICK TILE TO ATTACK]|{0}", tileID));
 
                         //Perform the action
                         TileClick_AttackTarget_Base(tileID);
@@ -250,7 +250,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("[CLICK TILE TO SET]|{0}|{1}", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("[CLICK TILE TO SET]|{0}", tileID));
 
                         //Perform the action
                         TileClick_SetCard_Base(tileID);
@@ -267,7 +267,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer("[CLICK TILE TO SUMMON]|" + _CurrentGameState.ToString() + "|" + tileID);
+                        SendMessageToServer("[CLICK TILE TO SUMMON]|" + tileID);
 
                         //Perform the action
                         TileClick_SummonCard_Base(tileID);
@@ -284,7 +284,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION MATERIAL]", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("{0}|{1}", "[CLICK TILE TO FUSION MATERIAL]", tileID));
 
                         //Perform the action
                         TileClick_FusionMaterial_Base(tileID);
@@ -301,7 +301,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO FUSION SUMMON]", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("{0}|{1}", "[CLICK TILE TO FUSION SUMMON]", tileID));
 
                         //Perform the action
                         TileClick_FusionSummon_Base(tileID);
@@ -318,7 +318,7 @@ namespace DungeonDiceMonsters
                         _CurrentGameState = GameState.NOINPUT;
 
                         //Send the action message to the server
-                        SendMessageToServer(string.Format("{0}|{1}|{2}", "[CLICK TILE TO EFFECT TARGET]", _CurrentGameState.ToString(), tileID));
+                        SendMessageToServer(string.Format("{0}|{1}", "[CLICK TILE TO EFFECT TARGET]", tileID));
 
                         //Perform the action
                         TileClick_EffectTarget_Base(tileID);
@@ -340,7 +340,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer(string.Format("{0}|{1}", "[END TURN]", _CurrentGameState.ToString()));
+                SendMessageToServer("[END TURN]");
 
                 //Perform the action
                 btnEndTurn_Base();
@@ -385,7 +385,7 @@ namespace DungeonDiceMonsters
             }
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+            SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
@@ -428,7 +428,7 @@ namespace DungeonDiceMonsters
             }
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+            SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
@@ -469,7 +469,7 @@ namespace DungeonDiceMonsters
             }
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+            SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
@@ -510,7 +510,7 @@ namespace DungeonDiceMonsters
             }
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+            SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
         }
@@ -551,15 +551,10 @@ namespace DungeonDiceMonsters
             }
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[CHANGE DIMENSION SELECTION]", _CurrentGameState.ToString(), (int)_CurrentDimensionForm));
+            SendMessageToServer(string.Format("{0}|{1}", "[CHANGE DIMENSION SELECTION]", (int)_CurrentDimensionForm));
 
             UpdateDimensionPreview();
-        }
-        private void UpdateDimension_Base(int selectionID)
-        {
-            _CurrentDimensionForm = (DimensionForms)selectionID;
-            UpdateDimensionPreview();
-        }
+        }       
         #endregion
 
         #region Action Menu
@@ -570,7 +565,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK CANCEL ACTION MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK CANCEL ACTION MENU]");
 
                 //Perform the action
                 btnActionCancel_Base();
@@ -583,7 +578,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK MOVE ACTION MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK MOVE ACTION MENU]");
 
                 //Perform the action
                 btnActionMove_Base();
@@ -596,7 +591,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK ATTACK ACTION MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK ATTACK ACTION MENU]");
 
                 //Perform the action
                 btnActionAttack_Base();
@@ -609,7 +604,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK EFFECT ACTION MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK EFFECT ACTION MENU]" );
 
                 //Perform the action
                 btnActionEffect_Base();
@@ -622,7 +617,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK FINISH MOVE MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK FINISH MOVE MENU]");
 
                 //Perform the action
                 btnMoveMenuFinish_Base();
@@ -635,7 +630,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK CANCEL MOVE MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK CANCEL MOVE MENU]");
 
                 //Perform the action
                 btnMoveMenuCancel_Base();
@@ -648,7 +643,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer("[CLICK CANCEL ATTACK MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK CANCEL ATTACK MENU]");
 
                 //Perform the action
                 btnAttackMenuCancel_Base();
@@ -665,7 +660,7 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Attack);
 
                 //Send the opponent the action taken
-                SendMessageToServer(string.Format("{0}|{1}|{2}", "[ATTACK!]", _CurrentGameState.ToString(), _AttackBonusCrest));
+                SendMessageToServer(string.Format("{0}|{1}", "[ATTACK!]", _AttackBonusCrest));
 
                 //Hide the Attack Controls Panel
                 PanelAttackControls.Visible = false;
@@ -686,7 +681,7 @@ namespace DungeonDiceMonsters
             SoundServer.PlaySoundEffect(SoundEffect.Attack);
 
             //Send the opponent the action taken
-            SendMessageToServer(string.Format("{0}|{1}|{2}", "[DEFEND!]", _CurrentGameState.ToString(), _DefenseBonusCrest));
+            SendMessageToServer(string.Format("{0}|{1}", "[DEFEND!]", _DefenseBonusCrest));
 
             //Marks the ready flags
             _DefenderDefended = true;
@@ -783,7 +778,7 @@ namespace DungeonDiceMonsters
             SoundServer.PlaySoundEffect(SoundEffect.Attack);
 
             //Send the opponent the action taken
-            SendMessageToServer(string.Format("{0}|{1}", "[PASS!]", _CurrentGameState.ToString()));
+            SendMessageToServer("[PASS!]");
 
             //Marks the ready flags
             _DefenderIsReadyToBattle = true;
@@ -799,7 +794,7 @@ namespace DungeonDiceMonsters
             _CurrentGameState = GameState.NOINPUT;
 
             //Send the action message to the server
-            SendMessageToServer("[END BATTLE]|" + _CurrentGameState.ToString());
+            SendMessageToServer("[END BATTLE]");
 
             //Perform the action
             btnEndBattle_Base();
@@ -813,7 +808,7 @@ namespace DungeonDiceMonsters
             {
                 _CurrentGameState = GameState.NOINPUT;
                 //Send the action message to the server
-                SendMessageToServer("[CLICK CANCEL EFFECT MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK CANCEL EFFECT MENU]");
 
                 //Perform the action
                 btnEffectMenuCancel_Base();
@@ -825,7 +820,7 @@ namespace DungeonDiceMonsters
             {
                 _CurrentGameState = GameState.NOINPUT;
                 //Send the action message to the server
-                SendMessageToServer("[CLICK ACTIVATE EFFECT MENU]|" + _CurrentGameState.ToString());
+                SendMessageToServer("[CLICK ACTIVATE EFFECT MENU]");
 
                 //Perform the action
                 btnEffectMenuActivate_Base();
@@ -841,7 +836,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "0"));
+                SendMessageToServer("[FUSION SELECTION MENU SELECT]|0");
 
                 //Perform the action
                 btnFusionSummon_Base("0");
@@ -854,7 +849,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "1"));
+                SendMessageToServer("[FUSION SELECTION MENU SELECT]|1");
 
                 //Perform the action
                 btnFusionSummon_Base("1");
@@ -867,7 +862,7 @@ namespace DungeonDiceMonsters
                 _CurrentGameState = GameState.NOINPUT;
 
                 //Send the action message to the server
-                SendMessageToServer(string.Format("[FUSION SELECTION MENU SELECT]|{0}|{1}", _CurrentGameState.ToString(), "2"));
+                SendMessageToServer("[FUSION SELECTION MENU SELECT]|2");
 
                 //Perform the action
                 btnFusionSummon_Base("2");

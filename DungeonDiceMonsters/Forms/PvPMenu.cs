@@ -50,8 +50,8 @@ namespace DungeonDiceMonsters
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
-            IPAddress ip = IPAddress.Parse("192.168.0.220");
-            //IPAddress ip = IPAddress.Parse("127.0.0.1");
+            //IPAddress ip = IPAddress.Parse("192.168.0.220");
+            IPAddress ip = IPAddress.Parse("127.0.0.1");
             int port = 5000;
             TcpClient client = new TcpClient();
 
@@ -235,8 +235,8 @@ namespace DungeonDiceMonsters
 
             if (MyColor == PlayerColor.RED)
             {
-                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this);
-                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this, true);
+                _CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(user, opponent, MyColor, ns, this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
@@ -247,8 +247,8 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, this);
-                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns,this, true);
+                _CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns, this);
+                //_CurrentBoardPVP = new BoardPvP(opponent, user, MyColor, ns,this, true);
                 Hide();
                 Enabled = true;
                 PanelDeckSelection.Visible = true;
@@ -264,9 +264,43 @@ namespace DungeonDiceMonsters
         static void ReceiveData(TcpClient client)
         {
             NetworkStream ns = client.GetStream();
-            byte[] receivedBytes = new byte[1024];
+            byte[] receivedBytes = new byte[2048];
             int byte_count;
 
+            while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+            {
+                //Set the Data Received and send it thur the non-static method
+                //to the active instance of the PvPMenu form to be processed.
+                string DATARECEIVED = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
+
+                //Before you send the data. DATARECEIVED may content multiple messages from the server, split them
+                string[] MessagesReceived = DATARECEIVED.Split('$');
+
+                //Now use a for loop to handle each message individually
+
+                bool disconectMessageReceived = false;
+                for (int x = 0; x < MessagesReceived.Length; x++)
+                {
+                    string Message = MessagesReceived[x];
+                    if (Message != "")
+                    {
+                        StaticPvPMenu.MessageReceived(Message);
+
+                        //If the Data received was the opponent disconnect notification, end the loop to disconnect client
+                        if (Message == "[OPPONENT DISCONNECT]" || Message == "[GAME OVER]")
+                        {
+                            disconectMessageReceived = true;
+                            break;
+                        }
+                    }
+                }
+
+                //At the end of the Messages Processing, if "disconnectMessageReceived" flag was raise
+                //end the while loop to end the thread
+                if (disconectMessageReceived) { break; }
+            }
+
+            /*
             try
             {
                 while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
@@ -306,7 +340,7 @@ namespace DungeonDiceMonsters
             {
                 //Send the form the "[SERVER DISCONNECT]" message so it handles the UI update
                 StaticPvPMenu.MessageReceived("[SERVER DISCONNECT]");
-            }
+            }*/
 
 
             //Disconect

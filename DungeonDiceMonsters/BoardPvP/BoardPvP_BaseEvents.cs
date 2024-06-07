@@ -799,6 +799,14 @@ namespace DungeonDiceMonsters
                 EnterMainPhase();
             }));
         }
+        private void UpdateDimension_Base(int selectionID)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                _CurrentDimensionForm = (DimensionForms)selectionID;
+                UpdateDimensionPreview();
+            }));
+        }
         #endregion
 
         #region Action Menu
@@ -1156,7 +1164,7 @@ namespace DungeonDiceMonsters
                                 if (_FusionCardsReadyForFusion[1]) { candidate2 = _FusionCardsReadyForFusion[1].ToString(); }
                                 string candidate3 = "False";
                                 if (_FusionCardsReadyForFusion[2]) { candidate3 = _FusionCardsReadyForFusion[2].ToString(); }
-                                SendMessageToServer(string.Format("{0}|{1}|{2}|{3}|{4}", "[READY FUSION CANDIDATES]", _CurrentGameState.ToString(), candidate1, candidate2, candidate3));
+                                SendMessageToServer(string.Format("{0}|{1}|{2}|{3}", "[READY FUSION CANDIDATES]", candidate1, candidate2, candidate3));
                                 return "Requirements Met";
                             }
                             else { return "No fusion requirements met."; }

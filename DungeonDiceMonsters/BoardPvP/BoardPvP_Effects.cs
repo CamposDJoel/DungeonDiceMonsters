@@ -79,6 +79,7 @@ namespace DungeonDiceMonsters
             {
                 case Effect.EffectID.FireKraken_Ignition: FireKraken_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
@@ -1031,6 +1032,18 @@ namespace DungeonDiceMonsters
                 thisEffect.OriginCard.AdjustDefenseBonus(-500);
                 UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 500.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
             }
+        }
+        private void KarbonalaWarrior_RemoveEffect(Effect thisEffect)
+        {
+            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
+            //is now discarted.
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
+
         }
         private void KarbonalaWarrior_IgnitionActivation(Effect thisEffect)
         {

@@ -1,3 +1,137 @@
-Effect Activation: [DARKSymbol] - Origin Card Board ID: [0]
-Effect Activation: [WINDSymbol] - Origin Card Board ID: [1]
-Card Summoned: [Binding Chain] On Board ID: [8] Owned By: [RED] - Checking for Active Effects to Apply.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [LALA Li-oon] On Board ID: [3] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+Effect did not react.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [LALALioon_OnSummon] - Origin Card Board ID: [3].Controller: [BLUE]
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Archfiend Marmot of Nefariousness] On Board ID: [4] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+Effect did not react.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [ArchfiendMarmotofNefariousness_OnSummon] - Origin Card Board ID: [4].Controller: [BLUE]
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Dark Witch] On Board ID: [10] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
+Reaction Check for Effect: [KarbonalaWarrior_Continuous] Origin Card Board ID: [9]
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Thunder Dragon] On Board ID: [13] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
+Reaction Check for Effect: [KarbonalaWarrior_Continuous] Origin Card Board ID: [9]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [ThunderDragon_OnSummon] - Origin Card Board ID: [13].Controller: [BLUE]
+Target candidates found: [0], player will be prompt to target a monster in the UI.
+There are not proper effect targets for this this effect. Effect will not activate.
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Blue-Eyes White Dragon] On Board ID: [16] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
+Reaction Check for Effect: [KarbonalaWarrior_Continuous] Origin Card Board ID: [9]
+-----------------------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [Karbonala Warrior] On Board ID: [9] Owned by: [RED]
+This effect was removed from the active effect list. No revert actions are needed.
+Checking for active effects that react to the Card destruction.
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [Mountain] - Origin Card Board ID: [17].Controller: [BLUE]
+Effect Applied, tiles on the board were change to [Mountain] field type.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [Mountain] On Board ID: [17] Owned by: [BLUE]
+Checking for active effects that react to the Card destruction.
+-----------------------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #2] On Board ID: [15] Owned by: [RED]
+Checking for active effects that react to the Card destruction.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #2] On Board ID: [11] Owned by: [RED]
+Checking for active effects that react to the Card destruction.
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Thunder Dragon] On Board ID: [19] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [ThunderDragon_OnSummon] - Origin Card Board ID: [19].Controller: [BLUE]
+Target candidates found: [0], player will be prompt to target a monster in the UI.
+There are not proper effect targets for this this effect. Effect will not activate.
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [Polymerization_Ignition] - Origin Card Board ID: [20].Controller: [BLUE]
+-----------------------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [Polymerization] On Board ID: [20] Owned by: [BLUE]
+Checking for active effects that react to the Card destruction.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Twin-Headed Thunder Dragon] On Board ID: [21] Owned By: [BLUE]
+Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [0]
+Effect did not react.
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [1]
+TARGET CARD is eligible for this effect. Light Symbol's effect will now apply to this card. ATK boost was increased by 200.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [TwinHeadedThunderDragon] - Origin Card Board ID: [21].Controller: [BLUE]
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------

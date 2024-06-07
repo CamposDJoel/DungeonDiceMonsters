@@ -592,14 +592,14 @@ namespace DungeonDiceMonsters
         {
             //Step 1: Extract the Message SECONDARY Key
             string[] MessageTokens = DATARECEIVED.Split('|');
-            string SecondaryKey = MessageTokens[2];
+            string SecondaryKey = MessageTokens[1];
 
             //Step 2: Handle the message
             switch (SecondaryKey)
             {
-                case "[SELECT DECK CARD TO ROLL]": DeckCard_Base(Convert.ToInt32(MessageTokens[3])); break;
-                case "[SELECT ROLL CARD TO DECK]": RollCard_Base(Convert.ToInt32(MessageTokens[3])); break;
-                case "[CLICK ROLL!!]":             btnRoll_Base(Convert.ToInt32(MessageTokens[3]), Convert.ToInt32(MessageTokens[4]), Convert.ToInt32(MessageTokens[5])); break;
+                case "[SELECT DECK CARD TO ROLL]": DeckCard_Base(Convert.ToInt32(MessageTokens[2])); break;
+                case "[SELECT ROLL CARD TO DECK]": RollCard_Base(Convert.ToInt32(MessageTokens[2])); break;
+                case "[CLICK ROLL!!]":             btnRoll_Base(Convert.ToInt32(MessageTokens[2]), Convert.ToInt32(MessageTokens[3]), Convert.ToInt32(MessageTokens[4])); break;
                 case "[SUMMON BUTTON 1]":          btnDice1Summon_Base(); break;
                 case "[SUMMON BUTTON 2]":          btnDice2Summon_Base(); break;
                 case "[SUMMON BUTTON 3]":          btnDice3Summon_Base(); break;
@@ -693,7 +693,7 @@ namespace DungeonDiceMonsters
             if (thiPictureBoxIndex < 20 && _DiceToRoll.Count < 3 && !_DiceRolled)
             {
                 //Send the action message to the server
-                SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SELECT DECK CARD TO ROLL]|" + thiPictureBoxIndex);
+                SendMessageToServer("[ROLL DICE FORM REQUEST]|[SELECT DECK CARD TO ROLL]|" + thiPictureBoxIndex);
 
                 //Perform the action
                 DeckCard_Base(thiPictureBoxIndex);
@@ -714,7 +714,7 @@ namespace DungeonDiceMonsters
             if (thiPictureBoxIndex + 1 <= _DiceToRoll.Count && !_DiceRolled)
             {
                 //Send the action message to the server
-                SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SELECT ROLL CARD TO DECK]|" + thiPictureBoxIndex);
+                SendMessageToServer("[ROLL DICE FORM REQUEST]|[SELECT ROLL CARD TO DECK]|" + thiPictureBoxIndex);
 
                 //Perform the action
                 RollCard_Base(thiPictureBoxIndex);
@@ -733,7 +733,7 @@ namespace DungeonDiceMonsters
             int ResultC = Rand.DiceRoll();
 
             //Send the action message to the server
-            SendMessageToServer(string.Format("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[CLICK ROLL!!]|{0}|{1}|{2}", ResultA, ResultB, ResultC));
+            SendMessageToServer(string.Format("[ROLL DICE FORM REQUEST]|[CLICK ROLL!!]|{0}|{1}|{2}", ResultA, ResultB, ResultC));
 
             //Perform the action
             btnRoll_Base(ResultA, ResultB, ResultC);
@@ -741,7 +741,7 @@ namespace DungeonDiceMonsters
         private void btnDice1Summon_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 1]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SUMMON BUTTON 1]");
 
             //Perform the action
             btnDice1Summon_Base();
@@ -749,7 +749,7 @@ namespace DungeonDiceMonsters
         private void btnDice2Summon_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 2]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SUMMON BUTTON 2]");
 
             //Perform the action
             btnDice2Summon_Base();
@@ -757,7 +757,7 @@ namespace DungeonDiceMonsters
         private void btnDice3Summon_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SUMMON BUTTON 3]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SUMMON BUTTON 3]");
 
             //Perform the action
             btnDice3Summon_Base();
@@ -765,7 +765,7 @@ namespace DungeonDiceMonsters
         private void btnDice1Ritual_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 1]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[RITUAL BUTTON 1]");
 
             //Perform the action
             btnDice1Ritual_Base();
@@ -773,7 +773,7 @@ namespace DungeonDiceMonsters
         private void btnDice2Ritual_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 2]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[RITUAL BUTTON 2]");
 
             //Perform the action
             btnDice2Ritual_Base();
@@ -781,7 +781,7 @@ namespace DungeonDiceMonsters
         private void btnDice3Ritual_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[RITUAL BUTTON 3]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[RITUAL BUTTON 3]");
 
             //Perform the action
             btnDice3Ritual_Base();
@@ -789,7 +789,7 @@ namespace DungeonDiceMonsters
         private void btnDice1Set_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 1]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SET CARD BUTTON 1]");
 
             //Perform the action
             btnDice1Set_Base();
@@ -797,7 +797,7 @@ namespace DungeonDiceMonsters
         private void btnDice2Set_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 2]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SET CARD BUTTON 2]");
 
             //Perform the action
             btnDice2Set_Base();
@@ -805,7 +805,7 @@ namespace DungeonDiceMonsters
         private void btnDice3Set_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[SET CARD BUTTON 3]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[SET CARD BUTTON 3]");
 
             //Perform the action
             btnDice3Set_Base();
@@ -813,7 +813,7 @@ namespace DungeonDiceMonsters
         private void btnGoToBoard_Click(object sender, EventArgs e)
         {
             //Send the action message to the server
-            SendMessageToServer("[ROLL DICE FORM REQUEST]|MainPhaseBoard|[GO TO BOARD BUTTON]");
+            SendMessageToServer("[ROLL DICE FORM REQUEST]|[GO TO BOARD BUTTON]");
 
             //Perform the action
             btnGoToBoard_Base();

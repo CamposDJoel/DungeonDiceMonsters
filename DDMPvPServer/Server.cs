@@ -100,11 +100,12 @@ namespace DDMPvPServer
 
             while (true)
             {
+                
                 try
                 {
                     //Step 2: Extract the data received from this call (AKA var "data")
                     NetworkStream stream = client.GetStream();
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[2048];
 
                     int byte_count = stream.Read(buffer, 0, buffer.Length);
                     if (byte_count == 0)
@@ -113,60 +114,70 @@ namespace DDMPvPServer
                     }
                     string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
 
-                    //Step 3: Parse this data
-                    string[] MessageTokens = data.Split('|');
+                    //Before you send the data. data may content multiple messages from the server, split them
+                    string[] MessagesReceived = data.Split('$');
 
-                    //Step 4: Handle this data
-                    string MessageKey = MessageTokens[0];
-
-                    //Step 5: Set the Client's Player Color
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-                    //Log the message received
-                    ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, data));
-
-                    switch (MessageKey)
+                    for (int x = 0; x < MessagesReceived.Length; x++)
                     {
-                        //In this case, one of the player that just connected to a match sent its 
-                        //Player info to exchange with the opponent
-                        case "[MC PLAYER INFO]":
-                            //Set the Player info to the match
-                            ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
-                            if (ActiveMatch.AreBothPlayersReady())
-                            {
-                                int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
-                                Opponetclient = list_clients[OpponentClientIDA];
-                                PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
-                                //Send the opponent player the Clients Deck Info
-                                string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
-                                string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
-                                string notificationResponse = string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo);
-                                SendMessage(notificationResponse, Opponetclient);
-                                ActiveMatch.AddLogMessage(string.Format("Sending [RED] a notification response: [{0}]", notificationResponse));
-                            }
-                            break;
+                        string Message = MessagesReceived[x];
+                        if (Message != "")
+                        {
+                            //Step 3: Parse this data
+                            string[] MessageTokens = Message.Split('|');
 
-                        case "[GAME OVER]":
+                            //Step 4: Handle this data
+                            string MessageKey = MessageTokens[0];
+
+                            //Step 5: Set the Client's Player Color
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                            staticServerObject.UpdateConnectionLog(string.Format("X Client ID: {0} disconnected during the Game Over!", id));
+                            PlayerColor ClientPlayerColor = ActiveMatch.GetPlayerColor(id);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
-                            ActiveMatch.AddLogMessage(string.Format("X Player [{0}] disconnected during the game over. Match will be closed.", ClientPlayerColor));
-                            ActiveMatch.CloseMatch();
-                            //Just forward this back to the same clieent so the thread can end the connection
-                            //from the client side.
-                            SendMessage("[GAME OVER]", client);
-                            break;
 
-                        //All other messages will simply forward the messages to the opponent client
-                        default:
-                            int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
-                            Opponetclient = list_clients[OpponentClientID];
-                            SendMessage(data, Opponetclient);
-                            ActiveMatch.AddLogMessage("Message forwared to opponent player!");
-                            break;
-                    }
+                            //Log the message received
+                            ActiveMatch.AddLogMessage(string.Format("Message Received from Player [{0}]: [{1}]", ClientPlayerColor, Message));
+
+                            switch (MessageKey)
+                            {
+                                //In this case, one of the player that just connected to a match sent its 
+                                //Player info to exchange with the opponent
+                                case "[MC PLAYER INFO]":
+                                    //Set the Player info to the match
+                                    ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
+                                    if (ActiveMatch.AreBothPlayersReady())
+                                    {
+                                        int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                                        Opponetclient = list_clients[OpponentClientIDA];
+                                        PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
+                                        //Send the opponent player the Clients Deck Info
+                                        string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
+                                        string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
+                                        string notificationResponse = string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo);
+                                        SendMessage(notificationResponse, Opponetclient);
+                                        ActiveMatch.AddLogMessage(string.Format("Sending [RED] a notification response: [{0}]", notificationResponse));
+                                    }
+                                    break;
+
+                                case "[GAME OVER]":
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                                    staticServerObject.UpdateConnectionLog(string.Format("X Client ID: {0} disconnected during the Game Over!", id));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                                    ActiveMatch.AddLogMessage(string.Format("X Player [{0}] disconnected during the game over. Match will be closed.", ClientPlayerColor));
+                                    ActiveMatch.CloseMatch();
+                                    //Just forward this back to the same clieent so the thread can end the connection
+                                    //from the client side.
+                                    SendMessage("[GAME OVER]", client);
+                                    break;
+
+                                //All other messages will simply forward the messages to the opponent client
+                                default:
+                                    int OpponentClientID = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
+                                    Opponetclient = list_clients[OpponentClientID];
+                                    SendMessage(data, Opponetclient);
+                                    ActiveMatch.AddLogMessage("Message forwared to opponent player!");
+                                    break;
+                            }
+                        }
+                    }                   
                 }
                 catch
                 {
@@ -207,6 +218,7 @@ namespace DDMPvPServer
                     }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
+                
             }
 
             lock (_lock) list_clients.Remove(id);
@@ -214,10 +226,9 @@ namespace DDMPvPServer
             client.Close();
         }
         public static void SendMessage(string data, TcpClient recepient)
-        { 
-            //append the data to be send with a "$" this is going to be used by the client
-            //to split the messages recieved. 
-            data+="$";
+        {
+            //Readd the "$" before fowarding 
+            data += "$";
 
             byte[] buffer = Encoding.ASCII.GetBytes(data);
 
@@ -243,8 +254,8 @@ namespace DDMPvPServer
         {
             staticServerObject = this;
             btnStart.Visible = false;
-            ServerSocket = new TcpListener(IPAddress.Parse("192.168.0.220"), 5000);
-            //ServerSocket = new TcpListener(IPAddress.Any, 5000);
+            //ServerSocket = new TcpListener(IPAddress.Parse("192.168.0.220"), 5000);
+            ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
 
             //Start the first match
