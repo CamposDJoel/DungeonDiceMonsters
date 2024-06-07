@@ -21,6 +21,10 @@ namespace DungeonDiceMonsters
                 ApplyAbility();
             }
             InitializeMultableDataFields();
+            if(HasTriggerEffect)
+            {
+                IntializeTriggerEvent();
+            }
 
             void InitializeMultableDataFields()
             {
@@ -43,6 +47,13 @@ namespace DungeonDiceMonsters
                     case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
                 }
                 ResetOneTurnData();
+            }
+            void IntializeTriggerEvent()
+            {
+                if(TriggerEffect.Contains("When your opponent summons"))
+                {
+                    _TriggerEvent = TriggeredBy.MonsterSummon;
+                }
             }
         }
         public Card(int id, Attribute attribute, PlayerColor owner)
@@ -364,6 +375,18 @@ namespace DungeonDiceMonsters
         private int _MoveRange = 1;
         private int _AttackRangeBonus = 0;
         private int _MoveRangeBonus = 0;
+
+        //Effect data
+        private TriggeredBy _TriggerEvent = TriggeredBy.None;
+        #endregion
+
+        #region enums
+        private enum TriggeredBy
+        {
+            None = 0,
+            MonsterSummon,
+            DeclareAttack
+        }
         #endregion
     }
 }
