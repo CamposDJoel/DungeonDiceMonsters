@@ -2,27 +2,27 @@ Joel|555
 9430387|37243151|12883044|75889523|89631139|89631139|89631139|62397231|50913601|50913601|50913601|24094653|80770678|41158734|2863439|35565537|43352213|31786629|24094653|31786629|23995346|54752875|0|LIGHT
 24094653|92731455|92731455|56342351|56342351|98898173|12143771|68963107|86318356|86318356|86318356|76232340|76232340|76232340|6368038|47986555|43352213|43352213|43352213|92731455|54541900|0|0|EARTH
 26082229|41859700|22411609|81599449|13179332|41089128|48094997|21051146|74823665|27054370|60862676|78984772|70345785|14977074|46412900|59834564|50426119|75745607|35842855|41396436|0|0|0|FIRE
-164
+171
 8058240|9|Binding Chain
-57935140|10|Tenderness
+57935140|9|Tenderness
 85309439|9|Ray & Temperature
 63515678|9|Mystical Capture Chain
 1929294|9|Key Mace
-41158734|8|Apocatequil
-80770678|8|Spirit of the Harp
+41158734|9|Apocatequil
+80770678|9|Spirit of the Harp
 91939608|9|Rogue Doll
 79629370|9|Maiden of the Moonlight
-2863439|8|Fiend Refrection #2
+2863439|9|Fiend Refrection #2
 31122090|9|Gyakutenno Megami
 86088138|9|Ocubeam
 75850803|9|LaMoon
-35565537|8|Dark Witch
+35565537|9|Dark Witch
 2971090|9|Orion the Battle King
-89631139|6|Blue-Eyes White Dragon
+89631139|9|Blue-Eyes White Dragon
 25955164|9|Sanga of the Thunder
 6740720|9|Seiyaryu
-62397231|8|Hyozanryu
-31447217|10|Wingweaver
+62397231|9|Hyozanryu
+31447217|9|Wingweaver
 69579761|9|Des Koala
 25882881|9|Dokuroizo the Grim Reaper
 66602787|9|Saggi the Dark Clown
@@ -31,7 +31,7 @@ Joel|555
 21417692|9|Dark Elf
 71280811|9|Yaranzo
 95265975|9|Ghoul with an Appetite
-24611934|10|Ryu-Kishin Powered
+24611934|9|Ryu-Kishin Powered
 11384280|9|Cannon Soldier
 48649353|9|Ushi Oni
 28279543|9|Curse of Dragon
@@ -68,7 +68,7 @@ Joel|555
 22411609|9|Volcanic Trooper
 81599449|9|Chemicritter Carbo Crab
 13179332|9|Charcoal Inpachi
-78009994|10|Dragonic Guard
+78009994|9|Dragonic Guard
 41089128|9|Flame Ruler
 48094997|9|Battle Footballer
 21051146|9|Blast Magician
@@ -83,49 +83,49 @@ Joel|555
 50426119|9|Degrade Buster
 75745607|9|Hino-Kagu-Tsuchi
 35842855|9|Pyrorex the Elemental Lord
-13039848|10|Giant Soldier of Stone
+13039848|9|Giant Soldier of Stone
 86421986|9|Ancient Tree of Enlightenment
 43500484|9|Darkworld Thorns
 756652|9|Doron
 81492226|9|Ancient Jar
 86652646|9|Skull Dog Marron
-39168895|10|Berserk Gorilla
+39168895|9|Berserk Gorilla
 48305365|9|Axe Raider
-69140098|10|Gemini Elf
-68516705|10|Mystic Horseman
-47986555|8|Millennium Golem
-39239728|10|Royal Guard
-43352213|6|Nekogal #2
+69140098|9|Gemini Elf
+68516705|9|Mystic Horseman
+47986555|9|Millennium Golem
+39239728|9|Royal Guard
+43352213|9|Nekogal #2
 52584282|9|Hercules Bettle
 82818645|9|Rock Spirit
-76232340|7|Sengenjin
+76232340|9|Sengenjin
 14141448|9|Great Moth
 42129512|9|Big Koala
 6368038|9|Gaia the Fierce Knight
 73304257|9|Alpha, the Master of Beast
 53693416|9|Eagle Eye
-40196604|10|Dark Shade
-33064647|10|One-eyed Shield Dragon
+40196604|9|Dark Shade
+33064647|9|One-eyed Shield Dragon
 28470714|9|Bladefly
 1474910|9|Bee List Soldier
 25920413|9|Alien Skull
-75252099|10|Bird of Roses
+75252099|9|Bird of Roses
 45547649|9|Birdface
 41396436|9|Blue-winged Crown
-21830679|10|Clock Wyvern
-17573739|10|Alector, Sovereign of Birds
-35712107|10|Monstrous Bird
-17658803|10|Luster Dragon #2
-48766543|10|Cyber-Tech Alligator
+21830679|9|Clock Wyvern
+17573739|9|Alector, Sovereign of Birds
+35712107|9|Monstrous Bird
+17658803|9|Luster Dragon #2
+48766543|9|Cyber-Tech Alligator
 44800181|9|Combo Master
 62340868|9|Kazejin
 86489182|9|Simorgh, Bird of Ancestry
-10530913|10|Sylvan Sagequoia
-11819616|10|Tytannial, Princess of Camellias
+10530913|9|Sylvan Sagequoia
+11819616|9|Tytannial, Princess of Camellias
 90247311|9|Yellow Dragon Ninja
 87430998|9|Forest
-50913601|6|Mountain
-86318356|7|Sogen
+50913601|9|Mountain
+86318356|9|Sogen
 22702055|9|Umi
 23424603|9|Wasteland
 59197169|9|Yami
@@ -134,36 +134,43 @@ Joel|555
 61583217|9|Cyberworld
 56433456|9|Sanctuary
 1050684|9|Scrapyard
-56342351|7|M-Warrior #1
-92731455|6|M-Warrior #2
-24094653|7|Polymerization
-23995346|8|Blue-Eyes Ultimate Dragon
-54541900|8|Karbonala Warrior
-46534755|10|Fire Kraken
-4031928|10|Change of Heart
-31786629|10|Thunder Dragon
-54752875|11|Twin-Headed Thunder Dragon
-76184692|10|Hitotsu-Me Giant
-75499502|10|Master & Expert
-16768387|10|Big Eye
-52367652|10|That Which Feeds on Life
-78243409|10|The Thing in the Crater
-71407486|10|Fireyarou
-53493204|10|Goddess with the Third Eye
-45909477|10|Moon Envoy
-36151751|10|Arma Knight
-55014050|10|Water Girl
-57405307|10|Winged Dragon, Guardian of the Fortress #2
+56342351|9|M-Warrior #1
+92731455|9|M-Warrior #2
+24094653|9|Polymerization
+23995346|9|Blue-Eyes Ultimate Dragon
+54541900|9|Karbonala Warrior
+46534755|9|Fire Kraken
+4031928|9|Change of Heart
+31786629|9|Thunder Dragon
+54752875|9|Twin-Headed Thunder Dragon
+76184692|9|Hitotsu-Me Giant
+75499502|9|Master & Expert
+16768387|9|Big Eye
+52367652|9|That Which Feeds on Life
+78243409|9|The Thing in the Crater
+71407486|9|Fireyarou
+53493204|9|Goddess with the Third Eye
+45909477|9|Moon Envoy
+36151751|9|Arma Knight
+55014050|9|Water Girl
+57405307|9|Winged Dragon, Guardian of the Fortress #2
 88979991|9|Killer Needle
 15042735|9|Hurricail
-9430387|8|LALA Li-oon
-98898173|8|The Melting Red Shadow
+9430387|9|LALA Li-oon
+98898173|9|The Melting Red Shadow
 60715406|9|Tentacle Plant
 60694662|9|Skelengel
-37243151|8|Weather Control
-12143771|8|People Running Around
-12883044|8|Flame Dancer
-75889523|8|Archfiend Marmot of Nefariousness
+37243151|9|Weather Control
+12143771|9|People Running Around
+12883044|9|Flame Dancer
+75889523|9|Archfiend Marmot of Nefariousness
 84285623|9|Haniwa
-68963107|8|Boo Koo
+68963107|9|Boo Koo
 22026707|9|Curtain of the Dark Ones
+4206964|9|Trap Hole
+41356845|9|Acid Trap Hole
+29401950|9|Bottomless Trap Hole
+62325062|9|Adhesion Trap Hole
+89569453|9|Banishing Trap Hole
+28654932|9|Deep Dark Trap Hole
+99590524|9|Treacherous Trap Hole
