@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Media.Media3D;
 
 namespace DungeonDiceMonsters
 {
@@ -822,8 +821,8 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //This monster does not have a continuous effect to active, move into the Main Phase
-            EnterMainPhase();
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         private void MWarrior1_IgnitionActivation(Effect thisEffect)
         {
@@ -864,8 +863,8 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //This monster does not have a continuous effect to active, move into the Main Phase
-            EnterMainPhase();
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         private void MWarrior2_IgnitionActivation(Effect thisEffect)
         {
@@ -1007,9 +1006,10 @@ namespace DungeonDiceMonsters
             //Step 4: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
 
-            //Step 5: Hide the Effect Menu panel and enter the Main Phase
+            //Step 5: Hide the Effect Menu panel
             HideEffectMenuPanel();
-            EnterMainPhase();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
         }
         private void KarbonalaWarrior_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
@@ -1268,8 +1268,8 @@ namespace DungeonDiceMonsters
                 DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was transformed into. Effect wont activate.");
                 UpdateEffectLogs("Monster was transformed into, effect wont activate");
                 HideEffectMenuPanel();
-                //Simply enter the main phase.
-                EnterMainPhase();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
             }
             else
             {
@@ -1306,8 +1306,8 @@ namespace DungeonDiceMonsters
                     DisplayOnSummonEffectPanel(thisEffect, "No valid targets for activation. Effect wont activate.");
                     UpdateEffectLogs("There are not proper effect targets for this this effect. Effect will not activate.");
                     HideEffectMenuPanel();
-                    //Simply enter the main phase.
-                    EnterMainPhase();
+                    //Enter Phase 3 of the summon sequence
+                    SummonMonster_Phase3(thisEffect.OriginCard);
                 }
             }
         }
@@ -1318,7 +1318,8 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Transform target into "Thunder Dragon" Card ID: 31786629
             TransformMonster(TargetTile, 31786629);
 
-            //This effect summons a monster, the TransformMonster() method will handle reaching the next game state.
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
 
@@ -1350,9 +1351,9 @@ namespace DungeonDiceMonsters
             //Step 4: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
 
-            //Step 5: Hide the Effect Menu panel and enter the Main Phase
+            //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
             HideEffectMenuPanel();
-            EnterMainPhase();
+            SummonMonster_Phase4(thisEffect.OriginCard);
         }
         private void TwinHeadedThunderDragon_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
@@ -1455,8 +1456,8 @@ namespace DungeonDiceMonsters
 
             HideEffectMenuPanel();
 
-            //At this point end the summoning phase
-            EnterMainPhase();
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         #endregion
     }

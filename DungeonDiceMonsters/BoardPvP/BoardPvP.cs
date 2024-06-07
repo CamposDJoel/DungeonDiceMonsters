@@ -1122,54 +1122,44 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
+        private List<Card> CardsBeingSummoned = new List<Card>();
         private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId, SummonType thisSummonType)
-        {
+        {           
             //then summon the card
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
 
+            Tile SummonTile = _Tiles[tileId];
+
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             if (thisSummonType == SummonType.Normal || thisSummonType == SummonType.Ritual) 
             {
-                _Tiles[tileId].SummonCard(thisCard);
+                SummonTile.SummonCard(thisCard);
             }
             else
             {
-                _Tiles[tileId].NonDimensionSummon(thisCard);
+                SummonTile.NonDimensionSummon(thisCard);
             }
 
+            //Add this card to the CardsBeingSummonedList, this list will help in the case where a second monster
+            //is being summon in the middle of another summon sequence
+            CardsBeingSummoned.Insert(0, thisCard);
+
             //if this was a Transform Summon flag the monster as such
-            if(thisSummonType == SummonType.Transform)
+            if (thisSummonType == SummonType.Transform)
             {
                 thisCard.MarkAsTransformedInto();
             }
 
-            //Wait 1 sec for the sound effect to finish
+            //Wait 1 sec to pace the summon animation before start triggering effects
             WaitNSeconds(1000);
 
             //Check for active effects that react to monster summons
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
             ResolveEffectsWithSummonReactionTo(thisCard);
 
-            //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
-            {
-                //Create the effect object and activate
-                Effect thisCardsEffect = thisCard.GetOnSummonEffect();
-                ActivateEffect(thisCardsEffect);
-            }
-            else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
-            {
-                //Create the effect object and activate
-                Effect thisCardsEffect = thisCard.GetContinuousEffect();
-                ActivateEffect(thisCardsEffect);
-            }
-            else
-            {
-                EnterMainPhase();
-            }
-
-            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+            //NOW enter Phase 2
+            SummonMonster_Phase2(thisCard);
 
             void ResolveEffectsWithSummonReactionTo(Card targetCard)
             {
@@ -1193,6 +1183,57 @@ namespace DungeonDiceMonsters
                     }
                 }
             }
+        }
+        private void SummonMonster_Phase2(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 2 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+            //In this phase check for and execute OnSummon effect of the summoned monster
+
+            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = thisCard.GetOnSummonEffect();
+                ActivateEffect(thisCardsEffect);
+            }
+            else
+            {
+                //Enter Phase 3
+                SummonMonster_Phase3(thisCard);
+            }
+        }
+        private void SummonMonster_Phase3(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 3 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+           
+
+            if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = thisCard.GetContinuousEffect();
+                ActivateEffect(thisCardsEffect);
+            }
+            else
+            {
+                //Enter Phase 4
+                SummonMonster_Phase4(thisCard);
+            }
+        }
+        private void SummonMonster_Phase4(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 4 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+            //If there are cards with trigger effects that are triger by summons, activate them
+            //NOTE: Trigger effects that activate in response to summons WONT MOVE THE GAME STATE
+            //so after one executes, the workflow will continue on this method
+            //then enter the main phase
+
+            //Summon Sequence Completed, remove this card from the CardsBeingSummon list
+            CardsBeingSummoned.RemoveAt(0);
+            UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+            EnterMainPhase();
         }
         private void DestroyCard(Tile tileLocation)
         {
@@ -1598,7 +1639,6 @@ namespace DungeonDiceMonsters
             }
 
             if (_CurrentTileSelected != null) { _CurrentTileSelected.ReloadTileUI(); }
-            PanelBoard.Enabled = true;
             _CurrentGameState = GameState.MainPhaseBoard;
         }
         private void StartGameOver()

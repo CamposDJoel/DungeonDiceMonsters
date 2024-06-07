@@ -2094,9 +2094,9 @@
             this.lblActivationRequirementOutput.BackColor = System.Drawing.Color.Black;
             this.lblActivationRequirementOutput.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblActivationRequirementOutput.ForeColor = System.Drawing.Color.Red;
-            this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 166);
+            this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 156);
             this.lblActivationRequirementOutput.Name = "lblActivationRequirementOutput";
-            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 34);
+            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 42);
             this.lblActivationRequirementOutput.TabIndex = 27;
             this.lblActivationRequirementOutput.Text = "Cost not met.";
             this.lblActivationRequirementOutput.Visible = false;
