@@ -84,6 +84,17 @@ namespace DungeonDiceMonsters
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
+        private void ReactivateEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect REactivation: [{0}] - Origin Card Board ID: [{1}].Controller: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
+            switch (thisEffect.ID)
+            {                
+                case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
+            }
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+        }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
@@ -1043,6 +1054,29 @@ namespace DungeonDiceMonsters
             //Enter Summon phase 4
             SummonMonster_Phase4(thisEffect.OriginCard);
         }
+        private void KarbonalaWarrior_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
+                {
+                    thisEffect.OriginCard.AdjustAttackBonus(500);
+                    thisEffect.OriginCard.AdjustDefenseBonus(500);
+                    thisEffect.CustomInt1++;
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
         private void KarbonalaWarrior_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
             //If the monster summon is M-Warrior #1 or M-Warrior #2 regardless of.Controller
@@ -1390,6 +1424,30 @@ namespace DungeonDiceMonsters
             //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
             HideEffectMenuPanel();
             SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void TwinHeadedThunderDragon_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Increase Attack Range Bonus +1 for each "Twin-Headed Thunder Dragon" from the same controller.
+            thisEffect.CustomInt1 = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard &&
+                    thisCard.Controller == thisEffect.Owner)
+                {
+                    thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                    thisEffect.CustomInt1++;
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
         }
         private void TwinHeadedThunderDragon_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {

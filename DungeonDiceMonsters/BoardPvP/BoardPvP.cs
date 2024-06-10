@@ -800,12 +800,12 @@ namespace DungeonDiceMonsters
                         
                         if (thisCard.HasIgnitionEffect)
                         {
-                            fullcardtext = fullcardtext + "(EFFECT)" + thisCard.IgnitionEffectText + "\n\n";
+                            fullcardtext = fullcardtext + "(EFFECT) - " + thisCard.IgnitionEffectText + "\n\n";
                         }
 
                         if (thisCard.HasTriggerEffect)
                         {
-                            fullcardtext = fullcardtext + "(TRIGGER)" + thisCard.TriggerEffect + "\n\n";
+                            fullcardtext = fullcardtext + "(TRIGGER) - " + thisCard.TriggerEffect + "\n\n";
                         }
 
                         lblCardText.Text = fullcardtext;
@@ -838,6 +838,14 @@ namespace DungeonDiceMonsters
                         lblTurnCounters.Text = thisCard.TurnCounters.ToString();
                         lblCounters.Text = thisCard.Counters.ToString();
                         lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
+                        if (thisCard.SpellboundCounter > 0)
+                        {
+                            lblSpellboundCounters.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            lblSpellboundCounters.ForeColor = Color.White;
+                        }
                     }
                 }
             }
