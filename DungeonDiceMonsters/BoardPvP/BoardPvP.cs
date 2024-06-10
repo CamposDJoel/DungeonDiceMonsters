@@ -1302,24 +1302,24 @@ namespace DungeonDiceMonsters
 
                 string TrapHole_MetsRequirement()
                 {
-                    if(thisCard.Controller != thisEffect.Owner && thisCard.ATK >= 1000) 
+                    if(thisCard.Controller != thisEffect.Owner && thisCard.ATK >= 1000 && !thisCard.IsUnderSpellbound) 
                     {
                         return "Requirements Met";
                     }
                     else
                     {
-                        return string.Format("Summoned monster is not an opponent monster and/or its ATK is not 1000 or more. | Summoned Card Owner: [{0}] ATK [{1}]", thisCard.Controller, thisCard.ATK);
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its ATK is not 1000 or more. | Summoned Card Owner: [{0}] ATK [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.ATK, thisCard.IsUnderSpellbound);
                     }
                 }
                 string AcidTrapHole_MetRequirement()
                 {
-                    if (thisCard.Controller != thisEffect.Owner && thisCard.DEF <= 2000)
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.DEF <= 2000 && !thisCard.IsUnderSpellbound)
                     {
                         return "Requirements Met";
                     }
                     else
                     {
-                        return string.Format("Summoned monster is not an opponent monster and/or its DEF is not 2000 or less. | Summoned Card Owner: [{0}] DEF [{1}]", thisCard.Controller, thisCard.DEF);
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its DEF is not 2000 or less. | Summoned Card Owner: [{0}] DEF [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.DEF, thisCard.IsUnderSpellbound);
                     }
                 }
             }
@@ -1386,6 +1386,30 @@ namespace DungeonDiceMonsters
 
             //Step 4: Now Transform Summon the new monster
             SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
+        }
+        private void SpellboundCard(Card thisCard, int turns)
+        {
+            //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
+            thisCard.SpellboundIt(turns);
+
+            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] was spellbounded for [{3}] turns.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, turns));
+
+            //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
+            Effect activeEffectFound = null;
+            foreach(Effect thisEffect in _ActiveEffects)
+            {
+                if(thisEffect.Type == Effect.EffectType.Continuous && thisEffect.OriginCard == thisCard)
+                {
+                    activeEffectFound = thisEffect;
+                    break;
+                }
+            }
+
+            //Step 3: If so, remove it.
+            if (activeEffectFound != null) 
+            {
+                RemoveEffect(activeEffectFound);
+            }
         }
         private void LaunchTurnStartPanel()
         {            

@@ -318,7 +318,7 @@ namespace DungeonDiceMonsters
             }
             bool CanCardMove(Card thiscard, PlayerData TurnPlayerData)
             {
-                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV)
+                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV || thiscard.IsUnderSpellbound)
                 {
                     return false;
                 }
@@ -335,7 +335,7 @@ namespace DungeonDiceMonsters
                 // 3. Card is a monster
 
                 //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster)
+                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
                 {
                     return false;
                 }
@@ -1030,6 +1030,13 @@ namespace DungeonDiceMonsters
                     if (thisCard.EffectUsedThisTurn)
                     {
                         lblActivationRequirementOutput.Text = "Effect already used this turn.";
+                        lblActivationRequirementOutput.Visible = true;
+                        btnActivate.Visible = false;
+                        PanelCost.Visible = false;
+                    }
+                    else if (thisCard.IsUnderSpellbound)
+                    {
+                        lblActivationRequirementOutput.Text = "Spellbounded cards cannot activate their effects.";
                         lblActivationRequirementOutput.Visible = true;
                         btnActivate.Visible = false;
                         PanelCost.Visible = false;
