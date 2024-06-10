@@ -701,6 +701,8 @@ namespace DungeonDiceMonsters
                     lblTurnCounters.Text = string.Empty;
                     lblCounters.Text = string.Empty;
                     lblSpellboundCounters.Text = string.Empty;
+                    PicCannotAttackIcon.Visible = false;
+                    PicCannotMoveIcon.Visible = false;
                 }
                 else
                 {
@@ -730,6 +732,8 @@ namespace DungeonDiceMonsters
                         lblTurnCounters.Text = string.Empty;
                         lblCounters.Text = string.Empty;
                         lblSpellboundCounters.Text = string.Empty;
+                        PicCannotAttackIcon.Visible = false;
+                        PicCannotMoveIcon.Visible = false;
                     }
                     else
                     {
@@ -856,6 +860,15 @@ namespace DungeonDiceMonsters
                         {
                             lblSpellboundCounters.ForeColor = Color.White;
                         }
+
+                        //Cannot Attack/Move Icons
+                        PicCannotAttackIcon.Visible = false;
+
+                        if (thisCard.CannotMoveCounters > 0) { PicCannotMoveIcon.Visible = true; }
+                        else
+                        {
+                            PicCannotMoveIcon.Visible = false;
+                        }
                     }
                 }
             }
@@ -884,6 +897,8 @@ namespace DungeonDiceMonsters
                 lblTurnCounters.Text = string.Empty;
                 lblCounters.Text = string.Empty;
                 lblSpellboundCounters.Text = string.Empty;
+                PicCannotAttackIcon.Visible = false;
+                PicCannotMoveIcon.Visible = false;
             }
         }
         private void LoadFieldTypeDisplay(Tile thisTile, bool isHovering)
@@ -1316,6 +1331,10 @@ namespace DungeonDiceMonsters
                     case Effect.EffectID.TrapHole_Trigger: return TrapHole_MetsRequirement();
                     case Effect.EffectID.AcidTrapHole_Trigger: return AcidTrapHole_MetRequirement();
                     case Effect.EffectID.BanishingTrapHole_Trigger: return BanishingTrapHole_MetsRequirements();
+                    case Effect.EffectID.DeepDarkTrapHole_Trigger: return DeepDarkTrapHole_MetsRequirements();
+                    case Effect.EffectID.TreacherousTrapHole_Trigger: return TreacherousTrapHole_MetsRequirements();
+                    case Effect.EffectID.BottomlessTrapHole_Trigger: return BottomlessTrapHole_MetsRequirements();
+                    case Effect.EffectID.AdhesionTrapHole_Trigger: return AdhesionTrapHole_MetsRequirements();
                     default: return "Requirements Met";
                 }
 
@@ -1350,6 +1369,50 @@ namespace DungeonDiceMonsters
                     else
                     {
                         return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its ATK is not 1500 or less. | Summoned Card Owner: [{0}] ATK [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.ATK, thisCard.IsUnderSpellbound);
+                    }
+                }
+                string DeepDarkTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.Level >= 5)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster Monster Level 5 or higher. | Summoned Card Owner: [{0}] Monster Level [{1}]", thisCard.Controller, thisCard.Level);
+                    }
+                }
+                string TreacherousTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.Level >= 5)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster Monster Level 5 or higher. | Summoned Card Owner: [{0}] Monster Level [{1}]", thisCard.Controller, thisCard.Level);
+                    }
+                }
+                string BottomlessTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 3000 && thisCard.SecType == SecType.Normal)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent normal monster Monster with 3000 or less ATK. | Summoned Card Owner: [{0}] ATK [{1}] SecType [{2}]", thisCard.Controller, thisCard.ATK, thisCard.SecType);
+                    }
+                }
+                string AdhesionTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.SecType == SecType.Normal)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent normal monster. | Summoned Card Owner: [{0}] SecType [{1}]", thisCard.Controller, thisCard.SecType);
                     }
                 }
             }
@@ -1419,6 +1482,7 @@ namespace DungeonDiceMonsters
         }
         private void SpellboundCard(Card thisCard, int turns)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
             thisCard.SpellboundIt(turns);
 

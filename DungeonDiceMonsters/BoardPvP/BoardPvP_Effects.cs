@@ -70,6 +70,10 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TrapHole_Trigger: TrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.AcidTrapHole_Trigger: AcidTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.BanishingTrapHole_Trigger: BanishingTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.DeepDarkTrapHole_Trigger: DeepDarkTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.TreacherousTrapHole_Trigger: TreacherousTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.BottomlessTrapHole_Trigger: BottomlessTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.AdhesionTrapHole_Trigger: AdhesionTrapHole_TriggerActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -875,6 +879,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [DEF] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [DEF] to.Controller's crest pool.");
 
@@ -917,6 +922,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [ATK] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [ATK] to.Controller's crest pool.");
 
@@ -1125,6 +1131,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 2 [ATK] and 2 [DEF] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 2);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 2);
             UpdateEffectLogs("Effect Resolved: Added 1 [ATK] and 1 [DEF] to.Controller's crest pool.");
@@ -1170,6 +1177,7 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's attribute to FIRE
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.ChangeAttribute(Attribute.FIRE);
             thisEffect.AddAffectedByCard(targetCard);
 
@@ -1267,6 +1275,7 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.SwitchController();
             thisEffect.AddAffectedByCard(targetCard);
 
@@ -1548,6 +1557,7 @@ namespace DungeonDiceMonsters
             DisplayOnSummonEffectPanel(thisEffect);
 
             //EFFECT DESCRIPTION: Add whatever [ ] crest to the controller's crest pool by the amout set
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(TURNPLAYER, crestToAdd, amount);
 
             HideEffectMenuPanel();
@@ -1572,7 +1582,6 @@ namespace DungeonDiceMonsters
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];                 
             SpellboundCard(summonedCard, 3);         
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1597,7 +1606,6 @@ namespace DungeonDiceMonsters
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
             SpellboundCard(summonedCard, 3);
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1622,7 +1630,107 @@ namespace DungeonDiceMonsters
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
             SpellboundCard(summonedCard, 99);
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Deep Dark Trap Hole
+        private void DeepDarkTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AdjustAttackBonus(-1000);          
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Treacherous Trap Hole
+        private void TreacherousTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AdjustDefenseBonus(-1000);          
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Bottomless Trap Hole
+        private void BottomlessTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            SpellboundCard(summonedCard, 99);            
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Adhesion Trap Hole
+        private void AdhesionTrapHole_TriggerActivation(Effect thisEffect) 
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AddCannotMoveCounter();           
+            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] received a Cannot Move Counter. Cannot Move Counters [{3}]", summonedCard.Name, summonedCard.OnBoardID, summonedCard.Controller, summonedCard.CannotMoveCounters));
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);

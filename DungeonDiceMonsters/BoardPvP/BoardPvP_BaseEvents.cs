@@ -243,8 +243,8 @@ namespace DungeonDiceMonsters
                     //Hide the End Turn Button for the turn player 
                     btnEndTurn.Visible = false;
 
-                    //Check if Card can move                
-                    if (CanCardMove(thiscard, TURNPLAYERDATA))
+                    //Check if Card can move
+                    if (thiscard.CanMove() && thiscard.MoveCost <= TURNPLAYERDATA.Crests_MOV)
                     {
                         btnActionMove.Enabled = true;
                         _TMPMoveCrestCount = TURNPLAYERDATA.Crests_MOV;
@@ -255,7 +255,7 @@ namespace DungeonDiceMonsters
                         btnActionMove.Enabled = false;
                     }
 
-                    //Check if Card can attack
+                    //Check if Card can attack                   
                     if (CanCardAttack(thiscard, TURNPLAYERDATA))
                     {
                         btnActionAttack.Enabled = true;
@@ -314,17 +314,6 @@ namespace DungeonDiceMonsters
                 else
                 {
                     PanelActionMenu.Location = new Point(referencePoint.X + 48, referencePoint.Y - 25);
-                }
-            }
-            bool CanCardMove(Card thiscard, PlayerData TurnPlayerData)
-            {
-                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV || thiscard.IsUnderSpellbound)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
                 }
             }
             bool CanCardAttack(Card thiscard, PlayerData TurnPlayerData)

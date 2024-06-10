@@ -144,6 +144,7 @@ namespace DungeonDiceMonsters
                 if (finalRange < 1) { return 1; } else { return finalRange; }
             }
         }
+        public int CannotMoveCounters { get { return _CannotMoveCounters; } }
         #endregion
 
         #region Public Funtions
@@ -342,6 +343,14 @@ namespace DungeonDiceMonsters
             _IsUnderSpellbound = true;            
             ReloadTileUI();
         }
+        public bool CanMove()
+        {
+            return !_IsUnderSpellbound && _CannotMoveCounters == 0 && _MovesAvailable >= 1;
+        }
+        public void AddCannotMoveCounter()
+        {
+            _CannotMoveCounters++;
+        }
         #endregion
 
         #region Data
@@ -382,6 +391,7 @@ namespace DungeonDiceMonsters
         private int _Counters = 0;
         private int _SpellboundCounter = 0;
         private bool _EffectUsedThisTurn = false;
+        private int _CannotMoveCounters = 0;
 
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
