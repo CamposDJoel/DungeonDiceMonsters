@@ -837,7 +837,17 @@ namespace DungeonDiceMonsters
 
                         lblTurnCounters.Text = thisCard.TurnCounters.ToString();
                         lblCounters.Text = thisCard.Counters.ToString();
-                        lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
+
+                        if(thisCard.IsPermanentSpellbound)
+                        {
+                            lblSpellboundCounters.Text = "∞";
+                        }
+                        else
+                        {
+                            lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
+                        }
+
+                        
                         if (thisCard.SpellboundCounter > 0)
                         {
                             lblSpellboundCounters.ForeColor = Color.Red;
@@ -1305,6 +1315,7 @@ namespace DungeonDiceMonsters
                 {
                     case Effect.EffectID.TrapHole_Trigger: return TrapHole_MetsRequirement();
                     case Effect.EffectID.AcidTrapHole_Trigger: return AcidTrapHole_MetRequirement();
+                    case Effect.EffectID.BanishingTrapHole_Trigger: return BanishingTrapHole_MetsRequirements();
                     default: return "Requirements Met";
                 }
 
@@ -1328,6 +1339,17 @@ namespace DungeonDiceMonsters
                     else
                     {
                         return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its DEF is not 2000 or less. | Summoned Card Owner: [{0}] DEF [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.DEF, thisCard.IsUnderSpellbound);
+                    }
+                }
+                string BanishingTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 1500 && !thisCard.IsUnderSpellbound)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its ATK is not 1500 or less. | Summoned Card Owner: [{0}] ATK [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.ATK, thisCard.IsUnderSpellbound);
                     }
                 }
             }
