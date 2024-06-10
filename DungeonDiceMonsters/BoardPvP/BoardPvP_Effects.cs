@@ -163,6 +163,8 @@ namespace DungeonDiceMonsters
             //Wait 4 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
             WaitNSeconds(4000);
+            //Reduce the cost from the player's crest pool
+            AdjustPlayerCrestCount(thisEffect.Owner, thisEffect.CrestCost, -thisEffect.CostAmount);
         }
         private void HideEffectMenuPanel()
         {
@@ -1021,12 +1023,14 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
                 {
                     thisEffect.OriginCard.AdjustAttackBonus(500);
                     thisEffect.OriginCard.AdjustDefenseBonus(500);
+                    thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -1047,6 +1051,7 @@ namespace DungeonDiceMonsters
                 //Give an extra boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(500);
                 thisEffect.OriginCard.AdjustDefenseBonus(500);
+                thisEffect.CustomInt1++;
                 UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 500.");
             }
         }
@@ -1058,20 +1063,23 @@ namespace DungeonDiceMonsters
                 //reduce boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(-500);
                 thisEffect.OriginCard.AdjustDefenseBonus(-500);
+                thisEffect.CustomInt1--;
                 UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 500.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
             }
         }
         private void KarbonalaWarrior_RemoveEffect(Effect thisEffect)
         {
-            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
-            //is now discarted.
+            //Remove this effect by remove the ATK/DEF bonuses from the origin card that were added by this effect
+            int boostToBeReduced = thisEffect.CustomInt1 * 500;
+            thisEffect.OriginCard.AdjustAttackBonus(-boostToBeReduced);
+            thisEffect.OriginCard.AdjustDefenseBonus(-boostToBeReduced);
+            if (!thisEffect.OriginCard.IsDiscardted) { thisEffect.OriginCard.ReloadTileUI(); }
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
-            UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
-
+            UpdateEffectLogs(string.Format("This effect was removed from the active effect list. Origin Card's ATK/DEF bonus was reduced by [{0}]", boostToBeReduced));
         }
         private void KarbonalaWarrior_IgnitionActivation(Effect thisEffect)
         {
@@ -1461,15 +1469,14 @@ namespace DungeonDiceMonsters
         }
         private void TwinHeadedThunderDragon_RemoveEffect(Effect thisEffect)
         {
-            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
-            //is now discarted.
+            //Remove this effect by reducing the Bonis Attack Range provided to the origin card by this effect
+            thisEffect.OriginCard.AdjustAttackRangeBonus(-thisEffect.CustomInt1);
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
-
         }
         #endregion
 
@@ -1502,11 +1509,13 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Step 3: Resolve the effect
-            Card summonedCard = CardsBeingSummoned[0];
-            summonedCard.SpellboundIt(3);
+            Card summonedCard = CardsBeingSummoned[0];                 
+            SpellboundCard(summonedCard, 3);         
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] was spellbounded for 3 turns.", summonedCard.Name, summonedCard.OnBoardID, summonedCard.Controller));
 
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+            
             //Step 4: Enter Main Phase now
             EnterMainPhase();
         }
