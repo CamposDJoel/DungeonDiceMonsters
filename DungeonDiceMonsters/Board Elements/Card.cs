@@ -333,8 +333,13 @@ namespace DungeonDiceMonsters
         }
         public void SpellboundIt(int turns)
         {
-            _IsUnderSpellbound = true;
+            if (turns == 99)
+            {
+                _IsPemanentSpellbound = true;
+            }
+
             _SpellboundCounter = turns;
+            _IsUnderSpellbound = true;            
             ReloadTileUI();
         }
         #endregion
