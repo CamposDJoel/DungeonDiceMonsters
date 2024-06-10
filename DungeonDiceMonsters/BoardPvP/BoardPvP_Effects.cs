@@ -68,6 +68,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.BooKoo_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
                 case Effect.EffectID.CurtainoftheDarkOnes_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
                 case Effect.EffectID.TrapHole_Trigger: TrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.AcidTrapHole_Trigger: AcidTrapHole_TriggerActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -152,6 +153,7 @@ namespace DungeonDiceMonsters
         }
         private void DisplayTriggerEffectPanel(Effect thisEffect)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.TriggerEffect);
             //Flip the face down card
             thisEffect.OriginCard.FlipFaceUp();
 
@@ -1574,6 +1576,31 @@ namespace DungeonDiceMonsters
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
             
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Acid Trap Hole
+        private void AcidTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            Card summonedCard = CardsBeingSummoned[0];
+            SpellboundCard(summonedCard, 3);
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
             //Step 4: Enter Main Phase now
             EnterMainPhase();
         }
