@@ -701,6 +701,8 @@ namespace DungeonDiceMonsters
                     lblTurnCounters.Text = string.Empty;
                     lblCounters.Text = string.Empty;
                     lblSpellboundCounters.Text = string.Empty;
+                    PicCannotAttackIcon.Visible = false;
+                    PicCannotMoveIcon.Visible = false;
                 }
                 else
                 {
@@ -730,6 +732,8 @@ namespace DungeonDiceMonsters
                         lblTurnCounters.Text = string.Empty;
                         lblCounters.Text = string.Empty;
                         lblSpellboundCounters.Text = string.Empty;
+                        PicCannotAttackIcon.Visible = false;
+                        PicCannotMoveIcon.Visible = false;
                     }
                     else
                     {
@@ -800,12 +804,12 @@ namespace DungeonDiceMonsters
                         
                         if (thisCard.HasIgnitionEffect)
                         {
-                            fullcardtext = fullcardtext + "(EFFECT)" + thisCard.IgnitionEffectText + "\n\n";
+                            fullcardtext = fullcardtext + "(EFFECT) - " + thisCard.IgnitionEffectText + "\n\n";
                         }
 
                         if (thisCard.HasTriggerEffect)
                         {
-                            fullcardtext = fullcardtext + "(TRIGGER)" + thisCard.TriggerEffect + "\n\n";
+                            fullcardtext = fullcardtext + "(TRIGGER) - " + thisCard.TriggerEffect + "\n\n";
                         }
 
                         lblCardText.Text = fullcardtext;
@@ -837,7 +841,34 @@ namespace DungeonDiceMonsters
 
                         lblTurnCounters.Text = thisCard.TurnCounters.ToString();
                         lblCounters.Text = thisCard.Counters.ToString();
-                        lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
+
+                        if(thisCard.IsPermanentSpellbound)
+                        {
+                            lblSpellboundCounters.Text = "∞";
+                        }
+                        else
+                        {
+                            lblSpellboundCounters.Text = thisCard.SpellboundCounter.ToString();
+                        }
+
+                        
+                        if (thisCard.SpellboundCounter > 0)
+                        {
+                            lblSpellboundCounters.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            lblSpellboundCounters.ForeColor = Color.White;
+                        }
+
+                        //Cannot Attack/Move Icons
+                        PicCannotAttackIcon.Visible = false;
+
+                        if (thisCard.CannotMoveCounters > 0) { PicCannotMoveIcon.Visible = true; }
+                        else
+                        {
+                            PicCannotMoveIcon.Visible = false;
+                        }
                     }
                 }
             }
@@ -866,6 +897,8 @@ namespace DungeonDiceMonsters
                 lblTurnCounters.Text = string.Empty;
                 lblCounters.Text = string.Empty;
                 lblSpellboundCounters.Text = string.Empty;
+                PicCannotAttackIcon.Visible = false;
+                PicCannotMoveIcon.Visible = false;
             }
         }
         private void LoadFieldTypeDisplay(Tile thisTile, bool isHovering)
@@ -1122,54 +1155,44 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Turn Steps Functions
+        private List<Card> CardsBeingSummoned = new List<Card>();
         private void SummonMonster(CardInfo thisCardToBeSummoned, int tileId, SummonType thisSummonType)
-        {
+        {           
             //then summon the card
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
 
+            Tile SummonTile = _Tiles[tileId];
+
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             if (thisSummonType == SummonType.Normal || thisSummonType == SummonType.Ritual) 
             {
-                _Tiles[tileId].SummonCard(thisCard);
+                SummonTile.SummonCard(thisCard);
             }
             else
             {
-                _Tiles[tileId].NonDimensionSummon(thisCard);
+                SummonTile.NonDimensionSummon(thisCard);
             }
 
+            //Add this card to the CardsBeingSummonedList, this list will help in the case where a second monster
+            //is being summon in the middle of another summon sequence
+            CardsBeingSummoned.Insert(0, thisCard);
+
             //if this was a Transform Summon flag the monster as such
-            if(thisSummonType == SummonType.Transform)
+            if (thisSummonType == SummonType.Transform)
             {
                 thisCard.MarkAsTransformedInto();
             }
 
-            //Wait 1 sec for the sound effect to finish
+            //Wait 1 sec to pace the summon animation before start triggering effects
             WaitNSeconds(1000);
 
             //Check for active effects that react to monster summons
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
             ResolveEffectsWithSummonReactionTo(thisCard);
 
-            //Now check if the Monster has an "On Summon"/"Continuous" effect and try to activate
-            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
-            {
-                //Create the effect object and activate
-                Effect thisCardsEffect = thisCard.GetOnSummonEffect();
-                ActivateEffect(thisCardsEffect);
-            }
-            else if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
-            {
-                //Create the effect object and activate
-                Effect thisCardsEffect = thisCard.GetContinuousEffect();
-                ActivateEffect(thisCardsEffect);
-            }
-            else
-            {
-                EnterMainPhase();
-            }
-
-            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+            //NOW enter Phase 2
+            SummonMonster_Phase2(thisCard);
 
             void ResolveEffectsWithSummonReactionTo(Card targetCard)
             {
@@ -1190,6 +1213,206 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
+                    }
+                }
+            }
+        }
+        private void SummonMonster_Phase2(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 2 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+            //In this phase check for and execute OnSummon effect of the summoned monster
+
+            if (thisCard.HasOnSummonEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = thisCard.GetOnSummonEffect();
+                ActivateEffect(thisCardsEffect);
+            }
+            else
+            {
+                //Enter Phase 3
+                SummonMonster_Phase3(thisCard);
+            }
+        }
+        private void SummonMonster_Phase3(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 3 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+           
+
+            if (thisCard.HasContinuousEffect && thisCard.EffectsAreImplemented)
+            {
+                //Create the effect object and activate
+                Effect thisCardsEffect = thisCard.GetContinuousEffect();
+                ActivateEffect(thisCardsEffect);
+            }
+            else
+            {
+                //Enter Phase 4
+                SummonMonster_Phase4(thisCard);
+            }
+        }
+        private void SummonMonster_Phase4(Card thisCard)
+        {
+            UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 4 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
+            _CurrentGameState = GameState.NOINPUT;
+            
+            UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+          
+            //Check if any cards on the board can be activated by (TRIGGER) effects that respond to Summons
+            //RULE: ONLY 1 TRIGGER EFFECT can be activated, the first one that meets the cost/coditions will activate
+            CheckForTriggeredBySummonsEffects();
+
+            //Summon Sequence Completed, remove this card from the CardsBeingSummon list
+            CardsBeingSummoned.RemoveAt(0);
+
+            void CheckForTriggeredBySummonsEffects()
+            {
+                UpdateEffectLogs("-----   Checking for Cards with trigger effects by Monster Summons    ------");
+
+                //Check all the cards on the board to find the FIRST card that mets its cost and activation requirements
+                Effect EffectToBeActivated = null;
+                foreach(Card thisCardOnTheBoard in _CardsOnBoard)
+                {
+                    if(thisCardOnTheBoard.IsFaceDown && thisCardOnTheBoard.HasTriggerEffect && thisCardOnTheBoard.TriggerEvent == Card.TriggeredBy.MonsterSummon)
+                    {
+                        //Now check the cost to activate
+                        Effect thisTriggerEffect = thisCardOnTheBoard.GetTriggerEffect();
+                        if(IsCostMet(thisTriggerEffect.CrestCost, thisTriggerEffect.CostAmount))
+                        {
+                            //Now check the condition requirements
+                            string requirmentMetCondition = GetActivationRequirementStatus(thisTriggerEffect);
+                            if(requirmentMetCondition == "Requirements Met")
+                            {
+                                UpdateEffectLogs("Ctivation requirements MET");
+                                EffectToBeActivated = thisTriggerEffect;
+                                break;
+                            }
+                            else
+                            {
+                                UpdateEffectLogs(string.Format("Activation Requirements Not Met: {0}", requirmentMetCondition));
+                            }
+
+                        }
+                    }
+                }
+
+                //Finally, check if a effect will be activated.
+                if(EffectToBeActivated != null)
+                {
+                    ActivateEffect(EffectToBeActivated);
+                }
+                //If not, enter the Main Phase
+                else
+                {
+                    UpdateEffectLogs("No trigger effects could activate, entering the Main Phase now.");
+                    EnterMainPhase();
+                }
+            }
+            bool IsCostMet(Crest crestCost, int amount)
+            {
+                switch (crestCost)
+                {
+                    case Crest.MAG: return amount <= TURNPLAYERDATA.Crests_MAG;
+                    case Crest.TRAP: return amount <= TURNPLAYERDATA.Crests_TRAP;
+                    case Crest.ATK: return amount <= TURNPLAYERDATA.Crests_ATK;
+                    case Crest.DEF: return amount <= TURNPLAYERDATA.Crests_DEF;
+                    case Crest.MOV: return amount <= TURNPLAYERDATA.Crests_MOV;
+                    default: throw new Exception(string.Format("Crest undefined for Cost Met calculation. Crest: [{0}]", crestCost));
+                }
+            }
+            string GetActivationRequirementStatus(Effect thisEffect)
+            {
+                UpdateEffectLogs(string.Format(">>Getting activation requirements for  effect [{0}] with onwer [{1}]", thisEffect.ID, thisEffect.Owner));
+                switch (thisEffect.ID)
+                {
+                    case Effect.EffectID.TrapHole_Trigger: return TrapHole_MetsRequirement();
+                    case Effect.EffectID.AcidTrapHole_Trigger: return AcidTrapHole_MetRequirement();
+                    case Effect.EffectID.BanishingTrapHole_Trigger: return BanishingTrapHole_MetsRequirements();
+                    case Effect.EffectID.DeepDarkTrapHole_Trigger: return DeepDarkTrapHole_MetsRequirements();
+                    case Effect.EffectID.TreacherousTrapHole_Trigger: return TreacherousTrapHole_MetsRequirements();
+                    case Effect.EffectID.BottomlessTrapHole_Trigger: return BottomlessTrapHole_MetsRequirements();
+                    case Effect.EffectID.AdhesionTrapHole_Trigger: return AdhesionTrapHole_MetsRequirements();
+                    default: return "Requirements Met";
+                }
+
+                string TrapHole_MetsRequirement()
+                {
+                    if(thisCard.Controller != thisEffect.Owner && thisCard.ATK >= 1000 && !thisCard.IsUnderSpellbound) 
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its ATK is not 1000 or more. | Summoned Card Owner: [{0}] ATK [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.ATK, thisCard.IsUnderSpellbound);
+                    }
+                }
+                string AcidTrapHole_MetRequirement()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.DEF <= 2000 && !thisCard.IsUnderSpellbound)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its DEF is not 2000 or less. | Summoned Card Owner: [{0}] DEF [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.DEF, thisCard.IsUnderSpellbound);
+                    }
+                }
+                string BanishingTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 1500 && !thisCard.IsUnderSpellbound)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster not under a spellbound and/or its ATK is not 1500 or less. | Summoned Card Owner: [{0}] ATK [{1}] Spellbounded: [{2}]", thisCard.Controller, thisCard.ATK, thisCard.IsUnderSpellbound);
+                    }
+                }
+                string DeepDarkTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.Level >= 5)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster Monster Level 5 or higher. | Summoned Card Owner: [{0}] Monster Level [{1}]", thisCard.Controller, thisCard.Level);
+                    }
+                }
+                string TreacherousTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.Level >= 5)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent monster Monster Level 5 or higher. | Summoned Card Owner: [{0}] Monster Level [{1}]", thisCard.Controller, thisCard.Level);
+                    }
+                }
+                string BottomlessTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 3000 && thisCard.SecType == SecType.Normal)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent normal monster Monster with 3000 or less ATK. | Summoned Card Owner: [{0}] ATK [{1}] SecType [{2}]", thisCard.Controller, thisCard.ATK, thisCard.SecType);
+                    }
+                }
+                string AdhesionTrapHole_MetsRequirements()
+                {
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.SecType == SecType.Normal)
+                    {
+                        return "Requirements Met";
+                    }
+                    else
+                    {
+                        return string.Format("Summoned monster is not an opponent normal monster. | Summoned Card Owner: [{0}] SecType [{1}]", thisCard.Controller, thisCard.SecType);
                     }
                 }
             }
@@ -1256,6 +1479,31 @@ namespace DungeonDiceMonsters
 
             //Step 4: Now Transform Summon the new monster
             SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
+        }
+        private void SpellboundCard(Card thisCard, int turns)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
+            thisCard.SpellboundIt(turns);
+
+            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] was spellbounded for [{3}] turns.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, turns));
+
+            //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
+            Effect activeEffectFound = null;
+            foreach(Effect thisEffect in _ActiveEffects)
+            {
+                if(thisEffect.Type == Effect.EffectType.Continuous && thisEffect.OriginCard == thisCard)
+                {
+                    activeEffectFound = thisEffect;
+                    break;
+                }
+            }
+
+            //Step 3: If so, remove it.
+            if (activeEffectFound != null) 
+            {
+                RemoveEffect(activeEffectFound);
+            }
         }
         private void LaunchTurnStartPanel()
         {            
@@ -1598,7 +1846,6 @@ namespace DungeonDiceMonsters
             }
 
             if (_CurrentTileSelected != null) { _CurrentTileSelected.ReloadTileUI(); }
-            PanelBoard.Enabled = true;
             _CurrentGameState = GameState.MainPhaseBoard;
         }
         private void StartGameOver()

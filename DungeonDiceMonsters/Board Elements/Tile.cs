@@ -46,10 +46,7 @@ namespace DungeonDiceMonsters
                 }                
             }
 
-            //Hide the overlay icon (this should only be visible in specific situations)
-            _OverlayIcon.Visible = false;
-
-
+            
             //_InsideBox image and _Stats
             //Set the Card Image of the Card in the Tile, if this tile is occupied, otherwise Card Image will be null unless it has
             //a field type other than "None", in which case it will load the field image.
@@ -100,11 +97,31 @@ namespace DungeonDiceMonsters
                 //if the Fiel Type value is set, load its image
                 if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSpellTrapZone)
                 {
+                    ImageServer.ClearImage(_CardImage);
                     _CardImage.BackgroundImage = ImageServer.FieldTile(_FieldType.ToString());
                 }
 
                 _StatsLabelATK.Visible = false;
                 _StatsLabelDEF.Visible = false;
+            }
+
+            //Overlay icon is only visible if the tile has a card under a spellbound
+            if (_Occupied)
+            {
+                if (_card.IsUnderSpellbound)
+                {
+                    ImageServer.ClearImage(_OverlayIcon);
+                    _OverlayIcon.Image = ImageServer.SpellboundIcon();
+                    _OverlayIcon.Visible = true;
+                }
+                else
+                {
+                    _OverlayIcon.Visible = false;
+                }
+            }
+            else
+            {
+                _OverlayIcon.Visible = false;
             }
         }
         #endregion

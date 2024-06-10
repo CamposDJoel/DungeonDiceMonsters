@@ -12,18 +12,18 @@ RED MONSTERS|6
 31786629|175|Thunder Dragon
 -----------------------------------------
 BLUE MONSTERS|4
-75745607|226|Hino-Kagu-Tsuchi
-6740720|30|Seiyaryu
-35842855|84|Pyrorex the Elemental Lord
-67371383|111|Amphibian Beast
+92731455|226|M-Warrior #2
+56342351|30|M-Warrior #1
+92731455|84|M-Warrior #2
+56342351|111|M-Warrior #1
 ------------------------------------
 RED SET CARDS|3
 24094653|188|Polymerization
 24094653|104|Polymerization
-24094653|201|Polymerization
+4206964|201|Trap Hole
 ----------------------------------------
 BLUE SET CARDS|1
-4031928|19|Change of heart
+24094653|19|polymerization
 -----------------------------------------
 RED CRESTS|20|20|20|20|20
 BLUE CRESTS|20|20|20|20|20

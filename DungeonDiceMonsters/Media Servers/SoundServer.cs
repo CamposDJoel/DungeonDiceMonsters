@@ -69,6 +69,7 @@ namespace DungeonDiceMonsters
         EffectMenu,
         SetCard,
         Cancel,
-        EffectApplied
+        EffectApplied,
+        TriggerEffect
     }
 }

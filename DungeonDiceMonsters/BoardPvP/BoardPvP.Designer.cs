@@ -201,6 +201,8 @@
             this.btnFusionSummon1 = new System.Windows.Forms.Button();
             this.PicFusionOption1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.PicCannotAttackIcon = new System.Windows.Forms.PictureBox();
+            this.PicCannotMoveIcon = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -257,6 +259,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -780,6 +784,8 @@
             // 
             this.PanelCardInfo.BackColor = System.Drawing.Color.Gray;
             this.PanelCardInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelCardInfo.Controls.Add(this.PicCannotMoveIcon);
+            this.PanelCardInfo.Controls.Add(this.PicCannotAttackIcon);
             this.PanelCardInfo.Controls.Add(this.PicCardMonsterType);
             this.PanelCardInfo.Controls.Add(this.PicCardAttribute);
             this.PanelCardInfo.Controls.Add(this.label8);
@@ -914,6 +920,7 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Black;
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(133, 433);
@@ -938,6 +945,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(74, 433);
@@ -2094,9 +2102,9 @@
             this.lblActivationRequirementOutput.BackColor = System.Drawing.Color.Black;
             this.lblActivationRequirementOutput.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblActivationRequirementOutput.ForeColor = System.Drawing.Color.Red;
-            this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 166);
+            this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 156);
             this.lblActivationRequirementOutput.Name = "lblActivationRequirementOutput";
-            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 34);
+            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 42);
             this.lblActivationRequirementOutput.TabIndex = 27;
             this.lblActivationRequirementOutput.Text = "Cost not met.";
             this.lblActivationRequirementOutput.Visible = false;
@@ -2354,6 +2362,32 @@
             this.label6.TabIndex = 2;
             this.label6.Text = "Select Fusion Monster:";
             // 
+            // PicCannotAttackIcon
+            // 
+            this.PicCannotAttackIcon.BackColor = System.Drawing.Color.Black;
+            this.PicCannotAttackIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCannotAttackIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotAttackIcon.Image")));
+            this.PicCannotAttackIcon.Location = new System.Drawing.Point(169, 319);
+            this.PicCannotAttackIcon.Name = "PicCannotAttackIcon";
+            this.PicCannotAttackIcon.Size = new System.Drawing.Size(15, 15);
+            this.PicCannotAttackIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCannotAttackIcon.TabIndex = 48;
+            this.PicCannotAttackIcon.TabStop = false;
+            this.PicCannotAttackIcon.Visible = false;
+            // 
+            // PicCannotMoveIcon
+            // 
+            this.PicCannotMoveIcon.BackColor = System.Drawing.Color.Black;
+            this.PicCannotMoveIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCannotMoveIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotMoveIcon.Image")));
+            this.PicCannotMoveIcon.Location = new System.Drawing.Point(169, 335);
+            this.PicCannotMoveIcon.Name = "PicCannotMoveIcon";
+            this.PicCannotMoveIcon.Size = new System.Drawing.Size(15, 15);
+            this.PicCannotMoveIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCannotMoveIcon.TabIndex = 49;
+            this.PicCannotMoveIcon.TabStop = false;
+            this.PicCannotMoveIcon.Visible = false;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2458,6 +2492,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2636,5 +2672,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox PicCardAttribute;
         private System.Windows.Forms.PictureBox PicCardMonsterType;
+        private System.Windows.Forms.PictureBox PicCannotMoveIcon;
+        private System.Windows.Forms.PictureBox PicCannotAttackIcon;
     }
 }

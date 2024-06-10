@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -136,6 +137,13 @@ namespace DungeonDiceMonsters
                 case "Haniwa": return EffectID.Haniwa_OnSummon;
                 case "Boo Koo": return EffectID.BooKoo_OnSummon;
                 case "Curtain of the Dark Ones": return EffectID.CurtainoftheDarkOnes_OnSummon;
+                case "Trap Hole": return EffectID.TrapHole_Trigger;
+                case "Acid Trap Hole": return EffectID.AcidTrapHole_Trigger;
+                case "Banishing Trap Hole": return EffectID.BanishingTrapHole_Trigger;
+                case "Deep Dark Trap Hole": return EffectID.DeepDarkTrapHole_Trigger;
+                case "Treacherous Trap Hole": return EffectID.TreacherousTrapHole_Trigger;
+                case "Bottomless Trap Hole": return EffectID.BottomlessTrapHole_Trigger;
+                case "Adhesion Trap Hole": return EffectID.AdhesionTrapHole_Trigger;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -150,6 +158,7 @@ namespace DungeonDiceMonsters
                 case EffectType.OnSummon: return originCard.OnSummonEffectText;
                 case EffectType.Continuous: return originCard.ContinuousEffectText;
                 case EffectType.Ignition: return originCard.IgnitionEffectText;
+                case EffectType.Trigger: return originCard.TriggerEffect;
                 default: throw new Exception(string.Format("Effect type not defined to get Effect Text. EffectType:[{0}]", type));
             }
         }
@@ -160,7 +169,8 @@ namespace DungeonDiceMonsters
         {
             OnSummon,
             Continuous,
-            Ignition
+            Ignition,
+            Trigger
         }
         public enum EffectID
         {
@@ -216,6 +226,13 @@ namespace DungeonDiceMonsters
             Haniwa_OnSummon,
             BooKoo_OnSummon,
             CurtainoftheDarkOnes_OnSummon,
+            TrapHole_Trigger,
+            AcidTrapHole_Trigger,
+            BanishingTrapHole_Trigger,
+            DeepDarkTrapHole_Trigger,
+            TreacherousTrapHole_Trigger,
+            BottomlessTrapHole_Trigger,
+            AdhesionTrapHole_Trigger
         }
         #endregion
     }

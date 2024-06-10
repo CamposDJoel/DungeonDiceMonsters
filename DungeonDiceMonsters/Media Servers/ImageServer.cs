@@ -93,5 +93,9 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Monster Types\\" + type + ".png");
         }
+        public static Image SpellboundIcon()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SpellboundIcon.png");
+        }
     }
 }

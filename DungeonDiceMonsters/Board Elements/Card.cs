@@ -21,6 +21,10 @@ namespace DungeonDiceMonsters
                 ApplyAbility();
             }
             InitializeMultableDataFields();
+            if(HasTriggerEffect)
+            {
+                IntializeTriggerEvent();
+            }
 
             void InitializeMultableDataFields()
             {
@@ -43,6 +47,13 @@ namespace DungeonDiceMonsters
                     case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
                 }
                 ResetOneTurnData();
+            }
+            void IntializeTriggerEvent()
+            {
+                if(TriggerEffect.Contains("When your opponent summons"))
+                {
+                    _TriggerEvent = TriggeredBy.MonsterSummon;
+                }
             }
         }
         public Card(int id, Attribute attribute, PlayerColor owner)
@@ -86,6 +97,7 @@ namespace DungeonDiceMonsters
         public string OnSummonEffectText { get { return _cardInfo.OnSummonEffect; } }
         public string ContinuousEffectText { get { return _cardInfo.ContinuousEffect; } }
         public string IgnitionEffectText { get { return _cardInfo.IgnitionEffect; } }
+        public string TriggerEffectText { get { return _cardInfo.TriggerEffect; } }
         public string Ability { get { return _cardInfo.Ability; } }
         public string TriggerEffect { get { return _cardInfo.TriggerEffect; } } 
         public bool EffectsAreImplemented { get { return _cardInfo.EffectsAreImplemented; } }
@@ -104,6 +116,7 @@ namespace DungeonDiceMonsters
         public int TurnCounters { get { return _TurnCounters; } }
         public int Counters { get { return _Counters; } }
         public Tile CurrentTile { get { return _CurrentTile; } }
+        public TriggeredBy TriggerEvent { get { return _TriggerEvent; } }
         #endregion
 
         #region On Board Counters and Flags
@@ -131,6 +144,7 @@ namespace DungeonDiceMonsters
                 if (finalRange < 1) { return 1; } else { return finalRange; }
             }
         }
+        public int CannotMoveCounters { get { return _CannotMoveCounters; } }
         #endregion
 
         #region Public Funtions
@@ -297,6 +311,10 @@ namespace DungeonDiceMonsters
         {
            return new Effect(this, Effect.EffectType.Ignition);
         }
+        public Effect GetTriggerEffect()
+        {
+            return new Effect(this, Effect.EffectType.Trigger);
+        }
         public void ChangeAttribute(Attribute newAttribute)
         {
             _CurrentAttribute = newAttribute;
@@ -313,6 +331,25 @@ namespace DungeonDiceMonsters
         public void MarkAsTransformedInto()
         {
             _WasTransformedInto = true;
+        }
+        public void SpellboundIt(int turns)
+        {
+            if (turns == 99)
+            {
+                _IsPemanentSpellbound = true;
+            }
+
+            _SpellboundCounter = turns;
+            _IsUnderSpellbound = true;            
+            ReloadTileUI();
+        }
+        public bool CanMove()
+        {
+            return !_IsUnderSpellbound && _CannotMoveCounters == 0 && _MovesAvailable >= 1;
+        }
+        public void AddCannotMoveCounter()
+        {
+            _CannotMoveCounters++;
         }
         #endregion
 
@@ -354,6 +391,7 @@ namespace DungeonDiceMonsters
         private int _Counters = 0;
         private int _SpellboundCounter = 0;
         private bool _EffectUsedThisTurn = false;
+        private int _CannotMoveCounters = 0;
 
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
@@ -364,6 +402,18 @@ namespace DungeonDiceMonsters
         private int _MoveRange = 1;
         private int _AttackRangeBonus = 0;
         private int _MoveRangeBonus = 0;
+
+        //Effect data
+        private TriggeredBy _TriggerEvent = TriggeredBy.None;
+        #endregion
+
+        #region enums
+        public enum TriggeredBy
+        {
+            None = 0,
+            MonsterSummon,
+            DeclareAttack
+        }
         #endregion
     }
 }

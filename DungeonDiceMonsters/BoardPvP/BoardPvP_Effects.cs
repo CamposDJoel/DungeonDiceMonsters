@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Media.Media3D;
 
 namespace DungeonDiceMonsters
 {
@@ -68,6 +67,13 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Haniwa_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
                 case Effect.EffectID.BooKoo_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.TRAP, 7); break;
                 case Effect.EffectID.CurtainoftheDarkOnes_OnSummon: CrestBooster_OnSummonActivation(thisEffect, Crest.DEF, 7); break;
+                case Effect.EffectID.TrapHole_Trigger: TrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.AcidTrapHole_Trigger: AcidTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.BanishingTrapHole_Trigger: BanishingTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.DeepDarkTrapHole_Trigger: DeepDarkTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.TreacherousTrapHole_Trigger: TreacherousTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.BottomlessTrapHole_Trigger: BottomlessTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.AdhesionTrapHole_Trigger: AdhesionTrapHole_TriggerActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -83,6 +89,17 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
+        }
+        private void ReactivateEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect REactivation: [{0}] - Origin Card Board ID: [{1}].Controller: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
+            switch (thisEffect.ID)
+            {                
+                case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
+            }
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
         private void DisplayOnSummonEffectPanel(Effect thisEffect)
         {
@@ -133,9 +150,39 @@ namespace DungeonDiceMonsters
             PanelCost.Visible = false;
             btnActivate.Visible = false;
             btnEffectMenuCancel.Visible = false;
-            //Wait 2 sec for players to reach the effect
+            //Wait 4 sec for players to reach the effect
             PanelEffectActivationMenu.Visible = true;
             WaitNSeconds(4000);
+            //Reduce the cost automatically
+            AdjustPlayerCrestCount(thisEffect.Owner, thisEffect.CrestCost, thisEffect.CostAmount);
+        }
+        private void DisplayTriggerEffectPanel(Effect thisEffect)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.TriggerEffect);
+            //Flip the face down card
+            thisEffect.OriginCard.FlipFaceUp();
+
+            ImageServer.ClearImage(PicEffectMenuCardImage);
+            PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
+            lblEffectMenuTittle.Text = "Trigger Effect";
+            lblEffectMenuDescriiption.Text = thisEffect.OriginCard.TriggerEffectText;
+            //Hide the elements not needed.
+            lblActivationRequirementOutput.Text = "";
+            lblActivationRequirementOutput.Visible = false;
+            //Cost
+            ImageServer.ClearImage(PicCostCrest);
+            PicCostCrest.Image = ImageServer.CrestIcon(thisEffect.CrestCost.ToString());
+            lblCostAmount.Text = string.Format("x {0}", thisEffect.CostAmount);
+            lblCostAmount.ForeColor = System.Drawing.Color.White;
+            PanelCost.Visible = true;
+
+            btnActivate.Visible = false;
+            btnEffectMenuCancel.Visible = false;
+            //Wait 4 sec for players to reach the effect
+            PanelEffectActivationMenu.Visible = true;
+            WaitNSeconds(4000);
+            //Reduce the cost from the player's crest pool
+            AdjustPlayerCrestCount(thisEffect.Owner, thisEffect.CrestCost, -thisEffect.CostAmount);
         }
         private void HideEffectMenuPanel()
         {
@@ -822,8 +869,8 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //This monster does not have a continuous effect to active, move into the Main Phase
-            EnterMainPhase();
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         private void MWarrior1_IgnitionActivation(Effect thisEffect)
         {
@@ -832,6 +879,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [DEF] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [DEF] to.Controller's crest pool.");
 
@@ -864,8 +912,8 @@ namespace DungeonDiceMonsters
                 }
             }
 
-            //This monster does not have a continuous effect to active, move into the Main Phase
-            EnterMainPhase();
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         private void MWarrior2_IgnitionActivation(Effect thisEffect)
         {
@@ -874,6 +922,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [ATK] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [ATK] to.Controller's crest pool.");
 
@@ -985,7 +1034,7 @@ namespace DungeonDiceMonsters
         #region Karbonala Warrior
         private void KarbonalaWarrior_ContinuousActivation(Effect thisEffect)
         {
-            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 2 secs then execute the effect
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 4 secs then execute the effect
             DisplayOnSummonContinuousEffectPanel(thisEffect);
 
             //Step 2: Set the "Reaction To" flags
@@ -994,12 +1043,14 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
                 {
                     thisEffect.OriginCard.AdjustAttackBonus(500);
                     thisEffect.OriginCard.AdjustDefenseBonus(500);
+                    thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -1007,9 +1058,33 @@ namespace DungeonDiceMonsters
             //Step 4: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
 
-            //Step 5: Hide the Effect Menu panel and enter the Main Phase
+            //Step 5: Hide the Effect Menu panel
             HideEffectMenuPanel();
-            EnterMainPhase();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void KarbonalaWarrior_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
+                {
+                    thisEffect.OriginCard.AdjustAttackBonus(500);
+                    thisEffect.OriginCard.AdjustDefenseBonus(500);
+                    thisEffect.CustomInt1++;
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
         }
         private void KarbonalaWarrior_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
@@ -1019,6 +1094,7 @@ namespace DungeonDiceMonsters
                 //Give an extra boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(500);
                 thisEffect.OriginCard.AdjustDefenseBonus(500);
+                thisEffect.CustomInt1++;
                 UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 500.");
             }
         }
@@ -1030,20 +1106,23 @@ namespace DungeonDiceMonsters
                 //reduce boost to the origin monster
                 thisEffect.OriginCard.AdjustAttackBonus(-500);
                 thisEffect.OriginCard.AdjustDefenseBonus(-500);
+                thisEffect.CustomInt1--;
                 UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 500.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
             }
         }
         private void KarbonalaWarrior_RemoveEffect(Effect thisEffect)
         {
-            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
-            //is now discarted.
+            //Remove this effect by remove the ATK/DEF bonuses from the origin card that were added by this effect
+            int boostToBeReduced = thisEffect.CustomInt1 * 500;
+            thisEffect.OriginCard.AdjustAttackBonus(-boostToBeReduced);
+            thisEffect.OriginCard.AdjustDefenseBonus(-boostToBeReduced);
+            if (!thisEffect.OriginCard.IsDiscardted) { thisEffect.OriginCard.ReloadTileUI(); }
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
-            UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
-
+            UpdateEffectLogs(string.Format("This effect was removed from the active effect list. Origin Card's ATK/DEF bonus was reduced by [{0}]", boostToBeReduced));
         }
         private void KarbonalaWarrior_IgnitionActivation(Effect thisEffect)
         {
@@ -1052,6 +1131,7 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 2 [ATK] and 2 [DEF] to the owener's crest pool
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 2);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 2);
             UpdateEffectLogs("Effect Resolved: Added 1 [ATK] and 1 [DEF] to.Controller's crest pool.");
@@ -1097,6 +1177,7 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's attribute to FIRE
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.ChangeAttribute(Attribute.FIRE);
             thisEffect.AddAffectedByCard(targetCard);
 
@@ -1194,6 +1275,7 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.SwitchController();
             thisEffect.AddAffectedByCard(targetCard);
 
@@ -1268,8 +1350,8 @@ namespace DungeonDiceMonsters
                 DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was transformed into. Effect wont activate.");
                 UpdateEffectLogs("Monster was transformed into, effect wont activate");
                 HideEffectMenuPanel();
-                //Simply enter the main phase.
-                EnterMainPhase();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
             }
             else
             {
@@ -1306,8 +1388,8 @@ namespace DungeonDiceMonsters
                     DisplayOnSummonEffectPanel(thisEffect, "No valid targets for activation. Effect wont activate.");
                     UpdateEffectLogs("There are not proper effect targets for this this effect. Effect will not activate.");
                     HideEffectMenuPanel();
-                    //Simply enter the main phase.
-                    EnterMainPhase();
+                    //Enter Phase 3 of the summon sequence
+                    SummonMonster_Phase3(thisEffect.OriginCard);
                 }
             }
         }
@@ -1318,7 +1400,8 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Transform target into "Thunder Dragon" Card ID: 31786629
             TransformMonster(TargetTile, 31786629);
 
-            //This effect summons a monster, the TransformMonster() method will handle reaching the next game state.
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
 
@@ -1350,9 +1433,33 @@ namespace DungeonDiceMonsters
             //Step 4: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
 
-            //Step 5: Hide the Effect Menu panel and enter the Main Phase
+            //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
             HideEffectMenuPanel();
-            EnterMainPhase();
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void TwinHeadedThunderDragon_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Increase Attack Range Bonus +1 for each "Twin-Headed Thunder Dragon" from the same controller.
+            thisEffect.CustomInt1 = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard &&
+                    thisCard.Controller == thisEffect.Owner)
+                {
+                    thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                    thisEffect.CustomInt1++;
+                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
         }
         private void TwinHeadedThunderDragon_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
         {
@@ -1432,15 +1539,14 @@ namespace DungeonDiceMonsters
         }
         private void TwinHeadedThunderDragon_RemoveEffect(Effect thisEffect)
         {
-            //this effect affects only its own origin card so it doesnt matter if we revert its offect or not since the origin card
-            //is now discarted.
+            //Remove this effect by reducing the Bonis Attack Range provided to the origin card by this effect
+            thisEffect.OriginCard.AdjustAttackRangeBonus(-thisEffect.CustomInt1);
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list. No revert actions are needed.");
-
         }
         #endregion
 
@@ -1451,11 +1557,185 @@ namespace DungeonDiceMonsters
             DisplayOnSummonEffectPanel(thisEffect);
 
             //EFFECT DESCRIPTION: Add whatever [ ] crest to the controller's crest pool by the amout set
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(TURNPLAYER, crestToAdd, amount);
 
             HideEffectMenuPanel();
 
-            //At this point end the summoning phase
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
+        }
+        #endregion
+
+        #region Trap Hole
+        private void TrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            Card summonedCard = CardsBeingSummoned[0];                 
+            SpellboundCard(summonedCard, 3);         
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+            
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Acid Trap Hole
+        private void AcidTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            Card summonedCard = CardsBeingSummoned[0];
+            SpellboundCard(summonedCard, 3);
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Banishing Trap Hole
+        private void BanishingTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            Card summonedCard = CardsBeingSummoned[0];
+            SpellboundCard(summonedCard, 99);
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Deep Dark Trap Hole
+        private void DeepDarkTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AdjustAttackBonus(-1000);          
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Treacherous Trap Hole
+        private void TreacherousTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AdjustDefenseBonus(-1000);          
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Bottomless Trap Hole
+        private void BottomlessTrapHole_TriggerActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            SpellboundCard(summonedCard, 99);            
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Adhesion Trap Hole
+        private void AdhesionTrapHole_TriggerActivation(Effect thisEffect) 
+        {
+            //Step 1: Since this is a TRIGGER, display the Effect Panel to show the effect and cost
+            DisplayTriggerEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            //This is a OneTime trigger effect. Does not react to events
+
+            //Step 3: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+
+            //Step 3: Resolve the effect
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            Card summonedCard = CardsBeingSummoned[0];
+            summonedCard.AddCannotMoveCounter();           
+            UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] received a Cannot Move Counter. Cannot Move Counters [{3}]", summonedCard.Name, summonedCard.OnBoardID, summonedCard.Controller, summonedCard.CannotMoveCounters));
+
+            //Step 4: Destroy the card
+            DestroyCard(thisEffect.OriginCard.CurrentTile);
+
+            //Step 4: Enter Main Phase now
             EnterMainPhase();
         }
         #endregion

@@ -195,6 +195,7 @@ namespace DungeonDiceMonsters
                 _CurrentDimensionForm = DimensionForms.CrossBase;
 
                 //Now run the Master Summon Monster function
+                CardsBeingSummoned.Clear();
                 SummonMonster(_CardToBeSummon, tileId, SummonType.Normal);
             }));
         }
@@ -242,8 +243,8 @@ namespace DungeonDiceMonsters
                     //Hide the End Turn Button for the turn player 
                     btnEndTurn.Visible = false;
 
-                    //Check if Card can move                
-                    if (CanCardMove(thiscard, TURNPLAYERDATA))
+                    //Check if Card can move
+                    if (thiscard.CanMove() && thiscard.MoveCost <= TURNPLAYERDATA.Crests_MOV)
                     {
                         btnActionMove.Enabled = true;
                         _TMPMoveCrestCount = TURNPLAYERDATA.Crests_MOV;
@@ -254,7 +255,7 @@ namespace DungeonDiceMonsters
                         btnActionMove.Enabled = false;
                     }
 
-                    //Check if Card can attack
+                    //Check if Card can attack                   
                     if (CanCardAttack(thiscard, TURNPLAYERDATA))
                     {
                         btnActionAttack.Enabled = true;
@@ -315,17 +316,6 @@ namespace DungeonDiceMonsters
                     PanelActionMenu.Location = new Point(referencePoint.X + 48, referencePoint.Y - 25);
                 }
             }
-            bool CanCardMove(Card thiscard, PlayerData TurnPlayerData)
-            {
-                if (thiscard.MovesAvaiable == 0 || thiscard.MoveCost > TurnPlayerData.Crests_MOV)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
             bool CanCardAttack(Card thiscard, PlayerData TurnPlayerData)
             {
                 //Determine if this card can attack if:
@@ -334,7 +324,7 @@ namespace DungeonDiceMonsters
                 // 3. Card is a monster
 
                 //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster)
+                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
                 {
                     return false;
                 }
@@ -682,6 +672,7 @@ namespace DungeonDiceMonsters
                 DestroyCard(_EffectOriginTile);
 
                 //Now run the Master Summon Monster function
+                CardsBeingSummoned.Clear();
                 SummonMonster(_FusionToBeSummoned, tileId, SummonType.Fusion);
             }));
         }
@@ -716,7 +707,6 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Return to the turn start menui
                 _CurrentGameState = GameState.TurnStartMenu;
-                PanelBoard.Enabled = false;
                 btnReturnToTurnMenu.Visible = false;
                 PanelTurnStartMenu.Visible = true;
                 lblActionInstruction.Visible = false;
@@ -732,22 +722,7 @@ namespace DungeonDiceMonsters
                 //Clean up the board
                 btnEndTurn.Visible = false;
                 lblActionInstruction.Visible = false;
-
-                //All 1 turn data is reset for all monsters on the board
-                //and All non-permanent spellbound counters are reduced.
-                foreach (Card thisCard in _CardsOnBoard)
-                {
-                    if (!thisCard.IsDiscardted)
-                    {
-                        thisCard.ResetOneTurnData();
-
-                        if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound)
-                        {
-                            thisCard.ReduceSpellboundCounter(1);
-                        }
-                    }
-                }
-
+              
                 //1 turn effects are removed.
                 UpdateEffectLogs("----------------------END PHAESE: Checking for 1 turn duration effects to be removed.");
                 List<Effect> effectsToBeRemove = new List<Effect>();
@@ -765,6 +740,30 @@ namespace DungeonDiceMonsters
                 }
                 if (effectsToBeRemove.Count == 0) { UpdateEffectLogs("No effects to remove."); }
                 UpdateEffectLogs("-----------------------------------------------------------------------------------------");
+
+                //All 1 turn data is reset for all monsters on the board
+                //and All non-permanent spellbound counters are reduced.
+                UpdateEffectLogs("----------------------END PHAESE: Checking for Spellbound Counters Removal");
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted)
+                    {
+                        thisCard.ResetOneTurnData();
+                    }
+                    if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound && thisCard.Controller == TURNPLAYER)
+                    {
+                        thisCard.ReduceSpellboundCounter(1);
+                        UpdateEffectLogs(string.Format("Spellbound counter removed for Card [{0}] OnBoardID: [{1}] Controlled by [{2}] - Spellbound Counters Left [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, thisCard.SpellboundCounter));
+                        //if the card is not under a spellbound anymore, reactivate its continuous effect IF this is a FACE UP card
+                        if (!thisCard.IsUnderSpellbound && !thisCard.IsFaceDown && thisCard.HasContinuousEffect)
+                        {
+                            UpdateEffectLogs("Card is not longer under a spellbound, reactivating its Continuous effect...");
+                            ReactivateEffect(thisCard.GetContinuousEffect());
+                        }
+                    }
+                }
+                UpdateEffectLogs("-----------------------------------------------------------------------------------------");
+
 
                 //Change the TURNPLAYER
                 if (TURNPLAYER == PlayerColor.RED)
@@ -1028,6 +1027,13 @@ namespace DungeonDiceMonsters
                     if (thisCard.EffectUsedThisTurn)
                     {
                         lblActivationRequirementOutput.Text = "Effect already used this turn.";
+                        lblActivationRequirementOutput.Visible = true;
+                        btnActivate.Visible = false;
+                        PanelCost.Visible = false;
+                    }
+                    else if (thisCard.IsUnderSpellbound)
+                    {
+                        lblActivationRequirementOutput.Text = "Spellbounded cards cannot activate their effects.";
                         lblActivationRequirementOutput.Visible = true;
                         btnActivate.Visible = false;
                         PanelCost.Visible = false;
