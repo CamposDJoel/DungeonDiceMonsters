@@ -144,6 +144,7 @@ namespace DungeonDiceMonsters
                 case "Treacherous Trap Hole": return EffectID.TreacherousTrapHole_Trigger;
                 case "Bottomless Trap Hole": return EffectID.BottomlessTrapHole_Trigger;
                 case "Adhesion Trap Hole": return EffectID.AdhesionTrapHole_Trigger;
+                case "Exodia the Forbidden One": return EffectID.Exodia_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -232,7 +233,8 @@ namespace DungeonDiceMonsters
             DeepDarkTrapHole_Trigger,
             TreacherousTrapHole_Trigger,
             BottomlessTrapHole_Trigger,
-            AdhesionTrapHole_Trigger
+            AdhesionTrapHole_Trigger,
+            Exodia_OnSummon
         }
         #endregion
     }

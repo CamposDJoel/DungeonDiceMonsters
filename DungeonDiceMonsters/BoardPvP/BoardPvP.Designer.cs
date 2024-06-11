@@ -74,6 +74,8 @@
             this.btnActionAttack = new System.Windows.Forms.Button();
             this.btnActionMove = new System.Windows.Forms.Button();
             this.PanelCardInfo = new System.Windows.Forms.Panel();
+            this.PicCannotMoveIcon = new System.Windows.Forms.PictureBox();
+            this.PicCannotAttackIcon = new System.Windows.Forms.PictureBox();
             this.PicCardMonsterType = new System.Windows.Forms.PictureBox();
             this.PicCardAttribute = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -201,8 +203,7 @@
             this.btnFusionSummon1 = new System.Windows.Forms.Button();
             this.PicFusionOption1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.PicCannotAttackIcon = new System.Windows.Forms.PictureBox();
-            this.PicCannotMoveIcon = new System.Windows.Forms.PictureBox();
+            this.PicExodiaEnd = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -224,6 +225,8 @@
             this.PanelMoveMenu.SuspendLayout();
             this.PanelActionMenu.SuspendLayout();
             this.PanelCardInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -259,8 +262,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicExodiaEnd)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -827,6 +829,32 @@
             this.PanelCardInfo.Name = "PanelCardInfo";
             this.PanelCardInfo.Size = new System.Drawing.Size(208, 476);
             this.PanelCardInfo.TabIndex = 5;
+            // 
+            // PicCannotMoveIcon
+            // 
+            this.PicCannotMoveIcon.BackColor = System.Drawing.Color.Black;
+            this.PicCannotMoveIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCannotMoveIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotMoveIcon.Image")));
+            this.PicCannotMoveIcon.Location = new System.Drawing.Point(169, 335);
+            this.PicCannotMoveIcon.Name = "PicCannotMoveIcon";
+            this.PicCannotMoveIcon.Size = new System.Drawing.Size(15, 15);
+            this.PicCannotMoveIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCannotMoveIcon.TabIndex = 49;
+            this.PicCannotMoveIcon.TabStop = false;
+            this.PicCannotMoveIcon.Visible = false;
+            // 
+            // PicCannotAttackIcon
+            // 
+            this.PicCannotAttackIcon.BackColor = System.Drawing.Color.Black;
+            this.PicCannotAttackIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCannotAttackIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotAttackIcon.Image")));
+            this.PicCannotAttackIcon.Location = new System.Drawing.Point(169, 319);
+            this.PicCannotAttackIcon.Name = "PicCannotAttackIcon";
+            this.PicCannotAttackIcon.Size = new System.Drawing.Size(15, 15);
+            this.PicCannotAttackIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCannotAttackIcon.TabIndex = 48;
+            this.PicCannotAttackIcon.TabStop = false;
+            this.PicCannotAttackIcon.Visible = false;
             // 
             // PicCardMonsterType
             // 
@@ -2362,31 +2390,16 @@
             this.label6.TabIndex = 2;
             this.label6.Text = "Select Fusion Monster:";
             // 
-            // PicCannotAttackIcon
+            // PicExodiaEnd
             // 
-            this.PicCannotAttackIcon.BackColor = System.Drawing.Color.Black;
-            this.PicCannotAttackIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicCannotAttackIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotAttackIcon.Image")));
-            this.PicCannotAttackIcon.Location = new System.Drawing.Point(169, 319);
-            this.PicCannotAttackIcon.Name = "PicCannotAttackIcon";
-            this.PicCannotAttackIcon.Size = new System.Drawing.Size(15, 15);
-            this.PicCannotAttackIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicCannotAttackIcon.TabIndex = 48;
-            this.PicCannotAttackIcon.TabStop = false;
-            this.PicCannotAttackIcon.Visible = false;
-            // 
-            // PicCannotMoveIcon
-            // 
-            this.PicCannotMoveIcon.BackColor = System.Drawing.Color.Black;
-            this.PicCannotMoveIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicCannotMoveIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicCannotMoveIcon.Image")));
-            this.PicCannotMoveIcon.Location = new System.Drawing.Point(169, 335);
-            this.PicCannotMoveIcon.Name = "PicCannotMoveIcon";
-            this.PicCannotMoveIcon.Size = new System.Drawing.Size(15, 15);
-            this.PicCannotMoveIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicCannotMoveIcon.TabIndex = 49;
-            this.PicCannotMoveIcon.TabStop = false;
-            this.PicCannotMoveIcon.Visible = false;
+            this.PicExodiaEnd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PicExodiaEnd.Image = ((System.Drawing.Image)(resources.GetObject("PicExodiaEnd.Image")));
+            this.PicExodiaEnd.Location = new System.Drawing.Point(227, 294);
+            this.PicExodiaEnd.Name = "PicExodiaEnd";
+            this.PicExodiaEnd.Size = new System.Drawing.Size(494, 291);
+            this.PicExodiaEnd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicExodiaEnd.TabIndex = 33;
+            this.PicExodiaEnd.TabStop = false;
             // 
             // BoardPvP
             // 
@@ -2395,6 +2408,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
+            this.Controls.Add(this.PicExodiaEnd);
             this.Controls.Add(this.PanelFusionMonsterSelector);
             this.Controls.Add(this.PanelFieldType);
             this.Controls.Add(this.PanelEffectActivationMenu);
@@ -2443,6 +2457,8 @@
             this.PanelActionMenu.ResumeLayout(false);
             this.PanelCardInfo.ResumeLayout(false);
             this.PanelCardInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -2492,8 +2508,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCannotAttackIcon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCannotMoveIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicExodiaEnd)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2674,5 +2689,6 @@
         private System.Windows.Forms.PictureBox PicCardMonsterType;
         private System.Windows.Forms.PictureBox PicCannotMoveIcon;
         private System.Windows.Forms.PictureBox PicCannotAttackIcon;
+        private System.Windows.Forms.PictureBox PicExodiaEnd;
     }
 }
