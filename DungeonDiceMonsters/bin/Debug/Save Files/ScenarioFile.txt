@@ -4,10 +4,10 @@ BLUE TILES
 5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110|111
 ---------------------------------------
 RED MONSTERS|6
-31786629|7|Thunder Dragon
-31786629|110|Thunder Dragon
-31786629|136|Thunder Dragon
-31786629|116|Thunder Dragon
+70903634|7|Right arm
+7902349|110|Left arm
+8124921|136|right leg
+44519536|116|left leg
 31786629|123|Thunder Dragon
 31786629|175|Thunder Dragon
 -----------------------------------------

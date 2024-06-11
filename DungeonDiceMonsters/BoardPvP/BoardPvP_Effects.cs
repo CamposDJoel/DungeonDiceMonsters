@@ -74,6 +74,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TreacherousTrapHole_Trigger: TreacherousTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.BottomlessTrapHole_Trigger: BottomlessTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.AdhesionTrapHole_Trigger: AdhesionTrapHole_TriggerActivation(thisEffect); break;
+                case Effect.EffectID.Exodia_OnSummon: ExodiaTheForbiddenOne_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -1737,6 +1738,48 @@ namespace DungeonDiceMonsters
 
             //Step 4: Enter Main Phase now
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Exodia the Forbidden One
+        private void ExodiaTheForbiddenOne_OnSummonActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            //This effect is a One-Time activation, does not reach to any event.
+
+            //EFFECT DESCRIPTION
+            //if all "forbidden one" cards are on the board under you control, you win the duel
+            bool rightArmfound = false;
+            bool leftArmfound = false;
+            bool rightLegfound = false;
+            bool leftLegfound = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller == thisEffect.Owner)
+                {
+                    if (thisCard.Name == "Right Arm of the Forbidden One") { rightArmfound = true; }
+                    if (thisCard.Name == "Left Arm of the Forbidden One") { leftArmfound = true; }
+                    if (thisCard.Name == "Rigth Leg of the Forbidden One") { rightLegfound = true; }
+                    if (thisCard.Name == "Left Leg of the Forbidden One") { leftLegfound = true; }
+                }
+            }
+            UpdateEffectLogs(string.Format("Cards found: Right Arm: [{0}] | Left Arm: [{1}] | Right Leg: [{2}] | Left Leg: [{3}]", rightArmfound, leftArmfound, rightLegfound, leftLegfound));
+
+            //Validate all pieces were found
+            if (rightArmfound && leftArmfound && rightLegfound && leftLegfound) 
+            {
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                PicExodiaEnd.Visible = true;
+                StartGameOver();
+            }
+            else
+            {
+                DisplayOnSummonEffectPanel(thisEffect, "Require cards missing. Effect wont activate.");
+                HideEffectMenuPanel();
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
         }
         #endregion
     }
