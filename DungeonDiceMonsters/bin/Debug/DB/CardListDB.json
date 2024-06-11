@@ -5299,7 +5299,7 @@
     "face5": "MOV 1",
     "face6": "MAG 1",
     "onSummonEffect": "-",
-    "continuousEffect": "Double the battle damage dealt by this monster.",
+    "continuousEffect": "Double the battle damage dealt by this monster when battling other monsters.",
     "ability": "Cannot be target by your opponent’s card effects.",
     "ignitionEffect": "-",
     "triggerEffect": "-",
