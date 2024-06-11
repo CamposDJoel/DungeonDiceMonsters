@@ -2400,6 +2400,7 @@
             this.PicExodiaEnd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicExodiaEnd.TabIndex = 33;
             this.PicExodiaEnd.TabStop = false;
+            this.PicExodiaEnd.Visible = false;
             // 
             // BoardPvP
             // 
