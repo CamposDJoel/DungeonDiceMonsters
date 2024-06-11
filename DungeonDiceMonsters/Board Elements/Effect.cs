@@ -63,6 +63,7 @@ namespace DungeonDiceMonsters
         public bool ReactsToAttributeChange { get; set; }
         public bool ReactsToMonsterControlChange { get; set; }
         public bool ReactsToBattleCalculation { get; set; }
+        public bool ReactsToMonsterDestroyedByBattle { get; set; }
         #endregion
 
         #region Private Methods
@@ -147,6 +148,7 @@ namespace DungeonDiceMonsters
                 case "Adhesion Trap Hole": return EffectID.AdhesionTrapHole_Trigger;
                 case "Exodia the Forbidden One": return EffectID.Exodia_OnSummon;
                 case "Black Luster Soldier": return EffectID.BlackLusterSoldier_Continuous;
+                case "Shinato, King of a Higher Plane": return EffectID.ShinatoKingOfAHigherPlane_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -238,6 +240,7 @@ namespace DungeonDiceMonsters
             AdhesionTrapHole_Trigger,
             Exodia_OnSummon,
             BlackLusterSoldier_Continuous,
+            ShinatoKingOfAHigherPlane_Continuous,
         }
         #endregion
     }

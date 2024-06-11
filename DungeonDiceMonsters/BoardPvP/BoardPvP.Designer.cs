@@ -204,6 +204,9 @@
             this.PicFusionOption1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.PicExodiaEnd = new System.Windows.Forms.PictureBox();
+            this.PanelReactionNotification = new System.Windows.Forms.Panel();
+            this.PicReactionCardImage = new System.Windows.Forms.PictureBox();
+            this.lblReactionText = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -263,6 +266,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicExodiaEnd)).BeginInit();
+            this.PanelReactionNotification.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicReactionCardImage)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -2402,6 +2407,41 @@
             this.PicExodiaEnd.TabStop = false;
             this.PicExodiaEnd.Visible = false;
             // 
+            // PanelReactionNotification
+            // 
+            this.PanelReactionNotification.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelReactionNotification.BackgroundImage")));
+            this.PanelReactionNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelReactionNotification.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelReactionNotification.Controls.Add(this.lblReactionText);
+            this.PanelReactionNotification.Controls.Add(this.PicReactionCardImage);
+            this.PanelReactionNotification.Location = new System.Drawing.Point(557, 23);
+            this.PanelReactionNotification.Name = "PanelReactionNotification";
+            this.PanelReactionNotification.Size = new System.Drawing.Size(217, 89);
+            this.PanelReactionNotification.TabIndex = 34;
+            this.PanelReactionNotification.Visible = false;
+            // 
+            // PicReactionCardImage
+            // 
+            this.PicReactionCardImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PicReactionCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicReactionCardImage.Image")));
+            this.PicReactionCardImage.Location = new System.Drawing.Point(9, 8);
+            this.PicReactionCardImage.Name = "PicReactionCardImage";
+            this.PicReactionCardImage.Size = new System.Drawing.Size(70, 70);
+            this.PicReactionCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicReactionCardImage.TabIndex = 0;
+            this.PicReactionCardImage.TabStop = false;
+            // 
+            // lblReactionText
+            // 
+            this.lblReactionText.BackColor = System.Drawing.Color.Black;
+            this.lblReactionText.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReactionText.ForeColor = System.Drawing.Color.Yellow;
+            this.lblReactionText.Location = new System.Drawing.Point(86, 9);
+            this.lblReactionText.Name = "lblReactionText";
+            this.lblReactionText.Size = new System.Drawing.Size(124, 68);
+            this.lblReactionText.TabIndex = 1;
+            this.lblReactionText.Text = "This is a sample text for an effect notification";
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2409,6 +2449,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
+            this.Controls.Add(this.PanelReactionNotification);
             this.Controls.Add(this.PicExodiaEnd);
             this.Controls.Add(this.PanelFusionMonsterSelector);
             this.Controls.Add(this.PanelFieldType);
@@ -2510,6 +2551,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionOption1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicExodiaEnd)).EndInit();
+            this.PanelReactionNotification.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicReactionCardImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2691,5 +2734,8 @@
         private System.Windows.Forms.PictureBox PicCannotMoveIcon;
         private System.Windows.Forms.PictureBox PicCannotAttackIcon;
         private System.Windows.Forms.PictureBox PicExodiaEnd;
+        private System.Windows.Forms.Panel PanelReactionNotification;
+        private System.Windows.Forms.PictureBox PicReactionCardImage;
+        private System.Windows.Forms.Label lblReactionText;
     }
 }
