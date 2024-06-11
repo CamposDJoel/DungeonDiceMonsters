@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
@@ -76,6 +77,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.AdhesionTrapHole_Trigger: AdhesionTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.Exodia_OnSummon: ExodiaTheForbiddenOne_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -90,6 +92,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -101,6 +104,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -323,10 +327,18 @@ namespace DungeonDiceMonsters
         {
             switch(thisEffect.ID)
             {
-                case Effect.EffectID.BlackLusterSoldier_Continuous: return BlackLusterSoldier_ReactToBattleDamageCalculation(thisEffect, Attacker, ogDamageCalculated); break;
+                case Effect.EffectID.BlackLusterSoldier_Continuous: return BlackLusterSoldier_ReactToBattleDamageCalculation(thisEffect, Attacker, ogDamageCalculated);
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_BattleDamageCalculation] Function", thisEffect.ID));
             }
 
+        }
+        private void ResolverEffectsWithMonsterDestroyedByBattleReactionTo(Effect thisEffect, Card Attacker, Card Defender)
+        {
+            switch (thisEffect.ID)
+            {
+                case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ReactToMonsterDestryedByBattle(thisEffect, Attacker, Defender); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_BattleDamageCalculation] Function", thisEffect.ID));
+            }
         }
         private void PromptPlayerToSelectFusionMaterial()
         {
@@ -1840,12 +1852,79 @@ namespace DungeonDiceMonsters
             //This effect will double the battle damage if the Attacker is the origin card
             if(Attacker == thisEffect.OriginCard)
             {
-                UpdateEffectLogs("Effect Reacted: Effect [{0}] doubled the battle damage calculated since the Origin Card is the Attacker.");
+                UpdateEffectLogs(string.Format("Effect Reacted: Effect [{0}] doubled the battle damage calculated since the Origin Card is the Attacker.", thisEffect.ID));
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+                HideReactionNotification();
                 return OGDamage * 2;
             }
             else
             {
                 return OGDamage;
+            }
+        }
+        #endregion
+
+        #region Shinato, King of a Higher Plane
+        private void ShinatoKingOfAHigherPlane_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel then execute the effect
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterDestroyedByBattle = true;
+
+            //Step 3: Resolve the effect
+            //This effect doesnt do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
+            HideEffectMenuPanel();
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void ShinatoKingOfAHigherPlane_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterDestroyedByBattle = true;
+
+            //Step 3: Resolve the effect
+            //This effect doesnt do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void ShinatoKingOfAHigherPlane_RemoveEffect(Effect thisEffect)
+        {
+            //Since this effect doesnt affect any cards while active, there is nothing to "revert"
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        private void ShinatoKingOfAHigherPlane_ReactToMonsterDestryedByBattle(Effect thisEffect, Card Attacker, Card Defender)
+        {
+            //This effect will deal damage to the opponent's symbol, if the origin card was the attacker and 
+            //the defender is now destroyed
+            if (Attacker == thisEffect.OriginCard && Defender.IsDiscardted)
+            {
+                UpdateEffectLogs(string.Format("Effect Reacted: Effect ID [{0}] | Inflict damage to the opponent's symbol equal to the defender original ATK [{1}]", thisEffect.ID, Defender.OriginalATK));
+                //The damage to be deal is equal to the destroyed defender monster's original ATK
+                int damage = Defender.OriginalATK;
+
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+
+                //Stablish the Defender Symbol
+                Card DefenderSymbol = _RedSymbol;
+                Label DefenderSymbolLPLabel = lblRedLP;
+                if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
+                DealDamageToSymbol(damage, DefenderSymbol, DefenderSymbolLPLabel);
+
+                //Now hide the reaction notification
+                HideReactionNotification();
             }
         }
         #endregion

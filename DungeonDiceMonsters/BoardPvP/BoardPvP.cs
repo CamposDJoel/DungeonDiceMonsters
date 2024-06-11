@@ -1638,44 +1638,54 @@ namespace DungeonDiceMonsters
                         }
 
                         //Step 5C: Destroy the defender monster if the LP of the defender were reduced to 0
+                        bool DefenderMonsterWasDestroyed = false;
+                        bool DefenderSymbolWasDestroyed = false;
                         if (Defender.LP == 0)
                         {
                             SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+                            DefenderMonsterWasDestroyed = true;
                             PicDefenderDestroyed.Visible = true;
                             WaitNSeconds(1000);
                             //Remove the card from the actual tile
                             DestroyCard(_AttackTarger);
                         }
 
+                        //Stablish the Defender Symbol
+                        Card DefenderSymbol = _RedSymbol;
+                        Label DefenderSymbolLPLabel = lblRedLP;
+                        if (DefenderColor == PlayerColor.BLUE) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
 
                         //Step 6D: if there is damage left deal it to the player's symbol
                         if (Damage > 0)
-                        {
-                            //Stablish the Defender Symbol
-                            Card DefenderSymbol = _RedSymbol;
-                            Label DefenderSymbolLPLabel = lblRedLP;
-                            if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
-
+                        {                           
                             //Deal the damage
-                            if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
+                            DealDamageToSymbol(Damage, DefenderSymbol, DefenderSymbolLPLabel);
 
-                            //Deal damage to the player
-                            iterations = Damage / 10;
-
-                            waittime = 0;
-                            if (iterations < 100) { waittime = 50; }
-                            else if (iterations < 200) { waittime = 30; }
-                            else if (iterations < 300) { waittime = 10; }
-                            else { waittime = 5; }
-
-                            for (int i = 0; i < iterations; i++)
+                            //Validate if game continues
+                            if (DefenderSymbol.LP == 0)
                             {
-                                DefenderSymbol.ReduceLP(10);
-                                DefenderSymbolLPLabel.Text = DefenderSymbol.LP.ToString();
-                                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                                WaitNSeconds(waittime);
+                                DefenderSymbolWasDestroyed = true;
+                            }
+                        }
+
+
+                        if (DefenderSymbolWasDestroyed)
+                        {
+                            StartGameOver();
+                        }
+                        else if (DefenderMonsterWasDestroyed)
+                        {
+                            //Check if any active effects react to the monster destruction by battle
+                            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Monster destroyed by battle, checking for active effects that react to it. | Attacker: [{0}] Defender: [{1}]", Attacker.Name, Defender.Name));
+                            foreach (Effect thisEffect in _ActiveEffects)
+                            {
+                                if (thisEffect.ReactsToMonsterDestroyedByBattle)
+                                {
+                                    ResolverEffectsWithMonsterDestroyedByBattleReactionTo(thisEffect, Attacker, Defender);
+                                }
                             }
 
+                            //Validate if game continues
                             if (DefenderSymbol.LP == 0)
                             {
                                 StartGameOver();
@@ -1696,7 +1706,7 @@ namespace DungeonDiceMonsters
                         }
                         else
                         {
-                            //Display the end battle button
+                            //otherwise let the attacker finish the battle phase
                             btnEndBattle.Visible = true;
                             if (UserPlayerColor == TURNPLAYER)
                             {
@@ -1757,24 +1767,7 @@ namespace DungeonDiceMonsters
                             if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
 
                             //Deal the damage
-                            if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
-
-                            //Deal damage to the player
-                            int iterations = Damage / 10;
-
-                            int waittime = 0;
-                            if (iterations < 100) { waittime = 50; }
-                            else if (iterations < 200) { waittime = 30; }
-                            else if (iterations < 300) { waittime = 10; }
-                            else { waittime = 5; }
-
-                            for (int i = 0; i < iterations; i++)
-                            {
-                                DefenderSymbol.ReduceLP(10);
-                                DefenderSymbolLPLabel.Text = DefenderSymbol.LP.ToString();
-                                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
-                                WaitNSeconds(waittime);
-                            }
+                            DealDamageToSymbol(Damage, DefenderSymbol, DefenderSymbolLPLabel);
 
                             if (DefenderSymbol.LP == 0)
                             {
@@ -1839,6 +1832,30 @@ namespace DungeonDiceMonsters
                 }
             }));
         }      
+        private void DealDamageToSymbol(int Damage, Card DefenderSymbol, Label DefenderSymbolLPLabel)
+        {
+            //Deal the damage
+            if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
+
+            UpdateEffectLogs(string.Format("Damage dealt to Symbol: [{0}]", Damage));
+
+            //Deal damage to the player
+            int iterations = Damage / 10;
+
+            int waittime = 0;
+            if (iterations < 100) { waittime = 50; }
+            else if (iterations < 200) { waittime = 30; }
+            else if (iterations < 300) { waittime = 10; }
+            else { waittime = 5; }
+
+            for (int i = 0; i < iterations; i++)
+            {
+                DefenderSymbol.ReduceLP(10);
+                DefenderSymbolLPLabel.Text = DefenderSymbol.LP.ToString();
+                SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                WaitNSeconds(waittime);
+            }
+        }
         private void EnterMainPhase()
         {
             //Proceed to finish the Summon Phase
@@ -1873,6 +1890,20 @@ namespace DungeonDiceMonsters
             WaitNSeconds(5000);
             btnExit.Visible = true;
         }       
+        private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            ImageServer.ClearImage(PicReactionCardImage);
+            PicReactionCardImage.Image = ImageServer.CardArtworkImage(thisEffect.OriginCard.CardID.ToString());
+            lblReactionText.Text = customText;
+            PanelReactionNotification.Visible = true;
+            WaitNSeconds(3000);
+            //Do no hide the notification panel automatically, let the caller handle when this panel dissapears
+        }
+        private void HideReactionNotification()
+        {
+            PanelReactionNotification.Visible = false;
+        }
         #endregion
             
         #region Data
