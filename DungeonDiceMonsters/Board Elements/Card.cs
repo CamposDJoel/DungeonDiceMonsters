@@ -34,7 +34,7 @@ namespace DungeonDiceMonsters
             {
                 switch (_cardInfo.Ability)
                 {
-                    case "Cannot be Target": _CanBeTarget = false; break;
+                    case "Cannot be target by your opponent’s card effects.": _CanBeTarget = false; break;
                     case "Move Cost: 2": _BaseMoveCost = 2; break;
                     case "Move Cost: 3": _BaseMoveCost = 3; break;
                     case "Attack Cost: 2": _BaseAttackCost = 2; break;

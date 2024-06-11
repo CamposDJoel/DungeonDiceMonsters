@@ -75,6 +75,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.BottomlessTrapHole_Trigger: BottomlessTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.AdhesionTrapHole_Trigger: AdhesionTrapHole_TriggerActivation(thisEffect); break;
                 case Effect.EffectID.Exodia_OnSummon: ExodiaTheForbiddenOne_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -88,6 +89,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -98,6 +100,7 @@ namespace DungeonDiceMonsters
             {                
                 case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -315,6 +318,15 @@ namespace DungeonDiceMonsters
             }
 
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+        }
+        private int ResolveEffectsWithDamageCalculationReactionTo(Card Attacker, Card Defender, Effect thisEffect, int ogDamageCalculated)
+        {
+            switch(thisEffect.ID)
+            {
+                case Effect.EffectID.BlackLusterSoldier_Continuous: return BlackLusterSoldier_ReactToBattleDamageCalculation(thisEffect, Attacker, ogDamageCalculated); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_BattleDamageCalculation] Function", thisEffect.ID));
+            }
+
         }
         private void PromptPlayerToSelectFusionMaterial()
         {
@@ -1779,6 +1791,61 @@ namespace DungeonDiceMonsters
                 DisplayOnSummonEffectPanel(thisEffect, "Require cards missing. Effect wont activate.");
                 HideEffectMenuPanel();
                 SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        #endregion
+
+        #region Black Luster Soldier
+        private void BlackLusterSoldier_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel then execute the effect
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToBattleCalculation = true;
+
+            //Step 3: Resolve the effect
+            //This effect doesnt do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
+            HideEffectMenuPanel();
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void BlackLusterSoldier_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToBattleCalculation = true;
+
+            //Step 3: Resolve the effect
+            //This effect doesnt do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void BlackLusterSoldier_RemoveEffect(Effect thisEffect)
+        {
+            //Since this effect doesnt affect any cards while active, there is nothing to "revert"
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        private int BlackLusterSoldier_ReactToBattleDamageCalculation(Effect thisEffect, Card Attacker, int OGDamage)
+        {
+            //This effect will double the battle damage if the Attacker is the origin card
+            if(Attacker == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("Effect Reacted: Effect [{0}] doubled the battle damage calculated since the Origin Card is the Attacker.");
+                return OGDamage * 2;
+            }
+            else
+            {
+                return OGDamage;
             }
         }
         #endregion

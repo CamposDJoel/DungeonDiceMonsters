@@ -1581,6 +1581,18 @@ namespace DungeonDiceMonsters
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
+
+                    //Step 6: Check any active effect that react to battle damage calculation
+                    UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Battle Damage Calculation Resolved, checking for active effects that react to it. | Attacker: [{0}] Defender: [{1}] OG Damage Calculated: [{2}]", Attacker.Name, Defender.Name, Damage));
+                    foreach (Effect thisEffect in _ActiveEffects)
+                    {
+                        if(thisEffect.ReactsToBattleCalculation)
+                        {
+                            Damage = ResolveEffectsWithDamageCalculationReactionTo(Attacker, Defender, thisEffect, Damage);
+                        }
+                    }
+
+
                     if (Damage <= 0)
                     {
                         //Display the end battle button

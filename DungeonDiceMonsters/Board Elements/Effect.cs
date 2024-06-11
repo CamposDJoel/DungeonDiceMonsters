@@ -62,6 +62,7 @@ namespace DungeonDiceMonsters
         public bool ReactsToMonsterDestroyed { get; set; }
         public bool ReactsToAttributeChange { get; set; }
         public bool ReactsToMonsterControlChange { get; set; }
+        public bool ReactsToBattleCalculation { get; set; }
         #endregion
 
         #region Private Methods
@@ -145,6 +146,7 @@ namespace DungeonDiceMonsters
                 case "Bottomless Trap Hole": return EffectID.BottomlessTrapHole_Trigger;
                 case "Adhesion Trap Hole": return EffectID.AdhesionTrapHole_Trigger;
                 case "Exodia the Forbidden One": return EffectID.Exodia_OnSummon;
+                case "Black Luster Soldier": return EffectID.BlackLusterSoldier_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -234,7 +236,8 @@ namespace DungeonDiceMonsters
             TreacherousTrapHole_Trigger,
             BottomlessTrapHole_Trigger,
             AdhesionTrapHole_Trigger,
-            Exodia_OnSummon
+            Exodia_OnSummon,
+            BlackLusterSoldier_Continuous,
         }
         #endregion
     }
