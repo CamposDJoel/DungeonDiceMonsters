@@ -741,6 +741,10 @@ namespace DungeonDiceMonsters
                 if (effectsToBeRemove.Count == 0) { UpdateEffectLogs("No effects to remove."); }
                 UpdateEffectLogs("-----------------------------------------------------------------------------------------");
 
+                //Check for Continuous effects that react to the end phase
+                UpdateEffectLogs("----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase");
+                ResolveEffectsWithEndPhaseReactionTo();
+
                 //All 1 turn data is reset for all monsters on the board
                 //and All non-permanent spellbound counters are reduced.
                 UpdateEffectLogs("----------------------END PHAESE: Checking for Spellbound Counters Removal");
@@ -1114,6 +1118,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.Polymerization_Ignition: return Polymerization_MetsRequirement();
                         case Effect.EffectID.FireKraken_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.CocoonofEvolution_Ignition: return CocooofEvolution_MetsRequirement();
                         default: return "Requirements Met";
                     }
 
@@ -1198,6 +1203,17 @@ namespace DungeonDiceMonsters
                         else
                         {
                             return "No opponent monster to target.";
+                        }
+                    }
+                    string CocooofEvolution_MetsRequirement()
+                    {
+                        if(thisCard.TurnCounters >= 2)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "Not enought Turn Counters";
                         }
                     }
                 }

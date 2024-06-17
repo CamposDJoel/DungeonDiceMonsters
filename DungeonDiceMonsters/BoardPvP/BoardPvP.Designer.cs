@@ -205,8 +205,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.PicExodiaEnd = new System.Windows.Forms.PictureBox();
             this.PanelReactionNotification = new System.Windows.Forms.Panel();
-            this.PicReactionCardImage = new System.Windows.Forms.PictureBox();
             this.lblReactionText = new System.Windows.Forms.Label();
+            this.PicReactionCardImage = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -2124,9 +2124,9 @@
             this.PanelEffectActivationMenu.Controls.Add(this.lblEffectMenuDescriiption);
             this.PanelEffectActivationMenu.Controls.Add(this.lblEffectMenuTittle);
             this.PanelEffectActivationMenu.Controls.Add(this.PicEffectMenuCardImage);
-            this.PanelEffectActivationMenu.Location = new System.Drawing.Point(253, 230);
+            this.PanelEffectActivationMenu.Location = new System.Drawing.Point(229, 230);
             this.PanelEffectActivationMenu.Name = "PanelEffectActivationMenu";
-            this.PanelEffectActivationMenu.Size = new System.Drawing.Size(433, 273);
+            this.PanelEffectActivationMenu.Size = new System.Drawing.Size(467, 273);
             this.PanelEffectActivationMenu.TabIndex = 30;
             this.PanelEffectActivationMenu.Visible = false;
             // 
@@ -2137,7 +2137,7 @@
             this.lblActivationRequirementOutput.ForeColor = System.Drawing.Color.Red;
             this.lblActivationRequirementOutput.Location = new System.Drawing.Point(167, 156);
             this.lblActivationRequirementOutput.Name = "lblActivationRequirementOutput";
-            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(239, 42);
+            this.lblActivationRequirementOutput.Size = new System.Drawing.Size(269, 42);
             this.lblActivationRequirementOutput.TabIndex = 27;
             this.lblActivationRequirementOutput.Text = "Cost not met.";
             this.lblActivationRequirementOutput.Visible = false;
@@ -2221,7 +2221,7 @@
             this.lblEffectMenuDescriiption.ForeColor = System.Drawing.Color.White;
             this.lblEffectMenuDescriiption.Location = new System.Drawing.Point(167, 41);
             this.lblEffectMenuDescriiption.Name = "lblEffectMenuDescriiption";
-            this.lblEffectMenuDescriiption.Size = new System.Drawing.Size(241, 163);
+            this.lblEffectMenuDescriiption.Size = new System.Drawing.Size(277, 163);
             this.lblEffectMenuDescriiption.TabIndex = 2;
             this.lblEffectMenuDescriiption.Text = "This is a test message for a on summon effect";
             // 
@@ -2229,7 +2229,7 @@
             // 
             this.lblEffectMenuTittle.AutoSize = true;
             this.lblEffectMenuTittle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEffectMenuTittle.Location = new System.Drawing.Point(186, 13);
+            this.lblEffectMenuTittle.Location = new System.Drawing.Point(216, 13);
             this.lblEffectMenuTittle.Name = "lblEffectMenuTittle";
             this.lblEffectMenuTittle.Size = new System.Drawing.Size(165, 24);
             this.lblEffectMenuTittle.TabIndex = 1;
@@ -2414,33 +2414,33 @@
             this.PanelReactionNotification.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelReactionNotification.Controls.Add(this.lblReactionText);
             this.PanelReactionNotification.Controls.Add(this.PicReactionCardImage);
-            this.PanelReactionNotification.Location = new System.Drawing.Point(557, 23);
+            this.PanelReactionNotification.Location = new System.Drawing.Point(536, 23);
             this.PanelReactionNotification.Name = "PanelReactionNotification";
-            this.PanelReactionNotification.Size = new System.Drawing.Size(217, 89);
+            this.PanelReactionNotification.Size = new System.Drawing.Size(238, 120);
             this.PanelReactionNotification.TabIndex = 34;
             this.PanelReactionNotification.Visible = false;
-            // 
-            // PicReactionCardImage
-            // 
-            this.PicReactionCardImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PicReactionCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicReactionCardImage.Image")));
-            this.PicReactionCardImage.Location = new System.Drawing.Point(9, 8);
-            this.PicReactionCardImage.Name = "PicReactionCardImage";
-            this.PicReactionCardImage.Size = new System.Drawing.Size(70, 70);
-            this.PicReactionCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicReactionCardImage.TabIndex = 0;
-            this.PicReactionCardImage.TabStop = false;
             // 
             // lblReactionText
             // 
             this.lblReactionText.BackColor = System.Drawing.Color.Black;
             this.lblReactionText.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblReactionText.ForeColor = System.Drawing.Color.Yellow;
-            this.lblReactionText.Location = new System.Drawing.Point(86, 9);
+            this.lblReactionText.Location = new System.Drawing.Point(105, 9);
             this.lblReactionText.Name = "lblReactionText";
-            this.lblReactionText.Size = new System.Drawing.Size(124, 68);
+            this.lblReactionText.Size = new System.Drawing.Size(124, 100);
             this.lblReactionText.TabIndex = 1;
             this.lblReactionText.Text = "This is a sample text for an effect notification";
+            // 
+            // PicReactionCardImage
+            // 
+            this.PicReactionCardImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PicReactionCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicReactionCardImage.Image")));
+            this.PicReactionCardImage.Location = new System.Drawing.Point(8, 14);
+            this.PicReactionCardImage.Name = "PicReactionCardImage";
+            this.PicReactionCardImage.Size = new System.Drawing.Size(90, 90);
+            this.PicReactionCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicReactionCardImage.TabIndex = 0;
+            this.PicReactionCardImage.TabStop = false;
             // 
             // BoardPvP
             // 
@@ -2449,11 +2449,11 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(997, 926);
+            this.Controls.Add(this.PanelEffectActivationMenu);
             this.Controls.Add(this.PanelReactionNotification);
             this.Controls.Add(this.PicExodiaEnd);
             this.Controls.Add(this.PanelFusionMonsterSelector);
             this.Controls.Add(this.PanelFieldType);
-            this.Controls.Add(this.PanelEffectActivationMenu);
             this.Controls.Add(this.PicPhaseBanner);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelTurnStartMenu);

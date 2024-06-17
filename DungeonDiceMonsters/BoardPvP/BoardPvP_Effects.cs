@@ -78,6 +78,9 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Exodia_OnSummon: ExodiaTheForbiddenOne_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.PetitMoth_Ingnition: PetitMoth_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Ignition: CocoonofEvolution_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -93,6 +96,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -105,6 +109,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -338,6 +343,21 @@ namespace DungeonDiceMonsters
             {
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ReactToMonsterDestryedByBattle(thisEffect, Attacker, Defender); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_BattleDamageCalculation] Function", thisEffect.ID));
+            }
+        }
+        private void ResolveEffectsWithEndPhaseReactionTo()
+        {
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if (thisActiveEffect.ReactsToEndPhase)
+                {
+                    UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                    switch (thisActiveEffect.ID)
+                    {
+                        case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ReactTo_EndPhase(thisActiveEffect); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_EndPhase] Function", thisActiveEffect.ID));
+                    }
+                }
             }
         }
         private void PromptPlayerToSelectFusionMaterial()
@@ -1926,6 +1946,106 @@ namespace DungeonDiceMonsters
                 //Now hide the reaction notification
                 HideReactionNotification();
             }
+        }
+        #endregion
+
+        #region Petit Moth
+        private void PetitMoth_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Transform this monster into “Cocoon of Evolution” (ID 40240595)
+            TransformMonster(_EffectOriginTile, 40240595);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Cocoon of Evolution
+        private void CocoonofEvolution_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 4 secs then execute the effect
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            //This effect does not do anything during activation
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void CocoonofEvolution_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            //This effect does not do anything during activation
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void CocoonofEvolution_RemoveEffect(Effect thisEffect)
+        {
+            //Remove this effect without taking any action
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list without taking any action.");
+        }
+        private void CocoonofEvolution_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            if(thisEffect.OriginCard.WasTransformedInto && TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Effect's Origin Card was not transformed into and/or is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void CocoonofEvolution_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Transform this monster based on the amount of turn counters it has:
+            //2-4: Larvae Moth (ID 87756343)
+            //5-6: Great Moth (ID 14141448)
+            //7+: Perfectly Ultimate Great Moth (ID 48579379)
+            int id = -1;
+            if (thisEffect.OriginCard.TurnCounters <= 4) { id = 87756343; }
+            else if (thisEffect.OriginCard.TurnCounters <= 6) { id = 14141448; }
+            else { id = 48579379; }
+
+            TransformMonster(_EffectOriginTile, id);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

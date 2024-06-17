@@ -4,8 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
@@ -64,6 +62,7 @@ namespace DungeonDiceMonsters
         public bool ReactsToMonsterControlChange { get; set; }
         public bool ReactsToBattleCalculation { get; set; }
         public bool ReactsToMonsterDestroyedByBattle { get; set; }
+        public bool ReactsToEndPhase { get; set; }
         #endregion
 
         #region Private Methods
@@ -149,6 +148,8 @@ namespace DungeonDiceMonsters
                 case "Exodia the Forbidden One": return EffectID.Exodia_OnSummon;
                 case "Black Luster Soldier": return EffectID.BlackLusterSoldier_Continuous;
                 case "Shinato, King of a Higher Plane": return EffectID.ShinatoKingOfAHigherPlane_Continuous;
+                case "Petit Moth": return EffectID.PetitMoth_Ingnition;
+                case "Cocoon of Evolution": if (type == EffectType.Continuous) { return EffectID.CocoonofEvolution_Continuous; } else { return EffectID.CocoonofEvolution_Ignition; } 
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -241,6 +242,9 @@ namespace DungeonDiceMonsters
             Exodia_OnSummon,
             BlackLusterSoldier_Continuous,
             ShinatoKingOfAHigherPlane_Continuous,
+            PetitMoth_Ingnition,
+            CocoonofEvolution_Continuous,
+            CocoonofEvolution_Ignition,
         }
         #endregion
     }
