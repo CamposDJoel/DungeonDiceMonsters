@@ -81,6 +81,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.PetitMoth_Ingnition: PetitMoth_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.CocoonofEvolution_Ignition: CocoonofEvolution_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.LarvaeMoth_OnSummon: LarvaeMoth_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -2046,6 +2047,35 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Larvae Moth
+        private void LarvaeMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 4 secs then execute the effect
+
+            if (!thisEffect.OriginCard.WasTransformedInto)
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "Cannot activate if monster was not transformed into. Effect wont activate.");
+                UpdateEffectLogs("Monster was not transformed into, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+            else
+            {
+                DisplayOnSummonEffectPanel(thisEffect);
+
+                //EFFECT DESCRIPTION: If this monster was transformed into; Add 5 [DEF] to your crest pool.
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.DEF, 5);
+
+                HideEffectMenuPanel();
+
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }           
         }
         #endregion
     }

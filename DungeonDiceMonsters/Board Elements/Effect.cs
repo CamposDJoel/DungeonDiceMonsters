@@ -149,7 +149,8 @@ namespace DungeonDiceMonsters
                 case "Black Luster Soldier": return EffectID.BlackLusterSoldier_Continuous;
                 case "Shinato, King of a Higher Plane": return EffectID.ShinatoKingOfAHigherPlane_Continuous;
                 case "Petit Moth": return EffectID.PetitMoth_Ingnition;
-                case "Cocoon of Evolution": if (type == EffectType.Continuous) { return EffectID.CocoonofEvolution_Continuous; } else { return EffectID.CocoonofEvolution_Ignition; } 
+                case "Cocoon of Evolution": if (type == EffectType.Continuous) { return EffectID.CocoonofEvolution_Continuous; } else { return EffectID.CocoonofEvolution_Ignition; }
+                case "Larvae Moth": return EffectID.LarvaeMoth_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -245,6 +246,7 @@ namespace DungeonDiceMonsters
             PetitMoth_Ingnition,
             CocoonofEvolution_Continuous,
             CocoonofEvolution_Ignition,
+            LarvaeMoth_OnSummon,
         }
         #endregion
     }
