@@ -45,6 +45,7 @@ namespace DungeonDiceMonsters
                     case "Attacks per Turn: 3": _BaseAttacksPerTurn = 3; break;
                     case "Moves per Turn: 2": _BaseMovesPerTurn = 2; break;
                     case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
+                    case "Cannot Move": _CannotMoveCounters = 1; break;
                 }
                 ResetOneTurnData();
             }
@@ -350,6 +351,10 @@ namespace DungeonDiceMonsters
         public void AddCannotMoveCounter()
         {
             _CannotMoveCounters++;
+        }
+        public void PlaceTurnCounter()
+        {
+            _TurnCounters++;
         }
         #endregion
 
