@@ -1,7 +1,7 @@
 Joel|555
 5405694|55761792|89631139|89631139|89631139|62397231|24094653|80770678|41158734|2863439|35565537|43352213|31786629|24094653|31786629|33396948|57935140|85309439|86327225|60365591|23995346|54752875|0|LIGHT
 24094653|92731455|92731455|56342351|56342351|98898173|12143771|68963107|86318356|86318356|86318356|76232340|76232340|76232340|6368038|47986555|43352213|43352213|43352213|92731455|54541900|0|0|EARTH
-26082229|41859700|22411609|81599449|13179332|41089128|48094997|21051146|74823665|27054370|60862676|78984772|70345785|14977074|46412900|59834564|50426119|75745607|35842855|41396436|0|0|0|FIRE
+58192742|91512835|89091579|89091579|15367030|15367030|84834865|3134241|3134241|33413638|33413638|12472242|49441499|23615409|23615409|77840540|94716515|87430998|87430998|77840540|0|0|0|EARTH
 205
 8058240|9|Binding Chain
 57935140|9|Tenderness
@@ -63,26 +63,26 @@ Joel|555
 98434877|9|Suijin
 39674352|9|Gogiga Gagagigo
 55063751|9|Gameciel, the Sea Turtle Kaiju
-26082229|9|Invasion of Flames
-41859700|9|Burning Algae
-22411609|9|Volcanic Trooper
-81599449|9|Chemicritter Carbo Crab
-13179332|9|Charcoal Inpachi
+26082229|10|Invasion of Flames
+41859700|10|Burning Algae
+22411609|10|Volcanic Trooper
+81599449|10|Chemicritter Carbo Crab
+13179332|10|Charcoal Inpachi
 78009994|9|Dragonic Guard
-41089128|9|Flame Ruler
-48094997|9|Battle Footballer
-21051146|9|Blast Magician
-74823665|9|Inferno
-27054370|9|Firewing Pegasus
-60862676|9|Flame Cerberus
-78984772|9|Twin-Headed Fire Dragon
-70345785|9|Yamadron
-14977074|9|Garoozis
-46412900|9|Volcanic Emperor
-59834564|9|Bonfire Colosus
-50426119|9|Degrade Buster
-75745607|9|Hino-Kagu-Tsuchi
-35842855|9|Pyrorex the Elemental Lord
+41089128|10|Flame Ruler
+48094997|10|Battle Footballer
+21051146|10|Blast Magician
+74823665|10|Inferno
+27054370|10|Firewing Pegasus
+60862676|10|Flame Cerberus
+78984772|10|Twin-Headed Fire Dragon
+70345785|10|Yamadron
+14977074|10|Garoozis
+46412900|10|Volcanic Emperor
+59834564|10|Bonfire Colosus
+50426119|10|Degrade Buster
+75745607|10|Hino-Kagu-Tsuchi
+35842855|10|Pyrorex the Elemental Lord
 13039848|9|Giant Soldier of Stone
 86421986|9|Ancient Tree of Enlightenment
 43500484|9|Darkworld Thorns
@@ -111,7 +111,7 @@ Joel|555
 25920413|9|Alien Skull
 75252099|9|Bird of Roses
 45547649|9|Birdface
-41396436|9|Blue-winged Crown
+41396436|10|Blue-winged Crown
 21830679|9|Clock Wyvern
 17573739|9|Alector, Sovereign of Birds
 35712107|9|Monstrous Bird
@@ -123,7 +123,7 @@ Joel|555
 10530913|9|Sylvan Sagequoia
 11819616|9|Tytannial, Princess of Camellias
 90247311|9|Yellow Dragon Ninja
-87430998|9|Forest
+87430998|7|Forest
 50913601|9|Mountain
 86318356|9|Sogen
 22702055|9|Umi
@@ -183,28 +183,28 @@ Joel|555
 55761792|9|Black Luster Ritual
 86327225|9|Shinato, King of a Higher Plane
 60365591|9|Shinato’s Ark
-58192742|9|Petit Moth
+58192742|8|Petit Moth
 40240595|9|Cocoon of Evolution
 87756343|9|Larvae Moth
 14141448|9|Great Moth
 48579379|9|Perfectly Ultimate Great Moth
-91512835|9|Insect Queen
+91512835|8|Insect Queen
 41456841|9|Metamorphosed Insect Queen
-89091579|9|Basic Insect
+89091579|7|Basic Insect
 53606874|9|Big Insect
-15367030|9|Gokibore
-84834865|9|Flying Kamakiri #1
-3134241|9|Flying Kamakiri #2
-33413638|9|Cockroach Knight
-12472242|9|Leghul
+15367030|7|Gokibore
+84834865|8|Flying Kamakiri #1
+3134241|7|Flying Kamakiri #2
+33413638|7|Cockroach Knight
+12472242|8|Leghul
 7019529|9|Insect Soldiers of the Sky
 16587243|9|Neo Bug
 26185991|9|Pinch Hopper
 27911549|9|Parasite Paracide
-49441499|9|Ultimate Insect LV1
+49441499|8|Ultimate Insect LV1
 34088136|9|Ultimate Insect LV3
 34830502|9|Ultimate Insect LV5
 19877898|9|Ultimate Insect LV7
-23615409|9|Insect Barrier
-94716515|9|Eradicating Aerosol
-77840540|9|Coccon of Ultra Evolution
+23615409|7|Insect Barrier
+94716515|8|Eradicating Aerosol
+77840540|7|Coccon of Ultra Evolution
