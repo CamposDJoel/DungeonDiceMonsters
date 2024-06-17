@@ -5961,7 +5961,7 @@
     "onSummonEffect": "-",
     "continuousEffect": "During each of your opponent’s End Phases; place 1 Turn Counter on it.",
     "ability": "-",
-    "ignitionEffect": "[ATK 1] - If this monster has 1 or more Turn Counters; Transform this monster into “Ultimate Insect LV3”",
+    "ignitionEffect": "[ATK 1] - If this monster has 1 or more Turn Counters and you do not control another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV3”",
     "triggerEffect": "-",
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
