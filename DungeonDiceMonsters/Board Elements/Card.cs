@@ -46,6 +46,15 @@ namespace DungeonDiceMonsters
                     case "Moves per Turn: 2": _BaseMovesPerTurn = 2; break;
                     case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
                     case "Cannot Move": _CannotMoveCounters = 1; break;
+                    case "Move Range: 2": _MoveRange = 2; break;
+                    case "Move Range: 3": _MoveRange = 3; break;
+                    case "Move Range: 4": _MoveRange = 4; break;
+                    case "Move Range: 5": _MoveRange = 5; break;
+                    case "Attack Range: 1": _AttackRange = 1; break;
+                    case "Attack Range: 2": _AttackRange = 2; break;
+                    case "Attack Range: 3": _AttackRange = 3; break;
+                    case "Attack Range: 4": _AttackRange = 4; break;
+                    case "Attack Range: 5": _AttackRange = 5; break;
                 }
                 ResetOneTurnData();
             }
