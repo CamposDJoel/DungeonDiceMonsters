@@ -1994,6 +1994,7 @@ namespace DungeonDiceMonsters
             ThunderDragonEffect,
             GreatMothEffect,
             PerfectlyUltimateGreatMothEffect,
+            CocconOfUltraEvolutionEffect,
         }
         private enum SummonType
         {

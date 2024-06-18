@@ -86,6 +86,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.PerfectlyUltimateGreatMoth_OnSummon: PerfectlyUltimateGreatMoth_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.InsectQueen_Ignition: InsectQueen_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CocconofUltraEvolution_Ignition: CocconofUltraEvolution_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -245,6 +246,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.ThunderDragonEffect: ThunderDragon_PostTargetEffect(TargetTile); break;
                 case PostTargetState.GreatMothEffect: GreatMoth_PostTargetEffect(TargetTile); break;
                 case PostTargetState.PerfectlyUltimateGreatMothEffect: PerfectlyUltimateGreatMoth_PostTargetEffect(TargetTile); break;
+                case PostTargetState.CocconOfUltraEvolutionEffect: CocconofUltraEvolution_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -2329,6 +2331,35 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Coccon of Ultra Evolution
+        private void CocconofUltraEvolution_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller == thisEffect.Owner && thisCard.Name == "Insect Queen")
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.CocconOfUltraEvolutionEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void CocconofUltraEvolution_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            TransformMonster(TargetTile, 41456841);
         }
         #endregion
     }

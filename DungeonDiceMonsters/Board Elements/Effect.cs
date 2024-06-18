@@ -154,6 +154,7 @@ namespace DungeonDiceMonsters
                 case "Great Moth": return EffectID.GreathMoth_OnSummon;
                 case "Perfectly Ultimate Great Moth": return EffectID.PerfectlyUltimateGreatMoth_OnSummon;
                 case "Insect Queen": if (type == EffectType.Continuous) { return EffectID.InsectQueen_Continuous; } else { return EffectID.InsectQueen_Ignition; }
+                case "Coccon of Ultra Evolution": return EffectID.CocconofUltraEvolution_Ignition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -254,6 +255,7 @@ namespace DungeonDiceMonsters
             PerfectlyUltimateGreatMoth_OnSummon,
             InsectQueen_Continuous,
             InsectQueen_Ignition,
+            CocconofUltraEvolution_Ignition,
         }
         #endregion
     }

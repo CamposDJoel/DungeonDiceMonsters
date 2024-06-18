@@ -1119,6 +1119,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FireKraken_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.CocoonofEvolution_Ignition: return CocooofEvolution_MetsRequirement();
+                        case Effect.EffectID.CocconofUltraEvolution_Ignition: return CocoonofEvolution_MetsRequirement();
                         default: return "Requirements Met";
                     }
 
@@ -1214,6 +1215,28 @@ namespace DungeonDiceMonsters
                         else
                         {
                             return "Not enought Turn Counters";
+                        }
+                    }
+                    string CocoonofEvolution_MetsRequirement()
+                    {
+                        //REQUIREMENT: Owner must control an "Insect Queen"
+                        bool queenFound = false;
+                        foreach(Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if(!thisBoardCard.IsDiscardted && thisBoardCard.Name == "Insect Queen")
+                            {
+                                queenFound = true;
+                                break;
+                            }
+                        }    
+
+                        if(queenFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "Not a \"Insect Queen\" under your control.";
                         }
                     }
                 }
