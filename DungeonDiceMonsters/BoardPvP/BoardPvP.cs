@@ -1212,6 +1212,7 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1460,6 +1461,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         default: throw new Exception(string.Format("This effect id: [{0}] does not have a React to Monster Destroyed method assigned", thisEffect.ID));
                     }
                 }
@@ -1995,6 +1997,7 @@ namespace DungeonDiceMonsters
             GreatMothEffect,
             PerfectlyUltimateGreatMothEffect,
             CocconOfUltraEvolutionEffect,
+            MetamorphosedInsectQueenEffect,
         }
         private enum SummonType
         {

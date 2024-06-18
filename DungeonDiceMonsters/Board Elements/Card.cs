@@ -122,9 +122,30 @@ namespace DungeonDiceMonsters
 
         #region On Board Counters and Flags
         public bool CanBeTarget { get { return _CanBeTarget; } }
-        public int MoveCost { get { return _MoveCost; } }
-        public int AttackCost { get { return _AttackCost; } }
-        public int DefenseCost { get { return _DefenseCost; } }
+        public int MoveCost
+        { 
+            get 
+            {
+                int finalcost = _BaseMoveCost + _MoveCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            } 
+        }
+        public int AttackCost 
+        {
+            get
+            {
+                int finalcost = _BaseAttackCost + _AttackCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            }
+        }
+        public int DefenseCost 
+        {
+            get
+            {
+                int finalcost = _BaseDefenseCost + _DefenseCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            }
+        }
         public int MovesAvaiable { get { return _MovesAvailable; } }
         public int AttacksAvaiable { get { return _AttacksAvailable; } }
         public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
@@ -167,9 +188,6 @@ namespace DungeonDiceMonsters
         }
         public void ResetOneTurnData()
         {
-            _MoveCost = _BaseMoveCost;
-            _AttackCost = _BaseAttackCost;
-            _DefenseCost = _BaseDefenseCost;
             _MovesAvailable = _BaseMovesPerTurn;
             _AttacksAvailable = _BaseAttacksPerTurn;
             _EffectUsedThisTurn = false;
@@ -356,6 +374,18 @@ namespace DungeonDiceMonsters
         {
             _TurnCounters++;
         }
+        public void AdjustAttackCostBonus(int amount)
+        {
+            _AttackCostBonus += amount;
+        }
+        public void AdjustDefenseCostBonus(int amount)
+        {
+            _DefenseCostBonus += amount;
+        }
+        public void AdjustMoveCostBonus(int amount)
+        {
+            _MoveCostBonus += amount;
+        }
         #endregion
 
         #region Data
@@ -378,18 +408,18 @@ namespace DungeonDiceMonsters
         //Mutable data fields
         private Attribute _CurrentAttribute;
 
-        //Base Amounts for Counters and Costs (Abilities)
+        //Action Costs
         private int _BaseMoveCost = 1;
         private int _BaseAttackCost = 1;
         private int _BaseDefenseCost = 1;
+        private int _MoveCostBonus = 0;
+        private int _AttackCostBonus = 0;
+        private int _DefenseCostBonus = 0;
+
+        //Counters and Costs
         private int _BaseMovesPerTurn = 1;
         private int _BaseAttacksPerTurn = 1;
         private bool _CanBeTarget = true;
-       
-        //Counters and Costs
-        private int _MoveCost = 1;
-        private int _AttackCost = 1;
-        private int _DefenseCost = 1;
         private int _MovesAvailable = 1;
         private int _AttacksAvailable = 1;
         private int _TurnCounters = 0;
