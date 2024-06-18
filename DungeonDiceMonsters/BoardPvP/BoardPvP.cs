@@ -1998,6 +1998,7 @@ namespace DungeonDiceMonsters
             PerfectlyUltimateGreatMothEffect,
             CocconOfUltraEvolutionEffect,
             MetamorphosedInsectQueenEffect,
+            BasicInsectEffect,
         }
         private enum SummonType
         {

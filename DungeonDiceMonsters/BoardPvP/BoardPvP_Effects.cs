@@ -90,6 +90,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_OnSummon: MetamorphosedInsectQueen_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Ignition: MetamorphosedInsectQueen_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.BasicInsect_Ignition: BasicInsect_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -253,6 +254,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.PerfectlyUltimateGreatMothEffect: PerfectlyUltimateGreatMoth_PostTargetEffect(TargetTile); break;
                 case PostTargetState.CocconOfUltraEvolutionEffect: CocconofUltraEvolution_PostTargetEffect(TargetTile); break;
                 case PostTargetState.MetamorphosedInsectQueenEffect: MetamorphosedInsectQueen_PostTargetEffect(TargetTile); break;
+                case PostTargetState.BasicInsectEffect: BasicInsect_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -2168,7 +2170,7 @@ namespace DungeonDiceMonsters
             {
                 foreach (Card thisCard in _CardsOnBoard)
                 {
-                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
                     {
                         activationRequirementsMet = true;
                         _EffectTargetCandidates.Add(thisCard.CurrentTile);
@@ -2351,7 +2353,7 @@ namespace DungeonDiceMonsters
             {
                 foreach (Card thisCard in _CardsOnBoard)
                 {
-                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
                     {
                         activationRequirementsMet = true;
                         _EffectTargetCandidates.Add(thisCard.CurrentTile);
@@ -2547,6 +2549,47 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TransformMonster(TargetTile, 41456841);
+        }
+        #endregion
+
+        #region Basic Insect
+        private void BasicInsect_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToAttributeChange = true;
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 Insect Type monster your opponent controls; spellbound it for 1 turn
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.Type == Type.Insect && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.BasicInsectEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void BasicInsect_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: spellbound the monster for 1 turn
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            SpellboundCard(TargetTile.CardInPlace, 1);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded for 1 turn");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

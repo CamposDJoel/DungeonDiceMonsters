@@ -158,6 +158,7 @@ namespace DungeonDiceMonsters
                 case "Metamorphosed Insect Queen": if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
                     else if (type == EffectType.OnSummon) { return EffectID.MetamorphosedInsectQueen_OnSummon; }
                     else { return EffectID.MetamorphosedInsectQueen_Ignition; }
+                case "Basic Insect": return EffectID.BasicInsect_Ignition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -262,6 +263,7 @@ namespace DungeonDiceMonsters
             MetamorphosedInsectQueen_Continuous,
             MetamorphosedInsectQueen_Ignition,
             CocconofUltraEvolution_Ignition,
+            BasicInsect_Ignition,
         }
         #endregion
     }
