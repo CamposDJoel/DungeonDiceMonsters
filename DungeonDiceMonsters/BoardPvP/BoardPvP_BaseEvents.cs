@@ -1118,8 +1118,10 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.Polymerization_Ignition: return Polymerization_MetsRequirement();
                         case Effect.EffectID.FireKraken_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
-                        case Effect.EffectID.CocoonofEvolution_Ignition: return CocooofEvolution_MetsRequirement();
-                        case Effect.EffectID.CocconofUltraEvolution_Ignition: return CocoonofEvolution_MetsRequirement();
+                        case Effect.EffectID.CocoonofEvolution_Ignition: return CardHasAtLeastTurnCountersAmount(2);
+                        case Effect.EffectID.CocconofUltraEvolution_Ignition: return PlayerHasOneCardNamed("Insect Queen");
+                        case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTarget(Type.Insect);
+                        case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
                         default: return "Requirements Met";
                     }
 
@@ -1206,9 +1208,55 @@ namespace DungeonDiceMonsters
                             return "No opponent monster to target.";
                         }
                     }
-                    string CocooofEvolution_MetsRequirement()
+                    string OpponentHasOneMonsterTypeThatCanBeTarget(Type targetType)
                     {
-                        if(thisCard.TurnCounters >= 2)
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
+                                thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
+                    string PlayerHasOneCardNamed(string name)
+                    {
+                        //REQUIREMENT: Owner must control an "name" card
+                        bool queenFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Name == name)
+                            {
+                                queenFound = true;
+                                break;
+                            }
+                        }
+
+                        if (queenFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return string.Format("Not a \"{0}\" under your control.", name);
+                        }
+                    }
+                    string CardHasAtLeastTurnCountersAmount(int amount)
+                    {
+                        if (thisCard.TurnCounters >= amount)
                         {
                             return "Requirements Met";
                         }
@@ -1217,26 +1265,25 @@ namespace DungeonDiceMonsters
                             return "Not enought Turn Counters";
                         }
                     }
-                    string CocoonofEvolution_MetsRequirement()
+                    string ThereAreUnocuppiedTiles()
                     {
-                        //REQUIREMENT: Owner must control an "Insect Queen"
-                        bool queenFound = false;
-                        foreach(Card thisBoardCard in _CardsOnBoard)
+                        bool unoccupiedtileFound = false;
+                        foreach(Tile thisTile in _Tiles)
                         {
-                            if(!thisBoardCard.IsDiscardted && thisBoardCard.Name == "Insect Queen")
+                            if(thisTile.IsActive && !thisTile.IsOccupied)
                             {
-                                queenFound = true;
+                                unoccupiedtileFound = true;
                                 break;
                             }
-                        }    
+                        }
 
-                        if(queenFound)
+                        if (unoccupiedtileFound)
                         {
                             return "Requirements Met";
                         }
                         else
                         {
-                            return "Not a \"Insect Queen\" under your control.";
+                            return "No available tiles.";
                         }
                     }
                 }

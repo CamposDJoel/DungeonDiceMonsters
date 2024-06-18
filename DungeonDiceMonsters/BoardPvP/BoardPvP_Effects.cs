@@ -91,6 +91,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Ignition: MetamorphosedInsectQueen_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BasicInsect_Ignition: BasicInsect_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.Gokibore_Ignition: Gokibore_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -243,7 +244,15 @@ namespace DungeonDiceMonsters
         }
         private void GoToPostTargetEffect(Tile TargetTile)
         {
-            UpdateEffectLogs(string.Format("Target Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}].Controller: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Controller));
+            if(TargetTile.IsOccupied)
+            {
+                UpdateEffectLogs(string.Format("Target (occupied) Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}].Controller: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Controller));
+            }
+            else
+            {
+                UpdateEffectLogs(string.Format("Target (unoccupied) Tile selected: [{0}]", TargetTile.ID.ToString()));
+
+            }
 
             switch (_CurrentPostTargetState)
             {
@@ -255,6 +264,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.CocconOfUltraEvolutionEffect: CocconofUltraEvolution_PostTargetEffect(TargetTile); break;
                 case PostTargetState.MetamorphosedInsectQueenEffect: MetamorphosedInsectQueen_PostTargetEffect(TargetTile); break;
                 case PostTargetState.BasicInsectEffect: BasicInsect_PostTargetEffect(TargetTile); break;
+                case PostTargetState.GokiboreEffect: Gokibore_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -2549,6 +2559,9 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TransformMonster(TargetTile, 41456841);
+
+            //Destroy the card once done
+            DestroyCard(_CurrentTileSelected);
         }
         #endregion
 
@@ -2559,7 +2572,7 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Set the "Reaction To" flags
-            thisEffect.ReactsToAttributeChange = true;
+            //Effect does not react to any events
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Target 1 Insect Type monster your opponent controls; spellbound it for 1 turn
@@ -2587,6 +2600,48 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded for 1 turn");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Gokibore
+        private void Gokibore_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 unnocupied tile, its Field Type Becomes "Forest"
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Tile thisTile in _Tiles)
+            {
+                if (thisTile.IsActive && !thisTile.IsOccupied)
+                {
+                    _EffectTargetCandidates.Add(thisTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.GokiboreEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void Gokibore_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: change the field type of the tile to forest
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            TargetTile.ChangeFieldType(Tile.FieldTypeValue.Forest);
+            WaitNSeconds(1000);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Tile's Field Type has been updated to Forest.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();

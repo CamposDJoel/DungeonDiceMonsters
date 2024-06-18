@@ -1999,6 +1999,7 @@ namespace DungeonDiceMonsters
             CocconOfUltraEvolutionEffect,
             MetamorphosedInsectQueenEffect,
             BasicInsectEffect,
+            GokiboreEffect,
         }
         private enum SummonType
         {
