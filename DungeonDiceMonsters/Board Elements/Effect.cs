@@ -151,6 +151,7 @@ namespace DungeonDiceMonsters
                 case "Petit Moth": return EffectID.PetitMoth_Ingnition;
                 case "Cocoon of Evolution": if (type == EffectType.Continuous) { return EffectID.CocoonofEvolution_Continuous; } else { return EffectID.CocoonofEvolution_Ignition; }
                 case "Larvae Moth": return EffectID.LarvaeMoth_OnSummon;
+                case "Great Moth": return EffectID.GreathMoth_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -247,6 +248,7 @@ namespace DungeonDiceMonsters
             CocoonofEvolution_Continuous,
             CocoonofEvolution_Ignition,
             LarvaeMoth_OnSummon,
+            GreathMoth_OnSummon,
         }
         #endregion
     }

@@ -82,6 +82,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.CocoonofEvolution_Ignition: CocoonofEvolution_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.LarvaeMoth_OnSummon: LarvaeMoth_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.GreathMoth_OnSummon: GreatMoth_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -153,7 +154,8 @@ namespace DungeonDiceMonsters
             WaitNSeconds(4000);
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
-        {           
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             ImageServer.ClearImage(PicEffectMenuCardImage);
             PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Continuous Effect";
@@ -236,6 +238,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.FireKrakenEffect: FireKraken_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ChangeOfHeartEffect: ChangeOfHeart_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ThunderDragonEffect: ThunderDragon_PostTargetEffect(TargetTile); break;
+                case PostTargetState.GreatMothEffect: GreatMoth_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -1413,7 +1416,7 @@ namespace DungeonDiceMonsters
                         _EffectTargetCandidates.Add(thisCard.CurrentTile);
                     }
                 }
-                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}]", _EffectTargetCandidates.Count));
 
                 if (_EffectTargetCandidates.Count > 0)
                 {
@@ -2044,9 +2047,6 @@ namespace DungeonDiceMonsters
             else { id = 48579379; }
 
             TransformMonster(_EffectOriginTile, id);
-
-            //NO more action needed, return to the Main Phase
-            EnterMainPhase();
         }
         #endregion
 
@@ -2076,6 +2076,70 @@ namespace DungeonDiceMonsters
                 //Enter Summon phase 3
                 SummonMonster_Phase3(thisEffect.OriginCard);
             }           
+        }
+        #endregion
+
+        #region Greath Moth
+        private void GreatMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
+            //And there is no other insect type monster on the board the effect's owner controls
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard != thisEffect.OriginCard && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        activationRequirementsMet = true;
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+            }
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.GreatMothEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                if (!thisEffect.OriginCard.WasTransformedInto) 
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was NOT transformed into. Effect wont activate.");
+                    UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                }
+                else
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                    UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                }               
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void GreatMoth_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster gains 700 ATK/DEF
+            TargetTile.CardInPlace.AdjustAttackBonus(700);
+            TargetTile.CardInPlace.AdjustDefenseBonus(700);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
     }
