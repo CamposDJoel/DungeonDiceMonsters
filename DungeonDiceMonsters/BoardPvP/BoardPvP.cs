@@ -1991,6 +1991,7 @@ namespace DungeonDiceMonsters
             ChangeOfHeartEffect,
             ThunderDragonEffect,
             GreatMothEffect,
+            PerfectlyUltimateGreatMothEffect,
         }
         private enum SummonType
         {

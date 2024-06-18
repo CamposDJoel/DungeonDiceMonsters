@@ -5547,7 +5547,7 @@
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
     "ritualSpell": "-",
-    "effectsImplemented": false
+    "effectsImplemented": true
   },
   {
     "id": "91512835",

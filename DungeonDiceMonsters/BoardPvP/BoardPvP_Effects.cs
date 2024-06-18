@@ -83,6 +83,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.CocoonofEvolution_Ignition: CocoonofEvolution_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.LarvaeMoth_OnSummon: LarvaeMoth_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.GreathMoth_OnSummon: GreatMoth_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.PerfectlyUltimateGreatMoth_OnSummon: PerfectlyUltimateGreatMoth_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -239,6 +240,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.ChangeOfHeartEffect: ChangeOfHeart_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ThunderDragonEffect: ThunderDragon_PostTargetEffect(TargetTile); break;
                 case PostTargetState.GreatMothEffect: GreatMoth_PostTargetEffect(TargetTile); break;
+                case PostTargetState.PerfectlyUltimateGreatMothEffect: PerfectlyUltimateGreatMoth_PostTargetEffect(TargetTile); break;
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -2137,6 +2139,69 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Target monster gains 700 ATK/DEF
             TargetTile.CardInPlace.AdjustAttackBonus(700);
             TargetTile.CardInPlace.AdjustDefenseBonus(700);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Perfectly Ultimate Great Moth
+        private void PerfectlyUltimateGreatMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
+            //And there is no ot insect type monsters on the board that the opponent owner controls
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                    {
+                        activationRequirementsMet = true;
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+            }
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.PerfectlyUltimateGreatMothEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                if (!thisEffect.OriginCard.WasTransformedInto)
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was NOT transformed into. Effect wont activate.");
+                    UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                }
+                else
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                    UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                }
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void PerfectlyUltimateGreatMoth_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster is spellbounded permanently
+            TargetTile.CardInPlace.SpellboundIt(99);
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
