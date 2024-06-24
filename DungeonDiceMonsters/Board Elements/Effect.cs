@@ -165,6 +165,7 @@ namespace DungeonDiceMonsters
                 case "Flying Kamakiri #2": return EffectID.FlyingKamakiri2_Continuous;
                 case "Cockroach Knight": return EffectID.CockroachKnight_Ignition;
                 case "Leghul": return EffectID.Leghul_Ignition;
+                case "Insect Soldiers of the Sky": return EffectID.InsectSoldiersoftheSky_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -275,6 +276,7 @@ namespace DungeonDiceMonsters
             FlyingKamakiri2_Continuous,
             CockroachKnight_Ignition,
             Leghul_Ignition,
+            InsectSoldiersoftheSky_Continuous,
         }
         #endregion
     }

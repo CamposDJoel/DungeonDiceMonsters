@@ -97,6 +97,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.Leghul_Ignition: Leghul_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -117,6 +118,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -134,6 +136,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -340,6 +343,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_MonsterTypeChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_MonsterTypeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -388,6 +392,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -3135,6 +3140,163 @@ namespace DungeonDiceMonsters
                 EnterMainPhase();
             }
 
+        }
+        #endregion
+
+        #region Insect Soldiers of the Sky
+        private void InsectSoldiersoftheSky_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void InsectSoldiersoftheSky_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Insect Soldiers of the Sky's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+            //then reduce its Move Cost -1 and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+            {
+                targetCard.AdjustMoveCostBonus(-1);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Insect Soldiers of the Sky will not apply to this card anymore. Decrease its Move Cost -1.");
+            }
+            //if the target card was NOT in the Insect Soldiers of the Sky's effect's affected by list and the target card is INSECT and controlled by the opponent
+            //then increase its Move Cost +1 and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+            {
+                targetCard.AdjustMoveCostBonus(1);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Insect Soldiers of the Sky's effect will now apply to this card. Increase its Move Cost +1");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void InsectSoldiersoftheSky_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, reduce the Move Cost -1 of all monsters in the AffectedBy list");
+                //If the control change was applyed to the origin card, now the effect should apply to the opponent monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustMoveCostBonus(-1);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] Move Cost was decreased -1 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                    {
+                        thisCard.AdjustMoveCostBonus(1);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Insect Soldiers of the Sky's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+                //then reduce move cost -1 and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+                {
+                    targetCard.AdjustMoveCostBonus(-1);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Insect Soldiers of the Sky will not apply to this card anymore. Decrease its Move Cost -1.");
+                }
+                //if the target card was NOT in the Insect Soldiers of the Sky's effect's affected by list and the target card is INSECT and controlled by the opponent
+                //then increase the move cost +1 and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+                {
+                    targetCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Insect Soldiers of the Sky's effect will now apply to this card. Increase its Move Cost +1");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void InsectSoldiersoftheSky_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if (!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustMoveCostBonus(-1);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] move cost was reduced -1 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
         }
         #endregion
     }

@@ -1215,6 +1215,7 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
