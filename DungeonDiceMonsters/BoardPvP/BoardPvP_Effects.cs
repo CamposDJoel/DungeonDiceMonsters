@@ -92,12 +92,14 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_Ignition: MetamorphosedInsectQueen_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BasicInsect_Ignition: BasicInsect_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.Gokibore_Ignition: Gokibore_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
         private void RemoveEffect(Effect thisEffect)
-        {
+        {            
             //then remove the effect from the Board
             switch (thisEffect.ID)
             {
@@ -110,6 +112,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.InsectQueen_Continuous: InsectQueen_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -125,6 +129,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -312,6 +318,35 @@ namespace DungeonDiceMonsters
 
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
+        private void ResolveEffectsWithMonsterTypeChangeReactionTo(Card targetCard, Effect modifierEffect)
+        {
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Card [{0}] with On Board Id [{1}] Monster Type was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
+
+            List<Effect> _EffectRemovalListByAttrChange = new List<Effect>();
+
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if (thisActiveEffect.ReactsToMonsterTypeChange)
+                {
+                    UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                    switch (thisActiveEffect.ID)
+                    {
+                        case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_MonsterTypeChange] Function", thisActiveEffect.ID));
+                    }
+                }
+            }
+
+            //Now safely remove any effects that need to be remove
+            foreach (Effect thisEffectToRemove in _EffectRemovalListByAttrChange)
+            {
+                _ActiveEffects.Remove(thisEffectToRemove);
+                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
+            }
+
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+        }
         private void ResolveEffectsWithMonsterControllerChangeReactionTo(Card targetCard, Effect modifierEffect)
         {
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Card [{0}] with On Board Id [{1}] Controller was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
@@ -344,6 +379,8 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -1252,19 +1289,11 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's attribute to FIRE
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-            targetCard.ChangeAttribute(Attribute.FIRE);
-            thisEffect.AddAffectedByCard(targetCard);
-
-            //Add this effect to the list of active effects
-            _ActiveEffects.Add(thisEffect);
-
-            //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card's Attribute was changed to FIRE.");
-
-            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
-            ResolveEffectsWithAttributeChangeReactionTo(targetCard, thisEffect);
-
+            _ActiveEffects.Add(thisEffect);
+            thisEffect.AddAffectedByCard(targetCard);
+            ChangeMonsterAttribute(targetCard, Attribute.FIRE, thisEffect);
+              
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -2645,6 +2674,321 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Flying Kamakiri #1
+        private void FlyingKamakiri1_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void FlyingKamakiri1_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void FlyingKamakiri1_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Flying Kamakiri #1's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the effect's owner anymore,
+            //then reduce the defense boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller != thisEffect.Owner))
+            {
+                targetCard.AdjustDefenseBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #1 will not apply to this card anymore. DEF boost was reduced by 200");
+            }
+            //if the target card was NOT in the Flying Kamakiri #1's effect's affected by list and the target card is INSECT and controlled by the effect's owner
+            //then increase the defense boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner == targetCard.Controller)
+            {
+                targetCard.AdjustDefenseBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #1's effect will now apply to this card. DEF boost was increased by 200.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void FlyingKamakiri1_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, remove the 200 DEF bonus from all the monsters affected by it.");
+                //If the control change was applyed to the origin card, now the effect should apply to the new controller's monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was reduced by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        thisCard.AdjustDefenseBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Flying Kamakiri #1's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the effect's owner anymore,
+                //then reduce the defense boost and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller != thisEffect.Owner))
+                {
+                    targetCard.AdjustDefenseBonus(-200);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #1 will not apply to this card anymore. DEF boost was reduced by 200");
+                }
+                //if the target card was NOT in the Flying Kamakiri #1's effect's affected by list and the target card is INSECT and controlled by the effect's owner
+                //then increase the defense boost and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner == targetCard.Controller)
+                {
+                    targetCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #1's effect will now apply to this card. DEF boost was increased by 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void FlyingKamakiri1_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if(!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was reduced by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }               
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Flying Kamakiri #2
+        private void FlyingKamakiri2_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent control lose 200 DEF
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Decrease its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void FlyingKamakiri2_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Decrease its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void FlyingKamakiri2_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Flying Kamakiri #2's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+            //then reduce the defense boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+            {
+                targetCard.AdjustDefenseBonus(200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #2 will not apply to this card anymore. DEF boost was increased by 200");
+            }
+            //if the target card was NOT in the Flying Kamakiri #2's effect's affected by list and the target card is INSECT and controlled by the opponent
+            //then decrease the defense boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+            {
+                targetCard.AdjustDefenseBonus(-200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #2's effect will now apply to this card. DEF boost was decrease by 200.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void FlyingKamakiri2_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, increase the 200 DEF bonus from all the monsters affected by it.");
+                //If the control change was applyed to the origin card, now the effect should apply to the opponent monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustDefenseBonus(200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was increased by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        thisCard.AdjustDefenseBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Flying Kamakiri #2's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+                //then reduce the defense boost and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+                {
+                    targetCard.AdjustDefenseBonus(200);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #2 will not apply to this card anymore. DEF boost was increased by 200");
+                }
+                //if the target card was NOT in the Flying Kamakiri #2's effect's affected by list and the target card is INSECT and controlled by the opponent
+                //then decrease the defense boost and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+                {
+                    targetCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #2's effect will now apply to this card. DEF boost was decrease by 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void FlyingKamakiri2_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if (!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustDefenseBonus(200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was increased by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
         }
         #endregion
     }

@@ -59,6 +59,7 @@ namespace DungeonDiceMonsters
         public bool ReactsToMonsterSummon { get; set; }
         public bool ReactsToMonsterDestroyed { get; set; }
         public bool ReactsToAttributeChange { get; set; }
+        public bool ReactsToMonsterTypeChange { get; set; }
         public bool ReactsToMonsterControlChange { get; set; }
         public bool ReactsToBattleCalculation { get; set; }
         public bool ReactsToMonsterDestroyedByBattle { get; set; }
@@ -160,6 +161,8 @@ namespace DungeonDiceMonsters
                     else { return EffectID.MetamorphosedInsectQueen_Ignition; }
                 case "Basic Insect": return EffectID.BasicInsect_Ignition;
                 case "Gokibore": return EffectID.Gokibore_Ignition;
+                case "Flying Kamakiri #1": return EffectID.FlyingKamakiri1_Continuous;
+                case "Flying Kamakiri #2": return EffectID.FlyingKamakiri2_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -266,6 +269,8 @@ namespace DungeonDiceMonsters
             CocconofUltraEvolution_Ignition,
             BasicInsect_Ignition,
             Gokibore_Ignition,
+            FlyingKamakiri1_Continuous,
+            FlyingKamakiri2_Continuous,
         }
         #endregion
     }

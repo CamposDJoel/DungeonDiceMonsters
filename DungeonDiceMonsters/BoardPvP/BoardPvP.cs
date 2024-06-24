@@ -1213,6 +1213,8 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1508,6 +1510,18 @@ namespace DungeonDiceMonsters
             {
                 RemoveEffect(activeEffectFound);
             }
+        }
+        private void ChangeMonsterAttribute(Card targetCard, Attribute newAttribute, Effect activeEffect)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            targetCard.ChangeAttribute(newAttribute);
+            ResolveEffectsWithAttributeChangeReactionTo(targetCard, activeEffect);
+        }
+        private void ChangeMonsterType(Card targetCard,Type newType, Effect activeEffect)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            targetCard.ChangeMonsterType(newType);
+            ResolveEffectsWithMonsterTypeChangeReactionTo(targetCard, activeEffect);
         }
         private void LaunchTurnStartPanel()
         {            

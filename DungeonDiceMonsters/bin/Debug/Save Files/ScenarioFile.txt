@@ -7,7 +7,7 @@ RED MONSTERS|6
 89091579|7|basic insect
 58192742|110|Petit Moth
 91512835|136|Insect Queen
-44519536|116|left leg
+15367030|116|Gokibore
 31786629|123|Thunder Dragon
 31786629|175|Thunder Dragon
 -----------------------------------------
@@ -20,10 +20,11 @@ BLUE MONSTERS|4
 RED SET CARDS|3
 77840540|188|Coccon
 24094653|104|Polymerization
-4206964|201|Trap Hole
+24094653|201|Poly
 ----------------------------------------
-BLUE SET CARDS|1
-24094653|19|polymerization
+BLUE SET CARDS|2
+4031928|19|Change of heart
+4031928|214|Change of heart
 -----------------------------------------
 RED CRESTS|20|20|20|20|20
 BLUE CRESTS|20|20|20|20|20

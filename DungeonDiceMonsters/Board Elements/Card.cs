@@ -29,6 +29,7 @@ namespace DungeonDiceMonsters
             void InitializeMultableDataFields()
             {
                 _CurrentAttribute = _cardInfo.Attribute;
+                _CurrentType = _cardInfo.Type;
             }
             void ApplyAbility()
             {
@@ -347,6 +348,10 @@ namespace DungeonDiceMonsters
         {
             _CurrentAttribute = newAttribute;
         }
+        public void ChangeMonsterType(Type newType)
+        {
+            _CurrentType = newType;
+        }
         public void ResetAttribute()
         {
             _CurrentAttribute = _cardInfo.Attribute;
@@ -416,6 +421,7 @@ namespace DungeonDiceMonsters
 
         //Mutable data fields
         private Attribute _CurrentAttribute;
+        private Type _CurrentType;
 
         //Action Costs
         private int _BaseMoveCost = 1;
