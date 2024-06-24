@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace DungeonDiceMonsters
 {
@@ -91,6 +92,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.MetamorphosedInsectQueen_Ignition: MetamorphosedInsectQueen_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BasicInsect_Ignition: BasicInsect_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CockroachKnight_Ignition: CockroachKnight_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.Gokibore_Ignition: Gokibore_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
@@ -271,6 +273,8 @@ namespace DungeonDiceMonsters
                 case PostTargetState.MetamorphosedInsectQueenEffect: MetamorphosedInsectQueen_PostTargetEffect(TargetTile); break;
                 case PostTargetState.BasicInsectEffect: BasicInsect_PostTargetEffect(TargetTile); break;
                 case PostTargetState.GokiboreEffect: Gokibore_PostTargetEffect(TargetTile); break;
+                case PostTargetState.CockroachKnightEffect: CockroachKnight_PostTargetEffect(TargetTile); break;
+                default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -331,6 +335,8 @@ namespace DungeonDiceMonsters
                     UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
                     switch (thisActiveEffect.ID)
                     {
+                        case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterTypeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_MonsterTypeChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_MonsterTypeChange] Function", thisActiveEffect.ID));
@@ -483,6 +489,21 @@ namespace DungeonDiceMonsters
                     thisTile.MarkFusionMaterialTarget();
                 }
             }
+        }
+        #endregion
+
+        #region Cards On Board Queries
+        private int GetMonsterCountWithMonsterType(Type type)
+        {
+            int count = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == type)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
         #endregion
 
@@ -2270,19 +2291,18 @@ namespace DungeonDiceMonsters
             //Step 2: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
 
             //Step 3: Resolve the effect
             //EFFECT DESCRIPTION: Gains 100 ATK/DEF for each Insect type monster on the board.
-            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
-            foreach (Card thisCard in _CardsOnBoard)
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if(insectsOnBoard > 0)
             {
-                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect)
-                {
-                    thisEffect.OriginCard.AdjustAttackBonus(100);
-                    thisEffect.OriginCard.AdjustDefenseBonus(100);
-                    thisEffect.CustomInt1++;
-                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-                }
+                int bonus = insectsOnBoard * 100;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
             //Step 4: Add this effect to the Active Effect list
@@ -2298,19 +2318,18 @@ namespace DungeonDiceMonsters
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
 
             //Step 2: Resolve the effect
             //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
-            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
-            foreach (Card thisCard in _CardsOnBoard)
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
             {
-                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect)
-                {
-                    thisEffect.OriginCard.AdjustAttackBonus(100);
-                    thisEffect.OriginCard.AdjustDefenseBonus(100);
-                    thisEffect.CustomInt1++;
-                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-                }
+                int bonus = insectsOnBoard * 100;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
             //Step 3: Add this effect to the Active Effect list
@@ -2338,6 +2357,33 @@ namespace DungeonDiceMonsters
                 thisEffect.OriginCard.AdjustDefenseBonus(-100);
                 thisEffect.CustomInt1--;
                 UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 100.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
+            }
+        }
+        private void InsectQueen_ReactTo_MonsterTypeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card is an Insect, give the origin the stat boost
+            if (targetCard.Type == Type.Insect)
+            {
+                thisEffect.CustomInt1++;
+                thisEffect.OriginCard.AdjustAttackBonus(100);
+                thisEffect.OriginCard.AdjustDefenseBonus(100);
+                UpdateEffectLogs("Target Monster is now Insect type, Origin card ATK boost is increased 100.");
+            }
+            else
+            {
+                //Recalculate the insects on board to determine if the monster switch from being Insect to other monster type
+                int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+                if (thisEffect.CustomInt1 > insectsOnBoard)
+                {
+                    thisEffect.CustomInt1--;
+                    thisEffect.OriginCard.AdjustAttackBonus(-100);
+                    thisEffect.OriginCard.AdjustDefenseBonus(-100);
+                    UpdateEffectLogs("Target Monster is not an Insect anymore, Origin card ATK boost is decrease 100.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
             }
         }
         private void InsectQueen_RemoveEffect(Effect thisEffect)
@@ -2450,19 +2496,18 @@ namespace DungeonDiceMonsters
             //Step 2: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
 
             //Step 3: Resolve the effect
-            //EFFECT DESCRIPTION: Gains 100 ATK/DEF for each Insect type monster on the board.
-            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
-            foreach (Card thisCard in _CardsOnBoard)
+            //EFFECT DESCRIPTION: Gains 200 ATK/DEF for each Insect type monster on the board.
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
             {
-                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect)
-                {
-                    thisEffect.OriginCard.AdjustAttackBonus(200);
-                    thisEffect.OriginCard.AdjustDefenseBonus(200);
-                    thisEffect.CustomInt1++;
-                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-                }
+                int bonus = insectsOnBoard * 200;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
             //Step 4: Add this effect to the Active Effect list
@@ -2478,19 +2523,18 @@ namespace DungeonDiceMonsters
             //Step 1: Set the "Reaction To" flags
             thisEffect.ReactsToMonsterSummon = true;
             thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
 
             //Step 2: Resolve the effect
             //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
-            thisEffect.CustomInt1 = 0; //CustomInt1 will keep track how many bonuses this monster has by this effect
-            foreach (Card thisCard in _CardsOnBoard)
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
             {
-                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect)
-                {
-                    thisEffect.OriginCard.AdjustAttackBonus(200);
-                    thisEffect.OriginCard.AdjustDefenseBonus(200);
-                    thisEffect.CustomInt1++;
-                    UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-                }
+                int bonus = insectsOnBoard * 200;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
             //Step 3: Add this effect to the Active Effect list
@@ -2518,6 +2562,33 @@ namespace DungeonDiceMonsters
                 thisEffect.OriginCard.AdjustDefenseBonus(-200);
                 thisEffect.CustomInt1--;
                 UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 200.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
+            }
+        }
+        private void MetamorphosedInsectQueen_MonsterTypeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card is an Insect, give the origin the stat boost
+            if (targetCard.Type == Type.Insect)
+            {
+                thisEffect.CustomInt1++;
+                thisEffect.OriginCard.AdjustAttackBonus(200);
+                thisEffect.OriginCard.AdjustDefenseBonus(200);
+                UpdateEffectLogs("Target Monster is now Insect type, Origin card ATK boost is increased 200.");
+            }
+            else
+            {
+                //Recalculate the insects on board to determine if the monster switch from being Insect to other monster type
+                int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+                if (thisEffect.CustomInt1 > insectsOnBoard)
+                {
+                    thisEffect.CustomInt1--;
+                    thisEffect.OriginCard.AdjustAttackBonus(-200);
+                    thisEffect.OriginCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs("Target Monster is not an Insect anymore, Origin card ATK boost is decrease 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
             }
         }
         private void MetamorphosedInsectQueen_RemoveEffect(Effect thisEffect)
@@ -2624,7 +2695,6 @@ namespace DungeonDiceMonsters
         private void BasicInsect_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: spellbound the monster for 1 turn
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             SpellboundCard(TargetTile.CardInPlace, 1);
 
             //Update logs
@@ -2989,6 +3059,46 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Cockroach Knight
+        private void CockroachKnight_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 monster your opponent controls; it becomes Insect Type
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.CockroachKnightEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void CockroachKnight_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

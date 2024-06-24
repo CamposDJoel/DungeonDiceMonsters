@@ -1122,6 +1122,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.CocconofUltraEvolution_Ignition: return PlayerHasOneCardNamed("Insect Queen");
                         case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTarget(Type.Insect);
                         case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
+                        case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
@@ -1192,7 +1193,7 @@ namespace DungeonDiceMonsters
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
                             {
                                 monsterFound = true;
                                 break;

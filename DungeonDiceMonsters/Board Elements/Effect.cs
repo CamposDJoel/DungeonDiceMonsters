@@ -163,6 +163,7 @@ namespace DungeonDiceMonsters
                 case "Gokibore": return EffectID.Gokibore_Ignition;
                 case "Flying Kamakiri #1": return EffectID.FlyingKamakiri1_Continuous;
                 case "Flying Kamakiri #2": return EffectID.FlyingKamakiri2_Continuous;
+                case "Cockroach Knight": return EffectID.CockroachKnight_Ignition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -271,6 +272,7 @@ namespace DungeonDiceMonsters
             Gokibore_Ignition,
             FlyingKamakiri1_Continuous,
             FlyingKamakiri2_Continuous,
+            CockroachKnight_Ignition,
         }
         #endregion
     }

@@ -1514,14 +1514,30 @@ namespace DungeonDiceMonsters
         private void ChangeMonsterAttribute(Card targetCard, Attribute newAttribute, Effect activeEffect)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-            targetCard.ChangeAttribute(newAttribute);
-            ResolveEffectsWithAttributeChangeReactionTo(targetCard, activeEffect);
+            if (targetCard.CurrentAttribute == newAttribute)
+            {
+                //No Change is being made, do nothing
+                UpdateEffectLogs("Card was target to change its attribute to its current attribute, no change is made.");
+            }
+            else
+            {              
+                targetCard.ChangeAttribute(newAttribute);
+                ResolveEffectsWithAttributeChangeReactionTo(targetCard, activeEffect);
+            }       
         }
         private void ChangeMonsterType(Card targetCard,Type newType, Effect activeEffect)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-            targetCard.ChangeMonsterType(newType);
-            ResolveEffectsWithMonsterTypeChangeReactionTo(targetCard, activeEffect);
+            if (targetCard.Type == newType) 
+            {
+                //No Change is being made, do nothing
+                UpdateEffectLogs("Card was target to change its Type to its current Type, no change is made.");
+            }
+            else
+            {
+                targetCard.ChangeMonsterType(newType);
+                ResolveEffectsWithMonsterTypeChangeReactionTo(targetCard, activeEffect);
+            }         
         }
         private void LaunchTurnStartPanel()
         {            
@@ -2014,6 +2030,7 @@ namespace DungeonDiceMonsters
             MetamorphosedInsectQueenEffect,
             BasicInsectEffect,
             GokiboreEffect,
+            CockroachKnightEffect,
         }
         private enum SummonType
         {

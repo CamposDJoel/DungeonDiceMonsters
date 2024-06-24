@@ -3,6 +3,8 @@
 //Card Class
 
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Media.Converters;
 
 namespace DungeonDiceMonsters
 {
@@ -82,8 +84,10 @@ namespace DungeonDiceMonsters
         public int CardID { get { return _cardInfo.ID; } }
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
-        public Type Type { get { return _cardInfo.Type; } }
-        public string TypeAsString { get { return _cardInfo.TypeAsString; } }
+        public Type OriginalType { get { return _cardInfo.Type; } }
+        public Type Type { get { return _CurrentType; } }
+        public string OriginalTypeAsString { get { return _cardInfo.TypeAsString; } }
+        public string TypeAsString { get { return CardInfo.GetMonsterTypeAsString(_CurrentType); } }
         public SecType SecType { get { return _cardInfo.SecType; } }
         public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
         public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
@@ -120,6 +124,7 @@ namespace DungeonDiceMonsters
         public bool IsFaceDown { get { return _IsFaceDown; } }
         public bool IsDiscardted { get { return _IsDestroyed; } }
         public bool IsASymbol { get { return _IsASymbol; } }
+        public bool IsAMonster { get { return !_IsASymbol && _CurrentAttribute != Attribute.SPELL && _CurrentAttribute != Attribute.TRAP; } }
         public bool WasTransformedInto { get { return _WasTransformedInto; } }
         public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
         public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
@@ -269,37 +274,37 @@ namespace DungeonDiceMonsters
             switch (currentFieldType) 
             {
                 case Tile.FieldTypeValue.Mountain:
-                    if (_cardInfo.Type == Type.Dragon || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.WingedBeast) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Dragon || _CurrentType == Type.Thunder || _CurrentType == Type.WingedBeast) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Sogen:
-                    if (_cardInfo.Type == Type.BeastWarrior || _cardInfo.Type == Type.Warrior) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.BeastWarrior || _CurrentType == Type.Warrior) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Forest:
-                    if (_cardInfo.Type == Type.Insect || _cardInfo.Type == Type.Beast || _cardInfo.Type == Type.Plant || _cardInfo.Type == Type.BeastWarrior) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Insect || _CurrentType == Type.Beast || _CurrentType == Type.Plant || _CurrentType == Type.BeastWarrior) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Wasteland:
-                    if (_cardInfo.Type == Type.Dinosaur || _cardInfo.Type == Type.Zombie || _cardInfo.Type == Type.Rock) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Dinosaur || _CurrentType == Type.Zombie || _CurrentType == Type.Rock) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Yami:
-                    if (_cardInfo.Type == Type.Fiend || _cardInfo.Type == Type.Spellcaster || _cardInfo.Type == Type.Illusion) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fiend || _CurrentType == Type.Spellcaster || _CurrentType == Type.Illusion) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Umi:
-                    if (_cardInfo.Type == Type.Fish || _cardInfo.Type == Type.SeaSerpent || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.Aqua) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fish || _CurrentType == Type.SeaSerpent || _CurrentType == Type.Thunder || _CurrentType == Type.Aqua) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Volcano:
-                    if (_cardInfo.Type == Type.Pyro) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Pyro) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Swamp:
-                    if (_cardInfo.Type == Type.Reptile || _cardInfo.Type == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Reptile || _CurrentType == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Cyberworld:
-                    if (_cardInfo.Type == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Sanctuary:
-                    if (_cardInfo.Type == Type.Fairy) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fairy) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Scrapyard:
-                    if (_cardInfo.Type == Type.Machine) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Machine) { willReceiveFieldTypeBonus = true; }
                     break;
                 default: willReceiveFieldTypeBonus = false; break;
             }
@@ -351,6 +356,7 @@ namespace DungeonDiceMonsters
         public void ChangeMonsterType(Type newType)
         {
             _CurrentType = newType;
+            UpdateFieldTypeBonus();
         }
         public void ResetAttribute()
         {
