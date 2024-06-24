@@ -167,6 +167,7 @@ namespace DungeonDiceMonsters
                 case "Leghul": return EffectID.Leghul_Ignition;
                 case "Insect Soldiers of the Sky": return EffectID.InsectSoldiersoftheSky_Continuous;
                 case "Pinch Hopper": return EffectID.PinchHopper_Ingnition;
+                case "Parasite Paracide": return EffectID.ParasiteParacide_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -279,6 +280,7 @@ namespace DungeonDiceMonsters
             Leghul_Ignition,
             InsectSoldiersoftheSky_Continuous,
             PinchHopper_Ingnition,
+            ParasiteParacide_OnSummon,
         }
         #endregion
     }

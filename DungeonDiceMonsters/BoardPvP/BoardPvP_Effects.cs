@@ -99,6 +99,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Leghul_Ignition: Leghul_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.PinchHopper_Ingnition: PinchHopper_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ParasiteParacide_OnSummon: ParasiteParacide_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -280,6 +281,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.GokiboreEffect: Gokibore_PostTargetEffect(TargetTile); break;
                 case PostTargetState.CockroachKnightEffect: CockroachKnight_PostTargetEffect(TargetTile); break;
                 case PostTargetState.PinchHopperEffect: PinchHopper_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -3339,6 +3341,57 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Parasite Paracide
+        private void ParasiteParacide_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the opponents does not control a monster that can be target
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.ParasiteParacideEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void ParasiteParacide_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
     }
