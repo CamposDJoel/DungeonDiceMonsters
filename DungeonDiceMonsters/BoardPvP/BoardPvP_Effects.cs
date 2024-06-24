@@ -100,6 +100,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.PinchHopper_Ingnition: PinchHopper_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.ParasiteParacide_OnSummon: ParasiteParacide_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Ignition: UltimateInsectLV1_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -121,6 +123,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -139,6 +142,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -438,6 +442,7 @@ namespace DungeonDiceMonsters
                     switch (thisActiveEffect.ID)
                     {
                         case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ReactTo_EndPhase(thisActiveEffect); break;
+                        case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ReactTo_EndPhase(thisActiveEffect); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_EndPhase] Function", thisActiveEffect.ID));
                     }
                 }
@@ -3392,6 +3397,85 @@ namespace DungeonDiceMonsters
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Ultimate Insect LV1
+        private void UltimateInsectLV1_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            //This effect does not do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV1_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            //This effect does not do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV1_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV1_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect without taking any action
+            
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV1_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 1 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV3” (ID 34088136)
+            TransformMonster(_EffectOriginTile, 34088136);                   
         }
         #endregion
     }

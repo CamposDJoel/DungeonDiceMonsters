@@ -168,6 +168,7 @@ namespace DungeonDiceMonsters
                 case "Insect Soldiers of the Sky": return EffectID.InsectSoldiersoftheSky_Continuous;
                 case "Pinch Hopper": return EffectID.PinchHopper_Ingnition;
                 case "Parasite Paracide": return EffectID.ParasiteParacide_OnSummon;
+                case "Ultimate Insect LV1": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV1_Continuous; } else { return EffectID.UltimateInsectLV1_Ignition; }
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -281,6 +282,8 @@ namespace DungeonDiceMonsters
             InsectSoldiersoftheSky_Continuous,
             PinchHopper_Ingnition,
             ParasiteParacide_OnSummon,
+            UltimateInsectLV1_Continuous,
+            UltimateInsectLV1_Ignition,
         }
         #endregion
     }

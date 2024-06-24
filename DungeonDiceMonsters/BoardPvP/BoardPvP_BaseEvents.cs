@@ -1124,6 +1124,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
                         case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.PinchHopper_Ingnition: return TurnPLayerHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
                         default: return "Requirements Met";
                     }
 
@@ -1309,6 +1310,34 @@ namespace DungeonDiceMonsters
                         else
                         {
                             return "No available tiles.";
+                        }
+                    }
+                    string UltimateInsectLv1()
+                    {
+                        if(thisCard.TurnCounters >= 1)
+                        {
+                            //Then check if there is no other "Ultima Insect" monster you control
+                            bool anotherOneFound = false;
+                            foreach(Card thisCardOnBoard in _CardsOnBoard)
+                            {
+                                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard != thisCard && thisCardOnBoard.Name.Contains("Ultimate Insect"))
+                                {
+                                    anotherOneFound = true;
+                                }
+                            }
+
+                            if(anotherOneFound)
+                            {
+                                return "Cannot activate while there is another \"Ultimate Insect\" monster under your control.";
+                            }
+                            else
+                            {
+                                return "Requirements Met";
+                            }
+                        }
+                        else
+                        {
+                            return "Not enough Turn Counters.";
                         }
                     }
                 }
