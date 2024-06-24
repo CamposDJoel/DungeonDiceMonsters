@@ -96,6 +96,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Gokibore_Ignition: Gokibore_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.Leghul_Ignition: Leghul_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -2484,6 +2485,7 @@ namespace DungeonDiceMonsters
 
             //Resolve the effect:  target 1 Insect type monster you opponent controls; Increase its Defense Cost + 3.
             TargetTile.CardInPlace.AdjustDefenseCostBonus(3);
+            UpdateEffectLogs("Target Card's Defense Cost increased +3.");
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
@@ -3099,6 +3101,40 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Leghul
+        private void Leghul_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Inflict 200 damage to the opponent's symbol
+
+            //Generate the Target Candidate list
+            //Stablish the Defender Symbol
+            Card DefenderSymbol = _RedSymbol;
+            Label DefenderSymbolLPLabel = lblRedLP;
+            if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
+            int damage = 200;
+            if(damage > DefenderSymbol.LP) { damage = DefenderSymbol.LP; }
+            DealDamageToSymbol(damage, DefenderSymbol, DefenderSymbolLPLabel);
+
+            //Validate if there is a game over, otherwise return to the main phase.
+            if(DefenderSymbol.LP == 0)
+            {
+                StartGameOver();
+            }
+            else
+            {
+                EnterMainPhase();
+            }
+
         }
         #endregion
     }
