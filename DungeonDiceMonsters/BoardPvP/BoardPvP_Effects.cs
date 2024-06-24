@@ -98,6 +98,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.Leghul_Ignition: Leghul_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.PinchHopper_Ingnition: PinchHopper_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -278,6 +279,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.BasicInsectEffect: BasicInsect_PostTargetEffect(TargetTile); break;
                 case PostTargetState.GokiboreEffect: Gokibore_PostTargetEffect(TargetTile); break;
                 case PostTargetState.CockroachKnightEffect: CockroachKnight_PostTargetEffect(TargetTile); break;
+                case PostTargetState.PinchHopperEffect: PinchHopper_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -3297,6 +3299,46 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Pinch Hopper
+        private void PinchHopper_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 monster you control; it becomes Insect Type
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller == thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.PinchHopperEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void PinchHopper_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

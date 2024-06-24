@@ -1123,6 +1123,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTarget(Type.Insect);
                         case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
                         case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.PinchHopper_Ingnition: return TurnPLayerHasAnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
@@ -1194,6 +1195,29 @@ namespace DungeonDiceMonsters
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
+                    string TurnPLayerHasAnyOneMonsterThatCanBeTarget()
+                    {
+                        //REQUIREMENT: Turn Player must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == TURNPLAYER && thisBoardCard.CanBeTarget)
                             {
                                 monsterFound = true;
                                 break;

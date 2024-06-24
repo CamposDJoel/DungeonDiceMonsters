@@ -166,6 +166,7 @@ namespace DungeonDiceMonsters
                 case "Cockroach Knight": return EffectID.CockroachKnight_Ignition;
                 case "Leghul": return EffectID.Leghul_Ignition;
                 case "Insect Soldiers of the Sky": return EffectID.InsectSoldiersoftheSky_Continuous;
+                case "Pinch Hopper": return EffectID.PinchHopper_Ingnition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -277,6 +278,7 @@ namespace DungeonDiceMonsters
             CockroachKnight_Ignition,
             Leghul_Ignition,
             InsectSoldiersoftheSky_Continuous,
+            PinchHopper_Ingnition,
         }
         #endregion
     }

@@ -2032,6 +2032,7 @@ namespace DungeonDiceMonsters
             BasicInsectEffect,
             GokiboreEffect,
             CockroachKnightEffect,
+            PinchHopperEffect,
         }
         private enum SummonType
         {
