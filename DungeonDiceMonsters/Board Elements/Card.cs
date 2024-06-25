@@ -281,7 +281,10 @@ namespace DungeonDiceMonsters
         }
         public void ReloadTileUI()
         {
-            _CurrentTile.ReloadTileUI();
+            if(!_IsDestroyed)
+            {
+                _CurrentTile.ReloadTileUI();
+            }           
         }
         public void UpdateFieldTypeBonus()
         {
