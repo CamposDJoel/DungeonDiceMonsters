@@ -147,14 +147,18 @@ namespace DungeonDiceMonsters
         {
             get
             {
-                switch(_Type)
-                {
-                    case Type.BeastWarrior: return "Beast-Warrior";
-                    case Type.DivineBeast: return "Divine-Beast";
-                    case Type.SeaSerpent: return "Sea Serpent";
-                    case Type.WingedBeast: return "Winged Beast";
-                    default: return _Type.ToString();
-                }
+                return GetMonsterTypeAsString(_Type);
+            }
+        }
+        public static string GetMonsterTypeAsString(Type type)
+        {
+            switch (type)
+            {
+                case Type.BeastWarrior: return "Beast-Warrior";
+                case Type.DivineBeast: return "Divine-Beast";
+                case Type.SeaSerpent: return "Sea Serpent";
+                case Type.WingedBeast: return "Winged Beast";
+                default: return type.ToString();
             }
         }
         public SecType SecType { get { return _SecType; } }

@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace DungeonDiceMonsters
 {
@@ -78,12 +81,42 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Exodia_OnSummon: ExodiaTheForbiddenOne_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousActivation(thisEffect); break;
-                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
+                case Effect.EffectID.PetitMoth_Ingnition: PetitMoth_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Ignition: CocoonofEvolution_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.LarvaeMoth_OnSummon: LarvaeMoth_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.GreathMoth_OnSummon: GreatMoth_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.PerfectlyUltimateGreatMoth_OnSummon: PerfectlyUltimateGreatMoth_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.InsectQueen_Ignition: InsectQueen_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CocconofUltraEvolution_Ignition: CocconofUltraEvolution_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.MetamorphosedInsectQueen_OnSummon: MetamorphosedInsectQueen_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.MetamorphosedInsectQueen_Ignition: MetamorphosedInsectQueen_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.BasicInsect_Ignition: BasicInsect_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.CockroachKnight_Ignition: CockroachKnight_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.Gokibore_Ignition: Gokibore_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.Leghul_Ignition: Leghul_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.PinchHopper_Ingnition: PinchHopper_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ParasiteParacide_OnSummon: ParasiteParacide_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Ignition: UltimateInsectLV1_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Ignition: UltimateInsectLV3_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Ignition: UltimateInsectLV5_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break; 
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
         private void RemoveEffect(Effect thisEffect)
-        {
+        {            
             //then remove the effect from the Board
             switch (thisEffect.ID)
             {
@@ -93,6 +126,17 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.InsectQueen_Continuous: InsectQueen_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;   
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -105,6 +149,17 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.BlackLusterSoldier_Continuous: BlackLusterSoldier_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -147,7 +202,8 @@ namespace DungeonDiceMonsters
             WaitNSeconds(4000);
         }
         private void DisplayOnSummonContinuousEffectPanel(Effect thisEffect)
-        {           
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             ImageServer.ClearImage(PicEffectMenuCardImage);
             PicEffectMenuCardImage.Image = ImageServer.FullCardImage(thisEffect.OriginCard.CardID.ToString());
             lblEffectMenuTittle.Text = "Continuous Effect";
@@ -223,13 +279,32 @@ namespace DungeonDiceMonsters
         }
         private void GoToPostTargetEffect(Tile TargetTile)
         {
-            UpdateEffectLogs(string.Format("Target Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}].Controller: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Controller));
+            if(TargetTile.IsOccupied)
+            {
+                UpdateEffectLogs(string.Format("Target (occupied) Tile selected: [{0}] | Target Card: [{1}] with On Board ID: [{2}].Controller: [{3}]", TargetTile.ID.ToString(), TargetTile.CardInPlace.Name, TargetTile.CardInPlace.OnBoardID, TargetTile.CardInPlace.Controller));
+            }
+            else
+            {
+                UpdateEffectLogs(string.Format("Target (unoccupied) Tile selected: [{0}]", TargetTile.ID.ToString()));
+
+            }
 
             switch (_CurrentPostTargetState)
             {
                 case PostTargetState.FireKrakenEffect: FireKraken_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ChangeOfHeartEffect: ChangeOfHeart_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ThunderDragonEffect: ThunderDragon_PostTargetEffect(TargetTile); break;
+                case PostTargetState.GreatMothEffect: GreatMoth_PostTargetEffect(TargetTile); break;
+                case PostTargetState.PerfectlyUltimateGreatMothEffect: PerfectlyUltimateGreatMoth_PostTargetEffect(TargetTile); break;
+                case PostTargetState.CocconOfUltraEvolutionEffect: CocconofUltraEvolution_PostTargetEffect(TargetTile); break;
+                case PostTargetState.MetamorphosedInsectQueenEffect: MetamorphosedInsectQueen_PostTargetEffect(TargetTile); break;
+                case PostTargetState.BasicInsectEffect: BasicInsect_PostTargetEffect(TargetTile); break;
+                case PostTargetState.GokiboreEffect: Gokibore_PostTargetEffect(TargetTile); break;
+                case PostTargetState.CockroachKnightEffect: CockroachKnight_PostTargetEffect(TargetTile); break;
+                case PostTargetState.PinchHopperEffect: PinchHopper_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
+                case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
+                default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
         private void ResolveEffectsWithAttributeChangeReactionTo(Card targetCard, Effect modifierEffect)
@@ -277,6 +352,39 @@ namespace DungeonDiceMonsters
 
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
+        private void ResolveEffectsWithMonsterTypeChangeReactionTo(Card targetCard, Effect modifierEffect)
+        {
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Card [{0}] with On Board Id [{1}] Monster Type was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
+
+            List<Effect> _EffectRemovalListByAttrChange = new List<Effect>();
+
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {
+                if (thisActiveEffect.ReactsToMonsterTypeChange)
+                {
+                    UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                    switch (thisActiveEffect.ID)
+                    {
+                        case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterTypeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_MonsterTypeChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_MonsterTypeChange] Function", thisActiveEffect.ID));
+                    }
+                }
+            }
+
+            //Now safely remove any effects that need to be remove
+            foreach (Effect thisEffectToRemove in _EffectRemovalListByAttrChange)
+            {
+                _ActiveEffects.Remove(thisEffectToRemove);
+                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
+            }
+
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+        }
         private void ResolveEffectsWithMonsterControllerChangeReactionTo(Card targetCard, Effect modifierEffect)
         {
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>Card [{0}] with On Board Id [{1}] Controller was changed. Checking for active effects that react to it.", targetCard.Name, targetCard.OnBoardID));
@@ -309,6 +417,13 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -338,6 +453,33 @@ namespace DungeonDiceMonsters
             {
                 case Effect.EffectID.ShinatoKingOfAHigherPlane_Continuous: ShinatoKingOfAHigherPlane_ReactToMonsterDestryedByBattle(thisEffect, Attacker, Defender); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_BattleDamageCalculation] Function", thisEffect.ID));
+            }
+        }
+        private void ResolveEffectsWithEndPhaseReactionTo()
+        {
+            List<Effect> EffectsThatWillReact = new List<Effect>();
+
+
+            foreach (Effect thisActiveEffect in _ActiveEffects)
+            {              
+                if (thisActiveEffect.ReactsToEndPhase)
+                {
+                    EffectsThatWillReact.Add(thisActiveEffect);                   
+                }
+            }
+
+            foreach(Effect thisActiveEffect in EffectsThatWillReact)
+            {
+                UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                switch (thisActiveEffect.ID)
+                {
+                    case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_EndPhase(thisActiveEffect); break;
+                    default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_EndPhase] Function", thisActiveEffect.ID));
+                }
             }
         }
         private void PromptPlayerToSelectFusionMaterial()
@@ -396,6 +538,21 @@ namespace DungeonDiceMonsters
                     thisTile.MarkFusionMaterialTarget();
                 }
             }
+        }
+        #endregion
+
+        #region Cards On Board Queries
+        private int GetMonsterCountWithMonsterType(Type type)
+        {
+            int count = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == type)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
         #endregion
 
@@ -1202,19 +1359,11 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's attribute to FIRE
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
-            targetCard.ChangeAttribute(Attribute.FIRE);
-            thisEffect.AddAffectedByCard(targetCard);
-
-            //Add this effect to the list of active effects
-            _ActiveEffects.Add(thisEffect);
-
-            //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card's Attribute was changed to FIRE.");
-
-            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
-            ResolveEffectsWithAttributeChangeReactionTo(targetCard, thisEffect);
-
+            _ActiveEffects.Add(thisEffect);
+            thisEffect.AddAffectedByCard(targetCard);
+            ChangeMonsterAttribute(targetCard, Attribute.FIRE, thisEffect);
+              
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -1392,7 +1541,7 @@ namespace DungeonDiceMonsters
                         _EffectTargetCandidates.Add(thisCard.CurrentTile);
                     }
                 }
-                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}]", _EffectTargetCandidates.Count));
 
                 if (_EffectTargetCandidates.Count > 0)
                 {
@@ -1926,6 +2075,2121 @@ namespace DungeonDiceMonsters
                 //Now hide the reaction notification
                 HideReactionNotification();
             }
+        }
+        #endregion
+
+        #region Petit Moth
+        private void PetitMoth_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Transform this monster into “Cocoon of Evolution” (ID 40240595)
+            TransformMonster(_EffectOriginTile, 40240595);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Cocoon of Evolution
+        private void CocoonofEvolution_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Since this is a CONTINUOUS, display the Effect Panel for 4 secs then execute the effect
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            //This effect does not do anything during activation
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void CocoonofEvolution_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            //This effect does not do anything during activation
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void CocoonofEvolution_RemoveEffect(Effect thisEffect)
+        {
+            //Remove this effect without taking any action
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list without taking any action.");
+        }
+        private void CocoonofEvolution_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, if this monster was transformed into; place 1 Turn Counter on it.
+            if(thisEffect.OriginCard.WasTransformedInto && TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Effect's Origin Card was not transformed into and/or is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void CocoonofEvolution_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Transform this monster based on the amount of turn counters it has:
+            //2-4: Larvae Moth (ID 87756343)
+            //5-6: Great Moth (ID 14141448)
+            //7+: Perfectly Ultimate Great Moth (ID 48579379)
+            int id = -1;
+            if (thisEffect.OriginCard.TurnCounters <= 4) { id = 87756343; }
+            else if (thisEffect.OriginCard.TurnCounters <= 6) { id = 14141448; }
+            else { id = 48579379; }
+
+            TransformMonster(_EffectOriginTile, id);
+        }
+        #endregion
+
+        #region Larvae Moth
+        private void LarvaeMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 4 secs then execute the effect
+
+            if (!thisEffect.OriginCard.WasTransformedInto)
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "Cannot activate if monster was not transformed into. Effect wont activate.");
+                UpdateEffectLogs("Monster was not transformed into, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+            else
+            {
+                DisplayOnSummonEffectPanel(thisEffect);
+
+                //EFFECT DESCRIPTION: If this monster was transformed into; Add 5 [DEF] to your crest pool.
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.DEF, 5);
+
+                HideEffectMenuPanel();
+
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }           
+        }
+        #endregion
+
+        #region Greath Moth
+        private void GreatMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
+            //And there is no other insect type monster on the board the effect's owner controls
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard != thisEffect.OriginCard && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        activationRequirementsMet = true;
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+            }
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.GreatMothEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                if (!thisEffect.OriginCard.WasTransformedInto) 
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was NOT transformed into. Effect wont activate.");
+                    UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                }
+                else
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                    UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                }               
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void GreatMoth_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster gains 700 ATK/DEF
+            TargetTile.CardInPlace.AdjustAttackBonus(700);
+            TargetTile.CardInPlace.AdjustDefenseBonus(700);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Perfectly Ultimate Great Moth
+        private void PerfectlyUltimateGreatMoth_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
+            //And there is no ot insect type monsters on the board that the opponent owner controls
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                    {
+                        activationRequirementsMet = true;
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+            }
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.PerfectlyUltimateGreatMothEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                if (!thisEffect.OriginCard.WasTransformedInto)
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was NOT transformed into. Effect wont activate.");
+                    UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                }
+                else
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                    UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                }
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void PerfectlyUltimateGreatMoth_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster is spellbounded permanently
+            TargetTile.CardInPlace.SpellboundIt(99);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Insect Queen
+        private void InsectQueen_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Gains 100 ATK/DEF for each Insect type monster on the board.
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if(insectsOnBoard > 0)
+            {
+                int bonus = insectsOnBoard * 100;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void InsectQueen_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
+            {
+                int bonus = insectsOnBoard * 100;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
+            }
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void InsectQueen_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is an Insect Type
+            if (targetCard.Type == Type.Insect)
+            {
+                //Give an extra boost to the origin monster
+                thisEffect.OriginCard.AdjustAttackBonus(100);
+                thisEffect.OriginCard.AdjustDefenseBonus(100);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 100.");
+            }
+        }
+        private void InsectQueen_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
+        {
+            //If the monster destroyed was an Insect Type
+            if (targetCard.Type == Type.Insect)
+            {
+                //reduce boost to the origin monster
+                thisEffect.OriginCard.AdjustAttackBonus(-100);
+                thisEffect.OriginCard.AdjustDefenseBonus(-100);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 100.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
+            }
+        }
+        private void InsectQueen_ReactTo_MonsterTypeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card is an Insect, give the origin the stat boost
+            if (targetCard.Type == Type.Insect)
+            {
+                thisEffect.CustomInt1++;
+                thisEffect.OriginCard.AdjustAttackBonus(100);
+                thisEffect.OriginCard.AdjustDefenseBonus(100);
+                UpdateEffectLogs("Target Monster is now Insect type, Origin card ATK boost is increased 100.");
+            }
+            else
+            {
+                //Recalculate the insects on board to determine if the monster switch from being Insect to other monster type
+                int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+                if (thisEffect.CustomInt1 > insectsOnBoard)
+                {
+                    thisEffect.CustomInt1--;
+                    thisEffect.OriginCard.AdjustAttackBonus(-100);
+                    thisEffect.OriginCard.AdjustDefenseBonus(-100);
+                    UpdateEffectLogs("Target Monster is not an Insect anymore, Origin card ATK boost is decrease 100.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void InsectQueen_RemoveEffect(Effect thisEffect)
+        {
+            //Remove this effect by remove the ATK/DEF bonuses from the origin card that were added by this effect
+            int boostToBeReduced = thisEffect.CustomInt1 * 100;
+            thisEffect.OriginCard.AdjustAttackBonus(-boostToBeReduced);
+            thisEffect.OriginCard.AdjustDefenseBonus(-boostToBeReduced);
+            if (!thisEffect.OriginCard.IsDiscardted) { thisEffect.OriginCard.ReloadTileUI(); }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("This effect was removed from the active effect list. Origin Card's ATK/DEF bonus was reduced by [{0}]", boostToBeReduced));
+        }
+        private void InsectQueen_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Add [MOV] to the owener's crest pool equal to the number of Insect type monsters on the board
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+            int insectsOnBoard = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisEffect.Owner == thisCard.Controller) { insectsOnBoard++; }
+            }
+
+            if (insectsOnBoard > 0)
+            {
+                AdjustPlayerCrestCount(thisEffect.Owner, Crest.MOV, insectsOnBoard);
+            }
+
+            UpdateEffectLogs(string.Format("Effect Resolved: Added {0} [MOV] to Controller's crest pool.", insectsOnBoard));
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Metamorphosed Insect Queen
+        private void MetamorphosedInsectQueen_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
+            //And there is no other insect type monster on the board the opponent controls
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                    {
+                        activationRequirementsMet = true;
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+                UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+            }
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.MetamorphosedInsectQueenEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                if (!thisEffect.OriginCard.WasTransformedInto)
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "Cannot activate when monster was NOT transformed into. Effect wont activate.");
+                    UpdateEffectLogs("Monster was transformed into, effect wont activate");
+                }
+                else
+                {
+                    DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                    UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                }
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void MetamorphosedInsectQueen_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect:  target 1 Insect type monster you opponent controls; Increase its Defense Cost + 3.
+            TargetTile.CardInPlace.AdjustDefenseCostBonus(3);
+            UpdateEffectLogs("Target Card's Defense Cost increased +3.");
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        private void MetamorphosedInsectQueen_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Gains 200 ATK/DEF for each Insect type monster on the board.
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
+            {
+                int bonus = insectsOnBoard * 200;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void MetamorphosedInsectQueen_ContinuousREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 2: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the ATK/DEF of this monster by 500 for each “M-Warrior #1” or “M-Warrior #2” on the board
+            int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+            if (insectsOnBoard > 0)
+            {
+                int bonus = insectsOnBoard * 200;
+                thisEffect.CustomInt1 = insectsOnBoard;
+                thisEffect.OriginCard.AdjustAttackBonus(bonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
+            }
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void MetamorphosedInsectQueen_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is an Insect Type
+            if (targetCard.Type == Type.Insect)
+            {
+                //Give an extra boost to the origin monster
+                thisEffect.OriginCard.AdjustAttackBonus(200);
+                thisEffect.OriginCard.AdjustDefenseBonus(200);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 200.");
+            }
+        }
+        private void MetamorphosedInsectQueen_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
+        {
+            //If the monster destroyed was an Insect Type
+            if (targetCard.Type == Type.Insect)
+            {
+                //reduce boost to the origin monster
+                thisEffect.OriginCard.AdjustAttackBonus(-200);
+                thisEffect.OriginCard.AdjustDefenseBonus(-200);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 200.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
+            }
+        }
+        private void MetamorphosedInsectQueen_MonsterTypeChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card is an Insect, give the origin the stat boost
+            if (targetCard.Type == Type.Insect)
+            {
+                thisEffect.CustomInt1++;
+                thisEffect.OriginCard.AdjustAttackBonus(200);
+                thisEffect.OriginCard.AdjustDefenseBonus(200);
+                UpdateEffectLogs("Target Monster is now Insect type, Origin card ATK boost is increased 200.");
+            }
+            else
+            {
+                //Recalculate the insects on board to determine if the monster switch from being Insect to other monster type
+                int insectsOnBoard = GetMonsterCountWithMonsterType(Type.Insect);
+                if (thisEffect.CustomInt1 > insectsOnBoard)
+                {
+                    thisEffect.CustomInt1--;
+                    thisEffect.OriginCard.AdjustAttackBonus(-200);
+                    thisEffect.OriginCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs("Target Monster is not an Insect anymore, Origin card ATK boost is decrease 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void MetamorphosedInsectQueen_RemoveEffect(Effect thisEffect)
+        {
+            //Remove this effect by remove the ATK/DEF bonuses from the origin card that were added by this effect
+            int boostToBeReduced = thisEffect.CustomInt1 * 200;
+            thisEffect.OriginCard.AdjustAttackBonus(-boostToBeReduced);
+            thisEffect.OriginCard.AdjustDefenseBonus(-boostToBeReduced);
+            if (!thisEffect.OriginCard.IsDiscardted) { thisEffect.OriginCard.ReloadTileUI(); }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("This effect was removed from the active effect list. Origin Card's ATK/DEF bonus was reduced by [{0}]", boostToBeReduced));
+        }
+        private void MetamorphosedInsectQueen_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Add [ATK] and [DEF] to the owener's crest pool equal to the number of Insect type monsters on the board
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+
+            int insectsOnBoard = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisEffect.Owner == thisCard.Controller) { insectsOnBoard++; }
+            }
+
+            if (insectsOnBoard > 0)
+            {
+                AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, insectsOnBoard);
+                AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, insectsOnBoard);
+            }
+
+            UpdateEffectLogs(string.Format("Effect Resolved: Added {0} [ATK] and [DEF] to Controller's crest pool.", insectsOnBoard));
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Coccon of Ultra Evolution
+        private void CocconofUltraEvolution_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller == thisEffect.Owner && thisCard.Name == "Insect Queen")
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.CocconOfUltraEvolutionEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void CocconofUltraEvolution_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            TransformMonster(TargetTile, 41456841);
+
+            //Destroy the card once done
+            DestroyCard(_CurrentTileSelected);
+        }
+        #endregion
+
+        #region Basic Insect
+        private void BasicInsect_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 Insect Type monster your opponent controls; spellbound it for 1 turn
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.Type == Type.Insect && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.BasicInsectEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void BasicInsect_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: spellbound the monster for 1 turn
+            SpellboundCard(TargetTile.CardInPlace, 1);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded for 1 turn");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Gokibore
+        private void Gokibore_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 unnocupied tile, its Field Type Becomes "Forest"
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Tile thisTile in _Tiles)
+            {
+                if (thisTile.IsActive && !thisTile.IsOccupied)
+                {
+                    _EffectTargetCandidates.Add(thisTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.GokiboreEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void Gokibore_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: change the field type of the tile to forest
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            TargetTile.ChangeFieldType(Tile.FieldTypeValue.Forest);
+            WaitNSeconds(1000);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Tile's Field Type has been updated to Forest.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Flying Kamakiri #1
+        private void FlyingKamakiri1_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void FlyingKamakiri1_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void FlyingKamakiri1_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Flying Kamakiri #1's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the effect's owner anymore,
+            //then reduce the defense boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller != thisEffect.Owner))
+            {
+                targetCard.AdjustDefenseBonus(-200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #1 will not apply to this card anymore. DEF boost was reduced by 200");
+            }
+            //if the target card was NOT in the Flying Kamakiri #1's effect's affected by list and the target card is INSECT and controlled by the effect's owner
+            //then increase the defense boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner == targetCard.Controller)
+            {
+                targetCard.AdjustDefenseBonus(200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #1's effect will now apply to this card. DEF boost was increased by 200.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void FlyingKamakiri1_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, remove the 200 DEF bonus from all the monsters affected by it.");
+                //If the control change was applyed to the origin card, now the effect should apply to the new controller's monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was reduced by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        thisCard.AdjustDefenseBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Flying Kamakiri #1's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the effect's owner anymore,
+                //then reduce the defense boost and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller != thisEffect.Owner))
+                {
+                    targetCard.AdjustDefenseBonus(-200);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #1 will not apply to this card anymore. DEF boost was reduced by 200");
+                }
+                //if the target card was NOT in the Flying Kamakiri #1's effect's affected by list and the target card is INSECT and controlled by the effect's owner
+                //then increase the defense boost and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner == targetCard.Controller)
+                {
+                    targetCard.AdjustDefenseBonus(200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #1's effect will now apply to this card. DEF boost was increased by 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void FlyingKamakiri1_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if(!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustDefenseBonus(-200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was reduced by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }               
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Flying Kamakiri #2
+        private void FlyingKamakiri2_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent control lose 200 DEF
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Decrease its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void FlyingKamakiri2_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Insect type monsters you control gain 200 DEF.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Decrease its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void FlyingKamakiri2_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Flying Kamakiri #2's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+            //then reduce the defense boost and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+            {
+                targetCard.AdjustDefenseBonus(200);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #2 will not apply to this card anymore. DEF boost was increased by 200");
+            }
+            //if the target card was NOT in the Flying Kamakiri #2's effect's affected by list and the target card is INSECT and controlled by the opponent
+            //then decrease the defense boost and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+            {
+                targetCard.AdjustDefenseBonus(-200);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #2's effect will now apply to this card. DEF boost was decrease by 200.");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void FlyingKamakiri2_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, increase the 200 DEF bonus from all the monsters affected by it.");
+                //If the control change was applyed to the origin card, now the effect should apply to the opponent monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustDefenseBonus(200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was increased by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller == thisEffect.Owner)
+                    {
+                        thisCard.AdjustDefenseBonus(200);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Flying Kamakiri #2's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+                //then reduce the defense boost and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+                {
+                    targetCard.AdjustDefenseBonus(200);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Flying Kamakiri #2 will not apply to this card anymore. DEF boost was increased by 200");
+                }
+                //if the target card was NOT in the Flying Kamakiri #2's effect's affected by list and the target card is INSECT and controlled by the opponent
+                //then decrease the defense boost and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+                {
+                    targetCard.AdjustDefenseBonus(-200);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Flying Kamakiri #2's effect will now apply to this card. DEF boost was decrease by 200.");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void FlyingKamakiri2_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if (!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustDefenseBonus(200);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] defense bonus was increased by 200 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Cockroach Knight
+        private void CockroachKnight_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 monster your opponent controls; it becomes Insect Type
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.CockroachKnightEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void CockroachKnight_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Leghul
+        private void Leghul_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Inflict 200 damage to the opponent's symbol
+
+            //Generate the Target Candidate list
+            //Stablish the Defender Symbol
+            Card DefenderSymbol = _RedSymbol;
+            Label DefenderSymbolLPLabel = lblRedLP;
+            if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
+            int damage = 200;
+            if(damage > DefenderSymbol.LP) { damage = DefenderSymbol.LP; }
+            DealDamageToSymbol(damage, DefenderSymbol, DefenderSymbolLPLabel);
+
+            //Validate if there is a game over, otherwise return to the main phase.
+            if(DefenderSymbol.LP == 0)
+            {
+                StartGameOver();
+            }
+            else
+            {
+                EnterMainPhase();
+            }
+
+        }
+        #endregion
+
+        #region Insect Soldiers of the Sky
+        private void InsectSoldiersoftheSky_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void InsectSoldiersoftheSky_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            bool effectAppliedToAtLeastOneCard = false;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    effectAppliedToAtLeastOneCard = true;
+                    thisCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+            if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //This "React To" should apply to any Summon or Modification of Monster Type
+            //All this reaction verification cares about is
+            //1) The controller of the monster 2) The type of the monster 3) if the monster is already affected by this effect
+            //Based on the above factors we can update whether or not we APPLY/REMOVE this effect to that card.
+
+            //if the target card WAS already in Insect Soldiers of the Sky's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+            //then reduce its Move Cost -1 and remove the target card from the affected by list
+            if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+            {
+                targetCard.AdjustMoveCostBonus(-1);
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Insect Soldiers of the Sky will not apply to this card anymore. Decrease its Move Cost -1.");
+            }
+            //if the target card was NOT in the Insect Soldiers of the Sky's effect's affected by list and the target card is INSECT and controlled by the opponent
+            //then increase its Move Cost +1 and add the target card to the affected by list
+            else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+            {
+                targetCard.AdjustMoveCostBonus(1);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("TARGET CARD is eligible for this effect. Insect Soldiers of the Sky's effect will now apply to this card. Increase its Move Cost +1");
+            }
+            else
+            {
+                UpdateEffectLogs("Effect did not react.");
+            }
+        }
+        private void InsectSoldiersoftheSky_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                UpdateEffectLogs("The origin card control was change, reduce the Move Cost -1 of all monsters in the AffectedBy list");
+                //If the control change was applyed to the origin card, now the effect should apply to the opponent monsters
+                //remove the effect from all the monsters in the affected by list and "reactive" the effect
+                foreach (Card affectByCard in thisEffect.AffectedByList)
+                {
+                    affectByCard.AdjustMoveCostBonus(-1);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] Move Cost was decreased -1 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+                thisEffect.AffectedByList.Clear();
+
+                //Reactivate the effect
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                    {
+                        thisCard.AdjustMoveCostBonus(1);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+            }
+            else
+            {
+                //if the target card WAS already in Insect Soldiers of the Sky's effect's "affected by" list and the target card is NOT INSECT AND/OR controller by the opponent anymore,
+                //then reduce move cost -1 and remove the target card from the affected by list
+                if (thisEffect.AffectedByList.Contains(targetCard) && (targetCard.Type != Type.Insect || targetCard.Controller == thisEffect.Owner))
+                {
+                    targetCard.AdjustMoveCostBonus(-1);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is not longer eligible for this effect. The effect of Insect Soldiers of the Sky will not apply to this card anymore. Decrease its Move Cost -1.");
+                }
+                //if the target card was NOT in the Insect Soldiers of the Sky's effect's affected by list and the target card is INSECT and controlled by the opponent
+                //then increase the move cost +1 and add the target card to the affected by list
+                else if (!thisEffect.AffectedByList.Contains(targetCard) && targetCard.Type == Type.Insect && thisEffect.Owner != targetCard.Controller)
+                {
+                    targetCard.AdjustMoveCostBonus(1);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("TARGET CARD is eligible for this effect. Insect Soldiers of the Sky's effect will now apply to this card. Increase its Move Cost +1");
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        private void InsectSoldiersoftheSky_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by removing the bonuses of all the monsters in the affect by list
+            foreach (Card affectByCard in thisEffect.AffectedByList)
+            {
+                if (!affectByCard.IsDiscardted)
+                {
+                    affectByCard.AdjustMoveCostBonus(-1);
+                    UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] move cost was reduced -1 - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                }
+            }
+            thisEffect.AffectedByList.Clear();
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Pinch Hopper
+        private void PinchHopper_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 monster you control; it becomes Insect Type
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller == thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.PinchHopperEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void PinchHopper_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Parasite Paracide
+        private void ParasiteParacide_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the opponents does not control a monster that can be target
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.ParasiteParacideEffect;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void ParasiteParacide_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster becomes insect type
+            ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Ultimate Insect LV1
+        private void UltimateInsectLV1_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            //This effect does not do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV1_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+
+            //EFFECT DESCRIPTION: Increase the Move Cost of all Insect type monsters you opponent controls + 1.
+            //EFFECT DESCRIPTION: During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            //This effect does not do anything on activation
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV1_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV1_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect without taking any action
+            
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV1_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 1 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV3” (ID 34088136)
+            TransformMonster(_EffectOriginTile, 34088136);                   
+        }
+        #endregion
+
+        #region Ultimate Insect LV3
+        private void UltimateInsectLV3_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 100 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if(thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-100);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+            
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV3_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 100 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-100);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV3_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV3_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 100 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 100 ATK
+                targetCard.AdjustAttackBonus(-100);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 100 ATK.");
+            }
+        }
+        private void UltimateInsectLV3_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 100 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(100);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 100 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-100);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 100 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }               
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 100 ATk
+                if(targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-100);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 100 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 100 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(100);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 100 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV3_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach(Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(100);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 100 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV3_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 1 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV5” (ID 34830502)
+            TransformMonster(_EffectOriginTile, 34830502);
+        }
+        #endregion
+
+        #region Ultimate Insect LV5
+        private void UltimateInsectLV5_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 500 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-500);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV5_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 500 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-500);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV5_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV5_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 500 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 100 ATK
+                targetCard.AdjustAttackBonus(-500);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 500 ATK.");
+            }
+        }
+        private void UltimateInsectLV5_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 500 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(500);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 500 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-500);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 500 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 300 ATk
+                if (targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-500);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 500 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 500 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(500);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 500 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV5_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach (Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(500);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 500 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV5_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 3 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV7” (ID 19877898)
+            TransformMonster(_EffectOriginTile, 19877898);
+        }
+        #endregion
+
+        #region Ultimate Insect LV7
+        private void UltimateInsectLV7_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 700 ATK.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-700);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 700.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV7_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 700 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-700);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 700.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV7_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 700 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 700 ATK
+                targetCard.AdjustAttackBonus(-700);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 700 ATK.");
+            }
+        }
+        private void UltimateInsectLV7_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 700 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(700);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 700 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-700);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 700 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 700 ATk
+                if (targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-700);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 700 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 700 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(700);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 700 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV7_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach (Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(700);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 700 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Insect Barrier
+        private void InsectBarrier_ContinuousActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent controls cannot attack. During each of your opponent’s End Phases;
+            //place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            foreach (Card thisCard in _CardsOnBoard) 
+            { 
+                if(!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    thisCard.AddCannotAttackCounter();
+                    thisEffect.AffectedByList.Add(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - This monster received 1 cannot attack counter.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Now you can enter the main phase
+            EnterMainPhase();
+        }
+        private void InsectBarrier_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent controls cannot attack. During each of your opponent’s End Phases;
+            //place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    thisCard.AddCannotAttackCounter();
+                    thisEffect.AffectedByList.Add(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - This monster cannot attack.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+
+            //Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void InsectBarrier_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Validate if the Turn Counters have reached 5 yet.
+                if(thisEffect.OriginCard.TurnCounters >= 5)
+                {
+                    UpdateEffectLogs("Card now has 5 or more Turn Counters. This card will be destroyed.");
+                    DestroyCard(thisEffect.OriginCard.CurrentTile); 
+                }
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void InsectBarrier_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //If the new controller of the target card is the opponent, AND it is an Insect Type monster. it cannot attack
+            if (targetCard.Controller != thisEffect.Owner && targetCard.Type == Type.Insect)
+            {
+                targetCard.AddCannotAttackCounter();
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Card received 1 cannot attack counter.");
+            }
+
+            //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 500 ATK
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.Controller == thisEffect.Owner)
+            {
+                targetCard.RemoveCannotAttackCounter();
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card gets 1 cannot attack counter removed.");
+            }
+        }
+        private void InsectBarrier_RemoveEffect(Effect thisEffect)
+        {
+            foreach(Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.RemoveCannotAttackCounter();
+            }
+
+            _ActiveEffects.Remove(thisEffect);
+        }
+        #endregion
+
+        #region Eradicating Aerosol
+        private void EradicatingAerosol_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 Normal Insect type monster your opponent controls with 2000 or less ATK; Spellbound it permanently. 
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.EradicatingAerosolEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void EradicatingAerosol_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Spellbound the monster permanently
+            SpellboundCard(TargetTile.CardInPlace, 99);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded permanently.");
+
+            //Destroy the card once done
+            DestroyCard(_CurrentTileSelected);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

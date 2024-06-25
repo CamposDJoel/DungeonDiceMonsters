@@ -4,8 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
@@ -61,9 +59,11 @@ namespace DungeonDiceMonsters
         public bool ReactsToMonsterSummon { get; set; }
         public bool ReactsToMonsterDestroyed { get; set; }
         public bool ReactsToAttributeChange { get; set; }
+        public bool ReactsToMonsterTypeChange { get; set; }
         public bool ReactsToMonsterControlChange { get; set; }
         public bool ReactsToBattleCalculation { get; set; }
         public bool ReactsToMonsterDestroyedByBattle { get; set; }
+        public bool ReactsToEndPhase { get; set; }
         #endregion
 
         #region Private Methods
@@ -149,6 +149,31 @@ namespace DungeonDiceMonsters
                 case "Exodia the Forbidden One": return EffectID.Exodia_OnSummon;
                 case "Black Luster Soldier": return EffectID.BlackLusterSoldier_Continuous;
                 case "Shinato, King of a Higher Plane": return EffectID.ShinatoKingOfAHigherPlane_Continuous;
+                case "Petit Moth": return EffectID.PetitMoth_Ingnition;
+                case "Cocoon of Evolution": if (type == EffectType.Continuous) { return EffectID.CocoonofEvolution_Continuous; } else { return EffectID.CocoonofEvolution_Ignition; }
+                case "Larvae Moth": return EffectID.LarvaeMoth_OnSummon;
+                case "Great Moth": return EffectID.GreathMoth_OnSummon;
+                case "Perfectly Ultimate Great Moth": return EffectID.PerfectlyUltimateGreatMoth_OnSummon;
+                case "Insect Queen": if (type == EffectType.Continuous) { return EffectID.InsectQueen_Continuous; } else { return EffectID.InsectQueen_Ignition; }
+                case "Coccon of Ultra Evolution": return EffectID.CocconofUltraEvolution_Ignition;
+                case "Metamorphosed Insect Queen": if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
+                    else if (type == EffectType.OnSummon) { return EffectID.MetamorphosedInsectQueen_OnSummon; }
+                    else { return EffectID.MetamorphosedInsectQueen_Ignition; }
+                case "Basic Insect": return EffectID.BasicInsect_Ignition;
+                case "Gokibore": return EffectID.Gokibore_Ignition;
+                case "Flying Kamakiri #1": return EffectID.FlyingKamakiri1_Continuous;
+                case "Flying Kamakiri #2": return EffectID.FlyingKamakiri2_Continuous;
+                case "Cockroach Knight": return EffectID.CockroachKnight_Ignition;
+                case "Leghul": return EffectID.Leghul_Ignition;
+                case "Insect Soldiers of the Sky": return EffectID.InsectSoldiersoftheSky_Continuous;
+                case "Pinch Hopper": return EffectID.PinchHopper_Ingnition;
+                case "Parasite Paracide": return EffectID.ParasiteParacide_OnSummon;
+                case "Ultimate Insect LV1": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV1_Continuous; } else { return EffectID.UltimateInsectLV1_Ignition; }
+                case "Ultimate Insect LV3": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV3_Continuous; } else { return EffectID.UltimateInsectLV3_Ignition; }
+                case "Ultimate Insect LV5": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV5_Continuous; } else { return EffectID.UltimateInsectLV5_Ignition; }
+                case "Ultimate Insect LV7": return EffectID.UltimateInsectLV7_Continuous;
+                case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
+                case "Eradicating Aerosol": return EffectID.EradicatingAerosol_Ignition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -241,6 +266,36 @@ namespace DungeonDiceMonsters
             Exodia_OnSummon,
             BlackLusterSoldier_Continuous,
             ShinatoKingOfAHigherPlane_Continuous,
+            PetitMoth_Ingnition,
+            CocoonofEvolution_Continuous,
+            CocoonofEvolution_Ignition,
+            LarvaeMoth_OnSummon,
+            GreathMoth_OnSummon,
+            PerfectlyUltimateGreatMoth_OnSummon,
+            InsectQueen_Continuous,
+            InsectQueen_Ignition,
+            MetamorphosedInsectQueen_OnSummon,
+            MetamorphosedInsectQueen_Continuous,
+            MetamorphosedInsectQueen_Ignition,
+            CocconofUltraEvolution_Ignition,
+            BasicInsect_Ignition,
+            Gokibore_Ignition,
+            FlyingKamakiri1_Continuous,
+            FlyingKamakiri2_Continuous,
+            CockroachKnight_Ignition,
+            Leghul_Ignition,
+            InsectSoldiersoftheSky_Continuous,
+            PinchHopper_Ingnition,
+            ParasiteParacide_OnSummon,
+            UltimateInsectLV1_Continuous,
+            UltimateInsectLV1_Ignition,
+            UltimateInsectLV3_Continuous,
+            UltimateInsectLV3_Ignition,
+            UltimateInsectLV5_Continuous,
+            UltimateInsectLV5_Ignition,
+            UltimateInsectLV7_Continuous,
+            InsectBarrier_Continuous,
+            EradicatingAerosol_Ignition,
         }
         #endregion
     }

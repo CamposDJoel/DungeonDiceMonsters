@@ -864,6 +864,12 @@ namespace DungeonDiceMonsters
                         //Cannot Attack/Move Icons
                         PicCannotAttackIcon.Visible = false;
 
+                        if (thisCard.CannotAttackCounters > 0) { PicCannotAttackIcon.Visible = true; }
+                        else
+                        {
+                            PicCannotAttackIcon.Visible = false;
+                        }
+
                         if (thisCard.CannotMoveCounters > 0) { PicCannotMoveIcon.Visible = true; }
                         else
                         {
@@ -1211,6 +1217,15 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1423,14 +1438,7 @@ namespace DungeonDiceMonsters
 
             //Save the ref of the Card Object before destroying it, we are going to need it
             Card thisCard = tileLocation.CardInPlace;
-
-            //Now "Destroy" the card from the tile, this will remove the card link from the tile 
-            //and update the UI to show the card is gone
-            tileLocation.DestroyCard();
-
-            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
-
-
+          
             //Now check if this card had any active Continuous effect, if so, remove the effect and revert the effect changes
             List<Effect> effectsToBeRemoved = new List<Effect>();
             foreach (Effect thisActiveEffect in _ActiveEffects)
@@ -1446,6 +1454,13 @@ namespace DungeonDiceMonsters
                 RemoveEffect(thisActiveEffect);
             }
 
+            //Now "Destroy" the card from the tile, this will remove the card link from the tile 
+            //and update the UI to show the card is gone
+            tileLocation.DestroyCard();
+
+            UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [{0}] On Board ID: [{1}] Owned by: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+
+
             //Finally, check if any active effects react to a card destryuction
             UpdateEffectLogs("Checking for active effects that react to the Card destruction.");
             foreach (Effect thisEffect in _ActiveEffects)
@@ -1458,6 +1473,8 @@ namespace DungeonDiceMonsters
                     {
                         case Effect.EffectID.KarbonalaWarrior_Continuous: KarbonalaWarrior_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         default: throw new Exception(string.Format("This effect id: [{0}] does not have a React to Monster Destroyed method assigned", thisEffect.ID));
                     }
                 }
@@ -1504,6 +1521,34 @@ namespace DungeonDiceMonsters
             {
                 RemoveEffect(activeEffectFound);
             }
+        }
+        private void ChangeMonsterAttribute(Card targetCard, Attribute newAttribute, Effect activeEffect)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            if (targetCard.CurrentAttribute == newAttribute)
+            {
+                //No Change is being made, do nothing
+                UpdateEffectLogs("Card was target to change its attribute to its current attribute, no change is made.");
+            }
+            else
+            {              
+                targetCard.ChangeAttribute(newAttribute);
+                ResolveEffectsWithAttributeChangeReactionTo(targetCard, activeEffect);
+            }       
+        }
+        private void ChangeMonsterType(Card targetCard,Type newType, Effect activeEffect)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            if (targetCard.Type == newType) 
+            {
+                //No Change is being made, do nothing
+                UpdateEffectLogs("Card was target to change its Type to its current Type, no change is made.");
+            }
+            else
+            {
+                targetCard.ChangeMonsterType(newType);
+                ResolveEffectsWithMonsterTypeChangeReactionTo(targetCard, activeEffect);
+            }         
         }
         private void LaunchTurnStartPanel()
         {            
@@ -1990,6 +2035,16 @@ namespace DungeonDiceMonsters
             FireKrakenEffect,
             ChangeOfHeartEffect,
             ThunderDragonEffect,
+            GreatMothEffect,
+            PerfectlyUltimateGreatMothEffect,
+            CocconOfUltraEvolutionEffect,
+            MetamorphosedInsectQueenEffect,
+            BasicInsectEffect,
+            GokiboreEffect,
+            CockroachKnightEffect,
+            PinchHopperEffect,
+            ParasiteParacideEffect,
+            EradicatingAerosolEffect,
         }
         private enum SummonType
         {

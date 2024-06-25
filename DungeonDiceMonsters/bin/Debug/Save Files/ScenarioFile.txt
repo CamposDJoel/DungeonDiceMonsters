@@ -4,26 +4,27 @@ BLUE TILES
 5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110|111
 ---------------------------------------
 RED MONSTERS|6
-70903634|7|Right arm
-7902349|110|Left arm
-8124921|136|right leg
-44519536|116|left leg
+89091579|7|basic insect
+58192742|110|Petit Moth
+91512835|136|Insect Queen
+15367030|116|Gokibore
 31786629|123|Thunder Dragon
 31786629|175|Thunder Dragon
 -----------------------------------------
 BLUE MONSTERS|4
-92731455|226|M-Warrior #2
+15367030|226|Gokibore
 56342351|30|M-Warrior #1
 92731455|84|M-Warrior #2
 56342351|111|M-Warrior #1
 ------------------------------------
 RED SET CARDS|3
-24094653|188|Polymerization
-24094653|104|Polymerization
-4206964|201|Trap Hole
+77840540|188|Coccon
+94716515|104|Eradicating
+23615409|201|Insect Barrier
 ----------------------------------------
-BLUE SET CARDS|1
-24094653|19|polymerization
+BLUE SET CARDS|2
+87430998|19|Forest
+4031928|214|Change of heart
 -----------------------------------------
 RED CRESTS|20|20|20|20|20
 BLUE CRESTS|20|20|20|20|20

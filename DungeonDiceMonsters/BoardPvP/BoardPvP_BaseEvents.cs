@@ -319,12 +319,13 @@ namespace DungeonDiceMonsters
             bool CanCardAttack(Card thiscard, PlayerData TurnPlayerData)
             {
                 //Determine if this card can attack if:
-                // 1. Has Attacks available left
-                // 2. Player has enough atack crest to pay its cost
-                // 3. Card is a monster
+                // 1. It has NO CannotAttackCounters
+                // 2. Has Attacks available left
+                // 3. Player has enough atack crest to pay its cost
+                // 4. Card is a monster
 
                 //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
+                if (thiscard.CannotAttackCounters > 0 || thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
                 {
                     return false;
                 }
@@ -741,6 +742,10 @@ namespace DungeonDiceMonsters
                 if (effectsToBeRemove.Count == 0) { UpdateEffectLogs("No effects to remove."); }
                 UpdateEffectLogs("-----------------------------------------------------------------------------------------");
 
+                //Check for Continuous effects that react to the end phase
+                UpdateEffectLogs("----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase");
+                ResolveEffectsWithEndPhaseReactionTo();
+
                 //All 1 turn data is reset for all monsters on the board
                 //and All non-permanent spellbound counters are reduced.
                 UpdateEffectLogs("----------------------END PHAESE: Checking for Spellbound Counters Removal");
@@ -1114,6 +1119,15 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.Polymerization_Ignition: return Polymerization_MetsRequirement();
                         case Effect.EffectID.FireKraken_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.CocoonofEvolution_Ignition: return CardHasAtLeastTurnCountersAmount(2);
+                        case Effect.EffectID.CocconofUltraEvolution_Ignition: return PlayerHasOneCardNamed("Insect Queen");
+                        case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTarget(Type.Insect);
+                        case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
+                        case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.PinchHopper_Ingnition: return TurnPLayerHasAnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
+                        case Effect.EffectID.UltimateInsectLV3_Ignition: return UltimateInsectLv3();
+                        case Effect.EffectID.UltimateInsectLV5_Ignition: return UltimateInsectLv5();
                         default: return "Requirements Met";
                     }
 
@@ -1184,7 +1198,7 @@ namespace DungeonDiceMonsters
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget)
                             {
                                 monsterFound = true;
                                 break;
@@ -1200,6 +1214,172 @@ namespace DungeonDiceMonsters
                             return "No opponent monster to target.";
                         }
                     }
+                    string TurnPLayerHasAnyOneMonsterThatCanBeTarget()
+                    {
+                        //REQUIREMENT: Turn Player must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == TURNPLAYER && thisBoardCard.CanBeTarget)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
+                    string OpponentHasOneMonsterTypeThatCanBeTarget(Type targetType)
+                    {
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
+                                thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
+                    string PlayerHasOneCardNamed(string name)
+                    {
+                        //REQUIREMENT: Owner must control an "name" card
+                        bool queenFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Name == name)
+                            {
+                                queenFound = true;
+                                break;
+                            }
+                        }
+
+                        if (queenFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return string.Format("Not a \"{0}\" under your control.", name);
+                        }
+                    }
+                    string CardHasAtLeastTurnCountersAmount(int amount)
+                    {
+                        if (thisCard.TurnCounters >= amount)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "Not enought Turn Counters";
+                        }
+                    }
+                    string ThereAreUnocuppiedTiles()
+                    {
+                        bool unoccupiedtileFound = false;
+                        foreach(Tile thisTile in _Tiles)
+                        {
+                            if(thisTile.IsActive && !thisTile.IsOccupied)
+                            {
+                                unoccupiedtileFound = true;
+                                break;
+                            }
+                        }
+
+                        if (unoccupiedtileFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No available tiles.";
+                        }
+                    }
+                    string UltimateInsectLv1()
+                    {
+                        if(thisCard.TurnCounters >= 1)
+                        {
+                            //Then check if there is no other "Ultima Insect" monster you control
+                            bool anotherOneFound = false;
+                            foreach(Card thisCardOnBoard in _CardsOnBoard)
+                            {
+                                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard != thisCard && thisCardOnBoard.Name.Contains("Ultimate Insect"))
+                                {
+                                    anotherOneFound = true;
+                                }
+                            }
+
+                            if(anotherOneFound)
+                            {
+                                return "Cannot activate while there is another \"Ultimate Insect\" monster under your control.";
+                            }
+                            else
+                            {
+                                return "Requirements Met";
+                            }
+                        }
+                        else
+                        {
+                            return "Not enough Turn Counters.";
+                        }
+                    }
+                    string UltimateInsectLv3()
+                    {
+                        if(thisCard.WasTransformedInto)
+                        {
+                            if (thisCard.TurnCounters >= 2)
+                            {
+                                return "Requirements Met";
+                            }
+                            else
+                            {
+                                return "Not enough Turn Counters.";
+                            }
+                        }
+                        else
+                        {
+                            return "Monster was not transformed into. Effect cant activate.";
+                        }                        
+                    }
+                    string UltimateInsectLv5()
+                    {
+                        if (thisCard.WasTransformedInto)
+                        {
+                            if (thisCard.TurnCounters >= 3)
+                            {
+                                return "Requirements Met";
+                            }
+                            else
+                            {
+                                return "Not enough Turn Counters.";
+                            }
+                        }
+                        else
+                        {
+                            return "Monster was not transformed into. Effect cant activate.";
+                        }
+                    }
+                
                 }
             }
         }

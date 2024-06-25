@@ -3,6 +3,8 @@
 //Card Class
 
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Media.Converters;
 
 namespace DungeonDiceMonsters
 {
@@ -29,6 +31,7 @@ namespace DungeonDiceMonsters
             void InitializeMultableDataFields()
             {
                 _CurrentAttribute = _cardInfo.Attribute;
+                _CurrentType = _cardInfo.Type;
             }
             void ApplyAbility()
             {
@@ -45,6 +48,16 @@ namespace DungeonDiceMonsters
                     case "Attacks per Turn: 3": _BaseAttacksPerTurn = 3; break;
                     case "Moves per Turn: 2": _BaseMovesPerTurn = 2; break;
                     case "Moves per Turn: 3": _BaseMovesPerTurn = 3; break;
+                    case "Cannot Move": _CannotMoveCounters = 1; break;
+                    case "Move Range: 2": _MoveRange = 2; break;
+                    case "Move Range: 3": _MoveRange = 3; break;
+                    case "Move Range: 4": _MoveRange = 4; break;
+                    case "Move Range: 5": _MoveRange = 5; break;
+                    case "Attack Range: 1": _AttackRange = 1; break;
+                    case "Attack Range: 2": _AttackRange = 2; break;
+                    case "Attack Range: 3": _AttackRange = 3; break;
+                    case "Attack Range: 4": _AttackRange = 4; break;
+                    case "Attack Range: 5": _AttackRange = 5; break;
                 }
                 ResetOneTurnData();
             }
@@ -71,11 +84,29 @@ namespace DungeonDiceMonsters
         public int CardID { get { return _cardInfo.ID; } }
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
-        public Type Type { get { return _cardInfo.Type; } }
-        public string TypeAsString { get { return _cardInfo.TypeAsString; } }
+        public Type OriginalType { get { return _cardInfo.Type; } }
+        public Type Type { get { return _CurrentType; } }
+        public string OriginalTypeAsString { get { return _cardInfo.TypeAsString; } }
+        public string TypeAsString { get { return CardInfo.GetMonsterTypeAsString(_CurrentType); } }
         public SecType SecType { get { return _cardInfo.SecType; } }
-        public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
-        public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
+        public int ATK
+        { 
+            get 
+            {
+                int finalAttack = _cardInfo.ATK + _AttackBonus;
+                if (finalAttack < 0) finalAttack = 0;
+                return finalAttack;
+            }
+        }
+        public int DEF 
+        { 
+            get 
+            {
+                int finalDefense = _cardInfo.DEF + _DefenseBonus;
+                if (finalDefense < 0) finalDefense = 0;
+                return finalDefense;
+            } 
+        }
         public int OriginalATK { get { return _cardInfo.ATK; } }
         public int OriginalDEF { get { return _cardInfo.DEF; } }
         public int LP { get { return _CurrentLP; } }
@@ -109,6 +140,7 @@ namespace DungeonDiceMonsters
         public bool IsFaceDown { get { return _IsFaceDown; } }
         public bool IsDiscardted { get { return _IsDestroyed; } }
         public bool IsASymbol { get { return _IsASymbol; } }
+        public bool IsAMonster { get { return !_IsASymbol && _CurrentAttribute != Attribute.SPELL && _CurrentAttribute != Attribute.TRAP; } }
         public bool WasTransformedInto { get { return _WasTransformedInto; } }
         public bool IsUnderSpellbound { get { return _IsUnderSpellbound; } }
         public bool IsPermanentSpellbound { get { return _IsPemanentSpellbound; } }
@@ -121,9 +153,30 @@ namespace DungeonDiceMonsters
 
         #region On Board Counters and Flags
         public bool CanBeTarget { get { return _CanBeTarget; } }
-        public int MoveCost { get { return _MoveCost; } }
-        public int AttackCost { get { return _AttackCost; } }
-        public int DefenseCost { get { return _DefenseCost; } }
+        public int MoveCost
+        { 
+            get 
+            {
+                int finalcost = _BaseMoveCost + _MoveCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            } 
+        }
+        public int AttackCost 
+        {
+            get
+            {
+                int finalcost = _BaseAttackCost + _AttackCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            }
+        }
+        public int DefenseCost 
+        {
+            get
+            {
+                int finalcost = _BaseDefenseCost + _DefenseCostBonus;
+                if (finalcost < 1) { return 1; } else { return finalcost; }
+            }
+        }
         public int MovesAvaiable { get { return _MovesAvailable; } }
         public int AttacksAvaiable { get { return _AttacksAvailable; } }
         public int AttacksPerTurn { get { return _BaseAttacksPerTurn; } }
@@ -144,6 +197,7 @@ namespace DungeonDiceMonsters
                 if (finalRange < 1) { return 1; } else { return finalRange; }
             }
         }
+        public int CannotAttackCounters { get { return _CannotAttackCounters; } }
         public int CannotMoveCounters { get { return _CannotMoveCounters; } }
         #endregion
 
@@ -166,9 +220,6 @@ namespace DungeonDiceMonsters
         }
         public void ResetOneTurnData()
         {
-            _MoveCost = _BaseMoveCost;
-            _AttackCost = _BaseAttackCost;
-            _DefenseCost = _BaseDefenseCost;
             _MovesAvailable = _BaseMovesPerTurn;
             _AttacksAvailable = _BaseAttacksPerTurn;
             _EffectUsedThisTurn = false;
@@ -230,7 +281,10 @@ namespace DungeonDiceMonsters
         }
         public void ReloadTileUI()
         {
-            _CurrentTile.ReloadTileUI();
+            if(!_IsDestroyed)
+            {
+                _CurrentTile.ReloadTileUI();
+            }           
         }
         public void UpdateFieldTypeBonus()
         {
@@ -240,37 +294,37 @@ namespace DungeonDiceMonsters
             switch (currentFieldType) 
             {
                 case Tile.FieldTypeValue.Mountain:
-                    if (_cardInfo.Type == Type.Dragon || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.WingedBeast) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Dragon || _CurrentType == Type.Thunder || _CurrentType == Type.WingedBeast) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Sogen:
-                    if (_cardInfo.Type == Type.BeastWarrior || _cardInfo.Type == Type.Warrior) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.BeastWarrior || _CurrentType == Type.Warrior) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Forest:
-                    if (_cardInfo.Type == Type.Insect || _cardInfo.Type == Type.Beast || _cardInfo.Type == Type.Plant || _cardInfo.Type == Type.BeastWarrior) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Insect || _CurrentType == Type.Beast || _CurrentType == Type.Plant || _CurrentType == Type.BeastWarrior) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Wasteland:
-                    if (_cardInfo.Type == Type.Dinosaur || _cardInfo.Type == Type.Zombie || _cardInfo.Type == Type.Rock) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Dinosaur || _CurrentType == Type.Zombie || _CurrentType == Type.Rock) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Yami:
-                    if (_cardInfo.Type == Type.Fiend || _cardInfo.Type == Type.Spellcaster || _cardInfo.Type == Type.Illusion) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fiend || _CurrentType == Type.Spellcaster || _CurrentType == Type.Illusion) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Umi:
-                    if (_cardInfo.Type == Type.Fish || _cardInfo.Type == Type.SeaSerpent || _cardInfo.Type == Type.Thunder || _cardInfo.Type == Type.Aqua) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fish || _CurrentType == Type.SeaSerpent || _CurrentType == Type.Thunder || _CurrentType == Type.Aqua) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Volcano:
-                    if (_cardInfo.Type == Type.Pyro) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Pyro) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Swamp:
-                    if (_cardInfo.Type == Type.Reptile || _cardInfo.Type == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Reptile || _CurrentType == Type.Wyrm) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Cyberworld:
-                    if (_cardInfo.Type == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Cyberse) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Sanctuary:
-                    if (_cardInfo.Type == Type.Fairy) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Fairy) { willReceiveFieldTypeBonus = true; }
                     break;
                 case Tile.FieldTypeValue.Scrapyard:
-                    if (_cardInfo.Type == Type.Machine) { willReceiveFieldTypeBonus = true; }
+                    if (_CurrentType == Type.Machine) { willReceiveFieldTypeBonus = true; }
                     break;
                 default: willReceiveFieldTypeBonus = false; break;
             }
@@ -319,6 +373,11 @@ namespace DungeonDiceMonsters
         {
             _CurrentAttribute = newAttribute;
         }
+        public void ChangeMonsterType(Type newType)
+        {
+            _CurrentType = newType;
+            UpdateFieldTypeBonus();
+        }
         public void ResetAttribute()
         {
             _CurrentAttribute = _cardInfo.Attribute;
@@ -347,9 +406,33 @@ namespace DungeonDiceMonsters
         {
             return !_IsUnderSpellbound && _CannotMoveCounters == 0 && _MovesAvailable >= 1;
         }
+        public void AddCannotAttackCounter()
+        {
+            _CannotAttackCounters++;
+        }
+        public void RemoveCannotAttackCounter()
+        {
+            _CannotAttackCounters--;
+        }
         public void AddCannotMoveCounter()
         {
             _CannotMoveCounters++;
+        }
+        public void PlaceTurnCounter()
+        {
+            _TurnCounters++;
+        }
+        public void AdjustAttackCostBonus(int amount)
+        {
+            _AttackCostBonus += amount;
+        }
+        public void AdjustDefenseCostBonus(int amount)
+        {
+            _DefenseCostBonus += amount;
+        }
+        public void AdjustMoveCostBonus(int amount)
+        {
+            _MoveCostBonus += amount;
         }
         #endregion
 
@@ -372,25 +455,27 @@ namespace DungeonDiceMonsters
 
         //Mutable data fields
         private Attribute _CurrentAttribute;
+        private Type _CurrentType;
 
-        //Base Amounts for Counters and Costs (Abilities)
+        //Action Costs
         private int _BaseMoveCost = 1;
         private int _BaseAttackCost = 1;
         private int _BaseDefenseCost = 1;
+        private int _MoveCostBonus = 0;
+        private int _AttackCostBonus = 0;
+        private int _DefenseCostBonus = 0;
+
+        //Counters and Costs
         private int _BaseMovesPerTurn = 1;
         private int _BaseAttacksPerTurn = 1;
         private bool _CanBeTarget = true;
-       
-        //Counters and Costs
-        private int _MoveCost = 1;
-        private int _AttackCost = 1;
-        private int _DefenseCost = 1;
         private int _MovesAvailable = 1;
         private int _AttacksAvailable = 1;
         private int _TurnCounters = 0;
         private int _Counters = 0;
         private int _SpellboundCounter = 0;
         private bool _EffectUsedThisTurn = false;
+        private int _CannotAttackCounters = 0;
         private int _CannotMoveCounters = 0;
 
         //Spellbound Data
