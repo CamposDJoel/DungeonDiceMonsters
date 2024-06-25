@@ -2044,6 +2044,7 @@ namespace DungeonDiceMonsters
             CockroachKnightEffect,
             PinchHopperEffect,
             ParasiteParacideEffect,
+            EradicatingAerosolEffect,
         }
         private enum SummonType
         {

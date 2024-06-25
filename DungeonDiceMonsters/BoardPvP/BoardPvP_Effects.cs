@@ -110,6 +110,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV5_Ignition: UltimateInsectLV5_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break; 
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -302,6 +303,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.CockroachKnightEffect: CockroachKnight_PostTargetEffect(TargetTile); break;
                 case PostTargetState.PinchHopperEffect: PinchHopper_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
+                case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -4145,6 +4147,49 @@ namespace DungeonDiceMonsters
             }
 
             _ActiveEffects.Remove(thisEffect);
+        }
+        #endregion
+
+        #region Eradicating Aerosol
+        private void EradicatingAerosol_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 Normal Insect type monster your opponent controls with 2000 or less ATK; Spellbound it permanently. 
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.EradicatingAerosolEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void EradicatingAerosol_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Spellbound the monster permanently
+            SpellboundCard(TargetTile.CardInPlace, 99);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded permanently.");
+
+            //Destroy the card once done
+            DestroyCard(_CurrentTileSelected);
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

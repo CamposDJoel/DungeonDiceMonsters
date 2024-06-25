@@ -173,6 +173,7 @@ namespace DungeonDiceMonsters
                 case "Ultimate Insect LV5": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV5_Continuous; } else { return EffectID.UltimateInsectLV5_Ignition; }
                 case "Ultimate Insect LV7": return EffectID.UltimateInsectLV7_Continuous;
                 case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
+                case "Eradicating Aerosol": return EffectID.EradicatingAerosol_Ignition;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -294,6 +295,7 @@ namespace DungeonDiceMonsters
             UltimateInsectLV5_Ignition,
             UltimateInsectLV7_Continuous,
             InsectBarrier_Continuous,
+            EradicatingAerosol_Ignition,
         }
         #endregion
     }
