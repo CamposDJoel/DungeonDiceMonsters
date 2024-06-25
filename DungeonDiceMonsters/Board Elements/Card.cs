@@ -89,8 +89,24 @@ namespace DungeonDiceMonsters
         public string OriginalTypeAsString { get { return _cardInfo.TypeAsString; } }
         public string TypeAsString { get { return CardInfo.GetMonsterTypeAsString(_CurrentType); } }
         public SecType SecType { get { return _cardInfo.SecType; } }
-        public int ATK { get { return _cardInfo.ATK + _AttackBonus; } }
-        public int DEF { get { return _cardInfo.DEF + _DefenseBonus; } }
+        public int ATK
+        { 
+            get 
+            {
+                int finalAttack = _cardInfo.ATK + _AttackBonus;
+                if (finalAttack < 0) finalAttack = 0;
+                return finalAttack;
+            }
+        }
+        public int DEF 
+        { 
+            get 
+            {
+                int finalDefense = _cardInfo.DEF + _DefenseBonus;
+                if (finalDefense < 0) finalDefense = 0;
+                return finalDefense;
+            } 
+        }
         public int OriginalATK { get { return _cardInfo.ATK; } }
         public int OriginalDEF { get { return _cardInfo.DEF; } }
         public int LP { get { return _CurrentLP; } }
@@ -181,6 +197,7 @@ namespace DungeonDiceMonsters
                 if (finalRange < 1) { return 1; } else { return finalRange; }
             }
         }
+        public int CannotAttackCounters { get { return _CannotAttackCounters; } }
         public int CannotMoveCounters { get { return _CannotMoveCounters; } }
         #endregion
 
@@ -386,6 +403,14 @@ namespace DungeonDiceMonsters
         {
             return !_IsUnderSpellbound && _CannotMoveCounters == 0 && _MovesAvailable >= 1;
         }
+        public void AddCannotAttackCounter()
+        {
+            _CannotAttackCounters++;
+        }
+        public void RemoveCannotAttackCounter()
+        {
+            _CannotAttackCounters--;
+        }
         public void AddCannotMoveCounter()
         {
             _CannotMoveCounters++;
@@ -447,6 +472,7 @@ namespace DungeonDiceMonsters
         private int _Counters = 0;
         private int _SpellboundCounter = 0;
         private bool _EffectUsedThisTurn = false;
+        private int _CannotAttackCounters = 0;
         private int _CannotMoveCounters = 0;
 
         //Spellbound Data

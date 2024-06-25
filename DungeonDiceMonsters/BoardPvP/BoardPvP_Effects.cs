@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Media;
 
@@ -102,7 +104,13 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.ParasiteParacide_OnSummon: ParasiteParacide_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV1_Ignition: UltimateInsectLV1_IgnitionActivation(thisEffect); break;
-                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function"));
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Ignition: UltimateInsectLV3_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Ignition: UltimateInsectLV5_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousActivation(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
+                default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
         }
@@ -124,6 +132,10 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;   
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -143,6 +155,10 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -352,6 +368,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_MonsterTypeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -401,6 +418,10 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.InsectSoldiersoftheSky_Continuous: InsectSoldiersoftheSky_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
@@ -434,17 +455,28 @@ namespace DungeonDiceMonsters
         }
         private void ResolveEffectsWithEndPhaseReactionTo()
         {
+            List<Effect> EffectsThatWillReact = new List<Effect>();
+
+
             foreach (Effect thisActiveEffect in _ActiveEffects)
-            {
+            {              
                 if (thisActiveEffect.ReactsToEndPhase)
                 {
-                    UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
-                    switch (thisActiveEffect.ID)
-                    {
-                        case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ReactTo_EndPhase(thisActiveEffect); break;
-                        case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ReactTo_EndPhase(thisActiveEffect); break;
-                        default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_EndPhase] Function", thisActiveEffect.ID));
-                    }
+                    EffectsThatWillReact.Add(thisActiveEffect);                   
+                }
+            }
+
+            foreach(Effect thisActiveEffect in EffectsThatWillReact)
+            {
+                UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
+                switch (thisActiveEffect.ID)
+                {
+                    case Effect.EffectID.CocoonofEvolution_Continuous: CocoonofEvolution_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV1_Continuous: UltimateInsectLV1_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_EndPhase(thisActiveEffect); break;
+                    case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_EndPhase(thisActiveEffect); break;
+                    default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_EndPhase] Function", thisActiveEffect.ID));
                 }
             }
         }
@@ -3357,7 +3389,7 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
                 {
                     activationRequirementsMet = true;
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
@@ -3476,6 +3508,643 @@ namespace DungeonDiceMonsters
             //EFFECT DESCRIPTION:  If this monster has 1 or more Turn Counters and you do not control
             //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV3” (ID 34088136)
             TransformMonster(_EffectOriginTile, 34088136);                   
+        }
+        #endregion
+
+        #region Ultimate Insect LV3
+        private void UltimateInsectLV3_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 100 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if(thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-100);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+            
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV3_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 100 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-100);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV3_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV3_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 100 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 100 ATK
+                targetCard.AdjustAttackBonus(-100);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 100 ATK.");
+            }
+        }
+        private void UltimateInsectLV3_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 100 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(100);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 100 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-100);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 100 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }               
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 100 ATk
+                if(targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-100);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 100 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 100 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(100);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 100 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV3_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach(Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(100);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 100 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV3_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 1 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV5” (ID 34830502)
+            TransformMonster(_EffectOriginTile, 34830502);
+        }
+        #endregion
+
+        #region Ultimate Insect LV5
+        private void UltimateInsectLV5_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 500 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-500);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV5_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 500 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-500);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV5_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases, place 1 Turn Counter on it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void UltimateInsectLV5_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 500 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 100 ATK
+                targetCard.AdjustAttackBonus(-500);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 500 ATK.");
+            }
+        }
+        private void UltimateInsectLV5_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 500 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(500);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 500 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-500);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 500 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 300 ATk
+                if (targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-500);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 500 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 500 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(500);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 500 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV5_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach (Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(500);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 500 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        private void UltimateInsectLV5_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION:  If this monster has 3 or more Turn Counters and you do not control
+            //another “Ultimate Insect” monster; Transform this monster into “Ultimate Insect LV7” (ID 19877898)
+            TransformMonster(_EffectOriginTile, 19877898);
+        }
+        #endregion
+
+        #region Ultimate Insect LV7
+        private void UltimateInsectLV7_ContinuousActivation(Effect thisEffect)
+        {
+            //Step 1: Display Effect Menu display
+            DisplayOnSummonContinuousEffectPanel(thisEffect);
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 700 ATK.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-700);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 700.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Step 5: Hide the Effect Menu panel
+            HideEffectMenuPanel();
+            //Enter Summon phase 4
+            SummonMonster_Phase4(thisEffect.OriginCard);
+        }
+        private void UltimateInsectLV7_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: If this monster was transformed into, all monsters your opponent controls lose 700 ATK.
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it.
+            if (thisEffect.OriginCard.WasTransformedInto)
+            {
+                bool effectAppliedToAtLeastOneCard = false;
+                foreach (Card thisCard in _CardsOnBoard)
+                {
+                    if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                    {
+                        effectAppliedToAtLeastOneCard = true;
+                        thisCard.AdjustAttackBonus(-700);
+                        thisEffect.AddAffectedByCard(thisCard);
+                        UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 700.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                    }
+                }
+                if (!effectAppliedToAtLeastOneCard) { UpdateEffectLogs("No Cards were affected by it."); }
+            }
+            else
+            {
+                UpdateEffectLogs("Origin Card was NOT transform into, ATK reduction effect will not apply.");
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UltimateInsectLV7_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summoned is controlled by the opponent, it loses 700 ATK
+            if (targetCard.Controller != thisEffect.Owner && targetCard.IsAMonster)
+            {
+                //It loses 700 ATK
+                targetCard.AdjustAttackBonus(-700);
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card loses 700 ATK.");
+            }
+        }
+        private void UltimateInsectLV7_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            if (targetCard == thisEffect.OriginCard)
+            {
+                if (thisEffect.OriginCard.WasTransformedInto)
+                {
+                    UpdateEffectLogs("The origin card control was change, all monsters in the affected by list gain their 700 ATK back.");
+                    foreach (Card affectByCard in thisEffect.AffectedByList)
+                    {
+                        affectByCard.AdjustAttackBonus(700);
+                        UpdateEffectLogs(string.Format("Affected by card [{0}] with OnBoardID [{1}] gained its 700 ATK back. - Card no longet affected by this effect.", affectByCard.Name, affectByCard.OnBoardID));
+                    }
+                    thisEffect.AffectedByList.Clear();
+
+                    //Reactivate the effect
+                    foreach (Card thisCard in _CardsOnBoard)
+                    {
+                        if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner)
+                        {
+                            thisCard.AdjustAttackBonus(-700);
+                            thisEffect.AddAffectedByCard(thisCard);
+                            UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card loses 700 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateEffectLogs("The origin card control was change, but it was not transformed into, effect wont react.");
+                }
+            }
+            else
+            {
+                //If the new controller of the target card is the opponent, it loses 700 ATk
+                if (targetCard.IsAMonster && targetCard.Controller != thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(-700);
+                    thisEffect.AddAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card loses 700 ATK.");
+                }
+
+                //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 700 ATK
+                if (targetCard.IsAMonster && targetCard.Controller == thisEffect.Owner)
+                {
+                    targetCard.AdjustAttackBonus(700);
+                    thisEffect.RemoveAffectedByCard(targetCard);
+                    UpdateEffectLogs("Effect Reacted: Target Card gains back its 700 ATK.");
+                }
+            }
+        }
+        private void UltimateInsectLV7_RemoveEffect(Effect thisEffect)
+        {
+            UpdateEffectLogs(string.Format("Effect [{0}] will be removed", thisEffect.ID));
+            //Remove this effect by restoring the ATK bonus off all the cards in the AffectedBy list
+
+            foreach (Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.AdjustAttackBonus(700);
+                UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] Controlled by [{2}] gained 700 ATK.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+            }
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list");
+        }
+        #endregion
+
+        #region Insect Barrier
+        private void InsectBarrier_ContinuousActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent controls cannot attack. During each of your opponent’s End Phases;
+            //place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            foreach (Card thisCard in _CardsOnBoard) 
+            { 
+                if(!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    thisCard.AddCannotAttackCounter();
+                    thisEffect.AffectedByList.Add(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - This monster received 1 cannot attack counter.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+            //Step 4: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+
+            //Now you can enter the main phase
+            EnterMainPhase();
+        }
+        private void InsectBarrier_ContinuousREActivation(Effect thisEffect)
+        {
+            //Set the "Reaction To" flags
+            thisEffect.ReactsToEndPhase = true;
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+            thisEffect.ReactsToMonsterTypeChange = true;
+
+            //Resolve the effect
+            //EFFECT DESCRIPTION: Insect type monsters you opponent controls cannot attack. During each of your opponent’s End Phases;
+            //place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner)
+                {
+                    thisCard.AddCannotAttackCounter();
+                    thisEffect.AffectedByList.Add(thisCard);
+                    UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - This monster cannot attack.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
+                }
+            }
+
+
+            //Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void InsectBarrier_ReactTo_EndPhase(Effect thisEffect)
+        {
+            //Reaction description: 
+            //During each of your opponent’s End Phases; place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.
+            if (TURNPLAYER != thisEffect.Owner)
+            {
+                //Open the effect reaction notification
+                DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it and if this card has 5 or more counters, destroy it.");
+                thisEffect.OriginCard.PlaceTurnCounter();
+                UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
+
+                //Validate if the Turn Counters have reached 5 yet.
+                if(thisEffect.OriginCard.TurnCounters >= 5)
+                {
+                    UpdateEffectLogs("Card now has 5 or more Turn Counters. This card will be destroyed.");
+                    DestroyCard(thisEffect.OriginCard.CurrentTile); 
+                }
+
+                //Now hide the reaction notification
+                HideReactionNotification();
+            }
+            else
+            {
+                UpdateEffectLogs("Is not the opponent's end phase, effect did not react.");
+            }
+        }
+        private void InsectBarrier_ReactTo_MonsterStatusChange(Effect thisEffect, Card targetCard)
+        {
+            //If the new controller of the target card is the opponent, AND it is an Insect Type monster. it cannot attack
+            if (targetCard.Controller != thisEffect.Owner && targetCard.Type == Type.Insect)
+            {
+                targetCard.AddCannotAttackCounter();
+                thisEffect.AddAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Card received 1 cannot attack counter.");
+            }
+
+            //if the new controller of the target card is now the turn player, remove the card from the affected by list and regains it 500 ATK
+            if (thisEffect.AffectedByList.Contains(targetCard) && targetCard.Controller == thisEffect.Owner)
+            {
+                targetCard.RemoveCannotAttackCounter();
+                thisEffect.RemoveAffectedByCard(targetCard);
+                UpdateEffectLogs("Effect Reacted: Target Card gets 1 cannot attack counter removed.");
+            }
+        }
+        private void InsectBarrier_RemoveEffect(Effect thisEffect)
+        {
+            foreach(Card thisCard in thisEffect.AffectedByList)
+            {
+                thisCard.RemoveCannotAttackCounter();
+            }
+
+            _ActiveEffects.Remove(thisEffect);
         }
         #endregion
     }

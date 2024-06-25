@@ -319,12 +319,13 @@ namespace DungeonDiceMonsters
             bool CanCardAttack(Card thiscard, PlayerData TurnPlayerData)
             {
                 //Determine if this card can attack if:
-                // 1. Has Attacks available left
-                // 2. Player has enough atack crest to pay its cost
-                // 3. Card is a monster
+                // 1. It has NO CannotAttackCounters
+                // 2. Has Attacks available left
+                // 3. Player has enough atack crest to pay its cost
+                // 4. Card is a monster
 
                 //Disable the Attack option if: Card is not a monster OR Monster has no available attacks OR Monster's Attack Cost is higher than [ATK] available.
-                if (thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
+                if (thiscard.CannotAttackCounters > 0 || thiscard.AttacksAvaiable == 0 || thiscard.AttackCost > TurnPlayerData.Crests_ATK || thiscard.Category != Category.Monster || thiscard.IsUnderSpellbound)
                 {
                     return false;
                 }
@@ -1125,6 +1126,8 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.PinchHopper_Ingnition: return TurnPLayerHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
+                        case Effect.EffectID.UltimateInsectLV3_Ignition: return UltimateInsectLv3();
+                        case Effect.EffectID.UltimateInsectLV5_Ignition: return UltimateInsectLv5();
                         default: return "Requirements Met";
                     }
 
@@ -1340,6 +1343,43 @@ namespace DungeonDiceMonsters
                             return "Not enough Turn Counters.";
                         }
                     }
+                    string UltimateInsectLv3()
+                    {
+                        if(thisCard.WasTransformedInto)
+                        {
+                            if (thisCard.TurnCounters >= 2)
+                            {
+                                return "Requirements Met";
+                            }
+                            else
+                            {
+                                return "Not enough Turn Counters.";
+                            }
+                        }
+                        else
+                        {
+                            return "Monster was not transformed into. Effect cant activate.";
+                        }                        
+                    }
+                    string UltimateInsectLv5()
+                    {
+                        if (thisCard.WasTransformedInto)
+                        {
+                            if (thisCard.TurnCounters >= 3)
+                            {
+                                return "Requirements Met";
+                            }
+                            else
+                            {
+                                return "Not enough Turn Counters.";
+                            }
+                        }
+                        else
+                        {
+                            return "Monster was not transformed into. Effect cant activate.";
+                        }
+                    }
+                
                 }
             }
         }

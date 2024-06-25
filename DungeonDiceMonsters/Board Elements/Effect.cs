@@ -169,6 +169,10 @@ namespace DungeonDiceMonsters
                 case "Pinch Hopper": return EffectID.PinchHopper_Ingnition;
                 case "Parasite Paracide": return EffectID.ParasiteParacide_OnSummon;
                 case "Ultimate Insect LV1": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV1_Continuous; } else { return EffectID.UltimateInsectLV1_Ignition; }
+                case "Ultimate Insect LV3": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV3_Continuous; } else { return EffectID.UltimateInsectLV3_Ignition; }
+                case "Ultimate Insect LV5": if (type == EffectType.Continuous) { return EffectID.UltimateInsectLV5_Continuous; } else { return EffectID.UltimateInsectLV5_Ignition; }
+                case "Ultimate Insect LV7": return EffectID.UltimateInsectLV7_Continuous;
+                case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -284,6 +288,12 @@ namespace DungeonDiceMonsters
             ParasiteParacide_OnSummon,
             UltimateInsectLV1_Continuous,
             UltimateInsectLV1_Ignition,
+            UltimateInsectLV3_Continuous,
+            UltimateInsectLV3_Ignition,
+            UltimateInsectLV5_Continuous,
+            UltimateInsectLV5_Ignition,
+            UltimateInsectLV7_Continuous,
+            InsectBarrier_Continuous,
         }
         #endregion
     }

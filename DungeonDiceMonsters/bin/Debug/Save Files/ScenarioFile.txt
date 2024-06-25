@@ -20,7 +20,7 @@ BLUE MONSTERS|4
 RED SET CARDS|3
 77840540|188|Coccon
 24094653|104|Polymerization
-24094653|201|Poly
+23615409|201|Insect Barrier
 ----------------------------------------
 BLUE SET CARDS|2
 87430998|19|Forest
