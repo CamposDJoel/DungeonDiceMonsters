@@ -70,6 +70,7 @@
             this.PicBlueMovImage = new System.Windows.Forms.PictureBox();
             this.btnGoToBoard = new System.Windows.Forms.Button();
             this.GroupDiceInfo = new System.Windows.Forms.GroupBox();
+            this.PicCardMonsterType = new System.Windows.Forms.PictureBox();
             this.PicCardAttribute = new System.Windows.Forms.PictureBox();
             this.PanelCardText = new System.Windows.Forms.Panel();
             this.lblCardText = new System.Windows.Forms.Label();
@@ -87,7 +88,6 @@
             this.lblCardName = new System.Windows.Forms.Label();
             this.PicCardArtwork = new System.Windows.Forms.PictureBox();
             this.lblInactiveWarning = new System.Windows.Forms.Label();
-            this.PicCardMonsterType = new System.Windows.Forms.PictureBox();
             this.PanelDeck.SuspendLayout();
             this.GroupDicesToRoll.SuspendLayout();
             this.PanelDice3.SuspendLayout();
@@ -106,6 +106,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).BeginInit();
             this.GroupDiceInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).BeginInit();
             this.PanelCardText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).BeginInit();
@@ -115,7 +116,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelDeck
@@ -262,9 +262,9 @@
             this.lblNoSummonTilesWarning.ForeColor = System.Drawing.Color.Red;
             this.lblNoSummonTilesWarning.Location = new System.Drawing.Point(70, 159);
             this.lblNoSummonTilesWarning.Name = "lblNoSummonTilesWarning";
-            this.lblNoSummonTilesWarning.Size = new System.Drawing.Size(276, 12);
+            this.lblNoSummonTilesWarning.Size = new System.Drawing.Size(225, 12);
             this.lblNoSummonTilesWarning.TabIndex = 24;
-            this.lblNoSummonTilesWarning.Text = "Warning: No free summon tiles to set Spell/Traps.";
+            this.lblNoSummonTilesWarning.Text = "Warning: No Spell/Trap Zones Available.";
             this.lblNoSummonTilesWarning.Visible = false;
             // 
             // btnDice3Ritual
@@ -629,6 +629,16 @@
             this.GroupDiceInfo.TabStop = false;
             this.GroupDiceInfo.Text = "Card Info";
             // 
+            // PicCardMonsterType
+            // 
+            this.PicCardMonsterType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicCardMonsterType.Location = new System.Drawing.Point(140, 51);
+            this.PicCardMonsterType.Name = "PicCardMonsterType";
+            this.PicCardMonsterType.Size = new System.Drawing.Size(25, 25);
+            this.PicCardMonsterType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicCardMonsterType.TabIndex = 48;
+            this.PicCardMonsterType.TabStop = false;
+            // 
             // PicCardAttribute
             // 
             this.PicCardAttribute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -796,16 +806,6 @@
             this.lblInactiveWarning.Text = "Opponent is taking action...";
             this.lblInactiveWarning.Visible = false;
             // 
-            // PicCardMonsterType
-            // 
-            this.PicCardMonsterType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicCardMonsterType.Location = new System.Drawing.Point(140, 51);
-            this.PicCardMonsterType.Name = "PicCardMonsterType";
-            this.PicCardMonsterType.Size = new System.Drawing.Size(25, 25);
-            this.PicCardMonsterType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicCardMonsterType.TabIndex = 48;
-            this.PicCardMonsterType.TabStop = false;
-            // 
             // RollDiceMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -850,6 +850,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).EndInit();
             this.GroupDiceInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardAttribute)).EndInit();
             this.PanelCardText.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace6)).EndInit();
@@ -859,7 +860,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicDiceFace1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCardArtwork)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicCardMonsterType)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
