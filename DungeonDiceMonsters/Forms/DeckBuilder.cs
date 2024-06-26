@@ -18,7 +18,7 @@ namespace DungeonDiceMonsters
             InitializeComponent();
 
             //Initialize the Deck List Selector
-            _CurrentDeckSelected = DecksData.Decks[0];
+            _CurrentDeckSelected = DecksData.GetDeckAtIndex(0);
             InitializeStorageComponents();
             InitializeDeckComponents();
             listDeckList.SetSelected(0, true);
@@ -588,7 +588,7 @@ namespace DungeonDiceMonsters
         {
             //Change the current deck selected
             _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
-            _CurrentDeckSelected = DecksData.Decks[_CurrentDeckIndexSelected];
+            _CurrentDeckSelected = DecksData.GetDeckAtIndex(_CurrentDeckIndexSelected);
 
             //Reload both sides
             LoadDeckPage();

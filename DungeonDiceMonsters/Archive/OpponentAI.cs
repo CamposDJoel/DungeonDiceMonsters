@@ -14,7 +14,7 @@ namespace DungeonDiceMonsters
             List<int> selections = new List<int>();
 
             //Copy the deck data locally           
-            Deck localDeck = new Deck();
+            Deck localDeck = deck.GetCopy();
             for (int x = 0; x < deck.MainDeckSize; x++)
             {
                 localDeck.AddMainCard(deck.GetMainCardIDAtIndex(x));

@@ -16,6 +16,10 @@ namespace DungeonDiceMonsters
         #endregion
 
         #region Public Methods
+        public static void SetPlayerName(string playerName)
+        {
+            _PlayerName = playerName;
+        }
         public static void LoadGameData(string[] data)
         {
             _PlayerName = data[0];

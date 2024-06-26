@@ -100,7 +100,7 @@ namespace DungeonDiceMonsters
             GameData.LoadGameData(gamedata);
             lblPlayerName.Text = GameData.Name;
             lblStarChips.Text = GameData.StarChips.ToString();
-            DecksData.Decks[0].ChangeSymbol(Attribute.WATER);
+            DecksData.GetDeckAtIndex(0).ChangeSymbol(Attribute.WATER);
         }
     }
 }

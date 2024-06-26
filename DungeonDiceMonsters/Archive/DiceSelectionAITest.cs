@@ -27,44 +27,6 @@ namespace DungeonDiceMonsters
             {
                 CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
             }
-
-            //Deck Creation
-
-            DecksData.Decks[0] = new Deck();
-            DecksData.Decks[1] = new Deck();
-            DecksData.Decks[2] = new Deck();
-
-            //LV 1 cards
-            DecksData.Decks[0].AddMainCard(83464209);
-            DecksData.Decks[0].AddMainCard(92731455);
-            DecksData.Decks[0].AddMainCard(71625222);
-
-            //LV 2 cards
-            DecksData.Decks[0].AddMainCard(76184692);
-            DecksData.Decks[0].AddMainCard(44287299);
-            //DecksData.Decks[0].AddMainCard(68401546);
-
-            //LV3 cards
-            DecksData.Decks[0].AddMainCard(67284908);
-            DecksData.Decks[0].AddMainCard(85326399);
-            DecksData.Decks[0].AddMainCard(69780745);
-
-            //LV 4 cards
-            DecksData.Decks[0].AddMainCard(46986414);
-            DecksData.Decks[0].AddMainCard(17658803);
-            DecksData.Decks[0].AddMainCard(98434877);
-
-            //LV 5 cards
-            DecksData.Decks[0].AddMainCard(1);
-            DecksData.Decks[0].AddMainCard(2);
-            DecksData.Decks[0].AddMainCard(3);
-
-            //extras
-            /*DecksData.Decks[0].AddMainCard(88819587);
-            DecksData.Decks[0].AddMainCard(23771716);
-            DecksData.Decks[0].AddMainCard(28279543);
-            DecksData.Decks[0].AddMainCard(25955164);
-            DecksData.Decks[0].AddMainCard(48579379);*/
         }
 
         public List<int> GetDiceToRollSelection(Deck deck)
@@ -73,7 +35,7 @@ namespace DungeonDiceMonsters
             List<int> selections = new List<int>();
 
             //Copy the deck data locally           
-            Deck localDeck = new Deck();
+            Deck localDeck = new Deck("test", Attribute.WATER);
             for (int x = 0; x < deck.MainDeckSize; x++)
             {
                 localDeck.AddMainCard(deck.GetMainCardIDAtIndex(x));
@@ -196,7 +158,7 @@ namespace DungeonDiceMonsters
 
         private void btnRunTest_Click(object sender, EventArgs e)
         {
-            List<int> selection = GetDiceToRollSelection(DecksData.Decks[0]);
+            List<int> selection = GetDiceToRollSelection(DecksData.GetDeckAtIndex(0));
 
             lblSelectionCount.Text = "Selection Count: " + selection.Count;
 

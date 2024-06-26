@@ -84,7 +84,7 @@ namespace DungeonDiceMonsters
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {
             int _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
-            _CurrentDeckSelected = DecksData.Decks[_CurrentDeckIndexSelected];
+            _CurrentDeckSelected = DecksData.GetDeckAtIndex(_CurrentDeckIndexSelected);
             bool DeckIsReadyToUse = _CurrentDeckSelected.UseStatus;
 
             //Set the Ready flag
@@ -134,8 +134,7 @@ namespace DungeonDiceMonsters
                     Invoke(new MethodInvoker(delegate ()
                     {
                         _OpponentName = MessageTokens[1];
-                        _OpponentsDeck = new Deck();
-                        _OpponentsDeck.InitializeFromPVPData(MessageTokens[2]);
+                        _OpponentsDeck = new Deck(MessageTokens[2]);
                         lblBluePlayerName.Text = "Blue Player: " + GameData.Name;
                         lblRedPlayerName.Text = "Red Player: " + _OpponentName;
                         MyColor = PlayerColor.BLUE;
@@ -154,9 +153,7 @@ namespace DungeonDiceMonsters
                     Invoke(new MethodInvoker(delegate ()
                     {
                         _OpponentName = MessageTokens[1];
-                        _OpponentsDeck = new Deck();
-                        _OpponentsDeck = new Deck();
-                        _OpponentsDeck.InitializeFromPVPData(MessageTokens[2]);
+                        _OpponentsDeck = new Deck(MessageTokens[2]);
                         lblBluePlayerName.Text = "Blue Player: " + _OpponentName;
                         lblBluePlayerName.Visible = true;
                         MyColor = PlayerColor.RED;

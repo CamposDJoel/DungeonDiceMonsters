@@ -26,5 +26,12 @@ namespace DungeonDiceMonsters
 
             return cardtoreturn;
         }
+        public static int GetRandomCardID()
+        {
+            int cardDBCardCount = CardList.Count;
+            int rand = Rand.Range(0, cardDBCardCount);
+            return CardList[rand].ID;
+
+        }
     }
 }
