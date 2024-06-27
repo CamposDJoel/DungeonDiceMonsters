@@ -26,12 +26,6 @@ namespace DungeonDiceMonsters
 
             lblPvPDuel.MouseEnter += OnMouseEnterLabel;
             lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
-
-            if (!DecksData.HasOneReadyDeck())
-            {
-                lblMenuArcade.Visible = false;
-                lblMenuFreeDuel.Visible = false;
-            }
         }
         #endregion
 
