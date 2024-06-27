@@ -215,6 +215,21 @@ namespace DungeonDiceMonsters
             if (HasThirdFusionMaterial) { fusionMaterials.Add(FusionMaterial3); }
             return fusionMaterials;
         }
+        public bool HasThisCrest(Crest crest)
+        {
+            bool found = false;
+
+            foreach(Crest thisCrest in _Crest)
+            {
+                if(thisCrest.Equals(crest))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
         #endregion
 
         #region Private Data

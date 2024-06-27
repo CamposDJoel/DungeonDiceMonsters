@@ -381,27 +381,22 @@ namespace DungeonDiceMonsters
                 fullcardtext = fullcardtext + fusionMaterials + "\n\n";
             }
 
-            if (thisCard.HasOnSummonEffect)
-            {
-                fullcardtext = fullcardtext + "(ON SUMMON) - " + thisCard.OnSummonEffect + "\n\n";
-            }
-
             if (thisCard.HasAbility)
             {
                 fullcardtext = fullcardtext + "(ABILITY) - " + thisCard.Ability + "\n\n";
             }
-
-
+            if (thisCard.HasOnSummonEffect)
+            {
+                fullcardtext = fullcardtext + "(ON SUMMON) - " + thisCard.OnSummonEffect + "\n\n";
+            }          
             if (thisCard.HasContinuousEffect)
             {
                 fullcardtext = fullcardtext + "(CONTINUOUS) - " + thisCard.ContinuousEffect + "\n\n";
             }           
-
             if (thisCard.HasIgnitionEffect)
             {
                 fullcardtext = fullcardtext + "(EFFECT)" + thisCard.IgnitionEffect + "\n\n";
             }
-
             if (thisCard.HasTriggerEffect)
             {
                 fullcardtext = fullcardtext + "(TRIGGER)" + thisCard.TriggerEffect + "\n\n";

@@ -9,8 +9,12 @@ namespace DungeonDiceMonsters
 {
     public static class DecksData
     {
+        #region Data
         private static List<Deck> _Decks = new List<Deck> ();
+        #endregion
 
+        #region Public Methods
+        public static List<Deck> DecksList { get { return _Decks; } }
         public static void AddDeck(Deck newDeck)
         {
             _Decks.Add(newDeck);
@@ -64,6 +68,7 @@ namespace DungeonDiceMonsters
             starterDeck.AddMainCard(31447217);
             return starterDeck;
         }
+        #endregion
     }
 
     public class Deck
@@ -89,6 +94,7 @@ namespace DungeonDiceMonsters
                 case "WIND": Symbol = Attribute.WIND; break;
             }
 
+            _Name = data[24];
             ChangeSymbol(Symbol);
 
             for (int y = 0; y < 20; y++)
@@ -124,6 +130,7 @@ namespace DungeonDiceMonsters
                 case "WIND": Symbol = Attribute.WIND; break;
             }
 
+            _Name = data[24];
             ChangeSymbol(Symbol);
 
             for (int y = 0; y < 20; y++)
@@ -261,7 +268,9 @@ namespace DungeonDiceMonsters
             }
 
             //Set symbol
-            deckData = deckData + Symbol;
+            deckData = deckData + Symbol + "|";
+
+            deckData = deckData + Name;
             return deckData;
         }
         public string GetDataStringLineForPVP()
@@ -295,9 +304,27 @@ namespace DungeonDiceMonsters
             deckData = deckData + Symbol;
             return deckData;
         }
+        public void Rename(string newName)
+        {
+            _Name = newName;
+        }
+        public void SendAllCardsToStorage()
+        {
+            for (int x = 0; x < MainDeckSize; x++)
+            {
+                int cardId = GetMainCardIDAtIndex(x);
+                StorageData.AddCard(cardId);
+            }
+            for (int x = 0; x < FusionDeckSize; x++)
+            {
+                int cardId = GetFusionCardIDAtIndex(x);
+                StorageData.AddCard(cardId);
+            }
+        }
         #endregion
 
         #region Public Accessors
+        public string Name { get { return _Name; } }
         public int MainDeckSize { get { return _CardList.Count; } }
         public int FusionDeckSize { get { return _FusionList.Count; } }
         public int MonsterCardsCount { get { return _MonsterCardCount; } }

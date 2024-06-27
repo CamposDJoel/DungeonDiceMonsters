@@ -2,15 +2,23 @@
 //9/8/2023
 //Storage Data Class
 
+using System;
 using System.Collections.Generic;
 
 namespace DungeonDiceMonsters
 {
     public static class StorageData
     {
+        #region Data
         private static List<StorageSlot> Cards = new List<StorageSlot>();
+        #endregion
 
+        #region Public Method
         public static int GetCardID(int index)
+        {
+            return Cards[index].ID;
+        }
+        public static int GetCardIDInIndex(int index)
         {
             return Cards[index].ID;
         }
@@ -73,9 +81,121 @@ namespace DungeonDiceMonsters
         {
             return Cards.Count;
         }
+        public static List<StorageSlot> GetCardList()
+        {
+            return Cards;
+        }
+        public static List<StorageSlot> FilterByType(Type thisType)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards) 
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if(thisCardInfo.Type == thisType)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterBySpellType(Type thisType)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.Category == Category.Spell && thisCardInfo.Type == thisType)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByTrapType(Type thisType)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.Category == Category.Trap && thisCardInfo.Type == thisType)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByCardType(Category category)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.Category == category)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByMonsterSecType(SecType secType)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.Category == Category.Monster && thisCardInfo.SecType == secType)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByAttribute(Attribute attribute)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.Category == Category.Monster && thisCardInfo.Attribute == attribute)
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByText(string searchTerm)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                string cardname = thisCardInfo.Name;
+                cardname = cardname.ToLower();
+                searchTerm = searchTerm.ToLower();
+                if (cardname.Contains(searchTerm))
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        public static List<StorageSlot> FilterByCrest(Crest thisCrest)
+        {
+            List<StorageSlot> output = new List<StorageSlot>();
+            foreach (StorageSlot slot in Cards)
+            {
+                CardInfo thisCardInfo = CardDataBase.GetCardWithID(slot.ID);
+                if (thisCardInfo.HasThisCrest(thisCrest))
+                {
+                    output.Add(slot);
+                }
+            }
+            return output;
+        }
+        #endregion
     }
 
-    public class StorageSlot
+    public class StorageSlot: IComparable
     {
         public StorageSlot(int cardId)
         {
@@ -96,5 +216,106 @@ namespace DungeonDiceMonsters
 
         private int _CardId = 0;
         private int _Amount = 0;
+
+        public int CompareTo(object obj)
+        {
+            StorageSlot otherItem = obj as StorageSlot;
+            return otherItem._CardId.CompareTo(_CardId);
+        }
+        public class SortByCardNumber : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.CardNumber;
+                int cardNumber2 = card2.CardNumber;
+
+                if (cardNumber1 < cardNumber2) { return -1; }
+                else if (cardNumber1 > cardNumber2) { return 1; }
+                else { return 0; }
+            }
+        }
+        public class SortByCardName : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                string cardNumber1 = card1.Name;
+                string cardNumber2 = card2.Name;
+                return string.Compare(cardNumber1, cardNumber2);
+            }
+        }
+        public class SortByLP : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.LP;
+                int cardNumber2 = card2.LP;
+
+                if (cardNumber1 < cardNumber2) { return 1; }
+                else if (cardNumber1 > cardNumber2) { return -1; }
+                else { return 0; }
+            }
+        }
+        public class SortByATK : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.ATK;
+                int cardNumber2 = card2.ATK;
+
+                if (cardNumber1 < cardNumber2) { return 1; }
+                else if (cardNumber1 > cardNumber2) { return -1; }
+                else { return 0; }
+            }
+        }
+        public class SortByDEF : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.DEF;
+                int cardNumber2 = card2.DEF;
+
+                if (cardNumber1 < cardNumber2) { return 1; }
+                else if (cardNumber1 > cardNumber2) { return -1; }
+                else { return 0; }
+            }
+        }
+        public class SortByMonsterLV : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.Level;
+                int cardNumber2 = card2.Level;
+
+                if (cardNumber1 < cardNumber2) { return 1; }
+                else if (cardNumber1 > cardNumber2) { return -1; }
+                else { return 0; }
+            }
+        }
+        public class SortByDiceLV : IComparer<StorageSlot>
+        {
+            public int Compare(StorageSlot c1, StorageSlot c2)
+            {
+                CardInfo card1 = CardDataBase.GetCardWithID(c1.ID);
+                CardInfo card2 = CardDataBase.GetCardWithID(c2.ID);
+                int cardNumber1 = card1.DiceLevel;
+                int cardNumber2 = card2.DiceLevel;
+
+                if (cardNumber1 < cardNumber2) { return 1; }
+                else if (cardNumber1 > cardNumber2) { return -1; }
+                else { return 0; }
+            }
+        }
     }
 }
