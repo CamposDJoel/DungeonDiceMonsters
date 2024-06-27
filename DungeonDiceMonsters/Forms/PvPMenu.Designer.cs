@@ -111,7 +111,7 @@
             // PicDeckStatus
             // 
             this.PicDeckStatus.BackColor = System.Drawing.Color.Transparent;
-            this.PicDeckStatus.Location = new System.Drawing.Point(124, 72);
+            this.PicDeckStatus.Location = new System.Drawing.Point(122, 236);
             this.PicDeckStatus.Name = "PicDeckStatus";
             this.PicDeckStatus.Size = new System.Drawing.Size(22, 22);
             this.PicDeckStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -124,7 +124,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(7, 74);
+            this.label1.Location = new System.Drawing.Point(5, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 17);
             this.label1.TabIndex = 21;
@@ -132,14 +132,14 @@
             // 
             // listDeckList
             // 
+            this.listDeckList.BackColor = System.Drawing.Color.Black;
+            this.listDeckList.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listDeckList.ForeColor = System.Drawing.Color.Yellow;
             this.listDeckList.FormattingEnabled = true;
-            this.listDeckList.Items.AddRange(new object[] {
-            "DECK A",
-            "DECK B",
-            "DECK C"});
-            this.listDeckList.Location = new System.Drawing.Point(37, 28);
+            this.listDeckList.ItemHeight = 15;
+            this.listDeckList.Location = new System.Drawing.Point(6, 28);
             this.listDeckList.Name = "listDeckList";
-            this.listDeckList.Size = new System.Drawing.Size(86, 43);
+            this.listDeckList.Size = new System.Drawing.Size(142, 199);
             this.listDeckList.TabIndex = 20;
             this.listDeckList.SelectedIndexChanged += new System.EventHandler(this.listDeckList_SelectedIndexChanged);
             // 
@@ -149,7 +149,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(28, 8);
+            this.label2.Location = new System.Drawing.Point(5, 8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 17);
             this.label2.TabIndex = 23;
@@ -163,9 +163,9 @@
             this.PanelDeckSelection.Controls.Add(this.listDeckList);
             this.PanelDeckSelection.Controls.Add(this.PicDeckStatus);
             this.PanelDeckSelection.Controls.Add(this.label1);
-            this.PanelDeckSelection.Location = new System.Drawing.Point(315, 129);
+            this.PanelDeckSelection.Location = new System.Drawing.Point(12, 12);
             this.PanelDeckSelection.Name = "PanelDeckSelection";
-            this.PanelDeckSelection.Size = new System.Drawing.Size(158, 102);
+            this.PanelDeckSelection.Size = new System.Drawing.Size(158, 270);
             this.PanelDeckSelection.TabIndex = 24;
             // 
             // PvPMenu

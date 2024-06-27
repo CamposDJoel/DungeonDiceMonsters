@@ -1,12 +1,53 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PvPMenu.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs",
+              "RelativeDocumentMoniker": "Forms\\PvPMenu.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs",
+              "RelativeToolTip": "Forms\\PvPMenu.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T16:41:58.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PvPMenu.cs [Design]",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs",
+              "RelativeDocumentMoniker": "Forms\\PvPMenu.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs [Design]",
+              "RelativeToolTip": "Forms\\PvPMenu.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T16:40:28.525Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

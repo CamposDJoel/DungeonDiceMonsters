@@ -8,7 +8,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace DungeonDiceMonsters
 {
@@ -18,6 +17,16 @@ namespace DungeonDiceMonsters
         public PvPMenu()
         {
             InitializeComponent();
+
+            listDeckList.Items.Clear();
+            int iterator = 1;
+            foreach (Deck thisDeck in DecksData.DecksList) 
+            {
+                listDeckList.Items.Add(iterator + ". " + thisDeck.Name);
+                iterator++;
+            }
+
+
             listDeckList.SetSelected(0, true);
         }
         #endregion
@@ -83,6 +92,7 @@ namespace DungeonDiceMonsters
         }
         private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
             int _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
             _CurrentDeckSelected = DecksData.GetDeckAtIndex(_CurrentDeckIndexSelected);
             bool DeckIsReadyToUse = _CurrentDeckSelected.UseStatus;
