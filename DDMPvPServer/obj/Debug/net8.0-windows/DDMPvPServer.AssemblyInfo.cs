@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DDMPvPServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+840da63b488b9a8439a56a6df21aab462f5d24b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7b26d38b478a0570a1fb3377a5aa39f6b26c647")]
 [assembly: System.Reflection.AssemblyProductAttribute("DDMPvPServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DDMPvPServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

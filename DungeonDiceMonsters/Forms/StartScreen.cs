@@ -4,7 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -116,34 +118,12 @@ namespace DungeonDiceMonsters
             else
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
-                //To start a new game, give the player the starter deck and a sample card in storage
-                DecksData.Decks[0] = new Deck();
-                DecksData.Decks[1] = new Deck();
-                DecksData.Decks[2] = new Deck();
+                //Initialize the Player name
+                GameData.SetPlayerName(nameinput);
 
-                DecksData.Decks[0].AddMainCard(68401546);
-                DecksData.Decks[0].AddMainCard(68401546);
-                DecksData.Decks[0].AddMainCard(68401546);
-                DecksData.Decks[0].AddMainCard(75356564);
-                DecksData.Decks[0].AddMainCard(75356564);
-                DecksData.Decks[0].AddMainCard(75356564);
-                DecksData.Decks[0].AddMainCard(56342351);
-                DecksData.Decks[0].AddMainCard(56342351);
-                DecksData.Decks[0].AddMainCard(56342351);
-                DecksData.Decks[0].AddMainCard(83464209);
-                DecksData.Decks[0].AddMainCard(83464209);
-                DecksData.Decks[0].AddMainCard(83464209);
-                DecksData.Decks[0].AddMainCard(1);
-                DecksData.Decks[0].AddMainCard(2);
-                DecksData.Decks[0].AddMainCard(3);
-                DecksData.Decks[0].AddMainCard(32452818);
-                DecksData.Decks[0].AddMainCard(32452818);
-                DecksData.Decks[0].AddMainCard(32452818);
-                DecksData.Decks[0].AddMainCard(28279543);
-                DecksData.Decks[0].AddMainCard(28279543);
-
-                StorageData.AddCard(38142739);
-                StorageData.AddCard(44287299);
+                //To start a new game, give the player the starter deck and a sample card in storage              
+                DecksData.AddDeck(DecksData.GetStarterDeck());
+                StorageData.AddCard(CardDataBase.GetRandomCardID());
 
                 //Create the save file
                 SaveFileManger.WriteSaveFile();

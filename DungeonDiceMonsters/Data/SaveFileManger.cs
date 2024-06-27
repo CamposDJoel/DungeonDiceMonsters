@@ -19,18 +19,21 @@ namespace DungeonDiceMonsters
             string playerdata = string.Format("{0}|{1}", GameData.Name, GameData.StarChips);
             Lines.Add(playerdata);
 
-            //Line[1-2-3] : each line will hold the card list of each deck
-            for (int x = 0; x < DecksData.Decks.Length; x++)
+            //Line 1 : The total deck count
+            Lines.Add(DecksData.GetDecksCount().ToString());
+
+            //Line[2 - n] : each line will hold the card list of each deck
+            for (int x = 0; x < DecksData.GetDecksCount(); x++)
             {
-                string deckData = DecksData.Decks[x].GetDataStringLine();              
+                string deckData = DecksData.GetDeckAtIndex(x).GetDataStringLine();              
                 Lines.Add(deckData);
             }
 
-            //Line[4]: Storage card count
+            //Line[2+n + 1]: Storage card count
             int storageCardCount = StorageData.GetCardCount();
             Lines.Add(storageCardCount.ToString());
 
-            //Line [5 + n]: each card
+            //Line [storagecount + n]: each card
             for (int x = 0; x < storageCardCount; x++)
             {
                 int cardId = StorageData.GetCardID(x);
@@ -56,15 +59,17 @@ namespace DungeonDiceMonsters
             string[] gamedata = Line.Split('|');
             GameData.LoadGameData(gamedata);
 
+            //Line 1 : The total deck count
+            Line = SR_SaveFile.ReadLine();
+            int totalDeckCount = Convert.ToInt32(Line);
+
 
             //Line[1-2-3]: each line will hold the card list of each deck
-            for (int x = 0; x < DecksData.Decks.Length; x++)
+            for (int x = 0; x < totalDeckCount; x++)
             {
                 Line = SR_SaveFile.ReadLine();
                 string[] Tokens = Line.Split('|');
-
-                DecksData.Decks[x] = new Deck();
-                DecksData.Decks[x].InitializeFromSaveData(Tokens);
+                DecksData.AddDeck(new Deck(Tokens));
             }
 
             //Line[4]: Storage Card Count

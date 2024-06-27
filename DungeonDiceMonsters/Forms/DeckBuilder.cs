@@ -12,18 +12,18 @@ namespace DungeonDiceMonsters
     public partial class DeckBuilder : Form
     {
         #region Constructors
-        public DeckBuilder()
+        public DeckBuilder(Deck deck)
         {
-            SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, true);
             InitializeComponent();
 
             //Initialize the Deck List Selector
-            _CurrentDeckSelected = DecksData.Decks[0];
+            _CurrentDeckSelected = deck;
+            lblDeckName.Text = _CurrentDeckSelected.Name;
+            lblStorage.Text = "Page: 1";
             InitializeStorageComponents();
             InitializeDeckComponents();
-            listDeckList.SetSelected(0, true);
-
-            for (int x = 0; x < 30; x++)
+          
+            for (int x = 0; x < CARDS_PER_PAGE; x++)
             {
                 _StorageIDsInCurrentPage[x] = 0;
             }
@@ -32,7 +32,73 @@ namespace DungeonDiceMonsters
                 _DeckIDsInCurrentPage[x] = 0;
             }
 
-            LoadStoragePage();
+            btnExit.MouseEnter += OnMouseHover;
+            btnNext.MouseEnter += OnMouseHover;
+            btnPrevious.MouseEnter += OnMouseHover;
+            btnSymbolNext.MouseEnter += OnMouseHover;
+            btnSymbolPrevious.MouseEnter += OnMouseHover;
+            btnFilterAqua.MouseEnter += OnMouseHover;
+            btnFilterBeast.MouseEnter += OnMouseHover;
+            btnFilterBeastWarrior.MouseEnter += OnMouseHover;
+            btnFilterCyberce.MouseEnter += OnMouseHover;
+            btnFilterDinosaur.MouseEnter += OnMouseHover;
+            btnFilterDivine.MouseEnter += OnMouseHover;
+            btnFilterDragon.MouseEnter += OnMouseHover;
+            btnFilterFairy.MouseEnter += OnMouseHover;
+            btnFilterFiend.MouseEnter += OnMouseHover;
+            btnFilterFish.MouseEnter += OnMouseHover;
+            btnFilterIllusion.MouseEnter += OnMouseHover;
+            btnFilterInsect.MouseEnter += OnMouseHover;
+            btnFilterMachine.MouseEnter += OnMouseHover;
+            btnFilterPlant.MouseEnter += OnMouseHover;
+            btnFilterPsychic.MouseEnter += OnMouseHover;
+            btnFilterPyro.MouseEnter += OnMouseHover;
+            btnFilterReptile.MouseEnter += OnMouseHover;
+            btnFilterRock.MouseEnter += OnMouseHover;
+            btnFilterSeaSerpent.MouseEnter += OnMouseHover;
+            btnFilterSpellcaster.MouseEnter += OnMouseHover;
+            btnFilterThunder.MouseEnter += OnMouseHover;
+            btnFilterWarrior.MouseEnter += OnMouseHover;
+            btnFilterWingedBeast.MouseEnter += OnMouseHover;
+            btnFilterWyrm.MouseEnter += OnMouseHover;
+            btnFilterZombie.MouseEnter += OnMouseHover;
+            btnNormalSpell.MouseEnter += OnMouseHover;
+            btnContinousSpell.MouseEnter += OnMouseHover;
+            btnEquipSpell.MouseEnter += OnMouseHover;
+            btnFieldSpell.MouseEnter += OnMouseHover;
+            btnRitualSpell.MouseEnter += OnMouseHover;
+            btnNormalTrap.MouseEnter += OnMouseHover;
+            btnContinuosTrap.MouseEnter += OnMouseHover;
+            btnMonster.MouseEnter += OnMouseHover;
+            btnSpells.MouseEnter += OnMouseHover;
+            btnTraps.MouseEnter += OnMouseHover;
+            btnNormal.MouseEnter += OnMouseHover;
+            btnFusion.MouseEnter += OnMouseHover;
+            btnRitual.MouseEnter += OnMouseHover;
+            btnDark.MouseEnter += OnMouseHover;
+            btnLight.MouseEnter += OnMouseHover;
+            btnEarth.MouseEnter += OnMouseHover;
+            btnWater.MouseEnter += OnMouseHover;
+            btnFire.MouseEnter += OnMouseHover;
+            btnWind.MouseEnter += OnMouseHover;
+            btnDivine.MouseEnter += OnMouseHover;
+            btnTextSearch.MouseEnter += OnMouseHover;
+            btnSortByCardNo.MouseEnter += OnMouseHover;
+            btnSortByName.MouseEnter += OnMouseHover;
+            btnSortByMonsterLv.MouseEnter += OnMouseHover;
+            btnSortByDiceLv.MouseEnter += OnMouseHover;
+            btnSortByLP.MouseEnter += OnMouseHover;
+            btnSortByATK.MouseEnter += OnMouseHover;
+            btnSortByDEF.MouseEnter += OnMouseHover;
+            btnMov.MouseEnter += OnMouseHover;
+            btnATK.MouseEnter += OnMouseHover;
+            btnDEF.MouseEnter += OnMouseHover;
+            btnMAG.MouseEnter += OnMouseHover;
+            btnTrap.MouseEnter += OnMouseHover;
+
+            //Initialize the Storage List
+            _CurrentStorageList = StorageData.GetCardList();
+            ReloadStorageCardList();
             LoadDeckPage();        
         }
         #endregion
@@ -48,7 +114,7 @@ namespace DungeonDiceMonsters
             for (int x = 0; x < 5; x++)
             {
                 int X_Location = 2;
-                for (int y = 0; y < 6; y++)
+                for (int y = 0; y < 7; y++)
                 {
                     //Initialize the border box Image
                     Panel CardBox = new Panel();
@@ -57,6 +123,15 @@ namespace DungeonDiceMonsters
                     CardBox.BorderStyle = BorderStyle.FixedSingle;
                     CardBox.Size = new Size(58, 74);
                     _CardPanelList.Add(CardBox);
+
+                    //Initialize the DiceLvIcon
+                    PictureBox DiceLevelIcon = new PictureBox();
+                    CardBox.Controls.Add(DiceLevelIcon);
+                    DiceLevelIcon.Location = new Point(2, 45);
+                    DiceLevelIcon.Size = new Size(25, 25);
+                    DiceLevelIcon.BorderStyle = BorderStyle.FixedSingle;
+                    DiceLevelIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                    _StorageDiceLevelIconImageList.Add(DiceLevelIcon);
 
                     //Initialize the card Image
                     PictureBox CardImage = new PictureBox();
@@ -108,6 +183,15 @@ namespace DungeonDiceMonsters
                     CardBox.Size = new Size(58, 74);
                     _DeckCardPanelList.Add(CardBox);
 
+                    //Initialize the DiceLvIcon
+                    PictureBox DiceLevelIcon = new PictureBox();
+                    CardBox.Controls.Add(DiceLevelIcon);
+                    DiceLevelIcon.Location = new Point(2, 45);
+                    DiceLevelIcon.Size = new Size(25, 25);
+                    DiceLevelIcon.BorderStyle = BorderStyle.FixedSingle;
+                    DiceLevelIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                    _DeckDiceLevelIconImageList.Add(DiceLevelIcon);
+
                     //Initialize the card Image
                     PictureBox CardImage = new PictureBox();
                     CardBox.Controls.Add(CardImage);
@@ -139,6 +223,15 @@ namespace DungeonDiceMonsters
                 CardBox.Size = new Size(58, 74);
                 _DeckCardPanelList.Add(CardBox);
 
+                //Initialize the DiceLvIcon
+                PictureBox DiceLevelIcon = new PictureBox();
+                CardBox.Controls.Add(DiceLevelIcon);
+                DiceLevelIcon.Location = new Point(2, 45);
+                DiceLevelIcon.Size = new Size(25, 25);
+                DiceLevelIcon.BorderStyle = BorderStyle.FixedSingle;
+                DiceLevelIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                _DeckDiceLevelIconImageList.Add(DiceLevelIcon);
+
                 //Initialize the card Image
                 PictureBox CardImage = new PictureBox();
                 CardBox.Controls.Add(CardImage);
@@ -157,36 +250,54 @@ namespace DungeonDiceMonsters
         }
         private void LoadStoragePage()
         {
-            int startIndex = (_CurrentPage * 30) - 30;
+            int startIndex = (_CurrentPage * CARDS_PER_PAGE) - CARDS_PER_PAGE;
 
-            for (int x = 0; x < 30; x++)
+            for (int x = 0; x < CARDS_PER_PAGE; x++)
             {
                 //set the itearator
                 int iterator = startIndex + x;
                
                 //If the itearator reached past the last card in the Card DB vanish the card from view
-                if (iterator >= StorageData.GetCardCount())
+                if (iterator >= _CurrentStorageList.Count)
                 {
                     _CardPanelList[x].Visible = false;
                     _StorageIDsInCurrentPage[x] = 0;
                 }
                 else
                 {
-                    //Update the ID of the card in this slow
-                    _StorageIDsInCurrentPage[x] = StorageData.GetCardID(iterator);
+                    if (_StorageIDsInCurrentPage[x] != _CurrentStorageList[iterator].ID)
+                    {
+                        _StorageIDsInCurrentPage[x] = _CurrentStorageList[iterator].ID;
 
-                    //Make the card panel visible
-                    _CardPanelList[x].Visible = true;
+                        //Update the ID of the card in this slow
+                        _StorageIDsInCurrentPage[x] = _CurrentStorageList[iterator].ID;
 
-                    //Get the card ID of the card to be displayed
-                    int cardID = StorageData.GetCardID(iterator);
+                        //Make the card panel visible
+                        _CardPanelList[x].Visible = true;
 
-                    //Populate the card image with the card ID
-                    ImageServer.ClearImage(_CardImageList[x]);
-                    _CardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
+                        //Get the card ID of the card to be displayed
+                        int cardID = _CurrentStorageList[iterator].ID;
+                        CardInfo thisCardIfo = CardDataBase.GetCardWithID(cardID);
+
+                        //Populate the card image with the card ID
+                        ImageServer.ClearImage(_CardImageList[x]);
+                        _CardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
+
+                        //Load the dice level icon
+                        if (thisCardIfo.SecType == SecType.Ritual)
+                        {
+                            ImageServer.ClearImage(_StorageDiceLevelIconImageList[x]);
+                            _StorageDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "RITU", thisCardIfo.DiceLevel);
+                        }
+                        else
+                        {
+                            ImageServer.ClearImage(_StorageDiceLevelIconImageList[x]);
+                            _StorageDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "STAR", thisCardIfo.DiceLevel);
+                        }                       
+                    }
 
                     //Update the amount label
-                    _CardAmountList[x].Text = string.Format("x{0}", StorageData.GetAmount(iterator).ToString());
+                    _CardAmountList[x].Text = string.Format("x{0}", _CurrentStorageList[iterator].Amount.ToString());
                 }
             }
         }
@@ -213,10 +324,23 @@ namespace DungeonDiceMonsters
 
                         //Get the card ID of the card to be displayed
                         int cardID = _CurrentDeckSelected.GetMainCardIDAtIndex(x);
+                        CardInfo thisCardIfo = CardDataBase.GetCardWithID(cardID);
 
                         //Populate the card image with the card ID
                         ImageServer.ClearImage(_DeckCardImageList[x]);
                         _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
+
+                        //Load the dice level icon
+                        if (thisCardIfo.SecType == SecType.Ritual)
+                        {
+                            ImageServer.ClearImage(_DeckDiceLevelIconImageList[x]);
+                            _DeckDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "RITU", thisCardIfo.DiceLevel);
+                        }
+                        else
+                        {
+                            ImageServer.ClearImage(_DeckDiceLevelIconImageList[x]);
+                            _DeckDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "STAR", thisCardIfo.DiceLevel);
+                        }
                     }                    
                 }
             }
@@ -236,10 +360,23 @@ namespace DungeonDiceMonsters
 
                     //Get the card ID of the card to be displayed
                     int cardID = _CurrentDeckSelected.GetFusionCardIDAtIndex(x);
+                    CardInfo thisCardIfo = CardDataBase.GetCardWithID(cardID);
 
                     //Populate the card image with the card ID
                     ImageServer.ClearImage(_DeckCardImageList[x + 20]);
                     _DeckCardImageList[x + 20].Image = ImageServer.FullCardImage(cardID.ToString());
+
+                    //Load the dice level icon
+                    if (thisCardIfo.SecType == SecType.Ritual)
+                    {
+                        ImageServer.ClearImage(_DeckDiceLevelIconImageList[x + 20]);
+                        _DeckDiceLevelIconImageList[x + 20].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "RITU", thisCardIfo.DiceLevel);
+                    }
+                    else
+                    {
+                        ImageServer.ClearImage(_DeckDiceLevelIconImageList[x + 20]);
+                        _DeckDiceLevelIconImageList[x + 20].Image = ImageServer.DiceFace(thisCardIfo.DiceLevel, "STAR", thisCardIfo.DiceLevel);
+                    }
                 }
             }
 
@@ -247,10 +384,16 @@ namespace DungeonDiceMonsters
             _CurrentSymbolSelection = _CurrentDeckSelected.Symbol;
             ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
-
-            //Set the Ready flag
-            ImageServer.ClearImage(PicDeckStatus);
-            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
+            lblSymbolName.Text = _CurrentSymbolSelection.ToString();
+            switch (_CurrentSymbolSelection)
+            {
+                case Attribute.DARK: lblSymbolName.ForeColor = Color.Purple; break;
+                case Attribute.LIGHT: lblSymbolName.ForeColor = Color.LightCyan; break;
+                case Attribute.WATER: lblSymbolName.ForeColor = Color.RoyalBlue; break;
+                case Attribute.FIRE: lblSymbolName.ForeColor = Color.Crimson; break;
+                case Attribute.EARTH: lblSymbolName.ForeColor = Color.Orange; break;
+                case Attribute.WIND: lblSymbolName.ForeColor = Color.PaleGreen; break;
+            }
         }
         private void LoadCardInfoPanel()
         {
@@ -263,15 +406,18 @@ namespace DungeonDiceMonsters
             ImageServer.ClearImage(PicCardArtwork);
             PicCardArtwork.Image = ImageServer.CardArtworkImage(cardID.ToString());
 
-            lblID.Text = cardID.ToString();
+            lblID.Text = "ID: " + cardID.ToString();
             lblCardName.Text = thisCard.Name;
+
+            //Card Number
+            lblCardNumber.Text = "No. " + thisCard.CardNumber.ToString();
 
             string secondaryType = thisCard.SecType.ToString();
             lblCardType.Text = thisCard.TypeAsString + "/" + secondaryType;
             if (thisCard.Category == Category.Spell) { lblCardType.Text = thisCard.TypeAsString + " spell"; }
             if (thisCard.Category == Category.Trap) { lblCardType.Text = thisCard.TypeAsString + " trap"; }
 
-            if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Card Lv. " + thisCard.Level; }
+            if (thisCard.Category == Category.Monster) { lblCardLevel.Text = "Monster LV. " + thisCard.Level; }
             else { lblCardLevel.Text = ""; }
 
             ImageServer.ClearImage(PicCardAttribute);
@@ -279,7 +425,7 @@ namespace DungeonDiceMonsters
             PicCardAttribute.Image = ImageServer.AttributeIcon(thisCard.Attribute);
             PicCardMonsterType.Image = ImageServer.MonsterTypeIcon(thisCard.TypeAsString);
 
-            lblDiceLevel.Text = "Dice Lv. " + thisCard.DiceLevel;
+            lblDiceLevel.Text = "Dice LV. " + thisCard.DiceLevel;
 
             if (thisCard.Category == Category.Monster)
             {
@@ -340,7 +486,7 @@ namespace DungeonDiceMonsters
         private void SetStorageSelector(int index)
         {
             //Clear all cards from being marked as selected
-            for(int x = 0; x < 30; x ++) 
+            for(int x = 0; x < CARDS_PER_PAGE; x ++) 
             {
                 _CardPanelList[x].BackColor = Color.Transparent;
             }
@@ -373,6 +519,22 @@ namespace DungeonDiceMonsters
             //Reload the Card Info Panel UI
             LoadCardInfoPanel();
         }
+        private int GetLastPage()
+        {
+            int CurrentCardListCount = _CurrentStorageList.Count;
+            double pages = ((double)CurrentCardListCount / (double)CARDS_PER_PAGE);
+            int lastpage = (int)pages;
+            double remaining = pages - (int)pages;
+            if (remaining > 0) { lastpage++; }
+            return lastpage;
+        }
+        private void ReloadStorageCardList()
+        {
+            _CurrentPage = 1;
+            lblStorage.Text = "Page: " + _CurrentPage;
+            lblStorageCardCount.Text = "Cards: " + _CurrentStorageList.Count.ToString();
+            LoadStoragePage();
+        }
         #endregion
 
         #region Data
@@ -381,13 +543,18 @@ namespace DungeonDiceMonsters
         private List<PictureBox> _CardImageList = new List<PictureBox>();
         private List<Panel> _DeckCardPanelList = new List<Panel>();
         private List<PictureBox> _DeckCardImageList = new List<PictureBox>();
+        private List<PictureBox> _DeckDiceLevelIconImageList = new List<PictureBox>();
+        private List<PictureBox> _StorageDiceLevelIconImageList = new List<PictureBox>();
         private List<Label> _CardAmountList = new List<Label>();
         private CardInfo _CurrentCardSelected = null;
         private Deck _CurrentDeckSelected = null;
         private int _CurrentDeckIndexSelected = 0;
+        private const int CARDS_PER_PAGE = 35;
 
-        private int[] _StorageIDsInCurrentPage = new int[30];
-        private int[] _DeckIDsInCurrentPage = new int[30];
+        private List<StorageSlot> _CurrentStorageList = new List<StorageSlot>();
+
+        private int[] _StorageIDsInCurrentPage = new int[CARDS_PER_PAGE];
+        private int[] _DeckIDsInCurrentPage = new int[CARDS_PER_PAGE];       
 
         private Attribute _CurrentSymbolSelection = Attribute.DARK;
         #endregion
@@ -426,13 +593,17 @@ namespace DungeonDiceMonsters
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
             //Save a ref to the current card in view
-            int startIndex = (_CurrentPage * 30) - 30;
+            int startIndex = (_CurrentPage * CARDS_PER_PAGE) - CARDS_PER_PAGE;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            int cardid = StorageData.GetCardID(indexInStorasge);
+            int cardid = _CurrentStorageList[indexInStorasge].ID;
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             SetStorageSelector(thiPictureBoxIndex);
+        }
+        private void OnMouseHover(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
         }
         private void StorageCard_click(object sender, EventArgs e)
         {
@@ -441,10 +612,10 @@ namespace DungeonDiceMonsters
             int thiPictureBoxIndex = Convert.ToInt32(thisPictureBox.Tag);
 
             //Save a ref to the current card in view
-            int startIndex = (_CurrentPage * 30) - 30;
+            int startIndex = (_CurrentPage * CARDS_PER_PAGE) - CARDS_PER_PAGE;
             int indexInStorasge = startIndex + thiPictureBoxIndex;
 
-            int cardid = StorageData.GetCardID(indexInStorasge);
+            int cardid = _CurrentStorageList[indexInStorasge].ID;
             _CurrentCardSelected = CardDataBase.GetCardWithID(cardid);
 
             bool CanBeMoved = false;
@@ -487,10 +658,7 @@ namespace DungeonDiceMonsters
                 //Reload both sides
                 LoadStoragePage();
                 LoadDeckPage();
-
-                //Reload the Deck Status
-                ImageServer.ClearImage(PicDeckStatus);
-                PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
+                SaveFileManger.WriteSaveFile();
             }
             else
             {
@@ -536,98 +704,64 @@ namespace DungeonDiceMonsters
             //Reload both sides
             LoadStoragePage();
             LoadDeckPage();
-
-            //Reload the Deck Status 
-            ImageServer.ClearImage(PicDeckStatus);
-            PicDeckStatus.Image = ImageServer.DeckStatusIcon(_CurrentDeckSelected.UseStatus.ToString());
+            SaveFileManger.WriteSaveFile();
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-          
-            if (_CurrentPage == 10) { _CurrentPage = 1; }
-            else
-            {
-                _CurrentPage++;
-            }
-            lblStorage.Text = "Storage Page: " + _CurrentPage;
-            LoadStoragePage();
-            SetStorageSelector(0);
+            int lastpage = GetLastPage();
 
-            //Clear all cards from being marked as selected
-            for (int x = 0; x < 30; x++)
+            if (lastpage != 0)
             {
-                _CardPanelList[x].BackColor = Color.Transparent;
-            }
-            for (int x = 0; x < 23; x++)
-            {
-                _DeckCardPanelList[x].BackColor = Color.Transparent;
+                if (_CurrentPage == lastpage) { _CurrentPage = 1; }
+                else { _CurrentPage++; }
+
+                lblStorage.Text = "Page: " + _CurrentPage;
+                LoadStoragePage();
+                SetStorageSelector(0);
+
+                //Clear all cards from being marked as selected
+                for (int x = 0; x < CARDS_PER_PAGE; x++)
+                {
+                    _CardPanelList[x].BackColor = Color.Transparent;
+                }
+                for (int x = 0; x < 23; x++)
+                {
+                    _DeckCardPanelList[x].BackColor = Color.Transparent;
+                }
             }
         }
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-           
-            if (_CurrentPage == 1) { _CurrentPage = 10; }
-            else { _CurrentPage--; }
-            lblStorage.Text = "Storage Page: " + _CurrentPage;
-            LoadStoragePage();
-            SetStorageSelector(0);
 
-            //Clear all cards from being marked as selected
-            for (int x = 0; x < 30; x++)
+            int lastpage = GetLastPage();
+            if (lastpage != 0)
             {
-                _CardPanelList[x].BackColor = Color.Transparent;
-            }
-            for (int x = 0; x < 23; x++)
-            {
-                _DeckCardPanelList[x].BackColor = Color.Transparent;
-            }
-        }       
-        private void listDeckList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Change the current deck selected
-            _CurrentDeckIndexSelected = listDeckList.SelectedIndex;
-            _CurrentDeckSelected = DecksData.Decks[_CurrentDeckIndexSelected];
+                if (_CurrentPage == 1) { _CurrentPage = lastpage; }
+                else { _CurrentPage--; }
 
-            //Reload both sides
-            LoadDeckPage();
-        }
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            if(DecksData.HasOneReadyDeck())
-            {
-                //Override the save file to save the changes
-                SaveFileManger.WriteSaveFile();
+                lblStorage.Text = "Page: " + _CurrentPage;
+                LoadStoragePage();
+                SetStorageSelector(0);
 
-                //Dispose the images of all cards
+                //Clear all cards from being marked as selected
+                for (int x = 0; x < CARDS_PER_PAGE; x++)
+                {
+                    _CardPanelList[x].BackColor = Color.Transparent;
+                }
                 for (int x = 0; x < 23; x++)
                 {
-                    if (_DeckCardImageList[x].Image != null)
-                    {
-                        _DeckCardImageList[x].Image.Dispose();
-                    }
+                    _DeckCardPanelList[x].BackColor = Color.Transparent;
                 }
-
-                for (int x = 0; x < 30; x++)
-                {
-                    if (_CardImageList[x].Image != null) { _CardImageList[x].Image.Dispose(); }
-                }
-
-                SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, false);
-                MainMenu MM = new MainMenu();
-                Dispose();
-                MM.Show();
             }
-            else
-            {
-                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
-                lblSaveDeckOutput.Visible = true;
-                btnExit.Visible = false;
-                BoardForm.WaitNSeconds(1000);
-                lblSaveDeckOutput.Visible = false;
-                btnExit.Visible = true;
-            }
+        }       
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            DecksManager DM = new DecksManager(false);
+            Dispose();
+            DM.Show();
         }
         private void btnSymbolPrevious_Click(object sender, EventArgs e)
         {
@@ -644,10 +778,23 @@ namespace DungeonDiceMonsters
                     throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
             }
 
+            lblSymbolName.Text = _CurrentSymbolSelection.ToString();
+
+            switch (_CurrentSymbolSelection)
+            {
+                case Attribute.DARK: lblSymbolName.ForeColor = Color.Purple; break;
+                case Attribute.LIGHT: lblSymbolName.ForeColor = Color.LightCyan; break;
+                case Attribute.WATER: lblSymbolName.ForeColor = Color.RoyalBlue; break;
+                case Attribute.FIRE: lblSymbolName.ForeColor = Color.Crimson; break;
+                case Attribute.EARTH: lblSymbolName.ForeColor = Color.Orange; break;
+                case Attribute.WIND: lblSymbolName.ForeColor = Color.PaleGreen; break;
+            }
+
             //Update the image
             ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
+            SaveFileManger.WriteSaveFile();
         }
         private void btnSymbolNext_Click(object sender, EventArgs e)
         {
@@ -664,14 +811,343 @@ namespace DungeonDiceMonsters
                     throw new Exception("Changing Symbol on the DeckBuilder: CurrentSymbolSelection is " + _CurrentSymbolSelection + " which is an invalid value.");
             }
 
+            lblSymbolName.Text = _CurrentSymbolSelection.ToString();
+
+            switch (_CurrentSymbolSelection)
+            {
+                case Attribute.DARK: lblSymbolName.ForeColor = Color.Purple; break;
+                case Attribute.LIGHT: lblSymbolName.ForeColor = Color.LightCyan; break;
+                case Attribute.WATER: lblSymbolName.ForeColor = Color.RoyalBlue; break;
+                case Attribute.FIRE: lblSymbolName.ForeColor = Color.Crimson; break;
+                case Attribute.EARTH: lblSymbolName.ForeColor = Color.Orange; break;
+                case Attribute.WIND: lblSymbolName.ForeColor = Color.PaleGreen; break;
+            }
+
             //Update the image
             ImageServer.ClearImage(PicSymbol);
             PicSymbol.Image = ImageServer.Symbol(_CurrentSymbolSelection.ToString());
             _CurrentDeckSelected.ChangeSymbol(_CurrentSymbolSelection);
+            SaveFileManger.WriteSaveFile();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        #endregion
+
+        #region Filters/Sorting
+        private void FilterByMonsterType(Type type)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByType(type);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnFilterAqua_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Aqua);
+        }
+        private void btnFilterBeast_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Beast);
+        }
+        private void btnFilterBeastWarrior_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.BeastWarrior);
+        }
+        private void btnFilterCyberce_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Cyberse);
+        }
+        private void btnFilterDinosaur_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Dinosaur);
+        }
+        private void btnFilterDivine_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.DivineBeast);
+        }
+        private void btnFilterDragon_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Dragon);
+        }
+        private void btnFilterFairy_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Fairy);
+        }
+        private void btnFilterFiend_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Fiend);
+        }
+        private void btnFilterFish_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Fish);
+        }
+        private void btnFilterIllusion_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Illusion);
+        }
+        private void btnFilterInsect_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Insect);
+        }
+        private void btnFilterMachine_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Machine);
+        }
+        private void btnFilterPlant_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Plant);
+        }
+        private void btnFilterPsychic_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Psychic);
+        }
+        private void btnFilterPyro_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Pyro);
+        }
+        private void btnFilterReptile_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Reptile);
+        }
+        private void btnFilterRock_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Rock);
+        }
+        private void btnFilterSeaSerpent_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.SeaSerpent);
+        }
+        private void btnFilterSpellcaster_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Spellcaster);
+        }
+        private void btnFilterThunder_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Thunder);
+        }
+        private void btnFilterWarrior_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Warrior);
+        }
+        private void btnFilterWingedBeast_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.WingedBeast);
+        }
+        private void btnFilterWyrm_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Wyrm);
+        }
+        private void btnFilterZombie_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterType(Type.Zombie);
+        }
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
+            _CurrentStorageList = StorageData.GetCardList();
+            ReloadStorageCardList();
+            btnClear.Visible = false;
+        }
+        private void FilterBySpellType(Type type)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterBySpellType(type);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnNormalSpell_Click(object sender, EventArgs e)
+        {
+            FilterBySpellType(Type.Normal);
+        }
+        private void btnContinousSpell_Click(object sender, EventArgs e)
+        {
+            FilterBySpellType(Type.Continuous);
+        }
+        private void btnEquipSpell_Click(object sender, EventArgs e)
+        {
+            FilterBySpellType(Type.Equip);
+        }
+        private void btnFieldSpell_Click(object sender, EventArgs e)
+        {
+            FilterBySpellType(Type.Field);
+        }
+        private void btnRitualSpell_Click(object sender, EventArgs e)
+        {
+            FilterBySpellType(Type.Ritual);
+        }
+        private void FilterByTrapType(Type type)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByTrapType(type);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnNormalTrap_Click(object sender, EventArgs e)
+        {
+            FilterByTrapType(Type.Normal);
+        }
+        private void btnContinuosTrap_Click(object sender, EventArgs e)
+        {
+            FilterByTrapType(Type.Continuous);
+        }
+        private void FilterByCardType(Category category)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByCardType(category);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnMonster_Click(object sender, EventArgs e)
+        {
+            FilterByCardType(Category.Monster);
+        }
+        private void btnSpells_Click(object sender, EventArgs e)
+        {
+            FilterByCardType(Category.Spell);
+        }
+        private void btnTraps_Click(object sender, EventArgs e)
+        {
+            FilterByCardType(Category.Trap);
+        }
+        private void FilterByMonsterSecType(SecType type)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByMonsterSecType(type);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnNormal_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterSecType(SecType.Normal);
+        }
+        private void btnFusion_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterSecType(SecType.Fusion);
+        }
+        private void btnRitual_Click(object sender, EventArgs e)
+        {
+            FilterByMonsterSecType(SecType.Ritual);
+        }
+        private void FilterByAttribute(Attribute attribute)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByAttribute(attribute);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnDark_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.DARK);
+        }
+        private void btnLight_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.LIGHT);
+        }
+        private void btnEarth_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.EARTH);
+        }
+        private void btnWater_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.WATER);
+        }
+        private void btnFire_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.FIRE);
+        }
+        private void btnWind_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.WIND);
+        }
+        private void btnDivine_Click(object sender, EventArgs e)
+        {
+            FilterByAttribute(Attribute.DIVINE);
+        }
+        private void FilterByText(string searchTerm)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByText(searchTerm);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnTextSearch_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Text;
+            if (!string.IsNullOrEmpty(searchTerm)) 
+            {
+                FilterByText(searchTerm);
+            }
+        }
+        private void btnSortByCardNo_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByCardNumber());
+            ReloadStorageCardList();
+        }
+        private void btnSortByName_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByCardName());
+            ReloadStorageCardList();
+        }
+        private void btnSortByMonsterLv_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByMonsterLV());
+            ReloadStorageCardList();
+        }
+        private void btnSortByDiceLv_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByDiceLV());
+            ReloadStorageCardList();
+        }
+        private void btnSortByLP_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByLP());
+            ReloadStorageCardList();
+        }
+        private void btnSortByATK_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByATK());
+            ReloadStorageCardList();
+        }
+        private void btnSortByDEF_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList.Sort(new StorageSlot.SortByDEF());
+            ReloadStorageCardList();
+        }
+        private void FilterByCrest(Crest crest)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            _CurrentStorageList = StorageData.FilterByCrest(crest);
+            ReloadStorageCardList();
+            btnClear.Visible = true;
+        }
+        private void btnMov_Click(object sender, EventArgs e)
+        {
+            FilterByCrest(Crest.MOV);
+        }
+        private void btnATK_Click(object sender, EventArgs e)
+        {
+            FilterByCrest(Crest.ATK);
+        }
+        private void btnDEF_Click(object sender, EventArgs e)
+        {
+            FilterByCrest(Crest.DEF);
+        }
+        private void btnMAG_Click(object sender, EventArgs e)
+        {
+            FilterByCrest(Crest.MAG);
+        }
+        private void btnTrap_Click(object sender, EventArgs e)
+        {
+            FilterByCrest(Crest.TRAP);
         }
         #endregion
     }

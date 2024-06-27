@@ -26,17 +26,6 @@ namespace DungeonDiceMonsters
 
             lblPvPDuel.MouseEnter += OnMouseEnterLabel;
             lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
-
-            if (!DecksData.HasOneReadyDeck())
-            {
-                lblMenuArcade.Visible = false;
-                lblMenuFreeDuel.Visible = false;
-            }
-
-            //Initialize Player Name Panel
-            lblPlayerName.Text = GameData.Name;
-            lblStarChips.Text = GameData.StarChips.ToString();
-
         }
         #endregion
 
@@ -59,10 +48,10 @@ namespace DungeonDiceMonsters
         private void lblMenuDeckBuilder_Click(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Click);
-            //Open the Deckbuilder form
-            DeckBuilder DB = new DeckBuilder();
+            //Open the Deck Manager Form
+            DecksManager DM = new DecksManager(true);
             Dispose();
-            DB.Show();
+            DM.Show();
         }
         private void lblMenuFreeDuel_Click(object sender, EventArgs e)
         {
@@ -89,18 +78,5 @@ namespace DungeonDiceMonsters
             Application.Exit();
         }
         #endregion
-
-        private void btnTest_Click(object sender, EventArgs e)
-        {
-            string[] gamedata = new string[]
-            {
-                "Atem",
-                "999"
-            };
-            GameData.LoadGameData(gamedata);
-            lblPlayerName.Text = GameData.Name;
-            lblStarChips.Text = GameData.StarChips.ToString();
-            DecksData.Decks[0].ChangeSymbol(Attribute.WATER);
-        }
     }
 }
