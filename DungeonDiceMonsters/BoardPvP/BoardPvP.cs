@@ -1191,7 +1191,7 @@ namespace DungeonDiceMonsters
             }
 
             //Wait 1 sec to pace the summon animation before start triggering effects
-            WaitNSeconds(1000);
+            WaitNSeconds(3000);
 
             //Check for active effects that react to monster summons
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
