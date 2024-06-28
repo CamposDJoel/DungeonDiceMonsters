@@ -97,5 +97,17 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SpellboundIcon.png");
         }
+        public static Image LibraryCardIcon(Category category, SecType secType)
+        {
+            switch(category)
+            {
+                case Category.Spell: return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\SpellIcon.png");
+                case Category.Trap: return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\TrapsIcon.png");
+                case Category.Monster:
+                    if (secType == SecType.Ritual) { return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\RitualIcon.png"); }
+                    else { return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\NormalMonsterIcon.png"); }
+                default: throw new NotImplementedException();
+            }
+        }
     }
 }

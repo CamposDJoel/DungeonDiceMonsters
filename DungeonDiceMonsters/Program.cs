@@ -14,7 +14,7 @@ namespace DungeonDiceMonsters
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new StartScreen());
-            //Application.Run(new BoardPvP(true));
+            //Application.Run(new LibraryMenu());
         }
     }
 }

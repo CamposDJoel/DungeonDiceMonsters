@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using System.Drawing;
 
 namespace DungeonDiceMonsters
 {
@@ -26,6 +26,9 @@ namespace DungeonDiceMonsters
 
             lblPvPDuel.MouseEnter += OnMouseEnterLabel;
             lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
+
+            lblMenuLibrary.MouseEnter += OnMouseEnterLabel;
+            lblMenuLibrary.MouseLeave += OnMouseLeaveLabel;
         }
         #endregion
 
@@ -34,12 +37,12 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlaySoundEffect(SoundEffect.Hover);
             Label thisLabel = (Label)sender;
-           thisLabel.BorderStyle = BorderStyle.FixedSingle;
+            thisLabel.BackColor = Color.Black;
         }
         private void OnMouseLeaveLabel(object sender, EventArgs e)
         {
             Label thisLabel = (Label)sender;
-            thisLabel.BorderStyle = BorderStyle.None;
+            thisLabel.BackColor = Color.Transparent;
         }
         private void lblMenuCardShop_Click(object sender, EventArgs e)
         {
@@ -72,6 +75,12 @@ namespace DungeonDiceMonsters
             PvPMenu PVPM = new PvPMenu();
             Dispose();
             PVPM.Show();
+        }
+        private void lblMenuLibrary_Click(object sender, EventArgs e)
+        {
+            LibraryMenu LM = new LibraryMenu();
+            Dispose();
+            LM.Show();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {

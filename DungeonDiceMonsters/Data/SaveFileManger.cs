@@ -43,6 +43,9 @@ namespace DungeonDiceMonsters
                 Lines.Add(string.Format("{0}|{1}|{2}", cardId.ToString(), amount, cardName));
             }
 
+            //line Library marks
+            Lines.Add(GameData.GetLibraryMarksLine());
+
             //Write the file
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
         }
@@ -89,7 +92,11 @@ namespace DungeonDiceMonsters
                 {
                     StorageData.AddCard(cardid);
                 }
-            }       
+            }
+
+            //Line: Library marks
+            Line = SR_SaveFile.ReadLine();
+            GameData.InitializeLibraryMarksFromSaveFile(Line);
 
             //Close the stream
             SR_SaveFile.Close();
