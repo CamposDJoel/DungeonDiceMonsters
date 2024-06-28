@@ -80,7 +80,7 @@ namespace DungeonDiceMonsters
             for (int x = 0; x < Tokens.Length - 1; x++) 
             {
                 string token = Tokens[x];
-                if (token.Equals("1")) { _LibraryMarks.Add(true); } else { _LibraryMarks.Add(false); }
+                if (token.Equals("1")) { MarkLibraryCardObtained(x); }
             }
         }
         public static int GetLibraryCollectionCount()
@@ -90,6 +90,10 @@ namespace DungeonDiceMonsters
             foreach (bool thisMark in _LibraryMarks) { if (thisMark) { count++; } }
 
             return count;
+        }
+        public static bool IsLibraryCardObtainedAtIndex(int index)
+        {
+            return _LibraryMarks[index];
         }
         #endregion
 

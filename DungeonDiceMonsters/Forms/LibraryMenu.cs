@@ -14,6 +14,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public LibraryMenu()
         {
+            SoundServer.PlayBackgroundMusic(Song.LibraryMenu, true);
             InitializeComponent();
             InitializeLibraryComponents();
             UpdateCollectionTotals();
@@ -185,17 +186,23 @@ namespace DungeonDiceMonsters
                 }
                 else
                 {
-                    //Make the card panel visible
-                    _LibCardBoxBordes[x].Visible = true;
+                    //if the card has been obtained
+                    if(GameData.IsLibraryCardObtainedAtIndex(iterator))
+                    {
+                        //Make the card panel visible
+                        _LibCardBoxBordes[x].Visible = true;
 
-                    //Get the card ID of the card to be displayed
-                    CardInfo thisCardIfo = CardDataBase.GetCardWithCardNo(iterator + 1);
+                        //Get the card ID of the card to be displayed
+                        CardInfo thisCardIfo = CardDataBase.GetCardWithCardNo(iterator + 1);
 
-                    //Populate the card image with the card ID
-                    ImageServer.ClearImage(_LibCardBoxPictures[x]);
-                    _LibCardBoxPictures[x].Image = ImageServer.LibraryCardIcon(thisCardIfo.Category, thisCardIfo.SecType);
-
-
+                        //Populate the card image with the card ID
+                        ImageServer.ClearImage(_LibCardBoxPictures[x]);
+                        _LibCardBoxPictures[x].Image = ImageServer.LibraryCardIcon(thisCardIfo.Category, thisCardIfo.SecType);
+                    }
+                    else
+                    {
+                        _LibCardBoxBordes[x].Visible = false;
+                    }                   
                 }
             }
         }
@@ -276,6 +283,10 @@ namespace DungeonDiceMonsters
                     p.BackColor = Color.Black;
                 }
             }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
         #endregion
     }

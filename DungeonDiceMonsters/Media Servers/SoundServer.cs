@@ -54,6 +54,7 @@ namespace DungeonDiceMonsters
         FreeDuel,
         YouWin,
         YouLose,
+        LibraryMenu,
     }
     public enum SoundEffect
     {
