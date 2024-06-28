@@ -641,7 +641,7 @@ namespace DungeonDiceMonsters
 
             if(CanBeMoved)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+                SoundServer.PlaySoundEffect(SoundEffect.CardToDeck);
 
                 if (_CurrentCardSelected.IsFusion)
                 {
@@ -667,7 +667,7 @@ namespace DungeonDiceMonsters
         }
         private void DeckCard_click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.MoveCard);
+            SoundServer.PlaySoundEffect(SoundEffect.CardToStorage);
 
             //Retrieve the index of the card image that was clicked
             PictureBox thisPictureBox = (PictureBox)sender;

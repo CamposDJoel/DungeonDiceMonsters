@@ -111,5 +111,7 @@ namespace DungeonDiceMonsters
         TriggerEffect,
         GoBack,
         Confirm,
+        CardToDeck,
+        CardToStorage
     }
 }
