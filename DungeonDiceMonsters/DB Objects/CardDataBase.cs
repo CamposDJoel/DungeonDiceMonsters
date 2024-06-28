@@ -8,9 +8,13 @@ namespace DungeonDiceMonsters
 {
     public static class CardDataBase
     {
-        public static List<CardInfo> CardList;
-        public static List<rawcardinfo> rawCardList;
+        private static List<CardInfo> CardList = new List<CardInfo>();
+        public static List<rawcardinfo> rawCardList = new List<rawcardinfo>();
 
+        public static void AddCardToDB(CardInfo thisCardInfo)
+        {
+            CardList.Add(thisCardInfo);
+        }
         public static CardInfo GetCardWithID(int id)
         {
             CardInfo cardtoreturn = null;

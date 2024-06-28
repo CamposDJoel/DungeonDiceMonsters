@@ -60,10 +60,9 @@ namespace DungeonDiceMonsters
             CardDataBase.rawCardList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<rawcardinfo>>(rawdata);
 
             //convert thre raw data base into the actual (and Clean) CardInfo object list
-            CardDataBase.CardList = new List<CardInfo>();
             foreach (rawcardinfo rawcardinfo in CardDataBase.rawCardList)
             {
-                CardDataBase.CardList.Add(new CardInfo(rawcardinfo));
+                CardDataBase.AddCardToDB(new CardInfo(rawcardinfo));
             }
 
             //Check if a save file exists
