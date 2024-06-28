@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DecksManager));
             this.PanelDeck = new System.Windows.Forms.Panel();
+            this.lblSymbolName = new System.Windows.Forms.Label();
             this.PicSymbol = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblFusion = new System.Windows.Forms.Label();
@@ -37,16 +38,15 @@
             this.listDecks = new System.Windows.Forms.ListBox();
             this.lblSelectDeck = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblDeckName = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtDeckNameInput = new System.Windows.Forms.TextBox();
-            this.btnCreate = new System.Windows.Forms.Button();
             this.lblWarning = new System.Windows.Forms.Label();
+            this.btnCreate = new System.Windows.Forms.Button();
+            this.txtDeckNameInput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblDeckName = new System.Windows.Forms.Label();
             this.checkEnableDelete = new System.Windows.Forms.CheckBox();
             this.btnDeleteDeck = new System.Windows.Forms.Button();
             this.PicDeckStatus = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblSymbolName = new System.Windows.Forms.Label();
             this.btnCopyDeck = new System.Windows.Forms.Button();
             this.GroupRename = new System.Windows.Forms.GroupBox();
             this.lblRenameWarning = new System.Windows.Forms.Label();
@@ -75,6 +75,18 @@
             this.PanelDeck.Name = "PanelDeck";
             this.PanelDeck.Size = new System.Drawing.Size(299, 395);
             this.PanelDeck.TabIndex = 1;
+            // 
+            // lblSymbolName
+            // 
+            this.lblSymbolName.AutoSize = true;
+            this.lblSymbolName.BackColor = System.Drawing.Color.Transparent;
+            this.lblSymbolName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSymbolName.ForeColor = System.Drawing.Color.PaleGreen;
+            this.lblSymbolName.Location = new System.Drawing.Point(241, 297);
+            this.lblSymbolName.Name = "lblSymbolName";
+            this.lblSymbolName.Size = new System.Drawing.Size(43, 12);
+            this.lblSymbolName.TabIndex = 5;
+            this.lblSymbolName.Text = "EARTH";
             // 
             // PicSymbol
             // 
@@ -166,33 +178,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Create New Deck";
             // 
-            // lblDeckName
+            // lblWarning
             // 
-            this.lblDeckName.AutoSize = true;
-            this.lblDeckName.BackColor = System.Drawing.Color.Transparent;
-            this.lblDeckName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeckName.ForeColor = System.Drawing.Color.White;
-            this.lblDeckName.Location = new System.Drawing.Point(456, 21);
-            this.lblDeckName.Name = "lblDeckName";
-            this.lblDeckName.Size = new System.Drawing.Size(230, 32);
-            this.lblDeckName.TabIndex = 6;
-            this.lblDeckName.Text = "Test Deck Name";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Name:";
-            // 
-            // txtDeckNameInput
-            // 
-            this.txtDeckNameInput.Location = new System.Drawing.Point(28, 50);
-            this.txtDeckNameInput.Name = "txtDeckNameInput";
-            this.txtDeckNameInput.Size = new System.Drawing.Size(166, 25);
-            this.txtDeckNameInput.TabIndex = 1;
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblWarning.Location = new System.Drawing.Point(10, 127);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(55, 17);
+            this.lblWarning.TabIndex = 4;
+            this.lblWarning.Text = "Name:";
+            this.lblWarning.Visible = false;
             // 
             // btnCreate
             // 
@@ -208,16 +203,33 @@
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // lblWarning
+            // txtDeckNameInput
             // 
-            this.lblWarning.AutoSize = true;
-            this.lblWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblWarning.Location = new System.Drawing.Point(10, 127);
-            this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Size = new System.Drawing.Size(55, 17);
-            this.lblWarning.TabIndex = 4;
-            this.lblWarning.Text = "Name:";
-            this.lblWarning.Visible = false;
+            this.txtDeckNameInput.Location = new System.Drawing.Point(28, 50);
+            this.txtDeckNameInput.Name = "txtDeckNameInput";
+            this.txtDeckNameInput.Size = new System.Drawing.Size(166, 25);
+            this.txtDeckNameInput.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(25, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Name:";
+            // 
+            // lblDeckName
+            // 
+            this.lblDeckName.AutoSize = true;
+            this.lblDeckName.BackColor = System.Drawing.Color.Transparent;
+            this.lblDeckName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeckName.ForeColor = System.Drawing.Color.White;
+            this.lblDeckName.Location = new System.Drawing.Point(456, 21);
+            this.lblDeckName.Name = "lblDeckName";
+            this.lblDeckName.Size = new System.Drawing.Size(230, 32);
+            this.lblDeckName.TabIndex = 6;
+            this.lblDeckName.Text = "Test Deck Name";
             // 
             // checkEnableDelete
             // 
@@ -269,18 +281,6 @@
             this.label3.Size = new System.Drawing.Size(146, 24);
             this.label3.TabIndex = 12;
             this.label3.Text = "Ready to use:";
-            // 
-            // lblSymbolName
-            // 
-            this.lblSymbolName.AutoSize = true;
-            this.lblSymbolName.BackColor = System.Drawing.Color.Transparent;
-            this.lblSymbolName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSymbolName.ForeColor = System.Drawing.Color.PaleGreen;
-            this.lblSymbolName.Location = new System.Drawing.Point(241, 297);
-            this.lblSymbolName.Name = "lblSymbolName";
-            this.lblSymbolName.Size = new System.Drawing.Size(43, 12);
-            this.lblSymbolName.TabIndex = 5;
-            this.lblSymbolName.Text = "EARTH";
             // 
             // btnCopyDeck
             // 
@@ -384,11 +384,11 @@
             this.btnExit.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnExit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnExit.Location = new System.Drawing.Point(676, 3);
+            this.btnExit.Location = new System.Drawing.Point(677, 2);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(105, 22);
             this.btnExit.TabIndex = 17;
-            this.btnExit.Text = "EXIT";
+            this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 

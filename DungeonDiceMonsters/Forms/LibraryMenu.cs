@@ -217,7 +217,7 @@ namespace DungeonDiceMonsters
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            SoundServer.PlaySoundEffect(SoundEffect.GoBack);
             MainMenu MM = new MainMenu();
             Dispose();
             MM.Show();

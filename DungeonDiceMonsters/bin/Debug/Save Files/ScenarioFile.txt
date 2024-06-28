@@ -4,10 +4,10 @@ BLUE TILES
 5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110|111
 ---------------------------------------
 RED MONSTERS|6
-89091579|7|basic insect
-58192742|110|Petit Moth
+9430387|7|Lalalion
+54752875|110|M-Warrior #2
 91512835|136|Insect Queen
-15367030|116|Gokibore
+46534755|116|Fire Kraken
 31786629|123|Thunder Dragon
 31786629|175|Thunder Dragon
 -----------------------------------------
@@ -18,9 +18,9 @@ BLUE MONSTERS|4
 56342351|111|M-Warrior #1
 ------------------------------------
 RED SET CARDS|3
-77840540|188|Coccon
-94716515|104|Eradicating
-23615409|201|Insect Barrier
+24094653|188|Poly
+28654932|104|Deep Dark Trap Hole
+4031928|201|Change of heart
 ----------------------------------------
 BLUE SET CARDS|2
 87430998|19|Forest

@@ -5,9 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Media;
 
 namespace DungeonDiceMonsters
 {
@@ -255,6 +253,7 @@ namespace DungeonDiceMonsters
         }
         private void InitializeEffectTargetSelection()
         {
+            SoundServer.PlaySoundEffect(SoundEffect.SelectTarget);
             //Step 0: _EffectTargetCandidates list has already been initialize by the effect activation method
 
             //Step 1: Highlight and place the "target" overlay icon in the tiles of the target candidates
@@ -273,6 +272,9 @@ namespace DungeonDiceMonsters
                 lblActionInstruction.Text = "Opponent is selecting a target!";
             }
             lblActionInstruction.Visible = true;
+
+            //just a small delay
+            WaitNSeconds(100);
 
             //Step 3: Change the game state so the player can make its action
             _CurrentGameState = GameState.EffectTargetSelection;
@@ -538,6 +540,13 @@ namespace DungeonDiceMonsters
                     thisTile.MarkFusionMaterialTarget();
                 }
             }
+        }
+        private void DisplayEffectApplyAnimation(Tile thisTile)
+        {
+            thisTile.Hover();
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            WaitNSeconds(1000);
+            thisTile.ReloadTileUI();
         }
         #endregion
 
@@ -1046,7 +1055,7 @@ namespace DungeonDiceMonsters
                 {
                     thisCard.AdjustAttackBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
-                    SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's ATK increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -1061,7 +1070,6 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [DEF] to the owener's crest pool
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.DEF, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [DEF] to.Controller's crest pool.");
 
@@ -1089,7 +1097,7 @@ namespace DungeonDiceMonsters
                 {
                     thisCard.AdjustDefenseBonus(500);
                     thisEffect.AddAffectedByCard(thisCard);
-                    SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card's DEF increased by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -1104,7 +1112,6 @@ namespace DungeonDiceMonsters
 
             //And Resolve the effect
             //EFFECT DESCRIPTION: Add 1 [ATK] to the owener's crest pool
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             AdjustPlayerCrestCount(thisEffect.Owner, Crest.ATK, 1);
             UpdateEffectLogs("Effect Resolved: Added 1 [ATK] to.Controller's crest pool.");
 
@@ -1230,18 +1237,26 @@ namespace DungeonDiceMonsters
             {
                 if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
                 {
-                    thisEffect.OriginCard.AdjustAttackBonus(500);
-                    thisEffect.OriginCard.AdjustDefenseBonus(500);
                     thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
 
-            //Step 4: Add this effect to the Active Effect list
-            _ActiveEffects.Add(thisEffect);
-
-            //Step 5: Hide the Effect Menu panel
+            //Step 4: Hide the Effect Menu panel
             HideEffectMenuPanel();
+
+            //Step 5: Display the effect appply  "animation"
+            if(thisEffect.CustomInt1 > 0)
+            {
+                int totalBonus = thisEffect.CustomInt1 * 500;
+                thisEffect.OriginCard.AdjustAttackBonus(totalBonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(totalBonus);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+            }
+
+            //Step 5: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+            
             //Enter Summon phase 4
             SummonMonster_Phase4(thisEffect.OriginCard);
         }
@@ -1258,11 +1273,15 @@ namespace DungeonDiceMonsters
             {
                 if (!thisCard.IsDiscardted && (thisCard.Name == "M-Warrior #1" || thisCard.Name == "M-Warrior #2"))
                 {
-                    thisEffect.OriginCard.AdjustAttackBonus(500);
-                    thisEffect.OriginCard.AdjustDefenseBonus(500);
                     thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's ATK/DEF by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
+            }
+            if (thisEffect.CustomInt1 > 0)
+            {
+                int totalBonus = thisEffect.CustomInt1 * 500;
+                thisEffect.OriginCard.AdjustAttackBonus(totalBonus);
+                thisEffect.OriginCard.AdjustDefenseBonus(totalBonus);
             }
 
             //Step 3: Add this effect to the Active Effect list
@@ -1363,7 +1382,8 @@ namespace DungeonDiceMonsters
             _ActiveEffects.Add(thisEffect);
             thisEffect.AddAffectedByCard(targetCard);
             ChangeMonsterAttribute(targetCard, Attribute.FIRE, thisEffect);
-              
+            DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -1449,9 +1469,9 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.SwitchController();
             thisEffect.AddAffectedByCard(targetCard);
+            DisplayEffectApplyAnimation(TargetTile);
 
             //Add this effect to the list of active effects
             _ActiveEffects.Add(thisEffect);
@@ -1597,18 +1617,27 @@ namespace DungeonDiceMonsters
             {
                 if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard && 
                     thisCard.Controller == thisEffect.Owner)
-                {
-                    thisEffect.OriginCard.AdjustAttackRangeBonus(1);
+                {                    
                     thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
 
-            //Step 4: Add this effect to the Active Effect list
+            //Step 4: Hide the Effect Menu panel 
+            HideEffectMenuPanel();
+
+            //Step 5: Display the apply effect animation
+            if (thisEffect.CustomInt1 > 0)
+            {
+                thisEffect.OriginCard.AdjustAttackRangeBonus(thisEffect.CustomInt1);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+            }
+
+
+            //Step 6: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
 
-            //Step 5: Hide the Effect Menu panel and Enter Summon phase 4
-            HideEffectMenuPanel();
+            //Step 7: Enter Summon phase 4            
             SummonMonster_Phase4(thisEffect.OriginCard);
         }
         private void TwinHeadedThunderDragon_ContinuousREActivation(Effect thisEffect)
@@ -1626,10 +1655,13 @@ namespace DungeonDiceMonsters
                 if (!thisCard.IsDiscardted && thisCard.Name == "Twin-Headed Thunder Dragon" && thisCard != thisEffect.OriginCard &&
                     thisCard.Controller == thisEffect.Owner)
                 {
-                    thisEffect.OriginCard.AdjustAttackRangeBonus(1);
                     thisEffect.CustomInt1++;
                     UpdateEffectLogs(string.Format("Effect Applied: Card [{0}] On Board ID: [{1}] Owned by [{2}] is on the board. Increase origin's card's Attack Range +1", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
+            }
+            if (thisEffect.CustomInt1 > 0)
+            {
+                thisEffect.OriginCard.AdjustAttackRangeBonus(thisEffect.CustomInt1);
             }
 
             //Step 4: Add this effect to the Active Effect list
@@ -1826,9 +1858,9 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Step 3: Resolve the effect
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             Card summonedCard = CardsBeingSummoned[0];
-            summonedCard.AdjustAttackBonus(-1000);          
+            summonedCard.AdjustAttackBonus(-1000);
+            DisplayEffectApplyAnimation(summonedCard.CurrentTile);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1851,9 +1883,9 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Step 3: Resolve the effect
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             Card summonedCard = CardsBeingSummoned[0];
-            summonedCard.AdjustDefenseBonus(-1000);          
+            summonedCard.AdjustDefenseBonus(-1000);
+            DisplayEffectApplyAnimation(summonedCard.CurrentTile);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1876,7 +1908,6 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Step 3: Resolve the effect
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             Card summonedCard = CardsBeingSummoned[0];
             SpellboundCard(summonedCard, 99);            
 
@@ -1901,9 +1932,9 @@ namespace DungeonDiceMonsters
             HideEffectMenuPanel();
 
             //Step 3: Resolve the effect
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             Card summonedCard = CardsBeingSummoned[0];
-            summonedCard.AddCannotMoveCounter();           
+            summonedCard.AddCannotMoveCounter();
+            DisplayEffectApplyAnimation(summonedCard.CurrentTile);
             UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] received a Cannot Move Counter. Cannot Move Counters [{3}]", summonedCard.Name, summonedCard.OnBoardID, summonedCard.Controller, summonedCard.CannotMoveCounters));
 
             //Step 4: Destroy the card
@@ -2146,6 +2177,7 @@ namespace DungeonDiceMonsters
                 //Open the effect reaction notification
                 DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
                 thisEffect.OriginCard.PlaceTurnCounter();
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
 
                 //Now hide the reaction notification
@@ -2262,6 +2294,7 @@ namespace DungeonDiceMonsters
             //Resolve the effect: Target monster gains 700 ATK/DEF
             TargetTile.CardInPlace.AdjustAttackBonus(700);
             TargetTile.CardInPlace.AdjustDefenseBonus(700);
+            DisplayEffectApplyAnimation(TargetTile);
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
@@ -2351,6 +2384,7 @@ namespace DungeonDiceMonsters
                 thisEffect.CustomInt1 = insectsOnBoard;
                 thisEffect.OriginCard.AdjustAttackBonus(bonus);
                 thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
@@ -2533,6 +2567,7 @@ namespace DungeonDiceMonsters
 
             //Resolve the effect:  target 1 Insect type monster you opponent controls; Increase its Defense Cost + 3.
             TargetTile.CardInPlace.AdjustDefenseCostBonus(3);
+            DisplayEffectApplyAnimation(TargetTile);
             UpdateEffectLogs("Target Card's Defense Cost increased +3.");
 
             //Enter Summon phase 3
@@ -2557,6 +2592,7 @@ namespace DungeonDiceMonsters
                 thisEffect.CustomInt1 = insectsOnBoard;
                 thisEffect.OriginCard.AdjustAttackBonus(bonus);
                 thisEffect.OriginCard.AdjustDefenseBonus(bonus);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs(string.Format("Insect Monsters on board: [{0}] | Origin Card's ATK will be boosted booster by [{1}]", insectsOnBoard, bonus));
             }
 
@@ -2707,7 +2743,6 @@ namespace DungeonDiceMonsters
         private void CocconofUltraEvolution_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TransformMonster(TargetTile, 41456841);
 
             //Destroy the card once done
@@ -2785,8 +2820,8 @@ namespace DungeonDiceMonsters
         private void Gokibore_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: change the field type of the tile to forest
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TargetTile.ChangeFieldType(Tile.FieldTypeValue.Forest);
+            DisplayEffectApplyAnimation(TargetTile);
             WaitNSeconds(1000);
 
             //Update logs
@@ -2818,6 +2853,7 @@ namespace DungeonDiceMonsters
                     effectAppliedToAtLeastOneCard = true;
                     thisCard.AdjustDefenseBonus(200);
                     thisEffect.AddAffectedByCard(thisCard);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the effect Controller. Increase its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -2976,6 +3012,7 @@ namespace DungeonDiceMonsters
                     effectAppliedToAtLeastOneCard = true;
                     thisCard.AdjustDefenseBonus(-200);
                     thisEffect.AddAffectedByCard(thisCard);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Decrease its DEF by 200.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -3143,6 +3180,7 @@ namespace DungeonDiceMonsters
         {
             //Resolve the effect: target monster becomes insect type
             ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+            DisplayEffectApplyAnimation(TargetTile);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
@@ -3207,6 +3245,7 @@ namespace DungeonDiceMonsters
                     effectAppliedToAtLeastOneCard = true;
                     thisCard.AdjustMoveCostBonus(1);
                     thisEffect.AddAffectedByCard(thisCard);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is Insect Type and Owned by the opponent. Increase its Move Cost +1.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }
@@ -3374,6 +3413,7 @@ namespace DungeonDiceMonsters
         {
             //Resolve the effect: target monster becomes insect type
             ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+            DisplayEffectApplyAnimation(TargetTile);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was changed to Insect Type.");
@@ -3428,6 +3468,7 @@ namespace DungeonDiceMonsters
 
             //Resolve the effect: Target monster becomes insect type
             ChangeMonsterType(TargetTile.CardInPlace, Type.Insect, _CardEffectToBeActivated);
+            DisplayEffectApplyAnimation(TargetTile);
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
@@ -3476,6 +3517,7 @@ namespace DungeonDiceMonsters
                 //Open the effect reaction notification
                 DisplayReactionEffectNotification(thisEffect, thisEffect.EffectText);
                 thisEffect.OriginCard.PlaceTurnCounter();
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
 
                 //Now hide the reaction notification
@@ -3537,6 +3579,7 @@ namespace DungeonDiceMonsters
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(-100);
                         thisEffect.AddAffectedByCard(thisCard);
+                        DisplayEffectApplyAnimation(thisCard.CurrentTile);
                         UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 100.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
@@ -3598,6 +3641,7 @@ namespace DungeonDiceMonsters
                 //Open the effect reaction notification
                 DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
                 thisEffect.OriginCard.PlaceTurnCounter();
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
 
                 //Now hide the reaction notification
@@ -3724,6 +3768,7 @@ namespace DungeonDiceMonsters
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(-500);
                         thisEffect.AddAffectedByCard(thisCard);
+                        DisplayEffectApplyAnimation(thisCard.CurrentTile);
                         UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 500.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
@@ -3785,6 +3830,7 @@ namespace DungeonDiceMonsters
                 //Open the effect reaction notification
                 DisplayReactionEffectNotification(thisEffect, "During each of your opponent’s End Phases; place 1 Turn Counter on it.");
                 thisEffect.OriginCard.PlaceTurnCounter();
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
                 UpdateEffectLogs("Effect reacted, Turn Counter placed on origin card.");
 
                 //Now hide the reaction notification
@@ -3909,6 +3955,7 @@ namespace DungeonDiceMonsters
                         effectAppliedToAtLeastOneCard = true;
                         thisCard.AdjustAttackBonus(-700);
                         thisEffect.AddAffectedByCard(thisCard);
+                        DisplayEffectApplyAnimation(thisCard.CurrentTile);
                         UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - Card is ATK bonus was reduced by 700.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                     }
                 }
@@ -4060,6 +4107,7 @@ namespace DungeonDiceMonsters
                 {
                     thisCard.AddCannotAttackCounter();
                     thisEffect.AffectedByList.Add(thisCard);
+                    DisplayEffectApplyAnimation(thisCard.CurrentTile);
                     UpdateEffectLogs(string.Format("Effect Applied to: [{0}] On Board ID: [{1}] Owned by [{2}] - This monster received 1 cannot attack counter.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
                 }
             }

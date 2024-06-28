@@ -108,6 +108,15 @@ namespace DungeonDiceMonsters
         SetCard,
         Cancel,
         EffectApplied,
-        TriggerEffect
+        TriggerEffect,
+        GoBack,
+        Confirm,
+        CardToDeck,
+        CardToStorage,
+        Target,
+        FusionSummon,
+        TransformSummon,
+        SelectTarget,
+        Spellbound
     }
 }

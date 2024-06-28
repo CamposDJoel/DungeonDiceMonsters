@@ -658,8 +658,7 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate ()
             {
                 _CurrentGameState = GameState.NOINPUT;
-                SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
-
+                
                 //Reset the tileUI of all the Tile Candidates to summon trhe card
                 foreach (Tile thisTile in _FusionSummonTiles)
                 {
@@ -673,6 +672,7 @@ namespace DungeonDiceMonsters
                 DestroyCard(_EffectOriginTile);
 
                 //Now run the Master Summon Monster function
+                SoundServer.PlaySoundEffect(SoundEffect.FusionSummon);
                 CardsBeingSummoned.Clear();
                 SummonMonster(_FusionToBeSummoned, tileId, SummonType.Fusion);
             }));
@@ -681,7 +681,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                SoundServer.PlaySoundEffect(SoundEffect.Target);
 
                 //Step 1: Reset the UI of all the target candidates
                 foreach (Tile thisTile in _EffectTargetCandidates)
@@ -692,6 +692,9 @@ namespace DungeonDiceMonsters
                 //Step 2: Highlight the selected target for the opponent to have clear visibility of which one was selected
                 Tile TargetTile = _Tiles[tileId];
                 TargetTile.HighlightTile();
+
+                //Small delay to hear the SFX
+                WaitNSeconds(1000);
 
                 //Step 3: Go to the "Post target" method for the selected effect
                 //The _CurrentPostTargetEffect will drive the direction of this method execution
@@ -1423,7 +1426,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Confirm);
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
@@ -1434,6 +1437,9 @@ namespace DungeonDiceMonsters
 
                 //Flag that this card moved already this turn
                 _PreviousTileMove.CardInPlace.RemoveMoveCounter();
+
+                //Small delay to let the sound effect play
+                WaitNSeconds(1000);
 
                 //Apply the amoutn of crests used
                 int amountUsed = TURNPLAYERDATA.Crests_MOV - _TMPMoveCrestCount;

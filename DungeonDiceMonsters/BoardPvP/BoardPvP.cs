@@ -1188,10 +1188,13 @@ namespace DungeonDiceMonsters
             if (thisSummonType == SummonType.Transform)
             {
                 thisCard.MarkAsTransformedInto();
+                WaitNSeconds(1500);
             }
-
-            //Wait 1 sec to pace the summon animation before start triggering effects
-            WaitNSeconds(1000);
+            else
+            {
+                //Wait 3 sec to pace the summon animation before start triggering effects
+                WaitNSeconds(3000);
+            }           
 
             //Check for active effects that react to monster summons
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
@@ -1481,7 +1484,7 @@ namespace DungeonDiceMonsters
             }
         }
         private void TransformMonster(Tile tileLocation, int newMonsterID)
-        {
+        {            
             //Step 1: Destroy the monster to be transformed
             string oldMonstersName = tileLocation.CardInPlace.Name;
             string oldMonsterOnBoardId = tileLocation.CardInPlace.OnBoardID.ToString();
@@ -1495,15 +1498,19 @@ namespace DungeonDiceMonsters
             UpdateEffectLogs(string.Format("Card [{0}] with On Board ID [{1}] was transformed into [{2}].", oldMonstersName, oldMonsterOnBoardId, newMonstersName));
 
             //Step 4: Now Transform Summon the new monster
+            SoundServer.PlaySoundEffect(SoundEffect.TransformSummon);
             SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
         }
         private void SpellboundCard(Card thisCard, int turns)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            SoundServer.PlaySoundEffect(SoundEffect.Spellbound);
             //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
             thisCard.SpellboundIt(turns);
+            thisCard.CurrentTile.Hover();
 
             UpdateEffectLogs(string.Format("Card [{0}] with OnBoardID [{1}] controlled by [{2}] was spellbounded for [{3}] turns.", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, turns));
+            WaitNSeconds(1500);
+            thisCard.ReloadTileUI();
 
             //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
             Effect activeEffectFound = null;
