@@ -29,7 +29,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public BoardForm(PlayerData Red, PlayerData Blue)
         {
-            SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel, true);
             InitializeComponent();
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;
@@ -154,7 +154,7 @@ namespace DungeonDiceMonsters
         }
         public BoardForm(PlayerData Red, PlayerData Blue, bool test)
         {
-            SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel, true);
             InitializeComponent();
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;

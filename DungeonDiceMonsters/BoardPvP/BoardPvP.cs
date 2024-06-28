@@ -22,7 +22,7 @@ namespace DungeonDiceMonsters
             _PvPMenuRef = pvpmenu;
 
             //Initialize Music
-            SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+            SoundServer.PlayPvPBackgroundMusic();
 
             //Initalize Compents
             InitializeComponent();
@@ -200,7 +200,7 @@ namespace DungeonDiceMonsters
             _PvPMenuRef = pvpmenu;
 
             //Initialize Music
-            SoundServer.PlayBackgroundMusic(Song.FreeDuel, true);
+            SoundServer.PlayPvPBackgroundMusic();
 
             //Initalize Compents
             InitializeComponent();
