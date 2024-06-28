@@ -658,8 +658,7 @@ namespace DungeonDiceMonsters
             Invoke(new MethodInvoker(delegate ()
             {
                 _CurrentGameState = GameState.NOINPUT;
-                SoundServer.PlaySoundEffect(SoundEffect.SummonMonster);
-
+                
                 //Reset the tileUI of all the Tile Candidates to summon trhe card
                 foreach (Tile thisTile in _FusionSummonTiles)
                 {
@@ -673,6 +672,7 @@ namespace DungeonDiceMonsters
                 DestroyCard(_EffectOriginTile);
 
                 //Now run the Master Summon Monster function
+                SoundServer.PlaySoundEffect(SoundEffect.FusionSummon);
                 CardsBeingSummoned.Clear();
                 SummonMonster(_FusionToBeSummoned, tileId, SummonType.Fusion);
             }));

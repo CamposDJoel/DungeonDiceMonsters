@@ -113,6 +113,10 @@ namespace DungeonDiceMonsters
         Confirm,
         CardToDeck,
         CardToStorage,
-        Target
+        Target,
+        FusionSummon,
+        TransformSummon,
+        SelectTarget,
+        Spellbound
     }
 }
