@@ -11,9 +11,11 @@ namespace DungeonDiceMonsters
         private static List<CardInfo> CardList = new List<CardInfo>();
         public static List<rawcardinfo> rawCardList = new List<rawcardinfo>();
 
+        public static int CardCount { get { return CardList.Count; } }
         public static void AddCardToDB(CardInfo thisCardInfo)
         {
             CardList.Add(thisCardInfo);
+            GameData.AddLibraryCard();
         }
         public static CardInfo GetCardWithID(int id)
         {
@@ -22,6 +24,21 @@ namespace DungeonDiceMonsters
             for(int x = 0; x < CardList.Count; x++) 
             {
                 if (CardList[x].ID ==  id)
+                {
+                    cardtoreturn = CardList[x];
+                    break;
+                }
+            }
+
+            return cardtoreturn;
+        }
+        public static CardInfo GetCardWithCardNo(int no)
+        {
+            CardInfo cardtoreturn = null;
+
+            for (int x = 0; x < CardList.Count; x++)
+            {
+                if (CardList[x].CardNumber == no)
                 {
                     cardtoreturn = CardList[x];
                     break;

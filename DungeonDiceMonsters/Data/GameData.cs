@@ -3,6 +3,8 @@
 //Game Data Class
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 
@@ -46,6 +48,49 @@ namespace DungeonDiceMonsters
             string name = c.ToString();
             return name.Replace("_", " ");
         }
+        public static void AddLibraryCard()
+        {
+            _LibraryMarks.Add(false);
+        }
+        public static void MarkLibraryCardObtained(int index)
+        {
+            _LibraryMarks[index] = true;
+        }
+        public static string GetLibraryMarksLine()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (bool thisMark in _LibraryMarks)
+            {
+                if (thisMark)
+                {
+                    sb.Append("1|");
+                }
+                else
+                {
+                    sb.Append("0|");
+                }
+            }
+
+            return sb.ToString();
+        }
+        public static void InitializeLibraryMarksFromSaveFile(string data)
+        {
+            string[] Tokens = data.Split('|');
+
+            for (int x = 0; x < Tokens.Length - 1; x++) 
+            {
+                string token = Tokens[x];
+                if (token.Equals("1")) { _LibraryMarks.Add(true); } else { _LibraryMarks.Add(false); }
+            }
+        }
+        public static int GetLibraryCollectionCount()
+        {
+            int count = 0;
+
+            foreach (bool thisMark in _LibraryMarks) { if (thisMark) { count++; } }
+
+            return count;
+        }
         #endregion
 
         #region Data
@@ -54,6 +99,7 @@ namespace DungeonDiceMonsters
         private static  bool[] _CharactersUnlocked = new bool[35];
         private static  int[] _CharactersWins = new int[35];
         private static  int[] _CharactersLoss = new int[35];
+        private static List<bool> _LibraryMarks = new List<bool>();
         #endregion
     }
 
