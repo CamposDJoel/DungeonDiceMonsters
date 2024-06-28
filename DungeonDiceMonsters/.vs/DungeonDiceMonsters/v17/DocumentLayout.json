@@ -3,36 +3,32 @@
   "WorkspaceRootPath": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\librarymenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\librarymenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\boardpvp\\boardpvp_effects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:boardpvp\\boardpvp_effects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\librarymenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\librarymenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\bin\\Debug\\DB\\CardListDB.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:bin\\Debug\\DB\\CardListDB.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\boardpvp\\boardpvp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:boardpvp\\boardpvp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\boardpvp\\boardpvp_baseevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:boardpvp\\boardpvp_baseevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\media servers\\soundserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:media servers\\soundserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\deckbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\deckbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\data\\gamedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:data\\gamedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\deckbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\deckbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\media servers\\imageserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:media servers\\imageserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\db objects\\carddatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:db objects\\carddatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\data\\savefilemanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:data\\savefilemanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:forms\\pvpmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,109 +38,98 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DeckBuilder.cs [Design]",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs",
-              "RelativeDocumentMoniker": "Forms\\DeckBuilder.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs [Design]",
-              "RelativeToolTip": "Forms\\DeckBuilder.cs [Design]",
+              "DocumentIndex": 6,
+              "Title": "PvPMenu.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs",
+              "RelativeDocumentMoniker": "Forms\\PvPMenu.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\PvPMenu.cs",
+              "RelativeToolTip": "Forms\\PvPMenu.cs",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAgwPcAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:55:36.513Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ImageServer.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Media Servers\\ImageServer.cs",
-              "RelativeDocumentMoniker": "Media Servers\\ImageServer.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Media Servers\\ImageServer.cs",
-              "RelativeToolTip": "Media Servers\\ImageServer.cs",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAiwGMAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:43:58.266Z",
+              "WhenOpened": "2024-06-28T19:09:41.439Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DeckBuilder.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs",
-              "RelativeDocumentMoniker": "Forms\\DeckBuilder.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs",
-              "RelativeToolTip": "Forms\\DeckBuilder.cs",
-              "ViewState": "AQIAAGoAAAAAAAAAAAAmwI0BAAAIAAAA",
+              "Title": "BoardPvP.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP.cs",
+              "RelativeDocumentMoniker": "BoardPvP\\BoardPvP.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP.cs",
+              "RelativeToolTip": "BoardPvP\\BoardPvP.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAswIoEAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:39:03.226Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SaveFileManger.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Data\\SaveFileManger.cs",
-              "RelativeDocumentMoniker": "Data\\SaveFileManger.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Data\\SaveFileManger.cs",
-              "RelativeToolTip": "Data\\SaveFileManger.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAADMAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:26:09.756Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CardDataBase.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\DB Objects\\CardDataBase.cs",
-              "RelativeDocumentMoniker": "DB Objects\\CardDataBase.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\DB Objects\\CardDataBase.cs",
-              "RelativeToolTip": "DB Objects\\CardDataBase.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwCIAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:24:22.756Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GameData.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Data\\GameData.cs",
-              "RelativeDocumentMoniker": "Data\\GameData.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Data\\GameData.cs",
-              "RelativeToolTip": "Data\\GameData.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAiwFUAAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T04:23:20.656Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LibraryMenu.cs",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\LibraryMenu.cs",
-              "RelativeDocumentMoniker": "Forms\\LibraryMenu.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\LibraryMenu.cs",
-              "RelativeToolTip": "Forms\\LibraryMenu.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcBAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T03:51:26.361Z",
+              "WhenOpened": "2024-06-28T18:39:30.582Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LibraryMenu.cs [Design]",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\LibraryMenu.cs",
-              "RelativeDocumentMoniker": "Forms\\LibraryMenu.cs",
-              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\LibraryMenu.cs [Design]",
-              "RelativeToolTip": "Forms\\LibraryMenu.cs [Design]",
+              "Title": "CardListDB.json",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\bin\\Debug\\DB\\CardListDB.json",
+              "RelativeDocumentMoniker": "bin\\Debug\\DB\\CardListDB.json",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\bin\\Debug\\DB\\CardListDB.json",
+              "RelativeToolTip": "bin\\Debug\\DB\\CardListDB.json",
+              "ViewState": "AQIAAMkTAAAAAAAAAAD4v80TAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-06-28T19:08:46.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BoardPvP_Effects.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP_Effects.cs",
+              "RelativeDocumentMoniker": "BoardPvP\\BoardPvP_Effects.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP_Effects.cs",
+              "RelativeToolTip": "BoardPvP\\BoardPvP_Effects.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T03:36:32.851Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-06-28T18:23:10.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeckBuilder.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs",
+              "RelativeDocumentMoniker": "Forms\\DeckBuilder.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Forms\\DeckBuilder.cs",
+              "RelativeToolTip": "Forms\\DeckBuilder.cs",
+              "ViewState": "AQIAAGkCAAAAAAAAAAAkwIMCAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T18:10:51.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BoardPvP_BaseEvents.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP_BaseEvents.cs",
+              "RelativeDocumentMoniker": "BoardPvP\\BoardPvP_BaseEvents.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP_BaseEvents.cs",
+              "RelativeToolTip": "BoardPvP\\BoardPvP_BaseEvents.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAqwI8CAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T15:44:56.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SoundServer.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Media Servers\\SoundServer.cs",
+              "RelativeDocumentMoniker": "Media Servers\\SoundServer.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Media Servers\\SoundServer.cs",
+              "RelativeToolTip": "Media Servers\\SoundServer.cs",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAIwHcAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T15:32:09.156Z",
+              "EditorCaption": ""
             }
           ]
         }

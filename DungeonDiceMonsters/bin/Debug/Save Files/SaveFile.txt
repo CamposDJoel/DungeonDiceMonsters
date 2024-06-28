@@ -1,211 +1,212 @@
 JoelO|0
-2
-8058240|57935140|85309439|63515678|1929294|41158734|80770678|91939608|79629370|2863439|31122090|86088138|75850803|35565537|2971090|89631139|25955164|6740720|62397231|0|0|0|0|LIGHT|Starter Deck
+3
+8058240|57935140|85309439|63515678|1929294|41158734|80770678|91939608|79629370|2863439|31122090|86088138|75850803|35565537|2971090|89631139|25955164|6740720|62397231|31447217|0|0|0|LIGHT|Starter Deck
 58192742|49441499|89091579|7019529|27911549|27911549|33413638|15367030|88979991|87430998|37243151|12143771|23615409|43352213|91512835|94716515|77840540|38277918|7902349|84834865|0|0|0|EARTH|Weevil Deck
+56342351|56342351|56342351|92731455|92731455|92731455|25920413|25920413|25920413|75252099|75252099|75252099|45547649|45547649|45547649|41396436|41396436|31786629|31786629|31786629|54541900|54752875|54752875|DARK|Test
 205
-11714098|9|30,000-Year White Turtle
-23771716|9|7 Colored Fish
-41356845|9|Acid Trap Hole
-62325062|9|Adhesion Trap Hole
-17573739|9|Alector, Sovereign of Birds
-25920413|9|Alien Skull
-73304257|9|Alpha, the Master of Beast
-67371383|9|Amphibian Beast
-81492226|9|Ancient Jar
-86421986|9|Ancient Tree of Enlightenment
-41158734|9|Apocatequil
-75889523|9|Archfiend Marmot of Nefariousness
-36151751|9|Arma Knight
-48305365|9|Axe Raider
-89569453|9|Banishing Trap Hole
-89091579|6|Basic Insect
-48094997|10|Battle Footballer
-1474910|9|Bee List Soldier
-39168895|9|Berserk Gorilla
-16768387|9|Big Eye
-53606874|9|Big Insect
-42129512|9|Big Koala
 8058240|9|Binding Chain
-75252099|9|Bird of Roses
-45547649|9|Birdface
-55761792|9|Black Luster Ritual
-5405694|9|Black Luster Soldier
-28470714|9|Bladefly
-21051146|10|Blast Magician
-23995346|9|Blue-Eyes Ultimate Dragon
-89631139|9|Blue-Eyes White Dragon
-41396436|10|Blue-winged Crown
-21239280|9|Bone Mouse
-59834564|10|Bonfire Colosus
-68963107|9|Boo Koo
-29401950|9|Bottomless Trap Hole
-41859700|10|Burning Algae
-11384280|9|Cannon Soldier
-4031928|9|Change of Heart
-18914778|9|Change Slime
-13179332|10|Charcoal Inpachi
-81599449|10|Chemicritter Carbo Crab
-21830679|9|Clock Wyvern
-77840540|6|Coccon of Ultra Evolution
-33413638|7|Cockroach Knight
-40240595|10|Cocoon of Evolution
-44800181|9|Combo Master
-38999506|9|Cosmo Queen
-53713014|9|Crazy Fish
-28279543|9|Curse of Dragon
-22026707|9|Curtain of the Dark Ones
-6400512|9|Cyber Commander
-48766543|9|Cyber-Tech Alligator
-61583217|9|Cyberworld
-21417692|9|Dark Elf
-40196604|9|Dark Shade
+57935140|9|Tenderness
+85309439|9|Ray & Temperature
+63515678|9|Mystical Capture Chain
+1929294|9|Key Mace
+41158734|9|Apocatequil
+80770678|9|Spirit of the Harp
+91939608|9|Rogue Doll
+79629370|9|Maiden of the Moonlight
+2863439|9|Fiend Refrection #2
+31122090|9|Gyakutenno Megami
+86088138|9|Ocubeam
+75850803|9|LaMoon
 35565537|9|Dark Witch
-43500484|9|Darkworld Thorns
-28654932|9|Deep Dark Trap Hole
-50426119|10|Degrade Buster
+2971090|9|Orion the Battle King
+89631139|9|Blue-Eyes White Dragon
+25955164|9|Sanga of the Thunder
+6740720|9|Seiyaryu
+62397231|9|Hyozanryu
+31447217|10|Wingweaver
 69579761|9|Des Koala
 25882881|9|Dokuroizo the Grim Reaper
-756652|9|Doron
-78009994|9|Dragonic Guard
-53693416|9|Eagle Eye
-94716515|7|Eradicating Aerosol
-33396948|9|Exodia the Forbidden One
-2863439|9|Fiend Refrection #2
-46534755|9|Fire Kraken
-27054370|10|Firewing Pegasus
-71407486|9|Fireyarou
-60862676|10|Flame Cerberus
-12883044|9|Flame Dancer
-41089128|10|Flame Ruler
-84834865|7|Flying Kamakiri #1
-3134241|8|Flying Kamakiri #2
-87430998|7|Forest
-6631034|9|Frostosaurus
-6368038|9|Gaia the Fierce Knight
-55063751|9|Gameciel, the Sea Turtle Kaiju
-14977074|10|Garoozis
-69140098|9|Gemini Elf
-95265975|9|Ghoul with an Appetite
-13039848|9|Giant Soldier of Stone
-33621868|9|Giganto
-53493204|9|Goddess with the Third Eye
-39674352|9|Gogiga Gagagigo
-15367030|7|Gokibore
-14141448|9|Great Moth
-31122090|9|Gyakutenno Megami
-84285623|9|Haniwa
-52584282|9|Hercules Bettle
-75745607|10|Hino-Kagu-Tsuchi
-76184692|9|Hitotsu-Me Giant
-46821314|9|Humanoid Slime
-15042735|9|Hurricail
-62397231|9|Hyozanryu
-74823665|10|Inferno
-23615409|7|Insect Barrier
-91512835|7|Insect Queen
-7019529|7|Insect Soldiers of the Sky
-26082229|10|Invasion of Flames
-4042268|9|Island Turtle
-48109103|9|Kappa Avenger
-54541900|9|Karbonala Warrior
-62340868|9|Kazejin
-1929294|9|Key Mace
-88979991|8|Killer Needle
-9430387|9|LALA Li-oon
-75850803|9|LaMoon
-87756343|10|Larvae Moth
-7902349|8|Left Arm of the Forbidden One
-44519536|9|Left Leg of the Forbidden One
-12472242|8|Leghul
-17658803|9|Luster Dragon #2
-97240270|9|Mad Lobster
-79629370|9|Maiden of the Moonlight
-75499502|9|Master & Expert
-94412545|9|Mechaleon
-55998462|9|Metal Fish
-41456841|9|Metamorphosed Insect Queen
-38277918|8|Mikazukinoyaiba
-47986555|9|Millennium Golem
-35712107|9|Monstrous Bird
-45909477|9|Moon Envoy
-50913601|9|Mountain
-56342351|9|M-Warrior #1
-92731455|10|M-Warrior #2
-68516705|9|Mystic Horseman
-63515678|9|Mystical Capture Chain
-43352213|7|Nekogal #2
-16587243|9|Neo Bug
-86088138|9|Ocubeam
-33064647|9|One-eyed Shield Dragon
-2971090|9|Orion the Battle King
-27911549|6|Parasite Paracide
-24433920|9|Pendulum Machine
-12143771|8|People Running Around
-48579379|9|Perfectly Ultimate Great Moth
-58192742|7|Petit Moth
-56649609|9|Phantasm Spiral Dragon
-26185991|8|Pinch Hopper
-24094653|9|Polymerization
-35842855|10|Pyrorex the Elemental Lord
-85309439|9|Ray & Temperature
-74677422|9|Red-Eyes B. Dragon
-70903634|8|Right Arm of the Forbidden One
-8124921|9|Rigth Leg of the Forbidden One
-82818645|9|Rock Spirit
-91939608|9|Rogue Doll
-39239728|9|Royal Guard
-24611934|9|Ryu-Kishin Powered
 66602787|9|Saggi the Dark Clown
-56433456|9|Sanctuary
-25955164|9|Sanga of the Thunder
-1050684|9|Scrapyard
-23659124|9|Sea King Dragon
-6740720|9|Seiyaryu
-76232340|9|Sengenjin
+6400512|9|Cyber Commander
+21239280|9|Bone Mouse
+21417692|9|Dark Elf
+71280811|9|Yaranzo
+95265975|9|Ghoul with an Appetite
+24611934|9|Ryu-Kishin Powered
+11384280|9|Cannon Soldier
+48649353|9|Ushi Oni
+28279543|9|Curse of Dragon
+70781052|9|Summoned Skull
+24433920|9|Pendulum Machine
+33621868|9|Giganto
+38999506|9|Cosmo Queen
+39111158|9|Tri-Horned Dragon
 66516792|9|Serpent Night Dragon
+38277918|8|Mikazukinoyaiba
+74677422|9|Red-Eyes B. Dragon
+97240270|9|Mad Lobster
+48109103|9|Kappa Avenger
+25109950|9|The Little Swordsman of Aile
+94412545|9|Mechaleon
+18914778|9|Change Slime
+4042268|9|Island Turtle
 71829750|9|Serpentine Princess
+53713014|9|Crazy Fish
+46821314|9|Humanoid Slime
+23771716|9|7 Colored Fish
+67371383|9|Amphibian Beast
+6631034|9|Frostosaurus
+23659124|9|Sea King Dragon
+55998462|9|Metal Fish
+11714098|9|30,000-Year White Turtle
+56649609|9|Phantasm Spiral Dragon
+32626733|9|Spiral Serpent
+98434877|9|Suijin
+39674352|9|Gogiga Gagagigo
+55063751|9|Gameciel, the Sea Turtle Kaiju
+26082229|10|Invasion of Flames
+41859700|10|Burning Algae
+22411609|10|Volcanic Trooper
+81599449|10|Chemicritter Carbo Crab
+13179332|10|Charcoal Inpachi
+78009994|9|Dragonic Guard
+41089128|10|Flame Ruler
+48094997|10|Battle Footballer
+21051146|10|Blast Magician
+74823665|10|Inferno
+27054370|10|Firewing Pegasus
+60862676|10|Flame Cerberus
+78984772|10|Twin-Headed Fire Dragon
+70345785|10|Yamadron
+14977074|10|Garoozis
+46412900|10|Volcanic Emperor
+59834564|10|Bonfire Colosus
+50426119|10|Degrade Buster
+75745607|10|Hino-Kagu-Tsuchi
+35842855|10|Pyrorex the Elemental Lord
+13039848|9|Giant Soldier of Stone
+86421986|9|Ancient Tree of Enlightenment
+43500484|9|Darkworld Thorns
+756652|9|Doron
+81492226|9|Ancient Jar
+86652646|9|Skull Dog Marron
+39168895|9|Berserk Gorilla
+48305365|9|Axe Raider
+69140098|9|Gemini Elf
+68516705|9|Mystic Horseman
+47986555|9|Millennium Golem
+39239728|9|Royal Guard
+43352213|7|Nekogal #2
+52584282|9|Hercules Bettle
+82818645|9|Rock Spirit
+76232340|9|Sengenjin
+68171737|9|Stone D.
+42129512|9|Big Koala
+6368038|9|Gaia the Fierce Knight
+73304257|9|Alpha, the Master of Beast
+53693416|9|Eagle Eye
+40196604|9|Dark Shade
+33064647|9|One-eyed Shield Dragon
+28470714|9|Bladefly
+1474910|9|Bee List Soldier
+25920413|6|Alien Skull
+75252099|6|Bird of Roses
+45547649|6|Birdface
+41396436|8|Blue-winged Crown
+21830679|9|Clock Wyvern
+17573739|9|Alector, Sovereign of Birds
+35712107|9|Monstrous Bird
+17658803|9|Luster Dragon #2
+48766543|9|Cyber-Tech Alligator
+44800181|9|Combo Master
+62340868|9|Kazejin
+86489182|9|Simorgh, Bird of Ancestry
+10530913|9|Sylvan Sagequoia
+11819616|9|Tytannial, Princess of Camellias
+90247311|9|Yellow Dragon Ninja
+87430998|7|Forest
+50913601|9|Mountain
+86318356|9|Sogen
+22702055|9|Umi
+23424603|9|Wasteland
+59197169|9|Yami
+19384334|9|Volcano
+54306223|9|Swamp
+61583217|9|Cyberworld
+56433456|9|Sanctuary
+1050684|9|Scrapyard
+56342351|6|M-Warrior #1
+92731455|7|M-Warrior #2
+24094653|9|Polymerization
+23995346|9|Blue-Eyes Ultimate Dragon
+54541900|8|Karbonala Warrior
+46534755|9|Fire Kraken
+4031928|9|Change of Heart
+31786629|6|Thunder Dragon
+54752875|7|Twin-Headed Thunder Dragon
+76184692|9|Hitotsu-Me Giant
+75499502|9|Master & Expert
+16768387|9|Big Eye
+52367652|9|That Which Feeds on Life
+78243409|9|The Thing in the Crater
+71407486|9|Fireyarou
+53493204|9|Goddess with the Third Eye
+45909477|9|Moon Envoy
+36151751|9|Arma Knight
+55014050|9|Water Girl
+57405307|9|Winged Dragon, Guardian of the Fortress #2
+88979991|8|Killer Needle
+15042735|9|Hurricail
+9430387|9|LALA Li-oon
+98898173|9|The Melting Red Shadow
+60715406|9|Tentacle Plant
+60694662|9|Skelengel
+37243151|7|Weather Control
+12143771|8|People Running Around
+12883044|9|Flame Dancer
+75889523|9|Archfiend Marmot of Nefariousness
+84285623|9|Haniwa
+68963107|9|Boo Koo
+22026707|9|Curtain of the Dark Ones
+4206964|8|Trap Hole
+41356845|9|Acid Trap Hole
+29401950|9|Bottomless Trap Hole
+62325062|9|Adhesion Trap Hole
+89569453|9|Banishing Trap Hole
+28654932|9|Deep Dark Trap Hole
+99590524|9|Treacherous Trap Hole
+33396948|9|Exodia the Forbidden One
+70903634|8|Right Arm of the Forbidden One
+7902349|8|Left Arm of the Forbidden One
+8124921|9|Rigth Leg of the Forbidden One
+44519536|9|Left Leg of the Forbidden One
+5405694|9|Black Luster Soldier
+55761792|9|Black Luster Ritual
 86327225|9|Shinato, King of a Higher Plane
 60365591|9|Shinato’s Ark
-86489182|9|Simorgh, Bird of Ancestry
-60694662|9|Skelengel
-86652646|9|Skull Dog Marron
-86318356|9|Sogen
-32626733|9|Spiral Serpent
-80770678|9|Spirit of the Harp
-68171737|9|Stone D.
-98434877|9|Suijin
-70781052|9|Summoned Skull
-54306223|9|Swamp
-10530913|9|Sylvan Sagequoia
-57935140|9|Tenderness
-60715406|9|Tentacle Plant
-52367652|9|That Which Feeds on Life
-25109950|9|The Little Swordsman of Aile
-98898173|9|The Melting Red Shadow
-78243409|9|The Thing in the Crater
-31786629|9|Thunder Dragon
-4206964|8|Trap Hole
-99590524|9|Treacherous Trap Hole
-39111158|9|Tri-Horned Dragon
-78984772|10|Twin-Headed Fire Dragon
-54752875|9|Twin-Headed Thunder Dragon
-11819616|9|Tytannial, Princess of Camellias
+58192742|7|Petit Moth
+40240595|10|Cocoon of Evolution
+87756343|10|Larvae Moth
+14141448|9|Great Moth
+48579379|9|Perfectly Ultimate Great Moth
+91512835|7|Insect Queen
+41456841|9|Metamorphosed Insect Queen
+89091579|6|Basic Insect
+53606874|9|Big Insect
+15367030|7|Gokibore
+84834865|7|Flying Kamakiri #1
+3134241|8|Flying Kamakiri #2
+33413638|7|Cockroach Knight
+12472242|8|Leghul
+7019529|7|Insect Soldiers of the Sky
+16587243|9|Neo Bug
+26185991|8|Pinch Hopper
+27911549|6|Parasite Paracide
 49441499|7|Ultimate Insect LV1
 34088136|8|Ultimate Insect LV3
 34830502|9|Ultimate Insect LV5
 19877898|9|Ultimate Insect LV7
-22702055|9|Umi
-48649353|9|Ushi Oni
-46412900|10|Volcanic Emperor
-22411609|10|Volcanic Trooper
-19384334|9|Volcano
-23424603|9|Wasteland
-55014050|9|Water Girl
-37243151|7|Weather Control
-57405307|9|Winged Dragon, Guardian of the Fortress #2
-31447217|11|Wingweaver
-70345785|10|Yamadron
-59197169|9|Yami
-71280811|9|Yaranzo
-90247311|9|Yellow Dragon Ninja
+23615409|7|Insect Barrier
+94716515|7|Eradicating Aerosol
+77840540|6|Coccon of Ultra Evolution
 1|1|1|1|1|1|1|1|0|1|0|0|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|
