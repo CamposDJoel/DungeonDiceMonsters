@@ -112,6 +112,7 @@ namespace DungeonDiceMonsters
         GoBack,
         Confirm,
         CardToDeck,
-        CardToStorage
+        CardToStorage,
+        Target
     }
 }

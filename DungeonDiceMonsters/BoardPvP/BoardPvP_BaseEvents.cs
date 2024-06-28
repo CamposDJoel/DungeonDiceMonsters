@@ -681,7 +681,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                SoundServer.PlaySoundEffect(SoundEffect.Target);
 
                 //Step 1: Reset the UI of all the target candidates
                 foreach (Tile thisTile in _EffectTargetCandidates)
@@ -692,6 +692,9 @@ namespace DungeonDiceMonsters
                 //Step 2: Highlight the selected target for the opponent to have clear visibility of which one was selected
                 Tile TargetTile = _Tiles[tileId];
                 TargetTile.HighlightTile();
+
+                //Small delay to hear the SFX
+                WaitNSeconds(1000);
 
                 //Step 3: Go to the "Post target" method for the selected effect
                 //The _CurrentPostTargetEffect will drive the direction of this method execution

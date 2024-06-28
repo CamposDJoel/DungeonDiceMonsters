@@ -1449,7 +1449,6 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             targetCard.SwitchController();
             thisEffect.AddAffectedByCard(targetCard);
 
@@ -2707,7 +2706,6 @@ namespace DungeonDiceMonsters
         private void CocconofUltraEvolution_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: Transform the card into "Metamorphosed Insect Queen" (ID 41456841)
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TransformMonster(TargetTile, 41456841);
 
             //Destroy the card once done
@@ -2785,7 +2783,6 @@ namespace DungeonDiceMonsters
         private void Gokibore_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: change the field type of the tile to forest
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
             TargetTile.ChangeFieldType(Tile.FieldTypeValue.Forest);
             WaitNSeconds(1000);
 
