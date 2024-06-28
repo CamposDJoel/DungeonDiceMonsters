@@ -1423,7 +1423,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.PlaySoundEffect(SoundEffect.Confirm);
                 //Now clear the borders of all the candidates tiles to their og color
                 for (int x = 0; x < _MoveCandidates.Count; x++)
                 {
@@ -1434,6 +1434,9 @@ namespace DungeonDiceMonsters
 
                 //Flag that this card moved already this turn
                 _PreviousTileMove.CardInPlace.RemoveMoveCounter();
+
+                //Small delay to let the sound effect play
+                WaitNSeconds(1000);
 
                 //Apply the amoutn of crests used
                 int amountUsed = TURNPLAYERDATA.Crests_MOV - _TMPMoveCrestCount;

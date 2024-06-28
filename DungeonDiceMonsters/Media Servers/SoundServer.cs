@@ -109,6 +109,7 @@ namespace DungeonDiceMonsters
         Cancel,
         EffectApplied,
         TriggerEffect,
-        GoBack
+        GoBack,
+        Confirm,
     }
 }
