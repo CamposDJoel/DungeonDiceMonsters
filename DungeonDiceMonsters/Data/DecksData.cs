@@ -301,7 +301,9 @@ namespace DungeonDiceMonsters
             }
 
             //Set symbol
-            deckData = deckData + Symbol;
+            deckData = deckData + Symbol + "!";
+
+            deckData = deckData + Name;
             return deckData;
         }
         public void Rename(string newName)
