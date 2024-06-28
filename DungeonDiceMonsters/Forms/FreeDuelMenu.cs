@@ -73,7 +73,7 @@ namespace DungeonDiceMonsters
         #region Events
         private void btnExit_Click(object sender, EventArgs e)
         {
-            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
+            SoundServer.PlaySoundEffect(SoundEffect.GoBack);
             MainMenu MM = new MainMenu();
             Dispose();
             MM.Show();

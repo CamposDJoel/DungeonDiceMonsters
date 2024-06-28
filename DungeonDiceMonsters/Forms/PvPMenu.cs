@@ -45,7 +45,7 @@ namespace DungeonDiceMonsters
         #region Event Listeners
         private void btnExit_Click(object sender, EventArgs e)
         {
-            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
+            SoundServer.PlaySoundEffect(SoundEffect.GoBack);
             MainMenu MM = new MainMenu();
             Dispose();
             MM.Show();
@@ -59,8 +59,8 @@ namespace DungeonDiceMonsters
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
-            IPAddress ip = IPAddress.Parse("192.168.0.220");
-            //IPAddress ip = IPAddress.Parse("127.0.0.1");
+            //IPAddress ip = IPAddress.Parse("192.168.0.220");
+            IPAddress ip = IPAddress.Parse("127.0.0.1");
             int port = 5000;
             TcpClient client = new TcpClient();
 

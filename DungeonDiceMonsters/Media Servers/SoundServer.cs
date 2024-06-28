@@ -108,6 +108,7 @@ namespace DungeonDiceMonsters
         SetCard,
         Cancel,
         EffectApplied,
-        TriggerEffect
+        TriggerEffect,
+        GoBack
     }
 }

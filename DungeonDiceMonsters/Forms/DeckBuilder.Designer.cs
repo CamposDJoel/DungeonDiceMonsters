@@ -64,6 +64,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnTrap = new System.Windows.Forms.Button();
+            this.btnATK = new System.Windows.Forms.Button();
+            this.btnMAG = new System.Windows.Forms.Button();
+            this.btnDEF = new System.Windows.Forms.Button();
+            this.btnMov = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnSortByName = new System.Windows.Forms.Button();
@@ -129,12 +135,6 @@
             this.btnFilterAqua = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblStorageCardCount = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnTrap = new System.Windows.Forms.Button();
-            this.btnATK = new System.Windows.Forms.Button();
-            this.btnMAG = new System.Windows.Forms.Button();
-            this.btnDEF = new System.Windows.Forms.Button();
-            this.btnMov = new System.Windows.Forms.Button();
             this.PanelDeck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).BeginInit();
             this.GroupDiceInfo.SuspendLayout();
@@ -151,6 +151,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -159,7 +160,6 @@
             this.groupBox2.SuspendLayout();
             this.groupSpell.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelDeck
@@ -524,11 +524,11 @@
             this.btnExit.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnExit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnExit.Location = new System.Drawing.Point(10, 5);
+            this.btnExit.Location = new System.Drawing.Point(2, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(64, 24);
+            this.btnExit.Size = new System.Drawing.Size(88, 24);
             this.btnExit.TabIndex = 12;
-            this.btnExit.Text = "<< Exit";
+            this.btnExit.Text = "<< Go Back";
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
@@ -572,6 +572,88 @@
             this.tabPage2.Size = new System.Drawing.Size(417, 380);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Filters/Sorting";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox6.Controls.Add(this.btnTrap);
+            this.groupBox6.Controls.Add(this.btnATK);
+            this.groupBox6.Controls.Add(this.btnMAG);
+            this.groupBox6.Controls.Add(this.btnDEF);
+            this.groupBox6.Controls.Add(this.btnMov);
+            this.groupBox6.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.ForeColor = System.Drawing.Color.Yellow;
+            this.groupBox6.Location = new System.Drawing.Point(132, 225);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(90, 114);
+            this.groupBox6.TabIndex = 228;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Crests";
+            // 
+            // btnTrap
+            // 
+            this.btnTrap.BackColor = System.Drawing.Color.White;
+            this.btnTrap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTrap.BackgroundImage")));
+            this.btnTrap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnTrap.Location = new System.Drawing.Point(43, 75);
+            this.btnTrap.Name = "btnTrap";
+            this.btnTrap.Size = new System.Drawing.Size(30, 30);
+            this.btnTrap.TabIndex = 7;
+            this.btnTrap.Tag = "25";
+            this.btnTrap.UseVisualStyleBackColor = false;
+            this.btnTrap.Click += new System.EventHandler(this.btnTrap_Click);
+            // 
+            // btnATK
+            // 
+            this.btnATK.BackColor = System.Drawing.Color.White;
+            this.btnATK.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnATK.BackgroundImage")));
+            this.btnATK.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnATK.Location = new System.Drawing.Point(13, 46);
+            this.btnATK.Name = "btnATK";
+            this.btnATK.Size = new System.Drawing.Size(30, 30);
+            this.btnATK.TabIndex = 6;
+            this.btnATK.Tag = "25";
+            this.btnATK.UseVisualStyleBackColor = false;
+            this.btnATK.Click += new System.EventHandler(this.btnATK_Click);
+            // 
+            // btnMAG
+            // 
+            this.btnMAG.BackColor = System.Drawing.Color.White;
+            this.btnMAG.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMAG.BackgroundImage")));
+            this.btnMAG.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMAG.Location = new System.Drawing.Point(13, 75);
+            this.btnMAG.Name = "btnMAG";
+            this.btnMAG.Size = new System.Drawing.Size(30, 30);
+            this.btnMAG.TabIndex = 5;
+            this.btnMAG.Tag = "25";
+            this.btnMAG.UseVisualStyleBackColor = false;
+            this.btnMAG.Click += new System.EventHandler(this.btnMAG_Click);
+            // 
+            // btnDEF
+            // 
+            this.btnDEF.BackColor = System.Drawing.Color.White;
+            this.btnDEF.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDEF.BackgroundImage")));
+            this.btnDEF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnDEF.Location = new System.Drawing.Point(43, 46);
+            this.btnDEF.Name = "btnDEF";
+            this.btnDEF.Size = new System.Drawing.Size(30, 30);
+            this.btnDEF.TabIndex = 3;
+            this.btnDEF.Tag = "25";
+            this.btnDEF.UseVisualStyleBackColor = false;
+            this.btnDEF.Click += new System.EventHandler(this.btnDEF_Click);
+            // 
+            // btnMov
+            // 
+            this.btnMov.BackColor = System.Drawing.Color.White;
+            this.btnMov.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMov.BackgroundImage")));
+            this.btnMov.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMov.Location = new System.Drawing.Point(30, 17);
+            this.btnMov.Name = "btnMov";
+            this.btnMov.Size = new System.Drawing.Size(30, 30);
+            this.btnMov.TabIndex = 2;
+            this.btnMov.Tag = "25";
+            this.btnMov.UseVisualStyleBackColor = false;
+            this.btnMov.Click += new System.EventHandler(this.btnMov_Click);
             // 
             // btnClear
             // 
@@ -1455,88 +1537,6 @@
             this.lblStorageCardCount.TabIndex = 15;
             this.lblStorageCardCount.Text = "Cards: 9999";
             // 
-            // groupBox6
-            // 
-            this.groupBox6.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox6.Controls.Add(this.btnTrap);
-            this.groupBox6.Controls.Add(this.btnATK);
-            this.groupBox6.Controls.Add(this.btnMAG);
-            this.groupBox6.Controls.Add(this.btnDEF);
-            this.groupBox6.Controls.Add(this.btnMov);
-            this.groupBox6.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.ForeColor = System.Drawing.Color.Yellow;
-            this.groupBox6.Location = new System.Drawing.Point(132, 225);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(90, 114);
-            this.groupBox6.TabIndex = 228;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Crests";
-            // 
-            // btnTrap
-            // 
-            this.btnTrap.BackColor = System.Drawing.Color.White;
-            this.btnTrap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTrap.BackgroundImage")));
-            this.btnTrap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnTrap.Location = new System.Drawing.Point(43, 75);
-            this.btnTrap.Name = "btnTrap";
-            this.btnTrap.Size = new System.Drawing.Size(30, 30);
-            this.btnTrap.TabIndex = 7;
-            this.btnTrap.Tag = "25";
-            this.btnTrap.UseVisualStyleBackColor = false;
-            this.btnTrap.Click += new System.EventHandler(this.btnTrap_Click);
-            // 
-            // btnATK
-            // 
-            this.btnATK.BackColor = System.Drawing.Color.White;
-            this.btnATK.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnATK.BackgroundImage")));
-            this.btnATK.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnATK.Location = new System.Drawing.Point(13, 46);
-            this.btnATK.Name = "btnATK";
-            this.btnATK.Size = new System.Drawing.Size(30, 30);
-            this.btnATK.TabIndex = 6;
-            this.btnATK.Tag = "25";
-            this.btnATK.UseVisualStyleBackColor = false;
-            this.btnATK.Click += new System.EventHandler(this.btnATK_Click);
-            // 
-            // btnMAG
-            // 
-            this.btnMAG.BackColor = System.Drawing.Color.White;
-            this.btnMAG.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMAG.BackgroundImage")));
-            this.btnMAG.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMAG.Location = new System.Drawing.Point(13, 75);
-            this.btnMAG.Name = "btnMAG";
-            this.btnMAG.Size = new System.Drawing.Size(30, 30);
-            this.btnMAG.TabIndex = 5;
-            this.btnMAG.Tag = "25";
-            this.btnMAG.UseVisualStyleBackColor = false;
-            this.btnMAG.Click += new System.EventHandler(this.btnMAG_Click);
-            // 
-            // btnDEF
-            // 
-            this.btnDEF.BackColor = System.Drawing.Color.White;
-            this.btnDEF.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDEF.BackgroundImage")));
-            this.btnDEF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnDEF.Location = new System.Drawing.Point(43, 46);
-            this.btnDEF.Name = "btnDEF";
-            this.btnDEF.Size = new System.Drawing.Size(30, 30);
-            this.btnDEF.TabIndex = 3;
-            this.btnDEF.Tag = "25";
-            this.btnDEF.UseVisualStyleBackColor = false;
-            this.btnDEF.Click += new System.EventHandler(this.btnDEF_Click);
-            // 
-            // btnMov
-            // 
-            this.btnMov.BackColor = System.Drawing.Color.White;
-            this.btnMov.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMov.BackgroundImage")));
-            this.btnMov.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMov.Location = new System.Drawing.Point(30, 17);
-            this.btnMov.Name = "btnMov";
-            this.btnMov.Size = new System.Drawing.Size(30, 30);
-            this.btnMov.TabIndex = 2;
-            this.btnMov.Tag = "25";
-            this.btnMov.UseVisualStyleBackColor = false;
-            this.btnMov.Click += new System.EventHandler(this.btnMov_Click);
-            // 
             // DeckBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1578,6 +1578,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -1587,7 +1588,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupSpell.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
