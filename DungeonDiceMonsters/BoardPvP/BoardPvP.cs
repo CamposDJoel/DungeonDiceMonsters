@@ -1246,11 +1246,13 @@ namespace DungeonDiceMonsters
                 ImageServer.ClearImage(PicNormalSummonCardPreview);
                 PicNormalSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
                 PanelNormalSummonDisplay.Visible = true;
-                WaitNSeconds(2000);
+                WaitNSeconds(1800);
                 PanelNormalSummonDisplay.Visible = false;
+                SummonTile.Hover();
+                WaitNSeconds(200);
                 SummonTile.SummonCard(thisCard);
                 SummonTile.Hover();
-                WaitNSeconds(1000);
+                WaitNSeconds(800);
                 SummonTile.ReloadTileUI();
             }
         }
