@@ -208,7 +208,7 @@
             this.lblReactionText = new System.Windows.Forms.Label();
             this.PicReactionCardImage = new System.Windows.Forms.PictureBox();
             this.PanelNormalSummonDisplay = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblNormalSummonLabel = new System.Windows.Forms.Label();
             this.PicNormalSummonCardPreview = new System.Windows.Forms.PictureBox();
             this.PanelRitualSummonDisplay = new System.Windows.Forms.Panel();
             this.PicRitualSummonCardPreview = new System.Windows.Forms.PictureBox();
@@ -2457,7 +2457,7 @@
             this.PanelNormalSummonDisplay.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelNormalSummonDisplay.BackgroundImage")));
             this.PanelNormalSummonDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelNormalSummonDisplay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PanelNormalSummonDisplay.Controls.Add(this.label10);
+            this.PanelNormalSummonDisplay.Controls.Add(this.lblNormalSummonLabel);
             this.PanelNormalSummonDisplay.Controls.Add(this.PicNormalSummonCardPreview);
             this.PanelNormalSummonDisplay.Location = new System.Drawing.Point(350, 225);
             this.PanelNormalSummonDisplay.Name = "PanelNormalSummonDisplay";
@@ -2465,16 +2465,16 @@
             this.PanelNormalSummonDisplay.TabIndex = 35;
             this.PanelNormalSummonDisplay.Visible = false;
             // 
-            // label10
+            // lblNormalSummonLabel
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Yellow;
-            this.label10.Location = new System.Drawing.Point(23, 10);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(181, 24);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Normal Summon";
+            this.lblNormalSummonLabel.AutoSize = true;
+            this.lblNormalSummonLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNormalSummonLabel.ForeColor = System.Drawing.Color.Yellow;
+            this.lblNormalSummonLabel.Location = new System.Drawing.Point(23, 10);
+            this.lblNormalSummonLabel.Name = "lblNormalSummonLabel";
+            this.lblNormalSummonLabel.Size = new System.Drawing.Size(181, 24);
+            this.lblNormalSummonLabel.TabIndex = 2;
+            this.lblNormalSummonLabel.Text = "Normal Summon";
             // 
             // PicNormalSummonCardPreview
             // 
@@ -2814,7 +2814,7 @@
         private System.Windows.Forms.Label lblReactionText;
         private System.Windows.Forms.Panel PanelNormalSummonDisplay;
         private System.Windows.Forms.PictureBox PicNormalSummonCardPreview;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblNormalSummonLabel;
         private System.Windows.Forms.Panel PanelRitualSummonDisplay;
         private System.Windows.Forms.PictureBox PicRitualSummonCardPreview;
     }

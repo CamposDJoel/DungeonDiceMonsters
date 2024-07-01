@@ -1183,28 +1183,15 @@ namespace DungeonDiceMonsters
                 case SummonType.Fusion:
                     SummonTile.NonDimensionSummon(thisCard);
                     break;
-                case SummonType.Transform:
-                    SummonTile.NonDimensionSummon(thisCard);
-                    break;
+                case SummonType.Transform:thisCard.MarkAsTransformedInto();
+                                            PlayTransformSummonAnimation(); break;
             }
 
 
             //Add this card to the CardsBeingSummonedList, this list will help in the case where a second monster
             //is being summon in the middle of another summon sequence
             CardsBeingSummoned.Insert(0, thisCard);
-
-            //if this was a Transform Summon flag the monster as such
-            if (thisSummonType == SummonType.Transform)
-            {
-                thisCard.MarkAsTransformedInto();
-                WaitNSeconds(1500);
-            }
-            else
-            {
-                //Wait 3 sec to pace the summon animation before start triggering effects
-                //WaitNSeconds(3000);
-            }           
-
+         
             //Check for active effects that react to monster summons
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [{0}] On Board ID: [{1}] Owned By: [{2}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller));
             ResolveEffectsWithSummonReactionTo(thisCard);
@@ -1246,6 +1233,7 @@ namespace DungeonDiceMonsters
             void PlayNormalSummonAnimation()
             {
                 ImageServer.ClearImage(PicNormalSummonCardPreview);
+                lblNormalSummonLabel.Text = "Summon!";
                 PicNormalSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
                 PanelNormalSummonDisplay.Visible = true;
                 WaitNSeconds(1800);
@@ -1273,6 +1261,21 @@ namespace DungeonDiceMonsters
                 SummonTile.Hover();
                 WaitNSeconds(800);
                 SummonTile.ReloadTileUI();
+            }
+            void PlayTransformSummonAnimation()
+            {
+                ImageServer.ClearImage(PicNormalSummonCardPreview);
+                lblNormalSummonLabel.Text = "Transform!";
+                PicNormalSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
+                PanelNormalSummonDisplay.Visible = true;
+                WaitNSeconds(1800);
+                PanelNormalSummonDisplay.Visible = false;
+                SummonTile.Hover();
+                WaitNSeconds(200);
+                SummonTile.SummonCard(thisCard);
+                SummonTile.Hover();
+                WaitNSeconds(800);
+                SummonTile.ReloadTileUI();               
             }
         }
         private void SummonMonster_Phase2(Card thisCard)
@@ -1984,7 +1987,7 @@ namespace DungeonDiceMonsters
         }       
         private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
         {
-            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
             ImageServer.ClearImage(PicReactionCardImage);
             PicReactionCardImage.Image = ImageServer.CardArtworkImage(thisEffect.OriginCard.CardID.ToString());
             lblReactionText.Text = customText;
