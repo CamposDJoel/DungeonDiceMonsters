@@ -1168,17 +1168,24 @@ namespace DungeonDiceMonsters
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
 
-            Tile SummonTile = _Tiles[tileId];
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
-            if (thisSummonType == SummonType.Normal || thisSummonType == SummonType.Ritual) 
+            Tile SummonTile = _Tiles[tileId];
+
+            switch (thisSummonType)
             {
-                SummonTile.SummonCard(thisCard);
+                case SummonType.Normal: PlayNormalSummonAnimation(); break;
+                case SummonType.Ritual:
+                    SummonTile.SummonCard(thisCard);
+                    break;
+                case SummonType.Fusion:
+                    SummonTile.NonDimensionSummon(thisCard);
+                    break;
+                case SummonType.Transform:
+                    SummonTile.NonDimensionSummon(thisCard);
+                    break;
             }
-            else
-            {
-                SummonTile.NonDimensionSummon(thisCard);
-            }
+
 
             //Add this card to the CardsBeingSummonedList, this list will help in the case where a second monster
             //is being summon in the middle of another summon sequence
@@ -1193,7 +1200,7 @@ namespace DungeonDiceMonsters
             else
             {
                 //Wait 3 sec to pace the summon animation before start triggering effects
-                WaitNSeconds(3000);
+                //WaitNSeconds(3000);
             }           
 
             //Check for active effects that react to monster summons
@@ -1233,6 +1240,20 @@ namespace DungeonDiceMonsters
                         }
                     }
                 }
+            }
+            void PlayNormalSummonAnimation()
+            {
+                ImageServer.ClearImage(PicNormalSummonCardPreview);
+                PicNormalSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
+                PanelNormalSummonDisplay.Visible = true;
+                WaitNSeconds(1800);
+                PanelNormalSummonDisplay.Visible = false;
+                SummonTile.Hover();
+                WaitNSeconds(200);
+                SummonTile.SummonCard(thisCard);
+                SummonTile.Hover();
+                WaitNSeconds(800);
+                SummonTile.ReloadTileUI();
             }
         }
         private void SummonMonster_Phase2(Card thisCard)
