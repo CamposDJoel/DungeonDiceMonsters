@@ -210,6 +210,8 @@
             this.PanelNormalSummonDisplay = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.PicNormalSummonCardPreview = new System.Windows.Forms.PictureBox();
+            this.PanelRitualSummonDisplay = new System.Windows.Forms.Panel();
+            this.PicRitualSummonCardPreview = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -273,6 +275,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicReactionCardImage)).BeginInit();
             this.PanelNormalSummonDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicNormalSummonCardPreview)).BeginInit();
+            this.PanelRitualSummonDisplay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRitualSummonCardPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -2483,13 +2487,37 @@
             this.PicNormalSummonCardPreview.TabIndex = 1;
             this.PicNormalSummonCardPreview.TabStop = false;
             // 
+            // PanelRitualSummonDisplay
+            // 
+            this.PanelRitualSummonDisplay.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelRitualSummonDisplay.BackgroundImage")));
+            this.PanelRitualSummonDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelRitualSummonDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelRitualSummonDisplay.Controls.Add(this.PicRitualSummonCardPreview);
+            this.PanelRitualSummonDisplay.Location = new System.Drawing.Point(239, 221);
+            this.PanelRitualSummonDisplay.Name = "PanelRitualSummonDisplay";
+            this.PanelRitualSummonDisplay.Size = new System.Drawing.Size(462, 386);
+            this.PanelRitualSummonDisplay.TabIndex = 36;
+            this.PanelRitualSummonDisplay.Visible = false;
+            // 
+            // PicRitualSummonCardPreview
+            // 
+            this.PicRitualSummonCardPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRitualSummonCardPreview.Image = ((System.Drawing.Image)(resources.GetObject("PicRitualSummonCardPreview.Image")));
+            this.PicRitualSummonCardPreview.Location = new System.Drawing.Point(160, 97);
+            this.PicRitualSummonCardPreview.Name = "PicRitualSummonCardPreview";
+            this.PicRitualSummonCardPreview.Size = new System.Drawing.Size(141, 191);
+            this.PicRitualSummonCardPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicRitualSummonCardPreview.TabIndex = 1;
+            this.PicRitualSummonCardPreview.TabStop = false;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(997, 926);
+            this.ClientSize = new System.Drawing.Size(999, 926);
+            this.Controls.Add(this.PanelRitualSummonDisplay);
             this.Controls.Add(this.PanelNormalSummonDisplay);
             this.Controls.Add(this.PanelEffectActivationMenu);
             this.Controls.Add(this.PanelReactionNotification);
@@ -2598,6 +2626,8 @@
             this.PanelNormalSummonDisplay.ResumeLayout(false);
             this.PanelNormalSummonDisplay.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicNormalSummonCardPreview)).EndInit();
+            this.PanelRitualSummonDisplay.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicRitualSummonCardPreview)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2785,5 +2815,7 @@
         private System.Windows.Forms.Panel PanelNormalSummonDisplay;
         private System.Windows.Forms.PictureBox PicNormalSummonCardPreview;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel PanelRitualSummonDisplay;
+        private System.Windows.Forms.PictureBox PicRitualSummonCardPreview;
     }
 }
