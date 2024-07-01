@@ -434,6 +434,18 @@ namespace DungeonDiceMonsters
         {
             _MoveCostBonus += amount;
         }
+        public int GetRitualSpellID()
+        {
+            if(_cardInfo.Category == Category.Monster && _cardInfo.SecType == SecType.Ritual)
+            {
+                string ritualSpellName = _cardInfo.RitualCard;
+                return CardDataBase.GetCardWithName(ritualSpellName).ID;
+            }
+            else
+            {
+                throw new System.Exception("Card cannot return Ritual Spell becuase it is NOT a Ritual Monster");
+            }
+        }
         #endregion
 
         #region Data

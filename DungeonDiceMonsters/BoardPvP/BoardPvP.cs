@@ -1168,6 +1168,10 @@ namespace DungeonDiceMonsters
             Card thisCard = new Card(_CardsOnBoard.Count, CardDataBase.GetCardWithID(thisCardToBeSummoned.ID), TURNPLAYER, false);
             _CardsOnBoard.Add(thisCard);
 
+            //SO, ritual summon RUNS like a normal summon until this point. We can override the summon type to 
+            //display the ritual animation instead of the normal summon one.
+            if (thisCard.SecType == SecType.Ritual) { thisSummonType = SummonType.Ritual; }
+
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             Tile SummonTile = _Tiles[tileId];
@@ -1175,9 +1179,7 @@ namespace DungeonDiceMonsters
             switch (thisSummonType)
             {
                 case SummonType.Normal: PlayNormalSummonAnimation(); break;
-                case SummonType.Ritual:
-                    SummonTile.SummonCard(thisCard);
-                    break;
+                case SummonType.Ritual: PlayRitualSummonAnimation(); break;
                 case SummonType.Fusion:
                     SummonTile.NonDimensionSummon(thisCard);
                     break;
@@ -1248,6 +1250,23 @@ namespace DungeonDiceMonsters
                 PanelNormalSummonDisplay.Visible = true;
                 WaitNSeconds(1800);
                 PanelNormalSummonDisplay.Visible = false;
+                SummonTile.Hover();
+                WaitNSeconds(200);
+                SummonTile.SummonCard(thisCard);
+                SummonTile.Hover();
+                WaitNSeconds(800);
+                SummonTile.ReloadTileUI();
+            }
+            void PlayRitualSummonAnimation()
+            {
+                int RitualSpellID = thisCard.GetRitualSpellID();
+                ImageServer.ClearImage(PicRitualSummonCardPreview);
+                PicRitualSummonCardPreview.Image = ImageServer.FullCardImage(RitualSpellID.ToString());
+                PanelRitualSummonDisplay.Visible = true;
+                WaitNSeconds(1500);
+                PicRitualSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());                
+                WaitNSeconds(1500);
+                PanelRitualSummonDisplay.Visible = false;
                 SummonTile.Hover();
                 WaitNSeconds(200);
                 SummonTile.SummonCard(thisCard);

@@ -32,6 +32,21 @@ namespace DungeonDiceMonsters
 
             return cardtoreturn;
         }
+        public static CardInfo GetCardWithName(string name)
+        {
+            CardInfo cardtoreturn = null;
+
+            for (int x = 0; x < CardList.Count; x++)
+            {
+                if (CardList[x].Name == name)
+                {
+                    cardtoreturn = CardList[x];
+                    break;
+                }
+            }
+
+            return cardtoreturn;
+        }
         public static CardInfo GetCardWithCardNo(int no)
         {
             CardInfo cardtoreturn = null;

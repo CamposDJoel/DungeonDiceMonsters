@@ -727,6 +727,10 @@ namespace DungeonDiceMonsters
             int ResultB = Rand.DiceRoll();
             int ResultC = Rand.DiceRoll();
 
+            //int ResultA = 0;
+            //int ResultB = 0;
+            //int ResultC = 0;
+
             //Send the action message to the server
             SendMessageToServer(string.Format("[ROLL DICE FORM REQUEST]|[CLICK ROLL!!]|{0}|{1}|{2}", ResultA, ResultB, ResultC));
 
@@ -854,7 +858,7 @@ namespace DungeonDiceMonsters
                 }
 
                 //if the card sent is a spell/trap and the player has not summon tiles open, display warning.
-                if (thisCard.Category != Category.Monster && !_UnoccupiedSummonTiles && _IsUserTurn)
+                if (thisCard.Category != Category.Monster && !_UnoccupiedSummonTiles && _IsUserTurn && thisCard.Type != Type.Ritual)
                 {
                     lblNoSummonTilesWarning.Visible = true;
                 }
