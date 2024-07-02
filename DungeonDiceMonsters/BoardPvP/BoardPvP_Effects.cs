@@ -511,6 +511,8 @@ namespace DungeonDiceMonsters
 
             void DisplayFusionMaterialCandidates()
             {
+                SoundServer.PlaySoundEffect(SoundEffect.SelectTarget);
+                WaitNSeconds(1000);
                 //Just in case, reset the tile UI of the previous list
                 if (_FusionCandidateTiles.Count > 0)
                 {
