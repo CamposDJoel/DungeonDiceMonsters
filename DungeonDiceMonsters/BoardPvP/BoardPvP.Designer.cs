@@ -213,10 +213,10 @@
             this.PanelRitualSummonDisplay = new System.Windows.Forms.Panel();
             this.PicRitualSummonCardPreview = new System.Windows.Forms.PictureBox();
             this.PanelFusionSummonPanel = new System.Windows.Forms.Panel();
-            this.PicFusionSummonCardPreview = new System.Windows.Forms.PictureBox();
-            this.PicFusionSummonAniMaterial1 = new System.Windows.Forms.PictureBox();
-            this.PicFusionSummonAniMaterial3 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonAniMaterial2 = new System.Windows.Forms.PictureBox();
+            this.PicFusionSummonAniMaterial3 = new System.Windows.Forms.PictureBox();
+            this.PicFusionSummonAniMaterial1 = new System.Windows.Forms.PictureBox();
+            this.PicFusionSummonCardPreview = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -283,10 +283,10 @@
             this.PanelRitualSummonDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicRitualSummonCardPreview)).BeginInit();
             this.PanelFusionSummonPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -1606,7 +1606,7 @@
             this.btnEndTurn.BackColor = System.Drawing.Color.Maroon;
             this.btnEndTurn.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEndTurn.ForeColor = System.Drawing.Color.White;
-            this.btnEndTurn.Location = new System.Drawing.Point(26, 531);
+            this.btnEndTurn.Location = new System.Drawing.Point(26, 467);
             this.btnEndTurn.Name = "btnEndTurn";
             this.btnEndTurn.Size = new System.Drawing.Size(93, 60);
             this.btnEndTurn.TabIndex = 25;
@@ -2535,29 +2535,17 @@
             this.PanelFusionSummonPanel.TabIndex = 37;
             this.PanelFusionSummonPanel.Visible = false;
             // 
-            // PicFusionSummonCardPreview
+            // PicFusionSummonAniMaterial2
             // 
-            this.PicFusionSummonCardPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicFusionSummonCardPreview.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonCardPreview.Image")));
-            this.PicFusionSummonCardPreview.Location = new System.Drawing.Point(160, 97);
-            this.PicFusionSummonCardPreview.Name = "PicFusionSummonCardPreview";
-            this.PicFusionSummonCardPreview.Size = new System.Drawing.Size(141, 191);
-            this.PicFusionSummonCardPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicFusionSummonCardPreview.TabIndex = 1;
-            this.PicFusionSummonCardPreview.TabStop = false;
-            this.PicFusionSummonCardPreview.Visible = false;
-            // 
-            // PicFusionSummonAniMaterial1
-            // 
-            this.PicFusionSummonAniMaterial1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicFusionSummonAniMaterial1.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonAniMaterial1.Image")));
-            this.PicFusionSummonAniMaterial1.Location = new System.Drawing.Point(18, 125);
-            this.PicFusionSummonAniMaterial1.Name = "PicFusionSummonAniMaterial1";
-            this.PicFusionSummonAniMaterial1.Size = new System.Drawing.Size(93, 128);
-            this.PicFusionSummonAniMaterial1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicFusionSummonAniMaterial1.TabIndex = 2;
-            this.PicFusionSummonAniMaterial1.TabStop = false;
-            this.PicFusionSummonAniMaterial1.Visible = false;
+            this.PicFusionSummonAniMaterial2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionSummonAniMaterial2.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonAniMaterial2.Image")));
+            this.PicFusionSummonAniMaterial2.Location = new System.Drawing.Point(184, 127);
+            this.PicFusionSummonAniMaterial2.Name = "PicFusionSummonAniMaterial2";
+            this.PicFusionSummonAniMaterial2.Size = new System.Drawing.Size(93, 128);
+            this.PicFusionSummonAniMaterial2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionSummonAniMaterial2.TabIndex = 4;
+            this.PicFusionSummonAniMaterial2.TabStop = false;
+            this.PicFusionSummonAniMaterial2.Visible = false;
             // 
             // PicFusionSummonAniMaterial3
             // 
@@ -2571,17 +2559,29 @@
             this.PicFusionSummonAniMaterial3.TabStop = false;
             this.PicFusionSummonAniMaterial3.Visible = false;
             // 
-            // PicFusionSummonAniMaterial2
+            // PicFusionSummonAniMaterial1
             // 
-            this.PicFusionSummonAniMaterial2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicFusionSummonAniMaterial2.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonAniMaterial2.Image")));
-            this.PicFusionSummonAniMaterial2.Location = new System.Drawing.Point(184, 127);
-            this.PicFusionSummonAniMaterial2.Name = "PicFusionSummonAniMaterial2";
-            this.PicFusionSummonAniMaterial2.Size = new System.Drawing.Size(93, 128);
-            this.PicFusionSummonAniMaterial2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicFusionSummonAniMaterial2.TabIndex = 4;
-            this.PicFusionSummonAniMaterial2.TabStop = false;
-            this.PicFusionSummonAniMaterial2.Visible = false;
+            this.PicFusionSummonAniMaterial1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionSummonAniMaterial1.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonAniMaterial1.Image")));
+            this.PicFusionSummonAniMaterial1.Location = new System.Drawing.Point(18, 125);
+            this.PicFusionSummonAniMaterial1.Name = "PicFusionSummonAniMaterial1";
+            this.PicFusionSummonAniMaterial1.Size = new System.Drawing.Size(93, 128);
+            this.PicFusionSummonAniMaterial1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionSummonAniMaterial1.TabIndex = 2;
+            this.PicFusionSummonAniMaterial1.TabStop = false;
+            this.PicFusionSummonAniMaterial1.Visible = false;
+            // 
+            // PicFusionSummonCardPreview
+            // 
+            this.PicFusionSummonCardPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicFusionSummonCardPreview.Image = ((System.Drawing.Image)(resources.GetObject("PicFusionSummonCardPreview.Image")));
+            this.PicFusionSummonCardPreview.Location = new System.Drawing.Point(160, 97);
+            this.PicFusionSummonCardPreview.Name = "PicFusionSummonCardPreview";
+            this.PicFusionSummonCardPreview.Size = new System.Drawing.Size(141, 191);
+            this.PicFusionSummonCardPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicFusionSummonCardPreview.TabIndex = 1;
+            this.PicFusionSummonCardPreview.TabStop = false;
+            this.PicFusionSummonCardPreview.Visible = false;
             // 
             // BoardPvP
             // 
@@ -2703,10 +2703,10 @@
             this.PanelRitualSummonDisplay.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicRitualSummonCardPreview)).EndInit();
             this.PanelFusionSummonPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).EndInit();
             this.ResumeLayout(false);
 
         }

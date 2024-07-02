@@ -117,6 +117,7 @@ namespace DungeonDiceMonsters
         FusionSummon,
         TransformSummon,
         SelectTarget,
-        Spellbound
+        Spellbound,
+        EndTurn
     }
 }
