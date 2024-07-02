@@ -17,6 +17,7 @@ namespace DungeonDiceMonsters
             _Controller = controller;
             _CurrentLP = _cardInfo.LP;
             _IsFaceDown = isFaceDown;
+            _CardText = _cardInfo.CardText;
             if(HasAbility)
             {
                 ApplyAbility();
@@ -83,6 +84,8 @@ namespace DungeonDiceMonsters
         public int CardID { get { return _cardInfo.ID; } }
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
+        public string FullCardText { get { return _cardInfo.CardText; } }
+        public int FullCardTextItems { get { return _cardInfo.CardTextItems; } }
         public Type OriginalType { get { return _cardInfo.Type; } }
         public Type Type { get { return _CurrentType; } }
         public string OriginalTypeAsString { get { return _cardInfo.TypeAsString; } }
@@ -480,6 +483,7 @@ namespace DungeonDiceMonsters
         private Tile _CurrentTile;
         private bool _FieldBonusActive = false;
         private bool _WasTransformedInto = false;
+        private string _CardText;
 
         //Card Stats Data
         private int _CurrentLP;

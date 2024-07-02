@@ -690,6 +690,7 @@ namespace DungeonDiceMonsters
                     lblStatsATK.Text = string.Empty;
                     lblStatsDEF.Text = string.Empty;
                     lblStatsLP.Text = string.Empty;
+                    lblCardText.Font = new Font("Arial Rounded MT Bold", 10);
                     lblCardText.Text = "Opponent's Facedown card.";
                     lblAttackLeftAmount.Text = string.Empty;
                     lblMovesLeftAmount.Text = string.Empty;
@@ -721,7 +722,8 @@ namespace DungeonDiceMonsters
                         lblStatsATK.Text = string.Empty;
                         lblStatsDEF.Text = string.Empty;
                         lblStatsLP.Text = thisCard.LP.ToString();
-                        lblCardText.Text = thisCard.ContinuousEffectText;
+                        lblCardText.Font = new Font("Arial Rounded MT Bold", 10);
+                        lblCardText.Text = thisCard.FullCardText;
                         lblAttackLeftAmount.Text = string.Empty;
                         lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
                         lblMovesCostAmount.Text = thisCard.MoveCost.ToString();
@@ -779,40 +781,23 @@ namespace DungeonDiceMonsters
                             lblStatsLP.Text = "";
                         }
 
-                        string fullcardtext = "";
-                        if (thisCard.SecType == SecType.Fusion)
+                        lblCardText.Text = thisCard.FullCardText;
+                        if(thisCard.FullCardTextItems > 2)
                         {
-                            string fusionMaterials = thisCard.FusionMaterial1 + " + " + thisCard.FusionMaterial2;
-                            if (thisCard.FusionMaterial3 != "-") { fusionMaterials = fusionMaterials + " + " + thisCard.FusionMaterial3; }
-                            fullcardtext = fullcardtext + fusionMaterials + "\n\n";
+                            if (thisCard.FullCardText.Length > 190)
+                            {
+                                lblCardText.Font = new Font("Arial Rounded MT Bold", 7);
+                            }
+                            else
+                            {
+                                lblCardText.Font = new Font("Arial Rounded MT Bold", 8);
+                            }
                         }
+                        else
+                        {
+                            lblCardText.Font = new Font("Arial Rounded MT Bold", 8);
 
-                        if (thisCard.HasOnSummonEffect)
-                        {
-                            fullcardtext = fullcardtext + "(ON SUMMON) - " + thisCard.OnSummonEffectText + "\n\n";
                         }
-
-                        if (thisCard.HasAbility)
-                        {
-                            fullcardtext = fullcardtext + "(ABILITY) - " + thisCard.Ability + "\n\n";
-                        }
-
-                        if (thisCard.HasContinuousEffect)
-                        {
-                            fullcardtext = fullcardtext + "(CONTINUOUS) - " + thisCard.ContinuousEffectText + "\n\n";
-                        }
-                        
-                        if (thisCard.HasIgnitionEffect)
-                        {
-                            fullcardtext = fullcardtext + "(EFFECT) - " + thisCard.IgnitionEffectText + "\n\n";
-                        }
-
-                        if (thisCard.HasTriggerEffect)
-                        {
-                            fullcardtext = fullcardtext + "(TRIGGER) - " + thisCard.TriggerEffect + "\n\n";
-                        }
-
-                        lblCardText.Text = fullcardtext;
 
                         if (thisCard.Category == Category.Monster)
                         {

@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace DungeonDiceMonsters
 {
@@ -120,6 +122,74 @@ namespace DungeonDiceMonsters
             _FusionMaterial3 = cardData.fusionMaterial3;
             _RitualCard = cardData.ritualSpell;
             _EffectsImplemeted = cardData.effectsImplemented;
+            GenerateFullCardText();
+
+            void GenerateFullCardText()
+            {
+                //Generate the full card text
+                StringBuilder sb = new StringBuilder();
+
+                //Line Priority 1: Add the Fusion materials on first line if this is a fusion monster
+                if (_Category == Category.Monster && _SecType == SecType.Fusion)
+                {
+                    if(HasThirdFusionMaterial)
+                    {
+                        sb.AppendLine(string.Format("{0}+{1}+{2}", FusionMaterial1, FusionMaterial2, FusionMaterial3));
+                    }
+                    else
+                    {
+                        sb.AppendLine(string.Format("{0}+{1}", FusionMaterial1, FusionMaterial2));
+                    }
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                //Line Priority 2: Ability
+                if(HasAbility)
+                {
+                    sb.AppendLine(string.Format("(ABILITY) - {0}", _Ability));
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                //Line Priority 3: On Summon effects
+                if(HasOnSummonEffect)
+                {
+                    sb.AppendLine(string.Format("(ON SUMMON) - {0}", _OnSummonEffect));
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                //Line Priority 4: Continuous effects
+                if (HasContinuousEffect)
+                {
+                    sb.AppendLine(string.Format("(CONTINUOUS) - {0}", _ContEffect));
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                //Line Priority 5: Ignition effects
+                if (HasIgnitionEffect)
+                {
+                    sb.AppendLine(string.Format("(EFFECT) - {0}", _IgnitionEffect));
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                //Line Priority 6: Trigger effects
+                if (HasTriggerEffect)
+                {
+                    sb.AppendLine(string.Format("(TRIGGER) - {0}", _TriggerEffect));
+                    _CardTextItems++;
+                    sb.AppendLine();
+                }
+
+                sb.Append("EOT");
+                sb.Replace("\nEOT", "");
+                sb.Replace("EOT", "");
+
+                _FullCardText = sb.ToString();
+            }
         }
         public CardInfo(Attribute attribute)
         {
@@ -133,6 +203,7 @@ namespace DungeonDiceMonsters
             _Def = 0;
             _Lp = 8000;
             _ContEffect = "All " + attribute + " monsters you control gain 200 ATK.";
+            _FullCardText = _ContEffect;
         }
         #endregion
 
@@ -141,6 +212,8 @@ namespace DungeonDiceMonsters
         public int CardNumber { get { return _CardNumber; } }
         public string Name { get { return _Name; } }
         public int Level { get { return _MonsterLevel; } }
+        public string CardText { get { return _FullCardText; } }
+        public int CardTextItems { get { return _CardTextItems; } }
         public Attribute Attribute { get { return _Attribute; } }
         public Type Type { get { return _Type; } }
         public string TypeAsString
@@ -257,6 +330,8 @@ namespace DungeonDiceMonsters
         private string _FusionMaterial3;
         private string _RitualCard;
         private bool _EffectsImplemeted;
+        private string _FullCardText;
+        private int _CardTextItems = 0;
         #endregion
     }
 
