@@ -132,7 +132,7 @@ namespace DungeonDiceMonsters
             _Atk = 0;
             _Def = 0;
             _Lp = 8000;
-            _ContEffect = "Increase the ATK of all " + attribute + " monsters you control by 200.";
+            _ContEffect = "All " + attribute + " monsters you control gain 200 ATK.";
         }
         #endregion
 
