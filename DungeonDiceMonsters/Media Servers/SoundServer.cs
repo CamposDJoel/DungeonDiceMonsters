@@ -38,7 +38,8 @@ namespace DungeonDiceMonsters
         {
             //Set the song to play at random
             int songIndex = Rand.V(SongsPlaylist.Length);
-            string song = SongsPlaylist[songIndex].ToString();
+            _CurrentSongPlaying = SongsPlaylist[songIndex];
+            string song = _CurrentSongPlaying.ToString();
             string filepath = "\\Music\\Songs\\" + song + ".m4a";
             CurrentBackGroundPlay.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
 
@@ -46,6 +47,31 @@ namespace DungeonDiceMonsters
             CurrentBackGroundPlay.MediaEnded += new EventHandler(Media_Ended);
             CurrentBackGroundPlay.Play();
             CurrentBackGroundPlay.Volume = CurrentVolumeLevel;
+        }
+
+        public static string GetCurrentSongPlaying()
+        {
+            switch(_CurrentSongPlaying)
+            {
+                case Song.TitleScreen: return "Tittle Screen";
+                case Song.MainMenu: return "Main Menu";
+                case Song.FreeDuelMenu: return "Free Duel Menu";
+                case Song.DeckBuildMenu: return "Deck Build Menu";
+                case Song.YouWin: return "You Win";
+                case Song.YouLose: return "You Lose";
+                case Song.LibraryMenu: return "Library Menu";
+                case Song.DUEL_FreeDuel: return "♫ Free Duel (Forbidden Memories) ♫";
+                case Song.DUEL_FinalsMatch: return "♫ Final's Match (Forbidden Memories) ♫";
+                case Song.DUEL_SetosTheme: return "♫ Seto's Theme (Forbidden Memories) ♫";
+                case Song.DUEL_HeshinsInvasion: return "♫ Heshin's Invasion (Forbidden Memories) ♫";
+                case Song.DUEL_HeishinTheme: return "♫ Heshin's Theme (Forbidden Memories) ♫";
+                case Song.DUEL_HighMagesTheme: return "♫ High Mages' Theme (Forbidden Memories) ♫";
+                case Song.DUEL_KaibaTheme: return "♫ Kaiba's Theme (Forbidden Memories) ♫";
+                case Song.DUEL_EgyptianDuel: return "♫ Egyptian Duel (Forbidden Memories) ♫";
+                case Song.DUEL_MageDuel: return "♫ Mage Duel (Forbidden Memories) ♫";
+                case Song.DUEL_VsNitemareDOR: return "♫ VS Nitemare (Duelists of the Roses) ♫";
+                default: throw new Exception("Song hgas no String name");
+            }
         }
 
         private static void Media_Ended(object sender, EventArgs e)
@@ -71,6 +97,7 @@ namespace DungeonDiceMonsters
             Song.DUEL_VsNitemareDOR,
         };
         private static double CurrentVolumeLevel = 0.3;
+        private static Song _CurrentSongPlaying;
     }
 
     public enum  Song

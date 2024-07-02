@@ -27,6 +27,9 @@ namespace DungeonDiceMonsters
             //Initalize Compents
             InitializeComponent();
 
+            string songPlaying = SoundServer.GetCurrentSongPlaying();
+            this.Text = "Dungeon Dice Monsters - " + songPlaying;
+
             //Set Custom Event Listener
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;
@@ -200,10 +203,13 @@ namespace DungeonDiceMonsters
             _PvPMenuRef = pvpmenu;
 
             //Initialize Music
-            SoundServer.PlayPvPBackgroundMusic();
+            SoundServer.PlayPvPBackgroundMusic();            
 
             //Initalize Compents
             InitializeComponent();
+
+            string songPlaying = SoundServer.GetCurrentSongPlaying();
+            this.Text = "Dungeon Dice Monsters - " + songPlaying;
 
             //Set Custom Event Listener
             btnRoll.MouseEnter += OnMouseHoverSound;
