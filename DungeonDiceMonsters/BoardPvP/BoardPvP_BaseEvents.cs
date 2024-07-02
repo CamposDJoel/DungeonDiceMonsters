@@ -773,6 +773,8 @@ namespace DungeonDiceMonsters
                 }
                 UpdateEffectLogs("-----------------------------------------------------------------------------------------");
 
+                SoundServer.PlaySoundEffect(SoundEffect.EndTurn);
+                WaitNSeconds(1000);
 
                 //Change the TURNPLAYER
                 if (TURNPLAYER == PlayerColor.RED)
