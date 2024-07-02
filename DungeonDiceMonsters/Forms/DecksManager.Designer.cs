@@ -56,6 +56,7 @@
             this.lblDeleteWarning = new System.Windows.Forms.Label();
             this.lblStorageWarning = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.checkDefaultDeck = new System.Windows.Forms.CheckBox();
             this.PanelDeck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicSymbol)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -392,6 +393,20 @@
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // checkDefaultDeck
+            // 
+            this.checkDefaultDeck.AutoSize = true;
+            this.checkDefaultDeck.BackColor = System.Drawing.Color.Black;
+            this.checkDefaultDeck.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkDefaultDeck.ForeColor = System.Drawing.Color.Yellow;
+            this.checkDefaultDeck.Location = new System.Drawing.Point(654, 459);
+            this.checkDefaultDeck.Name = "checkDefaultDeck";
+            this.checkDefaultDeck.Size = new System.Drawing.Size(109, 19);
+            this.checkDefaultDeck.TabIndex = 18;
+            this.checkDefaultDeck.Text = "Default Deck";
+            this.checkDefaultDeck.UseVisualStyleBackColor = false;
+            this.checkDefaultDeck.CheckedChanged += new System.EventHandler(this.checkDefaultDeck_CheckedChanged);
+            // 
             // DecksManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,6 +414,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.checkDefaultDeck);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblStorageWarning);
             this.Controls.Add(this.lblDeleteWarning);
@@ -461,5 +477,6 @@
         private System.Windows.Forms.Label lblDeleteWarning;
         private System.Windows.Forms.Label lblStorageWarning;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.CheckBox checkDefaultDeck;
     }
 }

@@ -11,10 +11,12 @@ namespace DungeonDiceMonsters
     {
         #region Data
         private static List<Deck> _Decks = new List<Deck> ();
+        private static int _DefaultDeckIndex = 0;
         #endregion
 
         #region Public Methods
         public static List<Deck> DecksList { get { return _Decks; } }
+        public static int DefaultDeckIndex { get { return _DefaultDeckIndex; } }
         public static void AddDeck(Deck newDeck)
         {
             _Decks.Add(newDeck);
@@ -67,6 +69,10 @@ namespace DungeonDiceMonsters
             starterDeck.AddMainCard(62397231);
             starterDeck.AddMainCard(31447217);
             return starterDeck;
+        }
+        public static void UpdateDefaultDeckIndex(int newIndex)
+        {
+            _DefaultDeckIndex = newIndex;
         }
         #endregion
     }

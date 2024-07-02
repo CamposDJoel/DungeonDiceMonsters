@@ -19,8 +19,9 @@ namespace DungeonDiceMonsters
             string playerdata = string.Format("{0}|{1}", GameData.Name, GameData.StarChips);
             Lines.Add(playerdata);
 
-            //Line 1 : The total deck count
-            Lines.Add(DecksData.GetDecksCount().ToString());
+            //Line 1 : The total deck count + default deck index
+            int defaultDeckIndex = DecksData.DefaultDeckIndex;
+            Lines.Add(DecksData.GetDecksCount().ToString() + "|" + defaultDeckIndex.ToString());
 
             //Line[2 - n] : each line will hold the card list of each deck
             for (int x = 0; x < DecksData.GetDecksCount(); x++)
@@ -62,9 +63,12 @@ namespace DungeonDiceMonsters
             string[] gamedata = Line.Split('|');
             GameData.LoadGameData(gamedata);
 
-            //Line 1 : The total deck count
+            //Line 1 : The total deck count + Defaul deck indexc
             Line = SR_SaveFile.ReadLine();
-            int totalDeckCount = Convert.ToInt32(Line);
+            string[] decksData = Line.Split('|');
+            int totalDeckCount = Convert.ToInt32(decksData[0]);
+            int defaultDeckIndex = Convert.ToInt32(decksData[1]);
+            DecksData.UpdateDefaultDeckIndex(defaultDeckIndex);
 
 
             //Line[1-2-3]: each line will hold the card list of each deck

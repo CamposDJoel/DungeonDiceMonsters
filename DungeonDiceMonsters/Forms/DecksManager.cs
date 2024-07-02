@@ -113,6 +113,14 @@ namespace DungeonDiceMonsters
         {
             //Set the deck name
             lblDeckName.Text = _CurrentDeckSelected.Name;
+            if (listDecks.SelectedIndex == DecksData.DefaultDeckIndex)
+            {
+                checkDefaultDeck.Checked = true;
+            }
+            else
+            {
+                checkDefaultDeck.Checked = false;
+            }
 
             //Load the Main Deck
             for (int x = 0; x < 20; x++)
@@ -224,7 +232,8 @@ namespace DungeonDiceMonsters
             SoundServer.PlaySoundEffect(SoundEffect.Click);
             _CurrentDeckSelected = DecksData.GetDeckAtIndex(listDecks.SelectedIndex);
             checkEnableDelete.Checked = false;
-            txtRenameNameInput.Text = _CurrentDeckSelected.Name;
+            checkDefaultDeck.Enabled = true;
+            txtRenameNameInput.Text = _CurrentDeckSelected.Name;          
             //Reload the Deck contents
             LoadDeckPage();
         }
@@ -374,5 +383,16 @@ namespace DungeonDiceMonsters
             MM.Show();
         }
         #endregion
+
+        private void checkDefaultDeck_CheckedChanged(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click2);
+            if (checkDefaultDeck.Checked) 
+            {
+                DecksData.UpdateDefaultDeckIndex(listDecks.SelectedIndex);
+                SaveFileManger.WriteSaveFile();
+                checkDefaultDeck.Enabled = false;
+            }          
+        }
     }
 }

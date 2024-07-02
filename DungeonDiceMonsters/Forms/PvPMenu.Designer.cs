@@ -111,7 +111,7 @@
             // PicDeckStatus
             // 
             this.PicDeckStatus.BackColor = System.Drawing.Color.Transparent;
-            this.PicDeckStatus.Location = new System.Drawing.Point(122, 236);
+            this.PicDeckStatus.Location = new System.Drawing.Point(139, 236);
             this.PicDeckStatus.Name = "PicDeckStatus";
             this.PicDeckStatus.Size = new System.Drawing.Size(22, 22);
             this.PicDeckStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -124,7 +124,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(5, 238);
+            this.label1.Location = new System.Drawing.Point(22, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 17);
             this.label1.TabIndex = 21;
@@ -137,9 +137,9 @@
             this.listDeckList.ForeColor = System.Drawing.Color.Yellow;
             this.listDeckList.FormattingEnabled = true;
             this.listDeckList.ItemHeight = 15;
-            this.listDeckList.Location = new System.Drawing.Point(6, 28);
+            this.listDeckList.Location = new System.Drawing.Point(3, 28);
             this.listDeckList.Name = "listDeckList";
-            this.listDeckList.Size = new System.Drawing.Size(142, 199);
+            this.listDeckList.Size = new System.Drawing.Size(185, 199);
             this.listDeckList.TabIndex = 20;
             this.listDeckList.SelectedIndexChanged += new System.EventHandler(this.listDeckList_SelectedIndexChanged);
             // 
@@ -165,7 +165,7 @@
             this.PanelDeckSelection.Controls.Add(this.label1);
             this.PanelDeckSelection.Location = new System.Drawing.Point(12, 12);
             this.PanelDeckSelection.Name = "PanelDeckSelection";
-            this.PanelDeckSelection.Size = new System.Drawing.Size(158, 270);
+            this.PanelDeckSelection.Size = new System.Drawing.Size(196, 270);
             this.PanelDeckSelection.TabIndex = 24;
             // 
             // PvPMenu

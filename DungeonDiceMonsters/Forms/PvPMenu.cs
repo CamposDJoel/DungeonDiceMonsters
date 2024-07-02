@@ -22,12 +22,17 @@ namespace DungeonDiceMonsters
             int iterator = 1;
             foreach (Deck thisDeck in DecksData.DecksList) 
             {
-                listDeckList.Items.Add(iterator + ". " + thisDeck.Name);
+                string defaultflag = "";
+                if(iterator - 1 == DecksData.DefaultDeckIndex)
+                {
+                    defaultflag = " (Default)";
+                }
+                listDeckList.Items.Add(iterator + ". " + thisDeck.Name + defaultflag);
                 iterator++;
             }
 
 
-            listDeckList.SetSelected(0, true);
+            listDeckList.SetSelected(DecksData.DefaultDeckIndex, true);
         }
         #endregion
 
