@@ -1172,6 +1172,9 @@ namespace DungeonDiceMonsters
             //display the ritual animation instead of the normal summon one.
             if (thisCard.SecType == SecType.Ritual) { thisSummonType = SummonType.Ritual; }
 
+            //flag the monster as "transformed into if such
+            if (thisSummonType == SummonType.Transform) { thisCard.MarkAsTransformedInto(); }
+
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             Tile SummonTile = _Tiles[tileId];
@@ -1180,11 +1183,8 @@ namespace DungeonDiceMonsters
             {
                 case SummonType.Normal: PlayNormalSummonAnimation(); break;
                 case SummonType.Ritual: PlayRitualSummonAnimation(); break;
-                case SummonType.Fusion:
-                    SummonTile.NonDimensionSummon(thisCard);
-                    break;
-                case SummonType.Transform:thisCard.MarkAsTransformedInto();
-                                            PlayTransformSummonAnimation(); break;
+                case SummonType.Fusion: PlayFusionSummonAnimation(); break;
+                case SummonType.Transform: PlayTransformSummonAnimation(); break;
             }
 
 
@@ -1272,10 +1272,53 @@ namespace DungeonDiceMonsters
                 PanelNormalSummonDisplay.Visible = false;
                 SummonTile.Hover();
                 WaitNSeconds(200);
-                SummonTile.SummonCard(thisCard);
+                SummonTile.NonDimensionSummon(thisCard);
                 SummonTile.Hover();
                 WaitNSeconds(800);
                 SummonTile.ReloadTileUI();               
+            }
+            void PlayFusionSummonAnimation()
+            {
+                PicFusionSummonAniMaterial1.Visible = false;
+                PicFusionSummonAniMaterial2.Visible = false;
+                PicFusionSummonAniMaterial3.Visible = false;
+                PicFusionSummonCardPreview.Visible = false;
+
+                List<int> MaterialsIDs = thisCard.GetFusionMaterialsIDs();
+                ImageServer.ClearImage(PicFusionSummonAniMaterial1);
+                ImageServer.ClearImage(PicFusionSummonAniMaterial2);
+                ImageServer.ClearImage(PicFusionSummonAniMaterial3);
+                PicFusionSummonAniMaterial1.Image = ImageServer.FullCardImage(MaterialsIDs[0].ToString());
+                PicFusionSummonAniMaterial1.Visible = true;              
+                if(MaterialsIDs.Count == 3)
+                {
+                    PicFusionSummonAniMaterial2.Image = ImageServer.FullCardImage(MaterialsIDs[1].ToString());
+                    PicFusionSummonAniMaterial2.Visible = true;
+                    PicFusionSummonAniMaterial3.Image = ImageServer.FullCardImage(MaterialsIDs[2].ToString());
+                    PicFusionSummonAniMaterial3.Visible = true;
+                }
+                else
+                {
+                    PicFusionSummonAniMaterial2.Visible = false;
+                    PicFusionSummonAniMaterial3.Image = ImageServer.FullCardImage(MaterialsIDs[1].ToString());
+                    PicFusionSummonAniMaterial3.Visible = true;
+                }              
+                PanelFusionSummonPanel.Visible = true;
+                WaitNSeconds(1500);
+
+                ImageServer.ClearImage(PicFusionSummonCardPreview);
+                PicFusionSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
+                PicFusionSummonAniMaterial1.Visible = false;
+                PicFusionSummonAniMaterial2.Visible = false;
+                PicFusionSummonAniMaterial3.Visible = false;
+                PicFusionSummonCardPreview.Visible = true;
+                WaitNSeconds(1200);
+                PanelFusionSummonPanel.Visible = false;
+                WaitNSeconds(200);
+                SummonTile.NonDimensionSummon(thisCard);
+                SummonTile.Hover();
+                WaitNSeconds(800);
+                SummonTile.ReloadTileUI();
             }
         }
         private void SummonMonster_Phase2(Card thisCard)

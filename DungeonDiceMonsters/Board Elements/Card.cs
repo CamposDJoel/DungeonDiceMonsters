@@ -2,9 +2,8 @@
 //9/12/2023
 //Card Class
 
+using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Converters;
 
 namespace DungeonDiceMonsters
 {
@@ -444,6 +443,28 @@ namespace DungeonDiceMonsters
             else
             {
                 throw new System.Exception("Card cannot return Ritual Spell becuase it is NOT a Ritual Monster");
+            }
+        }
+        public List<int> GetFusionMaterialsIDs()
+        {
+            if(_cardInfo.SecType == SecType.Fusion)
+            {
+                List<int> materials = new List<int>();
+                string fusionMaterial1 = _cardInfo.FusionMaterial1;
+                string fusionMaterial2 = _cardInfo.FusionMaterial2;
+                materials.Add(CardDataBase.GetCardWithName(fusionMaterial1).ID);
+                materials.Add(CardDataBase.GetCardWithName(fusionMaterial2).ID);
+                if(_cardInfo.HasThirdFusionMaterial)
+                {
+                    string fusionMaterial3 = _cardInfo.FusionMaterial3;
+                    materials.Add(CardDataBase.GetCardWithName(fusionMaterial3).ID);
+                }
+
+                return materials;
+            }
+            else
+            {
+                throw new System.Exception("Fusion Materials can be returned for a non-fusion monster.");
             }
         }
         #endregion
