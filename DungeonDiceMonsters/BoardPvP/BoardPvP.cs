@@ -1304,7 +1304,7 @@ namespace DungeonDiceMonsters
                     PicFusionSummonAniMaterial3.Visible = true;
                 }              
                 PanelFusionSummonPanel.Visible = true;
-                WaitNSeconds(1500);
+                WaitNSeconds(1700);
 
                 ImageServer.ClearImage(PicFusionSummonCardPreview);
                 PicFusionSummonCardPreview.Image = ImageServer.FullCardImage(thisCard.CardID.ToString());
@@ -1312,7 +1312,7 @@ namespace DungeonDiceMonsters
                 PicFusionSummonAniMaterial2.Visible = false;
                 PicFusionSummonAniMaterial3.Visible = false;
                 PicFusionSummonCardPreview.Visible = true;
-                WaitNSeconds(1200);
+                WaitNSeconds(1000);
                 PanelFusionSummonPanel.Visible = false;
                 WaitNSeconds(200);
                 SummonTile.NonDimensionSummon(thisCard);

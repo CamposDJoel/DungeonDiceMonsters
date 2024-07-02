@@ -600,7 +600,8 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+                SoundServer.PlaySoundEffect(SoundEffect.Target);
+                WaitNSeconds(1000);
 
                 //Destroy the selected card and remove the fusion material from the _FusionMaterialsToBeUsed
                 Tile thisTile = _Tiles[tileId];

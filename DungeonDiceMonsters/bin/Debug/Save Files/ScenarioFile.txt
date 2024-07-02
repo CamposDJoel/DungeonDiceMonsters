@@ -4,12 +4,12 @@ BLUE TILES
 5|7|19|30|31|32|33|34|35|36|45|58|71|84|97|110|111
 ---------------------------------------
 RED MONSTERS|6
-9430387|7|Lalalion
+56342351|7|M-Warrior #1
 54752875|110|M-Warrior #2
 91512835|136|Insect Queen
-46534755|116|Fire Kraken
-31786629|123|Thunder Dragon
-31786629|175|Thunder Dragon
+89631139|116|blue eyes
+89631139|123|blue eyes
+89631139|175|blue eyes
 -----------------------------------------
 BLUE MONSTERS|4
 15367030|226|Gokibore
@@ -19,7 +19,7 @@ BLUE MONSTERS|4
 ------------------------------------
 RED SET CARDS|3
 24094653|188|Poly
-28654932|104|Deep Dark Trap Hole
+24094653|104|Poly
 4031928|201|Change of heart
 ----------------------------------------
 BLUE SET CARDS|2
