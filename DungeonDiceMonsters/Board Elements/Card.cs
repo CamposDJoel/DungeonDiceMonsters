@@ -82,6 +82,7 @@ namespace DungeonDiceMonsters
 
         #region Base Card Info
         public int CardID { get { return _cardInfo.ID; } }
+        public int CardNumber { get { return _cardInfo.CardNumber; } }
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
         public string FullCardText { get { return _cardInfo.CardText; } }

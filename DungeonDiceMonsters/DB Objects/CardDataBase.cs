@@ -16,6 +16,7 @@ namespace DungeonDiceMonsters
         {
             CardList.Add(thisCardInfo);
             GameData.AddLibraryCard();
+            GameData.AddExchangeCardRecord();
         }
         public static CardInfo GetCardWithID(int id)
         {
