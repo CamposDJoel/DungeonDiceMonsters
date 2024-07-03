@@ -152,6 +152,12 @@
     <Compile Include="Forms\PvPMenu.designer.cs">
       <DependentUpon>PvPMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PasswordMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PasswordMenu.Designer.cs">
+      <DependentUpon>PasswordMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
     <Compile Include="Archive\RollDiceCPU.cs">
       <SubType>Form</SubType>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LibraryMenu.resx">
       <DependentUpon>LibraryMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PasswordMenu.resx">
+      <DependentUpon>PasswordMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
       <DependentUpon>JsonGenerator.cs</DependentUpon>
