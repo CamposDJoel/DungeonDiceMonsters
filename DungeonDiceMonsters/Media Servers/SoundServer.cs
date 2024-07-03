@@ -70,6 +70,7 @@ namespace DungeonDiceMonsters
                 case Song.DUEL_EgyptianDuel: return "♫ Egyptian Duel (Forbidden Memories) ♫";
                 case Song.DUEL_MageDuel: return "♫ Mage Duel (Forbidden Memories) ♫";
                 case Song.DUEL_VsNitemareDOR: return "♫ VS Nitemare (Duelists of the Roses) ♫";
+                case Song.PasswordMenu: return "♫ Password Menu (Forbidden Memories) ♫";
                 default: throw new Exception("Song hgas no String name");
             }
         }
@@ -119,6 +120,7 @@ namespace DungeonDiceMonsters
         YouWin,
         YouLose,
         LibraryMenu,
+        PasswordMenu
     }
     public enum SoundEffect
     {
@@ -145,6 +147,7 @@ namespace DungeonDiceMonsters
         TransformSummon,
         SelectTarget,
         Spellbound,
-        EndTurn
+        EndTurn, 
+        Accept
     }
 }
