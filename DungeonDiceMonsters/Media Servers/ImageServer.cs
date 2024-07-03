@@ -105,6 +105,7 @@ namespace DungeonDiceMonsters
                 case Category.Trap: return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\TrapsIcon.png");
                 case Category.Monster:
                     if (secType == SecType.Ritual) { return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\RitualIcon.png"); }
+                    else if (secType == SecType.Fusion) { return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\FusionIcon.png"); }
                     else { return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\Library Icons\\NormalMonsterIcon.png"); }
                 default: throw new NotImplementedException();
             }

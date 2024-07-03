@@ -52,9 +52,21 @@ namespace DungeonDiceMonsters
         {
             _LibraryMarks.Add(false);
         }
+        public static void AddExchangeCardRecord()
+        {
+            _ExchangeMarks.Add(false);
+        }
         public static void MarkLibraryCardObtained(int index)
         {
             _LibraryMarks[index] = true;
+        }
+        public static void MarkLibraryCardObtainedbyID(int id)
+        {
+            _LibraryMarks[CardDataBase.GetCardWithID(id).CardNumber - 1] = true;
+        }
+        public static void MarkExchangeCardObtained(int index)
+        {
+            _ExchangeMarks[index] = true;
         }
         public static string GetLibraryMarksLine()
         {
@@ -73,6 +85,27 @@ namespace DungeonDiceMonsters
 
             return sb.ToString();
         }
+        public static string GetExchangeMarksLine()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (bool thisMark in _ExchangeMarks)
+            {
+                if (thisMark)
+                {
+                    sb.Append("1|");
+                }
+                else
+                {
+                    sb.Append("0|");
+                }
+            }
+
+            return sb.ToString();
+        }
+        public static void AdjustStarchipsAmount(int amount)
+        {
+            _StarChips += amount;
+        }
         public static void InitializeLibraryMarksFromSaveFile(string data)
         {
             string[] Tokens = data.Split('|');
@@ -81,6 +114,16 @@ namespace DungeonDiceMonsters
             {
                 string token = Tokens[x];
                 if (token.Equals("1")) { MarkLibraryCardObtained(x); }
+            }
+        }
+        public static void InitializeExchangeMarksFromSaveFile(string data)
+        {
+            string[] Tokens = data.Split('|');
+
+            for (int x = 0; x < Tokens.Length - 1; x++)
+            {
+                string token = Tokens[x];
+                if (token.Equals("1")) { MarkExchangeCardObtained(x); }
             }
         }
         public static int GetLibraryCollectionCount()
@@ -95,6 +138,26 @@ namespace DungeonDiceMonsters
         {
             return _LibraryMarks[index];
         }
+        public static bool IsExchangeCardObtainedAtIndex(int index)
+        {
+            return _ExchangeMarks[index];
+        }
+        public static void MarkDeckCardsAsLibraryObtained(Deck thisDeck)
+        {
+            for (int x = 0; x < thisDeck.MainDeckSize; x++) 
+            {
+                int thisMainCardID = thisDeck.GetMainCardIDAtIndex(x);
+                CardInfo thisMainCardInfo = CardDataBase.GetCardWithID(thisMainCardID);
+                MarkLibraryCardObtained(thisMainCardInfo.CardNumber - 1);
+            }
+            for (int x = 0; x < thisDeck.FusionDeckSize; x++)
+            {
+                int thisMainCardID = thisDeck.GetFusionCardIDAtIndex(x);
+                CardInfo thisMainCardInfo = CardDataBase.GetCardWithID(thisMainCardID);
+                MarkLibraryCardObtained(thisMainCardInfo.CardNumber - 1);
+            }
+
+        }
         #endregion
 
         #region Data
@@ -104,6 +167,7 @@ namespace DungeonDiceMonsters
         private static  int[] _CharactersWins = new int[35];
         private static  int[] _CharactersLoss = new int[35];
         private static List<bool> _LibraryMarks = new List<bool>();
+        private static List<bool> _ExchangeMarks = new List<bool>();
         #endregion
     }
 

@@ -119,11 +119,14 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 //Initialize the Player name
                 GameData.SetPlayerName(nameinput);
-
-                //To start a new game, give the player the starter deck and a sample card in storage              
-                DecksData.AddDeck(DecksData.GetStarterDeck());
-                StorageData.AddCard(CardDataBase.GetRandomCardID());
-
+                int RandomCardID = CardDataBase.GetRandomCardID();
+                //To start a new game, give the player the starter deck and a sample card in storage
+                Deck StarterDeck = DecksData.GetStarterDeck();
+                DecksData.AddDeck(StarterDeck);
+                StorageData.AddCard(RandomCardID);
+                //Mark all cards obtained for the library
+                GameData.MarkDeckCardsAsLibraryObtained(StarterDeck);
+                GameData.MarkLibraryCardObtainedbyID(RandomCardID);
                 //Create the save file
                 SaveFileManger.WriteSaveFile();
 

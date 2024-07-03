@@ -46,6 +46,7 @@ namespace DungeonDiceMonsters
 
             //line Library marks
             Lines.Add(GameData.GetLibraryMarksLine());
+            Lines.Add(GameData.GetExchangeMarksLine());
 
             //Write the file
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\SaveFile.txt", Lines);
@@ -101,6 +102,8 @@ namespace DungeonDiceMonsters
             //Line: Library marks
             Line = SR_SaveFile.ReadLine();
             GameData.InitializeLibraryMarksFromSaveFile(Line);
+            Line = SR_SaveFile.ReadLine();
+            GameData.InitializeExchangeMarksFromSaveFile(Line);
 
             //Close the stream
             SR_SaveFile.Close();

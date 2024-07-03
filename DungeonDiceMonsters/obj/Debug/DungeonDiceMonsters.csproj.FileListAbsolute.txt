@@ -46,3 +46,4 @@ D:\Documents\GitHubRepos\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\Dunge
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonD.36C11CDB.Up2Date
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DecksManager.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.LibraryMenu.resources
+D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.PasswordMenu.resources
