@@ -29,6 +29,9 @@ namespace DungeonDiceMonsters
 
             lblMenuLibrary.MouseEnter += OnMouseEnterLabel;
             lblMenuLibrary.MouseLeave += OnMouseLeaveLabel;
+
+            lblMenuPassword.MouseEnter += OnMouseEnterLabel;
+            lblMenuPassword.MouseLeave += OnMouseLeaveLabel;
         }
         #endregion
 
@@ -85,6 +88,13 @@ namespace DungeonDiceMonsters
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        private void lblMenuPassword_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            PasswordMenu LM = new PasswordMenu();
+            Dispose();
+            LM.Show();
         }
         #endregion
     }

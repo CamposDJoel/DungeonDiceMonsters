@@ -35,17 +35,18 @@
             this.lblMenuCardShop = new System.Windows.Forms.Label();
             this.lblPvPDuel = new System.Windows.Forms.Label();
             this.lblMenuLibrary = new System.Windows.Forms.Label();
+            this.lblMenuPassword = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMenuArcade
             // 
             this.lblMenuArcade.BackColor = System.Drawing.Color.Transparent;
             this.lblMenuArcade.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuArcade.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuArcade.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMenuArcade.ForeColor = System.Drawing.Color.White;
-            this.lblMenuArcade.Location = new System.Drawing.Point(39, 241);
+            this.lblMenuArcade.Location = new System.Drawing.Point(37, 261);
             this.lblMenuArcade.Name = "lblMenuArcade";
-            this.lblMenuArcade.Size = new System.Drawing.Size(337, 52);
+            this.lblMenuArcade.Size = new System.Drawing.Size(337, 40);
             this.lblMenuArcade.TabIndex = 0;
             this.lblMenuArcade.Text = "Arcade Mode";
             this.lblMenuArcade.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -55,11 +56,11 @@
             // 
             this.lblMenuFreeDuel.BackColor = System.Drawing.Color.Transparent;
             this.lblMenuFreeDuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuFreeDuel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuFreeDuel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMenuFreeDuel.ForeColor = System.Drawing.Color.White;
-            this.lblMenuFreeDuel.Location = new System.Drawing.Point(39, 343);
+            this.lblMenuFreeDuel.Location = new System.Drawing.Point(37, 339);
             this.lblMenuFreeDuel.Name = "lblMenuFreeDuel";
-            this.lblMenuFreeDuel.Size = new System.Drawing.Size(337, 52);
+            this.lblMenuFreeDuel.Size = new System.Drawing.Size(337, 40);
             this.lblMenuFreeDuel.TabIndex = 1;
             this.lblMenuFreeDuel.Text = "Free Duel";
             this.lblMenuFreeDuel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,11 +70,11 @@
             // 
             this.lblMenuDeckBuilder.BackColor = System.Drawing.Color.Transparent;
             this.lblMenuDeckBuilder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuDeckBuilder.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuDeckBuilder.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMenuDeckBuilder.ForeColor = System.Drawing.Color.White;
-            this.lblMenuDeckBuilder.Location = new System.Drawing.Point(39, 445);
+            this.lblMenuDeckBuilder.Location = new System.Drawing.Point(37, 378);
             this.lblMenuDeckBuilder.Name = "lblMenuDeckBuilder";
-            this.lblMenuDeckBuilder.Size = new System.Drawing.Size(337, 52);
+            this.lblMenuDeckBuilder.Size = new System.Drawing.Size(337, 40);
             this.lblMenuDeckBuilder.TabIndex = 2;
             this.lblMenuDeckBuilder.Text = "Deck Management";
             this.lblMenuDeckBuilder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -83,11 +84,11 @@
             // 
             this.lblMenuCardShop.BackColor = System.Drawing.Color.Transparent;
             this.lblMenuCardShop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuCardShop.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuCardShop.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMenuCardShop.ForeColor = System.Drawing.Color.White;
-            this.lblMenuCardShop.Location = new System.Drawing.Point(39, 496);
+            this.lblMenuCardShop.Location = new System.Drawing.Point(37, 495);
             this.lblMenuCardShop.Name = "lblMenuCardShop";
-            this.lblMenuCardShop.Size = new System.Drawing.Size(337, 52);
+            this.lblMenuCardShop.Size = new System.Drawing.Size(337, 40);
             this.lblMenuCardShop.TabIndex = 3;
             this.lblMenuCardShop.Text = "Card Shop";
             this.lblMenuCardShop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -97,11 +98,11 @@
             // 
             this.lblPvPDuel.BackColor = System.Drawing.Color.Transparent;
             this.lblPvPDuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPvPDuel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPvPDuel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPvPDuel.ForeColor = System.Drawing.Color.White;
-            this.lblPvPDuel.Location = new System.Drawing.Point(39, 292);
+            this.lblPvPDuel.Location = new System.Drawing.Point(37, 300);
             this.lblPvPDuel.Name = "lblPvPDuel";
-            this.lblPvPDuel.Size = new System.Drawing.Size(337, 52);
+            this.lblPvPDuel.Size = new System.Drawing.Size(337, 40);
             this.lblPvPDuel.TabIndex = 4;
             this.lblPvPDuel.Text = "PvP Duel";
             this.lblPvPDuel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -111,15 +112,29 @@
             // 
             this.lblMenuLibrary.BackColor = System.Drawing.Color.Transparent;
             this.lblMenuLibrary.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuLibrary.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuLibrary.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMenuLibrary.ForeColor = System.Drawing.Color.White;
-            this.lblMenuLibrary.Location = new System.Drawing.Point(39, 394);
+            this.lblMenuLibrary.Location = new System.Drawing.Point(37, 417);
             this.lblMenuLibrary.Name = "lblMenuLibrary";
-            this.lblMenuLibrary.Size = new System.Drawing.Size(337, 52);
+            this.lblMenuLibrary.Size = new System.Drawing.Size(337, 40);
             this.lblMenuLibrary.TabIndex = 5;
             this.lblMenuLibrary.Text = "Library";
             this.lblMenuLibrary.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblMenuLibrary.Click += new System.EventHandler(this.lblMenuLibrary_Click);
+            // 
+            // lblMenuPassword
+            // 
+            this.lblMenuPassword.BackColor = System.Drawing.Color.Transparent;
+            this.lblMenuPassword.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblMenuPassword.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuPassword.ForeColor = System.Drawing.Color.White;
+            this.lblMenuPassword.Location = new System.Drawing.Point(37, 456);
+            this.lblMenuPassword.Name = "lblMenuPassword";
+            this.lblMenuPassword.Size = new System.Drawing.Size(337, 40);
+            this.lblMenuPassword.TabIndex = 6;
+            this.lblMenuPassword.Text = "Password";
+            this.lblMenuPassword.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMenuPassword.Click += new System.EventHandler(this.lblMenuPassword_Click);
             // 
             // MainMenu
             // 
@@ -128,6 +143,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.lblMenuPassword);
             this.Controls.Add(this.lblMenuLibrary);
             this.Controls.Add(this.lblPvPDuel);
             this.Controls.Add(this.lblMenuCardShop);
@@ -152,5 +168,6 @@
         private System.Windows.Forms.Label lblMenuCardShop;
         private System.Windows.Forms.Label lblPvPDuel;
         private System.Windows.Forms.Label lblMenuLibrary;
+        private System.Windows.Forms.Label lblMenuPassword;
     }
 }
