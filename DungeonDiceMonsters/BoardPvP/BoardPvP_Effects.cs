@@ -1978,7 +1978,7 @@ namespace DungeonDiceMonsters
                 HideEffectMenuPanel();
 
                 PicExodiaEnd.Visible = true;
-                StartGameOver();
+                StartGameOver(TURNPLAYER);
             }
             else
             {
@@ -3216,7 +3216,7 @@ namespace DungeonDiceMonsters
             //Validate if there is a game over, otherwise return to the main phase.
             if(DefenderSymbol.LP == 0)
             {
-                StartGameOver();
+                StartGameOver(TURNPLAYER);
             }
             else
             {

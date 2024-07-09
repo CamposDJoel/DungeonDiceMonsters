@@ -1800,7 +1800,7 @@ namespace DungeonDiceMonsters
 
                         if (DefenderSymbolWasDestroyed)
                         {
-                            StartGameOver();
+                            StartGameOver(TURNPLAYER);
                         }
                         else if (DefenderMonsterWasDestroyed)
                         {
@@ -1817,7 +1817,7 @@ namespace DungeonDiceMonsters
                             //Validate if game continues
                             if (DefenderSymbol.LP == 0)
                             {
-                                StartGameOver();
+                                StartGameOver(TURNPLAYER);
                             }
                             else
                             {
@@ -1900,7 +1900,7 @@ namespace DungeonDiceMonsters
 
                             if (DefenderSymbol.LP == 0)
                             {
-                                StartGameOver();
+                                StartGameOver(TURNPLAYER);
                             }
                             else
                             {
@@ -2006,19 +2006,28 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected != null) { _CurrentTileSelected.ReloadTileUI(); }
             _CurrentGameState = GameState.MainPhaseBoard;
         }
-        private void StartGameOver()
-        {
-            //TODO: defender player loses the game
-            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
-            PanelBattleMenu.Visible = false;
-            PanelEndGameResults.Visible = true;
-
+        private void StartGameOver(PlayerColor winner)
+        {           
             //Send the server the gameover message
             SendMessageToServer("[GAME OVER]");
 
+            if (winner == UserPlayerColor)
+            {
+                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                lblGameOverYouWin.Visible = true;
+            }
+            else
+            {
+                SoundServer.PlayBackgroundMusic(Song.YouLose, true);
+                lblGameOverYouLose.Visible = true;
+            }
+
+            PanelBattleMenu.Visible = false;
+            PanelEndGameResults.Visible = true;
+
             WaitNSeconds(5000);
             btnExit.Visible = true;
-        }       
+        }            
         private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
@@ -2137,7 +2146,7 @@ namespace DungeonDiceMonsters
             Fusion,
             Transform,
         }
-        #endregion                  
+        #endregion
     }
 
     public enum PlayerColor
