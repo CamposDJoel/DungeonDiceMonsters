@@ -1748,6 +1748,9 @@ namespace DungeonDiceMonsters
                             damagetodealtomonster = Defender.LP;
                         }
 
+                        //Save the damage deal to monster for scoring purposes
+                        TURNPLAYERDATA.IncreaseDamageDealtRecord(damagetodealtomonster);
+
                         //Reduce the total damage left
                         Damage -= damagetodealtomonster;
 
@@ -1894,7 +1897,7 @@ namespace DungeonDiceMonsters
                             Card DefenderSymbol = _RedSymbol;
                             Label DefenderSymbolLPLabel = lblRedLP;
                             if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
-
+                            
                             //Deal the damage
                             DealDamageToSymbol(Damage, DefenderSymbol, DefenderSymbolLPLabel);
 
@@ -1966,6 +1969,16 @@ namespace DungeonDiceMonsters
             //Deal the damage
             if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
 
+            //Save the damage to be dealt for scoring purposes
+            if (DefenderSymbol.Controller == PlayerColor.RED)
+            {               
+                BlueData.IncreaseDamageDealtRecord(Damage);
+            }
+            else
+            {
+                RedData.IncreaseDamageDealtRecord(Damage);
+            }
+
             UpdateEffectLogs(string.Format("Damage dealt to Symbol: [{0}]", Damage));
 
             //Deal damage to the player
@@ -2023,6 +2036,15 @@ namespace DungeonDiceMonsters
                 lblGameOverYouLose.Visible = true;
             }
 
+            if(UserPlayerColor == PlayerColor.RED)
+            {
+                lblGameOverDamage.Text = RedData.Score_DamageDealt.ToString();
+            }
+            else
+            {
+                lblGameOverDamage.Text = BlueData.Score_DamageDealt.ToString();
+            }
+
             lblGameOverTurns.Text = _CurrentTurn.ToString();
 
 
@@ -2065,6 +2087,7 @@ namespace DungeonDiceMonsters
         private Tile _InitialTileMove = null;
         private Tile _PreviousTileMove = null;
         private int _TMPMoveCrestCount = 0;
+        private int _CurrentTurn = 1;
         //Attack Action Data
         private List<Tile> _AttackCandidates = new List<Tile>();
         private List<Tile> _AttackRangeTiles = new List<Tile>();
@@ -2106,10 +2129,8 @@ namespace DungeonDiceMonsters
         private List<Tile> _FusionCandidateTiles = new List<Tile>();
         private List<Tile> _FusionSummonTiles = new List<Tile>();
         private int _IndexOfFusionCardSelected = -1;
-        //Data for scoring
-        private int _CurrentTurn = 1;
         #endregion
-        
+
         #region Enums
         private enum GameState
         {

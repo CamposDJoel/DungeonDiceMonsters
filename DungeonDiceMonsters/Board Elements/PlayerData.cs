@@ -24,6 +24,7 @@ namespace DungeonDiceMonsters
         public int Crests_DEF { get { return _DefenseCrests; } }
         public int Crests_MAG { get { return _MagicCrests; } }
         public int Crests_TRAP { get { return _TrapCrests; } }
+        public int Score_DamageDealt { get { return _DamageDealt; } }
         #endregion
 
         #region Public Methods
@@ -49,6 +50,10 @@ namespace DungeonDiceMonsters
                 case Crest.TRAP: _TrapCrests -= amount; break;
             }
         }
+        public void IncreaseDamageDealtRecord(int amount)
+        {
+            _DamageDealt += amount;
+        }
         #endregion
 
         #region Data
@@ -59,6 +64,8 @@ namespace DungeonDiceMonsters
         private int _DefenseCrests = 0;
         private int _MagicCrests = 0;
         private int _TrapCrests = 0;
+        //scoring data
+        private int _DamageDealt = 0;
         #endregion
     }
 }
