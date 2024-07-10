@@ -218,6 +218,13 @@
             this.PicFusionSummonAniMaterial3 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonAniMaterial1 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonCardPreview = new System.Windows.Forms.PictureBox();
+            this.lblGameOverTurns = new System.Windows.Forms.Label();
+            this.lblGameOverDamage = new System.Windows.Forms.Label();
+            this.lblGameOverPrizeCard = new System.Windows.Forms.Label();
+            this.lblGameOverScore = new System.Windows.Forms.Label();
+            this.listGameOverSpecialBonusList = new System.Windows.Forms.ListBox();
+            this.PanelGameOverBonusDescription = new System.Windows.Forms.Panel();
+            this.lblGameOverStarchips = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
             this.PanelBlueCrests.SuspendLayout();
@@ -2093,6 +2100,13 @@
             this.PanelEndGameResults.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelEndGameResults.BackgroundImage")));
             this.PanelEndGameResults.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelEndGameResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelEndGameResults.Controls.Add(this.lblGameOverStarchips);
+            this.PanelEndGameResults.Controls.Add(this.PanelGameOverBonusDescription);
+            this.PanelEndGameResults.Controls.Add(this.listGameOverSpecialBonusList);
+            this.PanelEndGameResults.Controls.Add(this.lblGameOverScore);
+            this.PanelEndGameResults.Controls.Add(this.lblGameOverPrizeCard);
+            this.PanelEndGameResults.Controls.Add(this.lblGameOverDamage);
+            this.PanelEndGameResults.Controls.Add(this.lblGameOverTurns);
             this.PanelEndGameResults.Controls.Add(this.lblGameOverYouLose);
             this.PanelEndGameResults.Controls.Add(this.btnExit);
             this.PanelEndGameResults.Controls.Add(this.lblGameOverYouWin);
@@ -2607,6 +2621,89 @@
             this.PicFusionSummonCardPreview.TabStop = false;
             this.PicFusionSummonCardPreview.Visible = false;
             // 
+            // lblGameOverTurns
+            // 
+            this.lblGameOverTurns.BackColor = System.Drawing.Color.Transparent;
+            this.lblGameOverTurns.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGameOverTurns.ForeColor = System.Drawing.Color.Yellow;
+            this.lblGameOverTurns.Location = new System.Drawing.Point(222, 226);
+            this.lblGameOverTurns.Name = "lblGameOverTurns";
+            this.lblGameOverTurns.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblGameOverTurns.Size = new System.Drawing.Size(102, 28);
+            this.lblGameOverTurns.TabIndex = 3;
+            this.lblGameOverTurns.Text = "99";
+            // 
+            // lblGameOverDamage
+            // 
+            this.lblGameOverDamage.BackColor = System.Drawing.Color.Transparent;
+            this.lblGameOverDamage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGameOverDamage.ForeColor = System.Drawing.Color.Yellow;
+            this.lblGameOverDamage.Location = new System.Drawing.Point(232, 304);
+            this.lblGameOverDamage.Name = "lblGameOverDamage";
+            this.lblGameOverDamage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblGameOverDamage.Size = new System.Drawing.Size(92, 28);
+            this.lblGameOverDamage.TabIndex = 4;
+            this.lblGameOverDamage.Text = "999999";
+            // 
+            // lblGameOverPrizeCard
+            // 
+            this.lblGameOverPrizeCard.BackColor = System.Drawing.Color.Transparent;
+            this.lblGameOverPrizeCard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGameOverPrizeCard.ForeColor = System.Drawing.Color.Yellow;
+            this.lblGameOverPrizeCard.Location = new System.Drawing.Point(65, 437);
+            this.lblGameOverPrizeCard.Name = "lblGameOverPrizeCard";
+            this.lblGameOverPrizeCard.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblGameOverPrizeCard.Size = new System.Drawing.Size(259, 22);
+            this.lblGameOverPrizeCard.TabIndex = 5;
+            this.lblGameOverPrizeCard.Text = "Perfectly Ultimate Great Moth";
+            this.lblGameOverPrizeCard.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblGameOverScore
+            // 
+            this.lblGameOverScore.BackColor = System.Drawing.Color.Transparent;
+            this.lblGameOverScore.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGameOverScore.ForeColor = System.Drawing.Color.Yellow;
+            this.lblGameOverScore.Location = new System.Drawing.Point(514, 552);
+            this.lblGameOverScore.Name = "lblGameOverScore";
+            this.lblGameOverScore.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblGameOverScore.Size = new System.Drawing.Size(310, 39);
+            this.lblGameOverScore.TabIndex = 6;
+            this.lblGameOverScore.Text = "999999";
+            this.lblGameOverScore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // listGameOverSpecialBonusList
+            // 
+            this.listGameOverSpecialBonusList.BackColor = System.Drawing.Color.Black;
+            this.listGameOverSpecialBonusList.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listGameOverSpecialBonusList.ForeColor = System.Drawing.Color.Yellow;
+            this.listGameOverSpecialBonusList.FormattingEnabled = true;
+            this.listGameOverSpecialBonusList.ItemHeight = 12;
+            this.listGameOverSpecialBonusList.Location = new System.Drawing.Point(386, 264);
+            this.listGameOverSpecialBonusList.Name = "listGameOverSpecialBonusList";
+            this.listGameOverSpecialBonusList.Size = new System.Drawing.Size(403, 220);
+            this.listGameOverSpecialBonusList.TabIndex = 7;
+            // 
+            // PanelGameOverBonusDescription
+            // 
+            this.PanelGameOverBonusDescription.BackColor = System.Drawing.Color.Black;
+            this.PanelGameOverBonusDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelGameOverBonusDescription.Location = new System.Drawing.Point(385, 492);
+            this.PanelGameOverBonusDescription.Name = "PanelGameOverBonusDescription";
+            this.PanelGameOverBonusDescription.Size = new System.Drawing.Size(403, 34);
+            this.PanelGameOverBonusDescription.TabIndex = 8;
+            // 
+            // lblGameOverStarchips
+            // 
+            this.lblGameOverStarchips.BackColor = System.Drawing.Color.Transparent;
+            this.lblGameOverStarchips.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGameOverStarchips.ForeColor = System.Drawing.Color.Yellow;
+            this.lblGameOverStarchips.Location = new System.Drawing.Point(200, 558);
+            this.lblGameOverStarchips.Name = "lblGameOverStarchips";
+            this.lblGameOverStarchips.Size = new System.Drawing.Size(102, 39);
+            this.lblGameOverStarchips.TabIndex = 9;
+            this.lblGameOverStarchips.Text = "9999";
+            this.lblGameOverStarchips.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2926,5 +3023,12 @@
         private System.Windows.Forms.PictureBox PicFusionSummonAniMaterial3;
         private System.Windows.Forms.PictureBox PicFusionSummonAniMaterial1;
         private System.Windows.Forms.Label lblGameOverYouLose;
+        private System.Windows.Forms.Label lblGameOverTurns;
+        private System.Windows.Forms.Label lblGameOverDamage;
+        private System.Windows.Forms.Label lblGameOverPrizeCard;
+        private System.Windows.Forms.Label lblGameOverStarchips;
+        private System.Windows.Forms.Panel PanelGameOverBonusDescription;
+        private System.Windows.Forms.ListBox listGameOverSpecialBonusList;
+        private System.Windows.Forms.Label lblGameOverScore;
     }
 }
