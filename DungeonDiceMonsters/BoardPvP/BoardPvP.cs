@@ -2029,11 +2029,21 @@ namespace DungeonDiceMonsters
             {
                 SoundServer.PlayBackgroundMusic(Song.YouWin, true);
                 lblGameOverYouWin.Visible = true;
+
+                //Generate the Prize Card, display it on the UI and add it to the storage
+                int CardPrizeID = CardDataBase.GetRandomCardID();
+                CardInfo thisCardPrize = CardDataBase.GetCardWithID(CardPrizeID);
+                GameData.MarkLibraryCardObtained(thisCardPrize.CardNumber - 1);
+                StorageData.AddCard(CardPrizeID);
+                lblGameOverPrizeCard.Text = thisCardPrize.Name;
             }
             else
             {
                 SoundServer.PlayBackgroundMusic(Song.YouLose, true);
                 lblGameOverYouLose.Visible = true;
+
+                //No prize card for the loser
+                lblGameOverPrizeCard.Text = "NONE";
             }
 
             if(UserPlayerColor == PlayerColor.RED)
@@ -2054,6 +2064,9 @@ namespace DungeonDiceMonsters
 
             WaitNSeconds(5000);
             btnExit.Visible = true;
+
+            //Finally update the save file
+            SaveFileManger.WriteSaveFile();
         }            
         private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
         {
