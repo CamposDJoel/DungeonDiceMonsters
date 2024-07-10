@@ -783,6 +783,8 @@ namespace DungeonDiceMonsters
                     TURNPLAYERDATA = BlueData;
                     OPPONENTPLAYER = PlayerColor.RED;
                     OPPONENTPLAYERDATA = RedData;
+                    //Each time the Red Player's Turn begins a new full turn starts 
+                    _CurrentTurn++;
                 }
                 else
                 {

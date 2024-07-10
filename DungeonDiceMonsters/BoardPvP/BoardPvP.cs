@@ -1748,6 +1748,9 @@ namespace DungeonDiceMonsters
                             damagetodealtomonster = Defender.LP;
                         }
 
+                        //Save the damage deal to monster for scoring purposes
+                        TURNPLAYERDATA.IncreaseDamageDealtRecord(damagetodealtomonster);
+
                         //Reduce the total damage left
                         Damage -= damagetodealtomonster;
 
@@ -1800,7 +1803,7 @@ namespace DungeonDiceMonsters
 
                         if (DefenderSymbolWasDestroyed)
                         {
-                            StartGameOver();
+                            StartGameOver(TURNPLAYER);
                         }
                         else if (DefenderMonsterWasDestroyed)
                         {
@@ -1817,7 +1820,7 @@ namespace DungeonDiceMonsters
                             //Validate if game continues
                             if (DefenderSymbol.LP == 0)
                             {
-                                StartGameOver();
+                                StartGameOver(TURNPLAYER);
                             }
                             else
                             {
@@ -1894,13 +1897,13 @@ namespace DungeonDiceMonsters
                             Card DefenderSymbol = _RedSymbol;
                             Label DefenderSymbolLPLabel = lblRedLP;
                             if (TURNPLAYER == PlayerColor.RED) { DefenderSymbol = _BlueSymbol; DefenderSymbolLPLabel = lblBlueLP; }
-
+                            
                             //Deal the damage
                             DealDamageToSymbol(Damage, DefenderSymbol, DefenderSymbolLPLabel);
 
                             if (DefenderSymbol.LP == 0)
                             {
-                                StartGameOver();
+                                StartGameOver(TURNPLAYER);
                             }
                             else
                             {
@@ -1966,6 +1969,16 @@ namespace DungeonDiceMonsters
             //Deal the damage
             if (Damage > DefenderSymbol.LP) { Damage = DefenderSymbol.LP; }
 
+            //Save the damage to be dealt for scoring purposes
+            if (DefenderSymbol.Controller == PlayerColor.RED)
+            {               
+                BlueData.IncreaseDamageDealtRecord(Damage);
+            }
+            else
+            {
+                RedData.IncreaseDamageDealtRecord(Damage);
+            }
+
             UpdateEffectLogs(string.Format("Damage dealt to Symbol: [{0}]", Damage));
 
             //Deal damage to the player
@@ -2006,19 +2019,55 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected != null) { _CurrentTileSelected.ReloadTileUI(); }
             _CurrentGameState = GameState.MainPhaseBoard;
         }
-        private void StartGameOver()
-        {
-            //TODO: defender player loses the game
-            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
-            PanelBattleMenu.Visible = false;
-            PanelEndGameResults.Visible = true;
-
+        private void StartGameOver(PlayerColor winner)
+        {           
             //Send the server the gameover message
             SendMessageToServer("[GAME OVER]");
 
+            //Initalize the Game Over screen for both players
+            if (winner == UserPlayerColor)
+            {
+                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                lblGameOverYouWin.Visible = true;
+
+                //Generate the Prize Card, display it on the UI and add it to the storage
+                int CardPrizeID = CardDataBase.GetRandomCardID();
+                CardInfo thisCardPrize = CardDataBase.GetCardWithID(CardPrizeID);
+                GameData.MarkLibraryCardObtained(thisCardPrize.CardNumber - 1);
+                StorageData.AddCard(CardPrizeID);
+                lblGameOverPrizeCard.Text = thisCardPrize.Name;
+            }
+            else
+            {
+                SoundServer.PlayBackgroundMusic(Song.YouLose, true);
+                lblGameOverYouLose.Visible = true;
+
+                //No prize card for the loser
+                lblGameOverPrizeCard.Text = "NONE";
+            }
+
+            if(UserPlayerColor == PlayerColor.RED)
+            {
+                lblGameOverDamage.Text = RedData.Score_DamageDealt.ToString();
+            }
+            else
+            {
+                lblGameOverDamage.Text = BlueData.Score_DamageDealt.ToString();
+            }
+
+            lblGameOverTurns.Text = _CurrentTurn.ToString();
+
+
+
+            PanelBattleMenu.Visible = false;
+            PanelEndGameResults.Visible = true;
+
             WaitNSeconds(5000);
             btnExit.Visible = true;
-        }       
+
+            //Finally update the save file
+            SaveFileManger.WriteSaveFile();
+        }            
         private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectMenu);
@@ -2051,6 +2100,7 @@ namespace DungeonDiceMonsters
         private Tile _InitialTileMove = null;
         private Tile _PreviousTileMove = null;
         private int _TMPMoveCrestCount = 0;
+        private int _CurrentTurn = 1;
         //Attack Action Data
         private List<Tile> _AttackCandidates = new List<Tile>();
         private List<Tile> _AttackRangeTiles = new List<Tile>();
@@ -2093,7 +2143,7 @@ namespace DungeonDiceMonsters
         private List<Tile> _FusionSummonTiles = new List<Tile>();
         private int _IndexOfFusionCardSelected = -1;
         #endregion
-        
+
         #region Enums
         private enum GameState
         {
@@ -2137,7 +2187,7 @@ namespace DungeonDiceMonsters
             Fusion,
             Transform,
         }
-        #endregion                  
+        #endregion
     }
 
     public enum PlayerColor
