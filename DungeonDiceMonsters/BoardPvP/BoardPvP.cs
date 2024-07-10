@@ -2011,6 +2011,7 @@ namespace DungeonDiceMonsters
             //Send the server the gameover message
             SendMessageToServer("[GAME OVER]");
 
+            //Initalize the Game Over screen for both players
             if (winner == UserPlayerColor)
             {
                 SoundServer.PlayBackgroundMusic(Song.YouWin, true);
@@ -2021,6 +2022,10 @@ namespace DungeonDiceMonsters
                 SoundServer.PlayBackgroundMusic(Song.YouLose, true);
                 lblGameOverYouLose.Visible = true;
             }
+
+            lblGameOverTurns.Text = _CurrentTurn.ToString();
+
+
 
             PanelBattleMenu.Visible = false;
             PanelEndGameResults.Visible = true;
@@ -2101,6 +2106,8 @@ namespace DungeonDiceMonsters
         private List<Tile> _FusionCandidateTiles = new List<Tile>();
         private List<Tile> _FusionSummonTiles = new List<Tile>();
         private int _IndexOfFusionCardSelected = -1;
+        //Data for scoring
+        private int _CurrentTurn = 1;
         #endregion
         
         #region Enums
