@@ -1167,19 +1167,7 @@ namespace DungeonDiceMonsters
             if (thisSummonType == SummonType.Transform) { thisCard.MarkAsTransformedInto(); }
 
             //Update the player's record based on the summon performed
-            switch (thisSummonType)
-            {
-                case SummonType.Normal: TURNPLAYERDATA.AddNormalSummonRecord(thisCard.DiceLevel); break;
-                case SummonType.Ritual: 
-                    
-                    break;
-                case SummonType.Fusion: 
-                    
-                    break;
-                case SummonType.Transform: 
-                    
-                    break;
-            }
+            TURNPLAYERDATA.AddScoreSummonRecord(thisSummonType, thisCardToBeSummoned);
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             Tile SummonTile = _Tiles[tileId];
@@ -2240,7 +2228,7 @@ namespace DungeonDiceMonsters
             ParasiteParacideEffect,
             EradicatingAerosolEffect,
         }
-        private enum SummonType
+        public enum SummonType
         {
             Normal,
             Ritual,

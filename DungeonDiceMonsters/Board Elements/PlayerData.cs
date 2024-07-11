@@ -77,16 +77,24 @@ namespace DungeonDiceMonsters
         {
             _DamageDealt += amount;
         }
-        public void AddNormalSummonRecord(int DiceLevel)
+        public void AddScoreSummonRecord(BoardPvP.SummonType summonType, CardInfo cardSummoned)
         {
-            switch (DiceLevel)
+            switch(summonType)
             {
-                case 1: _BonusRecords[(int)BonusRecord.BonusItem.B001_SummonerApprentice].UpdateRecord(1, true); break;
-                case 2: _BonusRecords[(int)BonusRecord.BonusItem.B002_SummonerKnight].UpdateRecord(1, true); break;
-                case 3: _BonusRecords[(int)BonusRecord.BonusItem.B003_SummonerMaster].UpdateRecord(1, true); break;
-                case 4: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1, true); break;
-                case 5: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1, true); break;
+                case BoardPvP.SummonType.Normal:
+                    switch (cardSummoned.DiceLevel)
+                    {
+                        case 1: _BonusRecords[(int)BonusRecord.BonusItem.B001_SummonerApprentice].UpdateRecord(1, true); break;
+                        case 2: _BonusRecords[(int)BonusRecord.BonusItem.B002_SummonerKnight].UpdateRecord(1, true); break;
+                        case 3: _BonusRecords[(int)BonusRecord.BonusItem.B003_SummonerMaster].UpdateRecord(1, true); break;
+                        case 4: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1, true); break;
+                        case 5: _BonusRecords[(int)BonusRecord.BonusItem.B005_KingOfDice].UpdateRecord(1, true); break;
+                    }
+                    break;
+                case BoardPvP.SummonType.Fusion: _BonusRecords[(int)BonusRecord.BonusItem.B006_Fusionist].UpdateRecord(1, true); break;
+                case BoardPvP.SummonType.Ritual: _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1, true); break;
             }
+           
         }
         #endregion
 
@@ -136,6 +144,121 @@ namespace DungeonDiceMonsters
                     _Points = 500;
                     _Description = string.Format("Dice Level 5 Normal Summons Performed. ({0} Points Each.)", _Points);
                     break;
+                case BonusItem.B006_Fusionist:
+                    _Name = "Fusionist";
+                    _Points = 400;
+                    _Description = string.Format("Fusion Summons Performed. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B007_RitualMonk:
+                    _Name = "Ritual Monk";
+                    _Points = 300;
+                    _Description = string.Format("Ritual Summons Performed. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B008_ISetACard:
+                    _Name = "I Set a Card!";
+                    _Points = 200;
+                    _Description = string.Format("Spell/Traps Set. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B009_RollDice:
+                    _Name = "Roll Dice!";
+                    _Points = 1000;
+                    _Description = "Dimension 15 or more dices.";
+                    break;
+                case BonusItem.B010_Fighter:
+                    _Name = "Fighter";
+                    _Points = 100;
+                    _Description = string.Format("Opponent monsters destroyed by battle. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B011_BattleMaster:
+                    _Name = "Battle Master";
+                    _Points = 500;
+                    _Description = "Destroy 10 or more opponent monsters by battle.";
+                    break;
+                case BonusItem.B012_DefensiveWall:
+                    _Name = "Defensive Wall";
+                    _Points = 200;
+                    _Description = "Take no damage in a battle while defending.";
+                    break;
+                case BonusItem.B013_YouActivatedMyTrap:
+                    _Name = "You Activated My Trap!";
+                    _Points = 200;
+                    _Description = "Activate a Trap Card (TRIGGER) Effect.";
+                    break;
+                case BonusItem.B014_SpellboundMage:
+                    _Name = "Spellbound Mage";
+                    _Points = 100;
+                    _Description = string.Format("Spellbounds apply to opponent monsters by your card effects. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B015_StopRightThere:
+                    _Name = "Stop right there!";
+                    _Points = 500;
+                    _Description = "Apply a permanent Spellbound to an opponent monster by your card effects.";
+                    break;
+                case BonusItem.B016_ThatsGottaHurt:
+                    _Name = "Thats gotta hurt!";
+                    _Points = 200;
+                    _Description = string.Format("Deal 2000 or more damage to an opponent monster with a single attack. ({0} Points Each.)", _Points);
+                    break;
+                case BonusItem.B017_DoubleAttack:
+                    _Name = "Double Attack!";
+                    _Points = 200;
+                    _Description = "Attack twice with a monster during the same turn.";
+                    break;
+                case BonusItem.B018_IWouldWalk:
+                    _Name = "I would walk five hundred miles";
+                    _Points = 300;
+                    _Description = "Spend a total of 30 or more [MOV] during move actions.";
+                    break;
+                case BonusItem.B019_GiveMeThoseCrests:
+                    _Name = "Give me those crests!";
+                    _Points = 500;
+                    _Description = "Collect a combine of 10 resource crests in a single Dice Roll.";
+                    break;
+                case BonusItem.B020_CrestCollector:
+                    _Name = "Crest Collector";
+                    _Points = 500;
+                    _Description = "Collect a collective total of 60 resource Crests from Dice Rolls.";
+                    break;
+                case BonusItem.B021_Transform:
+                    _Name = "Transform!";
+                    _Points = 300;
+                    _Description = "Points 300 - Perform a Transform Summon.";
+                    break;
+                case BonusItem.B022_AllOutAttack:
+                    _Name = "All Out Attack!";
+                    _Points = 300;
+                    _Description = "Use 5 [ATK] bonus Crest during a battle.";
+                    break;
+                case BonusItem.B023_AllOutDefense:
+                    _Name = "All Out Defense!";
+                    _Points = 300;
+                    _Description = "Use 5 [DEF] bonus Crest during a battle.";
+                    break;
+                case BonusItem.B024_MonsterPurist:
+                    _Name = "Monster Purist";
+                    _Points = 700;
+                    _Description = "Win without setting a single Spell/Trap.";
+                    break;
+                case BonusItem.B025_SpellMaster:
+                    _Name = "Spell Master";
+                    _Points = 300;
+                    _Description = "Activate 3 or more Spell cards.";
+                    break;
+                case BonusItem.B026_RitualGod:
+                    _Name = "Ritual God";
+                    _Points = 1000;
+                    _Description = "Perform a Dice Level 5 Ritual Summon.";
+                    break;
+                case BonusItem.B027_DivineSummoner:
+                    _Name = "Divine Summoner";
+                    _Points = 1000;
+                    _Description = "Summon a Divine-Beast Type monster.";
+                    break;
+                case BonusItem.B028_Obliterate:
+                    _Name = "Obliterate!";
+                    _Points = 2000;
+                    _Description = "Win by the effect of \"Exodia the Forbidden One\".";
+                    break;
             }
         }
 
@@ -148,6 +271,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B003_SummonerMaster: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B004_DevlinsProdigy: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B005_KingOfDice: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B006_Fusionist: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B007_RitualMonk: _AmountCounter += addAmount; _Completed = newValue; break;
             }
         }
         public int GetTotalPoints()
@@ -159,6 +284,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B003_SummonerMaster: return _AmountCounter * _Points;
                 case BonusItem.B004_DevlinsProdigy: return _AmountCounter * _Points;
                 case BonusItem.B005_KingOfDice: return _AmountCounter * _Points;
+                case BonusItem.B006_Fusionist: return _AmountCounter * _Points;
+                case BonusItem.B007_RitualMonk: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
@@ -184,6 +311,29 @@ namespace DungeonDiceMonsters
             B003_SummonerMaster,
             B004_DevlinsProdigy,
             B005_KingOfDice,
+            B006_Fusionist,
+            B007_RitualMonk,
+            B008_ISetACard,
+            B009_RollDice,
+            B010_Fighter,
+            B011_BattleMaster,
+            B012_DefensiveWall,
+            B013_YouActivatedMyTrap,
+            B014_SpellboundMage,
+            B015_StopRightThere,
+            B016_ThatsGottaHurt,
+            B017_DoubleAttack,
+            B018_IWouldWalk,
+            B019_GiveMeThoseCrests,
+            B020_CrestCollector,
+            B021_Transform,
+            B022_AllOutAttack,
+            B023_AllOutDefense,
+            B024_MonsterPurist,
+            B025_SpellMaster,
+            B026_RitualGod,
+            B027_DivineSummoner,
+            B028_Obliterate
         }
     }
 }
