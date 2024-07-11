@@ -85,6 +85,7 @@ namespace DungeonDiceMonsters
         public int CardNumber { get { return _cardInfo.CardNumber; } }
         public string Name { get { return _cardInfo.Name; } }
         public int Level { get { return _cardInfo.Level; } }
+        public int DiceLevel { get { return _cardInfo.DiceLevel; } }
         public string FullCardText { get { return _cardInfo.CardText; } }
         public int FullCardTextItems { get { return _cardInfo.CardTextItems; } }
         public Type OriginalType { get { return _cardInfo.Type; } }

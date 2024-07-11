@@ -1166,6 +1166,20 @@ namespace DungeonDiceMonsters
             //flag the monster as "transformed into if such
             if (thisSummonType == SummonType.Transform) { thisCard.MarkAsTransformedInto(); }
 
+            //Update the player's record based on the summon performed
+            switch (thisSummonType)
+            {
+                case SummonType.Normal: TURNPLAYERDATA.AddNormalSummonRecord(thisCard.DiceLevel); break;
+                case SummonType.Ritual: 
+                    
+                    break;
+                case SummonType.Fusion: 
+                    
+                    break;
+                case SummonType.Transform: 
+                    
+                    break;
+            }
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             Tile SummonTile = _Tiles[tileId];
@@ -2046,6 +2060,7 @@ namespace DungeonDiceMonsters
                 lblGameOverPrizeCard.Text = "NONE";
             }
 
+
             if(UserPlayerColor == PlayerColor.RED)
             {
                 lblGameOverDamage.Text = RedData.Score_DamageDealt.ToString();
@@ -2055,7 +2070,50 @@ namespace DungeonDiceMonsters
                 lblGameOverDamage.Text = BlueData.Score_DamageDealt.ToString();
             }
 
+            //Generate the Special Bonus Lists
+            listGameOverSpecialBonusList.Items.Clear();
+            PlayerBonusRecord = new List<BonusRecord>();
+            if (UserPlayerColor == PlayerColor.RED)
+            {
+                PlayerBonusRecord = RedData.GetActiveBonusRecordsList();
+            }
+            else
+            {
+                PlayerBonusRecord = BlueData.GetActiveBonusRecordsList();
+            }
+
+            int TotalScore = 0;
+
+            foreach (BonusRecord record in PlayerBonusRecord) 
+            {
+                int PointsObtained = record.GetTotalPoints();
+                if (PointsObtained > 0) 
+                {
+                    listGameOverSpecialBonusList.Items.Add(record.Name + "-------" + PointsObtained);
+                    TotalScore += PointsObtained;
+                }
+            }
+
+            if(winner == UserPlayerColor)
+            {
+                //Double the Total Score for the winner
+                listGameOverSpecialBonusList.Items.Add("WINNER BONUS-------Total Score x2");
+                TotalScore += TotalScore;
+                lblGameOverDoubleScoreLabel.Visible = true;
+            }
+
+            if(PlayerBonusRecord.Count == 0)
+            {
+                listGameOverSpecialBonusList.Items.Add("NO BONUSES");
+            }
+
+            
+
+            int starChipsObtained = TotalScore / 100;
+            lblGameOverScore.Text = TotalScore.ToString();
             lblGameOverTurns.Text = _CurrentTurn.ToString();
+            lblGameOverStarchips.Text = starChipsObtained.ToString();
+            GameData.AdjustStarchipsAmount(starChipsObtained);
 
 
 
@@ -2142,6 +2200,8 @@ namespace DungeonDiceMonsters
         private List<Tile> _FusionCandidateTiles = new List<Tile>();
         private List<Tile> _FusionSummonTiles = new List<Tile>();
         private int _IndexOfFusionCardSelected = -1;
+        //Data for the game over screen
+        List<BonusRecord> PlayerBonusRecord;
         #endregion
 
         #region Enums
@@ -2188,6 +2248,33 @@ namespace DungeonDiceMonsters
             Transform,
         }
         #endregion
+
+        private void listGameOverSpecialBonusList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Get the selected index          
+            try
+            {
+                if (listGameOverSpecialBonusList.SelectedItem.ToString() == "NO BONUSES")
+                {
+                    lblGameOverScoreItemDescription.Text = "";
+                }
+                else if (listGameOverSpecialBonusList.SelectedItem.ToString() == "WINNER BONUS-------Total Score x2")
+                {
+                    lblGameOverScoreItemDescription.Text = "Your total score is double for winning the match.";
+                }
+                else
+                {
+                    //And access the data of the bonus items
+                    int indexSelected = listGameOverSpecialBonusList.SelectedIndex;
+                    BonusRecord thisRecord = PlayerBonusRecord[indexSelected];
+                    lblGameOverScoreItemDescription.Text = thisRecord.Description;
+                }
+            }
+            catch (Exception) 
+            {
+                lblGameOverScoreItemDescription.Text = "";
+            }     
+        }
     }
 
     public enum PlayerColor
