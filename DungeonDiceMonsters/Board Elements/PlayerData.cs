@@ -30,6 +30,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B014_SpellboundMage));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B015_StopRightThere));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
@@ -238,7 +239,7 @@ namespace DungeonDiceMonsters
                     break;
                 case BonusItem.B016_ThatsGottaHurt:
                     _Name = "Thats gotta hurt!";
-                    _Points = 200;
+                    _Points = 300;
                     _Description = string.Format("Deal 2000 or more damage to an opponent monster with a single attack. ({0} Points Each.)", _Points);
                     break;
                 case BonusItem.B017_DoubleAttack:
@@ -324,6 +325,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B013_YouActivatedMyTrap: _Completed = true; break;
                 case BonusItem.B014_SpellboundMage: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B015_StopRightThere: _Completed = true; break;
+                case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
@@ -348,6 +350,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B013_YouActivatedMyTrap: return (_Completed) ? _Points : 0;
                 case BonusItem.B014_SpellboundMage: return _AmountCounter * _Points;
                 case BonusItem.B015_StopRightThere: return (_Completed) ? _Points : 0;
+                case BonusItem.B016_ThatsGottaHurt: return _AmountCounter * _Points;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");

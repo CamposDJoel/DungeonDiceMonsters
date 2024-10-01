@@ -1772,6 +1772,8 @@ namespace DungeonDiceMonsters
 
                         //Save the damage deal to monster for scoring purposes
                         TURNPLAYERDATA.IncreaseDamageDealtRecord(damagetodealtomonster);
+                        //Also, if the damage was 2000 or more, update a bonus record
+                        if (damagetodealtomonster >= 2000) { TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt, 1, true); }
 
                         //Reduce the total damage left
                         Damage -= damagetodealtomonster;
