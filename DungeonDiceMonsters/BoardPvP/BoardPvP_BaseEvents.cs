@@ -1454,6 +1454,9 @@ namespace DungeonDiceMonsters
                 int amountUsed = TURNPLAYERDATA.Crests_MOV - _TMPMoveCrestCount;
                 AdjustPlayerCrestCount(TURNPLAYER, Crest.MOV, -amountUsed);
 
+                //Add the [MOV] used to the player bonus record
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B018_IWouldWalk, amountUsed, true);
+
                 //Return to the Main Phase to end the Move Sequence
                 EnterMainPhase();
             }));

@@ -249,9 +249,9 @@ namespace DungeonDiceMonsters
                     _Description = "Attack twice with a monster during the same turn.";
                     break;
                 case BonusItem.B018_IWouldWalk:
-                    _Name = "I would walk five hundred miles";
+                    _Name = "I would walk five hundred miles...";
                     _Points = 300;
-                    _Description = "Spend a total of 30 or more [MOV] during move actions.";
+                    _Description = "Spend a total of 30 or more [MOV] during move actions (during the whole duel).";
                     break;
                 case BonusItem.B019_GiveMeThoseCrests:
                     _Name = "Give me those crests!";
@@ -328,6 +328,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B015_StopRightThere: _Completed = true; break;
                 case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B017_DoubleAttack: _Completed = true; break;
+                case BonusItem.B018_IWouldWalk: _AmountCounter++; _Completed = (_AmountCounter >= 30) ? true : false; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
@@ -354,6 +355,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B015_StopRightThere: return (_Completed) ? _Points : 0;
                 case BonusItem.B016_ThatsGottaHurt: return _AmountCounter * _Points;
                 case BonusItem.B017_DoubleAttack: return (_Completed) ? _Points : 0;
+                case BonusItem.B018_IWouldWalk: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");
