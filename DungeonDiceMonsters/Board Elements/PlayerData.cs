@@ -30,6 +30,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
 
             //Bonus item "Monster Purist" is "completed" from the get go until the player sets a spell/trap
             UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, true);
@@ -110,7 +111,7 @@ namespace DungeonDiceMonsters
                 case BoardPvP.SummonType.Ritual: 
                     _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1, true);
                     //Normal Summons dimension dices, add that record as well
-                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1, true); break;
+                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1, true);
                     break;
             }
            
@@ -120,7 +121,9 @@ namespace DungeonDiceMonsters
             switch(thisEffect.OriginCard.Category) 
             {
                 case Category.Monster: break;
-                case Category.Spell: break;
+                case Category.Spell:
+                    UpdateBonusItemRecord(BonusRecord.BonusItem.B025_SpellMaster, 1, true);
+                    break;
                 case Category.Trap:
                     if(thisEffect.Type == Effect.EffectType.Trigger)
                     {
@@ -279,7 +282,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B025_SpellMaster:
                     _Name = "Spell Master";
                     _Points = 300;
-                    _Description = "Activate 3 or more Spell cards.";
+                    _Description = string.Format("Spells activated. ({0} Points Each.)", _Points);
                     break;
                 case BonusItem.B026_RitualGod:
                     _Name = "Ritual God";
@@ -317,6 +320,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B012_DefensiveWall: _Completed = true; break;
                 case BonusItem.B013_YouActivatedMyTrap: _Completed = true; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
             }
         }
         public int GetTotalPoints()
@@ -337,6 +341,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B012_DefensiveWall: return (_Completed) ? _Points : 0;
                 case BonusItem.B013_YouActivatedMyTrap: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
+                case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
