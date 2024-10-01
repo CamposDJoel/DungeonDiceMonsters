@@ -1729,14 +1729,12 @@ namespace DungeonDiceMonsters
                         //Display the end battle button
                         lblBattleMenuDamage.Text = "Damage: 0";
                         btnEndBattle.Visible = true;
-                        if (UserPlayerColor == TURNPLAYER)
-                        {
-                            btnEndBattle.Enabled = true;
-                        }
-                        else
-                        {
-                            btnEndBattle.Enabled = false;
-                        }
+
+                        //When this scenario happens, add a bonus record update for the turn player
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B012_DefensiveWall, 1, true);
+
+                        //Enable the end turn button only for the turn player
+                        btnEndBattle.Enabled = (UserPlayerColor == TURNPLAYER)? true : false;
                     }
                     else
                     {
