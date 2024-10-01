@@ -1784,6 +1784,7 @@ namespace DungeonDiceMonsters
                             DestroyCard(_AttackTarger);
                             //Add this Monster Destroyed by battle to the PlayerData Score record
                             TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B010_Fighter, 1, true);
+                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B011_BattleMaster, 1, true);
                         }
 
                         //Stablish the Defender Symbol
