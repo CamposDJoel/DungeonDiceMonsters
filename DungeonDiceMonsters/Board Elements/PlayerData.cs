@@ -23,6 +23,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B006_Fusionist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B007_RitualMonk));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B008_ISetACard));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B009_RollDice));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
 
