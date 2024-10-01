@@ -31,6 +31,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B014_SpellboundMage));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B015_StopRightThere));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B017_DoubleAttack));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
@@ -326,6 +327,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B014_SpellboundMage: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B015_StopRightThere: _Completed = true; break;
                 case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B017_DoubleAttack: _Completed = true; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
@@ -351,6 +353,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B014_SpellboundMage: return _AmountCounter * _Points;
                 case BonusItem.B015_StopRightThere: return (_Completed) ? _Points : 0;
                 case BonusItem.B016_ThatsGottaHurt: return _AmountCounter * _Points;
+                case BonusItem.B017_DoubleAttack: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");

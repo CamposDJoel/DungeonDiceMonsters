@@ -1704,6 +1704,17 @@ namespace DungeonDiceMonsters
                     Card Attacker = _AttackerTile.CardInPlace;
                     Card Defender = _AttackTarger.CardInPlace;
 
+                    //EX: Add Attack and Defend actions counters to the Card Record of each
+                    //This will be use to track activity and for bonus points at the end of a duel
+                    Attacker.IncreaseAttacksPerformedThisTurn(1);
+                    Defender.IncreaseDefendsPerformedThisTurn(1);
+
+                    //If the attacker has now performed 2 or more attacks this turn, update the bonus record
+                    if(Attacker.AttacksPerformedThisTurn >= 2)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B017_DoubleAttack, 1, true);
+                    }
+
                     //Step 1: Determine the BonusCrest (if ANY)
                     // _AttackBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
                     // _DefenseBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT

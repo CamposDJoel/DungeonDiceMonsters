@@ -203,6 +203,8 @@ namespace DungeonDiceMonsters
         }
         public int CannotAttackCounters { get { return _CannotAttackCounters; } }
         public int CannotMoveCounters { get { return _CannotMoveCounters; } }
+        public int AttacksPerformedThisTurn { get { return _AttacksPerformedThisTurn; } }
+        public int DefendsPerformedThisTurn { get { return _DefendsPerformedThisTurm; } }
         #endregion
 
         #region Public Funtions
@@ -227,6 +229,8 @@ namespace DungeonDiceMonsters
             _MovesAvailable = _BaseMovesPerTurn;
             _AttacksAvailable = _BaseAttacksPerTurn;
             _EffectUsedThisTurn = false;
+            _AttacksPerformedThisTurn = 0;
+            _DefendsPerformedThisTurm = 0;
         }
         public void ReduceSpellboundCounter(int amount)
         {
@@ -257,6 +261,14 @@ namespace DungeonDiceMonsters
         public void AdjustMoveRangeBonus(int amount)
         {
             _MoveRangeBonus += amount;
+        }
+        public void IncreaseAttacksPerformedThisTurn(int amount)
+        {
+            _AttacksPerformedThisTurn += amount;
+        }
+        public void IncreaseDefendsPerformedThisTurn(int amount)
+        {
+            _DefendsPerformedThisTurm += amount;
         }
         public Color GetATKStatus()
         {
@@ -516,6 +528,8 @@ namespace DungeonDiceMonsters
         private bool _EffectUsedThisTurn = false;
         private int _CannotAttackCounters = 0;
         private int _CannotMoveCounters = 0;
+        private int _AttacksPerformedThisTurn = 0;
+        private int _DefendsPerformedThisTurm = 0;
 
         //Spellbound Data
         private bool _IsUnderSpellbound = false;
