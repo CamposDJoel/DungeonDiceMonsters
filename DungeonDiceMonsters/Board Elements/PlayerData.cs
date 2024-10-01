@@ -24,6 +24,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B007_RitualMonk));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B008_ISetACard));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B009_RollDice));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B010_Fighter));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
 
@@ -293,7 +294,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B006_Fusionist: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B007_RitualMonk: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B008_ISetACard: _AmountCounter++; _Completed = newValue; break;
-                case BonusItem.B009_RollDice: _AmountCounter++; if (_AmountCounter >= 15) { _Completed = true; } else { _Completed = false; } break;
+                case BonusItem.B009_RollDice: _AmountCounter++; _Completed = (_AmountCounter >= 15) ? true : false;  break;
+                case BonusItem.B010_Fighter: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
             }
         }
@@ -310,6 +312,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B007_RitualMonk: return _AmountCounter * _Points;
                 case BonusItem.B008_ISetACard: return _AmountCounter * _Points;
                 case BonusItem.B009_RollDice: return (_Completed) ? _Points : 0;
+                case BonusItem.B010_Fighter: return _AmountCounter * _Points;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
