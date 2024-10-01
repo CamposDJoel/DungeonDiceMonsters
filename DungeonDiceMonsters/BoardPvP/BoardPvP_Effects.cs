@@ -1800,7 +1800,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];                 
-            SpellboundCard(summonedCard, 3);         
+            SpellboundCard(summonedCard, 3, true);         
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1824,7 +1824,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 3);
+            SpellboundCard(summonedCard, 3, true);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1848,7 +1848,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 99);
+            SpellboundCard(summonedCard, 99, true);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1922,7 +1922,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 99);            
+            SpellboundCard(summonedCard, 99, true);            
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -2793,7 +2793,7 @@ namespace DungeonDiceMonsters
         private void BasicInsect_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: spellbound the monster for 1 turn
-            SpellboundCard(TargetTile.CardInPlace, 1);
+            SpellboundCard(TargetTile.CardInPlace, 1, true);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded for 1 turn");
@@ -4241,7 +4241,7 @@ namespace DungeonDiceMonsters
         private void EradicatingAerosol_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: Spellbound the monster permanently
-            SpellboundCard(TargetTile.CardInPlace, 99);
+            SpellboundCard(TargetTile.CardInPlace, 99, true);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded permanently.");

@@ -227,7 +227,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B014_SpellboundMage:
                     _Name = "Spellbound Mage";
                     _Points = 100;
-                    _Description = string.Format("Spellbounds applied to opponent monsters by your card effects. ({0} Points Each.)", _Points);
+                    _Description = string.Format("Spellbounds applied to opponent cards by your card effects. ({0} Points Each.)", _Points);
                     break;
                 case BonusItem.B015_StopRightThere:
                     _Name = "Stop right there!";

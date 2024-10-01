@@ -1580,7 +1580,7 @@ namespace DungeonDiceMonsters
             SoundServer.PlaySoundEffect(SoundEffect.TransformSummon);
             SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
         }
-        private void SpellboundCard(Card thisCard, int turns)
+        private void SpellboundCard(Card thisCard, int turns, bool FromOpponent)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Spellbound);
             //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
@@ -1591,6 +1591,19 @@ namespace DungeonDiceMonsters
             WaitNSeconds(1500);
             thisCard.ReloadTileUI();
 
+            //If this spellbound was trigger by an opponent's effect, update that player's spellbounds record
+            if(FromOpponent)
+            {
+                if (thisCard.Controller == TURNPLAYER)
+                {
+                    OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                }
+                else
+                {
+                    TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                }
+            }
+            
             //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
             Effect activeEffectFound = null;
             foreach(Effect thisEffect in _ActiveEffects)
