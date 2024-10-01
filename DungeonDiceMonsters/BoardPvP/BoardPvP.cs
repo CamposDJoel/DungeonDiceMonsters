@@ -1592,15 +1592,24 @@ namespace DungeonDiceMonsters
             thisCard.ReloadTileUI();
 
             //If this spellbound was trigger by an opponent's effect, update that player's spellbounds record
+            //Also, if the spellbound was permanent also send this to the record update
             if(FromOpponent)
             {
                 if (thisCard.Controller == TURNPLAYER)
                 {
                     OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                    if(turns == 99)
+                    {
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1, true);
+                    }
                 }
                 else
                 {
                     TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                    if (turns == 99)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1, true);
+                    }
                 }
             }
             

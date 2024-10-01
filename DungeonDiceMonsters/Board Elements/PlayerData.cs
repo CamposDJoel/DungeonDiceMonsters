@@ -28,6 +28,8 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B011_BattleMaster));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B012_DefensiveWall));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B014_SpellboundMage));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B015_StopRightThere));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
@@ -232,7 +234,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B015_StopRightThere:
                     _Name = "Stop right there!";
                     _Points = 500;
-                    _Description = "Apply a permanent Spellbound to an opponent monster by your card effects.";
+                    _Description = "Apply a permanent Spellbound to an opponent card by your card effects.";
                     break;
                 case BonusItem.B016_ThatsGottaHurt:
                     _Name = "Thats gotta hurt!";
@@ -299,6 +301,7 @@ namespace DungeonDiceMonsters
                     _Points = 2000;
                     _Description = "Win by the effect of \"Exodia the Forbidden One\".";
                     break;
+                default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
 
@@ -319,8 +322,11 @@ namespace DungeonDiceMonsters
                 case BonusItem.B011_BattleMaster: _AmountCounter++; _Completed = (_AmountCounter >= 10) ? true : false; break;
                 case BonusItem.B012_DefensiveWall: _Completed = true; break;
                 case BonusItem.B013_YouActivatedMyTrap: _Completed = true; break;
+                case BonusItem.B014_SpellboundMage: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B015_StopRightThere: _Completed = true; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
+                default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
         public int GetTotalPoints()
@@ -340,6 +346,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B011_BattleMaster: return (_Completed) ? _Points : 0;
                 case BonusItem.B012_DefensiveWall: return (_Completed) ? _Points : 0;
                 case BonusItem.B013_YouActivatedMyTrap: return (_Completed) ? _Points : 0;
+                case BonusItem.B014_SpellboundMage: return _AmountCounter * _Points;
+                case BonusItem.B015_StopRightThere: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");
