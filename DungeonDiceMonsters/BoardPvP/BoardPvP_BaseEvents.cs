@@ -211,6 +211,10 @@ namespace DungeonDiceMonsters
                 _CardsOnBoard.Add(thisCard);
                 _Tiles[tileId].SetCard(thisCard);
 
+                //Add this action to the Player Data Bonus Records
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B008_ISetACard, 1, true);
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, false);
+
                 //Reset the UI of all the candidate tiles
                 foreach (Tile thisTile in _SetCandidates)
                 {

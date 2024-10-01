@@ -2,6 +2,7 @@
 //9/12/2023
 //PlayerData Class
 
+using System.CodeDom;
 using System.Collections.Generic;
 
 namespace DungeonDiceMonsters
@@ -19,6 +20,14 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B003_SummonerMaster));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B004_DevlinsProdigy));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B005_KingOfDice));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B006_Fusionist));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B007_RitualMonk));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B008_ISetACard));
+
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
+
+            //Bonus item "Monster Purist" is "completed" from the get go until the player sets a spell/trap
+            UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, true);
         }
         #endregion
 
@@ -89,12 +98,16 @@ namespace DungeonDiceMonsters
                         case 3: _BonusRecords[(int)BonusRecord.BonusItem.B003_SummonerMaster].UpdateRecord(1, true); break;
                         case 4: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1, true); break;
                         case 5: _BonusRecords[(int)BonusRecord.BonusItem.B005_KingOfDice].UpdateRecord(1, true); break;
-                    }
+                    }                   
                     break;
                 case BoardPvP.SummonType.Fusion: _BonusRecords[(int)BonusRecord.BonusItem.B006_Fusionist].UpdateRecord(1, true); break;
                 case BoardPvP.SummonType.Ritual: _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1, true); break;
             }
            
+        }
+        public void UpdateBonusItemRecord(BonusRecord.BonusItem item, int amount, bool flag)
+        {
+            _BonusRecords[(int)item].UpdateRecord(amount, flag);
         }
         #endregion
 
@@ -187,7 +200,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B014_SpellboundMage:
                     _Name = "Spellbound Mage";
                     _Points = 100;
-                    _Description = string.Format("Spellbounds apply to opponent monsters by your card effects. ({0} Points Each.)", _Points);
+                    _Description = string.Format("Spellbounds applied to opponent monsters by your card effects. ({0} Points Each.)", _Points);
                     break;
                 case BonusItem.B015_StopRightThere:
                     _Name = "Stop right there!";
@@ -273,6 +286,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B005_KingOfDice: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B006_Fusionist: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B007_RitualMonk: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B008_ISetACard: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
             }
         }
         public int GetTotalPoints()
@@ -286,6 +301,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B005_KingOfDice: return _AmountCounter * _Points;
                 case BonusItem.B006_Fusionist: return _AmountCounter * _Points;
                 case BonusItem.B007_RitualMonk: return _AmountCounter * _Points;
+                case BonusItem.B008_ISetACard: return _AmountCounter * _Points;
+                case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
