@@ -27,6 +27,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B010_Fighter));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B011_BattleMaster));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B012_DefensiveWall));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
 
@@ -113,6 +114,20 @@ namespace DungeonDiceMonsters
                     break;
             }
            
+        }
+        public void AddScoreEffectActivationRecord(Effect thisEffect)
+        {
+            switch(thisEffect.OriginCard.Category) 
+            {
+                case Category.Monster: break;
+                case Category.Spell: break;
+                case Category.Trap:
+                    if(thisEffect.Type == Effect.EffectType.Trigger)
+                    {
+                        UpdateBonusItemRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap, 1, true);
+                    }
+                    break;
+            }
         }
         public void UpdateBonusItemRecord(BonusRecord.BonusItem item, int amount, bool flag)
         {
@@ -300,6 +315,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B010_Fighter: _AmountCounter += addAmount; _Completed = newValue; break;
                 case BonusItem.B011_BattleMaster: _AmountCounter++; _Completed = (_AmountCounter >= 10) ? true : false; break;
                 case BonusItem.B012_DefensiveWall: _Completed = true; break;
+                case BonusItem.B013_YouActivatedMyTrap: _Completed = true; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
             }
         }
@@ -319,6 +335,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B010_Fighter: return _AmountCounter * _Points;
                 case BonusItem.B011_BattleMaster: return (_Completed) ? _Points : 0;
                 case BonusItem.B012_DefensiveWall: return (_Completed) ? _Points : 0;
+                case BonusItem.B013_YouActivatedMyTrap: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }

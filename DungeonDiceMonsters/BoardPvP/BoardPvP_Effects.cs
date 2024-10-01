@@ -15,6 +15,17 @@ namespace DungeonDiceMonsters
         private void ActivateEffect(Effect thisEffect)
         {
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [{0}] - Origin Card Board ID: [{1}].Controller: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
+            
+            //Update the Player Record for effect activations
+            if(thisEffect.Owner == TURNPLAYER)
+            {
+                TURNPLAYERDATA.AddScoreEffectActivationRecord(thisEffect);
+            }
+            else
+            {
+                OPPONENTPLAYERDATA.AddScoreEffectActivationRecord(thisEffect);
+            }
+            
             switch (thisEffect.ID)
             {
                 case Effect.EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
