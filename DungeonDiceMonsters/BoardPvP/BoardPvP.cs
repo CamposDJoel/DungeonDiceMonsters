@@ -1730,6 +1730,17 @@ namespace DungeonDiceMonsters
                     lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
                     lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
 
+                    //EX: If the Attacker Player used 5 bonus [ATK] crests flag one of the player data bonus items
+                    //Same if the defende used 5 bonus [DEF] crests
+                    if(_AttackBonusCrest == 5)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B022_AllOutAttack, 1, true);
+                    }
+                    if(_DefenseBonusCrest == 5)
+                    {
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B023_AllOutDefense, 1, true);
+                    }
+
                     //Step 2: Calculate the Final Attack Value (Attacker's Base ATK + (Bonus [ATK] used * 200))
                     int FinalAttack = Attacker.ATK + (_AttackBonusCrest * 200);
 

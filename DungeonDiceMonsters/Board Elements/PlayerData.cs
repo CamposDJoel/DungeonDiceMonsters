@@ -35,9 +35,12 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B018_IWouldWalk));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B020_CrestCollector));
-
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B021_Transform));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B022_AllOutAttack));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B023_AllOutDefense));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B026_RitualGod));
 
             //Bonus item "Monster Purist" is "completed" from the get go until the player sets a spell/trap
             UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, true);
@@ -119,6 +122,11 @@ namespace DungeonDiceMonsters
                     _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1, true);
                     //Normal Summons dimension dices, add that record as well
                     _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1, true);
+                    //if the summon was a Dice Lv 5 update this other record as well
+                    if(cardSummoned.DiceLevel == 5)
+                    {
+                        _BonusRecords[(int)BonusRecord.BonusItem.B026_RitualGod].UpdateRecord(1, true);
+                    }
                     break;
                 case BoardPvP.SummonType.Transform:
                     _BonusRecords[(int)BonusRecord.BonusItem.B021_Transform].UpdateRecord(1, true);
@@ -338,8 +346,11 @@ namespace DungeonDiceMonsters
                 case BonusItem.B019_GiveMeThoseCrests: _Completed = true; break;
                 case BonusItem.B020_CrestCollector: _AmountCounter++; _Completed = (_AmountCounter >= 60) ? true : false; break;
                 case BonusItem.B021_Transform: _Completed = true; break;
+                case BonusItem.B022_AllOutAttack: _Completed = true; break;
+                case BonusItem.B023_AllOutDefense: _Completed = true; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B026_RitualGod: _Completed = true; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
@@ -370,6 +381,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B021_Transform: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
+                case BonusItem.B026_RitualGod: return (_Completed) ? _Points : 0;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
