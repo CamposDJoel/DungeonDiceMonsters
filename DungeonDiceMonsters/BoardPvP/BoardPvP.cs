@@ -640,6 +640,10 @@ namespace DungeonDiceMonsters
         {
             TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests, 1, true);
         }
+        public void USendB020Notification(int amount)
+        {
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B020_CrestCollector, amount, true);
+        }
         #endregion
 
         #region Private Methods

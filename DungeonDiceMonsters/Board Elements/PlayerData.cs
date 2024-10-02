@@ -34,6 +34,7 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B017_DoubleAttack));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B018_IWouldWalk));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B020_CrestCollector));
 
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
@@ -332,6 +333,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B017_DoubleAttack: _Completed = true; break;
                 case BonusItem.B018_IWouldWalk: _AmountCounter++; _Completed = (_AmountCounter >= 30) ? true : false; break;
                 case BonusItem.B019_GiveMeThoseCrests: _Completed = true; break;
+                case BonusItem.B020_CrestCollector: _AmountCounter++; _Completed = (_AmountCounter >= 60) ? true : false; break;
                 case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
                 case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
@@ -360,6 +362,7 @@ namespace DungeonDiceMonsters
                 case BonusItem.B017_DoubleAttack: return (_Completed) ? _Points : 0;
                 case BonusItem.B018_IWouldWalk: return (_Completed) ? _Points : 0;
                 case BonusItem.B019_GiveMeThoseCrests: return (_Completed) ? _Points : 0;
+                case BonusItem.B020_CrestCollector: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 default: throw new System.Exception("BonusItem Id not properly set.");
