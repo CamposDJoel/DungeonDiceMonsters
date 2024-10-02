@@ -638,11 +638,11 @@ namespace DungeonDiceMonsters
         }
         public void SendB019Notification()
         {
-            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests, 1, true);
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests, 1);
         }
         public void USendB020Notification(int amount)
         {
-            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B020_CrestCollector, amount, true);
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B020_CrestCollector, amount);
         }
         #endregion
 
@@ -1605,18 +1605,18 @@ namespace DungeonDiceMonsters
             {
                 if (thisCard.Controller == TURNPLAYER)
                 {
-                    OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                    OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1);
                     if(turns == 99)
                     {
-                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1, true);
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1);
                     }
                 }
                 else
                 {
-                    TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1, true);
+                    TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1);
                     if (turns == 99)
                     {
-                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1, true);
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1);
                     }
                 }
             }
@@ -1720,7 +1720,7 @@ namespace DungeonDiceMonsters
                     //If the attacker has now performed 2 or more attacks this turn, update the bonus record
                     if(Attacker.AttacksPerformedThisTurn >= 2)
                     {
-                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B017_DoubleAttack, 1, true);
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B017_DoubleAttack, 1);
                     }
 
                     //Step 1: Determine the BonusCrest (if ANY)
@@ -1734,11 +1734,11 @@ namespace DungeonDiceMonsters
                     //Same if the defende used 5 bonus [DEF] crests
                     if(_AttackBonusCrest == 5)
                     {
-                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B022_AllOutAttack, 1, true);
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B022_AllOutAttack, 1);
                     }
                     if(_DefenseBonusCrest == 5)
                     {
-                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B023_AllOutDefense, 1, true);
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B023_AllOutDefense, 1);
                     }
 
                     //Step 2: Calculate the Final Attack Value (Attacker's Base ATK + (Bonus [ATK] used * 200))
@@ -1783,7 +1783,7 @@ namespace DungeonDiceMonsters
                         btnEndBattle.Visible = true;
 
                         //When this scenario happens, add a bonus record update for the turn player
-                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B012_DefensiveWall, 1, true);
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B012_DefensiveWall, 1);
 
                         //Enable the end turn button only for the turn player
                         btnEndBattle.Enabled = (UserPlayerColor == TURNPLAYER)? true : false;
@@ -1803,7 +1803,7 @@ namespace DungeonDiceMonsters
                         //Save the damage deal to monster for scoring purposes
                         TURNPLAYERDATA.IncreaseDamageDealtRecord(damagetodealtomonster);
                         //Also, if the damage was 2000 or more, update a bonus record
-                        if (damagetodealtomonster >= 2000) { TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt, 1, true); }
+                        if (damagetodealtomonster >= 2000) { TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt, 1); }
 
                         //Reduce the total damage left
                         Damage -= damagetodealtomonster;
@@ -1835,8 +1835,8 @@ namespace DungeonDiceMonsters
                             //Remove the card from the actual tile
                             DestroyCard(_AttackTarger);
                             //Add this Monster Destroyed by battle to the PlayerData Score record
-                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B010_Fighter, 1, true);
-                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B011_BattleMaster, 1, true);
+                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B010_Fighter, 1);
+                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B011_BattleMaster, 1);
                         }
 
                         //Stablish the Defender Symbol
