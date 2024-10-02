@@ -180,6 +180,7 @@ namespace DungeonDiceMonsters
 
     public class BonusRecord
     {
+        #region Constructors
         public BonusRecord(BonusItem item)
         {
             _ItemId = item;
@@ -328,7 +329,9 @@ namespace DungeonDiceMonsters
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
+        #endregion
 
+        #region Public Methods
         public void UpdateRecord(int addAmount)
         {
             switch (_ItemId)
@@ -397,18 +400,24 @@ namespace DungeonDiceMonsters
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
+        #endregion
 
+        #region Public Accessors
         public string Name { get { return _Name; } }
         public string Description { get { return _Description; } }
         public bool Completed { get { return _Completed; } }
+        #endregion
 
+        #region Private Data
         private BonusItem _ItemId;
         private string _Name = "Not Set";
         private string _Description = "Not Set";
         private int _Points = 0;
         private int _AmountCounter = 0;
         private bool _Completed = false;
+        #endregion
 
+        #region Enums
         public enum BonusItem
         {
             B001_SummonerApprentice,
@@ -440,5 +449,6 @@ namespace DungeonDiceMonsters
             B027_DivineSummoner,
             B028_Obliterate
         }
+        #endregion
     }
 }
