@@ -1985,6 +1985,9 @@ namespace DungeonDiceMonsters
             //Validate all pieces were found
             if (rightArmfound && leftArmfound && rightLegfound && leftLegfound) 
             {
+                //Flag the Player Data Bonus Item record for this win
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B028_Obliterate, 1);
+
                 DisplayOnSummonEffectPanel(thisEffect);
                 HideEffectMenuPanel();
 

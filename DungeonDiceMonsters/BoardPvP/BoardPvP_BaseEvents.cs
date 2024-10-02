@@ -212,8 +212,8 @@ namespace DungeonDiceMonsters
                 _Tiles[tileId].SetCard(thisCard);
 
                 //Add this action to the Player Data Bonus Records
-                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B008_ISetACard, 1, true);
-                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, false);
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B008_ISetACard, 1);
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0);
 
                 //Reset the UI of all the candidate tiles
                 foreach (Tile thisTile in _SetCandidates)
@@ -1455,7 +1455,7 @@ namespace DungeonDiceMonsters
                 AdjustPlayerCrestCount(TURNPLAYER, Crest.MOV, -amountUsed);
 
                 //Add the [MOV] used to the player bonus record
-                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B018_IWouldWalk, amountUsed, true);
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B018_IWouldWalk, amountUsed);
 
                 //Return to the Main Phase to end the Move Sequence
                 EnterMainPhase();

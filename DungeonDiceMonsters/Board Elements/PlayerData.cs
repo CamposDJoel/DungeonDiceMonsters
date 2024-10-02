@@ -41,9 +41,11 @@ namespace DungeonDiceMonsters
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B024_MonsterPurist));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B025_SpellMaster));
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B026_RitualGod));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B027_DivineSummoner));
+            _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B028_Obliterate));
 
             //Bonus item "Monster Purist" is "completed" from the get go until the player sets a spell/trap
-            UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0, true);
+            UpdateBonusItemRecord(BonusRecord.BonusItem.B024_MonsterPurist, 0);
         }
         #endregion
 
@@ -109,27 +111,33 @@ namespace DungeonDiceMonsters
                 case BoardPvP.SummonType.Normal:
                     switch (cardSummoned.DiceLevel)
                     {
-                        case 1: _BonusRecords[(int)BonusRecord.BonusItem.B001_SummonerApprentice].UpdateRecord(1, true); break;
-                        case 2: _BonusRecords[(int)BonusRecord.BonusItem.B002_SummonerKnight].UpdateRecord(1, true); break;
-                        case 3: _BonusRecords[(int)BonusRecord.BonusItem.B003_SummonerMaster].UpdateRecord(1, true); break;
-                        case 4: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1, true); break;
-                        case 5: _BonusRecords[(int)BonusRecord.BonusItem.B005_KingOfDice].UpdateRecord(1, true); break;
+                        case 1: _BonusRecords[(int)BonusRecord.BonusItem.B001_SummonerApprentice].UpdateRecord(1); break;
+                        case 2: _BonusRecords[(int)BonusRecord.BonusItem.B002_SummonerKnight].UpdateRecord(1); break;
+                        case 3: _BonusRecords[(int)BonusRecord.BonusItem.B003_SummonerMaster].UpdateRecord(1); break;
+                        case 4: _BonusRecords[(int)BonusRecord.BonusItem.B004_DevlinsProdigy].UpdateRecord(1); break;
+                        case 5: _BonusRecords[(int)BonusRecord.BonusItem.B005_KingOfDice].UpdateRecord(1); break;
                     }                                      
                     //Normal Summons dimension dices, add that record as well
-                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1, true); break;
-                case BoardPvP.SummonType.Fusion: _BonusRecords[(int)BonusRecord.BonusItem.B006_Fusionist].UpdateRecord(1, true); break;
+                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1);
+                    //if the summoned card was a Divine-Beast flag that record as well
+                    if(cardSummoned.Type == Type.DivineBeast)
+                    {
+                        _BonusRecords[(int)BonusRecord.BonusItem.B027_DivineSummoner].UpdateRecord(1); break;
+                    }
+                    break;
+                case BoardPvP.SummonType.Fusion: _BonusRecords[(int)BonusRecord.BonusItem.B006_Fusionist].UpdateRecord(1); break;
                 case BoardPvP.SummonType.Ritual: 
-                    _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1, true);
+                    _BonusRecords[(int)BonusRecord.BonusItem.B007_RitualMonk].UpdateRecord(1);
                     //Normal Summons dimension dices, add that record as well
-                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1, true);
+                    _BonusRecords[(int)BonusRecord.BonusItem.B009_RollDice].UpdateRecord(1);
                     //if the summon was a Dice Lv 5 update this other record as well
                     if(cardSummoned.DiceLevel == 5)
                     {
-                        _BonusRecords[(int)BonusRecord.BonusItem.B026_RitualGod].UpdateRecord(1, true);
+                        _BonusRecords[(int)BonusRecord.BonusItem.B026_RitualGod].UpdateRecord(1);
                     }
                     break;
                 case BoardPvP.SummonType.Transform:
-                    _BonusRecords[(int)BonusRecord.BonusItem.B021_Transform].UpdateRecord(1, true);
+                    _BonusRecords[(int)BonusRecord.BonusItem.B021_Transform].UpdateRecord(1);
                     break;
             }
            
@@ -140,19 +148,19 @@ namespace DungeonDiceMonsters
             {
                 case Category.Monster: break;
                 case Category.Spell:
-                    UpdateBonusItemRecord(BonusRecord.BonusItem.B025_SpellMaster, 1, true);
+                    UpdateBonusItemRecord(BonusRecord.BonusItem.B025_SpellMaster, 1);
                     break;
                 case Category.Trap:
                     if(thisEffect.Type == Effect.EffectType.Trigger)
                     {
-                        UpdateBonusItemRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap, 1, true);
+                        UpdateBonusItemRecord(BonusRecord.BonusItem.B013_YouActivatedMyTrap, 1);
                     }
                     break;
             }
         }
-        public void UpdateBonusItemRecord(BonusRecord.BonusItem item, int amount, bool flag)
+        public void UpdateBonusItemRecord(BonusRecord.BonusItem item, int amount)
         {
-            _BonusRecords[(int)item].UpdateRecord(amount, flag);
+            _BonusRecords[(int)item].UpdateRecord(amount);
         }
         #endregion
 
@@ -321,26 +329,26 @@ namespace DungeonDiceMonsters
             }
         }
 
-        public void UpdateRecord(int addAmount, bool newValue)
+        public void UpdateRecord(int addAmount)
         {
             switch (_ItemId)
             {
-                case BonusItem.B001_SummonerApprentice: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B002_SummonerKnight: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B003_SummonerMaster: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B004_DevlinsProdigy: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B005_KingOfDice: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B006_Fusionist: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B007_RitualMonk: _AmountCounter += addAmount; _Completed = newValue; break;
-                case BonusItem.B008_ISetACard: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B001_SummonerApprentice: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B002_SummonerKnight: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B003_SummonerMaster: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B004_DevlinsProdigy: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B005_KingOfDice: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B006_Fusionist: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B007_RitualMonk: _AmountCounter += addAmount; _Completed = true; break;
+                case BonusItem.B008_ISetACard: _AmountCounter++; _Completed = true; break;
                 case BonusItem.B009_RollDice: _AmountCounter++; _Completed = (_AmountCounter >= 15) ? true : false;  break;
-                case BonusItem.B010_Fighter: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B010_Fighter: _AmountCounter += addAmount; _Completed = true; break;
                 case BonusItem.B011_BattleMaster: _AmountCounter++; _Completed = (_AmountCounter >= 10) ? true : false; break;
                 case BonusItem.B012_DefensiveWall: _Completed = true; break;
                 case BonusItem.B013_YouActivatedMyTrap: _Completed = true; break;
-                case BonusItem.B014_SpellboundMage: _AmountCounter += addAmount; _Completed = newValue; break;
+                case BonusItem.B014_SpellboundMage: _AmountCounter += addAmount; _Completed = true; break;
                 case BonusItem.B015_StopRightThere: _Completed = true; break;
-                case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = true; break;
                 case BonusItem.B017_DoubleAttack: _Completed = true; break;
                 case BonusItem.B018_IWouldWalk: _AmountCounter++; _Completed = (_AmountCounter >= 30) ? true : false; break;
                 case BonusItem.B019_GiveMeThoseCrests: _Completed = true; break;
@@ -348,9 +356,11 @@ namespace DungeonDiceMonsters
                 case BonusItem.B021_Transform: _Completed = true; break;
                 case BonusItem.B022_AllOutAttack: _Completed = true; break;
                 case BonusItem.B023_AllOutDefense: _Completed = true; break;
-                case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = newValue; break;
-                case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = newValue; break;
+                case BonusItem.B024_MonsterPurist: _AmountCounter++; _Completed = true; break;
+                case BonusItem.B025_SpellMaster: _AmountCounter++; _Completed = true; break;
                 case BonusItem.B026_RitualGod: _Completed = true; break;
+                case BonusItem.B027_DivineSummoner: _Completed = true; break;
+                case BonusItem.B028_Obliterate: _Completed = true; break;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
@@ -382,16 +392,15 @@ namespace DungeonDiceMonsters
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 case BonusItem.B026_RitualGod: return (_Completed) ? _Points : 0;
+                case BonusItem.B027_DivineSummoner: return (_Completed) ? _Points : 0;
+                case BonusItem.B028_Obliterate: return (_Completed) ? _Points : 0;
                 default: throw new System.Exception("BonusItem Id not properly set.");
             }
         }
 
-        public BonusItem ID { get { return _ItemId; } }
         public string Name { get { return _Name; } }
         public string Description { get { return _Description; } }
         public bool Completed { get { return _Completed; } }
-
-
 
         private BonusItem _ItemId;
         private string _Name = "Not Set";
