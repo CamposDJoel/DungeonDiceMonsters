@@ -636,6 +636,10 @@ namespace DungeonDiceMonsters
             _AppShutDownWhenClose = false;
             Dispose();
         }
+        public void SendB019Notification()
+        {
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests, 1, true);
+        }
         #endregion
 
         #region Private Methods

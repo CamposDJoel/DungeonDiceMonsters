@@ -1025,6 +1025,14 @@ namespace DungeonDiceMonsters
                     }
                 }
 
+                //If the total crests obtained by this dice roll is 10 or more, 
+                //flag the bonus item for this player
+                int totalCrests = movToAdd + atkToAdd + defToAdd + magToAdd + trapToAdd;
+                if(totalCrests >= 10) 
+                {
+                    _PvPBoard.SendB019Notification();
+                }
+
                 //Do a little delay here to pace the animation
                 BoardForm.WaitNSeconds(1000);
 
