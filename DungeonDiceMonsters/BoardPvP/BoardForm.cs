@@ -29,7 +29,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public BoardForm(PlayerData Red, PlayerData Blue)
         {
-            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel, true);
+            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel);
             InitializeComponent();
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;
@@ -154,7 +154,7 @@ namespace DungeonDiceMonsters
         }
         public BoardForm(PlayerData Red, PlayerData Blue, bool test)
         {
-            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel, true);
+            SoundServer.PlayBackgroundMusic(Song.DUEL_FreeDuel);
             InitializeComponent();
             btnRoll.MouseEnter += OnMouseHoverSound;
             btnViewBoard.MouseEnter += OnMouseHoverSound;
@@ -1432,7 +1432,7 @@ namespace DungeonDiceMonsters
                         if(_BlueSymbol.LP == 0)
                         {
                             //TODO: defender player loses the game
-                            SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                            SoundServer.PlayBackgroundMusic(Song.YouWin);
                             PanelBattleMenu.Visible = false;
                             PanelEndGameResults.Visible = true;
                             WaitNSeconds(5000);
@@ -1490,7 +1490,7 @@ namespace DungeonDiceMonsters
                     if (_BlueSymbol.LP == 0)
                     {
                         //TODO: defender player loses the game
-                        SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                        SoundServer.PlayBackgroundMusic(Song.YouWin);
                         PanelBattleMenu.Visible = false;
                         PanelEndGameResults.Visible = true;
                         WaitNSeconds(5000);

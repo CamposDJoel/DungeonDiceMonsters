@@ -180,7 +180,7 @@ namespace DungeonDiceMonsters
                     //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
                     Invoke(new MethodInvoker(delegate ()
                     {
-                        SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
+                        SoundServer.PlayBackgroundMusic(Song.MainMenu);
                         _CurrentBoardPVP.CloseWithoutShuttingDownTheApp();
                         lblWaitMessage.Text = "Opponent disconnected, Match ENDED.";
                         lblBluePlayerName.Visible = false;
@@ -196,7 +196,7 @@ namespace DungeonDiceMonsters
                     //Close the BoardPVP form (this will also close the RollDiceMenu if it was open as well)
                     Invoke(new MethodInvoker(delegate ()
                     {
-                        SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
+                        SoundServer.PlayBackgroundMusic(Song.MainMenu);
                         if (_CurrentBoardPVP != null) { _CurrentBoardPVP.CloseWithoutShuttingDownTheApp(); }
                         Enabled = true;
                         lblWaitMessage.Text = "Server was shutdown, Match ENDED.";
@@ -221,7 +221,7 @@ namespace DungeonDiceMonsters
         }
         public void ReturnToPvPMenuFromGameOverBoard()
         {
-            SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
+            SoundServer.PlayBackgroundMusic(Song.MainMenu);
             _CurrentBoardPVP.CloseWithoutShuttingDownTheApp();
             Enabled = true;
             lblBluePlayerName.Visible = false;

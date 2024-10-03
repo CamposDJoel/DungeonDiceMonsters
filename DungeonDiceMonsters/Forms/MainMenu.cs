@@ -9,7 +9,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public MainMenu()
         {
-            SoundServer.PlayBackgroundMusic(Song.MainMenu, true);
+            SoundServer.PlayBackgroundMusic(Song.MainMenu);
             InitializeComponent();
 
             lblMenuArcade.MouseEnter += OnMouseEnterLabel;
@@ -32,6 +32,9 @@ namespace DungeonDiceMonsters
 
             lblMenuPassword.MouseEnter += OnMouseEnterLabel;
             lblMenuPassword.MouseLeave += OnMouseLeaveLabel;
+
+            lblMenuSettings.MouseEnter += OnMouseEnterLabel;
+            lblMenuSettings.MouseLeave += OnMouseLeaveLabel;
         }
         #endregion
 
@@ -95,6 +98,14 @@ namespace DungeonDiceMonsters
             PasswordMenu LM = new PasswordMenu();
             Dispose();
             LM.Show();
+        }
+        private void lblMenuSettings_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Open the Settings Menu
+            SettingsMenu SM = new SettingsMenu();
+            Dispose();
+            SM.Show();
         }
         #endregion
     }

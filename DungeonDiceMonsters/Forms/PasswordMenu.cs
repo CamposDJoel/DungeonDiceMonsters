@@ -12,7 +12,7 @@ namespace DungeonDiceMonsters
     {
         public PasswordMenu()
         {
-            SoundServer.PlayBackgroundMusic(Song.PasswordMenu, true);
+            SoundServer.PlayBackgroundMusic(Song.PasswordMenu);
             InitializeComponent();
             ReloadStarshipCount();
 

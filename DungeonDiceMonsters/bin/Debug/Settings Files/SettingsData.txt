@@ -1,0 +1,3 @@
+2
+MusicON|False
+SFXON|False

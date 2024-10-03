@@ -14,7 +14,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public LibraryMenu()
         {
-            SoundServer.PlayBackgroundMusic(Song.LibraryMenu, true);
+            SoundServer.PlayBackgroundMusic(Song.LibraryMenu);
             InitializeComponent();
             InitializeLibraryComponents();
             UpdateCollectionTotals();

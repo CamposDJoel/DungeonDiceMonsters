@@ -15,9 +15,10 @@ namespace DungeonDiceMonsters
     {
         #region Constructors
         public StartScreen()
-        {
-            SoundServer.PlayBackgroundMusic(Song.TitleScreen, true);
+        {            
             InitializeComponent();
+            SettingsData.InitializeSettings();
+            SoundServer.PlayBackgroundMusic(Song.TitleScreen);
 
             RadioNewGameOption.MouseEnter += new EventHandler(MouseEnterRadioHover);            
             RadioLoadGameOption.MouseEnter += new EventHandler(MouseEnterRadioHover);
@@ -97,7 +98,7 @@ namespace DungeonDiceMonsters
             SaveFileManger.ReadSaveFile();
 
             //Open the main menu form
-            SoundServer.PlayBackgroundMusic(Song.TitleScreen, false);
+            SoundServer.PlayBackgroundMusic(Song.TitleScreen);
             MainMenu MM = new MainMenu();
             Hide();
             MM.Show();

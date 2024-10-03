@@ -10,9 +10,9 @@ namespace DungeonDiceMonsters
 {
     public static class SoundServer
     {
-        public static void PlayBackgroundMusic(Song song, bool TurnOn)
+        public static void PlayBackgroundMusic(Song song)
         {
-            if (TurnOn)
+            if (SettingsData.IsMusicON)
             {
                 string filepath = "\\Music\\Songs\\" + song + ".m4a";
                 CurrentBackGroundPlay.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
@@ -21,32 +21,33 @@ namespace DungeonDiceMonsters
                 CurrentBackGroundPlay.Play();
                 CurrentBackGroundPlay.Volume = 0.3;
             }
-            else
-            {
-                CurrentBackGroundPlay.Stop();
-            }
-
         }
         public static void PlaySoundEffect(SoundEffect sound)
         {
-            string filepath = "\\Music\\SFX\\" + sound + ".wav";
-            Effect.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
-            Effect.Play();
-            Effect.Volume = 0.3;
+            if (SettingsData.IsSFXON)
+            {
+                string filepath = "\\Music\\SFX\\" + sound + ".wav";
+                Effect.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
+                Effect.Play();
+                Effect.Volume = 0.3;
+            }            
         }
         public static void PlayPvPBackgroundMusic()
         {
-            //Set the song to play at random
-            int songIndex = Rand.V(SongsPlaylist.Length);
-            _CurrentSongPlaying = SongsPlaylist[songIndex];
-            string song = _CurrentSongPlaying.ToString();
-            string filepath = "\\Music\\Songs\\" + song + ".m4a";
-            CurrentBackGroundPlay.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
+            if (SettingsData.IsMusicON)
+            {
+                //Set the song to play at random
+                int songIndex = Rand.V(SongsPlaylist.Length);
+                _CurrentSongPlaying = SongsPlaylist[songIndex];
+                string song = _CurrentSongPlaying.ToString();
+                string filepath = "\\Music\\Songs\\" + song + ".m4a";
+                CurrentBackGroundPlay.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
 
-            //This event will loop the song... once the song ends it plays again
-            CurrentBackGroundPlay.MediaEnded += new EventHandler(Media_Ended);
-            CurrentBackGroundPlay.Play();
-            CurrentBackGroundPlay.Volume = CurrentVolumeLevel;
+                //This event will loop the song... once the song ends it plays again
+                CurrentBackGroundPlay.MediaEnded += new EventHandler(Media_Ended);
+                CurrentBackGroundPlay.Play();
+                CurrentBackGroundPlay.Volume = CurrentVolumeLevel;
+            }               
         }
 
         public static string GetCurrentSongPlaying()
