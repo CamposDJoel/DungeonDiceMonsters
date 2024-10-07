@@ -272,7 +272,7 @@ namespace DungeonDiceMonsters
                     _Description = "Attack twice with a monster during the same turn.";
                     break;
                 case BonusItem.B018_IWouldWalk:
-                    _Name = "I would walk five hundred miles...";
+                    _Name = "I would walk 500 miles...";
                     _Points = 300;
                     _Description = "Spend a total of 30 or more [MOV] during move actions (during the whole duel).";
                     break;
@@ -353,9 +353,9 @@ namespace DungeonDiceMonsters
                 case BonusItem.B015_StopRightThere: _Completed = true; break;
                 case BonusItem.B016_ThatsGottaHurt: _AmountCounter++; _Completed = true; break;
                 case BonusItem.B017_DoubleAttack: _Completed = true; break;
-                case BonusItem.B018_IWouldWalk: _AmountCounter++; _Completed = (_AmountCounter >= 30) ? true : false; break;
+                case BonusItem.B018_IWouldWalk: _AmountCounter+=addAmount; _Completed = (_AmountCounter >= 30) ? true : false; break;
                 case BonusItem.B019_GiveMeThoseCrests: _Completed = true; break;
-                case BonusItem.B020_CrestCollector: _AmountCounter++; _Completed = (_AmountCounter >= 60) ? true : false; break;
+                case BonusItem.B020_CrestCollector: _AmountCounter+=addAmount; _Completed = (_AmountCounter >= 60) ? true : false; break;
                 case BonusItem.B021_Transform: _Completed = true; break;
                 case BonusItem.B022_AllOutAttack: _Completed = true; break;
                 case BonusItem.B023_AllOutDefense: _Completed = true; break;
@@ -392,6 +392,8 @@ namespace DungeonDiceMonsters
                 case BonusItem.B019_GiveMeThoseCrests: return (_Completed) ? _Points : 0;
                 case BonusItem.B020_CrestCollector: return (_Completed) ? _Points : 0;
                 case BonusItem.B021_Transform: return (_Completed) ? _Points : 0;
+                case BonusItem.B022_AllOutAttack: return (_Completed) ? _Points : 0;
+                case BonusItem.B023_AllOutDefense: return (_Completed) ? _Points : 0;
                 case BonusItem.B024_MonsterPurist: return (_Completed) ? _Points : 0;
                 case BonusItem.B025_SpellMaster: return _AmountCounter * _Points;
                 case BonusItem.B026_RitualGod: return (_Completed) ? _Points : 0;

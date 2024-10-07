@@ -1992,6 +1992,9 @@ namespace DungeonDiceMonsters
                 HideEffectMenuPanel();
 
                 PicExodiaEnd.Visible = true;
+                //TODO: Find some sound effect or something..
+                BoardPvP.WaitNSeconds(2000);
+                PicExodiaEnd.Visible = false;
                 StartGameOver(TURNPLAYER);
             }
             else
