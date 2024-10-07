@@ -869,5 +869,34 @@ namespace DungeonDiceMonsters
             }
         }
         #endregion
+
+        #region EOG Bonus Screen
+        private void listGameOverSpecialBonusList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Get the selected index          
+            try
+            {
+                if (listGameOverSpecialBonusList.SelectedItem.ToString() == "NO BONUSES")
+                {
+                    lblGameOverScoreItemDescription.Text = "";
+                }
+                else if (listGameOverSpecialBonusList.SelectedItem.ToString() == "WINNER BONUS-------Total Score x2")
+                {
+                    lblGameOverScoreItemDescription.Text = "Your total score is double for winning the match.";
+                }
+                else
+                {
+                    //And access the data of the bonus items
+                    int indexSelected = listGameOverSpecialBonusList.SelectedIndex;
+                    BonusRecord thisRecord = PlayerBonusRecord[indexSelected];
+                    lblGameOverScoreItemDescription.Text = thisRecord.Description;
+                }
+            }
+            catch (Exception)
+            {
+                lblGameOverScoreItemDescription.Text = "";
+            }
+        }
+        #endregion
     }
 }

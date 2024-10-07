@@ -636,6 +636,14 @@ namespace DungeonDiceMonsters
             _AppShutDownWhenClose = false;
             Dispose();
         }
+        public void SendB019Notification()
+        {
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B019_GiveMeThoseCrests, 1);
+        }
+        public void USendB020Notification(int amount)
+        {
+            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B020_CrestCollector, amount);
+        }
         #endregion
 
         #region Private Methods
@@ -1166,6 +1174,8 @@ namespace DungeonDiceMonsters
             //flag the monster as "transformed into if such
             if (thisSummonType == SummonType.Transform) { thisCard.MarkAsTransformedInto(); }
 
+            //Update the player's record based on the summon performed
+            TURNPLAYERDATA.AddScoreSummonRecord(thisSummonType, thisCardToBeSummoned);
 
             //Normal and Ritual summons are the only ones that dimension a dice on the board.
             Tile SummonTile = _Tiles[tileId];
@@ -1578,7 +1588,7 @@ namespace DungeonDiceMonsters
             SoundServer.PlaySoundEffect(SoundEffect.TransformSummon);
             SummonMonster(thisNewMonsterInfo, tileLocation.ID, SummonType.Transform);
         }
-        private void SpellboundCard(Card thisCard, int turns)
+        private void SpellboundCard(Card thisCard, int turns, bool FromOpponent)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Spellbound);
             //Step 1: Spellbound the card object, the SpellboundIt method will reload the tile ui
@@ -1589,6 +1599,28 @@ namespace DungeonDiceMonsters
             WaitNSeconds(1500);
             thisCard.ReloadTileUI();
 
+            //If this spellbound was trigger by an opponent's effect, update that player's spellbounds record
+            //Also, if the spellbound was permanent also send this to the record update
+            if(FromOpponent)
+            {
+                if (thisCard.Controller == TURNPLAYER)
+                {
+                    OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1);
+                    if(turns == 99)
+                    {
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1);
+                    }
+                }
+                else
+                {
+                    TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B014_SpellboundMage, 1);
+                    if (turns == 99)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B015_StopRightThere, 1);
+                    }
+                }
+            }
+            
             //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
             Effect activeEffectFound = null;
             foreach(Effect thisEffect in _ActiveEffects)
@@ -1680,12 +1712,34 @@ namespace DungeonDiceMonsters
                     Card Attacker = _AttackerTile.CardInPlace;
                     Card Defender = _AttackTarger.CardInPlace;
 
+                    //EX: Add Attack and Defend actions counters to the Card Record of each
+                    //This will be use to track activity and for bonus points at the end of a duel
+                    Attacker.IncreaseAttacksPerformedThisTurn(1);
+                    Defender.IncreaseDefendsPerformedThisTurn(1);
+
+                    //If the attacker has now performed 2 or more attacks this turn, update the bonus record
+                    if(Attacker.AttacksPerformedThisTurn >= 2)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B017_DoubleAttack, 1);
+                    }
+
                     //Step 1: Determine the BonusCrest (if ANY)
                     // _AttackBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
                     // _DefenseBonusCrest = THIS HAS BEEN PREVIOUSLY SET AT THIS POINT
                     //Reveal the Bonus points
                     lblAttackerBonus.Text = string.Format("Bonus: {0}", (_AttackBonusCrest * 200));
                     lblDefenderBonus.Text = string.Format("Bonus: {0}", (_DefenseBonusCrest * 200));
+
+                    //EX: If the Attacker Player used 5 bonus [ATK] crests flag one of the player data bonus items
+                    //Same if the defende used 5 bonus [DEF] crests
+                    if(_AttackBonusCrest == 5)
+                    {
+                        TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B022_AllOutAttack, 1);
+                    }
+                    if(_DefenseBonusCrest == 5)
+                    {
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B023_AllOutDefense, 1);
+                    }
 
                     //Step 2: Calculate the Final Attack Value (Attacker's Base ATK + (Bonus [ATK] used * 200))
                     int FinalAttack = Attacker.ATK + (_AttackBonusCrest * 200);
@@ -1727,14 +1781,12 @@ namespace DungeonDiceMonsters
                         //Display the end battle button
                         lblBattleMenuDamage.Text = "Damage: 0";
                         btnEndBattle.Visible = true;
-                        if (UserPlayerColor == TURNPLAYER)
-                        {
-                            btnEndBattle.Enabled = true;
-                        }
-                        else
-                        {
-                            btnEndBattle.Enabled = false;
-                        }
+
+                        //When this scenario happens, add a bonus record update for the turn player
+                        OPPONENTPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B012_DefensiveWall, 1);
+
+                        //Enable the end turn button only for the turn player
+                        btnEndBattle.Enabled = (UserPlayerColor == TURNPLAYER)? true : false;
                     }
                     else
                     {
@@ -1750,6 +1802,8 @@ namespace DungeonDiceMonsters
 
                         //Save the damage deal to monster for scoring purposes
                         TURNPLAYERDATA.IncreaseDamageDealtRecord(damagetodealtomonster);
+                        //Also, if the damage was 2000 or more, update a bonus record
+                        if (damagetodealtomonster >= 2000) { TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B016_ThatsGottaHurt, 1); }
 
                         //Reduce the total damage left
                         Damage -= damagetodealtomonster;
@@ -1780,6 +1834,9 @@ namespace DungeonDiceMonsters
                             WaitNSeconds(1000);
                             //Remove the card from the actual tile
                             DestroyCard(_AttackTarger);
+                            //Add this Monster Destroyed by battle to the PlayerData Score record
+                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B010_Fighter, 1);
+                            TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B011_BattleMaster, 1);
                         }
 
                         //Stablish the Defender Symbol
@@ -2046,6 +2103,7 @@ namespace DungeonDiceMonsters
                 lblGameOverPrizeCard.Text = "NONE";
             }
 
+
             if(UserPlayerColor == PlayerColor.RED)
             {
                 lblGameOverDamage.Text = RedData.Score_DamageDealt.ToString();
@@ -2055,7 +2113,50 @@ namespace DungeonDiceMonsters
                 lblGameOverDamage.Text = BlueData.Score_DamageDealt.ToString();
             }
 
+            //Generate the Special Bonus Lists
+            listGameOverSpecialBonusList.Items.Clear();
+            PlayerBonusRecord = new List<BonusRecord>();
+            if (UserPlayerColor == PlayerColor.RED)
+            {
+                PlayerBonusRecord = RedData.GetActiveBonusRecordsList();
+            }
+            else
+            {
+                PlayerBonusRecord = BlueData.GetActiveBonusRecordsList();
+            }
+
+            int TotalScore = 0;
+
+            foreach (BonusRecord record in PlayerBonusRecord) 
+            {
+                int PointsObtained = record.GetTotalPoints();
+                if (PointsObtained > 0) 
+                {
+                    listGameOverSpecialBonusList.Items.Add(record.Name + "-------" + PointsObtained);
+                    TotalScore += PointsObtained;
+                }
+            }
+
+            if(winner == UserPlayerColor)
+            {
+                //Double the Total Score for the winner
+                listGameOverSpecialBonusList.Items.Add("WINNER BONUS-------Total Score x2");
+                TotalScore += TotalScore;
+                lblGameOverDoubleScoreLabel.Visible = true;
+            }
+
+            if(PlayerBonusRecord.Count == 0)
+            {
+                listGameOverSpecialBonusList.Items.Add("NO BONUSES");
+            }
+
+            
+
+            int starChipsObtained = TotalScore / 100;
+            lblGameOverScore.Text = TotalScore.ToString();
             lblGameOverTurns.Text = _CurrentTurn.ToString();
+            lblGameOverStarchips.Text = starChipsObtained.ToString();
+            GameData.AdjustStarchipsAmount(starChipsObtained);
 
 
 
@@ -2142,6 +2243,8 @@ namespace DungeonDiceMonsters
         private List<Tile> _FusionCandidateTiles = new List<Tile>();
         private List<Tile> _FusionSummonTiles = new List<Tile>();
         private int _IndexOfFusionCardSelected = -1;
+        //Data for the game over screen
+        List<BonusRecord> PlayerBonusRecord;
         #endregion
 
         #region Enums
@@ -2180,14 +2283,14 @@ namespace DungeonDiceMonsters
             ParasiteParacideEffect,
             EradicatingAerosolEffect,
         }
-        private enum SummonType
+        public enum SummonType
         {
             Normal,
             Ritual,
             Fusion,
             Transform,
         }
-        #endregion
+        #endregion       
     }
 
     public enum PlayerColor

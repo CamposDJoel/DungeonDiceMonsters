@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\board elements\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:board elements\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|d:\\documents\\github\\dungeondicemonsters\\dungeondicemonsters\\boardpvp\\boardpvp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275DC66-FF0A-4B22-986C-F6438916332F}|DungeonDiceMonsters.csproj|solutionrelative:boardpvp\\boardpvp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BoardPvP.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP.cs",
+              "RelativeDocumentMoniker": "BoardPvP\\BoardPvP.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\BoardPvP\\BoardPvP.cs",
+              "RelativeToolTip": "BoardPvP\\BoardPvP.cs",
+              "ViewState": "AQIAADgEAAAAAAAAAAAmwJEEAABWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T14:15:13.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerData.cs",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Board Elements\\PlayerData.cs",
+              "RelativeDocumentMoniker": "Board Elements\\PlayerData.cs",
+              "ToolTip": "D:\\Documents\\GitHub\\DungeonDiceMonsters\\DungeonDiceMonsters\\Board Elements\\PlayerData.cs",
+              "RelativeToolTip": "Board Elements\\PlayerData.cs",
+              "ViewState": "AQIAAGcAAAAAAAAAAAAkwB0BAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T14:10:07.779Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

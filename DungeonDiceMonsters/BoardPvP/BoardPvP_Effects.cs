@@ -15,6 +15,17 @@ namespace DungeonDiceMonsters
         private void ActivateEffect(Effect thisEffect)
         {
             UpdateEffectLogs(string.Format(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [{0}] - Origin Card Board ID: [{1}].Controller: [{2}]", thisEffect.ID, thisEffect.OriginCard.OnBoardID, thisEffect.Owner));
+            
+            //Update the Player Record for effect activations
+            if(thisEffect.Owner == TURNPLAYER)
+            {
+                TURNPLAYERDATA.AddScoreEffectActivationRecord(thisEffect);
+            }
+            else
+            {
+                OPPONENTPLAYERDATA.AddScoreEffectActivationRecord(thisEffect);
+            }
+            
             switch (thisEffect.ID)
             {
                 case Effect.EffectID.DARKSymbol: DarkSymbol_Activation(thisEffect); break;
@@ -1789,7 +1800,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];                 
-            SpellboundCard(summonedCard, 3);         
+            SpellboundCard(summonedCard, 3, true);         
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1813,7 +1824,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 3);
+            SpellboundCard(summonedCard, 3, true);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1837,7 +1848,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 99);
+            SpellboundCard(summonedCard, 99, true);
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1911,7 +1922,7 @@ namespace DungeonDiceMonsters
 
             //Step 3: Resolve the effect
             Card summonedCard = CardsBeingSummoned[0];
-            SpellboundCard(summonedCard, 99);            
+            SpellboundCard(summonedCard, 99, true);            
 
             //Step 4: Destroy the card
             DestroyCard(thisEffect.OriginCard.CurrentTile);
@@ -1974,10 +1985,16 @@ namespace DungeonDiceMonsters
             //Validate all pieces were found
             if (rightArmfound && leftArmfound && rightLegfound && leftLegfound) 
             {
+                //Flag the Player Data Bonus Item record for this win
+                TURNPLAYERDATA.UpdateBonusItemRecord(BonusRecord.BonusItem.B028_Obliterate, 1);
+
                 DisplayOnSummonEffectPanel(thisEffect);
                 HideEffectMenuPanel();
 
                 PicExodiaEnd.Visible = true;
+                //TODO: Find some sound effect or something..
+                BoardPvP.WaitNSeconds(2000);
+                PicExodiaEnd.Visible = false;
                 StartGameOver(TURNPLAYER);
             }
             else
@@ -2782,7 +2799,7 @@ namespace DungeonDiceMonsters
         private void BasicInsect_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: spellbound the monster for 1 turn
-            SpellboundCard(TargetTile.CardInPlace, 1);
+            SpellboundCard(TargetTile.CardInPlace, 1, true);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded for 1 turn");
@@ -4230,7 +4247,7 @@ namespace DungeonDiceMonsters
         private void EradicatingAerosol_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: Spellbound the monster permanently
-            SpellboundCard(TargetTile.CardInPlace, 99);
+            SpellboundCard(TargetTile.CardInPlace, 99, true);
 
             //Update logs
             UpdateEffectLogs("Post Target Resolution: Target Card was spellbounded permanently.");

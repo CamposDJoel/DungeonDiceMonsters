@@ -1,37 +1,33 @@
-----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
-No effects to remove.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [DARKSymbol] - Origin Card Board ID: [0].Controller: [RED]
+No Cards were affected by it.
 -----------------------------------------------------------------------------------------
-----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
-----------------------END PHAESE: Checking for Spellbound Counters Removal
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [EARTHSymbol] - Origin Card Board ID: [1].Controller: [BLUE]
+No Cards were affected by it.
 -----------------------------------------------------------------------------------------
-----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
-No effects to remove.
------------------------------------------------------------------------------------------
-----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
-----------------------END PHAESE: Checking for Spellbound Counters Removal
------------------------------------------------------------------------------------------
-----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
-No effects to remove.
------------------------------------------------------------------------------------------
-----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
-----------------------END PHAESE: Checking for Spellbound Counters Removal
------------------------------------------------------------------------------------------
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Nekogal #2] On Board ID: [17] Owned By: [BLUE]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Alien Skull] On Board ID: [17] Owned By: [RED]
 Reaction Check for Effect: [DARKSymbol] Origin Card Board ID: [0]
 Effect did not react.
 Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [1]
-TARGET CARD is eligible for this effect. Earth Symbol's effect will now apply to this card. ATK boost was increased by 200.
-[Nekogal #2]'s Summon Monster Phase 2 start. On Board ID [17]
-[Nekogal #2]'s Summon Monster Phase 3 start. On Board ID [17]
-[Nekogal #2]'s Summon Monster Phase 4 start. On Board ID [17]
+Effect did not react.
+[Alien Skull]'s Summon Monster Phase 2 start. On Board ID [17]
+[Alien Skull]'s Summon Monster Phase 3 start. On Board ID [17]
+[Alien Skull]'s Summon Monster Phase 4 start. On Board ID [17]
 SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: 1
 -----------------------------------------------------------------------------------------
 
 -----   Checking for Cards with trigger effects by Monster Summons    ------
->>Getting activation requirements for  effect [DeepDarkTrapHole_Trigger] with onwer [RED]
-Ctivation requirements MET
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [DeepDarkTrapHole_Trigger] - Origin Card Board ID: [13].Controller: [RED]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [Deep Dark Trap Hole] On Board ID: [13] Owned by: [RED]
+No trigger effects could activate, entering the Main Phase now.
+>>>>>>>>>>>>>>>>>>>>>>>Battle Damage Calculation Resolved, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #1] OG Damage Calculated: [2800]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #1] On Board ID: [11] Owned by: [BLUE]
 Checking for active effects that react to the Card destruction.
------------------------------------------------------------------------------------------
-
+Damage dealt to Symbol: [2050]
+>>>>>>>>>>>>>>>>>>>>>>>Monster destroyed by battle, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #1]
+>>>>>>>>>>>>>>>>>>>>>>>Battle Damage Calculation Resolved, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #2] OG Damage Calculated: [2800]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #2] On Board ID: [10] Owned by: [BLUE]
+Checking for active effects that react to the Card destruction.
+Damage dealt to Symbol: [2050]
+>>>>>>>>>>>>>>>>>>>>>>>Monster destroyed by battle, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #2]
+Damage dealt to Symbol: [2800]
+Damage dealt to Symbol: [1100]
