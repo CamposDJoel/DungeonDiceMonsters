@@ -652,10 +652,18 @@ namespace DungeonDiceMonsters
             lblRedPlayerName.Text = RedData.Name;
             lblBluePlayerName.Text = BlueData.Name;
 
-            ImageServer.ClearImage(PicBlueSymbol);
-            ImageServer.ClearImage(PicRedSymbol);
-            PicBlueSymbol.Image = ImageServer.Symbol(_BlueSymbol.CurrentAttribute.ToString());
-            PicRedSymbol.Image = ImageServer.Symbol(_RedSymbol.CurrentAttribute.ToString());
+            ImageServer.ClearImage(PanelBlueAvatar);
+            ImageServer.ClearImage(PanelRedAvatar);
+            ImageServer.ClearImage(PicBlueSymbol2);
+            ImageServer.ClearImage(PicRedSymbol2);
+            PanelBlueAvatar.BackgroundImage = ImageServer.AvatarIcon(BlueData.AvatarID);
+            PanelRedAvatar.BackgroundImage = ImageServer.AvatarIcon(RedData.AvatarID);
+            PicRedSymbol2.Image = ImageServer.Symbol(_RedSymbol.CurrentAttribute.ToString());
+            PicBlueSymbol2.Image = ImageServer.Symbol(_BlueSymbol.CurrentAttribute.ToString());
+
+
+            lblRedPlayerLevel.Text = string.Format("Lv {0}", RedData.Level);
+            lblBluePlayerLevel.Text = string.Format("Lv {0}", BlueData.Level);
 
             lblRedLP.Text = _RedSymbol.LP.ToString();
             lblBlueLP.Text = _BlueSymbol.LP.ToString();
@@ -2290,7 +2298,12 @@ namespace DungeonDiceMonsters
             Fusion,
             Transform,
         }
-        #endregion       
+        #endregion
+
+        private void lblBluePlayerLevel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public enum PlayerColor

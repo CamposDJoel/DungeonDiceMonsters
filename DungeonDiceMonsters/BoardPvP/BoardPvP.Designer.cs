@@ -30,7 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoardPvP));
             this.PanelBluePlayer = new System.Windows.Forms.Panel();
-            this.PicBlueSymbol = new System.Windows.Forms.PictureBox();
+            this.PanelBlueAvatar = new System.Windows.Forms.Panel();
+            this.lblBluePlayerLevel = new System.Windows.Forms.Label();
             this.PanelBlueCrests = new System.Windows.Forms.Panel();
             this.lblBlueTrapCount = new System.Windows.Forms.Label();
             this.PicBlueTrapImage = new System.Windows.Forms.PictureBox();
@@ -45,8 +46,11 @@
             this.lblBlueLP = new System.Windows.Forms.Label();
             this.lblLPLabel = new System.Windows.Forms.Label();
             this.lblBluePlayerName = new System.Windows.Forms.Label();
+            this.PicBlueSymbol2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.PicRedSymbol = new System.Windows.Forms.PictureBox();
+            this.PanelRedAvatar = new System.Windows.Forms.Panel();
+            this.lblRedPlayerLevel = new System.Windows.Forms.Label();
+            this.PicRedSymbol2 = new System.Windows.Forms.PictureBox();
             this.PanelRedCrests = new System.Windows.Forms.Panel();
             this.lblRedTrapCount = new System.Windows.Forms.Label();
             this.PicRedTrapImage = new System.Windows.Forms.PictureBox();
@@ -228,15 +232,17 @@
             this.PicFusionSummonAniMaterial1 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonCardPreview = new System.Windows.Forms.PictureBox();
             this.PanelBluePlayer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).BeginInit();
+            this.PanelBlueAvatar.SuspendLayout();
             this.PanelBlueCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueTrapImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMagImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueDEFImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol2)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).BeginInit();
+            this.PanelRedAvatar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol2)).BeginInit();
             this.PanelRedCrests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).BeginInit();
@@ -304,25 +310,38 @@
             // 
             this.PanelBluePlayer.BackColor = System.Drawing.Color.MidnightBlue;
             this.PanelBluePlayer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PanelBluePlayer.Controls.Add(this.PicBlueSymbol);
+            this.PanelBluePlayer.Controls.Add(this.PanelBlueAvatar);
             this.PanelBluePlayer.Controls.Add(this.PanelBlueCrests);
             this.PanelBluePlayer.Controls.Add(this.lblBlueLP);
             this.PanelBluePlayer.Controls.Add(this.lblLPLabel);
             this.PanelBluePlayer.Controls.Add(this.lblBluePlayerName);
+            this.PanelBluePlayer.Controls.Add(this.PicBlueSymbol2);
             this.PanelBluePlayer.Location = new System.Drawing.Point(3, 4);
             this.PanelBluePlayer.Name = "PanelBluePlayer";
             this.PanelBluePlayer.Size = new System.Drawing.Size(144, 222);
             this.PanelBluePlayer.TabIndex = 2;
             // 
-            // PicBlueSymbol
+            // PanelBlueAvatar
             // 
-            this.PicBlueSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicBlueSymbol.Location = new System.Drawing.Point(3, 52);
-            this.PicBlueSymbol.Name = "PicBlueSymbol";
-            this.PicBlueSymbol.Size = new System.Drawing.Size(62, 55);
-            this.PicBlueSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBlueSymbol.TabIndex = 4;
-            this.PicBlueSymbol.TabStop = false;
+            this.PanelBlueAvatar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelBlueAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelBlueAvatar.Controls.Add(this.lblBluePlayerLevel);
+            this.PanelBlueAvatar.Location = new System.Drawing.Point(3, 49);
+            this.PanelBlueAvatar.Name = "PanelBlueAvatar";
+            this.PanelBlueAvatar.Size = new System.Drawing.Size(60, 60);
+            this.PanelBlueAvatar.TabIndex = 7;
+            // 
+            // lblBluePlayerLevel
+            // 
+            this.lblBluePlayerLevel.BackColor = System.Drawing.Color.Transparent;
+            this.lblBluePlayerLevel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBluePlayerLevel.ForeColor = System.Drawing.Color.Lime;
+            this.lblBluePlayerLevel.Location = new System.Drawing.Point(0, 0);
+            this.lblBluePlayerLevel.Name = "lblBluePlayerLevel";
+            this.lblBluePlayerLevel.Size = new System.Drawing.Size(58, 15);
+            this.lblBluePlayerLevel.TabIndex = 5;
+            this.lblBluePlayerLevel.Text = "Lv 9999";
+            this.lblBluePlayerLevel.Click += new System.EventHandler(this.lblBluePlayerLevel_Click);
             // 
             // PanelBlueCrests
             // 
@@ -449,23 +468,23 @@
             // 
             // lblBlueLP
             // 
-            this.lblBlueLP.AutoSize = true;
             this.lblBlueLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBlueLP.ForeColor = System.Drawing.Color.White;
-            this.lblBlueLP.Location = new System.Drawing.Point(71, 78);
+            this.lblBlueLP.ForeColor = System.Drawing.Color.Yellow;
+            this.lblBlueLP.Location = new System.Drawing.Point(67, 24);
             this.lblBlueLP.Name = "lblBlueLP";
-            this.lblBlueLP.Size = new System.Drawing.Size(58, 24);
+            this.lblBlueLP.Size = new System.Drawing.Size(75, 25);
             this.lblBlueLP.TabIndex = 2;
-            this.lblBlueLP.Text = "8000";
+            this.lblBlueLP.Text = "99999";
+            this.lblBlueLP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblLPLabel
             // 
             this.lblLPLabel.AutoSize = true;
-            this.lblLPLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLPLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLPLabel.ForeColor = System.Drawing.Color.White;
-            this.lblLPLabel.Location = new System.Drawing.Point(73, 58);
+            this.lblLPLabel.Location = new System.Drawing.Point(39, 27);
             this.lblLPLabel.Name = "lblLPLabel";
-            this.lblLPLabel.Size = new System.Drawing.Size(44, 24);
+            this.lblLPLabel.Size = new System.Drawing.Size(34, 18);
             this.lblLPLabel.TabIndex = 1;
             this.lblLPLabel.Text = "LP:";
             // 
@@ -473,17 +492,28 @@
             // 
             this.lblBluePlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBluePlayerName.ForeColor = System.Drawing.Color.White;
-            this.lblBluePlayerName.Location = new System.Drawing.Point(2, 2);
+            this.lblBluePlayerName.Location = new System.Drawing.Point(2, 1);
             this.lblBluePlayerName.Name = "lblBluePlayerName";
-            this.lblBluePlayerName.Size = new System.Drawing.Size(135, 50);
+            this.lblBluePlayerName.Size = new System.Drawing.Size(135, 25);
             this.lblBluePlayerName.TabIndex = 0;
-            this.lblBluePlayerName.Text = "High Mage Atenza";
+            this.lblBluePlayerName.Text = "My Name is Here";
+            // 
+            // PicBlueSymbol2
+            // 
+            this.PicBlueSymbol2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicBlueSymbol2.Location = new System.Drawing.Point(75, 49);
+            this.PicBlueSymbol2.Name = "PicBlueSymbol2";
+            this.PicBlueSymbol2.Size = new System.Drawing.Size(60, 60);
+            this.PicBlueSymbol2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBlueSymbol2.TabIndex = 6;
+            this.PicBlueSymbol2.TabStop = false;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DarkRed;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.PicRedSymbol);
+            this.panel2.Controls.Add(this.PanelRedAvatar);
+            this.panel2.Controls.Add(this.PicRedSymbol2);
             this.panel2.Controls.Add(this.PanelRedCrests);
             this.panel2.Controls.Add(this.lblRedLP);
             this.panel2.Controls.Add(this.lblLPlabel2);
@@ -493,15 +523,36 @@
             this.panel2.Size = new System.Drawing.Size(144, 222);
             this.panel2.TabIndex = 3;
             // 
-            // PicRedSymbol
+            // PanelRedAvatar
             // 
-            this.PicRedSymbol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicRedSymbol.Location = new System.Drawing.Point(2, 59);
-            this.PicRedSymbol.Name = "PicRedSymbol";
-            this.PicRedSymbol.Size = new System.Drawing.Size(62, 55);
-            this.PicRedSymbol.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicRedSymbol.TabIndex = 6;
-            this.PicRedSymbol.TabStop = false;
+            this.PanelRedAvatar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelRedAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelRedAvatar.Controls.Add(this.lblRedPlayerLevel);
+            this.PanelRedAvatar.Location = new System.Drawing.Point(2, 57);
+            this.PanelRedAvatar.Name = "PanelRedAvatar";
+            this.PanelRedAvatar.Size = new System.Drawing.Size(60, 60);
+            this.PanelRedAvatar.TabIndex = 9;
+            // 
+            // lblRedPlayerLevel
+            // 
+            this.lblRedPlayerLevel.BackColor = System.Drawing.Color.Transparent;
+            this.lblRedPlayerLevel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedPlayerLevel.ForeColor = System.Drawing.Color.Lime;
+            this.lblRedPlayerLevel.Location = new System.Drawing.Point(1, -1);
+            this.lblRedPlayerLevel.Name = "lblRedPlayerLevel";
+            this.lblRedPlayerLevel.Size = new System.Drawing.Size(58, 15);
+            this.lblRedPlayerLevel.TabIndex = 5;
+            this.lblRedPlayerLevel.Text = "Lv 9999";
+            // 
+            // PicRedSymbol2
+            // 
+            this.PicRedSymbol2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicRedSymbol2.Location = new System.Drawing.Point(76, 57);
+            this.PicRedSymbol2.Name = "PicRedSymbol2";
+            this.PicRedSymbol2.Size = new System.Drawing.Size(60, 60);
+            this.PicRedSymbol2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicRedSymbol2.TabIndex = 8;
+            this.PicRedSymbol2.TabStop = false;
             // 
             // PanelRedCrests
             // 
@@ -628,23 +679,23 @@
             // 
             // lblRedLP
             // 
-            this.lblRedLP.AutoSize = true;
             this.lblRedLP.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRedLP.ForeColor = System.Drawing.Color.White;
-            this.lblRedLP.Location = new System.Drawing.Point(68, 87);
+            this.lblRedLP.ForeColor = System.Drawing.Color.Yellow;
+            this.lblRedLP.Location = new System.Drawing.Point(73, 27);
             this.lblRedLP.Name = "lblRedLP";
-            this.lblRedLP.Size = new System.Drawing.Size(58, 24);
+            this.lblRedLP.Size = new System.Drawing.Size(70, 24);
             this.lblRedLP.TabIndex = 4;
-            this.lblRedLP.Text = "8000";
+            this.lblRedLP.Text = "99999";
+            this.lblRedLP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblLPlabel2
             // 
             this.lblLPlabel2.AutoSize = true;
-            this.lblLPlabel2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLPlabel2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLPlabel2.ForeColor = System.Drawing.Color.White;
-            this.lblLPlabel2.Location = new System.Drawing.Point(70, 68);
+            this.lblLPlabel2.Location = new System.Drawing.Point(45, 30);
             this.lblLPlabel2.Name = "lblLPlabel2";
-            this.lblLPlabel2.Size = new System.Drawing.Size(44, 24);
+            this.lblLPlabel2.Size = new System.Drawing.Size(34, 18);
             this.lblLPlabel2.TabIndex = 3;
             this.lblLPlabel2.Text = "LP:";
             // 
@@ -652,9 +703,9 @@
             // 
             this.lblRedPlayerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRedPlayerName.ForeColor = System.Drawing.Color.White;
-            this.lblRedPlayerName.Location = new System.Drawing.Point(2, 2);
+            this.lblRedPlayerName.Location = new System.Drawing.Point(0, 2);
             this.lblRedPlayerName.Name = "lblRedPlayerName";
-            this.lblRedPlayerName.Size = new System.Drawing.Size(135, 50);
+            this.lblRedPlayerName.Size = new System.Drawing.Size(135, 25);
             this.lblRedPlayerName.TabIndex = 1;
             this.lblRedPlayerName.Text = "RED";
             // 
@@ -2116,7 +2167,7 @@
             this.PanelEndGameResults.Controls.Add(this.lblGameOverYouWin);
             this.PanelEndGameResults.Location = new System.Drawing.Point(26, 123);
             this.PanelEndGameResults.Name = "PanelEndGameResults";
-            this.PanelEndGameResults.Size = new System.Drawing.Size(953, 653);
+            this.PanelEndGameResults.Size = new System.Drawing.Size(953, 652);
             this.PanelEndGameResults.TabIndex = 28;
             this.PanelEndGameResults.Visible = false;
             // 
@@ -2774,16 +2825,18 @@
             this.Text = "Dungeon Dice Monsters";
             this.PanelBluePlayer.ResumeLayout(false);
             this.PanelBluePlayer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol)).EndInit();
+            this.PanelBlueAvatar.ResumeLayout(false);
             this.PanelBlueCrests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueTrapImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMagImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueDEFImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueATKImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBlueMovImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBlueSymbol2)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol)).EndInit();
+            this.PanelRedAvatar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicRedSymbol2)).EndInit();
             this.PanelRedCrests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicRedTrapImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicRedMagImage)).EndInit();
@@ -2868,7 +2921,6 @@
         #endregion
 
         private System.Windows.Forms.Panel PanelBluePlayer;
-        private System.Windows.Forms.PictureBox PicBlueSymbol;
         private System.Windows.Forms.Panel PanelBlueCrests;
         private System.Windows.Forms.Label lblBlueTrapCount;
         private System.Windows.Forms.PictureBox PicBlueTrapImage;
@@ -2884,7 +2936,6 @@
         private System.Windows.Forms.Label lblLPLabel;
         private System.Windows.Forms.Label lblBluePlayerName;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.PictureBox PicRedSymbol;
         private System.Windows.Forms.Panel PanelRedCrests;
         private System.Windows.Forms.Label lblRedTrapCount;
         private System.Windows.Forms.PictureBox PicRedTrapImage;
@@ -3065,5 +3116,11 @@
         private System.Windows.Forms.Label lblGameOverScore;
         private System.Windows.Forms.Label lblGameOverScoreItemDescription;
         private System.Windows.Forms.Label lblGameOverDoubleScoreLabel;
+        private System.Windows.Forms.Label lblBluePlayerLevel;
+        private System.Windows.Forms.PictureBox PicBlueSymbol2;
+        private System.Windows.Forms.Panel PanelBlueAvatar;
+        private System.Windows.Forms.Panel PanelRedAvatar;
+        private System.Windows.Forms.Label lblRedPlayerLevel;
+        private System.Windows.Forms.PictureBox PicRedSymbol2;
     }
 }

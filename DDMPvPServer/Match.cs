@@ -57,6 +57,24 @@ namespace DDMPvPServer
                 default: return "NONE";
             }
         }
+        public string GetPlayerLevel(PlayerColor color)
+        {
+            switch (color)
+            {
+                case PlayerColor.RED: return REDPlayerLevel;
+                case PlayerColor.BLUE: return BLUEPlayerLevel;
+                default: return "NONE";
+            }
+        }
+        public string GetPlayerAvatar(PlayerColor color)
+        {
+            switch (color)
+            {
+                case PlayerColor.RED: return REDPlayerAvatar;
+                case PlayerColor.BLUE: return BLUEPlayerAvatar;
+                default: return "NONE";
+            }
+        }
         public PlayerColor GetPlayerColor(int id)
         {
             if (REDPlayerID == id)
@@ -68,18 +86,22 @@ namespace DDMPvPServer
                 return PlayerColor.BLUE;
             }
         }
-        public void SetPlayerInfo(PlayerColor color, string name, string deckdata)
+        public void SetPlayerInfo(PlayerColor color, string name, string level, string avatarId, string deckdata)
         {
             switch (color)
             {
                 case PlayerColor.RED:
                     REDPlayerName = name;
+                    REDPlayerLevel = level;
+                    REDPlayerAvatar = avatarId;
                     REDPlayerDeckData = deckdata;
                     REDPlayerReady = true;
                     AddLogMessage(string.Format("RED Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
                     break;
                 case PlayerColor.BLUE:
                     BLUEPlayerName = name;
+                    BLUEPlayerLevel = level;
+                    BLUEPlayerAvatar = avatarId;
                     BLUEPlayerDeckData = deckdata;
                     BLUEPlayerReady = true;
                     AddLogMessage(string.Format("BLUE Player data received, Player Name: {0}.{1}", name, Environment.NewLine));
@@ -142,6 +164,10 @@ namespace DDMPvPServer
         private string BLUEPlayerName = "NO SET";
         private string REDPlayerDeckData = "NO SET";
         private string BLUEPlayerDeckData = "NO SET";
+        private string REDPlayerLevel = "NO SET";
+        private string BLUEPlayerLevel = "NO SET";
+        private string REDPlayerAvatar = "NO SET";
+        private string BLUEPlayerAvatar = "NO SET";
         private bool REDPlayerReady = false;
         private bool BLUEPlayerReady = false;
         private bool MatchClosed = false;

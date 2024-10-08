@@ -55,8 +55,10 @@ namespace DDMPvPServer
                     staticServerObject.UpdateConnectionLog("2 Players joined the match, waiting for deck info to be exchanged.");
                     //Send this conencting player the deck info of Player 1 (RED)
                     string RedsPlayerName = activeMatch.GetPlayerName(PlayerColor.RED);
+                    string RedsPlayerLevel = activeMatch.GetPlayerLevel(PlayerColor.RED);
+                    string RedPlayerAvatar = activeMatch.GetPlayerAvatar(PlayerColor.RED);
                     string RedsDeckInfo = activeMatch.GetDeckData(PlayerColor.RED);
-                    SendMessage(string.Format("{0}|{1}|{2}", "[OPPONENT DATA RED]", RedsPlayerName, RedsDeckInfo), ConnectingClient);
+                    SendMessage(string.Format("{0}|{1}|{2}|{3}|{4}", "[OPPONENT DATA RED]", RedsPlayerName, RedsPlayerLevel, RedPlayerAvatar, RedsDeckInfo), ConnectingClient);
 
                     //Now create a new match to be open this match is now full
                     matchcount++;
@@ -142,7 +144,7 @@ namespace DDMPvPServer
                                 //Player info to exchange with the opponent
                                 case "[MC PLAYER INFO]":
                                     //Set the Player info to the match
-                                    ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2]);
+                                    ActiveMatch.SetPlayerInfo(ClientPlayerColor, MessageTokens[1], MessageTokens[2], MessageTokens[3], MessageTokens[4]);
                                     if (ActiveMatch.AreBothPlayersReady())
                                     {
                                         int OpponentClientIDA = ActiveMatch.GetOpponentClientID(ClientPlayerColor);
@@ -150,8 +152,10 @@ namespace DDMPvPServer
                                         PlayerColor OpponentPlayerColor = ActiveMatch.GetPlayerColor(id);
                                         //Send the opponent player the Clients Deck Info
                                         string OpponentPlayerName = ActiveMatch.GetPlayerName(OpponentPlayerColor);
+                                        string OpponentPlayerLevel = ActiveMatch.GetPlayerLevel(OpponentPlayerColor);
+                                        string OpponentPlayerAvatar = ActiveMatch.GetPlayerAvatar(OpponentPlayerColor);
                                         string OpponentDeckInfo = ActiveMatch.GetDeckData(OpponentPlayerColor);
-                                        string notificationResponse = string.Format("{0}|{1}|{2}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentDeckInfo);
+                                        string notificationResponse = string.Format("{0}|{1}|{2}|{3}|{4}", "[OPPONENT DATA BLUE]", OpponentPlayerName, OpponentPlayerLevel, OpponentPlayerAvatar, OpponentDeckInfo);
                                         SendMessage(notificationResponse, Opponetclient);
                                         ActiveMatch.AddLogMessage(string.Format("Sending [RED] a notification response: [{0}]", notificationResponse));
                                     }

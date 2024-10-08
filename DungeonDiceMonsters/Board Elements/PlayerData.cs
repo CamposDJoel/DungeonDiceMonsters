@@ -10,9 +10,11 @@ namespace DungeonDiceMonsters
     public class PlayerData
     {
         #region Constructors
-        public PlayerData(string playerName, Deck d)
+        public PlayerData(string playerName, string playerLevel, string avatarID, Deck d)
         {
             _name = playerName;
+            _level = playerLevel;
+            _avatarId = avatarID;
             _deck = d;
             //Initialize the Bonus Record list
             _BonusRecords.Add(new BonusRecord(BonusRecord.BonusItem.B001_SummonerApprentice));
@@ -51,6 +53,8 @@ namespace DungeonDiceMonsters
 
         #region Public Accessors
         public string Name { get{ return _name;} }
+        public string Level { get{ return _level;} }
+        public string AvatarID { get { return _avatarId;} }
         public Deck Deck { get { return _deck;} }
         public int Crests_MOV { get { return _MoveCrests; } }
         public int Crests_ATK { get { return _AttackCrests; } }
@@ -166,6 +170,8 @@ namespace DungeonDiceMonsters
 
         #region Data
         private string _name;
+        private string _level;
+        private string _avatarId;
         private Deck _deck;
         private int _MoveCrests = 0;
         private int _AttackCrests = 0;
