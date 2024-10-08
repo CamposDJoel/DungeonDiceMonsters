@@ -3,19 +3,14 @@
 //Settings Form Class
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
 {
     public partial class SettingsMenu : Form
     {
+        #region Constructors
         public SettingsMenu()
         {
             InitializeComponent();
@@ -28,7 +23,9 @@ namespace DungeonDiceMonsters
                 if (SettingsData.IsSFXON) { radioOptionSFXON.Checked = true; } else { radioOptionSFXOFF.Checked = true; };
             }
         }
+        #endregion
 
+        #region Event Listeners
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Application.Exit();
@@ -74,10 +71,6 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
             }
         }
-
-        private void SettingsMenu_Load(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

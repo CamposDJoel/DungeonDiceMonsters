@@ -160,7 +160,6 @@
             this.Name = "SettingsMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings Menu - Dungeon Dice Monsters";
-            this.Load += new System.EventHandler(this.SettingsMenu_Load);
             this.GroupMusic.ResumeLayout(false);
             this.GroupMusic.PerformLayout();
             this.GroupSFX.ResumeLayout(false);
