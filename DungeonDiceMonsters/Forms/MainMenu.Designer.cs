@@ -37,6 +37,19 @@
             this.lblMenuLibrary = new System.Windows.Forms.Label();
             this.lblMenuPassword = new System.Windows.Forms.Label();
             this.lblMenuSettings = new System.Windows.Forms.Label();
+            this.PanelProfile = new System.Windows.Forms.Panel();
+            this.lblProfileStarchips = new System.Windows.Forms.Label();
+            this.PicProfileStarIcon = new System.Windows.Forms.PictureBox();
+            this.BarExp = new System.Windows.Forms.ProgressBar();
+            this.lblProfileLv = new System.Windows.Forms.Label();
+            this.lblProfileName = new System.Windows.Forms.Label();
+            this.PicProfilePic = new System.Windows.Forms.PictureBox();
+            this.lblProfileExp = new System.Windows.Forms.Label();
+            this.PicProfileDetailsButton = new System.Windows.Forms.PictureBox();
+            this.PanelProfile.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfileStarIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfilePic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfileDetailsButton)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMenuArcade
@@ -151,6 +164,107 @@
             this.lblMenuSettings.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblMenuSettings.Click += new System.EventHandler(this.lblMenuSettings_Click);
             // 
+            // PanelProfile
+            // 
+            this.PanelProfile.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelProfile.BackgroundImage")));
+            this.PanelProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PanelProfile.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelProfile.Controls.Add(this.lblProfileExp);
+            this.PanelProfile.Controls.Add(this.lblProfileStarchips);
+            this.PanelProfile.Controls.Add(this.PicProfileStarIcon);
+            this.PanelProfile.Controls.Add(this.BarExp);
+            this.PanelProfile.Controls.Add(this.lblProfileLv);
+            this.PanelProfile.Controls.Add(this.lblProfileName);
+            this.PanelProfile.Controls.Add(this.PicProfilePic);
+            this.PanelProfile.Location = new System.Drawing.Point(537, 4);
+            this.PanelProfile.Name = "PanelProfile";
+            this.PanelProfile.Size = new System.Drawing.Size(241, 94);
+            this.PanelProfile.TabIndex = 8;
+            // 
+            // lblProfileStarchips
+            // 
+            this.lblProfileStarchips.BackColor = System.Drawing.Color.Transparent;
+            this.lblProfileStarchips.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfileStarchips.ForeColor = System.Drawing.Color.White;
+            this.lblProfileStarchips.Location = new System.Drawing.Point(117, 69);
+            this.lblProfileStarchips.Name = "lblProfileStarchips";
+            this.lblProfileStarchips.Size = new System.Drawing.Size(60, 16);
+            this.lblProfileStarchips.TabIndex = 5;
+            this.lblProfileStarchips.Text = "x 9999";
+            // 
+            // PicProfileStarIcon
+            // 
+            this.PicProfileStarIcon.BackColor = System.Drawing.Color.Transparent;
+            this.PicProfileStarIcon.Image = ((System.Drawing.Image)(resources.GetObject("PicProfileStarIcon.Image")));
+            this.PicProfileStarIcon.Location = new System.Drawing.Point(92, 65);
+            this.PicProfileStarIcon.Name = "PicProfileStarIcon";
+            this.PicProfileStarIcon.Size = new System.Drawing.Size(25, 25);
+            this.PicProfileStarIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicProfileStarIcon.TabIndex = 4;
+            this.PicProfileStarIcon.TabStop = false;
+            // 
+            // BarExp
+            // 
+            this.BarExp.Location = new System.Drawing.Point(93, 43);
+            this.BarExp.Name = "BarExp";
+            this.BarExp.Size = new System.Drawing.Size(127, 10);
+            this.BarExp.TabIndex = 3;
+            // 
+            // lblProfileLv
+            // 
+            this.lblProfileLv.BackColor = System.Drawing.Color.Transparent;
+            this.lblProfileLv.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfileLv.ForeColor = System.Drawing.Color.White;
+            this.lblProfileLv.Location = new System.Drawing.Point(91, 28);
+            this.lblProfileLv.Name = "lblProfileLv";
+            this.lblProfileLv.Size = new System.Drawing.Size(60, 16);
+            this.lblProfileLv.TabIndex = 2;
+            this.lblProfileLv.Text = "Lv 9999";
+            // 
+            // lblProfileName
+            // 
+            this.lblProfileName.BackColor = System.Drawing.Color.Transparent;
+            this.lblProfileName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfileName.ForeColor = System.Drawing.Color.White;
+            this.lblProfileName.Location = new System.Drawing.Point(90, 5);
+            this.lblProfileName.Name = "lblProfileName";
+            this.lblProfileName.Size = new System.Drawing.Size(143, 23);
+            this.lblProfileName.TabIndex = 1;
+            this.lblProfileName.Text = "PLAYER NAME";
+            // 
+            // PicProfilePic
+            // 
+            this.PicProfilePic.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PicProfilePic.Image = ((System.Drawing.Image)(resources.GetObject("PicProfilePic.Image")));
+            this.PicProfilePic.Location = new System.Drawing.Point(4, 5);
+            this.PicProfilePic.Name = "PicProfilePic";
+            this.PicProfilePic.Size = new System.Drawing.Size(80, 80);
+            this.PicProfilePic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicProfilePic.TabIndex = 0;
+            this.PicProfilePic.TabStop = false;
+            // 
+            // lblProfileExp
+            // 
+            this.lblProfileExp.BackColor = System.Drawing.Color.Transparent;
+            this.lblProfileExp.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfileExp.ForeColor = System.Drawing.Color.White;
+            this.lblProfileExp.Location = new System.Drawing.Point(90, 53);
+            this.lblProfileExp.Name = "lblProfileExp";
+            this.lblProfileExp.Size = new System.Drawing.Size(130, 16);
+            this.lblProfileExp.TabIndex = 6;
+            this.lblProfileExp.Text = "Exp: 9999/9999";
+            // 
+            // PicProfileDetailsButton
+            // 
+            this.PicProfileDetailsButton.BackColor = System.Drawing.Color.Transparent;
+            this.PicProfileDetailsButton.Image = ((System.Drawing.Image)(resources.GetObject("PicProfileDetailsButton.Image")));
+            this.PicProfileDetailsButton.Location = new System.Drawing.Point(727, 100);
+            this.PicProfileDetailsButton.Name = "PicProfileDetailsButton";
+            this.PicProfileDetailsButton.Size = new System.Drawing.Size(51, 29);
+            this.PicProfileDetailsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicProfileDetailsButton.TabIndex = 9;
+            this.PicProfileDetailsButton.TabStop = false;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -158,6 +272,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.PicProfileDetailsButton);
+            this.Controls.Add(this.PanelProfile);
             this.Controls.Add(this.lblMenuSettings);
             this.Controls.Add(this.lblMenuPassword);
             this.Controls.Add(this.lblMenuLibrary);
@@ -172,6 +288,10 @@
             this.Name = "MainMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DDM - Main Menu";
+            this.PanelProfile.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfileStarIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfilePic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicProfileDetailsButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -186,5 +306,14 @@
         private System.Windows.Forms.Label lblMenuLibrary;
         private System.Windows.Forms.Label lblMenuPassword;
         private System.Windows.Forms.Label lblMenuSettings;
+        private System.Windows.Forms.Panel PanelProfile;
+        private System.Windows.Forms.PictureBox PicProfilePic;
+        private System.Windows.Forms.Label lblProfileName;
+        private System.Windows.Forms.PictureBox PicProfileStarIcon;
+        private System.Windows.Forms.ProgressBar BarExp;
+        private System.Windows.Forms.Label lblProfileLv;
+        private System.Windows.Forms.Label lblProfileStarchips;
+        private System.Windows.Forms.Label lblProfileExp;
+        private System.Windows.Forms.PictureBox PicProfileDetailsButton;
     }
 }

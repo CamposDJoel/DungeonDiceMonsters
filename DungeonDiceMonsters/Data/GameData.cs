@@ -15,6 +15,9 @@ namespace DungeonDiceMonsters
         #region Public Accessors
         public static string Name { get{ return _PlayerName;} }
         public static int StarChips { get{ return _StarChips; } }
+        public static string AvatarName { get { return _PlayerAvatar.ToString(); } }
+        public static int Level { get { return _Playerlevel; } }
+        public static int ExpPoints { get { return _PlayerExp; } }
         #endregion
 
         #region Public Methods
@@ -158,17 +161,68 @@ namespace DungeonDiceMonsters
             }
 
         }
+        public static int GetNextLevelExp()
+        {
+            return BaseLevelExp() + IncreaseAmount();
+
+            int IncreaseAmount()
+            {
+                return (40 + (_Playerlevel * 10));
+            }
+        }
+        public static int BaseLevelExp()
+        {
+            int sum = 0;
+            for (int x = _Playerlevel - 1; x >= 1; x--)
+            {
+                int levelIncrease = (40 + (x * 10));
+                sum += levelIncrease;
+            }
+            return sum;
+        }
         #endregion
 
         #region Data
         private static string _PlayerName = "tmp";
         private static int _StarChips = 0;
+        private static int _Playerlevel = 1;
+        private static int _PlayerExp = 0;
+        private static Avatar _PlayerAvatar = Avatar.Duelist;
         private static  bool[] _CharactersUnlocked = new bool[35];
         private static  int[] _CharactersWins = new int[35];
         private static  int[] _CharactersLoss = new int[35];
         private static List<bool> _LibraryMarks = new List<bool>();
         private static List<bool> _ExchangeMarks = new List<bool>();
         #endregion
+
+        private enum Avatar
+        {
+            Duelist,
+            Yugi,
+            Yami,
+            Joey,
+            Tea,
+            Kaiba,
+            Weevil,
+            Rex,
+            Mai,
+            Mako,
+            Banz,
+            BanditKeith,
+            Panik,
+            Pegasus,
+            Bakura,
+            Seeker,
+            Arcana,
+            Strings,
+            Odion,
+            Ichizu,
+            Marik,
+            Valon,
+            Allister,
+            Rafael,
+            Dartz
+        }
     }
 
     public enum Character
