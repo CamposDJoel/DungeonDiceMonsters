@@ -110,5 +110,9 @@ namespace DungeonDiceMonsters
                 default: throw new NotImplementedException();
             }
         }
+        public static Image AvatarIcon(string name)
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Avatars\\" + name + ".png");
+        }
     }
 }

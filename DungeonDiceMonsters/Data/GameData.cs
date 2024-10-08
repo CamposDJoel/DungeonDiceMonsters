@@ -15,6 +15,10 @@ namespace DungeonDiceMonsters
         #region Public Accessors
         public static string Name { get{ return _PlayerName;} }
         public static int StarChips { get{ return _StarChips; } }
+        public static string AvatarName { get { return _PlayerAvatar.ToString(); } }
+        public static int AvatarID { get { return (int)_PlayerAvatar; } }
+        public static int Level { get { return _Playerlevel; } }
+        public static int ExpPoints { get { return _PlayerExp; } }
         #endregion
 
         #region Public Methods
@@ -26,6 +30,9 @@ namespace DungeonDiceMonsters
         {
             _PlayerName = data[0];
             _StarChips = Convert.ToInt32(data[1]);
+            _Playerlevel = Convert.ToInt32(data[2]);
+            _PlayerExp = Convert.ToInt32(data[3]);
+            _PlayerAvatar = (Avatar)Convert.ToInt32(data[4]);
         }
         public static void UnlockCharacter(Character c)
         {
@@ -158,17 +165,78 @@ namespace DungeonDiceMonsters
             }
 
         }
+        public static int GetNextLevelExp()
+        {
+            return BaseLevelExp() + IncreaseAmount();
+
+            int IncreaseAmount()
+            {
+                return (40 + (_Playerlevel * 10));
+            }
+        }
+        public static int BaseLevelExp()
+        {
+            int sum = 0;
+            for (int x = _Playerlevel - 1; x >= 1; x--)
+            {
+                int levelIncrease = (40 + (x * 10));
+                sum += levelIncrease;
+            }
+            return sum;
+        }
+        public static void ChangeAvatarID(int id)
+        {
+            _PlayerAvatar = (Avatar)id;
+            SaveFileManger.WriteSaveFile();
+        }
+        public static void ChangePlayerName(string newName)
+        {
+            _PlayerName = newName;
+            SaveFileManger.WriteSaveFile();
+        }
         #endregion
 
         #region Data
         private static string _PlayerName = "tmp";
         private static int _StarChips = 0;
+        private static int _Playerlevel = 1;
+        private static int _PlayerExp = 0;
+        private static Avatar _PlayerAvatar = Avatar.Duelist;
         private static  bool[] _CharactersUnlocked = new bool[35];
         private static  int[] _CharactersWins = new int[35];
         private static  int[] _CharactersLoss = new int[35];
         private static List<bool> _LibraryMarks = new List<bool>();
         private static List<bool> _ExchangeMarks = new List<bool>();
         #endregion
+
+        private enum Avatar
+        {
+            Duelist,
+            Yugi,
+            Yami,
+            Joey,
+            Tea,
+            Kaiba,
+            Weevil,
+            Rex,
+            Mai,
+            Mako,
+            Bonz,
+            BanditKeith,
+            Panik,
+            Pegasus,
+            Bakura,
+            Seeker,
+            Arcana,
+            Strings,
+            Odion,
+            Ichizu,
+            Marik,
+            Valon,
+            Allister,
+            Rafael,
+            Dartz
+        }
     }
 
     public enum Character

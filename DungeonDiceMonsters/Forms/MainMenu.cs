@@ -11,34 +11,68 @@ namespace DungeonDiceMonsters
         {
             SoundServer.PlayBackgroundMusic(Song.MainMenu);
             InitializeComponent();
+            InitializeProfilePanel();
+            InitializeEventListeners();
+            
+            void InitializeProfilePanel()
+            {
+                //Initialize the Profile Panel
+                lblProfileName.Text = GameData.Name;
+                PicProfilePic.Image = ImageServer.AvatarIcon(GameData.AvatarName);
+                lblProfileLv.Text = string.Format("Lv {0}", GameData.Level.ToString());
+                lblProfileStarchips.Text = string.Format("x {0}", GameData.StarChips.ToString());
+                //Reset the bar to defaul
+                BarExp.Minimum = 0;
+                BarExp.Maximum = 100;
+                BarExp.Value = 0;
+                //Then initialize it
+                BarExp.Maximum = GameData.GetNextLevelExp();
+                BarExp.Minimum = GameData.BaseLevelExp();
+                BarExp.Value = GameData.ExpPoints;
+                lblProfileExp.Text = string.Format("Exp: {0}/{1}", GameData.ExpPoints, GameData.GetNextLevelExp());
+            }
+            void InitializeEventListeners()
+            {
+                lblMenuArcade.MouseEnter += OnMouseEnterLabel;
+                lblMenuArcade.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuArcade.MouseEnter += OnMouseEnterLabel;
-            lblMenuArcade.MouseLeave += OnMouseLeaveLabel;
+                lblMenuFreeDuel.MouseEnter += OnMouseEnterLabel;
+                lblMenuFreeDuel.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuFreeDuel.MouseEnter += OnMouseEnterLabel;
-            lblMenuFreeDuel.MouseLeave += OnMouseLeaveLabel;
+                lblMenuDeckBuilder.MouseEnter += OnMouseEnterLabel;
+                lblMenuDeckBuilder.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuDeckBuilder.MouseEnter += OnMouseEnterLabel;
-            lblMenuDeckBuilder.MouseLeave += OnMouseLeaveLabel;
+                lblMenuCardShop.MouseEnter += OnMouseEnterLabel;
+                lblMenuCardShop.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuCardShop.MouseEnter += OnMouseEnterLabel;
-            lblMenuCardShop.MouseLeave += OnMouseLeaveLabel;
+                lblPvPDuel.MouseEnter += OnMouseEnterLabel;
+                lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
 
-            lblPvPDuel.MouseEnter += OnMouseEnterLabel;
-            lblPvPDuel.MouseLeave += OnMouseLeaveLabel;
+                lblMenuLibrary.MouseEnter += OnMouseEnterLabel;
+                lblMenuLibrary.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuLibrary.MouseEnter += OnMouseEnterLabel;
-            lblMenuLibrary.MouseLeave += OnMouseLeaveLabel;
+                lblMenuPassword.MouseEnter += OnMouseEnterLabel;
+                lblMenuPassword.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuPassword.MouseEnter += OnMouseEnterLabel;
-            lblMenuPassword.MouseLeave += OnMouseLeaveLabel;
+                lblMenuSettings.MouseEnter += OnMouseEnterLabel;
+                lblMenuSettings.MouseLeave += OnMouseLeaveLabel;
 
-            lblMenuSettings.MouseEnter += OnMouseEnterLabel;
-            lblMenuSettings.MouseLeave += OnMouseLeaveLabel;
+                PicProfileDetailsButton.MouseEnter += OnMouseHover;
+                PicProfileDetailsButton.MouseLeave += OnMouseHoverLeave;
+            }
         }
         #endregion
 
         #region Events
+        private void OnMouseHover(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
+            PicProfileDetailsButton.BackColor = Color.Yellow;
+        }
+        private void OnMouseHoverLeave(object sender, EventArgs e)
+        {
+            PicProfileDetailsButton.BackColor = Color.Transparent;
+        }
         private void OnMouseEnterLabel(object sender, EventArgs e)
         {
             SoundServer.PlaySoundEffect(SoundEffect.Hover);
@@ -108,5 +142,14 @@ namespace DungeonDiceMonsters
             SM.Show();
         }
         #endregion
+
+        private void PicProfileDetailsButton_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Open the Profile Menu
+            ProfileMenu SM = new ProfileMenu();
+            Dispose();
+            SM.Show();
+        }
     }
 }
