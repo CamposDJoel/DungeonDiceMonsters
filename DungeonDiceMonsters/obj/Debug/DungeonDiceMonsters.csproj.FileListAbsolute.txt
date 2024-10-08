@@ -47,3 +47,4 @@ D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonD.3
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.DecksManager.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.LibraryMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.PasswordMenu.resources
+D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.SettingsMenu.resources
