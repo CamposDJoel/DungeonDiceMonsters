@@ -20,6 +20,7 @@ namespace DungeonDiceMonsters
         {
             InitializeComponent();
             InitializeUI();
+            SoundServer.PlayBackgroundMusic(Song.SettingsMenu);
 
             void InitializeUI()
             {
@@ -45,6 +46,7 @@ namespace DungeonDiceMonsters
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 SettingsData.SetMusicONSetting(true);
+                SoundServer.PlayBackgroundMusic(Song.SettingsMenu);
             }
         }
         private void radioOptionMusicOFF_CheckedChanged(object sender, EventArgs e)
@@ -52,6 +54,7 @@ namespace DungeonDiceMonsters
             if (radioOptionMusicOFF.Checked)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SoundServer.StopBackgroundMusic();
                 SettingsData.SetMusicONSetting(false);
             }
         }
@@ -59,17 +62,22 @@ namespace DungeonDiceMonsters
         {
             if (radioOptionSFXON.Checked)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
                 SettingsData.SetSFXONSetting(true);
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
             }
         }
         private void radioOptionSFXOFF_CheckedChanged(object sender, EventArgs e)
         {
             if (radioOptionSFXOFF.Checked)
             {
-                SoundServer.PlaySoundEffect(SoundEffect.Click);
                 SettingsData.SetSFXONSetting(false);
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
             }
+        }
+
+        private void SettingsMenu_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

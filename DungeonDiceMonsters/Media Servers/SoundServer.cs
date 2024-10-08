@@ -22,6 +22,10 @@ namespace DungeonDiceMonsters
                 CurrentBackGroundPlay.Volume = 0.3;
             }
         }
+        public static void StopBackgroundMusic()
+        {
+            CurrentBackGroundPlay.Stop();
+        }
         public static void PlaySoundEffect(SoundEffect sound)
         {
             if (SettingsData.IsSFXON)
@@ -121,7 +125,8 @@ namespace DungeonDiceMonsters
         YouWin,
         YouLose,
         LibraryMenu,
-        PasswordMenu
+        PasswordMenu,
+        SettingsMenu
     }
     public enum SoundEffect
     {
