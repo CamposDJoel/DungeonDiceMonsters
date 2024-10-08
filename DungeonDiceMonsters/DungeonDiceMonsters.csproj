@@ -158,10 +158,10 @@
     <Compile Include="Forms\PasswordMenu.Designer.cs">
       <DependentUpon>PasswordMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProfileMenu.cs">
+    <Compile Include="Forms\ProfileMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProfileMenu.Designer.cs">
+    <Compile Include="Forms\ProfileMenu.Designer.cs">
       <DependentUpon>ProfileMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="RawDBObjects\rawcardinfo.cs" />
@@ -232,7 +232,7 @@
     <EmbeddedResource Include="Forms\SettingsMenu.resx">
       <DependentUpon>SettingsMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProfileMenu.resx">
+    <EmbeddedResource Include="Forms\ProfileMenu.resx">
       <DependentUpon>ProfileMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
