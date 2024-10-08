@@ -15,8 +15,8 @@ namespace DungeonDiceMonsters
             //This will hold the actual data. Each item in the list will be a line in the save file
             List<string> Lines = new List<string>();
 
-            //Line [0]: Will contain the Players name and Starchip count
-            string playerdata = string.Format("{0}|{1}", GameData.Name, GameData.StarChips);
+            //Line [0]: Will contain the Players name,Starchip count, level,exp points and avatar ID
+            string playerdata = string.Format("{0}|{1}|{2}|{3}|{4}", GameData.Name, GameData.StarChips, GameData.Level, GameData.ExpPoints, GameData.AvatarID);
             Lines.Add(playerdata);
 
             //Line 1 : The total deck count + default deck index

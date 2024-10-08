@@ -16,6 +16,7 @@ namespace DungeonDiceMonsters
         public static string Name { get{ return _PlayerName;} }
         public static int StarChips { get{ return _StarChips; } }
         public static string AvatarName { get { return _PlayerAvatar.ToString(); } }
+        public static int AvatarID { get { return (int)_PlayerAvatar; } }
         public static int Level { get { return _Playerlevel; } }
         public static int ExpPoints { get { return _PlayerExp; } }
         #endregion
@@ -29,6 +30,9 @@ namespace DungeonDiceMonsters
         {
             _PlayerName = data[0];
             _StarChips = Convert.ToInt32(data[1]);
+            _Playerlevel = Convert.ToInt32(data[2]);
+            _PlayerExp = Convert.ToInt32(data[3]);
+            _PlayerAvatar = (Avatar)Convert.ToInt32(data[4]);
         }
         public static void UnlockCharacter(Character c)
         {
