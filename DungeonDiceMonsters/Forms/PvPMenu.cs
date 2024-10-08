@@ -41,6 +41,8 @@ namespace DungeonDiceMonsters
         private static PvPMenu StaticPvPMenu;
         private Deck _CurrentDeckSelected;
         private string _OpponentName;
+        private string _OpponentLevel;
+        private string _OpponentAvatarID;
         private Deck _OpponentsDeck;
         private PlayerColor MyColor;
         private BoardPvP _CurrentBoardPVP;
@@ -79,7 +81,8 @@ namespace DungeonDiceMonsters
 
                 //After connecting send your player name/deck to the server
                 string deckdata = _CurrentDeckSelected.GetDataStringLineForPVP();
-                SendData(string.Format("{0}|{1}|{2}", "[MC PLAYER INFO]", GameData.Name, deckdata));
+                string playerData = GameData.GetPlayerDataForPvPMatch();
+                SendData(string.Format("{0}|{1}|{2}", "[MC PLAYER INFO]", playerData, deckdata));
             }
             catch
             {
@@ -149,7 +152,9 @@ namespace DungeonDiceMonsters
                     Invoke(new MethodInvoker(delegate ()
                     {
                         _OpponentName = MessageTokens[1];
-                        _OpponentsDeck = new Deck(MessageTokens[2]);
+                        _OpponentLevel = MessageTokens[2];
+                        _OpponentAvatarID = MessageTokens[3];
+                        _OpponentsDeck = new Deck(MessageTokens[4]);
                         lblBluePlayerName.Text = "Blue Player: " + GameData.Name;
                         lblRedPlayerName.Text = "Red Player: " + _OpponentName;
                         MyColor = PlayerColor.BLUE;
@@ -168,7 +173,9 @@ namespace DungeonDiceMonsters
                     Invoke(new MethodInvoker(delegate ()
                     {
                         _OpponentName = MessageTokens[1];
-                        _OpponentsDeck = new Deck(MessageTokens[2]);
+                        _OpponentLevel = MessageTokens[2];
+                        _OpponentAvatarID = MessageTokens[3];
+                        _OpponentsDeck = new Deck(MessageTokens[4]);
                         lblBluePlayerName.Text = "Blue Player: " + _OpponentName;
                         lblBluePlayerName.Visible = true;
                         MyColor = PlayerColor.RED;
@@ -242,8 +249,8 @@ namespace DungeonDiceMonsters
 
             Deck MyDeck = _CurrentDeckSelected.GetCopy();
             //Then Generate the PlayerData objects from each player to launch the 
-            PlayerData user = new PlayerData(GameData.Name, MyDeck);
-            PlayerData opponent = new PlayerData(_OpponentName, _OpponentsDeck);
+            PlayerData user = new PlayerData(GameData.Name, GameData.Level.ToString(), GameData.AvatarID.ToString(), MyDeck);
+            PlayerData opponent = new PlayerData(_OpponentName, _OpponentLevel, _OpponentAvatarID, _OpponentsDeck);
 
             if (MyColor == PlayerColor.RED)
             {

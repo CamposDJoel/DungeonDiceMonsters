@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 
@@ -13,8 +14,8 @@ namespace DungeonDiceMonsters
     public static class GameData
     {
         #region Public Accessors
-        public static string Name { get{ return _PlayerName;} }
-        public static int StarChips { get{ return _StarChips; } }
+        public static string Name { get { return _PlayerName; } }
+        public static int StarChips { get { return _StarChips; } }
         public static string AvatarName { get { return _PlayerAvatar.ToString(); } }
         public static int AvatarID { get { return (int)_PlayerAvatar; } }
         public static int Level { get { return _Playerlevel; } }
@@ -117,7 +118,7 @@ namespace DungeonDiceMonsters
         {
             string[] Tokens = data.Split('|');
 
-            for (int x = 0; x < Tokens.Length - 1; x++) 
+            for (int x = 0; x < Tokens.Length - 1; x++)
             {
                 string token = Tokens[x];
                 if (token.Equals("1")) { MarkLibraryCardObtained(x); }
@@ -151,7 +152,7 @@ namespace DungeonDiceMonsters
         }
         public static void MarkDeckCardsAsLibraryObtained(Deck thisDeck)
         {
-            for (int x = 0; x < thisDeck.MainDeckSize; x++) 
+            for (int x = 0; x < thisDeck.MainDeckSize; x++)
             {
                 int thisMainCardID = thisDeck.GetMainCardIDAtIndex(x);
                 CardInfo thisMainCardInfo = CardDataBase.GetCardWithID(thisMainCardID);
@@ -193,6 +194,10 @@ namespace DungeonDiceMonsters
         {
             _PlayerName = newName;
             SaveFileManger.WriteSaveFile();
+        }
+        public static string GetPlayerDataForPvPMatch()
+        {
+            return string.Format("{0}|{1}|{2}", _PlayerName, _Playerlevel, (int)_PlayerAvatar);
         }
         #endregion
 

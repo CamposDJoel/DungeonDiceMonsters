@@ -115,8 +115,8 @@ namespace DungeonDiceMonsters
             //TODO: Start a duel with this character
 
             //Generate the Player Objects
-            PlayerData red = new PlayerData("Player", DecksData.GetDeckAtIndex(0).GetCopy());
-            PlayerData blue = new PlayerData(characterName, DecksData.GetDeckAtIndex(0).GetCopy());
+            PlayerData red = new PlayerData("Player", "1", "1", DecksData.GetDeckAtIndex(0).GetCopy());
+            PlayerData blue = new PlayerData(characterName, "1", "1", DecksData.GetDeckAtIndex(0).GetCopy());
 
             BoardForm BF = new BoardForm(red, blue);
             //BoardForm BF = new BoardForm(red, blue, true);
