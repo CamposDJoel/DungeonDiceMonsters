@@ -41,7 +41,7 @@ namespace DungeonDiceMonsters
         }
         private void radioOptionMusicON_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioOptionMusicON.Checked) 
+            if (radioOptionMusicON.Checked)
             {
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
                 SettingsData.SetMusicONSetting(true);
