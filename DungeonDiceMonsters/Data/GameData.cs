@@ -197,7 +197,7 @@ namespace DungeonDiceMonsters
         }
         public static string GetPlayerDataForPvPMatch()
         {
-            return string.Format("{0}|{1}|{2}", _PlayerName, _Playerlevel, (int)_PlayerAvatar);
+            return string.Format("{0}|{1}|{2}", _PlayerName, _Playerlevel, _PlayerAvatar);
         }
         #endregion
 

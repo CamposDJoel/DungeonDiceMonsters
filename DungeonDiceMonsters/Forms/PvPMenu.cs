@@ -249,7 +249,7 @@ namespace DungeonDiceMonsters
 
             Deck MyDeck = _CurrentDeckSelected.GetCopy();
             //Then Generate the PlayerData objects from each player to launch the 
-            PlayerData user = new PlayerData(GameData.Name, GameData.Level.ToString(), GameData.AvatarID.ToString(), MyDeck);
+            PlayerData user = new PlayerData(GameData.Name, GameData.Level.ToString(), GameData.AvatarName, MyDeck);
             PlayerData opponent = new PlayerData(_OpponentName, _OpponentLevel, _OpponentAvatarID, _OpponentsDeck);
 
             if (MyColor == PlayerColor.RED)

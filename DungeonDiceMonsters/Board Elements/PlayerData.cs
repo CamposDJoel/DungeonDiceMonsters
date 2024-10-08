@@ -53,6 +53,8 @@ namespace DungeonDiceMonsters
 
         #region Public Accessors
         public string Name { get{ return _name;} }
+        public string Level { get{ return _level;} }
+        public string AvatarID { get { return _avatarId;} }
         public Deck Deck { get { return _deck;} }
         public int Crests_MOV { get { return _MoveCrests; } }
         public int Crests_ATK { get { return _AttackCrests; } }
