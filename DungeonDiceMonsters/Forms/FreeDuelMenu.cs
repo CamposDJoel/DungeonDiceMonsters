@@ -13,7 +13,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public FreeDuelMenu()
         {
-            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, true);
+            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu);
             InitializeComponent();
 
             //Set the arrays for the pictures and borders
@@ -113,7 +113,6 @@ namespace DungeonDiceMonsters
             string characterName = GameData.CharacterName(thisCharacter);
 
             //TODO: Start a duel with this character
-            SoundServer.PlayBackgroundMusic(Song.FreeDuelMenu, false);
 
             //Generate the Player Objects
             PlayerData red = new PlayerData("Player", DecksData.GetDeckAtIndex(0).GetCopy());

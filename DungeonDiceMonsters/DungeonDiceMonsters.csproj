@@ -165,6 +165,13 @@
     <Compile Include="Archive\RollDiceCPU.Designer.cs">
       <DependentUpon>RollDiceCPU.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\SettingsData.cs" />
+    <Compile Include="Forms\SettingsMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SettingsMenu.Designer.cs">
+      <DependentUpon>SettingsMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utility Forms\JsonGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PasswordMenu.resx">
       <DependentUpon>PasswordMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SettingsMenu.resx">
+      <DependentUpon>SettingsMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility Forms\JsonGenerator.resx">
       <DependentUpon>JsonGenerator.cs</DependentUpon>

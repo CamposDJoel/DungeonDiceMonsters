@@ -14,7 +14,7 @@ namespace DungeonDiceMonsters
         #region Constructors
         public DecksManager(bool playMusic)
         {
-            if (playMusic) { SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu, true); }
+            if (playMusic) { SoundServer.PlayBackgroundMusic(Song.DeckBuildMenu); }
             InitializeComponent();
             InitializeDeckComponents();
             ReloadDeckList();

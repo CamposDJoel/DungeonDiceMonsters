@@ -2084,7 +2084,7 @@ namespace DungeonDiceMonsters
             //Initalize the Game Over screen for both players
             if (winner == UserPlayerColor)
             {
-                SoundServer.PlayBackgroundMusic(Song.YouWin, true);
+                SoundServer.PlayBackgroundMusic(Song.YouWin);
                 lblGameOverYouWin.Visible = true;
 
                 //Generate the Prize Card, display it on the UI and add it to the storage
@@ -2096,7 +2096,7 @@ namespace DungeonDiceMonsters
             }
             else
             {
-                SoundServer.PlayBackgroundMusic(Song.YouLose, true);
+                SoundServer.PlayBackgroundMusic(Song.YouLose);
                 lblGameOverYouLose.Visible = true;
 
                 //No prize card for the loser
