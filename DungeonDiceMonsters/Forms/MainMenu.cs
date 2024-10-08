@@ -142,5 +142,14 @@ namespace DungeonDiceMonsters
             SM.Show();
         }
         #endregion
+
+        private void PicProfileDetailsButton_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+            //Open the Profile Menu
+            ProfileMenu SM = new ProfileMenu();
+            Dispose();
+            SM.Show();
+        }
     }
 }

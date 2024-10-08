@@ -180,6 +180,16 @@ namespace DungeonDiceMonsters
             }
             return sum;
         }
+        public static void ChangeAvatarID(int id)
+        {
+            _PlayerAvatar = (Avatar)id;
+            SaveFileManger.WriteSaveFile();
+        }
+        public static void ChangePlayerName(string newName)
+        {
+            _PlayerName = newName;
+            SaveFileManger.WriteSaveFile();
+        }
         #endregion
 
         #region Data
@@ -207,7 +217,7 @@ namespace DungeonDiceMonsters
             Rex,
             Mai,
             Mako,
-            Banz,
+            Bonz,
             BanditKeith,
             Panik,
             Pegasus,

@@ -107,7 +107,7 @@ namespace DungeonDiceMonsters
         {
             //Validate the New Player Input name
             string nameinput = txtPlayerName.Text;
-            if (nameinput.Length == 0 || nameinput.Contains("|"))
+            if (nameinput.Length == 0 || nameinput.Contains("|") || nameinput.Length > 15)
             {
                 //ERROR
                 SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
