@@ -155,6 +155,7 @@ namespace DungeonDiceMonsters
         public int Counters { get { return _Counters; } }
         public Tile CurrentTile { get { return _CurrentTile; } }
         public TriggeredBy TriggerEvent { get { return _TriggerEvent; } }
+        public List<Card> EquipCards { get { return _EquipCards; } }
         #endregion
 
         #region On Board Counters and Flags

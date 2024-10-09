@@ -1562,6 +1562,17 @@ namespace DungeonDiceMonsters
                 }
             }
 
+            //if the card is currently equiped with equip spells, destroy those equips
+            List<Card> EquipCardList = new List<Card>();
+            foreach (Card thisEquipCard in thisCard.EquipCards)
+            {
+                EquipCardList.Add(thisEquipCard);
+            }
+            foreach (Card thisEquipCard in EquipCardList)
+            {
+                DestroyCard(thisEquipCard.CurrentTile);
+            }
+
             //Now "Destroy" the card from the tile, this will remove the card link from the tile 
             //and update the UI to show the card is gone
             tileLocation.DestroyCard();
