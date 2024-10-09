@@ -123,6 +123,16 @@ namespace DungeonDiceMonsters
             {
                 _OverlayIcon.Visible = false;
             }
+
+            //If this tile has a face up equip spell also reload the tile UI of the equiped to ard
+            //If the Tile is an active Equip Spell, show the Equip Hover icon to the equipped card
+            if(_card != null)
+            {
+                if (_card.Type == Type.Equip && !_card.IsFaceDown && _card.EquipToCard != null)
+                {
+                    _card.EquipToCard.CurrentTile.ReloadTileUI();
+                }
+            }
         }
         #endregion
 
@@ -173,6 +183,15 @@ namespace DungeonDiceMonsters
         public void Hover()
         {
             _Border.BackColor = Color.Yellow;
+
+            //If the Tile is an active Equip Spell, show the Equip Hover icon to the equipped card
+            if (_card != null)
+            {
+                if (_card.Type == Type.Equip && !_card.IsFaceDown && _card.EquipToCard != null)
+                {
+                    _card.EquipToCard.CurrentTile.DisplayEquipHoverIcon();
+                }
+            }
         }
         public void ChangeOwner(PlayerColor owner)
         {
@@ -1245,6 +1264,13 @@ namespace DungeonDiceMonsters
             }
 
             return tiles;
+        }
+        public void DisplayEquipHoverIcon()
+        {
+            //Display the overlay icon with the equip icon
+            ImageServer.ClearImage(_OverlayIcon);
+            _OverlayIcon.Image = ImageServer.EquipHoverIcon();
+            _OverlayIcon.Visible = true;
         }
         #endregion
 

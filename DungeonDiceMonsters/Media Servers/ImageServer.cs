@@ -97,6 +97,10 @@ namespace DungeonDiceMonsters
         {
             return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\SpellboundIcon.png");
         }
+        public static Image EquipHoverIcon()
+        {
+            return Image.FromFile(Directory.GetCurrentDirectory() + "\\Images\\Icons\\EquipHoverIcon.png");
+        }
         public static Image LibraryCardIcon(Category category, SecType secType)
         {
             switch(category)

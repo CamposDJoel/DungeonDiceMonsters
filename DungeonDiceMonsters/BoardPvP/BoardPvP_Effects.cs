@@ -4301,17 +4301,9 @@ namespace DungeonDiceMonsters
 
             //Step 2: Resolve the effect
             //Restore the Atk boost to the previously equiped card
-            Card equippedCard = null;
-            foreach (Card thisCard in _CardsOnBoard)
-            {
-                if(thisCard.IsEquipedWith(thisEffect.OriginCard))
-                {
-                    equippedCard= thisCard;
-                    break;
-                }
-            }
-            equippedCard.AdjustAttackBonus(500);
-            thisEffect.AddAffectedByCard(equippedCard);
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(500);
+            thisEffect.AddAffectedByCard(EquipedToCard);
 
             //Step 3: Add this effect to the Active Effect list
             _ActiveEffects.Add(thisEffect);
@@ -4320,7 +4312,9 @@ namespace DungeonDiceMonsters
         {
             //Resolve the effect: target gains 500 ATK
             TargetTile.CardInPlace.AdjustAttackBonus(500);
+            //Set the multual equip relationship between the w cards
             TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
             DisplayEffectApplyAnimation(TargetTile);
 
             //This Effect will remain active on the board

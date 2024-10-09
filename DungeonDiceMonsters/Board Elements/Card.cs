@@ -156,6 +156,7 @@ namespace DungeonDiceMonsters
         public Tile CurrentTile { get { return _CurrentTile; } }
         public TriggeredBy TriggerEvent { get { return _TriggerEvent; } }
         public List<Card> EquipCards { get { return _EquipCards; } }
+        public Card EquipToCard { get { return _EquipedTo; } }
         #endregion
 
         #region On Board Counters and Flags
@@ -506,6 +507,10 @@ namespace DungeonDiceMonsters
         {
             return _EquipCards.Contains(equipCard);
         }
+        public void SetEquipedToCard(Card targetCard)
+        {
+            _EquipedTo = targetCard;
+        }
         #endregion
 
         #region Data
@@ -566,6 +571,7 @@ namespace DungeonDiceMonsters
         //Effect data
         private TriggeredBy _TriggerEvent = TriggeredBy.None;
         private List<Card> _EquipCards = new List<Card>();
+        private Card _EquipedTo;
         #endregion
 
         #region enums
