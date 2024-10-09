@@ -174,6 +174,7 @@ namespace DungeonDiceMonsters
                 case "Ultimate Insect LV7": return EffectID.UltimateInsectLV7_Continuous;
                 case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
                 case "Eradicating Aerosol": return EffectID.EradicatingAerosol_Ignition;
+                case "Black Pendant": return EffectID.BlackPendant_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -189,6 +190,7 @@ namespace DungeonDiceMonsters
                 case EffectType.Continuous: return originCard.ContinuousEffectText;
                 case EffectType.Ignition: return originCard.IgnitionEffectText;
                 case EffectType.Trigger: return originCard.TriggerEffect;
+                case EffectType.Equip: return originCard.EquipEffectText;
                 default: throw new Exception(string.Format("Effect type not defined to get Effect Text. EffectType:[{0}]", type));
             }
         }
@@ -200,7 +202,8 @@ namespace DungeonDiceMonsters
             OnSummon,
             Continuous,
             Ignition,
-            Trigger
+            Trigger,
+            Equip
         }
         public enum EffectID
         {
@@ -296,6 +299,7 @@ namespace DungeonDiceMonsters
             UltimateInsectLV7_Continuous,
             InsectBarrier_Continuous,
             EradicatingAerosol_Ignition,
+            BlackPendant_Equip
         }
         #endregion
     }

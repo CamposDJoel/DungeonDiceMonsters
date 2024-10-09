@@ -344,7 +344,7 @@ namespace DungeonDiceMonsters
                 {
                     return true;
                 }
-                else if (thiscard.Category == Category.Spell && thiscard.IsFaceDown && (thiscard.HasContinuousEffect || thiscard.HasIgnitionEffect))
+                else if (thiscard.Category == Category.Spell && thiscard.IsFaceDown && (thiscard.HasContinuousEffect || thiscard.HasIgnitionEffect || thiscard.HasEquipEffect))
                 {
                     return true;
                 }
@@ -999,6 +999,10 @@ namespace DungeonDiceMonsters
                     {
                         _CardEffectToBeActivated = thisCard.GetIgnitionEffect();
                     }
+                    else if (thisCard.HasEquipEffect)
+                    {
+                        _CardEffectToBeActivated = thisCard.GetEquipEffect();
+                    }
                 }
 
                 //Now load the actual Effect Menu Panel
@@ -1140,6 +1144,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
                         case Effect.EffectID.UltimateInsectLV3_Ignition: return UltimateInsectLv3();
                         case Effect.EffectID.UltimateInsectLV5_Ignition: return UltimateInsectLv5();
+                        case Effect.EffectID.BlackPendant_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(7);
                         default: return "Requirements Met";
                     }
 
@@ -1391,7 +1396,32 @@ namespace DungeonDiceMonsters
                             return "Monster was not transformed into. Effect cant activate.";
                         }
                     }
-                
+                    string AnyOneMonsterThatCanBeTargetOfLevelLimit(int levelLimit)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with level equal or lower to the limit
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Level <= levelLimit)
+                            {
+                                if((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }                                
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }               
                 }
             }
         }
