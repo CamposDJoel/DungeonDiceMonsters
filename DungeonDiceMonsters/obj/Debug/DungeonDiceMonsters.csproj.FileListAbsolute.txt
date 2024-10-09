@@ -48,3 +48,4 @@ D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDic
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.LibraryMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.PasswordMenu.resources
 D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.SettingsMenu.resources
+D:\Documents\GitHub\DungeonDiceMonsters\DungeonDiceMonsters\obj\Debug\DungeonDiceMonsters.ProfileMenu.resources
