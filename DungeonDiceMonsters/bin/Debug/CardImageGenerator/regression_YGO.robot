@@ -87,6 +87,7 @@ YGO_Fillout Card Data
 	${cardcategory}=		Get From List       ${COLUMNS}		3
 	Run Keyword if		"${cardcategory}"=="Monster"		YGO_Fillout Monster Card		${COLUMNS}
 	Run Keyword if		"${cardcategory}"=="Spell"			YGO_Fillout Spell Card			${COLUMNS}
+	Run Keyword if		"${cardcategory}"=="Trap"			YGO_Fillout Trap Card			${COLUMNS}
 	
 	#//Save the card and download
 	Wait And Click						//button[.='Save']
@@ -131,10 +132,11 @@ YGO_Fillout Monster Card
 	${Ability}=				Get From List       ${COLUMNS}		20
 	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
 	${TriggerEffect}=		Get From List       ${COLUMNS}		22
-	${FusionMaterial1}=		Get From List       ${COLUMNS}		23
-	${FusionMaterial2}=		Get From List       ${COLUMNS}		24
-	${FusionMaterial3}=		Get From List       ${COLUMNS}		25
-	${RitualSpell}=			Get From List       ${COLUMNS}		26
+	${EquipEffect}=			Get From List       ${COLUMNS}		23
+	${FusionMaterial1}=		Get From List       ${COLUMNS}		24
+	${FusionMaterial2}=		Get From List       ${COLUMNS}		25
+	${FusionMaterial3}=		Get From List       ${COLUMNS}		26
+	${RitualSpell}=			Get From List       ${COLUMNS}		27
 	
 	${cardtext}=			Set Variable		${EMPTY}
 	
@@ -201,11 +203,13 @@ YGO_Fillout Spell Card
 	${ContinuEffect}=		Get From List       ${COLUMNS}		19
 	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
 	${TriggerEffect}=		Get From List       ${COLUMNS}		22
+	${EquipEffect}=			Get From List       ${COLUMNS}		23
 	
 	${cardtext}=			Set Variable		${EMPTY}
 	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${EquipEffect}"!="-"			Set Variable		${cardtext} (EQUIP) - ${EquipEffect}\n\n			ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
 	
 	
@@ -217,6 +221,56 @@ YGO_Fillout Spell Card
 	input text			//input[@id="name"]		${cardname}
 	#//Card Color
 	Element_Select From Dropdown		//div[@id="root"]/div/div[2]/div/div/div[2]//select				Spell
+	#//Spell Type
+	Element_Select From Dropdown		//div[@id="root"]/div/div[2]/div/div/div[2]/div[2]//select		${cardtype}
+	#//Artwork
+	Choose File							//div[@id="root"]/div/div[2]/div/div/div[4]/div/div[2]/input	${ArtworkFileName}
+	#//Card text						
+	input text							//div[@id="root"]/div/div[2]/div/div/div[6]//textarea			${cardtext}
+	#//extra data
+	input text							//div[@id="root"]/div/div[2]/div/div/div[7]/div[1]//input		DDM
+	input text							//div[@id="root"]/div/div[2]/div/div/div[7]/div[2]//input		${cardnumber}
+	input text							//div[@id="root"]/div/div[2]/div/div/div[8]/div[1]//input		${cardid}
+	input text							//div[@id="root"]/div/div[2]/div/div/div[8]/div[2]//input		1st Edition
+	input text							//div[@id="root"]/div/div[2]/div/div/div[9]/div[1]//input		2024
+	input text							//div[@id="root"]/div/div[2]/div/div/div[9]/div[2]//input		CamposD.Joel
+	input text							//div[@id="root"]/div/div[2]/div/div/div[10]/div[1]//input		Dungeon Dice Monsters
+	#####
+	
+YGO_Fillout Trap Card
+	####
+	[Arguments]		${COLUMNS}
+	${cardname}=			Get From List       ${COLUMNS}		0
+	${cardnumber}=			Get From List       ${COLUMNS}		1
+	${cardid}=				Get From List       ${COLUMNS}		2	
+	${cardtype}=			Get From List       ${COLUMNS}		4
+	${carddicelevel}=		Get From List       ${COLUMNS}		11
+	${cardface1}=			Get From List       ${COLUMNS}		12
+	${cardface2}=			Get From List       ${COLUMNS}		13
+	${cardface3}=			Get From List       ${COLUMNS}		14
+	${cardface4}=			Get From List       ${COLUMNS}		15
+	${cardface5}=			Get From List       ${COLUMNS}		16
+	${cardface6}=			Get From List       ${COLUMNS}		17
+	${ContinuEffect}=		Get From List       ${COLUMNS}		19
+	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
+	${TriggerEffect}=		Get From List       ${COLUMNS}		22
+	
+	${cardtext}=			Set Variable		${EMPTY}
+	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${EquipEffect}"!="-"			Set Variable		${cardtext} (EQUIP) - ${EquipEffect}\n\n			ELSE		Set Variable		${cardtext}
+	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
+	
+	
+	${cardtype}=			Run Keyword if		"${cardtype}"=="Normal"			Set Variable		None
+	
+	Set Suite Variable	${ArtworkFileName}		${EXECDIR}/Artwork/${cardid}.jpg
+	
+	#//Card Name
+	input text			//input[@id="name"]		${cardname}
+	#//Card Color
+	Element_Select From Dropdown		//div[@id="root"]/div/div[2]/div/div/div[2]//select				Trap
 	#//Spell Type
 	Element_Select From Dropdown		//div[@id="root"]/div/div[2]/div/div/div[2]/div[2]//select		${cardtype}
 	#//Artwork
