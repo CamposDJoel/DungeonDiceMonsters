@@ -181,6 +181,12 @@
             this.lblAttackerATK = new System.Windows.Forms.Label();
             this.lblOponentActionWarning = new System.Windows.Forms.Label();
             this.PanelEndGameResults = new System.Windows.Forms.Panel();
+            this.PanelLevelUp = new System.Windows.Forms.Panel();
+            this.lblLevelUp_ExpGain = new System.Windows.Forms.Label();
+            this.lblLevelUp_Level = new System.Windows.Forms.Label();
+            this.lblLevelUp_ExpCounter = new System.Windows.Forms.Label();
+            this.lblLevelUp_Explabel = new System.Windows.Forms.Label();
+            this.BarLevelUPExp = new System.Windows.Forms.ProgressBar();
             this.lblGameOverDoubleScoreLabel = new System.Windows.Forms.Label();
             this.lblGameOverStarchips = new System.Windows.Forms.Label();
             this.PanelGameOverBonusDescription = new System.Windows.Forms.Panel();
@@ -280,6 +286,7 @@
             this.PanelAttackerAdvBonus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).BeginInit();
             this.PanelEndGameResults.SuspendLayout();
+            this.PanelLevelUp.SuspendLayout();
             this.PanelGameOverBonusDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).BeginInit();
             this.PanelEffectActivationMenu.SuspendLayout();
@@ -341,7 +348,6 @@
             this.lblBluePlayerLevel.Size = new System.Drawing.Size(58, 15);
             this.lblBluePlayerLevel.TabIndex = 5;
             this.lblBluePlayerLevel.Text = "Lv 9999";
-            this.lblBluePlayerLevel.Click += new System.EventHandler(this.lblBluePlayerLevel_Click);
             // 
             // PanelBlueCrests
             // 
@@ -2154,6 +2160,7 @@
             this.PanelEndGameResults.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelEndGameResults.BackgroundImage")));
             this.PanelEndGameResults.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelEndGameResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelEndGameResults.Controls.Add(this.PanelLevelUp);
             this.PanelEndGameResults.Controls.Add(this.lblGameOverDoubleScoreLabel);
             this.PanelEndGameResults.Controls.Add(this.lblGameOverStarchips);
             this.PanelEndGameResults.Controls.Add(this.PanelGameOverBonusDescription);
@@ -2170,6 +2177,80 @@
             this.PanelEndGameResults.Size = new System.Drawing.Size(953, 652);
             this.PanelEndGameResults.TabIndex = 28;
             this.PanelEndGameResults.Visible = false;
+            // 
+            // PanelLevelUp
+            // 
+            this.PanelLevelUp.BackColor = System.Drawing.Color.Black;
+            this.PanelLevelUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelLevelUp.Controls.Add(this.lblLevelUp_ExpGain);
+            this.PanelLevelUp.Controls.Add(this.lblLevelUp_Level);
+            this.PanelLevelUp.Controls.Add(this.lblLevelUp_ExpCounter);
+            this.PanelLevelUp.Controls.Add(this.lblLevelUp_Explabel);
+            this.PanelLevelUp.Controls.Add(this.BarLevelUPExp);
+            this.PanelLevelUp.Location = new System.Drawing.Point(71, 486);
+            this.PanelLevelUp.Name = "PanelLevelUp";
+            this.PanelLevelUp.Size = new System.Drawing.Size(245, 45);
+            this.PanelLevelUp.TabIndex = 11;
+            this.PanelLevelUp.Visible = false;
+            // 
+            // lblLevelUp_ExpGain
+            // 
+            this.lblLevelUp_ExpGain.BackColor = System.Drawing.Color.Transparent;
+            this.lblLevelUp_ExpGain.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevelUp_ExpGain.ForeColor = System.Drawing.Color.Aqua;
+            this.lblLevelUp_ExpGain.Location = new System.Drawing.Point(1, 27);
+            this.lblLevelUp_ExpGain.Name = "lblLevelUp_ExpGain";
+            this.lblLevelUp_ExpGain.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblLevelUp_ExpGain.Size = new System.Drawing.Size(59, 16);
+            this.lblLevelUp_ExpGain.TabIndex = 9;
+            this.lblLevelUp_ExpGain.Text = "+ 9999";
+            this.lblLevelUp_ExpGain.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblLevelUp_Level
+            // 
+            this.lblLevelUp_Level.BackColor = System.Drawing.Color.Transparent;
+            this.lblLevelUp_Level.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevelUp_Level.ForeColor = System.Drawing.Color.Yellow;
+            this.lblLevelUp_Level.Location = new System.Drawing.Point(38, -1);
+            this.lblLevelUp_Level.Name = "lblLevelUp_Level";
+            this.lblLevelUp_Level.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblLevelUp_Level.Size = new System.Drawing.Size(60, 16);
+            this.lblLevelUp_Level.TabIndex = 8;
+            this.lblLevelUp_Level.Text = "Lv 9999";
+            this.lblLevelUp_Level.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblLevelUp_ExpCounter
+            // 
+            this.lblLevelUp_ExpCounter.BackColor = System.Drawing.Color.Transparent;
+            this.lblLevelUp_ExpCounter.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevelUp_ExpCounter.ForeColor = System.Drawing.Color.Yellow;
+            this.lblLevelUp_ExpCounter.Location = new System.Drawing.Point(70, 26);
+            this.lblLevelUp_ExpCounter.Name = "lblLevelUp_ExpCounter";
+            this.lblLevelUp_ExpCounter.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblLevelUp_ExpCounter.Size = new System.Drawing.Size(160, 16);
+            this.lblLevelUp_ExpCounter.TabIndex = 7;
+            this.lblLevelUp_ExpCounter.Text = "9999 / 9999";
+            this.lblLevelUp_ExpCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblLevelUp_Explabel
+            // 
+            this.lblLevelUp_Explabel.BackColor = System.Drawing.Color.Transparent;
+            this.lblLevelUp_Explabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevelUp_Explabel.ForeColor = System.Drawing.Color.Yellow;
+            this.lblLevelUp_Explabel.Location = new System.Drawing.Point(-1, 8);
+            this.lblLevelUp_Explabel.Name = "lblLevelUp_Explabel";
+            this.lblLevelUp_Explabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblLevelUp_Explabel.Size = new System.Drawing.Size(42, 22);
+            this.lblLevelUp_Explabel.TabIndex = 6;
+            this.lblLevelUp_Explabel.Text = "Exp:";
+            this.lblLevelUp_Explabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // BarLevelUPExp
+            // 
+            this.BarLevelUPExp.Location = new System.Drawing.Point(41, 15);
+            this.BarLevelUPExp.Name = "BarLevelUPExp";
+            this.BarLevelUPExp.Size = new System.Drawing.Size(189, 10);
+            this.BarLevelUPExp.TabIndex = 0;
             // 
             // lblGameOverDoubleScoreLabel
             // 
@@ -2300,7 +2381,7 @@
             this.btnExit.BackColor = System.Drawing.Color.Maroon;
             this.btnExit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.Color.White;
-            this.btnExit.Location = new System.Drawing.Point(126, 488);
+            this.btnExit.Location = new System.Drawing.Point(772, 54);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(127, 42);
             this.btnExit.TabIndex = 1;
@@ -2886,6 +2967,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicBattleMenuATKIcon)).EndInit();
             this.PanelEndGameResults.ResumeLayout(false);
             this.PanelEndGameResults.PerformLayout();
+            this.PanelLevelUp.ResumeLayout(false);
             this.PanelGameOverBonusDescription.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicPhaseBanner)).EndInit();
             this.PanelEffectActivationMenu.ResumeLayout(false);
@@ -3122,5 +3204,11 @@
         private System.Windows.Forms.Panel PanelRedAvatar;
         private System.Windows.Forms.Label lblRedPlayerLevel;
         private System.Windows.Forms.PictureBox PicRedSymbol2;
+        private System.Windows.Forms.Panel PanelLevelUp;
+        private System.Windows.Forms.Label lblLevelUp_Explabel;
+        private System.Windows.Forms.ProgressBar BarLevelUPExp;
+        private System.Windows.Forms.Label lblLevelUp_ExpGain;
+        private System.Windows.Forms.Label lblLevelUp_Level;
+        private System.Windows.Forms.Label lblLevelUp_ExpCounter;
     }
 }

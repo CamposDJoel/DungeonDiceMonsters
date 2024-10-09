@@ -46,6 +46,7 @@
             this.lblProfileName = new System.Windows.Forms.Label();
             this.PicProfilePic = new System.Windows.Forms.PictureBox();
             this.PicProfileDetailsButton = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.PanelProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicProfileStarIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicProfilePic)).BeginInit();
@@ -169,6 +170,7 @@
             this.PanelProfile.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelProfile.BackgroundImage")));
             this.PanelProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PanelProfile.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelProfile.Controls.Add(this.label1);
             this.PanelProfile.Controls.Add(this.lblProfileExp);
             this.PanelProfile.Controls.Add(this.lblProfileStarchips);
             this.PanelProfile.Controls.Add(this.PicProfileStarIcon);
@@ -186,11 +188,12 @@
             this.lblProfileExp.BackColor = System.Drawing.Color.Transparent;
             this.lblProfileExp.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProfileExp.ForeColor = System.Drawing.Color.White;
-            this.lblProfileExp.Location = new System.Drawing.Point(90, 53);
+            this.lblProfileExp.Location = new System.Drawing.Point(105, 53);
             this.lblProfileExp.Name = "lblProfileExp";
-            this.lblProfileExp.Size = new System.Drawing.Size(130, 16);
+            this.lblProfileExp.Size = new System.Drawing.Size(131, 16);
             this.lblProfileExp.TabIndex = 6;
-            this.lblProfileExp.Text = "Exp: 9999/9999";
+            this.lblProfileExp.Text = "999999/999999";
+            this.lblProfileExp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblProfileStarchips
             // 
@@ -199,7 +202,7 @@
             this.lblProfileStarchips.ForeColor = System.Drawing.Color.White;
             this.lblProfileStarchips.Location = new System.Drawing.Point(117, 69);
             this.lblProfileStarchips.Name = "lblProfileStarchips";
-            this.lblProfileStarchips.Size = new System.Drawing.Size(60, 16);
+            this.lblProfileStarchips.Size = new System.Drawing.Size(115, 16);
             this.lblProfileStarchips.TabIndex = 5;
             this.lblProfileStarchips.Text = "x 9999";
             // 
@@ -216,17 +219,17 @@
             // 
             // BarExp
             // 
-            this.BarExp.Location = new System.Drawing.Point(93, 43);
+            this.BarExp.Location = new System.Drawing.Point(120, 43);
             this.BarExp.Name = "BarExp";
-            this.BarExp.Size = new System.Drawing.Size(127, 10);
+            this.BarExp.Size = new System.Drawing.Size(112, 10);
             this.BarExp.TabIndex = 3;
             // 
             // lblProfileLv
             // 
             this.lblProfileLv.BackColor = System.Drawing.Color.Transparent;
             this.lblProfileLv.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProfileLv.ForeColor = System.Drawing.Color.White;
-            this.lblProfileLv.Location = new System.Drawing.Point(91, 28);
+            this.lblProfileLv.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblProfileLv.Location = new System.Drawing.Point(86, 26);
             this.lblProfileLv.Name = "lblProfileLv";
             this.lblProfileLv.Size = new System.Drawing.Size(60, 16);
             this.lblProfileLv.TabIndex = 2;
@@ -237,9 +240,9 @@
             this.lblProfileName.BackColor = System.Drawing.Color.Transparent;
             this.lblProfileName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProfileName.ForeColor = System.Drawing.Color.White;
-            this.lblProfileName.Location = new System.Drawing.Point(90, 5);
+            this.lblProfileName.Location = new System.Drawing.Point(85, 5);
             this.lblProfileName.Name = "lblProfileName";
-            this.lblProfileName.Size = new System.Drawing.Size(143, 23);
+            this.lblProfileName.Size = new System.Drawing.Size(153, 23);
             this.lblProfileName.TabIndex = 1;
             this.lblProfileName.Text = "Hunting Real";
             // 
@@ -265,6 +268,17 @@
             this.PicProfileDetailsButton.TabIndex = 9;
             this.PicProfileDetailsButton.TabStop = false;
             this.PicProfileDetailsButton.Click += new System.EventHandler(this.PicProfileDetailsButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(85, 41);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 16);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Exp";
             // 
             // MainMenu
             // 
@@ -316,5 +330,6 @@
         private System.Windows.Forms.Label lblProfileStarchips;
         private System.Windows.Forms.Label lblProfileExp;
         private System.Windows.Forms.PictureBox PicProfileDetailsButton;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -199,6 +199,14 @@ namespace DungeonDiceMonsters
         {
             return string.Format("{0}|{1}|{2}", _PlayerName, _Playerlevel, _PlayerAvatar);
         }
+        public static void GainExp(int amount)
+        {
+            _PlayerExp += amount;
+        }
+        public static void LevelUp()
+        {
+            _Playerlevel++;
+        }
         #endregion
 
         #region Data

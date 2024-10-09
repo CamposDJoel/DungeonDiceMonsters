@@ -2158,24 +2158,98 @@ namespace DungeonDiceMonsters
                 listGameOverSpecialBonusList.Items.Add("NO BONUSES");
             }
 
-            
-
+            //Score/Starchips UI updated
             int starChipsObtained = TotalScore / 100;
             lblGameOverScore.Text = TotalScore.ToString();
             lblGameOverTurns.Text = _CurrentTurn.ToString();
             lblGameOverStarchips.Text = starChipsObtained.ToString();
             GameData.AdjustStarchipsAmount(starChipsObtained);
 
-
-
+            //Finally show the end game results
             PanelBattleMenu.Visible = false;
             PanelEndGameResults.Visible = true;
 
-            WaitNSeconds(5000);
+            //Exp gain sequence
+            WaitNSeconds(3000);
+            int expGained = starChipsObtained;
+            GainEXP(expGained);
+
+            //Finally show the End Match button 
+            WaitNSeconds(2000);
             btnExit.Visible = true;
 
             //Finally update the save file
             SaveFileManger.WriteSaveFile();
+
+            void GainEXP(int expLeftToGain)
+            {
+                if(GameData.Level == 9999)
+                {
+                    //DO NOT GAIN EXP
+                    lblLevelUp_Level.Text = string.Format("Lv {0}", GameData.Level.ToString());
+                    lblLevelUp_ExpCounter.Text = "MAX";
+                    lblLevelUp_ExpGain.Text = "+0";
+                    BarLevelUPExp.Minimum = 0;
+                    BarLevelUPExp.Maximum = 1;
+                    BarLevelUPExp.Value = 1;
+                    PanelLevelUp.Visible = true;
+                }
+                else
+                {
+                    //Set the initial values
+                    int BaseLevelExp = GameData.BaseLevelExp();
+                    int NextLevelExp = GameData.GetNextLevelExp();
+                    int ExpNeededToLevelUp = NextLevelExp - GameData.ExpPoints;
+                    //Initialize UI
+                    lblLevelUp_Level.Text = string.Format("Lv {0}", GameData.Level.ToString());
+                    lblLevelUp_ExpCounter.Text = string.Format("{0}/{1}", GameData.ExpPoints, NextLevelExp);
+                    lblLevelUp_ExpGain.Text = string.Format("+{0}", expGained.ToString());
+                    BarLevelUPExp.Maximum = NextLevelExp;
+                    BarLevelUPExp.Minimum = BaseLevelExp;
+                    BarLevelUPExp.Value = GameData.ExpPoints;
+                    PanelLevelUp.Visible = true;
+                    WaitNSeconds(300);
+                    //loop to the exp gained to reach level up
+                    if (expLeftToGain < ExpNeededToLevelUp)
+                    {
+                        for (int x = 0; x < expLeftToGain; x++)
+                        {
+                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                            BarLevelUPExp.Value += 1;
+                            GameData.GainExp(1);
+                            lblLevelUp_ExpCounter.Text = string.Format("{0}/{1}", GameData.ExpPoints, NextLevelExp);
+                            WaitNSeconds(100);
+                        }
+
+                        //There was no level up end the sequence here
+                    }
+                    else
+                    {
+                        //only gain the exp needed to level up
+                        for (int x = 0; x < ExpNeededToLevelUp; x++)
+                        {
+                            SoundServer.PlaySoundEffect(SoundEffect.LPReduce);
+                            BarLevelUPExp.Value += 1;
+                            GameData.GainExp(1);
+                            lblLevelUp_ExpCounter.Text = string.Format("{0}/{1}", GameData.ExpPoints, NextLevelExp);
+                            WaitNSeconds(100);
+                        }
+
+                        //Perform the level up!
+                        WaitNSeconds(500);
+                        SoundServer.PlaySoundEffect(SoundEffect.Accept);
+                        GameData.LevelUp();
+                        expLeftToGain -= ExpNeededToLevelUp;
+
+                        //Continue gaining exp if there is exp left to gain and player level is under 9999
+                        if (expLeftToGain > 0 && GameData.Level < 9999)
+                        {
+                            //Recursive funtion
+                            GainEXP(expLeftToGain);
+                        }
+                    }
+                }              
+            }
         }            
         private void DisplayReactionEffectNotification(Effect thisEffect, string customText)
         {
@@ -2299,11 +2373,6 @@ namespace DungeonDiceMonsters
             Transform,
         }
         #endregion
-
-        private void lblBluePlayerLevel_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
     public enum PlayerColor
