@@ -29,7 +29,7 @@ namespace DungeonDiceMonsters
                 BarExp.Maximum = GameData.GetNextLevelExp();
                 BarExp.Minimum = GameData.BaseLevelExp();
                 BarExp.Value = GameData.ExpPoints;
-                lblProfileExp.Text = string.Format("Exp: {0}/{1}", GameData.ExpPoints, GameData.GetNextLevelExp());
+                lblProfileExp.Text = string.Format("{0}/{1}", GameData.ExpPoints, GameData.GetNextLevelExp());
             }
             void InitializeEventListeners()
             {
