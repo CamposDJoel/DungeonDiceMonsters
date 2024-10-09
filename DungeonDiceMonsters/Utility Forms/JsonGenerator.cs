@@ -409,12 +409,13 @@ namespace DungeonDiceMonsters
                 string ability = tokens[20];
                 string ignitionEffect = tokens[21];
                 string triggerEffect = tokens[22];
+                string equipEffect = tokens[23];
                 //Fusion Materials
-                string fusionMaterial1 = tokens[23];
-                string fusionMaterial2 = tokens[24];
-                string fusionMaterial3 = tokens[25];
+                string fusionMaterial1 = tokens[24];
+                string fusionMaterial2 = tokens[25];
+                string fusionMaterial3 = tokens[26];
                 //Ritual spell
-                string ritualSpell = tokens[26];
+                string ritualSpell = tokens[27];
                 //Implemented
                 string effectImplemented = "TRUE";
 
@@ -438,6 +439,7 @@ namespace DungeonDiceMonsters
                 newcard.continuousEffect = contiEfect;
                 newcard.ignitionEffect = ignitionEffect;
                 newcard.triggerEffect = triggerEffect;
+                newcard.equipEffect = equipEffect;
                 newcard.ability = ability;
                 newcard.diceLevel = diceLevel;
                 newcard.face1 = face1;

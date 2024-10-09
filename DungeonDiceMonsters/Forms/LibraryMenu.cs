@@ -102,12 +102,17 @@ namespace DungeonDiceMonsters
 
             if (thisCard.HasIgnitionEffect)
             {
-                fullcardtext = fullcardtext + "(EFFECT)" + thisCard.IgnitionEffect + "\n\n";
+                fullcardtext = fullcardtext + "(EFFECT) - " + thisCard.IgnitionEffect + "\n\n";
             }
 
             if (thisCard.HasTriggerEffect)
             {
-                fullcardtext = fullcardtext + "(TRIGGER)" + thisCard.TriggerEffect + "\n\n";
+                fullcardtext = fullcardtext + "(TRIGGER) - " + thisCard.TriggerEffect + "\n\n";
+            }
+
+            if (thisCard.HasEquipEffect)
+            {
+                fullcardtext = fullcardtext + "(EQUIP) - " + thisCard.EquipEffect + "\n\n";
             }
 
             lblCardText.Text = fullcardtext;

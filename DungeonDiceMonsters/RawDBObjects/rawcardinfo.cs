@@ -63,6 +63,7 @@ namespace DungeonDiceMonsters
         public string ability { get; set; }
         public string ignitionEffect { get; set; }
         public string triggerEffect { get; set; }
+        public string equipEffect { get; set; }
         public string fusionMaterial1 { get; set; }
         public string fusionMaterial2 { get; set; }
         public string fusionMaterial3 { get; set; }
