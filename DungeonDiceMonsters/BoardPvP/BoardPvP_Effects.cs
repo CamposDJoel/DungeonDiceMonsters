@@ -119,7 +119,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV5_Ignition: UltimateInsectLV5_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
-                case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break; 
+                case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -145,7 +146,8 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV3_Continuous: UltimateInsectLV3_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_RemoveEffect(thisEffect); break;
-                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;   
+                case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BlackPendant_Equip: BlackPendant_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -169,6 +171,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousREActivation(thisEffect); break;
+                case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -317,6 +320,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.PinchHopperEffect: PinchHopper_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
                 case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
+                case PostTargetState.BlackPendant: BlackPendant_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -4257,6 +4261,89 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Black Pendant
+        private void BlackPendant_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip it to a Level 7 or lower monster on the board; it gains 500 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Level <= 7)
+                {
+                    if((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }                   
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.BlackPendant;
+            InitializeEffectTargetSelection();
+        }
+        private void BlackPendant_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk boost to the previously equiped card
+            Card equippedCard = null;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if(thisCard.IsEquipedWith(thisEffect.OriginCard))
+                {
+                    equippedCard= thisCard;
+                    break;
+                }
+            }
+            equippedCard.AdjustAttackBonus(500);
+            thisEffect.AddAffectedByCard(equippedCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void BlackPendant_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 500 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(500);
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 500 ATK.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void BlackPendant_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
         }
         #endregion
     }

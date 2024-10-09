@@ -490,6 +490,21 @@ namespace DungeonDiceMonsters
                 throw new System.Exception("Fusion Materials can be returned for a non-fusion monster.");
             }
         }
+        public void AddEquipCard(Card equipCard)
+        {
+            _EquipCards.Add(equipCard);
+        }
+        public void RemoveEquipCard(Card equipCard)
+        {
+            if(_EquipCards.Contains(equipCard))
+            {
+                _EquipCards.Remove(equipCard);
+            }
+        }
+        public bool IsEquipedWith(Card equipCard)
+        {
+            return _EquipCards.Contains(equipCard);
+        }
         #endregion
 
         #region Data
@@ -549,6 +564,7 @@ namespace DungeonDiceMonsters
 
         //Effect data
         private TriggeredBy _TriggerEvent = TriggeredBy.None;
+        private List<Card> _EquipCards = new List<Card>();
         #endregion
 
         #region enums

@@ -3,6 +3,7 @@
 //BoardPvP Form
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -1541,7 +1542,7 @@ namespace DungeonDiceMonsters
             List<Effect> effectsToBeRemoved = new List<Effect>();
             foreach (Effect thisActiveEffect in _ActiveEffects)
             {
-                if (thisActiveEffect.OriginCard == thisCard && thisActiveEffect.Type == Effect.EffectType.Continuous)
+                if (thisActiveEffect.OriginCard == thisCard && (thisActiveEffect.Type == Effect.EffectType.Continuous || thisActiveEffect.Type == Effect.EffectType.Equip))
                 {
                     effectsToBeRemoved.Add(thisActiveEffect);
                 }
@@ -1550,6 +1551,15 @@ namespace DungeonDiceMonsters
             foreach (Effect thisActiveEffect in effectsToBeRemoved)
             {
                 RemoveEffect(thisActiveEffect);
+            }
+
+            //If the card is an equip spell, remove the equip link to the card is it is equipped to
+            foreach(Card thisCardOnBoard in _CardsOnBoard)
+            {
+                if(thisCardOnBoard.IsEquipedWith(thisCard))
+                {
+                    thisCardOnBoard.RemoveEquipCard(thisCard);
+                }
             }
 
             //Now "Destroy" the card from the tile, this will remove the card link from the tile 
@@ -1629,11 +1639,11 @@ namespace DungeonDiceMonsters
                 }
             }
             
-            //Step 2: check if this card has any (CONTINUOUS) Effect active on the board.
+            //Step 2: check if this card has any (CONTINUOUS) or (EQUIP) Effect active on the board.
             Effect activeEffectFound = null;
             foreach(Effect thisEffect in _ActiveEffects)
             {
-                if(thisEffect.Type == Effect.EffectType.Continuous && thisEffect.OriginCard == thisCard)
+                if((thisEffect.Type == Effect.EffectType.Continuous || thisEffect.Type == Effect.EffectType.Equip) && thisEffect.OriginCard == thisCard)
                 {
                     activeEffectFound = thisEffect;
                     break;
@@ -2012,7 +2022,7 @@ namespace DungeonDiceMonsters
                     lblBattleMenuDamage.Text = "Damage: 0";
                     WaitNSeconds(1000);
                     //Remove the card from the actual tile
-                    _AttackTarger.DestroyCard();
+                    DestroyCard(_AttackTarger);
 
                     //Enable the end battle button for the turn player only
                     if (UserPlayerColor == TURNPLAYER)
@@ -2364,6 +2374,7 @@ namespace DungeonDiceMonsters
             PinchHopperEffect,
             ParasiteParacideEffect,
             EradicatingAerosolEffect,
+            BlackPendant
         }
         public enum SummonType
         {
