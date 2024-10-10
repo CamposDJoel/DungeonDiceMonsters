@@ -175,6 +175,30 @@ namespace DungeonDiceMonsters
                 case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
                 case "Eradicating Aerosol": return EffectID.EradicatingAerosol_Ignition;
                 case "Black Pendant": return EffectID.BlackPendant_Equip;
+                case "Legendary Sword": return EffectID.LegendarySword_Equip;
+                case "Beast Fangs": return EffectID.BeastFangs_Equip;
+                case "Violet Crystal": return EffectID.VioletCrystal_Equip;
+                case "Book of Secret Arts": return EffectID.BookOfSecretArts_Equip;
+                case "Power of Kaishin": return EffectID.PowerOfKaishin_Equip;
+                case "Dark Energy": return EffectID.DarkEnergy_Equip;
+                case "Laser Cannon Armor": return EffectID.LaserCannonArmon_Equip;
+                case "Vile Germs": return EffectID.VileGerms_Equip;
+                case "Silver Bow and Arrow": return EffectID.SilverBowAndArrow_Equip;
+                case "Dragon Treasure": return EffectID.DragonTreasure_Equip;
+                case "Electro-whip": return EffectID.ElectroWhip_Equip;
+                case "Mystical Moon": return EffectID.MysticalMoon_Equip;
+                case "Machine Conversion Factory": return EffectID.MachineConversionFactory_Equip;
+                case "Raise Body Heat": return EffectID.RaiseBodyHeat_Equip;
+                case "Follow Wind": return EffectID.FollowWind_Equip;
+                case "Grid Rod": return EffectID.GridRod_Equip;
+                case "Psychic Sword": return EffectID.PsychicSword_Equip;
+                case "Soul of Fire": return EffectID.SoulOfFire_Equip;
+                case "Poison Fangs": return EffectID.PoisonFangs_Equip;
+                case "Eye of Illusion": return EffectID.EyeOfIllusion_Equip;
+                case "Stonehenge": return EffectID.Stonehenge_Equip;
+                case "Celestia": return EffectID.Celestia_Equip;
+                case "Deep Sea Aria": return EffectID.DeepSeaAria_Equip;
+                case "White Mirror": return EffectID.WhiteMirror_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -299,7 +323,31 @@ namespace DungeonDiceMonsters
             UltimateInsectLV7_Continuous,
             InsectBarrier_Continuous,
             EradicatingAerosol_Ignition,
-            BlackPendant_Equip
+            BlackPendant_Equip,
+            LegendarySword_Equip,
+            BeastFangs_Equip,
+            VioletCrystal_Equip,
+            BookOfSecretArts_Equip,
+            PowerOfKaishin_Equip,
+            DarkEnergy_Equip,
+            LaserCannonArmon_Equip,
+            VileGerms_Equip,
+            SilverBowAndArrow_Equip,
+            DragonTreasure_Equip,
+            ElectroWhip_Equip,
+            MysticalMoon_Equip,
+            MachineConversionFactory_Equip,
+            RaiseBodyHeat_Equip,
+            FollowWind_Equip,
+            GridRod_Equip,
+            PsychicSword_Equip,
+            SoulOfFire_Equip,
+            PoisonFangs_Equip,
+            EyeOfIllusion_Equip,
+            Stonehenge_Equip,
+            Celestia_Equip,
+            DeepSeaAria_Equip,
+            WhiteMirror_Equip,
         }
         #endregion
     }
