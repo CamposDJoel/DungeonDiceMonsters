@@ -93,6 +93,16 @@ namespace DungeonDiceMonsters
 
             return sb.ToString();
         }
+        public static string GetLibraryMarksLineFULL()
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int x = 0; x < CardDataBase.CardCount; x++)
+            {
+                sb.Append("1|");
+            }
+
+            return sb.ToString();
+        }
         public static string GetExchangeMarksLine()
         {
             StringBuilder sb = new StringBuilder();
@@ -106,6 +116,16 @@ namespace DungeonDiceMonsters
                 {
                     sb.Append("0|");
                 }
+            }
+
+            return sb.ToString();
+        }
+        public static string GetExchangeMarksLineFULL()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int x = 0; x < CardDataBase.CardCount; x++)
+            {
+                sb.Append("0|");
             }
 
             return sb.ToString();

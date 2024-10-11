@@ -151,5 +151,10 @@ namespace DungeonDiceMonsters
             Dispose();
             SM.Show();
         }
+
+        private void btntest_Click(object sender, EventArgs e)
+        {
+            SaveFileManger.WriteAFUllSaveFile();
+        }
     }
 }

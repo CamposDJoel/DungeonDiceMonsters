@@ -108,5 +108,46 @@ namespace DungeonDiceMonsters
             //Close the stream
             SR_SaveFile.Close();
         }
+        public static void WriteAFUllSaveFile()
+        {
+            //This will hold the actual data. Each item in the list will be a line in the save file
+            List<string> Lines = new List<string>();
+
+            //Line [0]: Will contain the Players name,Starchip count, level,exp points and avatar ID
+            string playerdata = string.Format("{0}|{1}|{2}|{3}|{4}", GameData.Name, GameData.StarChips, GameData.Level, GameData.ExpPoints, GameData.AvatarID);
+            Lines.Add(playerdata);
+
+            //Line 1 : The total deck count + default deck index
+            int defaultDeckIndex = DecksData.DefaultDeckIndex;
+            Lines.Add(DecksData.GetDecksCount().ToString() + "|" + defaultDeckIndex.ToString());
+
+            //Line[2 - n] : each line will hold the card list of each deck
+            for (int x = 0; x < DecksData.GetDecksCount(); x++)
+            {
+                string deckData = DecksData.GetDeckAtIndex(x).GetDataStringLine();
+                Lines.Add(deckData);
+            }
+
+            //Line[2+n + 1]: Storage card count
+            int storageCardCount = CardDataBase.CardCount;
+            Lines.Add(storageCardCount.ToString());
+
+            //Line [storagecount + n]: each card
+            for (int x = 0; x < storageCardCount; x++)
+            {
+                int cardId = CardDataBase.GetCardWithCardNo(x+1).ID;
+                string amount = "9";
+                string cardName = CardDataBase.GetCardWithCardNo(x+1).Name;
+
+                Lines.Add(string.Format("{0}|{1}|{2}", cardId.ToString(), amount, cardName));
+            }
+
+            //line Library marks
+            Lines.Add(GameData.GetLibraryMarksLineFULL());
+            Lines.Add(GameData.GetExchangeMarksLineFULL());
+
+            //Write the file
+            File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Save Files\\FULLSaveFile.txt", Lines);
+        }
     }
 }

@@ -38,6 +38,7 @@
             this.lblMenuPassword = new System.Windows.Forms.Label();
             this.lblMenuSettings = new System.Windows.Forms.Label();
             this.PanelProfile = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblProfileExp = new System.Windows.Forms.Label();
             this.lblProfileStarchips = new System.Windows.Forms.Label();
             this.PicProfileStarIcon = new System.Windows.Forms.PictureBox();
@@ -46,7 +47,7 @@
             this.lblProfileName = new System.Windows.Forms.Label();
             this.PicProfilePic = new System.Windows.Forms.PictureBox();
             this.PicProfileDetailsButton = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.btntest = new System.Windows.Forms.Button();
             this.PanelProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicProfileStarIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicProfilePic)).BeginInit();
@@ -183,6 +184,17 @@
             this.PanelProfile.Size = new System.Drawing.Size(241, 94);
             this.PanelProfile.TabIndex = 8;
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(85, 41);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 16);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Exp";
+            // 
             // lblProfileExp
             // 
             this.lblProfileExp.BackColor = System.Drawing.Color.Transparent;
@@ -269,16 +281,16 @@
             this.PicProfileDetailsButton.TabStop = false;
             this.PicProfileDetailsButton.Click += new System.EventHandler(this.PicProfileDetailsButton_Click);
             // 
-            // label1
+            // btntest
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(85, 41);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 16);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Exp";
+            this.btntest.Location = new System.Drawing.Point(12, 4);
+            this.btntest.Name = "btntest";
+            this.btntest.Size = new System.Drawing.Size(75, 23);
+            this.btntest.TabIndex = 10;
+            this.btntest.Text = "TEST";
+            this.btntest.UseVisualStyleBackColor = true;
+            this.btntest.Visible = false;
+            this.btntest.Click += new System.EventHandler(this.btntest_Click);
             // 
             // MainMenu
             // 
@@ -287,6 +299,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.btntest);
             this.Controls.Add(this.PicProfileDetailsButton);
             this.Controls.Add(this.PanelProfile);
             this.Controls.Add(this.lblMenuSettings);
@@ -331,5 +344,6 @@
         private System.Windows.Forms.Label lblProfileExp;
         private System.Windows.Forms.PictureBox PicProfileDetailsButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btntest;
     }
 }
