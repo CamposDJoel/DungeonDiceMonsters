@@ -24,14 +24,14 @@ namespace DungeonDiceMonsters
         #region Public Methods
         public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
-        public PlayerColor Owner{ get { return _OriginCard.Controller; } }
+        public PlayerColor Owner { get { return _OriginCard.Controller; } }
         public EffectType Type { get { return _Type; } }
         public bool IsAOneTurnIgnition { get { return _IsOneTurnIgnition; } }
         public List<Card> AffectedByList { get { return _AffectedByList; } }
         public string EffectText { get { return _EffectText; } }
         public bool HasACost { get { return _CrestCost != Crest.NONE; } }
         public Crest CrestCost { get { return _CrestCost; } }
-        public int CostAmount {  get { return _CostAmount; } }
+        public int CostAmount { get { return _CostAmount; } }
         //Custom Fields
         public int CustomInt1 { get; set; }
         public void AddAffectedByCard(Card thisCard)
@@ -75,20 +75,20 @@ namespace DungeonDiceMonsters
             if (_EffectText.StartsWith("[DEF")) { _CrestCost = Crest.DEF; }
             if (_EffectText.StartsWith("[MOV")) { _CrestCost = Crest.MOV; }
 
-            if(_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
-            if(_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
-            if(_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
-            if(_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
-            if(_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
-            if(_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
-            if(_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
-            if(_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
-            if(_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
-            if(_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
+            if (_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
+            if (_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
+            if (_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
+            if (_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
+            if (_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
+            if (_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
+            if (_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
+            if (_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
+            if (_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
+            if (_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
         }
-        private static EffectID GetEffectID(Card originCard, EffectType type) 
+        private static EffectID GetEffectID(Card originCard, EffectType type)
         {
-            switch(originCard.Name) 
+            switch (originCard.Name)
             {
                 case "DARK Symbol": return EffectID.DARKSymbol;
                 case "LIGHT Symbol": return EffectID.LIGHTSymbol;
@@ -156,7 +156,8 @@ namespace DungeonDiceMonsters
                 case "Perfectly Ultimate Great Moth": return EffectID.PerfectlyUltimateGreatMoth_OnSummon;
                 case "Insect Queen": if (type == EffectType.Continuous) { return EffectID.InsectQueen_Continuous; } else { return EffectID.InsectQueen_Ignition; }
                 case "Coccon of Ultra Evolution": return EffectID.CocconofUltraEvolution_Ignition;
-                case "Metamorphosed Insect Queen": if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
+                case "Metamorphosed Insect Queen":
+                    if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
                     else if (type == EffectType.OnSummon) { return EffectID.MetamorphosedInsectQueen_OnSummon; }
                     else { return EffectID.MetamorphosedInsectQueen_Ignition; }
                 case "Basic Insect": return EffectID.BasicInsect_Ignition;
@@ -206,9 +207,9 @@ namespace DungeonDiceMonsters
         {
             return effectText.Contains("until the end of this turn.");
         }
-        private static string GetEffectText(Card originCard, EffectType type) 
+        private static string GetEffectText(Card originCard, EffectType type)
         {
-            switch (type) 
+            switch (type)
             {
                 case EffectType.OnSummon: return originCard.OnSummonEffectText;
                 case EffectType.Continuous: return originCard.ContinuousEffectText;

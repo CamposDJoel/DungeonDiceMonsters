@@ -121,6 +121,30 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipActivation(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Warrior); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Beast); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Zombie); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Spellcaster); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Aqua); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fiend); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Insect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Plant); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fairy); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Dragon); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Thunder); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.BeastWarrior); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Machine); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Dinosaur); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.WingedBeast); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Cyberse); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Psychic); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Pyro); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Reptile); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Illusion); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Rock); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Wyrm); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.SeaSerpent); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fish); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -148,6 +172,30 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -172,6 +220,30 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -321,6 +393,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
                 case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
                 case PostTargetState.BlackPendant: BlackPendant_PostTargetEffect(TargetTile); break;
+                case PostTargetState.Lv2MTypeEquipEffect: Lv2MTypeEquip_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -4331,6 +4404,86 @@ namespace DungeonDiceMonsters
         {
             //Revert the ATK boost provided by this card
             thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Lv2 Monster Type-Base Equips
+        private void Lv2MTypeEquip_EquipActivation(Effect thisEffect, Type targetType)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target monster type; it gains 300 ATK/DEF.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Type == targetType)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.Lv2MTypeEquipEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void Lv2MTypeEquip_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(300);
+            EquipedToCard.AdjustDefenseBonus(300);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void Lv2MTypeEquip_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 500 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(300);
+            TargetTile.CardInPlace.AdjustDefenseBonus(300);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 300 ATK/DEF.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void Lv2MTypeEquip_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-300);
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-300);
             thisEffect.AffectedByList.RemoveAt(0);
 
             //Now remove the effect from the active list

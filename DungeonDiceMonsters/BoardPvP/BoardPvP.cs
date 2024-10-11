@@ -2385,7 +2385,8 @@ namespace DungeonDiceMonsters
             PinchHopperEffect,
             ParasiteParacideEffect,
             EradicatingAerosolEffect,
-            BlackPendant
+            BlackPendant,
+            Lv2MTypeEquipEffect,
         }
         public enum SummonType
         {
