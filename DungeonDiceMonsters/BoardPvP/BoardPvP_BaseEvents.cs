@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -1175,10 +1176,16 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.SwordofDarkDestruction_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.DARK);
                         case Effect.EffectID.Salamandra_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.FIRE);
                         case Effect.EffectID.SteelShell_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WATER);
-                        case Effect.EffectID.AxeofDespair_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Normal);
+                        case Effect.EffectID.AxeofDespair_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Normal, 12);
                         case Effect.EffectID.MalevolentNuzzler_Equip: return AnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.SnatchSteal_Equip: return OpponentHasOneSecTypeThatCanBeTarget(SecType.Normal);
                         case Effect.EffectID.UnitedWeStand_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
+                        case Effect.EffectID.ParalyzingPotion_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.MistBody_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.RitualWeapon_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Ritual, 6);
+                        case Effect.EffectID.SymbolofHeritage_Equip: return SymbolofHeritage();
+                        case Effect.EffectID.HornofLight_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
+                        case Effect.EffectID.MaskofBrutality_Equip: return AnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
@@ -1558,19 +1565,48 @@ namespace DungeonDiceMonsters
                             return "No valid targets.";
                         }
                     }
-                    string AnyOneMonsterThatCanBeTargetOfSecType(SecType thisSecType)
+                    string AnyOneMonsterThatCanBeTargetOfSecType(SecType thisSecType, int level)
                     {
                         //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with the specific SecType
 
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == thisSecType)
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == thisSecType && thisBoardCard.Level <= level)
                             {
                                 if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
                                 {
                                     monsterFound = true;
                                     break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string SymbolofHeritage()
+                    {
+                        //REQUIREMENT: Any level 5 or lower normal monster that is not already equipped with a "Symbol of Heritage"
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == SecType.Normal && thisBoardCard.Level <= 5)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    if (!thisBoardCard.IsEquipedWith("Symbol of Heritage")) 
+                                    {
+                                        monsterFound = true;
+                                        break;
+                                    }           
                                 }
                             }
                         }

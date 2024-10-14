@@ -506,6 +506,15 @@ namespace DungeonDiceMonsters
         {
             return _EquipCards.Contains(equipCard);
         }
+        public bool IsEquipedWith(string cardName)
+        {
+            bool equipFound = false;
+            foreach (Card card in _EquipCards) 
+            {
+                if (card.Name == cardName) equipFound = true; break;
+            }
+            return equipFound;
+        }
         public void SetEquipedToCard(Card targetCard)
         {
             _EquipedTo = targetCard;
