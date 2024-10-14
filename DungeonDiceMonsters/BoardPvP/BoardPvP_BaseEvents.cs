@@ -1175,6 +1175,10 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.SwordofDarkDestruction_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.DARK);
                         case Effect.EffectID.Salamandra_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.FIRE);
                         case Effect.EffectID.SteelShell_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WATER);
+                        case Effect.EffectID.AxeofDespair_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Normal);
+                        case Effect.EffectID.MalevolentNuzzler_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.SnatchSteal_Equip: return OpponentHasOneSecTypeThatCanBeTarget(SecType.Normal);
+                        case Effect.EffectID.UnitedWeStand_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
                         default: return "Requirements Met";
                     }
 
@@ -1293,6 +1297,30 @@ namespace DungeonDiceMonsters
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
                                 thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
+                    string OpponentHasOneSecTypeThatCanBeTarget(SecType  targetSecType)
+                    {
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
+                                thisBoardCard.CanBeTarget && thisBoardCard.SecType == targetSecType)
                             {
                                 monsterFound = true;
                                 break;
@@ -1512,6 +1540,32 @@ namespace DungeonDiceMonsters
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.CurrentAttribute == thisAttribute)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyOneMonsterThatCanBeTargetOfSecType(SecType thisSecType)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with the specific SecType
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == thisSecType)
                             {
                                 if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
                                 {

@@ -1235,6 +1235,7 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1594,6 +1595,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         default: throw new Exception(string.Format("This effect id: [{0}] does not have a React to Monster Destroyed method assigned", thisEffect.ID));
                     }
                 }
@@ -2388,6 +2390,10 @@ namespace DungeonDiceMonsters
             BlackPendant,
             Lv2MTypeEquipEffect,
             Lv3AttributeEquip,
+            AxeOfDespairEquip,
+            MalevolentNuzzlerEquip,
+            SnatchStealEquip,
+            UnitedWeStand
         }
         public enum SummonType
         {

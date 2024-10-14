@@ -7401,7 +7401,7 @@
     "ability": "-",
     "ignitionEffect": "-",
     "triggerEffect": "-",
-    "equipEffect": "[MAG 6] - Equip only to a Normal monster your opponent controls; take control of the equipped monster and increase its Attack Cost + 3.",
+    "equipEffect": "[MAG 6] - Equip only to a Normal monster your opponent controls; take control of the equipped monster and increase its Attack Cost + 3. If the equipped monster's control changes after this effect's resolution; destroy this card.",
     "fusionMaterial1": "-",
     "fusionMaterial2": "-",
     "fusionMaterial3": "-",
