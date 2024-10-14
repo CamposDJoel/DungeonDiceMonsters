@@ -2387,6 +2387,7 @@ namespace DungeonDiceMonsters
             EradicatingAerosolEffect,
             BlackPendant,
             Lv2MTypeEquipEffect,
+            Lv3AttributeEquip,
         }
         public enum SummonType
         {

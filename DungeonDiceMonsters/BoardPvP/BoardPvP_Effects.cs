@@ -145,6 +145,12 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Wyrm); break;
                 case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.SeaSerpent); break;
                 case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fish); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.LIGHT); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.WIND); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.EARTH); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.DARK); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.FIRE); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.WATER); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -196,6 +202,12 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -244,6 +256,12 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
                 case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
                 case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -394,6 +412,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
                 case PostTargetState.BlackPendant: BlackPendant_PostTargetEffect(TargetTile); break;
                 case PostTargetState.Lv2MTypeEquipEffect: Lv2MTypeEquip_PostTargetEffect(TargetTile); break;
+                case PostTargetState.Lv3AttributeEquip: Lv3AttributeEquip_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -4424,7 +4443,7 @@ namespace DungeonDiceMonsters
             //this effect does not react to any events
 
             //Step 3: Resolve the effect
-            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target monster type; it gains 300 ATK/DEF.
+            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target monster type; it gains 500 ATK/DEF.
 
             //Generate the Target Candidate list
             _EffectTargetCandidates.Clear();
@@ -4474,7 +4493,7 @@ namespace DungeonDiceMonsters
             _ActiveEffects.Add(_CardEffectToBeActivated);
 
             //Update logs
-            UpdateEffectLogs("Post Target Resolution: Target Card gained 300 ATK/DEF.");
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 500 ATK/DEF.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -4484,6 +4503,83 @@ namespace DungeonDiceMonsters
             //Revert the ATK boost provided by this card
             thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
             thisEffect.AffectedByList[0].AdjustDefenseBonus(-500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Lv3 Attribute-Base Equips
+        private void Lv3AttributeEquip_EquipActivation(Effect thisEffect, Attribute targetAttribute)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target attribute; it gains 700 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.CurrentAttribute == targetAttribute)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.Lv3AttributeEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void Lv3AttributeEquip_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(700);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void Lv3AttributeEquip_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 700 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(700);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 700 ATK.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void Lv3AttributeEquip_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-700);
             thisEffect.AffectedByList.RemoveAt(0);
 
             //Now remove the effect from the active list

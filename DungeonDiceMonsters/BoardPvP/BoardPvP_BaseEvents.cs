@@ -1169,6 +1169,12 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.Celestia_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Wyrm);
                         case Effect.EffectID.DeepSeaAria_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.SeaSerpent);
                         case Effect.EffectID.WhiteMirror_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Fish);
+                        case Effect.EffectID.ShinePalace_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.LIGHT);
+                        case Effect.EffectID.GustFan_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WIND);
+                        case Effect.EffectID.Invigoration_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.EARTH);
+                        case Effect.EffectID.SwordofDarkDestruction_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.DARK);
+                        case Effect.EffectID.Salamandra_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.FIRE);
+                        case Effect.EffectID.SteelShell_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WATER);
                         default: return "Requirements Met";
                     }
 
@@ -1471,7 +1477,7 @@ namespace DungeonDiceMonsters
                         {
                             return "No valid targets.";
                         }
-                    }
+                    }                    
                     string AnyOneMonsterThatCanBeTargetOfType(Type thisType)
                     {
                         //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with specific type
@@ -1480,6 +1486,32 @@ namespace DungeonDiceMonsters
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Type == thisType)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyOneMonsterThatCanBeTargetOfAttribute(Attribute thisAttribute)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with the specific attribute
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.CurrentAttribute == thisAttribute)
                             {
                                 if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
                                 {

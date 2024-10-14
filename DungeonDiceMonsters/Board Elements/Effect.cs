@@ -200,6 +200,12 @@ namespace DungeonDiceMonsters
                 case "Celestia": return EffectID.Celestia_Equip;
                 case "Deep Sea Aria": return EffectID.DeepSeaAria_Equip;
                 case "White Mirror": return EffectID.WhiteMirror_Equip;
+                case "Shine Palace": return EffectID.ShinePalace_Equip;
+                case "Gust Fan": return EffectID.GustFan_Equip;
+                case "Invigoration": return EffectID.Invigoration_Equip;
+                case "Sword of Dark Destruction": return EffectID.SwordofDarkDestruction_Equip;
+                case "Salamandra": return EffectID.Salamandra_Equip;
+                case "Steel Shell": return EffectID.SteelShell_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -349,6 +355,12 @@ namespace DungeonDiceMonsters
             Celestia_Equip,
             DeepSeaAria_Equip,
             WhiteMirror_Equip,
+            ShinePalace_Equip,
+            GustFan_Equip,
+            Invigoration_Equip,
+            SwordofDarkDestruction_Equip,
+            Salamandra_Equip,
+            SteelShell_Equip,
         }
         #endregion
     }
