@@ -4452,8 +4452,8 @@ namespace DungeonDiceMonsters
             //Step 2: Resolve the effect
             //Restore the Atk/Def boost to the previously equiped card
             Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
-            EquipedToCard.AdjustAttackBonus(300);
-            EquipedToCard.AdjustDefenseBonus(300);
+            EquipedToCard.AdjustAttackBonus(500);
+            EquipedToCard.AdjustDefenseBonus(500);
             thisEffect.AddAffectedByCard(EquipedToCard);
 
             //Step 3: Add this effect to the Active Effect list
@@ -4462,8 +4462,8 @@ namespace DungeonDiceMonsters
         private void Lv2MTypeEquip_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: target gains 500 ATK
-            TargetTile.CardInPlace.AdjustAttackBonus(300);
-            TargetTile.CardInPlace.AdjustDefenseBonus(300);
+            TargetTile.CardInPlace.AdjustAttackBonus(500);
+            TargetTile.CardInPlace.AdjustDefenseBonus(500);
             //Set the multual equip relationship between the w cards
             TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
             _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
@@ -4482,8 +4482,8 @@ namespace DungeonDiceMonsters
         private void Lv2MTypeEquip_RemoveEffect(Effect thisEffect)
         {
             //Revert the ATK boost provided by this card
-            thisEffect.AffectedByList[0].AdjustAttackBonus(-300);
-            thisEffect.AffectedByList[0].AdjustDefenseBonus(-300);
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-500);
             thisEffect.AffectedByList.RemoveAt(0);
 
             //Now remove the effect from the active list

@@ -1144,7 +1144,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
                         case Effect.EffectID.UltimateInsectLV3_Ignition: return UltimateInsectLv3();
                         case Effect.EffectID.UltimateInsectLV5_Ignition: return UltimateInsectLv5();
-                        case Effect.EffectID.BlackPendant_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(7);
+                        case Effect.EffectID.BlackPendant_Equip: return AnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.LegendarySword_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Warrior);
                         case Effect.EffectID.BeastFangs_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Beast);
                         case Effect.EffectID.VioletCrystal_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Zombie);
@@ -1418,6 +1418,32 @@ namespace DungeonDiceMonsters
                         else
                         {
                             return "Monster was not transformed into. Effect cant activate.";
+                        }
+                    }
+                    string AnyOneMonsterThatCanBeTarget()
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side)
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
                         }
                     }
                     string AnyOneMonsterThatCanBeTargetOfLevelLimit(int levelLimit)
