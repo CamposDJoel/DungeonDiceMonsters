@@ -210,6 +210,12 @@ namespace DungeonDiceMonsters
                 case "Malevolent Nuzzler": return EffectID.MalevolentNuzzler_Equip;
                 case "Snatch Steal": return EffectID.SnatchSteal_Equip;
                 case "United We Stand": return EffectID.UnitedWeStand_Equip;
+                case "Paralyzing Potion": return EffectID.ParalyzingPotion_Equip;
+                case "Mist Body": return EffectID.MistBody_Equip;
+                case "Ritual Weapon": return EffectID.RitualWeapon_Equip;
+                case "Symbol of Heritage": return EffectID.SymbolofHeritage_Equip;
+                case "Horn of Light": return EffectID.HornofLight_Equip;
+                case "Mask of Brutality": return EffectID.MaskofBrutality_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -368,7 +374,13 @@ namespace DungeonDiceMonsters
             AxeofDespair_Equip,
             MalevolentNuzzler_Equip,
             SnatchSteal_Equip,
-            UnitedWeStand_Equip
+            UnitedWeStand_Equip,
+            ParalyzingPotion_Equip,
+            MistBody_Equip,
+            RitualWeapon_Equip,
+            SymbolofHeritage_Equip,
+            HornofLight_Equip,
+            MaskofBrutality_Equip,
         }
         #endregion
     }
