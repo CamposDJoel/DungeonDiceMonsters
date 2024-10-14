@@ -206,6 +206,9 @@ namespace DungeonDiceMonsters
                 case "Sword of Dark Destruction": return EffectID.SwordofDarkDestruction_Equip;
                 case "Salamandra": return EffectID.Salamandra_Equip;
                 case "Steel Shell": return EffectID.SteelShell_Equip;
+                case "Axe of Despair": return EffectID.AxeofDespair_Equip;
+                case "Malevolent Nuzzler": return EffectID.MalevolentNuzzler_Equip;
+                case "United We Stand": return EffectID.UnitedWeStand_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -361,6 +364,10 @@ namespace DungeonDiceMonsters
             SwordofDarkDestruction_Equip,
             Salamandra_Equip,
             SteelShell_Equip,
+            AxeofDespair_Equip,
+            MalevolentNuzzler_Equip,
+            SnatchSteal_Equip,
+            UnitedWeStand_Equip
         }
         #endregion
     }
