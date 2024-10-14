@@ -526,9 +526,15 @@ namespace DungeonDiceMonsters
             //remove them.
             //WE CANNOT REMOVE EFFECTS FROM THE _ActiveEffect LIST WHILE THE FOREACH LOOP IS ACTIVE
 
-            List<Effect> _EffectRemovalListByMonsterControllerChange = new List<Effect>();
+            List<Effect> _ActiveEffectListCopy = new List<Effect>();
             foreach (Effect thisActiveEffect in _ActiveEffects)
-            {
+            { 
+                _ActiveEffectListCopy.Add(thisActiveEffect);
+            }
+
+
+                foreach (Effect thisActiveEffect in _ActiveEffectListCopy)
+                {
                 if (thisActiveEffect.ReactsToMonsterControlChange)
                 {
                     UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
@@ -540,7 +546,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
@@ -549,18 +555,11 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect); break;
                         case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
-            }
-
-            //Now safely remove any effects that need to be remove
-            foreach (Effect thisEffectToRemove in _EffectRemovalListByMonsterControllerChange)
-            {
-                _ActiveEffects.Remove(thisEffectToRemove);
-                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
             }
 
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -1596,9 +1595,9 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
-            targetCard.SwitchController();
-            thisEffect.AddAffectedByCard(targetCard);
             DisplayEffectApplyAnimation(TargetTile);
+            ChangeCardController(targetCard, thisEffect.Owner, thisEffect);
+            thisEffect.AddAffectedByCard(targetCard);
 
             //Add this effect to the list of active effects
             _ActiveEffects.Add(thisEffect);
@@ -1609,9 +1608,6 @@ namespace DungeonDiceMonsters
             //Update logs
             UpdateEffectLogs(string.Format("Post Target Resolution: Target Card's controller has been switched. New controller: [{0}]", targetCard.Controller));
 
-            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
-            ResolveEffectsWithMonsterControllerChangeReactionTo(targetCard, thisEffect);
-
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -1620,18 +1616,17 @@ namespace DungeonDiceMonsters
             //At the end of the turn remove the changes applied by this effect
             //Switch the Control back to the opponent
             Card theAffectedCard = thisEffect.AffectedByList[0];
-            theAffectedCard.SwitchController();
+            PlayerColor goingBackToColor = PlayerColor.RED;
+            if (thisEffect.Owner == PlayerColor.RED) { goingBackToColor = PlayerColor.BLUE; }
+            ChangeCardController(theAffectedCard, goingBackToColor, thisEffect);
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
             UpdateEffectLogs(string.Format("This effect removal switched the controller of Card [{0}] with On Board ID [{1}] back to the opponent: [{2}].", theAffectedCard.Name, theAffectedCard.OnBoardID, theAffectedCard.Controller));
-
-            //This action switched a monster's controller, check for other active effects that will react to it.
-            ResolveEffectsWithMonsterControllerChangeReactionTo(theAffectedCard, thisEffect);
         }
-        private void ChangeOfHeart_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect, List<Effect> _removalList)
+        private void ChangeOfHeart_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
         {
             //If the target card that had its controlled change was the Card affected by this Change of Heart active effect
             //then remove this effect from the active effect list.
@@ -1648,10 +1643,7 @@ namespace DungeonDiceMonsters
                 if (thisEffect.AffectedByList.Contains(targetCard))
                 {
                     UpdateEffectLogs("Reaction: This Card already had a Controllerd Swtich applied by this effect. The new effect that switched its controller again will override this effect. This effect will be remove from the active effects list.");
-                    //DO NOT DO THIS: _ActiveEffects.Remove(thisEffect);
-                    //We cannot remove effects from the ActiveEffect list while the reaction validations are taken place
-                    //Add this effect to the _EffectsToBeRemoved... list so it can be done at the end.
-                    _removalList.Add(thisEffect);
+                    _ActiveEffects.Remove(thisEffect);
                 }
                 else
                 {
@@ -4384,13 +4376,13 @@ namespace DungeonDiceMonsters
             //this effect does not react to any events
 
             //Step 3: Resolve the effect
-            //EFFECT DESCRIPTION: Equip it to a Level 7 or lower monster on the board; it gains 500 ATK.
+            //EFFECT DESCRIPTION: Equipped monster it gains 500 ATK.
 
             //Generate the Target Candidate list
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Level <= 7)
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
                 {
                     if((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
                     {
@@ -4733,7 +4725,7 @@ namespace DungeonDiceMonsters
         private void MalevolentNuzzler_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: target gains 1000 ATK
-            TargetTile.CardInPlace.AdjustAttackBonus(8000);
+            TargetTile.CardInPlace.AdjustAttackBonus(800);
             TargetTile.CardInPlace.AdjustDefenseBonus(-300);
             //Set the multual equip relationship between the w cards
             TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
@@ -4781,12 +4773,9 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
                 {
-                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
-                    {
-                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
-                    }
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }
             }
             UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
@@ -4805,7 +4794,7 @@ namespace DungeonDiceMonsters
             Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
             if(EquipedToCard.Controller != thisEffect.Owner)
             {
-                EquipedToCard.SwitchController();
+                ChangeCardController(EquipedToCard, thisEffect.Owner, thisEffect);
             }
             EquipedToCard.AdjustAttackCostBonus(3);
             thisEffect.AddAffectedByCard(EquipedToCard);
@@ -4816,7 +4805,7 @@ namespace DungeonDiceMonsters
         private void SnatchSteal_PostTargetEffect(Tile TargetTile)
         {
             //Resolve the effect: switch controller of the card and increase its attack cost
-            TargetTile.CardInPlace.SwitchController();
+            ChangeCardController(TargetTile.CardInPlace, _CardEffectToBeActivated.Owner, _CardEffectToBeActivated);
             TargetTile.CardInPlace.AdjustAttackCostBonus(3);
             //Set the multual equip relationship between the w cards
             TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
@@ -4836,7 +4825,9 @@ namespace DungeonDiceMonsters
         private void SnatchSteal_RemoveEffect(Effect thisEffect)
         {
             //Switch the controller back to the oppoenent and restore its attack cost
-            thisEffect.AffectedByList[0].SwitchController();
+            PlayerColor goingBackToColor = PlayerColor.RED;
+            if (thisEffect.Owner == PlayerColor.RED) { goingBackToColor = PlayerColor.BLUE; }
+            ChangeCardController(thisEffect.AffectedByList[0], goingBackToColor, thisEffect);
             thisEffect.AffectedByList[0].AdjustAttackCostBonus(-3);
             thisEffect.AffectedByList.RemoveAt(0);
 
@@ -4846,7 +4837,7 @@ namespace DungeonDiceMonsters
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list.");
         }
-        private void SnatchSteal_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect, List<Effect> _removalList)
+        private void SnatchSteal_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
         {
             //If the target card that had its controlled change is this effect's equipped card
             //and the control switched was triggered by a different effect,  destroy this card.
@@ -4936,7 +4927,7 @@ namespace DungeonDiceMonsters
             int monsterCount = 0;
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Controller == _CardEffectToBeActivated.Owner)
+                if (!thisCard.IsDiscardted &&  thisCard.IsAMonster && thisCard.Controller == _CardEffectToBeActivated.Owner)
                 {
                     monsterCount++;
                 }
@@ -4954,7 +4945,7 @@ namespace DungeonDiceMonsters
             _ActiveEffects.Add(_CardEffectToBeActivated);
 
             //Update logs
-            UpdateEffectLogs(string.Format("Post Target Resolution: Target Card gained {0} ATK/DEF}.", monsterCount * 200));
+            UpdateEffectLogs(string.Format("Post Target Resolution: Target Card gained 200 ATK/DEF for each monster ({0}).", monsterCount));
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
@@ -4979,11 +4970,11 @@ namespace DungeonDiceMonsters
             //If the monster summon is controlled by the effect's owner
             if (targetCard.Controller == thisEffect.Owner)
             {
-                //Give an extra boost to the origin monster
-                thisEffect.OriginCard.AdjustAttackBonus(200);
-                thisEffect.OriginCard.AdjustDefenseBonus(200);
+                //Give an extra boost to the equipped card
+                thisEffect.AffectedByList[0].AdjustAttackBonus(200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(200);
                 thisEffect.CustomInt1++;
-                UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 200.");
+                UpdateEffectLogs("Effect Reacted: Increase the equipped card's ATK/DEF by 200.");
             }
         }
         private void UnitedWeStand_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
@@ -4992,10 +4983,10 @@ namespace DungeonDiceMonsters
             if (targetCard.Controller == thisEffect.Owner)
             {
                 //reduce boost to the origin monster
-                thisEffect.OriginCard.AdjustAttackBonus(-200);
-                thisEffect.OriginCard.AdjustDefenseBonus(-200);
+                thisEffect.AffectedByList[0].AdjustAttackBonus(-200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(-200);
                 thisEffect.CustomInt1--;
-                UpdateEffectLogs(string.Format("Effect Reacted: Origin Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 100.", thisEffect.OriginCard.Name, thisEffect.OriginCard.OnBoardID));
+                UpdateEffectLogs(string.Format("Effect Reacted: Equipped Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 200.", thisEffect.AffectedByList[0], thisEffect.AffectedByList[0].OnBoardID));
             }
         }
         private void UnitedWeStand_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
@@ -5004,18 +4995,18 @@ namespace DungeonDiceMonsters
             if (targetCard.Controller == thisEffect.Owner)
             {
                 //Give an extra boost to the origin monster
-                thisEffect.OriginCard.AdjustAttackBonus(200);
-                thisEffect.OriginCard.AdjustDefenseBonus(200);
+                thisEffect.AffectedByList[0].AdjustAttackBonus(200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(200);
                 thisEffect.CustomInt1++;
-                UpdateEffectLogs("Effect Reacted: Increase the origin card's ATK/DEF by 200.");
+                UpdateEffectLogs("Effect Reacted: Increase the equipped card's ATK/DEF by 200.");
             }
             else
             {
                 //remove a boost to the origin monster
-                thisEffect.OriginCard.AdjustAttackBonus(-200);
-                thisEffect.OriginCard.AdjustDefenseBonus(-200);
+                thisEffect.AffectedByList[0].AdjustAttackBonus(-200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(-200);
                 thisEffect.CustomInt1--;
-                UpdateEffectLogs("Effect Reacted: Decreased the origin card's ATK/DEF by 200.");
+                UpdateEffectLogs("Effect Reacted: Decreased the equipped card's ATK/DEF by 200.");
             }
         }
         #endregion

@@ -406,10 +406,9 @@ namespace DungeonDiceMonsters
         {
             _CurrentAttribute = _cardInfo.Attribute;
         }
-        public void SwitchController()
+        public void SwitchController(PlayerColor newColor)
         {
-            if (_Controller == PlayerColor.RED) { _Controller = PlayerColor.BLUE; }
-            else { _Controller = PlayerColor.RED; }
+            _Controller = newColor;
         }
         public void MarkAsTransformedInto()
         {

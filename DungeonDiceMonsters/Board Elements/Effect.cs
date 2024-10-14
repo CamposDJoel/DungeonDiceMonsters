@@ -208,6 +208,7 @@ namespace DungeonDiceMonsters
                 case "Steel Shell": return EffectID.SteelShell_Equip;
                 case "Axe of Despair": return EffectID.AxeofDespair_Equip;
                 case "Malevolent Nuzzler": return EffectID.MalevolentNuzzler_Equip;
+                case "Snatch Steal": return EffectID.SnatchSteal_Equip;
                 case "United We Stand": return EffectID.UnitedWeStand_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }

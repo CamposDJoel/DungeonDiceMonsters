@@ -1669,6 +1669,20 @@ namespace DungeonDiceMonsters
                 RemoveEffect(activeEffectFound);
             }
         }
+        private void ChangeCardController(Card thisCard, PlayerColor newColor, Effect modifierEffect)
+        {
+            //Save this flag to know if the function will ACTUALLY change the controller
+            bool willControllerActuallyChange = thisCard.Controller != newColor;
+
+            //The control of this card will change to the Color set in the arguments
+            thisCard.SwitchController(newColor);
+
+            //Before returning to the Main Phase, check if any other active effects on the board react to this control change
+            if (willControllerActuallyChange)
+            {
+                ResolveEffectsWithMonsterControllerChangeReactionTo(thisCard, modifierEffect);
+            }            
+        }
         private void ChangeMonsterAttribute(Card targetCard, Attribute newAttribute, Effect activeEffect)
         {
             SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
