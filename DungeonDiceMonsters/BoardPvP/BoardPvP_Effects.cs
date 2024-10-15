@@ -121,6 +121,46 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousActivation(thisEffect); break;
                 case Effect.EffectID.EradicatingAerosol_Ignition: EradicatingAerosol_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipActivation(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Warrior); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Beast); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Zombie); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Spellcaster); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Aqua); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fiend); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Insect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Plant); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fairy); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Dragon); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Thunder); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.BeastWarrior); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Machine); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Dinosaur); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.WingedBeast); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Cyberse); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Psychic); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Pyro); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Reptile); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Illusion); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Rock); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Wyrm); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.SeaSerpent); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipActivation(thisEffect, Type.Fish); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.LIGHT); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.WIND); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.EARTH); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.DARK); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.FIRE); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_EquipActivation(thisEffect, Attribute.WATER); break;
+                case Effect.EffectID.AxeofDespair_Equip: AxeOfDespair_EquipActivation(thisEffect, SecType.Normal); break;
+                case Effect.EffectID.MalevolentNuzzler_Equip: MalevolentNuzzler_EquipActivation(thisEffect); break;
+                case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_EquipActivation(thisEffect); break;
+                case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_EquipActivation(thisEffect); break;
+                case Effect.EffectID.ParalyzingPotion_Equip: ParalyzingPotion_EquipActivation(thisEffect); break;
+                case Effect.EffectID.MistBody_Equip: MistBody_EquipActivation(thisEffect); break;
+                case Effect.EffectID.RitualWeapon_Equip: RitualWeapon_EquipActivation(thisEffect); break;
+                case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_EquipActivation(thisEffect); break;
+                case Effect.EffectID.HornofLight_Equip: HornofLight_EquipActivation(thisEffect); break;
+                case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_EquipActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -148,6 +188,46 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.AxeofDespair_Equip: AxeOfDespair_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MalevolentNuzzler_Equip: MalevolentNuzzler_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.ParalyzingPotion_Equip: ParalyzingPotion_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MistBody_Equip: MistBody_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.RitualWeapon_Equip: RitualWeapon_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.HornofLight_Equip: HornofLight_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -172,6 +252,46 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ContinuousREActivation(thisEffect); break;
                 case Effect.EffectID.BlackPendant_Equip: BlackPendant_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.LegendarySword_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.BeastFangs_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.VioletCrystal_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.BookOfSecretArts_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PowerOfKaishin_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DarkEnergy_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.LaserCannonArmon_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.VileGerms_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SilverBowAndArrow_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DragonTreasure_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.ElectroWhip_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MysticalMoon_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MachineConversionFactory_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.RaiseBodyHeat_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.FollowWind_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.GridRod_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PsychicSword_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SoulOfFire_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.PoisonFangs_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.EyeOfIllusion_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Stonehenge_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Celestia_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.DeepSeaAria_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.WhiteMirror_Equip: Lv2MTypeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.ShinePalace_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.GustFan_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Invigoration_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SwordofDarkDestruction_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.Salamandra_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SteelShell_Equip: Lv3AttributeEquip_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.AxeofDespair_Equip: AxeOfDespair_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MalevolentNuzzler_Equip: MalevolentNuzzler_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.ParalyzingPotion_Equip: ParalyzingPotion_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MistBody_Equip: MistBody_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.RitualWeapon_Equip: RitualWeapon_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.HornofLight_Equip: HornofLight_EquipREActivation(thisEffect); break;
+                case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_EquipREActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an REActivate Effect Function"));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -321,6 +441,18 @@ namespace DungeonDiceMonsters
                 case PostTargetState.ParasiteParacideEffect: ParasiteParacide_PostTargetEffect(TargetTile); break;
                 case PostTargetState.EradicatingAerosolEffect: EradicatingAerosol_PostTargetEffect(TargetTile); break;
                 case PostTargetState.BlackPendant: BlackPendant_PostTargetEffect(TargetTile); break;
+                case PostTargetState.Lv2MTypeEquipEffect: Lv2MTypeEquip_PostTargetEffect(TargetTile); break;
+                case PostTargetState.Lv3AttributeEquip: Lv3AttributeEquip_PostTargetEffect(TargetTile); break;
+                case PostTargetState.AxeOfDespairEquip: AxeOfDespair_PostTargetEffect(TargetTile); break;
+                case PostTargetState.MalevolentNuzzlerEquip: MalevolentNuzzler_PostTargetEffect(TargetTile); break;
+                case PostTargetState.SnatchStealEquip: SnatchSteal_PostTargetEffect(TargetTile); break;
+                case PostTargetState.UnitedWeStand: UnitedWeStand_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ParalyzingPotionEquip: ParalyzingPotion_PostTargetEffect(TargetTile); break;
+                case PostTargetState.MistBodyEquip: MistBody_PostTargetEffect(TargetTile); break;
+                case PostTargetState.RitualWeaponEquip: RitualWeapon_PostTargetEffect(TargetTile); break;
+                case PostTargetState.SymbolOfheritageEquip: SymbolofHeritage_PostTargetEffect(TargetTile); break;
+                case PostTargetState.HornOfLightEquip: HornofLight_PostTargetEffect(TargetTile); break;
+                case PostTargetState.MaskofBrutalityEquip: MaskofBrutality_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -418,9 +550,15 @@ namespace DungeonDiceMonsters
             //remove them.
             //WE CANNOT REMOVE EFFECTS FROM THE _ActiveEffect LIST WHILE THE FOREACH LOOP IS ACTIVE
 
-            List<Effect> _EffectRemovalListByMonsterControllerChange = new List<Effect>();
+            List<Effect> _ActiveEffectListCopy = new List<Effect>();
             foreach (Effect thisActiveEffect in _ActiveEffects)
-            {
+            { 
+                _ActiveEffectListCopy.Add(thisActiveEffect);
+            }
+
+
+                foreach (Effect thisActiveEffect in _ActiveEffectListCopy)
+                {
                 if (thisActiveEffect.ReactsToMonsterControlChange)
                 {
                     UpdateEffectLogs(string.Format("Reaction Check for Effect: [{0}] Origin Card Board ID: [{1}]", thisActiveEffect.ID, thisActiveEffect.OriginCard.OnBoardID));
@@ -432,7 +570,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.FIRESymbol: FireSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.EARTHSymbol: EarthSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.WINDSymbol: WindSymbol_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
-                        case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect, _EffectRemovalListByMonsterControllerChange); break;
+                        case Effect.EffectID.ChangeOfHeart_Ignition: ChangeOfHeart_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect); break;
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterControlSwitch(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri1_Continuous: FlyingKamakiri1_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.FlyingKamakiri2_Continuous: FlyingKamakiri2_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
@@ -441,16 +579,11 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                        case Effect.EffectID.SnatchSteal_Equip: SnatchSteal_ReactTo_MonsterControlChange(thisActiveEffect, targetCard, modifierEffect); break;
+                        case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterControlChange(thisActiveEffect, targetCard); break;
                         default: throw new Exception(string.Format("Effect ID: [{0}] does not have an [ReactTo_AttributeChange] Function", thisActiveEffect.ID));
                     }
                 }
-            }
-
-            //Now safely remove any effects that need to be remove
-            foreach (Effect thisEffectToRemove in _EffectRemovalListByMonsterControllerChange)
-            {
-                _ActiveEffects.Remove(thisEffectToRemove);
-                UpdateEffectLogs(string.Format("The Effect [{0}] by card on board: [{1}] was remove from the active effect list.", thisEffectToRemove.ID, thisEffectToRemove.OriginCard.OnBoardID));
             }
 
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -1486,9 +1619,9 @@ namespace DungeonDiceMonsters
             Card targetCard = TargetTile.CardInPlace;
 
             //Resolve the effect: change the monster's controllers to the TURNPLAYER
-            targetCard.SwitchController();
-            thisEffect.AddAffectedByCard(targetCard);
             DisplayEffectApplyAnimation(TargetTile);
+            ChangeCardController(targetCard, thisEffect.Owner, thisEffect);
+            thisEffect.AddAffectedByCard(targetCard);
 
             //Add this effect to the list of active effects
             _ActiveEffects.Add(thisEffect);
@@ -1499,9 +1632,6 @@ namespace DungeonDiceMonsters
             //Update logs
             UpdateEffectLogs(string.Format("Post Target Resolution: Target Card's controller has been switched. New controller: [{0}]", targetCard.Controller));
 
-            //Before returning to the Main Phase, check if any other active effects on the board react to this attribute change
-            ResolveEffectsWithMonsterControllerChangeReactionTo(targetCard, thisEffect);
-
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
         }
@@ -1510,18 +1640,17 @@ namespace DungeonDiceMonsters
             //At the end of the turn remove the changes applied by this effect
             //Switch the Control back to the opponent
             Card theAffectedCard = thisEffect.AffectedByList[0];
-            theAffectedCard.SwitchController();
+            PlayerColor goingBackToColor = PlayerColor.RED;
+            if (thisEffect.Owner == PlayerColor.RED) { goingBackToColor = PlayerColor.BLUE; }
+            ChangeCardController(theAffectedCard, goingBackToColor, thisEffect);
 
             //Now remove the effect from the active list
             _ActiveEffects.Remove(thisEffect);
 
             //Update logs
             UpdateEffectLogs(string.Format("This effect removal switched the controller of Card [{0}] with On Board ID [{1}] back to the opponent: [{2}].", theAffectedCard.Name, theAffectedCard.OnBoardID, theAffectedCard.Controller));
-
-            //This action switched a monster's controller, check for other active effects that will react to it.
-            ResolveEffectsWithMonsterControllerChangeReactionTo(theAffectedCard, thisEffect);
         }
-        private void ChangeOfHeart_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect, List<Effect> _removalList)
+        private void ChangeOfHeart_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
         {
             //If the target card that had its controlled change was the Card affected by this Change of Heart active effect
             //then remove this effect from the active effect list.
@@ -1538,10 +1667,7 @@ namespace DungeonDiceMonsters
                 if (thisEffect.AffectedByList.Contains(targetCard))
                 {
                     UpdateEffectLogs("Reaction: This Card already had a Controllerd Swtich applied by this effect. The new effect that switched its controller again will override this effect. This effect will be remove from the active effects list.");
-                    //DO NOT DO THIS: _ActiveEffects.Remove(thisEffect);
-                    //We cannot remove effects from the ActiveEffect list while the reaction validations are taken place
-                    //Add this effect to the _EffectsToBeRemoved... list so it can be done at the end.
-                    _removalList.Add(thisEffect);
+                    _ActiveEffects.Remove(thisEffect);
                 }
                 else
                 {
@@ -4274,13 +4400,13 @@ namespace DungeonDiceMonsters
             //this effect does not react to any events
 
             //Step 3: Resolve the effect
-            //EFFECT DESCRIPTION: Equip it to a Level 7 or lower monster on the board; it gains 500 ATK.
+            //EFFECT DESCRIPTION: Equipped monster it gains 500 ATK.
 
             //Generate the Target Candidate list
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Level <= 7)
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
                 {
                     if((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
                     {
@@ -4331,6 +4457,1091 @@ namespace DungeonDiceMonsters
         {
             //Revert the ATK boost provided by this card
             thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Lv2 Monster Type-Base Equips
+        private void Lv2MTypeEquip_EquipActivation(Effect thisEffect, Type targetType)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target monster type; it gains 500 ATK/DEF.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Type == targetType)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.Lv2MTypeEquipEffect;
+            InitializeEffectTargetSelection();
+        }
+        private void Lv2MTypeEquip_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(500);
+            EquipedToCard.AdjustDefenseBonus(500);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void Lv2MTypeEquip_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 500 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(500);
+            TargetTile.CardInPlace.AdjustDefenseBonus(500);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 500 ATK/DEF.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void Lv2MTypeEquip_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Lv3 Attribute-Base Equips
+        private void Lv3AttributeEquip_EquipActivation(Effect thisEffect, Attribute targetAttribute)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip it to any monster on the board with the target attribute; it gains 700 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.CurrentAttribute == targetAttribute)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.Lv3AttributeEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void Lv3AttributeEquip_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(700);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void Lv3AttributeEquip_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 700 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(700);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 700 ATK.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void Lv3AttributeEquip_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-700);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Axe of Despair
+        private void AxeOfDespair_EquipActivation(Effect thisEffect, SecType targetSecType)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to a Normal monster; the equipped monster gains 1000 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.SecType == targetSecType)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.AxeOfDespairEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void AxeOfDespair_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(1000);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void AxeOfDespair_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 1000 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(1000);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 1000 ATK.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void AxeOfDespair_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-1000);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Malevolent Nuzzler
+        private void MalevolentNuzzler_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: The equipped monster gains 800 ATK and loses 300 DEF.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.MalevolentNuzzlerEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void MalevolentNuzzler_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(800);
+            EquipedToCard.AdjustDefenseBonus(-300);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void MalevolentNuzzler_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 1000 ATK
+            TargetTile.CardInPlace.AdjustAttackBonus(800);
+            TargetTile.CardInPlace.AdjustDefenseBonus(-300);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 800 ATK and lose 300 DEF.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void MalevolentNuzzler_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-800);
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(300);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Snatch Steal
+        private void SnatchSteal_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to a Normal monster your opponent controls; take control of the equipped monster and increase its Attack Cost + 3.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.SnatchStealEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void SnatchSteal_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Take control back of the card (if you dont have it already) and increase the attack cost +3
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            if(EquipedToCard.Controller != thisEffect.Owner)
+            {
+                ChangeCardController(EquipedToCard, thisEffect.Owner, thisEffect);
+            }
+            EquipedToCard.AdjustAttackCostBonus(3);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void SnatchSteal_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: switch controller of the card and increase its attack cost
+            ChangeCardController(TargetTile.CardInPlace, _CardEffectToBeActivated.Owner, _CardEffectToBeActivated);
+            TargetTile.CardInPlace.AdjustAttackCostBonus(3);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Took control of the card and increased the attack cost +3");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void SnatchSteal_RemoveEffect(Effect thisEffect)
+        {
+            //Switch the controller back to the oppoenent and restore its attack cost
+            PlayerColor goingBackToColor = PlayerColor.RED;
+            if (thisEffect.Owner == PlayerColor.RED) { goingBackToColor = PlayerColor.BLUE; }
+            ChangeCardController(thisEffect.AffectedByList[0], goingBackToColor, thisEffect);
+            thisEffect.AffectedByList[0].AdjustAttackCostBonus(-3);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        private void SnatchSteal_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard, Effect modifierEffect)
+        {
+            //If the target card that had its controlled change is this effect's equipped card
+            //and the control switched was triggered by a different effect,  destroy this card.
+
+            //This effect cannot react to itself...
+            if (modifierEffect == thisEffect)
+            {
+                UpdateEffectLogs("Effect cannot react to its own effect resolution.");
+            }
+            else
+            {
+                if (thisEffect.AffectedByList.Contains(targetCard))
+                {
+                    UpdateEffectLogs("Reaction: The equipped card of this effect had its controlled changed, destroy this effect's origin card.");
+                    DestroyCard(thisEffect.OriginCard.CurrentTile);
+                }
+                else
+                {
+                    UpdateEffectLogs("Effect did not react.");
+                }
+            }
+        }
+        #endregion
+
+        #region United We Stand
+        private void UnitedWeStand_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to level 6 or lower monster; it gains 200 ATK/DEF for each monster you control.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Level <= 6)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.UnitedWeStand;
+            InitializeEffectTargetSelection();
+        }
+        private void UnitedWeStand_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+            thisEffect.ReactsToMonsterControlChange = true;
+
+            //Step 2: Resolve the effect
+            //Restore the Atk/Def boost to the previously equiped card
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+
+            int monsterCount = 0;
+            foreach(Card thisCard in _CardsOnBoard)
+            {
+                if(!thisCard.IsDiscardted && thisCard.Controller == thisEffect.Owner)
+                {
+                    monsterCount++;
+                }
+            }
+            EquipedToCard.AdjustAttackBonus(monsterCount * 200);
+            EquipedToCard.AdjustDefenseBonus(monsterCount * 200);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+            _CardEffectToBeActivated.CustomInt1 = monsterCount;
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void UnitedWeStand_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 200 ATK/DEF for each monster you control.
+            int monsterCount = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted &&  thisCard.IsAMonster && thisCard.Controller == _CardEffectToBeActivated.Owner)
+                {
+                    monsterCount++;
+                }
+            }
+            TargetTile.CardInPlace.AdjustAttackBonus(monsterCount * 200);
+            TargetTile.CardInPlace.AdjustDefenseBonus(monsterCount * 200);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.CustomInt1 = monsterCount;
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("Post Target Resolution: Target Card gained 200 ATK/DEF for each monster ({0}).", monsterCount));
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void UnitedWeStand_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK boost provided by this card
+            int monsterCount = thisEffect.CustomInt1;
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-(monsterCount * 200));
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-(monsterCount * 200));
+            thisEffect.AffectedByList.RemoveAt(0);
+            thisEffect.CustomInt1 = 0;
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        private void UnitedWeStand_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is controlled by the effect's owner
+            if (targetCard.Controller == thisEffect.Owner)
+            {
+                //Give an extra boost to the equipped card
+                thisEffect.AffectedByList[0].AdjustAttackBonus(200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(200);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the equipped card's ATK/DEF by 200.");
+            }
+        }
+        private void UnitedWeStand_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
+        {
+            //If the monster destroyed was controlled by the effect's owner
+            if (targetCard.Controller == thisEffect.Owner)
+            {
+                //reduce boost to the origin monster
+                thisEffect.AffectedByList[0].AdjustAttackBonus(-200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(-200);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs(string.Format("Effect Reacted: Equipped Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 200.", thisEffect.AffectedByList[0], thisEffect.AffectedByList[0].OnBoardID));
+            }
+        }
+        private void UnitedWeStand_ReactTo_MonsterControlChange(Effect thisEffect, Card targetCard)
+        {
+            //If the target card's controller is now the same as the effect's owner
+            if (targetCard.Controller == thisEffect.Owner)
+            {
+                //Give an extra boost to the origin monster
+                thisEffect.AffectedByList[0].AdjustAttackBonus(200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(200);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the equipped card's ATK/DEF by 200.");
+            }
+            else
+            {
+                //remove a boost to the origin monster
+                thisEffect.AffectedByList[0].AdjustAttackBonus(-200);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(-200);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs("Effect Reacted: Decreased the equipped card's ATK/DEF by 200.");
+            }
+        }
+        #endregion
+
+        #region Paralyzing Potion
+        private void ParalyzingPotion_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: The equipped monster cannot attack.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.ParalyzingPotionEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void ParalyzingPotion_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Readd the cannot attack counter
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AddCannotAttackCounter();
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void ParalyzingPotion_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Add a Cannot Attack counter to the target
+            TargetTile.CardInPlace.AddCannotAttackCounter();
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained a Cannot Attack Counter.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void ParalyzingPotion_RemoveEffect(Effect thisEffect)
+        {
+            //Remove the Cannot attack counter
+            thisEffect.AffectedByList[0].RemoveCannotAttackCounter();
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Mist Body
+        private void MistBody_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Decrease the equipped monster’s Defense Cost -1.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.MistBodyEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void MistBody_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect
+            //Reduce the defense cost
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustDefenseCostBonus(-1);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void MistBody_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Reduce the Defense Cost -1
+            TargetTile.CardInPlace.AdjustDefenseCostBonus(-1);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card Defense Cost decreased -1.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void MistBody_RemoveEffect(Effect thisEffect)
+        {
+            //increase back the defense cost
+            thisEffect.AffectedByList[0].AdjustDefenseCostBonus(1);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Ritual Weapon
+        private void RitualWeapon_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to a level 6 or lower Ritual monster; it gains 1500 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.SecType == SecType.Ritual && thisCard.Level <= 6)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.RitualWeaponEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void RitualWeapon_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect: increase ATK bonus by 1500
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(1500);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void RitualWeapon_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: increase ATK bonus by 1500
+            TargetTile.CardInPlace.AdjustAttackBonus(1500);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card ATK Bonus increased by 1500.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void RitualWeapon_RemoveEffect(Effect thisEffect)
+        {
+            //increase back the defense cost
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-1500);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Symbol of Heritage
+        private void SymbolofHeritage_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to a level 6 or lower Ritual monster; it gains 1500 ATK.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();           
+            foreach (Card thisBoardCard in _CardsOnBoard)
+            {
+                if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == SecType.Normal && thisBoardCard.Level <= 5)
+                {
+                    if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                    {
+                        if (!thisBoardCard.IsEquipedWith("Symbol of Heritage"))
+                        {
+                            _EffectTargetCandidates.Add(thisBoardCard.CurrentTile);
+                        }
+                    }
+                }
+            }
+
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.SymbolOfheritageEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void SymbolofHeritage_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            thisEffect.ReactsToMonsterSummon = true;
+            thisEffect.ReactsToMonsterDestroyed = true;
+
+            //Step 2: Resolve the effect: increase 500 ATK/DEF for every other cards on the board with the same name
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            int CardsWithTheSameName = 0;
+            foreach(Card thisCard in _CardsOnBoard)
+            {
+                if(!thisCard.IsDiscardted && thisCard.Name == EquipedToCard.Name && thisCard != EquipedToCard)
+                {
+                    CardsWithTheSameName++;
+                }
+            }
+            EquipedToCard.AdjustAttackBonus(CardsWithTheSameName * 500);
+            EquipedToCard.AdjustDefenseBonus(CardsWithTheSameName * 500);
+            thisEffect.CustomInt1 = CardsWithTheSameName;
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void SymbolofHeritage_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: Resolve the effect: increase 500 ATK/DEF for every other cards on the board with the same name
+            int CardsWithTheSameName = 0;
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.Name == TargetTile.CardInPlace.Name && thisCard != TargetTile.CardInPlace)
+                {
+                    CardsWithTheSameName++;
+                }
+            }
+            TargetTile.CardInPlace.AdjustAttackBonus(CardsWithTheSameName * 500);
+            TargetTile.CardInPlace.AdjustDefenseBonus(CardsWithTheSameName * 500);
+            _CardEffectToBeActivated.CustomInt1 = CardsWithTheSameName;
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("Post Target Resolution: Target Card ATK/DEF Bonus increased by 500 per other card with the same name ({0})", CardsWithTheSameName));
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void SymbolofHeritage_RemoveEffect(Effect thisEffect)
+        {
+            //increase back the defense cost
+            int CardsWithTheSameNameCount = thisEffect.CustomInt1;
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-(CardsWithTheSameNameCount * 500));
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-(CardsWithTheSameNameCount * 500));
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        private void SymbolofHeritage_ReactTo_MonsterSummon(Effect thisEffect, Card targetCard)
+        {
+            //If the monster summon is the same name as the equipped monster
+            if (targetCard.Name == thisEffect.AffectedByList[0].Name)
+            {
+                //Give an extra boost to the equipped card
+                thisEffect.AffectedByList[0].AdjustAttackBonus(500);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(500);
+                thisEffect.CustomInt1++;
+                UpdateEffectLogs("Effect Reacted: Increase the equipped card's ATK/DEF by 500.");
+            }
+        }
+        private void SymbolofHeritage_ReactTo_MonsterDestroyed(Effect thisEffect, Card targetCard)
+        {
+            //If the monster destroyed was the same name as the equipped monster
+            if (targetCard.Name == thisEffect.AffectedByList[0].Name)
+            {
+                //reduce boost to the origin monster
+                thisEffect.AffectedByList[0].AdjustAttackBonus(-500);
+                thisEffect.AffectedByList[0].AdjustDefenseBonus(-500);
+                thisEffect.CustomInt1--;
+                UpdateEffectLogs(string.Format("Effect Reacted: Equipped Card [{0}] with Board ID: [{1}] ATK/DEF boost decreased by 500.", thisEffect.AffectedByList[0], thisEffect.AffectedByList[0].OnBoardID));
+            }
+        }
+        #endregion
+
+        #region Horn of Light
+        private void HornofLight_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: Equip only to a level 6 or lower monster; it gains 800 DEF.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster && thisCard.Level <= 6)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.HornOfLightEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void HornofLight_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //no reactions
+
+            //Step 2: Resolve the effect
+            //Restore the DEF boost
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustDefenseBonus(800);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void HornofLight_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: target gains 800 DEF.
+            TargetTile.CardInPlace.AdjustDefenseBonus(800);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 800 DEF.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void HornofLight_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the DEF boost provided by this card
+            thisEffect.AffectedByList[0].AdjustDefenseBonus(-800);
+            thisEffect.AffectedByList.RemoveAt(0);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region Mask of Brutality
+        private void MaskofBrutality_EquipActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Step 2: Set the "Reaction To" flags
+            //this effect does not react to any events
+
+            //Step 3: Resolve the effect
+            //EFFECT DESCRIPTION: The equipped monster gains 1000 ATK, loses 1000 DEF and its Defense Cost increases +1.
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted && thisCard.IsAMonster)
+                {
+                    if ((thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget) || thisCard.Controller == thisEffect.Owner)
+                    {
+                        _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                    }
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.MaskofBrutalityEquip;
+            InitializeEffectTargetSelection();
+        }
+        private void MaskofBrutality_EquipREActivation(Effect thisEffect)
+        {
+            //Step 1: Set the "Reaction To" flags
+            //No flags to set
+
+            //Step 2: Resolve the effect: The equipped monster gains 1000 ATK, loses 1000 DEF and its Defense Cost increases +1.
+            Card EquipedToCard = thisEffect.OriginCard.EquipToCard;
+            EquipedToCard.AdjustAttackBonus(1000);
+            EquipedToCard.AdjustDefenseBonus(-1000);
+            EquipedToCard.AdjustDefenseCostBonus(1);
+            thisEffect.AddAffectedByCard(EquipedToCard);
+
+            //Step 3: Add this effect to the Active Effect list
+            _ActiveEffects.Add(thisEffect);
+        }
+        private void MaskofBrutality_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: The equipped monster gains 1000 ATK, loses 1000 DEF and its Defense Cost increases +1.
+            TargetTile.CardInPlace.AdjustAttackBonus(1000);
+            TargetTile.CardInPlace.AdjustDefenseBonus(-1000);
+            TargetTile.CardInPlace.AdjustDefenseCostBonus(1);
+            //Set the multual equip relationship between the w cards
+            TargetTile.CardInPlace.AddEquipCard(_CardEffectToBeActivated.OriginCard);
+            _CardEffectToBeActivated.OriginCard.SetEquipedToCard(TargetTile.CardInPlace);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //This Effect will remain active on the board
+            _CardEffectToBeActivated.AddAffectedByCard(TargetTile.CardInPlace);
+            _ActiveEffects.Add(_CardEffectToBeActivated);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Target Card gained 1000 ATK, lose 1000 DEF and its Defense Cost increased +1.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void MaskofBrutality_RemoveEffect(Effect thisEffect)
+        {
+            //Revert the ATK/DEF boosts and cost 
+            thisEffect.AffectedByList[0].AdjustAttackBonus(-1000);
+            thisEffect.AffectedByList[0].AdjustAttackBonus(1000);
+            thisEffect.AffectedByList[0].AdjustDefenseCostBonus(-1);
             thisEffect.AffectedByList.RemoveAt(0);
 
             //Now remove the effect from the active list

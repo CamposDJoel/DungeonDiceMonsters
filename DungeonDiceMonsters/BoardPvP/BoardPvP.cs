@@ -1235,6 +1235,8 @@ namespace DungeonDiceMonsters
                             case Effect.EffectID.UltimateInsectLV5_Continuous: UltimateInsectLV5_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.UltimateInsectLV7_Continuous: UltimateInsectLV7_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             case Effect.EffectID.InsectBarrier_Continuous: InsectBarrier_ReactTo_MonsterStatusChange(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
+                            case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_ReactTo_MonsterSummon(thisActiveEffect, targetCard); break;
                             default: throw new Exception(string.Format("Effect ID: [{0}] does not have an EffectToApply Function", thisActiveEffect.ID));
                         }
                     }
@@ -1594,6 +1596,8 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.TwinHeadedThunderDragon: TwinHeadedThunderDragon_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.InsectQueen_Continuous: InsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         case Effect.EffectID.MetamorphosedInsectQueen_Continuous: MetamorphosedInsectQueen_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.UnitedWeStand_Equip: UnitedWeStand_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
+                        case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_ReactTo_MonsterDestroyed(thisEffect, thisCard); break;
                         default: throw new Exception(string.Format("This effect id: [{0}] does not have a React to Monster Destroyed method assigned", thisEffect.ID));
                     }
                 }
@@ -1666,6 +1670,20 @@ namespace DungeonDiceMonsters
             {
                 RemoveEffect(activeEffectFound);
             }
+        }
+        private void ChangeCardController(Card thisCard, PlayerColor newColor, Effect modifierEffect)
+        {
+            //Save this flag to know if the function will ACTUALLY change the controller
+            bool willControllerActuallyChange = thisCard.Controller != newColor;
+
+            //The control of this card will change to the Color set in the arguments
+            thisCard.SwitchController(newColor);
+
+            //Before returning to the Main Phase, check if any other active effects on the board react to this control change
+            if (willControllerActuallyChange)
+            {
+                ResolveEffectsWithMonsterControllerChangeReactionTo(thisCard, modifierEffect);
+            }            
         }
         private void ChangeMonsterAttribute(Card targetCard, Attribute newAttribute, Effect activeEffect)
         {
@@ -2385,7 +2403,19 @@ namespace DungeonDiceMonsters
             PinchHopperEffect,
             ParasiteParacideEffect,
             EradicatingAerosolEffect,
-            BlackPendant
+            BlackPendant,
+            Lv2MTypeEquipEffect,
+            Lv3AttributeEquip,
+            AxeOfDespairEquip,
+            MalevolentNuzzlerEquip,
+            SnatchStealEquip,
+            UnitedWeStand,
+            ParalyzingPotionEquip,
+            MistBodyEquip,
+            RitualWeaponEquip,
+            SymbolOfheritageEquip,
+            HornOfLightEquip,
+            MaskofBrutalityEquip,
         }
         public enum SummonType
         {

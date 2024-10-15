@@ -24,14 +24,14 @@ namespace DungeonDiceMonsters
         #region Public Methods
         public Card OriginCard { get { return _OriginCard; } }
         public EffectID ID { get { return _ID; } }
-        public PlayerColor Owner{ get { return _OriginCard.Controller; } }
+        public PlayerColor Owner { get { return _OriginCard.Controller; } }
         public EffectType Type { get { return _Type; } }
         public bool IsAOneTurnIgnition { get { return _IsOneTurnIgnition; } }
         public List<Card> AffectedByList { get { return _AffectedByList; } }
         public string EffectText { get { return _EffectText; } }
         public bool HasACost { get { return _CrestCost != Crest.NONE; } }
         public Crest CrestCost { get { return _CrestCost; } }
-        public int CostAmount {  get { return _CostAmount; } }
+        public int CostAmount { get { return _CostAmount; } }
         //Custom Fields
         public int CustomInt1 { get; set; }
         public void AddAffectedByCard(Card thisCard)
@@ -75,20 +75,20 @@ namespace DungeonDiceMonsters
             if (_EffectText.StartsWith("[DEF")) { _CrestCost = Crest.DEF; }
             if (_EffectText.StartsWith("[MOV")) { _CrestCost = Crest.MOV; }
 
-            if(_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
-            if(_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
-            if(_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
-            if(_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
-            if(_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
-            if(_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
-            if(_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
-            if(_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
-            if(_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
-            if(_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
+            if (_EffectText.Contains(" 1] -")) { _CostAmount = 1; }
+            if (_EffectText.Contains(" 2] -")) { _CostAmount = 2; }
+            if (_EffectText.Contains(" 3] -")) { _CostAmount = 3; }
+            if (_EffectText.Contains(" 4] -")) { _CostAmount = 4; }
+            if (_EffectText.Contains(" 5] -")) { _CostAmount = 5; }
+            if (_EffectText.Contains(" 6] -")) { _CostAmount = 6; }
+            if (_EffectText.Contains(" 7] -")) { _CostAmount = 7; }
+            if (_EffectText.Contains(" 8] -")) { _CostAmount = 8; }
+            if (_EffectText.Contains(" 9] -")) { _CostAmount = 9; }
+            if (_EffectText.Contains(" 10] -")) { _CostAmount = 10; }
         }
-        private static EffectID GetEffectID(Card originCard, EffectType type) 
+        private static EffectID GetEffectID(Card originCard, EffectType type)
         {
-            switch(originCard.Name) 
+            switch (originCard.Name)
             {
                 case "DARK Symbol": return EffectID.DARKSymbol;
                 case "LIGHT Symbol": return EffectID.LIGHTSymbol;
@@ -156,7 +156,8 @@ namespace DungeonDiceMonsters
                 case "Perfectly Ultimate Great Moth": return EffectID.PerfectlyUltimateGreatMoth_OnSummon;
                 case "Insect Queen": if (type == EffectType.Continuous) { return EffectID.InsectQueen_Continuous; } else { return EffectID.InsectQueen_Ignition; }
                 case "Coccon of Ultra Evolution": return EffectID.CocconofUltraEvolution_Ignition;
-                case "Metamorphosed Insect Queen": if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
+                case "Metamorphosed Insect Queen":
+                    if (type == EffectType.Continuous) { return EffectID.MetamorphosedInsectQueen_Continuous; }
                     else if (type == EffectType.OnSummon) { return EffectID.MetamorphosedInsectQueen_OnSummon; }
                     else { return EffectID.MetamorphosedInsectQueen_Ignition; }
                 case "Basic Insect": return EffectID.BasicInsect_Ignition;
@@ -175,6 +176,46 @@ namespace DungeonDiceMonsters
                 case "Insect Barrier": return EffectID.InsectBarrier_Continuous;
                 case "Eradicating Aerosol": return EffectID.EradicatingAerosol_Ignition;
                 case "Black Pendant": return EffectID.BlackPendant_Equip;
+                case "Legendary Sword": return EffectID.LegendarySword_Equip;
+                case "Beast Fangs": return EffectID.BeastFangs_Equip;
+                case "Violet Crystal": return EffectID.VioletCrystal_Equip;
+                case "Book of Secret Arts": return EffectID.BookOfSecretArts_Equip;
+                case "Power of Kaishin": return EffectID.PowerOfKaishin_Equip;
+                case "Dark Energy": return EffectID.DarkEnergy_Equip;
+                case "Laser Cannon Armor": return EffectID.LaserCannonArmon_Equip;
+                case "Vile Germs": return EffectID.VileGerms_Equip;
+                case "Silver Bow and Arrow": return EffectID.SilverBowAndArrow_Equip;
+                case "Dragon Treasure": return EffectID.DragonTreasure_Equip;
+                case "Electro-whip": return EffectID.ElectroWhip_Equip;
+                case "Mystical Moon": return EffectID.MysticalMoon_Equip;
+                case "Machine Conversion Factory": return EffectID.MachineConversionFactory_Equip;
+                case "Raise Body Heat": return EffectID.RaiseBodyHeat_Equip;
+                case "Follow Wind": return EffectID.FollowWind_Equip;
+                case "Grid Rod": return EffectID.GridRod_Equip;
+                case "Psychic Sword": return EffectID.PsychicSword_Equip;
+                case "Soul of Fire": return EffectID.SoulOfFire_Equip;
+                case "Poison Fangs": return EffectID.PoisonFangs_Equip;
+                case "Eye of Illusion": return EffectID.EyeOfIllusion_Equip;
+                case "Stonehenge": return EffectID.Stonehenge_Equip;
+                case "Celestia": return EffectID.Celestia_Equip;
+                case "Deep Sea Aria": return EffectID.DeepSeaAria_Equip;
+                case "White Mirror": return EffectID.WhiteMirror_Equip;
+                case "Shine Palace": return EffectID.ShinePalace_Equip;
+                case "Gust Fan": return EffectID.GustFan_Equip;
+                case "Invigoration": return EffectID.Invigoration_Equip;
+                case "Sword of Dark Destruction": return EffectID.SwordofDarkDestruction_Equip;
+                case "Salamandra": return EffectID.Salamandra_Equip;
+                case "Steel Shell": return EffectID.SteelShell_Equip;
+                case "Axe of Despair": return EffectID.AxeofDespair_Equip;
+                case "Malevolent Nuzzler": return EffectID.MalevolentNuzzler_Equip;
+                case "Snatch Steal": return EffectID.SnatchSteal_Equip;
+                case "United We Stand": return EffectID.UnitedWeStand_Equip;
+                case "Paralyzing Potion": return EffectID.ParalyzingPotion_Equip;
+                case "Mist Body": return EffectID.MistBody_Equip;
+                case "Ritual Weapon": return EffectID.RitualWeapon_Equip;
+                case "Symbol of Heritage": return EffectID.SymbolofHeritage_Equip;
+                case "Horn of Light": return EffectID.HornofLight_Equip;
+                case "Mask of Brutality": return EffectID.MaskofBrutality_Equip;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -182,9 +223,9 @@ namespace DungeonDiceMonsters
         {
             return effectText.Contains("until the end of this turn.");
         }
-        private static string GetEffectText(Card originCard, EffectType type) 
+        private static string GetEffectText(Card originCard, EffectType type)
         {
-            switch (type) 
+            switch (type)
             {
                 case EffectType.OnSummon: return originCard.OnSummonEffectText;
                 case EffectType.Continuous: return originCard.ContinuousEffectText;
@@ -299,7 +340,47 @@ namespace DungeonDiceMonsters
             UltimateInsectLV7_Continuous,
             InsectBarrier_Continuous,
             EradicatingAerosol_Ignition,
-            BlackPendant_Equip
+            BlackPendant_Equip,
+            LegendarySword_Equip,
+            BeastFangs_Equip,
+            VioletCrystal_Equip,
+            BookOfSecretArts_Equip,
+            PowerOfKaishin_Equip,
+            DarkEnergy_Equip,
+            LaserCannonArmon_Equip,
+            VileGerms_Equip,
+            SilverBowAndArrow_Equip,
+            DragonTreasure_Equip,
+            ElectroWhip_Equip,
+            MysticalMoon_Equip,
+            MachineConversionFactory_Equip,
+            RaiseBodyHeat_Equip,
+            FollowWind_Equip,
+            GridRod_Equip,
+            PsychicSword_Equip,
+            SoulOfFire_Equip,
+            PoisonFangs_Equip,
+            EyeOfIllusion_Equip,
+            Stonehenge_Equip,
+            Celestia_Equip,
+            DeepSeaAria_Equip,
+            WhiteMirror_Equip,
+            ShinePalace_Equip,
+            GustFan_Equip,
+            Invigoration_Equip,
+            SwordofDarkDestruction_Equip,
+            Salamandra_Equip,
+            SteelShell_Equip,
+            AxeofDespair_Equip,
+            MalevolentNuzzler_Equip,
+            SnatchSteal_Equip,
+            UnitedWeStand_Equip,
+            ParalyzingPotion_Equip,
+            MistBody_Equip,
+            RitualWeapon_Equip,
+            SymbolofHeritage_Equip,
+            HornofLight_Equip,
+            MaskofBrutality_Equip,
         }
         #endregion
     }

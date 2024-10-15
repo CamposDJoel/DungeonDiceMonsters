@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace DungeonDiceMonsters
@@ -1144,7 +1145,47 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.UltimateInsectLV1_Ignition: return UltimateInsectLv1();
                         case Effect.EffectID.UltimateInsectLV3_Ignition: return UltimateInsectLv3();
                         case Effect.EffectID.UltimateInsectLV5_Ignition: return UltimateInsectLv5();
-                        case Effect.EffectID.BlackPendant_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(7);
+                        case Effect.EffectID.BlackPendant_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.LegendarySword_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Warrior);
+                        case Effect.EffectID.BeastFangs_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Beast);
+                        case Effect.EffectID.VioletCrystal_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Zombie);
+                        case Effect.EffectID.BookOfSecretArts_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Spellcaster);
+                        case Effect.EffectID.PowerOfKaishin_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Aqua);
+                        case Effect.EffectID.DarkEnergy_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Field);
+                        case Effect.EffectID.LaserCannonArmon_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Insect);
+                        case Effect.EffectID.VileGerms_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Plant);
+                        case Effect.EffectID.SilverBowAndArrow_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Fairy);
+                        case Effect.EffectID.DragonTreasure_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Dragon);
+                        case Effect.EffectID.ElectroWhip_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Thunder);
+                        case Effect.EffectID.MysticalMoon_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.BeastWarrior);
+                        case Effect.EffectID.MachineConversionFactory_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Machine);
+                        case Effect.EffectID.RaiseBodyHeat_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Dinosaur);
+                        case Effect.EffectID.FollowWind_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.WingedBeast);
+                        case Effect.EffectID.GridRod_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Cyberse);
+                        case Effect.EffectID.PsychicSword_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Psychic);
+                        case Effect.EffectID.SoulOfFire_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Pyro);
+                        case Effect.EffectID.PoisonFangs_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Reptile);
+                        case Effect.EffectID.EyeOfIllusion_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Illusion);
+                        case Effect.EffectID.Stonehenge_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Rock);
+                        case Effect.EffectID.Celestia_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Wyrm);
+                        case Effect.EffectID.DeepSeaAria_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.SeaSerpent);
+                        case Effect.EffectID.WhiteMirror_Equip: return AnyOneMonsterThatCanBeTargetOfType(Type.Fish);
+                        case Effect.EffectID.ShinePalace_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.LIGHT);
+                        case Effect.EffectID.GustFan_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WIND);
+                        case Effect.EffectID.Invigoration_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.EARTH);
+                        case Effect.EffectID.SwordofDarkDestruction_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.DARK);
+                        case Effect.EffectID.Salamandra_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.FIRE);
+                        case Effect.EffectID.SteelShell_Equip: return AnyOneMonsterThatCanBeTargetOfAttribute(Attribute.WATER);
+                        case Effect.EffectID.AxeofDespair_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Normal, 12);
+                        case Effect.EffectID.MalevolentNuzzler_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.SnatchSteal_Equip: return OpponentHasOneSecTypeThatCanBeTarget(SecType.Normal);
+                        case Effect.EffectID.UnitedWeStand_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
+                        case Effect.EffectID.ParalyzingPotion_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.MistBody_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.RitualWeapon_Equip: return AnyOneMonsterThatCanBeTargetOfSecType(SecType.Ritual, 6);
+                        case Effect.EffectID.SymbolofHeritage_Equip: return SymbolofHeritage();
+                        case Effect.EffectID.HornofLight_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
+                        case Effect.EffectID.MaskofBrutality_Equip: return AnyOneMonsterThatCanBeTarget();
                         default: return "Requirements Met";
                     }
 
@@ -1278,6 +1319,30 @@ namespace DungeonDiceMonsters
                             return "No opponent monster to target.";
                         }
                     }
+                    string OpponentHasOneSecTypeThatCanBeTarget(SecType  targetSecType)
+                    {
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
+                                thisBoardCard.CanBeTarget && thisBoardCard.SecType == targetSecType)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
                     string PlayerHasOneCardNamed(string name)
                     {
                         //REQUIREMENT: Owner must control an "name" card
@@ -1396,6 +1461,32 @@ namespace DungeonDiceMonsters
                             return "Monster was not transformed into. Effect cant activate.";
                         }
                     }
+                    string AnyOneMonsterThatCanBeTarget()
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side)
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
                     string AnyOneMonsterThatCanBeTargetOfLevelLimit(int levelLimit)
                     {
                         //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with level equal or lower to the limit
@@ -1421,7 +1512,114 @@ namespace DungeonDiceMonsters
                         {
                             return "No valid targets.";
                         }
-                    }               
+                    }                    
+                    string AnyOneMonsterThatCanBeTargetOfType(Type thisType)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with specific type
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Type == thisType)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyOneMonsterThatCanBeTargetOfAttribute(Attribute thisAttribute)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with the specific attribute
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.CurrentAttribute == thisAttribute)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyOneMonsterThatCanBeTargetOfSecType(SecType thisSecType, int level)
+                    {
+                        //REQUIREMENT: Any one monster of either player that can be target (for opponent side) with the specific SecType
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == thisSecType && thisBoardCard.Level <= level)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string SymbolofHeritage()
+                    {
+                        //REQUIREMENT: Any level 5 or lower normal monster that is not already equipped with a "Symbol of Heritage"
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.SecType == SecType.Normal && thisBoardCard.Level <= 5)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    if (!thisBoardCard.IsEquipedWith("Symbol of Heritage")) 
+                                    {
+                                        monsterFound = true;
+                                        break;
+                                    }           
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
                 }
             }
         }
