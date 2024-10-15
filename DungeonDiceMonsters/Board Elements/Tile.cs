@@ -210,6 +210,7 @@ namespace DungeonDiceMonsters
                 _Occupied = true;
                 _IsSpellTrapZone = true;
                 _card.SetCurrentTile(this);
+                _card.UpdateFieldTypeBonus();
                 ReloadTileUI();
             }          
         }
@@ -224,6 +225,7 @@ namespace DungeonDiceMonsters
                 _card = card;
                 _Occupied = true;
                 _card.SetCurrentTile(this);
+                _card.UpdateFieldTypeBonus();
                 ReloadTileUI();
             }
         }
