@@ -104,6 +104,7 @@ YGO_Fillout Card Data
 	
 	#//Rename file
 	Move File			C:\\Users\\DizziDesktop\\Downloads\\${cardname}.jpeg			C:\\Users\\DizziDesktop\\Downloads\\finalcards\\${cardid}.jpeg
+	# Move File			C:\\Users\\campo\\Downloads\\${cardname}.jpeg			C:\\Users\\campo\\Downloads\\finalcards\\${cardid}.jpeg
 	#####
 
 YGO_Fillout Monster Card
@@ -206,14 +207,14 @@ YGO_Fillout Spell Card
 	${EquipEffect}=			Get From List       ${COLUMNS}		23
 	
 	${cardtext}=			Set Variable		${EMPTY}
-	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
-	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
-	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) - ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) - ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) - ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${EquipEffect}"!="-"			Set Variable		${cardtext} (EQUIP) - ${EquipEffect}\n\n			ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
 	
 	
-	${cardtype}=			Run Keyword if		"${cardtype}"=="Normal"			Set Variable		None
+	${cardtype}=			Run Keyword if		"${cardtype}"=="Normal"			Set Variable		None		ELSE		Set Variable		${cardtype}
 	
 	Set Suite Variable	${ArtworkFileName}		${EXECDIR}/Artwork/${cardid}.jpg
 	
@@ -256,9 +257,9 @@ YGO_Fillout Trap Card
 	${TriggerEffect}=		Get From List       ${COLUMNS}		22
 	
 	${cardtext}=			Set Variable		${EMPTY}
-	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
-	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
-	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) - ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		(EFFECT) - ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		(TRIGGER) - ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${EquipEffect}"!="-"			Set Variable		${cardtext} (EQUIP) - ${EquipEffect}\n\n			ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
 	
