@@ -828,11 +828,7 @@ namespace DungeonDiceMonsters
                         }
                         else { lblAttackLeftAmount.Text = string.Empty; }
 
-                        if (thisCard.Category == Category.Monster)
-                        {
-                            lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
-                        }
-                        else { lblMovesLeftAmount.Text = string.Empty; }
+                        lblMovesLeftAmount.Text = string.Format("{0} / {1}", thisCard.MovesAvaiable, thisCard.MovesPerTurn);
 
                         lblMovesCostAmount.Text = thisCard.MoveCost.ToString();
 
