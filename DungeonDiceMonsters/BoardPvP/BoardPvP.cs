@@ -1507,7 +1507,7 @@ namespace DungeonDiceMonsters
                 }
                 string BottomlessTrapHole_MetsRequirements()
                 {
-                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 3000 && thisCard.SecType == SecType.Normal)
+                    if (thisCard.Controller != thisEffect.Owner && thisCard.ATK <= 3000 && thisCard.SecType == SecType.Normal && !thisCard.IsUnderSpellbound)
                     {
                         return "Requirements Met";
                     }

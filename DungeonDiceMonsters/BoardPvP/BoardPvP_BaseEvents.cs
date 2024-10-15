@@ -1141,7 +1141,8 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.CocoonofEvolution_Ignition: return CardHasAtLeastTurnCountersAmount(2);
                         case Effect.EffectID.CocconofUltraEvolution_Ignition: return PlayerHasOneCardNamed("Insect Queen");
-                        case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTarget(Type.Insect);
+                        case Effect.EffectID.EradicatingAerosol_Ignition: return EradicatingAerosolReqs(); break;
+                        case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTargetAndNotUnderSpellBound(Type.Insect);
                         case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
                         case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.PinchHopper_Ingnition: return TurnPLayerHasAnyOneMonsterThatCanBeTarget();
@@ -1322,6 +1323,30 @@ namespace DungeonDiceMonsters
                             return "No opponent monster to target.";
                         }
                     }
+                    string OpponentHasOneMonsterTypeThatCanBeTargetAndNotUnderSpellBound(Type targetType)
+                    {
+                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
+                                thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType && !thisBoardCard.IsUnderSpellbound)
+                            {
+                                monsterFound = true;
+                                break;
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No opponent monster to target.";
+                        }
+                    }
                     string OpponentHasOneSecTypeThatCanBeTarget(SecType  targetSecType)
                     {
                         //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
@@ -1462,6 +1487,33 @@ namespace DungeonDiceMonsters
                         else
                         {
                             return "Monster was not transformed into. Effect cant activate.";
+                        }
+                    }
+                    string EradicatingAerosolReqs()
+                    {
+                        //REQUIREMENT: 1 Normal Insect type monster with 2000 ATK or less that your opponent controls and is not under a spellbound
+
+                        bool monsterFound = false;
+                        foreach (Card thisBoardCard in _CardsOnBoard)
+                        {
+                            if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && 
+                                thisBoardCard.SecType == SecType.Normal && thisBoardCard.ATK <= 2000 && !thisBoardCard.IsUnderSpellbound)
+                            {
+                                if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
+                                {
+                                    monsterFound = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
                         }
                     }
                     string AnyOneMonsterThatCanBeTarget()
