@@ -2454,14 +2454,14 @@ namespace DungeonDiceMonsters
         private void PerfectlyUltimateGreatMoth_OnSummonActivation(Effect thisEffect)
         {
             //ON SUMMON EFFECT will not activate if the monster was NOT Transform Summoned (Transformed into)
-            //And there is no ot insect type monsters on the board that the opponent owner controls
+            //And there is no ot insect type monsters on the board that the opponent owner controls (that is NOT spellbounded)
             bool activationRequirementsMet = false;
             _EffectTargetCandidates.Clear();
             if (thisEffect.OriginCard.WasTransformedInto)
             {
                 foreach (Card thisCard in _CardsOnBoard)
                 {
-                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                    if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget && !thisCard.IsUnderSpellbound)
                     {
                         activationRequirementsMet = true;
                         _EffectTargetCandidates.Add(thisCard.CurrentTile);
@@ -2915,7 +2915,7 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.Type == Type.Insect && thisCard.CanBeTarget)
+                if (!thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.Type == Type.Insect && thisCard.CanBeTarget && !thisCard.IsUnderSpellbound)
                 {
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }
@@ -4363,7 +4363,8 @@ namespace DungeonDiceMonsters
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
-                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner 
+                    && thisCard.CanBeTarget && !thisCard.IsUnderSpellbound)
                 {
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }
