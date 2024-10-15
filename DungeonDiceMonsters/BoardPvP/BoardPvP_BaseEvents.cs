@@ -413,6 +413,9 @@ namespace DungeonDiceMonsters
                 //Remove an Attack Available Counter from this card
                 _AttackerTile.CardInPlace.RemoveAttackCounter();
 
+                //Reduce the [ATK] used based on the attack cost of the attacker
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -_AttackerTile.CardInPlace.AttackCost);
+
                 //Attack the card in this tile
                 _AttackTarger = _Tiles[tileId];
 
@@ -507,7 +510,7 @@ namespace DungeonDiceMonsters
                     _AttackBonusCrest = 0;
                     lblAttackerBonus.Text = "Bonus: 0";
                     PlayerData AttackerData = TURNPLAYERDATA;
-                    lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (Attacker.AttackCost + _AttackBonusCrest), AttackerData.Crests_ATK);
+                    lblAttackerCrestCount.Text = string.Format("[ATK] to use: {0}/{1}", (_AttackBonusCrest), AttackerData.Crests_ATK);
                     PanelAttackControls.Visible = true;
 
                     //If attacker monster has an advantage, enable the adv subpanel
@@ -547,7 +550,7 @@ namespace DungeonDiceMonsters
                         lblDefenderBonus.Text = "Bonus: 0";
                         PlayerData DefenderData = OPPONENTPLAYERDATA;
                         if (DefenderData.Crests_DEF == 0) { lblDefenderCrestCount.Text = "[DEF] to use: 0/0"; }
-                        else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (Defender.DefenseCost + _DefenseBonusCrest), DefenderData.Crests_DEF); }
+                        else { lblDefenderCrestCount.Text = string.Format("[DEF] to use: {0}/{1}", (_DefenseBonusCrest + Defender.DefenseCost), DefenderData.Crests_DEF); }
                         PanelDefendControls.Visible = true;
                         //If the defender does not have enought [DEF] to defend. Hide the "Defend" button
                         if (Defender.DefenseCost > DefenderData.Crests_DEF)

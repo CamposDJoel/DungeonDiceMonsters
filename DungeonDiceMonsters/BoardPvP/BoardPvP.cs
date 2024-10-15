@@ -1799,15 +1799,15 @@ namespace DungeonDiceMonsters
                     }
 
                     //Step 4: Reduce the [ATK] and [DEF] to the respective player.                   
-                    int creststoremoveATK = _AttackBonusCrest + Attacker.AttackCost;
+                    int creststoremoveATK = _AttackBonusCrest;
                     int creststoremoveDEF = _DefenseBonusCrest + Defender.DefenseCost;
                     if (!_DefenderDefended) { creststoremoveDEF = 0; }
                     PlayerData AttackerPlayerData = TURNPLAYERDATA;
                     PlayerData DefenderPlayerData = OPPONENTPLAYERDATA;
                     PlayerColor AttackerColor = TURNPLAYER;
-                    PlayerColor DefenderColor = OPPONENTPLAYER;                   
-                    AdjustPlayerCrestCount(AttackerColor, Crest.ATK, -creststoremoveATK);
-                    AdjustPlayerCrestCount(DefenderColor, Crest.DEF, -creststoremoveDEF);
+                    PlayerColor DefenderColor = OPPONENTPLAYER;
+                    if (creststoremoveATK >= 1) { AdjustPlayerCrestCount(AttackerColor, Crest.ATK, -creststoremoveATK); }
+                    if (creststoremoveDEF >= 1) { AdjustPlayerCrestCount(DefenderColor, Crest.DEF, -creststoremoveDEF); }                    
 
                     //Step 5: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
@@ -1969,11 +1969,7 @@ namespace DungeonDiceMonsters
                     //Step 3: Final Defense is always 0
                     int FinalDefense = 0;
 
-                    //Step 4: Reduce the [ATK] from the attacker. Defender always "Passes"
-                    Card Attacker = _AttackerTile.CardInPlace;
-                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -Attacker.AttackCost);
-
-                    //Step 5: Perform the calculation
+                    //Step 4: Perform the calculation
                     int Damage = FinalAttack - FinalDefense;
                     if (Damage <= 0)
                     {
@@ -1991,10 +1987,10 @@ namespace DungeonDiceMonsters
                     }
                     else
                     {
-                        //Step 5A: Show the final Damange Amount on the UI
+                        //Step 4A: Show the final Damange Amount on the UI
                         lblBattleMenuDamage.Text = string.Format("Damage: {0}", Damage);
 
-                        //Step 6D: if there is damage deal it to the player's symbol
+                        //Step 5D: if there is damage deal it to the player's symbol
                         if (Damage > 0)
                         {
                             //Stablish the Defender Symbol
@@ -2040,12 +2036,7 @@ namespace DungeonDiceMonsters
                 }
                 else
                 {
-                    //Destroy the defender card automatically
-                    
-                    //Reduce the [ATK] from the attacker. Defender always "Passes"
-                    Card Attacker = _AttackerTile.CardInPlace;
-                    AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -Attacker.AttackCost);
-
+                    //Destroy the defender card automatically                   
                     SoundServer.PlaySoundEffect(SoundEffect.CardDestroyed);
                     PicDefenderDestroyed.Visible = true;
                     lblBattleMenuDamage.Text = "Damage: 0";
