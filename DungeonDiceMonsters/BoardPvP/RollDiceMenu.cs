@@ -208,7 +208,7 @@ namespace DungeonDiceMonsters
                         _DeckCardImageList[x].Image = ImageServer.FullCardImage(cardID.ToString());
                         
                         //Load the dice level icon
-                        if(thisCard.SecType == SecType.Ritual)
+                        if(thisCard.SecType == SecType.Ritual || thisCard.Type == Type.Ritual)
                         {
                             ImageServer.ClearImage(_DeckDiceLevelIconImageList[x]);
                             _DeckDiceLevelIconImageList[x].Image = ImageServer.DiceFace(thisCard.DiceLevel, "RITU", thisCard.DiceLevel);
