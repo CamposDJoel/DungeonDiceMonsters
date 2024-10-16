@@ -3,8 +3,8 @@
 //Settings Form Class
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace DungeonDiceMonsters
 {
@@ -21,6 +21,53 @@ namespace DungeonDiceMonsters
             {
                 if (SettingsData.IsMusicON) { radioOptionMusicON.Checked = true; } else { radioOptionMusicOFF.Checked = true; };
                 if (SettingsData.IsSFXON) { radioOptionSFXON.Checked = true; } else { radioOptionSFXOFF.Checked = true; };
+
+                //Include/Exclude music list
+                ReloadSongListsUI();
+            }
+        }
+        #endregion
+
+        #region Private Methods
+        private void ReloadSongListsUI()
+        {
+            //Include/Exclude music list
+            List<Song> IncludeList = SettingsData.IncludeSongList;
+            List<Song> ExcludeList = SettingsData.ExcludeSongList;
+            ListIncludeMusic.Items.Clear();
+            ListExcludeMusic.Items.Clear();
+            foreach (Song s in IncludeList)
+            {
+                ListIncludeMusic.Items.Add(SoundServer.GetSongNameToString(s));
+            }
+            if (ExcludeList.Count == 0)
+            {
+                ListExcludeMusic.Items.Add("No excluded songs");
+            }
+            else
+            {
+                foreach (Song s in ExcludeList)
+                {
+                    ListExcludeMusic.Items.Add(SoundServer.GetSongNameToString(s));
+                }
+            }
+            ListIncludeMusic.SetSelected(0, true);
+            ListExcludeMusic.SetSelected(0, true);
+            if (IncludeList.Count == 1)
+            {
+                btnExcludeSong.Visible = false;
+            }
+            else
+            {
+                btnExcludeSong.Visible = true;
+            }
+            if (ExcludeList.Count == 0)
+            {
+                btnIncludeSong.Visible = false;
+            }
+            else
+            {
+                btnIncludeSong.Visible = true;
             }
         }
         #endregion
@@ -71,6 +118,18 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
             }
         }
-        #endregion
+        private void btnExcludeSong_Click(object sender, EventArgs e)
+        {
+            int index = ListIncludeMusic.SelectedIndex;
+            SettingsData.MoveSongToExcludeList(index);
+            ReloadSongListsUI();
+        }
+        private void btnIncludeSong_Click(object sender, EventArgs e)
+        {
+            int index = ListExcludeMusic.SelectedIndex;
+            SettingsData.MoveSongToIncludeList(index);
+            ReloadSongListsUI();
+        }
+        #endregion    
     }
 }

@@ -3,6 +3,7 @@
 //Sound Server Class
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
 
@@ -41,8 +42,9 @@ namespace DungeonDiceMonsters
             if (SettingsData.IsMusicON)
             {
                 //Set the song to play at random
-                int songIndex = Rand.V(SongsPlaylist.Length);
-                _CurrentSongPlaying = SongsPlaylist[songIndex];
+                List<Song> SongList = SettingsData.IncludeSongList;
+                int songIndex = Rand.V(SongList.Count);
+                _CurrentSongPlaying = SongList[songIndex];
                 string song = _CurrentSongPlaying.ToString();
                 string filepath = "\\Music\\Songs\\" + song + ".m4a";
                 CurrentBackGroundPlay.Open(new Uri(Directory.GetCurrentDirectory() + filepath));
@@ -53,10 +55,13 @@ namespace DungeonDiceMonsters
                 CurrentBackGroundPlay.Volume = CurrentVolumeLevel;
             }               
         }
-
         public static string GetCurrentSongPlaying()
         {
-            switch(_CurrentSongPlaying)
+            return GetSongNameToString(_CurrentSongPlaying);
+        }
+        public static string GetSongNameToString(Song song)
+        {
+            switch(song)
             {
                 case Song.TitleScreen: return "Tittle Screen";
                 case Song.MainMenu: return "Main Menu";

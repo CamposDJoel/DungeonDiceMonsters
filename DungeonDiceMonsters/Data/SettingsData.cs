@@ -22,7 +22,7 @@ namespace DungeonDiceMonsters
             string Line = SR_SaveFile.ReadLine();
             int SettingsCount = Convert.ToInt32(Line);
 
-            for(int x = 0; x < SettingsCount; x++)
+            for (int x = 0; x < SettingsCount; x++)
             {
                 Line = SR_SaveFile.ReadLine();
                 string[] tokens = Line.Split('|');
@@ -30,16 +30,26 @@ namespace DungeonDiceMonsters
                 string settingValue = tokens[1];
                 bool settingBoolValue = Convert.ToBoolean(settingValue);
 
-                switch (settingName) 
+                switch (settingName)
                 {
-                    case "MusicON":_MusicON = settingBoolValue; break;
+                    case "MusicON": _MusicON = settingBoolValue; break;
                     case "SFXON": _SFXON = settingBoolValue; break;
+                    case "4": int songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "5": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "6": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "7": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "8": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "9": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "10": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "11": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "12": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "13": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
                     default: throw new Exception("Invalid setting name to initialize: " + settingName);
                 }
             }
 
         }
-        
+
         public static void SetMusicONSetting(bool newValue)
         {
             _MusicON = newValue;
@@ -47,24 +57,52 @@ namespace DungeonDiceMonsters
         }
         public static void SetSFXONSetting(bool newValue)
         {
-            _SFXON= newValue;
+            _SFXON = newValue;
+            RewriteSettingSaveFile();
+        }
+        public static void MoveSongToIncludeList(int index)
+        {
+            Song thisSong = _ExcludeSongList[index];
+            _ExcludeSongList.RemoveAt(index);
+            _IncludeSongList.Add(thisSong);
+            RewriteSettingSaveFile();
+        }
+        public static void MoveSongToExcludeList(int index)
+        {
+            Song thisSong = _IncludeSongList[index];
+            _IncludeSongList.RemoveAt(index);
+            _ExcludeSongList.Add(thisSong);
             RewriteSettingSaveFile();
         }
 
         private static void RewriteSettingSaveFile()
         {
             List<string> outputdata = new List<string>();
-            outputdata.Add("2");
+            outputdata.Add("12");
             outputdata.Add("MusicON|" + _MusicON.ToString());
             outputdata.Add("SFXON|" + _SFXON.ToString());
+            if (IncludeSongList.Contains((Song)4)) { outputdata.Add("4|True"); } else { outputdata.Add("4|False"); }
+            if (IncludeSongList.Contains((Song)5)) { outputdata.Add("5|True"); } else { outputdata.Add("5|False"); }
+            if (IncludeSongList.Contains((Song)6)) { outputdata.Add("6|True"); } else { outputdata.Add("6|False"); }
+            if (IncludeSongList.Contains((Song)7)) { outputdata.Add("7|True"); } else { outputdata.Add("7|False"); }
+            if (IncludeSongList.Contains((Song)8)) { outputdata.Add("8|True"); } else { outputdata.Add("8|False"); }
+            if (IncludeSongList.Contains((Song)9)) { outputdata.Add("9|True"); } else { outputdata.Add("9|False"); }
+            if (IncludeSongList.Contains((Song)10)) { outputdata.Add("10|True"); } else { outputdata.Add("10|False"); }
+            if (IncludeSongList.Contains((Song)11)) { outputdata.Add("11|True"); } else { outputdata.Add("11|False"); }
+            if (IncludeSongList.Contains((Song)12)) { outputdata.Add("12|True"); } else { outputdata.Add("12|False"); }
+            if (IncludeSongList.Contains((Song)13)) { outputdata.Add("13|True"); } else { outputdata.Add("13|False"); }
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Settings Files\\SettingsData.txt", outputdata);
         }
 
         public static bool IsMusicON { get { return _MusicON; } }
         public static bool IsSFXON { get { return _SFXON; } }
+        public static List<Song> IncludeSongList { get { return _IncludeSongList; }  }
+        public static List<Song> ExcludeSongList { get { return _ExcludeSongList; }  }
 
 
         private static bool _MusicON = true;
         private static bool _SFXON = true;
+        private static List<Song> _IncludeSongList = new List<Song>();
+        private static List<Song> _ExcludeSongList = new List<Song>();
     }
 }
