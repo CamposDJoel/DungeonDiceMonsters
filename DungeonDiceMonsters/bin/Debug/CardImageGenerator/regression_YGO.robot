@@ -150,7 +150,7 @@ YGO_Fillout Monster Card
 	#//Step 2: Add the effects
 	${cardtext}=			Run Keyword if		"${Ability}"!="-"				Set Variable		${cardtext} (ABILITY) - ${Ability}\n\n				ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${OnSummonEffect}"!="-"		Set Variable		${cardtext} (ON SUMMON) - ${OnSummonEffect}\n\n		ELSE		Set Variable		${cardtext}
-	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		${cardtext} (CONTINUOUS) ${ContinuEffect}\n\n		ELSE		Set Variable		${cardtext}
+	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		${cardtext} (CONTINUOUS) - ${ContinuEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${IgnitionEffect}"!="-"		Set Variable		${cardtext} (EFFECT) - ${IgnitionEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Run Keyword if		"${TriggerEffect}"!="-"			Set Variable		${cardtext} (TRIGGER) - ${TriggerEffect}\n\n		ELSE		Set Variable		${cardtext}
 	${cardtext}=			Set Variable		${cardtext}Dice Lv.${carddicelevel} [${cardface1}][${cardface2}][${cardface3}][${cardface4}][${cardface5}][${cardface6}]
