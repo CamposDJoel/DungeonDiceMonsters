@@ -255,6 +255,7 @@ YGO_Fillout Trap Card
 	${ContinuEffect}=		Get From List       ${COLUMNS}		19
 	${IgnitionEffect}=		Get From List       ${COLUMNS}		21
 	${TriggerEffect}=		Get From List       ${COLUMNS}		22
+	${EquipEffect}=			Get From List       ${COLUMNS}		23
 	
 	${cardtext}=			Set Variable		${EMPTY}
 	${cardtext}=			Run Keyword if		"${ContinuEffect}"!="-"			Set Variable		(CONTINUOUS) - ${ContinuEffect}\n\n	ELSE		Set Variable		${cardtext}
