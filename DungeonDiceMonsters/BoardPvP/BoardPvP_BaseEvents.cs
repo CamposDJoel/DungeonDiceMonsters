@@ -1141,7 +1141,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.ChangeOfHeart_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
                         case Effect.EffectID.CocoonofEvolution_Ignition: return CardHasAtLeastTurnCountersAmount(2);
                         case Effect.EffectID.CocconofUltraEvolution_Ignition: return PlayerHasOneCardNamed("Insect Queen");
-                        case Effect.EffectID.EradicatingAerosol_Ignition: return EradicatingAerosolReqs(); break;
+                        case Effect.EffectID.EradicatingAerosol_Ignition: return EradicatingAerosolReqs();
                         case Effect.EffectID.BasicInsect_Ignition: return OpponentHasOneMonsterTypeThatCanBeTargetAndNotUnderSpellBound(Type.Insect);
                         case Effect.EffectID.Gokibore_Ignition: return ThereAreUnocuppiedTiles();
                         case Effect.EffectID.CockroachKnight_Ignition: return OpponentHasAnyOneMonsterThatCanBeTarget();
@@ -1491,13 +1491,13 @@ namespace DungeonDiceMonsters
                     }
                     string EradicatingAerosolReqs()
                     {
-                        //REQUIREMENT: 1 Normal Insect type monster with 2000 ATK or less that your opponent controls and is not under a spellbound
+                        //REQUIREMENT: 1 Normal Insect type monster with 3000 ATK or less that your opponent controls and is not under a spellbound
 
                         bool monsterFound = false;
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && 
-                                thisBoardCard.SecType == SecType.Normal && thisBoardCard.ATK <= 2000 && !thisBoardCard.IsUnderSpellbound)
+                                thisBoardCard.SecType == SecType.Normal && thisBoardCard.ATK <= 3000 && !thisBoardCard.IsUnderSpellbound)
                             {
                                 if ((thisBoardCard.Controller == OPPONENTPLAYER && thisBoardCard.CanBeTarget) || thisBoardCard.Controller == TURNPLAYER)
                                 {
