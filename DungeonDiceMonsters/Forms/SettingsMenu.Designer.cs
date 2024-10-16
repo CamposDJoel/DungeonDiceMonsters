@@ -37,8 +37,16 @@
             this.radioOptionSFXON = new System.Windows.Forms.RadioButton();
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.GroupDuelMusic = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ListExcludeMusic = new System.Windows.Forms.ListBox();
+            this.ListIncludeMusic = new System.Windows.Forms.ListBox();
+            this.btnExcludeSong = new System.Windows.Forms.Button();
+            this.btnIncludeSong = new System.Windows.Forms.Button();
             this.GroupMusic.SuspendLayout();
             this.GroupSFX.SuspendLayout();
+            this.GroupDuelMusic.SuspendLayout();
             this.SuspendLayout();
             // 
             // GroupMusic
@@ -142,6 +150,88 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Settings";
             // 
+            // GroupDuelMusic
+            // 
+            this.GroupDuelMusic.BackColor = System.Drawing.Color.Transparent;
+            this.GroupDuelMusic.Controls.Add(this.btnIncludeSong);
+            this.GroupDuelMusic.Controls.Add(this.btnExcludeSong);
+            this.GroupDuelMusic.Controls.Add(this.label3);
+            this.GroupDuelMusic.Controls.Add(this.label2);
+            this.GroupDuelMusic.Controls.Add(this.ListExcludeMusic);
+            this.GroupDuelMusic.Controls.Add(this.ListIncludeMusic);
+            this.GroupDuelMusic.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GroupDuelMusic.ForeColor = System.Drawing.SystemColors.Control;
+            this.GroupDuelMusic.Location = new System.Drawing.Point(22, 281);
+            this.GroupDuelMusic.Name = "GroupDuelMusic";
+            this.GroupDuelMusic.Size = new System.Drawing.Size(649, 175);
+            this.GroupDuelMusic.TabIndex = 2;
+            this.GroupDuelMusic.TabStop = false;
+            this.GroupDuelMusic.Text = "Duel Music";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(340, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 15);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Exclude:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(5, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 15);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Include:";
+            // 
+            // ListExcludeMusic
+            // 
+            this.ListExcludeMusic.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ListExcludeMusic.FormattingEnabled = true;
+            this.ListExcludeMusic.ItemHeight = 15;
+            this.ListExcludeMusic.Location = new System.Drawing.Point(343, 39);
+            this.ListExcludeMusic.Name = "ListExcludeMusic";
+            this.ListExcludeMusic.Size = new System.Drawing.Size(297, 124);
+            this.ListExcludeMusic.TabIndex = 1;
+            // 
+            // ListIncludeMusic
+            // 
+            this.ListIncludeMusic.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ListIncludeMusic.FormattingEnabled = true;
+            this.ListIncludeMusic.ItemHeight = 15;
+            this.ListIncludeMusic.Location = new System.Drawing.Point(6, 39);
+            this.ListIncludeMusic.Name = "ListIncludeMusic";
+            this.ListIncludeMusic.Size = new System.Drawing.Size(297, 124);
+            this.ListIncludeMusic.TabIndex = 0;
+            // 
+            // btnExcludeSong
+            // 
+            this.btnExcludeSong.BackColor = System.Drawing.Color.Black;
+            this.btnExcludeSong.ForeColor = System.Drawing.Color.Red;
+            this.btnExcludeSong.Location = new System.Drawing.Point(306, 54);
+            this.btnExcludeSong.Name = "btnExcludeSong";
+            this.btnExcludeSong.Size = new System.Drawing.Size(32, 23);
+            this.btnExcludeSong.TabIndex = 4;
+            this.btnExcludeSong.Text = ">>>";
+            this.btnExcludeSong.UseVisualStyleBackColor = false;
+            this.btnExcludeSong.Click += new System.EventHandler(this.btnExcludeSong_Click);
+            // 
+            // btnIncludeSong
+            // 
+            this.btnIncludeSong.BackColor = System.Drawing.Color.Black;
+            this.btnIncludeSong.ForeColor = System.Drawing.Color.Lime;
+            this.btnIncludeSong.Location = new System.Drawing.Point(306, 116);
+            this.btnIncludeSong.Name = "btnIncludeSong";
+            this.btnIncludeSong.Size = new System.Drawing.Size(32, 23);
+            this.btnIncludeSong.TabIndex = 5;
+            this.btnIncludeSong.Text = "<<<";
+            this.btnIncludeSong.UseVisualStyleBackColor = false;
+            this.btnIncludeSong.Click += new System.EventHandler(this.btnIncludeSong_Click);
+            // 
             // SettingsMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +239,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.GroupDuelMusic);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.GroupSFX);
@@ -164,6 +255,8 @@
             this.GroupMusic.PerformLayout();
             this.GroupSFX.ResumeLayout(false);
             this.GroupSFX.PerformLayout();
+            this.GroupDuelMusic.ResumeLayout(false);
+            this.GroupDuelMusic.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,5 +272,12 @@
         private System.Windows.Forms.RadioButton radioOptionSFXON;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox GroupDuelMusic;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox ListExcludeMusic;
+        private System.Windows.Forms.ListBox ListIncludeMusic;
+        private System.Windows.Forms.Button btnIncludeSong;
+        private System.Windows.Forms.Button btnExcludeSong;
     }
 }

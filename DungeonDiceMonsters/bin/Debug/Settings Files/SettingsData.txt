@@ -1,3 +1,13 @@
-2
+12
 MusicON|True
 SFXON|True
+4|True
+5|True
+6|True
+7|True
+8|True
+9|True
+10|True
+11|True
+12|True
+13|True
