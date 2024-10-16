@@ -4357,14 +4357,14 @@ namespace DungeonDiceMonsters
             //Effect does not react to any events
 
             //And Resolve the effect
-            //EFFECT DESCRIPTION: Target 1 Normal Insect type monster your opponent controls with 2000 or less ATK; Spellbound it permanently. 
+            //EFFECT DESCRIPTION: Target 1 Normal Insect type monster your opponent controls with 3000 or less ATK; Spellbound it permanently. 
 
             //Generate the Target Candidate list
             _EffectTargetCandidates.Clear();
             foreach (Card thisCard in _CardsOnBoard)
             {
                 if (!thisCard.IsDiscardted && thisCard.Type == Type.Insect && thisCard.Controller != thisEffect.Owner 
-                    && thisCard.CanBeTarget && !thisCard.IsUnderSpellbound)
+                    && thisCard.CanBeTarget && !thisCard.IsUnderSpellbound && thisCard.ATK <= 3000)
                 {
                     _EffectTargetCandidates.Add(thisCard.CurrentTile);
                 }

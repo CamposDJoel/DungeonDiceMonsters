@@ -6314,7 +6314,7 @@
     "onSummonEffect": "-",
     "continuousEffect": "-",
     "ability": "-",
-    "ignitionEffect": "[MAG 5] - Target 1 Normal Insect type monster your opponent controls with 2000 or less ATK; Spellbound it permanently. ",
+    "ignitionEffect": "[MAG 5] - Target 1 Normal Insect type monster your opponent controls with 3000 or less ATK; Spellbound it permanently. ",
     "triggerEffect": "-",
     "equipEffect": "-",
     "fusionMaterial1": "-",
