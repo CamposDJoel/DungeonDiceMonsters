@@ -1190,6 +1190,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.SymbolofHeritage_Equip: return SymbolofHeritage();
                         case Effect.EffectID.HornofLight_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
                         case Effect.EffectID.MaskofBrutality_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.WhiteDolphin_Ignition: return AnyUnocuppiedTile();
                         default: return "Requirements Met";
                     }
 
@@ -1284,30 +1285,6 @@ namespace DungeonDiceMonsters
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == TURNPLAYER && thisBoardCard.CanBeTarget)
-                            {
-                                monsterFound = true;
-                                break;
-                            }
-                        }
-
-                        if (monsterFound)
-                        {
-                            return "Requirements Met";
-                        }
-                        else
-                        {
-                            return "No opponent monster to target.";
-                        }
-                    }
-                    string OpponentHasOneMonsterTypeThatCanBeTarget(Type targetType)
-                    {
-                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
-
-                        bool monsterFound = false;
-                        foreach (Card thisBoardCard in _CardsOnBoard)
-                        {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
-                                thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType)
                             {
                                 monsterFound = true;
                                 break;
@@ -1667,6 +1644,25 @@ namespace DungeonDiceMonsters
                         }
 
                         if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyUnocuppiedTile()
+                    {
+                        bool tileFound = false;
+                        foreach (Tile tile in _Tiles)
+                        {
+                            if (tile.IsActive && !tile.IsOccupied)
+                            {
+                                tileFound = true; break;
+                            }
+                        }
+                        if (tileFound)
                         {
                             return "Requirements Met";
                         }
