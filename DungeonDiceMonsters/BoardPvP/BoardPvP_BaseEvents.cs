@@ -411,7 +411,7 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
 
                 //Remove an Attack Available Counter from this card
-                _AttackerTile.CardInPlace.RemoveAttackCounter();
+                _AttackerTile.CardInPlace.AdjustAvailableAttacks(-1);
 
                 //Reduce the [ATK] used based on the attack cost of the attacker
                 AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -_AttackerTile.CardInPlace.AttackCost);

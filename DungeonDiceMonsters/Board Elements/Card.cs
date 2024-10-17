@@ -220,9 +220,9 @@ namespace DungeonDiceMonsters
         {
             _IsDestroyed = true;
         }
-        public void RemoveAttackCounter()
+        public void AdjustAvailableAttacks(int amount)
         {
-            _AttacksAvailable--;
+            _AttacksAvailable += amount;
         }
         public void RemoveMoveCounter()
         {
