@@ -7647,7 +7647,7 @@
     "onSummonEffect": "-",
     "continuousEffect": "-",
     "ability": "-",
-    "ignitionEffect": "[TRAP 2] - Target an unoccupied tile; its Field Type becomes “None”.",
+    "ignitionEffect": "[TRAP 2] - Target an unoccupied tile; its Field Type becomes “Normal”.",
     "triggerEffect": "-",
     "equipEffect": "-",
     "fusionMaterial1": "-",
