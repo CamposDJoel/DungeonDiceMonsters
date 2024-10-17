@@ -161,6 +161,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_EquipActivation(thisEffect); break;
                 case Effect.EffectID.HornofLight_Equip: HornofLight_EquipActivation(thisEffect); break;
                 case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_EquipActivation(thisEffect); break;
+                case Effect.EffectID.WhiteDolphin_Ignition: WhiteDolphin_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -453,6 +454,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.SymbolOfheritageEquip: SymbolofHeritage_PostTargetEffect(TargetTile); break;
                 case PostTargetState.HornOfLightEquip: HornofLight_PostTargetEffect(TargetTile); break;
                 case PostTargetState.MaskofBrutalityEquip: MaskofBrutality_PostTargetEffect(TargetTile); break;
+                case PostTargetState.WhiteDolpphinIgnition: WhiteDolphin_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -5550,6 +5552,48 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region White Dolphin
+        private void WhiteDolphin_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 unnocupied tile, its Field Type Becomes "None"
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Tile thisTile in _Tiles)
+            {
+                if (thisTile.IsActive && !thisTile.IsOccupied)
+                {
+                    _EffectTargetCandidates.Add(thisTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.WhiteDolpphinIgnition;
+            InitializeEffectTargetSelection();
+        }
+        private void WhiteDolphin_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: change the field type of the tile to forest
+            TargetTile.ChangeFieldType(Tile.FieldTypeValue.Normal);
+            DisplayEffectApplyAnimation(TargetTile);
+            WaitNSeconds(1000);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Tile's Field Type has been updated to Forest.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
         }
         #endregion
     }

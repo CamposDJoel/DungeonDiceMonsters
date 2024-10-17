@@ -924,7 +924,7 @@ namespace DungeonDiceMonsters
                 else { PicFieldTypeDisplay.BackColor = Color.DarkBlue; }
 
                 //If field type is set, load the proper image
-                if (thisTile.FieldType != Tile.FieldTypeValue.None)
+                if (thisTile.FieldType != Tile.FieldTypeValue.Normal)
                 {
                     ImageServer.ClearImage(PicFieldTypeDisplay);
                     PicFieldTypeDisplay.Image = ImageServer.FieldTile(thisTile.FieldType.ToString());
@@ -2403,6 +2403,7 @@ namespace DungeonDiceMonsters
             SymbolOfheritageEquip,
             HornOfLightEquip,
             MaskofBrutalityEquip,
+            WhiteDolpphinIgnition,
         }
         public enum SummonType
         {
