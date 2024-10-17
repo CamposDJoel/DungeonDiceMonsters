@@ -165,6 +165,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.ChosenByChalice_OnSummon: ChosenByChalice_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.Snakeyashi_OnSummon: Snakeyashi_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BeanSoldier_Ignition: BeanSoldier_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_IgnitionActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -232,6 +233,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.HornofLight_Equip: HornofLight_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -5724,12 +5726,49 @@ namespace DungeonDiceMonsters
             WaitNSeconds(1000);
 
             //Update logs
-            UpdateEffectLogs("Post Target Resolution: Origin Card gain +1 available attacks.");
+            UpdateEffectLogs("Origin Card gained +1 available attacks.");
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
 
 
+        }
+        #endregion
+
+        #region Sword Arm of Dragon
+        private void SwordArmofDragon_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Increase the Move Range of this card +2 until the end of this turn.
+            _ActiveEffects.Add(thisEffect);
+            thisEffect.AddAffectedByCard(thisEffect.OriginCard);
+            thisEffect.OriginCard.AdjustMoveRangeBonus(2);
+            DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+
+            //Update logs
+            UpdateEffectLogs("Origin Card move range increased +2");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void SwordArmofDragon_RemoveEffect(Effect thisEffect)
+        {
+            //At the end of the turn remove the changes applied by this effect
+            //Restore the reduce the move range -2
+            Card theAffectedCard = thisEffect.AffectedByList[0];
+            theAffectedCard.AdjustMoveRangeBonus(-2);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("This effect removal resets the affected monster [{0}] with On Board ID [{1}]'s Move Range -2.", theAffectedCard.Name, theAffectedCard.OnBoardID));
         }
         #endregion
     }

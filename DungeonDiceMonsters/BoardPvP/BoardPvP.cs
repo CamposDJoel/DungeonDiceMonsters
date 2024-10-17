@@ -2110,6 +2110,87 @@ namespace DungeonDiceMonsters
             if (_CurrentTileSelected != null) { _CurrentTileSelected.ReloadTileUI(); }
             _CurrentGameState = GameState.MainPhaseBoard;
         }
+        private void EnterEndPhase()
+        {
+            //Update the Phase Banner
+            UpdateBanner("EndPhase");
+
+            //Clean up the board
+            btnEndTurn.Visible = false;
+            lblActionInstruction.Visible = false;
+
+            //1 turn effects are removed.
+            UpdateEffectLogs("----------------------END PHAESE: Checking for 1 turn duration effects to be removed.");
+            List<Effect> effectsToBeRemove = new List<Effect>();
+            foreach (Effect thisEffect in _ActiveEffects)
+            {
+                if (thisEffect.IsAOneTurnIgnition)
+                {
+                    effectsToBeRemove.Add(thisEffect);
+                }
+            }
+            foreach (Effect thisEffect in effectsToBeRemove)
+            {
+                UpdateEffectLogs(string.Format("Effect to be removed: [{0}] Origin Card Board ID: [{1}].", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
+                RemoveEffect(thisEffect);
+            }
+            if (effectsToBeRemove.Count == 0) { UpdateEffectLogs("No effects to remove."); }
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------");
+
+            //Check for Continuous effects that react to the end phase
+            UpdateEffectLogs("----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase");
+            ResolveEffectsWithEndPhaseReactionTo();
+
+            //All 1 turn data is reset for all monsters on the board
+            //and All non-permanent spellbound counters are reduced.
+            UpdateEffectLogs("----------------------END PHAESE: Checking for Spellbound Counters Removal");
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (!thisCard.IsDiscardted)
+                {
+                    thisCard.ResetOneTurnData();
+                }
+                if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound && thisCard.Controller == TURNPLAYER)
+                {
+                    thisCard.ReduceSpellboundCounter(1);
+                    UpdateEffectLogs(string.Format("Spellbound counter removed for Card [{0}] OnBoardID: [{1}] Controlled by [{2}] - Spellbound Counters Left [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, thisCard.SpellboundCounter));
+                    //if the card is not under a spellbound anymore, reactivate its continuous effect IF this is a FACE UP card
+                    if (!thisCard.IsUnderSpellbound && !thisCard.IsFaceDown && thisCard.HasContinuousEffect)
+                    {
+                        UpdateEffectLogs("Card is not longer under a spellbound, reactivating its Continuous effect...");
+                        ReactivateEffect(thisCard.GetContinuousEffect());
+                    }
+                }
+            }
+            UpdateEffectLogs("-----------------------------------------------------------------------------------------");
+
+            SoundServer.PlaySoundEffect(SoundEffect.EndTurn);
+            WaitNSeconds(1000);
+
+            //Change the TURNPLAYER
+            if (TURNPLAYER == PlayerColor.RED)
+            {
+                TURNPLAYER = PlayerColor.BLUE;
+                TURNPLAYERDATA = BlueData;
+                OPPONENTPLAYER = PlayerColor.RED;
+                OPPONENTPLAYERDATA = RedData;
+                //Each time the Red Player's Turn begins a new full turn starts 
+                _CurrentTurn++;
+            }
+            else
+            {
+                TURNPLAYER = PlayerColor.RED;
+                TURNPLAYERDATA = RedData;
+                OPPONENTPLAYER = PlayerColor.BLUE;
+                OPPONENTPLAYERDATA = BlueData;
+            }
+
+            //Start the TURN at the TURN START PHASE
+            LaunchTurnStartPanel();
+
+            //Update GameState
+            _CurrentGameState = GameState.TurnStartMenu;
+        }
         private void StartGameOver(PlayerColor winner)
         {           
             //Send the server the gameover message
