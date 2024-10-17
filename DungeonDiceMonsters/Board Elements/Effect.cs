@@ -216,6 +216,19 @@ namespace DungeonDiceMonsters
                 case "Symbol of Heritage": return EffectID.SymbolofHeritage_Equip;
                 case "Horn of Light": return EffectID.HornofLight_Equip;
                 case "Mask of Brutality": return EffectID.MaskofBrutality_Equip;
+                case "White Dolphin": return EffectID.WhiteDolphin_Ignition;
+                case "Chosen by the World Chalice": return EffectID.ChosenByChalice_OnSummon;
+                case "Snakeyashi": return EffectID.Snakeyashi_OnSummon;
+                case "Bean Soldier": return EffectID.BeanSoldier_Ignition;
+                case "Sword Arm of Dragon": return EffectID.SwordArmOfDragon_Ignition;
+                case "Battle Steer": return EffectID.BattleSteer_OnSummon;
+                case "Burning Dragon": return EffectID.BurningDragon_OnSummon;
+                case "Dreadscythe Harvest": return EffectID.DreadscytheHarvest_OnSummon;
+                case "Kattapillar": return EffectID.Kattapillar_OnSummon;
+                case "Ooguchi": return EffectID.Ooguchi_OnSummon;
+                case "Queen's Double": return EffectID.QueensDouble_OnSummon;
+                case "Bat": return EffectID.Bat_OnSummon;
+                case "Shadow Specter": return EffectID.ShadowSpecter_OnSummon;
                 default: throw new NotImplementedException(string.Format("Card Name: [{0}] does not have a Effect ID assignment.", originCard.Name));
             }
         }
@@ -381,6 +394,19 @@ namespace DungeonDiceMonsters
             SymbolofHeritage_Equip,
             HornofLight_Equip,
             MaskofBrutality_Equip,
+            WhiteDolphin_Ignition,
+            ChosenByChalice_OnSummon,
+            Snakeyashi_OnSummon,
+            BeanSoldier_Ignition,
+            SwordArmOfDragon_Ignition,
+            BattleSteer_OnSummon,
+            BurningDragon_OnSummon,
+            DreadscytheHarvest_OnSummon,
+            Kattapillar_OnSummon,
+            Ooguchi_OnSummon,
+            QueensDouble_OnSummon,
+            Bat_OnSummon,
+            ShadowSpecter_OnSummon,
         }
         #endregion
     }
