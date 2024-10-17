@@ -2404,6 +2404,7 @@ namespace DungeonDiceMonsters
             HornOfLightEquip,
             MaskofBrutalityEquip,
             WhiteDolpphinIgnition,
+            ChosenByChaliseOnSummon,
         }
         public enum SummonType
         {

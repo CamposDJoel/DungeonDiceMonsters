@@ -162,6 +162,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.HornofLight_Equip: HornofLight_EquipActivation(thisEffect); break;
                 case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_EquipActivation(thisEffect); break;
                 case Effect.EffectID.WhiteDolphin_Ignition: WhiteDolphin_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ChosenByChalice_OnSummon: ChosenByChalice_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -455,6 +456,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.HornOfLightEquip: HornofLight_PostTargetEffect(TargetTile); break;
                 case PostTargetState.MaskofBrutalityEquip: MaskofBrutality_PostTargetEffect(TargetTile); break;
                 case PostTargetState.WhiteDolpphinIgnition: WhiteDolphin_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ChosenByChaliseOnSummon: ChosenByChalice_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -5594,6 +5596,59 @@ namespace DungeonDiceMonsters
 
             //NO more action needed, return to the Main Phase
             EnterMainPhase();
+        }
+        #endregion
+
+        #region Chosen by the World Chalice
+        private void ChosenByChalice_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the opponents does not control a monster that can be target
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.ChosenByChaliseOnSummon;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void ChosenByChalice_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster  loses DEF equal to its level x 100.
+            int amount = TargetTile.CardInPlace.Level * 100;
+            TargetTile.CardInPlace.AdjustDefenseBonus(-amount);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
     }
