@@ -26,13 +26,13 @@ namespace DungeonDiceMonsters
                 bool IsUserTurn = (UserPlayerColor == TURNPLAYER);
                 if (TURNPLAYER == PlayerColor.RED)
                 {
-                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, RedData, this, ns);
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, RedData, this, ns, _AlwaysSummonMode);
                     Hide();
                     _RollDiceForm.Show();
                 }
                 else
                 {
-                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, BlueData, this, ns);
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, BlueData, this, ns, _AlwaysSummonMode);
                     Hide();
                     _RollDiceForm.Show();
                 }

@@ -513,6 +513,14 @@ namespace DungeonDiceMonsters
                 BlueData.AddCrests(Crest.MAG, Convert.ToInt32(BlueCrestsData[4]));
                 BlueData.AddCrests(Crest.TRAP, Convert.ToInt32(BlueCrestsData[5]));
 
+                //Read the break line
+                Line = SR_SaveFile.ReadLine();
+
+                //LINE[11] = Always Summon Setting
+                Line = SR_SaveFile.ReadLine();
+                string[] AlwaysSummonSetting = Line.Split('|');
+                _AlwaysSummonMode = Convert.ToBoolean(AlwaysSummonSetting[1]);
+
                 SR_SaveFile.Close();
             }
         }
@@ -2450,6 +2458,8 @@ namespace DungeonDiceMonsters
         private int _IndexOfFusionCardSelected = -1;
         //Data for the game over screen
         List<BonusRecord> PlayerBonusRecord;
+        //test data
+        private bool _AlwaysSummonMode = false;
         #endregion
 
         #region Enums
