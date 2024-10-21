@@ -45,11 +45,12 @@ namespace DungeonDiceMonsters
             LoadDeckPage();
             GenrateValidDimensions();            
         }
-        public RollDiceMenu(bool isUserTurn, PlayerColor turnplayercolor, PlayerData playerdata, BoardPvP board, NetworkStream tmpns)
+        public RollDiceMenu(bool isUserTurn, PlayerColor turnplayercolor, PlayerData playerdata, BoardPvP board, NetworkStream tmpns, bool alwaysSummonMode)
         {
             InitializeComponent();
             _PlayerData = playerdata;
             _PvPBoard = board;
+            _AlwaysSummonMode = alwaysSummonMode;
             ns = tmpns;
             _PvPMatch = true;
             _IsUserTurn = isUserTurn;
@@ -627,6 +628,7 @@ namespace DungeonDiceMonsters
         private List<CardInfo> _DiceToRoll = new List<CardInfo>();
         private bool _ValidDimensionAvailable = false;
         private bool _UnoccupiedSummonTiles = false;
+        private bool _AlwaysSummonMode = false;
         //Client NetworkStream to send message to the server
         private NetworkStream ns;
         private bool _AppShutDownWhenClose = true;
@@ -726,14 +728,17 @@ namespace DungeonDiceMonsters
         }
         private void btnRoll_Click(object sender, EventArgs e)
         {
-            //Run the rnd first so you can send the results on to the server
-            int ResultA = Rand.DiceRoll();
-            int ResultB = Rand.DiceRoll();
-            int ResultC = Rand.DiceRoll();
+            int ResultA = 0;
+            int ResultB = 0;
+            int ResultC = 0;
 
-            //int ResultA = 0;
-            //int ResultB = 0;
-            //int ResultC = 0;
+            if(!_AlwaysSummonMode)
+            {
+                //Run the rnd first so you can send the results on to the server
+                ResultA = Rand.DiceRoll();
+                ResultB = Rand.DiceRoll();
+                ResultC = Rand.DiceRoll();
+            }
 
             //Send the action message to the server
             SendMessageToServer(string.Format("[ROLL DICE FORM REQUEST]|[CLICK ROLL!!]|{0}|{1}|{2}", ResultA, ResultB, ResultC));

@@ -1094,7 +1094,7 @@ namespace DungeonDiceMonsters
                     SoundServer.PlaySoundEffect(SoundEffect.Click);
 
                     //Remove an Attack Available Counter from this card
-                    _CurrentTileSelected.CardInPlace.RemoveAttackCounter();
+                    _CurrentTileSelected.CardInPlace.AdjustAvailableAttacks(-1);
 
                     //Attack the card in this tile
                     _AttackTarger = _Tiles[tileId];

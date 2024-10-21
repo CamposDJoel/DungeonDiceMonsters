@@ -26,13 +26,13 @@ namespace DungeonDiceMonsters
                 bool IsUserTurn = (UserPlayerColor == TURNPLAYER);
                 if (TURNPLAYER == PlayerColor.RED)
                 {
-                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, RedData, this, ns);
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, RedData, this, ns, _AlwaysSummonMode);
                     Hide();
                     _RollDiceForm.Show();
                 }
                 else
                 {
-                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, BlueData, this, ns);
+                    _RollDiceForm = new RollDiceMenu(IsUserTurn, TURNPLAYER, BlueData, this, ns, _AlwaysSummonMode);
                     Hide();
                     _RollDiceForm.Show();
                 }
@@ -411,7 +411,7 @@ namespace DungeonDiceMonsters
                 SoundServer.PlaySoundEffect(SoundEffect.Click);
 
                 //Remove an Attack Available Counter from this card
-                _AttackerTile.CardInPlace.RemoveAttackCounter();
+                _AttackerTile.CardInPlace.AdjustAvailableAttacks(-1);
 
                 //Reduce the [ATK] used based on the attack cost of the attacker
                 AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, -_AttackerTile.CardInPlace.AttackCost);
@@ -729,84 +729,7 @@ namespace DungeonDiceMonsters
         {
             Invoke(new MethodInvoker(delegate ()
             {
-                //Update the Phase Banner
-                UpdateBanner("EndPhase");
-
-                //Clean up the board
-                btnEndTurn.Visible = false;
-                lblActionInstruction.Visible = false;
-              
-                //1 turn effects are removed.
-                UpdateEffectLogs("----------------------END PHAESE: Checking for 1 turn duration effects to be removed.");
-                List<Effect> effectsToBeRemove = new List<Effect>();
-                foreach (Effect thisEffect in _ActiveEffects)
-                {
-                    if (thisEffect.IsAOneTurnIgnition)
-                    {
-                        effectsToBeRemove.Add(thisEffect);
-                    }
-                }
-                foreach (Effect thisEffect in effectsToBeRemove)
-                {
-                    UpdateEffectLogs(string.Format("Effect to be removed: [{0}] Origin Card Board ID: [{1}].", thisEffect.ID, thisEffect.OriginCard.OnBoardID));
-                    RemoveEffect(thisEffect);
-                }
-                if (effectsToBeRemove.Count == 0) { UpdateEffectLogs("No effects to remove."); }
-                UpdateEffectLogs("-----------------------------------------------------------------------------------------");
-
-                //Check for Continuous effects that react to the end phase
-                UpdateEffectLogs("----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase");
-                ResolveEffectsWithEndPhaseReactionTo();
-
-                //All 1 turn data is reset for all monsters on the board
-                //and All non-permanent spellbound counters are reduced.
-                UpdateEffectLogs("----------------------END PHAESE: Checking for Spellbound Counters Removal");
-                foreach (Card thisCard in _CardsOnBoard)
-                {
-                    if (!thisCard.IsDiscardted)
-                    {
-                        thisCard.ResetOneTurnData();
-                    }
-                    if (thisCard.IsUnderSpellbound && !thisCard.IsPermanentSpellbound && thisCard.Controller == TURNPLAYER)
-                    {
-                        thisCard.ReduceSpellboundCounter(1);
-                        UpdateEffectLogs(string.Format("Spellbound counter removed for Card [{0}] OnBoardID: [{1}] Controlled by [{2}] - Spellbound Counters Left [{3}]", thisCard.Name, thisCard.OnBoardID, thisCard.Controller, thisCard.SpellboundCounter));
-                        //if the card is not under a spellbound anymore, reactivate its continuous effect IF this is a FACE UP card
-                        if (!thisCard.IsUnderSpellbound && !thisCard.IsFaceDown && thisCard.HasContinuousEffect)
-                        {
-                            UpdateEffectLogs("Card is not longer under a spellbound, reactivating its Continuous effect...");
-                            ReactivateEffect(thisCard.GetContinuousEffect());
-                        }
-                    }
-                }
-                UpdateEffectLogs("-----------------------------------------------------------------------------------------");
-
-                SoundServer.PlaySoundEffect(SoundEffect.EndTurn);
-                WaitNSeconds(1000);
-
-                //Change the TURNPLAYER
-                if (TURNPLAYER == PlayerColor.RED)
-                {
-                    TURNPLAYER = PlayerColor.BLUE;
-                    TURNPLAYERDATA = BlueData;
-                    OPPONENTPLAYER = PlayerColor.RED;
-                    OPPONENTPLAYERDATA = RedData;
-                    //Each time the Red Player's Turn begins a new full turn starts 
-                    _CurrentTurn++;
-                }
-                else
-                {
-                    TURNPLAYER = PlayerColor.RED;
-                    TURNPLAYERDATA = RedData;
-                    OPPONENTPLAYER = PlayerColor.BLUE;
-                    OPPONENTPLAYERDATA = BlueData;
-                }
-
-                //Start the TURN at the TURN START PHASE
-                LaunchTurnStartPanel();
-
-                //Update GameState
-                _CurrentGameState = GameState.TurnStartMenu;
+                EnterEndPhase();
             }));
         }
         private void btnEndBattle_Base()
@@ -1190,6 +1113,7 @@ namespace DungeonDiceMonsters
                         case Effect.EffectID.SymbolofHeritage_Equip: return SymbolofHeritage();
                         case Effect.EffectID.HornofLight_Equip: return AnyOneMonsterThatCanBeTargetOfLevelLimit(6);
                         case Effect.EffectID.MaskofBrutality_Equip: return AnyOneMonsterThatCanBeTarget();
+                        case Effect.EffectID.WhiteDolphin_Ignition: return AnyUnocuppiedTile();
                         default: return "Requirements Met";
                     }
 
@@ -1284,30 +1208,6 @@ namespace DungeonDiceMonsters
                         foreach (Card thisBoardCard in _CardsOnBoard)
                         {
                             if (!thisBoardCard.IsDiscardted && thisBoardCard.IsAMonster && thisBoardCard.Controller == TURNPLAYER && thisBoardCard.CanBeTarget)
-                            {
-                                monsterFound = true;
-                                break;
-                            }
-                        }
-
-                        if (monsterFound)
-                        {
-                            return "Requirements Met";
-                        }
-                        else
-                        {
-                            return "No opponent monster to target.";
-                        }
-                    }
-                    string OpponentHasOneMonsterTypeThatCanBeTarget(Type targetType)
-                    {
-                        //REQUIREMENT: Opponent must have any 1 monster on the board that can be target
-
-                        bool monsterFound = false;
-                        foreach (Card thisBoardCard in _CardsOnBoard)
-                        {
-                            if (!thisBoardCard.IsDiscardted && thisBoardCard.Controller == OPPONENTPLAYER &&
-                                thisBoardCard.CanBeTarget && thisBoardCard.Type == targetType)
                             {
                                 monsterFound = true;
                                 break;
@@ -1667,6 +1567,25 @@ namespace DungeonDiceMonsters
                         }
 
                         if (monsterFound)
+                        {
+                            return "Requirements Met";
+                        }
+                        else
+                        {
+                            return "No valid targets.";
+                        }
+                    }
+                    string AnyUnocuppiedTile()
+                    {
+                        bool tileFound = false;
+                        foreach (Tile tile in _Tiles)
+                        {
+                            if (tile.IsActive && !tile.IsOccupied)
+                            {
+                                tileFound = true; break;
+                            }
+                        }
+                        if (tileFound)
                         {
                             return "Requirements Met";
                         }

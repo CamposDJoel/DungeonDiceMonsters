@@ -95,7 +95,7 @@ namespace DungeonDiceMonsters
                 if (!_IsSpellTrapZone) { ImageServer.ClearImage(_CardImage); }
                 
                 //if the Fiel Type value is set, load its image
-                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.None && !_IsSpellTrapZone)
+                if(_Owner != PlayerColor.NONE && _FieldType != FieldTypeValue.Normal && !_IsSpellTrapZone)
                 {
                     ImageServer.ClearImage(_CardImage);
                     _CardImage.BackgroundImage = ImageServer.FieldTile(_FieldType.ToString());
@@ -1333,7 +1333,7 @@ namespace DungeonDiceMonsters
         private Tile _SouthTile = null;
         private Tile _EastTile = null;
         private Tile _WestTile = null;
-        private FieldTypeValue _FieldType = FieldTypeValue.None;
+        private FieldTypeValue _FieldType = FieldTypeValue.Normal;
         #endregion
 
         #region Enums
@@ -1346,7 +1346,7 @@ namespace DungeonDiceMonsters
         }
         public enum FieldTypeValue
         {
-            None,
+            Normal,
             Forest,
             Mountain,
             Sogen,

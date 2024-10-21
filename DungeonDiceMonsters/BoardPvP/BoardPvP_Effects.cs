@@ -161,6 +161,19 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_EquipActivation(thisEffect); break;
                 case Effect.EffectID.HornofLight_Equip: HornofLight_EquipActivation(thisEffect); break;
                 case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_EquipActivation(thisEffect); break;
+                case Effect.EffectID.WhiteDolphin_Ignition: WhiteDolphin_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.ChosenByChalice_OnSummon: ChosenByChalice_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.Snakeyashi_OnSummon: Snakeyashi_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.BeanSoldier_Ignition: BeanSoldier_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.BattleSteer_OnSummon: BattleSteer_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.BurningDragon_OnSummon: BurningDragon_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.DreadscytheHarvest_OnSummon: DreadscytheHarvest_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.Kattapillar_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.MOV, 5); break;
+                case Effect.EffectID.Ooguchi_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.ATK, 5); break;
+                case Effect.EffectID.QueensDouble_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.DEF, 5); break;
+                case Effect.EffectID.Bat_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.MAG, 5); break;
+                case Effect.EffectID.ShadowSpecter_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.TRAP, 5); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -228,6 +241,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.SymbolofHeritage_Equip: SymbolofHeritage_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.HornofLight_Equip: HornofLight_RemoveEffect(thisEffect); break;
                 case Effect.EffectID.MaskofBrutality_Equip: MaskofBrutality_RemoveEffect(thisEffect); break;
+                case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_RemoveEffect(thisEffect); break;
                 default: throw new Exception(string.Format("This effect id: [{0}] does not have a Remove Effect method assigned", thisEffect.ID));
             }
         }
@@ -453,6 +467,10 @@ namespace DungeonDiceMonsters
                 case PostTargetState.SymbolOfheritageEquip: SymbolofHeritage_PostTargetEffect(TargetTile); break;
                 case PostTargetState.HornOfLightEquip: HornofLight_PostTargetEffect(TargetTile); break;
                 case PostTargetState.MaskofBrutalityEquip: MaskofBrutality_PostTargetEffect(TargetTile); break;
+                case PostTargetState.WhiteDolpphinIgnition: WhiteDolphin_PostTargetEffect(TargetTile); break;
+                case PostTargetState.ChosenByChaliseOnSummon: ChosenByChalice_PostTargetEffect(TargetTile); break;
+                case PostTargetState.SnakeyashiOnSummon: Snakeyashi_PostTargetEffect(TargetTile); break;
+                case PostTargetState.BattleSteerOnSummon: BattleSteer_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -5550,6 +5568,364 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs("This effect was removed from the active effect list.");
+        }
+        #endregion
+
+        #region White Dolphin
+        private void WhiteDolphin_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Target 1 unnocupied tile, its Field Type Becomes "None"
+
+            //Generate the Target Candidate list
+            _EffectTargetCandidates.Clear();
+            foreach (Tile thisTile in _Tiles)
+            {
+                if (thisTile.IsActive && !thisTile.IsOccupied)
+                {
+                    _EffectTargetCandidates.Add(thisTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            //The Target selection will handle takin the player to the next game state
+            _CurrentPostTargetState = PostTargetState.WhiteDolpphinIgnition;
+            InitializeEffectTargetSelection();
+        }
+        private void WhiteDolphin_PostTargetEffect(Tile TargetTile)
+        {
+            //Resolve the effect: change the field type of the tile to forest
+            TargetTile.ChangeFieldType(Tile.FieldTypeValue.Normal);
+            DisplayEffectApplyAnimation(TargetTile);
+            WaitNSeconds(1000);
+
+            //Update logs
+            UpdateEffectLogs("Post Target Resolution: Tile's Field Type has been updated to Forest.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        #endregion
+
+        #region Chosen by the World Chalice
+        private void ChosenByChalice_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the opponents does not control a monster that can be target
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner && thisCard.CanBeTarget)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.ChosenByChaliseOnSummon;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void ChosenByChalice_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster  loses DEF equal to its level x 100.
+            int amount = TargetTile.CardInPlace.Level * 100;
+            TargetTile.CardInPlace.AdjustDefenseBonus(-amount);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Snakeyashi
+        private void Snakeyashi_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT will not activate if the opponents does not control a monster that can be target and is under a spellbound
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner 
+                    && thisCard.CanBeTarget && thisCard.IsUnderSpellbound)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.SnakeyashiOnSummon;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void Snakeyashi_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster  loses 500 DEF
+            TargetTile.CardInPlace.AdjustDefenseBonus(-500);
+            DisplayEffectApplyAnimation(TargetTile);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Bean Soldier
+        private void BeanSoldier_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Increase the available attacks of this monster +1.
+            thisEffect.OriginCard.AdjustAvailableAttacks(1);
+            DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+            WaitNSeconds(1000);
+
+            //Update logs
+            UpdateEffectLogs("Origin Card gained +1 available attacks.");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+
+
+        }
+        #endregion
+
+        #region Sword Arm of Dragon
+        private void SwordArmofDragon_IgnitionActivation(Effect thisEffect)
+        {
+            //Hide the Effect Menu 
+            HideEffectMenuPanel();
+
+            //Set the "Reaction To" flags
+            //Effect does not react to any events
+
+            //And Resolve the effect
+            //EFFECT DESCRIPTION: Increase the Move Range of this card +2 until the end of this turn.
+            _ActiveEffects.Add(thisEffect);
+            thisEffect.AddAffectedByCard(thisEffect.OriginCard);
+            thisEffect.OriginCard.AdjustMoveRangeBonus(2);
+            DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+
+            //Update logs
+            UpdateEffectLogs("Origin Card move range increased +2");
+
+            //NO more action needed, return to the Main Phase
+            EnterMainPhase();
+        }
+        private void SwordArmofDragon_RemoveEffect(Effect thisEffect)
+        {
+            //At the end of the turn remove the changes applied by this effect
+            //Restore the reduce the move range -2
+            Card theAffectedCard = thisEffect.AffectedByList[0];
+            theAffectedCard.AdjustMoveRangeBonus(-2);
+
+            //Now remove the effect from the active list
+            _ActiveEffects.Remove(thisEffect);
+
+            //Update logs
+            UpdateEffectLogs(string.Format("This effect removal resets the affected monster [{0}] with On Board ID [{1}]'s Move Range -2.", theAffectedCard.Name, theAffectedCard.OnBoardID));
+        }
+        #endregion
+
+        #region Battle Steer
+        private void BattleSteer_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT: Target 1 level 5 monster your opponent controls; switch places with this card.
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner
+                    && thisCard.CanBeTarget && thisCard.Level == 5)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.BattleSteerOnSummon;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void BattleSteer_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster switches places with this card
+            SwitchPlaces(_CardEffectToBeActivated.OriginCard.CurrentTile, TargetTile);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Burning Dragon
+        private void BurningDragon_OnSummonActivation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION: Gains 500 ATK/DEF if your opponent controls a monster that was Transform Summoned.
+
+            //Check if oppoenent has a Transformed Summoned Monster
+            bool activationRequirementsMet = false;
+            foreach (Card thisCardOnBoard in _CardsOnBoard) 
+            {
+                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard.Controller != thisEffect.Owner && thisCardOnBoard.WasTransformedInto)
+                {
+                    activationRequirementsMet = true; break;
+                }
+            }
+
+            //Requirement met, activate effect
+            if (activationRequirementsMet) 
+            {
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Resolve effect: Gains 500 ATK/DEF
+                thisEffect.OriginCard.AdjustAttackBonus(500);
+                thisEffect.OriginCard.AdjustDefenseBonus(500);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }   
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "Conditions not met. Effect wont activate.");
+                UpdateEffectLogs("There are no opponent monsters that were transformed into, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        #endregion
+
+        #region Dreadscythe Harvest
+        private void DreadscytheHarvest_OnSummonActivation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION: Add [MOV][ATK][DEF] to your crest pool equal to the number of cards under a Spellbound on the board.
+
+            DisplayOnSummonEffectPanel(thisEffect);
+            HideEffectMenuPanel();
+
+            //Resolve effect
+            int cardCount = 0;
+            foreach(Card thisCardOnBoard in _CardsOnBoard)
+            {
+                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard.IsUnderSpellbound)
+                {
+                    cardCount++;
+                }
+            }
+            if (cardCount > 0) 
+            {
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.MOV, cardCount);
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, cardCount);
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.DEF, cardCount);
+            }
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
+        }
+        #endregion
+
+        #region Crest Removers
+        private void CrestRemover_OnSummonActivation(Effect thisEffect, Crest crestToRemove, int amount)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 4 secs then execute the effect
+            DisplayOnSummonEffectPanel(thisEffect);
+
+            switch(crestToRemove)
+            {
+                case Crest.MOV: if(OPPONENTPLAYERDATA.Crests_MOV < 5) { amount = OPPONENTPLAYERDATA.Crests_MOV; } break;
+                case Crest.ATK: if(OPPONENTPLAYERDATA.Crests_ATK < 5) { amount = OPPONENTPLAYERDATA.Crests_ATK; } break;
+                case Crest.DEF: if(OPPONENTPLAYERDATA.Crests_DEF < 5) { amount = OPPONENTPLAYERDATA.Crests_DEF; } break;
+                case Crest.MAG: if(OPPONENTPLAYERDATA.Crests_MAG < 5) { amount = OPPONENTPLAYERDATA.Crests_MAG; } break;
+                case Crest.TRAP: if(OPPONENTPLAYERDATA.Crests_TRAP < 5) { amount = OPPONENTPLAYERDATA.Crests_TRAP; } break;
+            }
+
+            //EFFECT DESCRIPTION: Add whatever [ ] crest to the controller's crest pool by the amout set
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            AdjustPlayerCrestCount(OPPONENTPLAYER, crestToRemove, -amount);
+
+            HideEffectMenuPanel();
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         #endregion
     }
