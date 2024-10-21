@@ -168,6 +168,12 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BattleSteer_OnSummon: BattleSteer_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BurningDragon_OnSummon: BurningDragon_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.DreadscytheHarvest_OnSummon: DreadscytheHarvest_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.Kattapillar_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.MOV, 5); break;
+                case Effect.EffectID.Ooguchi_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.ATK, 5); break;
+                case Effect.EffectID.QueensDouble_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.DEF, 5); break;
+                case Effect.EffectID.Bat_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.MAG, 5); break;
+                case Effect.EffectID.ShadowSpecter_OnSummon: CrestRemover_OnSummonActivation(thisEffect, Crest.TRAP, 5); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -5865,6 +5871,61 @@ namespace DungeonDiceMonsters
                 //Enter Summon phase 3
                 SummonMonster_Phase3(thisEffect.OriginCard);
             }
+        }
+        #endregion
+
+        #region Dreadscythe Harvest
+        private void DreadscytheHarvest_OnSummonActivation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION: Add [MOV][ATK][DEF] to your crest pool equal to the number of cards under a Spellbound on the board.
+
+            DisplayOnSummonEffectPanel(thisEffect);
+            HideEffectMenuPanel();
+
+            //Resolve effect
+            int cardCount = 0;
+            foreach(Card thisCardOnBoard in _CardsOnBoard)
+            {
+                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard.IsUnderSpellbound)
+                {
+                    cardCount++;
+                }
+            }
+            if (cardCount > 0) 
+            {
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.MOV, cardCount);
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.ATK, cardCount);
+                AdjustPlayerCrestCount(TURNPLAYER, Crest.DEF, cardCount);
+            }
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
+        }
+        #endregion
+
+        #region Crest Removers
+        private void CrestRemover_OnSummonActivation(Effect thisEffect, Crest crestToRemove, int amount)
+        {
+            //Since this is a ON SUMMON EFFECT, display the Effect Panel for 4 secs then execute the effect
+            DisplayOnSummonEffectPanel(thisEffect);
+
+            switch(crestToRemove)
+            {
+                case Crest.MOV: if(OPPONENTPLAYERDATA.Crests_MOV < 5) { amount = OPPONENTPLAYERDATA.Crests_MOV; } break;
+                case Crest.ATK: if(OPPONENTPLAYERDATA.Crests_ATK < 5) { amount = OPPONENTPLAYERDATA.Crests_ATK; } break;
+                case Crest.DEF: if(OPPONENTPLAYERDATA.Crests_DEF < 5) { amount = OPPONENTPLAYERDATA.Crests_DEF; } break;
+                case Crest.MAG: if(OPPONENTPLAYERDATA.Crests_MAG < 5) { amount = OPPONENTPLAYERDATA.Crests_MAG; } break;
+                case Crest.TRAP: if(OPPONENTPLAYERDATA.Crests_TRAP < 5) { amount = OPPONENTPLAYERDATA.Crests_TRAP; } break;
+            }
+
+            //EFFECT DESCRIPTION: Add whatever [ ] crest to the controller's crest pool by the amout set
+            SoundServer.PlaySoundEffect(SoundEffect.EffectApplied);
+            AdjustPlayerCrestCount(OPPONENTPLAYER, crestToRemove, -amount);
+
+            HideEffectMenuPanel();
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(thisEffect.OriginCard);
         }
         #endregion
     }
