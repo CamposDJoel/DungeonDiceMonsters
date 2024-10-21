@@ -166,6 +166,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.Snakeyashi_OnSummon: Snakeyashi_OnSummonActivation(thisEffect); break;
                 case Effect.EffectID.BeanSoldier_Ignition: BeanSoldier_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_IgnitionActivation(thisEffect); break;
+                case Effect.EffectID.BattleSteer_OnSummon: BattleSteer_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -462,6 +463,7 @@ namespace DungeonDiceMonsters
                 case PostTargetState.WhiteDolpphinIgnition: WhiteDolphin_PostTargetEffect(TargetTile); break;
                 case PostTargetState.ChosenByChaliseOnSummon: ChosenByChalice_PostTargetEffect(TargetTile); break;
                 case PostTargetState.SnakeyashiOnSummon: Snakeyashi_PostTargetEffect(TargetTile); break;
+                case PostTargetState.BattleSteerOnSummon: BattleSteer_PostTargetEffect(TargetTile); break;
                 default: throw new Exception("No _PostTargetEffect() for PostTargetState. PostTargetState: "  + _CurrentPostTargetState);
             }
         }
@@ -5769,6 +5771,58 @@ namespace DungeonDiceMonsters
 
             //Update logs
             UpdateEffectLogs(string.Format("This effect removal resets the affected monster [{0}] with On Board ID [{1}]'s Move Range -2.", theAffectedCard.Name, theAffectedCard.OnBoardID));
+        }
+        #endregion
+
+        #region Battle Steer
+        private void BattleSteer_OnSummonActivation(Effect thisEffect)
+        {
+            //ON SUMMON EFFECT: Target 1 level 5 monster your opponent controls; switch places with this card.
+            bool activationRequirementsMet = false;
+            _EffectTargetCandidates.Clear();
+            foreach (Card thisCard in _CardsOnBoard)
+            {
+                if (thisCard.IsAMonster && !thisCard.IsDiscardted && thisCard.Controller != thisEffect.Owner
+                    && thisCard.CanBeTarget && thisCard.Level == 5)
+                {
+                    activationRequirementsMet = true;
+                    _EffectTargetCandidates.Add(thisCard.CurrentTile);
+                }
+            }
+            UpdateEffectLogs(string.Format("Target candidates found: [{0}], player will be prompt to target a monster in the UI.", _EffectTargetCandidates.Count));
+
+            if (activationRequirementsMet)
+            {
+                //Proceed with the effect activation path
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Set the "Reaction To" flags
+                //This effect is a One-Time activation, does not reach to any event.
+
+                //The Target selection will handle takin the player to the next game state
+                _CurrentPostTargetState = PostTargetState.BattleSteerOnSummon;
+                InitializeEffectTargetSelection();
+            }
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "No valid targets available. Effect wont activate.");
+                UpdateEffectLogs("There are no valid effect targets, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
+        }
+        private void BattleSteer_PostTargetEffect(Tile TargetTile)
+        {
+            //Now apply the effect into the target
+
+            //Resolve the effect: Target monster switches places with this card
+            SwitchPlaces(_CardEffectToBeActivated.OriginCard.CurrentTile, TargetTile);
+
+            //Enter Summon phase 3
+            SummonMonster_Phase3(CardsBeingSummoned[0]);
         }
         #endregion
     }

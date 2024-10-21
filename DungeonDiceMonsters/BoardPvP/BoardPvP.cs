@@ -1339,6 +1339,7 @@ namespace DungeonDiceMonsters
             {
                 //Create the effect object and activate
                 Effect thisCardsEffect = thisCard.GetOnSummonEffect();
+                _CardEffectToBeActivated = thisCardsEffect;
                 ActivateEffect(thisCardsEffect);
             }
             else
@@ -1708,6 +1709,21 @@ namespace DungeonDiceMonsters
                 targetCard.ChangeMonsterType(newType);
                 ResolveEffectsWithMonsterTypeChangeReactionTo(targetCard, activeEffect);
             }         
+        }
+        private void SwitchPlaces(Tile tile1, Tile tile2) 
+        {
+            //Set the card objects aside
+            Card cardInTile1 = tile1.CardInPlace;
+            Card cardInTile2 = tile2.CardInPlace;
+            //remove them on their current tiles
+            tile1.RemoveCard();
+            tile2.RemoveCard();
+            //Place card 2 in tile 1
+            tile1.MoveInCard(cardInTile2);
+            DisplayEffectApplyAnimation(tile1);
+            //Plcae card 1 in tile 2
+            tile2.MoveInCard(cardInTile1);
+            DisplayEffectApplyAnimation(tile2);
         }
         private void LaunchTurnStartPanel()
         {            
@@ -2487,6 +2503,7 @@ namespace DungeonDiceMonsters
             WhiteDolpphinIgnition,
             ChosenByChaliseOnSummon,
             SnakeyashiOnSummon,
+            BattleSteerOnSummon,
         }
         public enum SummonType
         {
