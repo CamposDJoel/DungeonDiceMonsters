@@ -167,6 +167,7 @@ namespace DungeonDiceMonsters
                 case Effect.EffectID.BeanSoldier_Ignition: BeanSoldier_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.SwordArmOfDragon_Ignition: SwordArmofDragon_IgnitionActivation(thisEffect); break;
                 case Effect.EffectID.BattleSteer_OnSummon: BattleSteer_OnSummonActivation(thisEffect); break;
+                case Effect.EffectID.BurningDragon_OnSummon: BurningDragon_OnSummonActivation(thisEffect); break;
                 default: throw new Exception(string.Format("Effect ID: [{0}] does not have an Activate Effect Function", thisEffect.ID));
             }
             UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
@@ -5823,6 +5824,47 @@ namespace DungeonDiceMonsters
 
             //Enter Summon phase 3
             SummonMonster_Phase3(CardsBeingSummoned[0]);
+        }
+        #endregion
+
+        #region Burning Dragon
+        private void BurningDragon_OnSummonActivation(Effect thisEffect)
+        {
+            //EFFECT DESCRIPTION: Gains 500 ATK/DEF if your opponent controls a monster that was Transform Summoned.
+
+            //Check if oppoenent has a Transformed Summoned Monster
+            bool activationRequirementsMet = false;
+            foreach (Card thisCardOnBoard in _CardsOnBoard) 
+            {
+                if(!thisCardOnBoard.IsDiscardted && thisCardOnBoard.Controller != thisEffect.Owner && thisCardOnBoard.WasTransformedInto)
+                {
+                    activationRequirementsMet = true; break;
+                }
+            }
+
+            //Requirement met, activate effect
+            if (activationRequirementsMet) 
+            {
+                DisplayOnSummonEffectPanel(thisEffect);
+                HideEffectMenuPanel();
+
+                //Resolve effect: Gains 500 ATK/DEF
+                thisEffect.OriginCard.AdjustAttackBonus(500);
+                thisEffect.OriginCard.AdjustDefenseBonus(500);
+                DisplayEffectApplyAnimation(thisEffect.OriginCard.CurrentTile);
+
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }   
+            else
+            {
+                //Effect wont be activated, display with Effect Menu panel with the missing requirements
+                DisplayOnSummonEffectPanel(thisEffect, "Conditions not met. Effect wont activate.");
+                UpdateEffectLogs("There are no opponent monsters that were transformed into, effect wont activate");
+                HideEffectMenuPanel();
+                //Enter Summon phase 3
+                SummonMonster_Phase3(thisEffect.OriginCard);
+            }
         }
         #endregion
     }
