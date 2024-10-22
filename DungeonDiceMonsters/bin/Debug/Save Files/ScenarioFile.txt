@@ -23,8 +23,10 @@ RED SET CARDS|3
 4031928|201|Change of heart
 ----------------------------------------
 BLUE SET CARDS|2
-87430998|19|Forest
+4206964|19|trap hole
 4031928|214|Change of heart
 -----------------------------------------
 RED CRESTS|20|20|20|20|20
 BLUE CRESTS|20|20|20|20|20
+----------------------------------------
+Always Summon Mode|TRUE

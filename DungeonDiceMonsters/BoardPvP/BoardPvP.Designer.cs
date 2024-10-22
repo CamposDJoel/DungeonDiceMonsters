@@ -212,6 +212,7 @@
             this.lblEffectMenuTittle = new System.Windows.Forms.Label();
             this.PicEffectMenuCardImage = new System.Windows.Forms.PictureBox();
             this.PanelFieldType = new System.Windows.Forms.Panel();
+            this.lblFieldDisplayTileID = new System.Windows.Forms.Label();
             this.lblFieldTypeName = new System.Windows.Forms.Label();
             this.PicFieldTypeDisplay = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -237,6 +238,16 @@
             this.PicFusionSummonAniMaterial3 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonAniMaterial1 = new System.Windows.Forms.PictureBox();
             this.PicFusionSummonCardPreview = new System.Windows.Forms.PictureBox();
+            this.PanelTriggerEffectSelector = new System.Windows.Forms.Panel();
+            this.btnTriggerSelectorPreviousCard = new System.Windows.Forms.Button();
+            this.btnTriggerSelectorNextCard = new System.Windows.Forms.Button();
+            this.PanelTriggerSelectorEffectPreview = new System.Windows.Forms.Panel();
+            this.lblTriggerSelectorEffectText = new System.Windows.Forms.Label();
+            this.btnTriggerEffectActivate = new System.Windows.Forms.Button();
+            this.PanelTriggerSelectorCardPreview = new System.Windows.Forms.Panel();
+            this.PicTriggerSelectorCardImage = new System.Windows.Forms.PictureBox();
+            this.btnTriggerEffectCancel = new System.Windows.Forms.Button();
+            this.TriggerEffectSelectionTitle = new System.Windows.Forms.Label();
             this.PanelBluePlayer.SuspendLayout();
             this.PanelBlueAvatar.SuspendLayout();
             this.PanelBlueCrests.SuspendLayout();
@@ -311,6 +322,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).BeginInit();
+            this.PanelTriggerEffectSelector.SuspendLayout();
+            this.PanelTriggerSelectorEffectPreview.SuspendLayout();
+            this.PanelTriggerSelectorCardPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicTriggerSelectorCardImage)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelBluePlayer
@@ -2174,7 +2189,7 @@
             this.PanelEndGameResults.Controls.Add(this.lblGameOverYouWin);
             this.PanelEndGameResults.Location = new System.Drawing.Point(26, 123);
             this.PanelEndGameResults.Name = "PanelEndGameResults";
-            this.PanelEndGameResults.Size = new System.Drawing.Size(953, 652);
+            this.PanelEndGameResults.Size = new System.Drawing.Size(793, 652);
             this.PanelEndGameResults.TabIndex = 28;
             this.PanelEndGameResults.Visible = false;
             // 
@@ -2554,6 +2569,7 @@
             // 
             this.PanelFieldType.BackColor = System.Drawing.Color.Black;
             this.PanelFieldType.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelFieldType.Controls.Add(this.lblFieldDisplayTileID);
             this.PanelFieldType.Controls.Add(this.lblFieldTypeName);
             this.PanelFieldType.Controls.Add(this.PicFieldTypeDisplay);
             this.PanelFieldType.Controls.Add(this.label4);
@@ -2562,6 +2578,18 @@
             this.PanelFieldType.Size = new System.Drawing.Size(130, 87);
             this.PanelFieldType.TabIndex = 31;
             this.PanelFieldType.Visible = false;
+            // 
+            // lblFieldDisplayTileID
+            // 
+            this.lblFieldDisplayTileID.BackColor = System.Drawing.Color.Black;
+            this.lblFieldDisplayTileID.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFieldDisplayTileID.ForeColor = System.Drawing.Color.White;
+            this.lblFieldDisplayTileID.Location = new System.Drawing.Point(91, 17);
+            this.lblFieldDisplayTileID.Name = "lblFieldDisplayTileID";
+            this.lblFieldDisplayTileID.Size = new System.Drawing.Size(32, 49);
+            this.lblFieldDisplayTileID.TabIndex = 8;
+            this.lblFieldDisplayTileID.Text = "Tile ID: 300";
+            this.lblFieldDisplayTileID.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblFieldTypeName
             // 
@@ -2868,6 +2896,131 @@
             this.PicFusionSummonCardPreview.TabStop = false;
             this.PicFusionSummonCardPreview.Visible = false;
             // 
+            // PanelTriggerEffectSelector
+            // 
+            this.PanelTriggerEffectSelector.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.PanelTriggerEffectSelector.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PanelTriggerEffectSelector.Controls.Add(this.btnTriggerSelectorPreviousCard);
+            this.PanelTriggerEffectSelector.Controls.Add(this.btnTriggerSelectorNextCard);
+            this.PanelTriggerEffectSelector.Controls.Add(this.PanelTriggerSelectorEffectPreview);
+            this.PanelTriggerEffectSelector.Controls.Add(this.btnTriggerEffectActivate);
+            this.PanelTriggerEffectSelector.Controls.Add(this.PanelTriggerSelectorCardPreview);
+            this.PanelTriggerEffectSelector.Controls.Add(this.btnTriggerEffectCancel);
+            this.PanelTriggerEffectSelector.Controls.Add(this.TriggerEffectSelectionTitle);
+            this.PanelTriggerEffectSelector.Location = new System.Drawing.Point(276, 291);
+            this.PanelTriggerEffectSelector.Name = "PanelTriggerEffectSelector";
+            this.PanelTriggerEffectSelector.Size = new System.Drawing.Size(381, 245);
+            this.PanelTriggerEffectSelector.TabIndex = 38;
+            this.PanelTriggerEffectSelector.Visible = false;
+            // 
+            // btnTriggerSelectorPreviousCard
+            // 
+            this.btnTriggerSelectorPreviousCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnTriggerSelectorPreviousCard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTriggerSelectorPreviousCard.ForeColor = System.Drawing.Color.White;
+            this.btnTriggerSelectorPreviousCard.Location = new System.Drawing.Point(4, 89);
+            this.btnTriggerSelectorPreviousCard.Name = "btnTriggerSelectorPreviousCard";
+            this.btnTriggerSelectorPreviousCard.Size = new System.Drawing.Size(34, 32);
+            this.btnTriggerSelectorPreviousCard.TabIndex = 13;
+            this.btnTriggerSelectorPreviousCard.Text = "<<";
+            this.btnTriggerSelectorPreviousCard.UseVisualStyleBackColor = false;
+            this.btnTriggerSelectorPreviousCard.Visible = false;
+            this.btnTriggerSelectorPreviousCard.Click += new System.EventHandler(this.btnTriggerSelectorPreviousCard_Click);
+            // 
+            // btnTriggerSelectorNextCard
+            // 
+            this.btnTriggerSelectorNextCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnTriggerSelectorNextCard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTriggerSelectorNextCard.ForeColor = System.Drawing.Color.White;
+            this.btnTriggerSelectorNextCard.Location = new System.Drawing.Point(135, 89);
+            this.btnTriggerSelectorNextCard.Name = "btnTriggerSelectorNextCard";
+            this.btnTriggerSelectorNextCard.Size = new System.Drawing.Size(34, 32);
+            this.btnTriggerSelectorNextCard.TabIndex = 12;
+            this.btnTriggerSelectorNextCard.Text = ">>";
+            this.btnTriggerSelectorNextCard.UseVisualStyleBackColor = false;
+            this.btnTriggerSelectorNextCard.Visible = false;
+            this.btnTriggerSelectorNextCard.Click += new System.EventHandler(this.btnTriggerSelectorNextCard_Click);
+            // 
+            // PanelTriggerSelectorEffectPreview
+            // 
+            this.PanelTriggerSelectorEffectPreview.BackColor = System.Drawing.Color.Black;
+            this.PanelTriggerSelectorEffectPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelTriggerSelectorEffectPreview.Controls.Add(this.lblTriggerSelectorEffectText);
+            this.PanelTriggerSelectorEffectPreview.Location = new System.Drawing.Point(175, 50);
+            this.PanelTriggerSelectorEffectPreview.Name = "PanelTriggerSelectorEffectPreview";
+            this.PanelTriggerSelectorEffectPreview.Size = new System.Drawing.Size(193, 151);
+            this.PanelTriggerSelectorEffectPreview.TabIndex = 11;
+            // 
+            // lblTriggerSelectorEffectText
+            // 
+            this.lblTriggerSelectorEffectText.BackColor = System.Drawing.Color.Transparent;
+            this.lblTriggerSelectorEffectText.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTriggerSelectorEffectText.ForeColor = System.Drawing.Color.Yellow;
+            this.lblTriggerSelectorEffectText.Location = new System.Drawing.Point(3, 3);
+            this.lblTriggerSelectorEffectText.Name = "lblTriggerSelectorEffectText";
+            this.lblTriggerSelectorEffectText.Size = new System.Drawing.Size(182, 142);
+            this.lblTriggerSelectorEffectText.TabIndex = 7;
+            this.lblTriggerSelectorEffectText.Text = "(TRIGGER) - [TRAP 5]  -This is a sample text for the effect activation preview; t" +
+    "arget that monster and spellbound it for 1 turn.";
+            // 
+            // btnTriggerEffectActivate
+            // 
+            this.btnTriggerEffectActivate.BackColor = System.Drawing.Color.MediumVioletRed;
+            this.btnTriggerEffectActivate.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTriggerEffectActivate.ForeColor = System.Drawing.Color.White;
+            this.btnTriggerEffectActivate.Location = new System.Drawing.Point(46, 174);
+            this.btnTriggerEffectActivate.Name = "btnTriggerEffectActivate";
+            this.btnTriggerEffectActivate.Size = new System.Drawing.Size(83, 32);
+            this.btnTriggerEffectActivate.TabIndex = 10;
+            this.btnTriggerEffectActivate.Text = "Activate";
+            this.btnTriggerEffectActivate.UseVisualStyleBackColor = false;
+            this.btnTriggerEffectActivate.Click += new System.EventHandler(this.btnTriggerEffectActivate_Click);
+            // 
+            // PanelTriggerSelectorCardPreview
+            // 
+            this.PanelTriggerSelectorCardPreview.BackColor = System.Drawing.Color.Black;
+            this.PanelTriggerSelectorCardPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelTriggerSelectorCardPreview.Controls.Add(this.PicTriggerSelectorCardImage);
+            this.PanelTriggerSelectorCardPreview.Location = new System.Drawing.Point(41, 51);
+            this.PanelTriggerSelectorCardPreview.Name = "PanelTriggerSelectorCardPreview";
+            this.PanelTriggerSelectorCardPreview.Size = new System.Drawing.Size(93, 122);
+            this.PanelTriggerSelectorCardPreview.TabIndex = 9;
+            // 
+            // PicTriggerSelectorCardImage
+            // 
+            this.PicTriggerSelectorCardImage.Image = ((System.Drawing.Image)(resources.GetObject("PicTriggerSelectorCardImage.Image")));
+            this.PicTriggerSelectorCardImage.Location = new System.Drawing.Point(3, 4);
+            this.PicTriggerSelectorCardImage.Name = "PicTriggerSelectorCardImage";
+            this.PicTriggerSelectorCardImage.Size = new System.Drawing.Size(85, 112);
+            this.PicTriggerSelectorCardImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicTriggerSelectorCardImage.TabIndex = 7;
+            this.PicTriggerSelectorCardImage.TabStop = false;
+            // 
+            // btnTriggerEffectCancel
+            // 
+            this.btnTriggerEffectCancel.BackColor = System.Drawing.Color.Black;
+            this.btnTriggerEffectCancel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTriggerEffectCancel.ForeColor = System.Drawing.Color.White;
+            this.btnTriggerEffectCancel.Location = new System.Drawing.Point(230, 203);
+            this.btnTriggerEffectCancel.Name = "btnTriggerEffectCancel";
+            this.btnTriggerEffectCancel.Size = new System.Drawing.Size(83, 32);
+            this.btnTriggerEffectCancel.TabIndex = 8;
+            this.btnTriggerEffectCancel.Text = "Cancel";
+            this.btnTriggerEffectCancel.UseVisualStyleBackColor = false;
+            this.btnTriggerEffectCancel.Click += new System.EventHandler(this.btnTriggerEffectCancel_Click);
+            // 
+            // TriggerEffectSelectionTitle
+            // 
+            this.TriggerEffectSelectionTitle.BackColor = System.Drawing.Color.Transparent;
+            this.TriggerEffectSelectionTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TriggerEffectSelectionTitle.ForeColor = System.Drawing.Color.Black;
+            this.TriggerEffectSelectionTitle.Location = new System.Drawing.Point(43, 2);
+            this.TriggerEffectSelectionTitle.Name = "TriggerEffectSelectionTitle";
+            this.TriggerEffectSelectionTitle.Size = new System.Drawing.Size(283, 42);
+            this.TriggerEffectSelectionTitle.TabIndex = 6;
+            this.TriggerEffectSelectionTitle.Text = "Do you want to activate any othe following Card(s)?";
+            this.TriggerEffectSelectionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // BoardPvP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2875,6 +3028,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(998, 926);
+            this.Controls.Add(this.PanelTriggerEffectSelector);
             this.Controls.Add(this.PanelEndGameResults);
             this.Controls.Add(this.PanelFusionSummonPanel);
             this.Controls.Add(this.PanelRitualSummonDisplay);
@@ -2996,6 +3150,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonAniMaterial1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicFusionSummonCardPreview)).EndInit();
+            this.PanelTriggerEffectSelector.ResumeLayout(false);
+            this.PanelTriggerSelectorEffectPreview.ResumeLayout(false);
+            this.PanelTriggerSelectorCardPreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicTriggerSelectorCardImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3210,5 +3368,16 @@
         private System.Windows.Forms.Label lblLevelUp_ExpGain;
         private System.Windows.Forms.Label lblLevelUp_Level;
         private System.Windows.Forms.Label lblLevelUp_ExpCounter;
+        private System.Windows.Forms.Panel PanelTriggerEffectSelector;
+        private System.Windows.Forms.Label TriggerEffectSelectionTitle;
+        private System.Windows.Forms.Button btnTriggerEffectActivate;
+        private System.Windows.Forms.Panel PanelTriggerSelectorCardPreview;
+        private System.Windows.Forms.PictureBox PicTriggerSelectorCardImage;
+        private System.Windows.Forms.Button btnTriggerEffectCancel;
+        private System.Windows.Forms.Panel PanelTriggerSelectorEffectPreview;
+        private System.Windows.Forms.Label lblTriggerSelectorEffectText;
+        private System.Windows.Forms.Button btnTriggerSelectorPreviousCard;
+        private System.Windows.Forms.Button btnTriggerSelectorNextCard;
+        private System.Windows.Forms.Label lblFieldDisplayTileID;
     }
 }

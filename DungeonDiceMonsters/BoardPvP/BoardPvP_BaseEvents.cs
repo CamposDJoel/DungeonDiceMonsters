@@ -1841,5 +1841,58 @@ namespace DungeonDiceMonsters
             }));
         }
         #endregion
+
+        #region Trigger Effect Selector
+        private void btnTriggerEffectCancel_Base()
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Hide the trigger effect panel
+                PanelTriggerEffectSelector.Visible = false;
+                //No card effects will activate, enter the main phase and return control to the TURNPLAYER
+                if (TURNPLAYER == UserPlayerColor) 
+                { 
+                    lblOponentActionWarning.Visible = false;
+                }
+                else 
+                {
+                    //Clear the hovering the for card in preview
+                    Card cardInPreview = _TriggerCardsThatCanBeActivated[_TriggerCardActivationIndex];
+                    cardInPreview.CurrentTile.ReloadTileUI();
+                    lblOponentActionWarning.Visible = true;
+                }
+                //Return to the main phase
+                EnterMainPhase();
+            }));           
+        }
+        private void btnTriggerEffectActivate_Base(int activationIndex)
+        {
+            Invoke(new MethodInvoker(delegate ()
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                //Hide the trigger effect panel
+                PanelTriggerEffectSelector.Visible = false;
+                Card cardInPreview = _TriggerCardsThatCanBeActivated[activationIndex];
+                //No card effects will activate, enter the main phase and return control to the TURNPLAYER
+                if (TURNPLAYER == UserPlayerColor)
+                {
+                    lblOponentActionWarning.Visible = false;
+                }
+                else
+                {
+                    //Clear the hovering the for card in preview                   
+                    cardInPreview.CurrentTile.ReloadTileUI();
+                    lblOponentActionWarning.Visible = true;
+                }
+                //Now Activate the card
+                Effect thisEffect = cardInPreview.GetTriggerEffect();
+                ActivateEffect(thisEffect);
+
+                //Trigger effects do not move game state. Enter the main phase now.
+                EnterMainPhase();
+            }));
+        }
+        #endregion
     }
 }
