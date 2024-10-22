@@ -39,6 +39,10 @@ namespace DungeonDiceMonsters
             btnFusionSummon1.MouseEnter += OnMouseHoverSound;
             btnFusionSummon2.MouseEnter += OnMouseHoverSound;
             btnFusionSummon3.MouseEnter += OnMouseHoverSound;
+            btnTriggerSelectorPreviousCard.MouseEnter += OnMouseHoverSound;
+            btnTriggerSelectorNextCard.MouseEnter += OnMouseHoverSound;
+            btnTriggerEffectActivate.MouseEnter += OnMouseHoverSound;
+            btnTriggerEffectCancel.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -220,6 +224,10 @@ namespace DungeonDiceMonsters
             btnFusionSummon1.MouseEnter += OnMouseHoverSound;
             btnFusionSummon2.MouseEnter += OnMouseHoverSound;
             btnFusionSummon3.MouseEnter += OnMouseHoverSound;
+            btnTriggerSelectorPreviousCard.MouseEnter += OnMouseHoverSound;
+            btnTriggerSelectorNextCard.MouseEnter += OnMouseHoverSound;
+            btnTriggerEffectActivate.MouseEnter += OnMouseHoverSound;
+            btnTriggerEffectCancel.MouseEnter += OnMouseHoverSound;
 
             //Save Ref to each player's data
             UserPlayerColor = UserColor;
@@ -944,6 +952,9 @@ namespace DungeonDiceMonsters
 
                 //Update the Field Type name label
                 lblFieldTypeName.Text = thisTile.FieldType.ToString();
+
+                //Display the tile id
+                lblFieldDisplayTileID.Text = string.Format("Tile ID: {0}", thisTile.ID);
             }
             else
             {
@@ -967,6 +978,57 @@ namespace DungeonDiceMonsters
             {
                 tile.MarkSetTarget();
             }
+        }
+        private void DisplayTriggerCardActivationMenu()
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.TriggerEffect);
+            if(TURNPLAYER == UserPlayerColor)
+            {
+                //The player who sommoned the monster, promtp the "wait" panel
+                TriggerEffectSelectionTitle.Text = "Opponent is thinking... Please wait.";
+                PanelTriggerSelectorCardPreview.Visible = false;
+                btnTriggerSelectorPreviousCard.Visible = false;
+                btnTriggerSelectorNextCard.Visible = false;
+                PanelTriggerSelectorEffectPreview.Visible = false;
+                btnTriggerEffectActivate.Visible = false;
+                btnTriggerEffectCancel.Visible = false;
+                lblOponentActionWarning.Visible = true;
+            }
+            else
+            {
+                //The player who can activate a (TRIGGER) effect, prompt the "select" panel
+                _TriggerCardActivationIndex = 0;
+                ReloadTriggerCardActivationPreview();
+                TriggerEffectSelectionTitle.Text = string.Format("Do you want to activate any othe following Card(s)? (Cards: {0})", _TriggerCardsThatCanBeActivated.Count);
+                PanelTriggerSelectorCardPreview.Visible = true;
+                if (_TriggerCardsThatCanBeActivated.Count > 1)
+                {
+                    btnTriggerSelectorPreviousCard.Visible = true;
+                    btnTriggerSelectorNextCard.Visible = true;
+                }
+                else 
+                {
+                    btnTriggerSelectorPreviousCard.Visible = false;
+                    btnTriggerSelectorNextCard.Visible = false;
+                }
+                PanelTriggerSelectorEffectPreview.Visible = true;
+                btnTriggerEffectActivate.Visible = true;
+                btnTriggerEffectCancel.Visible = true;
+                lblOponentActionWarning.Visible = false;
+            }
+            //Finally display the trigger effect selector panel
+            PanelTriggerEffectSelector.Visible = true;
+
+            //Both Players enter the Trigger Effect Selection gamestate
+            _CurrentGameState = GameState.TriggerEffectSelection;
+        }
+        private void ReloadTriggerCardActivationPreview()
+        {
+            //Set the card object 
+            Card cardInPreview = _TriggerCardsThatCanBeActivated[_TriggerCardActivationIndex];
+            cardInPreview.CurrentTile.Hover();
+            PicTriggerSelectorCardImage.Image = ImageServer.FullCardImage(cardInPreview.CardID.ToString());
+            lblTriggerSelectorEffectText.Text = string.Format("{0} - (Card on Tile ID: {1})", cardInPreview.TriggerEffectText, cardInPreview.CurrentTile.ID);
         }
         private void PlaceMoveMenu()
         {
@@ -1167,6 +1229,8 @@ namespace DungeonDiceMonsters
                     case "[CLICK TILE TO FUSION MATERIAL]": TileClick_FusionMaterial_Base(Convert.ToInt32(MessageTokens[1])); break;
                     case "[CLICK TILE TO FUSION SUMMON]": TileClick_FusionSummon_Base(Convert.ToInt32(MessageTokens[1])); break;
                     case "[CLICK TILE TO EFFECT TARGET]": TileClick_EffectTarget_Base(Convert.ToInt32(MessageTokens[1])); break;
+                    case "[TRIGGERCANCEL]": btnTriggerEffectCancel_Base(); break;
+                    case "[TRIGGERACTIVATE]": btnTriggerEffectActivate_Base(Convert.ToInt32(MessageTokens[1])); break;
                 }
             }           
         }
@@ -1378,38 +1442,46 @@ namespace DungeonDiceMonsters
         {
             UpdateEffectLogs(string.Format("[{0}]'s Summon Monster Phase 4 start. On Board ID [{1}]", thisCard.Name, thisCard.OnBoardID));
             _CurrentGameState = GameState.NOINPUT;
-            
-            UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
-            UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
-          
+
             //Check if any cards on the board can be activated by (TRIGGER) effects that respond to Summons
-            //RULE: ONLY 1 TRIGGER EFFECT can be activated, the first one that meets the cost/coditions will activate
-            CheckForTriggeredBySummonsEffects();
+            _TriggerCardsThatCanBeActivated.Clear();
+            _TriggerCardsThatCanBeActivated =  CheckForTriggeredBySummonsEffects();
 
-            //Summon Sequence Completed, remove this card from the CardsBeingSummon list
-            CardsBeingSummoned.RemoveAt(0);
+            if(_TriggerCardsThatCanBeActivated.Count == 0)
+            {                
+                UpdateEffectLogs("No trigger effects could activate, entering the Main Phase now.");
+                EnterMainPhase();
+                //Summon Sequence Completed, remove this card from the CardsBeingSummon list
+                CardsBeingSummoned.RemoveAt(0);
+                UpdateEffectLogs("SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: " + CardsBeingSummoned.Count);
+                UpdateEffectLogs("-----------------------------------------------------------------------------------------" + Environment.NewLine);
+            }
+            else
+            {
+                //Prompt the controller of the card to activate the any of the cards
+                DisplayTriggerCardActivationMenu();
+            }
 
-            void CheckForTriggeredBySummonsEffects()
+            List<Card> CheckForTriggeredBySummonsEffects()
             {
                 UpdateEffectLogs("-----   Checking for Cards with trigger effects by Monster Summons    ------");
 
-                //Check all the cards on the board to find the FIRST card that mets its cost and activation requirements
-                Effect EffectToBeActivated = null;
-                foreach(Card thisCardOnTheBoard in _CardsOnBoard)
+                //Find all cards on the board that can be trigger by a monster summon
+                List<Card> CardsThatTriggered = new List<Card>();
+                foreach (Card thisCardOnBoard in _CardsOnBoard)
                 {
-                    if(thisCardOnTheBoard.IsFaceDown && thisCardOnTheBoard.HasTriggerEffect && thisCardOnTheBoard.TriggerEvent == Card.TriggeredBy.MonsterSummon)
+                    if(thisCardOnBoard.IsFaceDown && thisCardOnBoard.HasTriggerEffect && thisCardOnBoard.TriggerEvent == Card.TriggeredBy.MonsterSummon)
                     {
                         //Now check the cost to activate
-                        Effect thisTriggerEffect = thisCardOnTheBoard.GetTriggerEffect();
-                        if(IsCostMet(thisTriggerEffect.CrestCost, thisTriggerEffect.CostAmount))
+                        Effect thisTriggerEffect = thisCardOnBoard.GetTriggerEffect();
+                        if (IsCostMet(thisTriggerEffect.CrestCost, thisTriggerEffect.CostAmount))
                         {
                             //Now check the condition requirements
                             string requirmentMetCondition = GetActivationRequirementStatus(thisTriggerEffect);
-                            if(requirmentMetCondition == "Requirements Met")
+                            if (requirmentMetCondition == "Requirements Met")
                             {
-                                UpdateEffectLogs("Ctivation requirements MET");
-                                EffectToBeActivated = thisTriggerEffect;
-                                break;
+                                UpdateEffectLogs("Activation requirements MET");
+                                CardsThatTriggered.Add(thisCardOnBoard);
                             }
                             else
                             {
@@ -1420,17 +1492,7 @@ namespace DungeonDiceMonsters
                     }
                 }
 
-                //Finally, check if a effect will be activated.
-                if(EffectToBeActivated != null)
-                {
-                    ActivateEffect(EffectToBeActivated);
-                }
-                //If not, enter the Main Phase
-                else
-                {
-                    UpdateEffectLogs("No trigger effects could activate, entering the Main Phase now.");
-                    EnterMainPhase();
-                }
+                return CardsThatTriggered;
             }
             bool IsCostMet(Crest crestCost, int amount)
             {
@@ -2449,6 +2511,8 @@ namespace DungeonDiceMonsters
         private bool _AppShutDownWhenClose = true;
         private PvPMenu _PvPMenuRef;
         private Effect _CardEffectToBeActivated;
+        private List<Card> _TriggerCardsThatCanBeActivated = new List<Card>();
+        private int _TriggerCardActivationIndex = 0;
         //Fusion Sequence Data
         private bool[] _FusionCardsReadyForFusion = new bool[3];
         private CardInfo _FusionToBeSummoned;
@@ -2480,6 +2544,7 @@ namespace DungeonDiceMonsters
             FusionMaterialCandidateSelection,
             FusionSummonTileSelection,
             EffectTargetSelection,
+            TriggerEffectSelection,
         }
         private enum PostTargetState
         {
@@ -2522,7 +2587,7 @@ namespace DungeonDiceMonsters
             Fusion,
             Transform,
         }
-        #endregion
+        #endregion        
     }
 
     public enum PlayerColor

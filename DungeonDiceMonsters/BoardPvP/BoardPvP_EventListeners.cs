@@ -870,6 +870,59 @@ namespace DungeonDiceMonsters
         }
         #endregion
 
+        #region Trigger Effect Selector
+        private void btnTriggerSelectorNextCard_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            //unhover the previous card
+            _TriggerCardsThatCanBeActivated[_TriggerCardActivationIndex].CurrentTile.ReloadTileUI();
+
+            if (_TriggerCardActivationIndex == _TriggerCardsThatCanBeActivated.Count - 1)
+            {
+                _TriggerCardActivationIndex = 0;
+            }
+            else
+            {
+                _TriggerCardActivationIndex++;
+            }
+            ReloadTriggerCardActivationPreview();
+        }
+        private void btnTriggerSelectorPreviousCard_Click(object sender, EventArgs e)
+        {
+            SoundServer.PlaySoundEffect(SoundEffect.Click);
+
+            //unhover the previous card
+            _TriggerCardsThatCanBeActivated[_TriggerCardActivationIndex].CurrentTile.ReloadTileUI();
+
+            if (_TriggerCardActivationIndex == 0)
+            {
+                _TriggerCardActivationIndex = _TriggerCardsThatCanBeActivated.Count - 1;
+            }
+            else
+            {
+                _TriggerCardActivationIndex--;
+            }
+            ReloadTriggerCardActivationPreview();
+        }
+        private void btnTriggerEffectCancel_Click(object sender, EventArgs e)
+        {
+            _CurrentGameState = GameState.NOINPUT;
+
+            //Send message to server and launch the base event
+            SendMessageToServer("[TRIGGERCANCEL]");
+            btnTriggerEffectCancel_Base();
+        }
+        private void btnTriggerEffectActivate_Click(object sender, EventArgs e)
+        {
+            _CurrentGameState = GameState.NOINPUT;
+
+            //Send message to server and launch the base event
+            SendMessageToServer(string.Format("[TRIGGERACTIVATE]|{0}", _TriggerCardActivationIndex));
+            btnTriggerEffectActivate_Base(_TriggerCardActivationIndex);
+        }
+        #endregion
+
         #region EOG Bonus Screen
         private void listGameOverSpecialBonusList_SelectedIndexChanged(object sender, EventArgs e)
         {
