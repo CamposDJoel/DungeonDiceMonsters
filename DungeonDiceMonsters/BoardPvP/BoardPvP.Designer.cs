@@ -2189,7 +2189,7 @@
             this.PanelEndGameResults.Controls.Add(this.lblGameOverYouWin);
             this.PanelEndGameResults.Location = new System.Drawing.Point(26, 123);
             this.PanelEndGameResults.Name = "PanelEndGameResults";
-            this.PanelEndGameResults.Size = new System.Drawing.Size(793, 652);
+            this.PanelEndGameResults.Size = new System.Drawing.Size(945, 652);
             this.PanelEndGameResults.TabIndex = 28;
             this.PanelEndGameResults.Visible = false;
             // 

@@ -60,6 +60,7 @@
             this.btnOpenDBManager.TabIndex = 0;
             this.btnOpenDBManager.Text = "Open DB Manager";
             this.btnOpenDBManager.UseVisualStyleBackColor = true;
+            this.btnOpenDBManager.Visible = false;
             this.btnOpenDBManager.Click += new System.EventHandler(this.btnOpenDBManager_Click);
             // 
             // btnStartGame
@@ -128,6 +129,7 @@
             this.btnOpenTestForm.TabIndex = 5;
             this.btnOpenTestForm.Text = "Open Test Form";
             this.btnOpenTestForm.UseVisualStyleBackColor = true;
+            this.btnOpenTestForm.Visible = false;
             this.btnOpenTestForm.Click += new System.EventHandler(this.btnOpenTestForm_Click);
             // 
             // txtPlayerName
