@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,7 +29,8 @@ namespace DungeonDiceMonsters
                 string[] tokens = Line.Split('|');
                 string settingName = tokens[0];
                 string settingValue = tokens[1];
-                bool settingBoolValue = Convert.ToBoolean(settingValue);
+                bool settingBoolValue = false;
+                if(settingValue == "True" || settingValue == "False") { settingBoolValue = Convert.ToBoolean(settingValue); }
 
                 switch (settingName)
                 {
@@ -44,6 +46,8 @@ namespace DungeonDiceMonsters
                     case "11": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
                     case "12": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
                     case "13": songID = Convert.ToInt32(settingName); if (settingBoolValue) { _IncludeSongList.Add((Song)songID); } else { _ExcludeSongList.Add((Song)songID); } break;
+                    case "PvPOnline": _PvPModeOnline = settingBoolValue; break;
+                    case "LocalHostIPAddreess":_LocalHostIPAddress = settingValue; break;
                     default: throw new Exception("Invalid setting name to initialize: " + settingName);
                 }
             }
@@ -74,11 +78,21 @@ namespace DungeonDiceMonsters
             _ExcludeSongList.Add(thisSong);
             RewriteSettingSaveFile();
         }
+        public static void SetPvPOnlineMode(bool newValue)
+        {
+            _PvPModeOnline= newValue;
+            RewriteSettingSaveFile();
+        }
+        public static void SetLocalHostIPAddres(string newIP)
+        {
+            _LocalHostIPAddress = newIP;
+            RewriteSettingSaveFile();
+        }
 
         private static void RewriteSettingSaveFile()
         {
             List<string> outputdata = new List<string>();
-            outputdata.Add("12");
+            outputdata.Add("14");
             outputdata.Add("MusicON|" + _MusicON.ToString());
             outputdata.Add("SFXON|" + _SFXON.ToString());
             if (IncludeSongList.Contains((Song)4)) { outputdata.Add("4|True"); } else { outputdata.Add("4|False"); }
@@ -91,6 +105,8 @@ namespace DungeonDiceMonsters
             if (IncludeSongList.Contains((Song)11)) { outputdata.Add("11|True"); } else { outputdata.Add("11|False"); }
             if (IncludeSongList.Contains((Song)12)) { outputdata.Add("12|True"); } else { outputdata.Add("12|False"); }
             if (IncludeSongList.Contains((Song)13)) { outputdata.Add("13|True"); } else { outputdata.Add("13|False"); }
+            outputdata.Add("PvPOnline|" + _PvPModeOnline.ToString());
+            outputdata.Add("LocalHostIPAddreess|" + _LocalHostIPAddress.ToString());
             File.WriteAllLines(Directory.GetCurrentDirectory() + "\\Settings Files\\SettingsData.txt", outputdata);
         }
 
@@ -98,11 +114,22 @@ namespace DungeonDiceMonsters
         public static bool IsSFXON { get { return _SFXON; } }
         public static List<Song> IncludeSongList { get { return _IncludeSongList; }  }
         public static List<Song> ExcludeSongList { get { return _ExcludeSongList; }  }
+        public static bool IsPvPInOnlineMode { get { return _PvPModeOnline; } }
+        public static string PvPIPAddress 
+        {
+            get 
+            {
+                if (_PvPModeOnline) { return _OnlineIPAddress; } else { return _LocalHostIPAddress; }
+            }
+        }
 
 
         private static bool _MusicON = true;
         private static bool _SFXON = true;
         private static List<Song> _IncludeSongList = new List<Song>();
         private static List<Song> _ExcludeSongList = new List<Song>();
+        private static bool _PvPModeOnline = true;
+        private static string _OnlineIPAddress = "192.168.0.220";
+        private static string _LocalHostIPAddress = "invalid";
     }
 }

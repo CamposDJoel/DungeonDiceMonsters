@@ -5,6 +5,7 @@
 using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace DungeonDiceMonsters
 {
@@ -21,6 +22,7 @@ namespace DungeonDiceMonsters
             {
                 if (SettingsData.IsMusicON) { radioOptionMusicON.Checked = true; } else { radioOptionMusicOFF.Checked = true; };
                 if (SettingsData.IsSFXON) { radioOptionSFXON.Checked = true; } else { radioOptionSFXOFF.Checked = true; };
+                if (SettingsData.IsPvPInOnlineMode) { radioPvPModeOnline.Checked = true; } else { radioPvPModeLocal.Checked = true; }
 
                 //Include/Exclude music list
                 ReloadSongListsUI();
@@ -130,6 +132,47 @@ namespace DungeonDiceMonsters
             SettingsData.MoveSongToIncludeList(index);
             ReloadSongListsUI();
         }
-        #endregion    
+        #endregion
+        private void radioPvPModeOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioPvPModeOnline.Checked)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SettingsData.SetPvPOnlineMode(true);
+                lblPvPModeIPAddresslabel.Visible = false;
+                txtPvPModeIPAddress.Visible = false;
+                btnSaveIPAddress.Visible = false;
+            }
+        }
+        private void radioPvPModeLocal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioPvPModeLocal.Checked)
+            {
+                SoundServer.PlaySoundEffect(SoundEffect.Click);
+                SettingsData.SetPvPOnlineMode(false);
+                txtPvPModeIPAddress.Text = SettingsData.PvPIPAddress;
+                lblPvPModeIPAddresslabel.Visible = true;
+                txtPvPModeIPAddress.Visible = true;
+                btnSaveIPAddress.Visible = true;
+            }
+        }
+        private void btnSaveIPAddress_Click(object sender, EventArgs e)
+        {
+            string input = txtPvPModeIPAddress.Text;
+            //Validate input is not empty, does not contain | it DOES contain "."  and it does not contain letters
+            int letters = Regex.Matches(input, @"[a-zA-Z]").Count;
+            if (input.Length == 0 || input.Contains("|") || !input.Contains(".") || letters > 0) 
+            {
+                //errro
+                SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+                txtPvPModeIPAddress.Text = "Invalid value";
+            }
+            else
+            {
+                //Save the IP address
+                SoundServer.PlaySoundEffect(SoundEffect.Accept);
+                SettingsData.SetLocalHostIPAddres(input);
+            }
+        }
     }
 }
