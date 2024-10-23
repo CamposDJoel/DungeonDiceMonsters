@@ -38,15 +38,22 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.GroupDuelMusic = new System.Windows.Forms.GroupBox();
+            this.btnIncludeSong = new System.Windows.Forms.Button();
+            this.btnExcludeSong = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ListExcludeMusic = new System.Windows.Forms.ListBox();
             this.ListIncludeMusic = new System.Windows.Forms.ListBox();
-            this.btnExcludeSong = new System.Windows.Forms.Button();
-            this.btnIncludeSong = new System.Windows.Forms.Button();
+            this.groupPvPConnectionMode = new System.Windows.Forms.GroupBox();
+            this.radioPvPModeLocal = new System.Windows.Forms.RadioButton();
+            this.radioPvPModeOnline = new System.Windows.Forms.RadioButton();
+            this.lblPvPModeIPAddresslabel = new System.Windows.Forms.Label();
+            this.txtPvPModeIPAddress = new System.Windows.Forms.TextBox();
+            this.btnSaveIPAddress = new System.Windows.Forms.Button();
             this.GroupMusic.SuspendLayout();
             this.GroupSFX.SuspendLayout();
             this.GroupDuelMusic.SuspendLayout();
+            this.groupPvPConnectionMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // GroupMusic
@@ -168,6 +175,30 @@
             this.GroupDuelMusic.TabStop = false;
             this.GroupDuelMusic.Text = "Duel Music";
             // 
+            // btnIncludeSong
+            // 
+            this.btnIncludeSong.BackColor = System.Drawing.Color.Black;
+            this.btnIncludeSong.ForeColor = System.Drawing.Color.Lime;
+            this.btnIncludeSong.Location = new System.Drawing.Point(306, 116);
+            this.btnIncludeSong.Name = "btnIncludeSong";
+            this.btnIncludeSong.Size = new System.Drawing.Size(32, 23);
+            this.btnIncludeSong.TabIndex = 5;
+            this.btnIncludeSong.Text = "<<<";
+            this.btnIncludeSong.UseVisualStyleBackColor = false;
+            this.btnIncludeSong.Click += new System.EventHandler(this.btnIncludeSong_Click);
+            // 
+            // btnExcludeSong
+            // 
+            this.btnExcludeSong.BackColor = System.Drawing.Color.Black;
+            this.btnExcludeSong.ForeColor = System.Drawing.Color.Red;
+            this.btnExcludeSong.Location = new System.Drawing.Point(306, 54);
+            this.btnExcludeSong.Name = "btnExcludeSong";
+            this.btnExcludeSong.Size = new System.Drawing.Size(32, 23);
+            this.btnExcludeSong.TabIndex = 4;
+            this.btnExcludeSong.Text = ">>>";
+            this.btnExcludeSong.UseVisualStyleBackColor = false;
+            this.btnExcludeSong.Click += new System.EventHandler(this.btnExcludeSong_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -208,29 +239,78 @@
             this.ListIncludeMusic.Size = new System.Drawing.Size(297, 124);
             this.ListIncludeMusic.TabIndex = 0;
             // 
-            // btnExcludeSong
+            // groupPvPConnectionMode
             // 
-            this.btnExcludeSong.BackColor = System.Drawing.Color.Black;
-            this.btnExcludeSong.ForeColor = System.Drawing.Color.Red;
-            this.btnExcludeSong.Location = new System.Drawing.Point(306, 54);
-            this.btnExcludeSong.Name = "btnExcludeSong";
-            this.btnExcludeSong.Size = new System.Drawing.Size(32, 23);
-            this.btnExcludeSong.TabIndex = 4;
-            this.btnExcludeSong.Text = ">>>";
-            this.btnExcludeSong.UseVisualStyleBackColor = false;
-            this.btnExcludeSong.Click += new System.EventHandler(this.btnExcludeSong_Click);
+            this.groupPvPConnectionMode.BackColor = System.Drawing.Color.Transparent;
+            this.groupPvPConnectionMode.Controls.Add(this.btnSaveIPAddress);
+            this.groupPvPConnectionMode.Controls.Add(this.txtPvPModeIPAddress);
+            this.groupPvPConnectionMode.Controls.Add(this.lblPvPModeIPAddresslabel);
+            this.groupPvPConnectionMode.Controls.Add(this.radioPvPModeLocal);
+            this.groupPvPConnectionMode.Controls.Add(this.radioPvPModeOnline);
+            this.groupPvPConnectionMode.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupPvPConnectionMode.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupPvPConnectionMode.Location = new System.Drawing.Point(208, 141);
+            this.groupPvPConnectionMode.Name = "groupPvPConnectionMode";
+            this.groupPvPConnectionMode.Size = new System.Drawing.Size(280, 83);
+            this.groupPvPConnectionMode.TabIndex = 21;
+            this.groupPvPConnectionMode.TabStop = false;
+            this.groupPvPConnectionMode.Text = "PvP Connection Mode";
             // 
-            // btnIncludeSong
+            // radioPvPModeLocal
             // 
-            this.btnIncludeSong.BackColor = System.Drawing.Color.Black;
-            this.btnIncludeSong.ForeColor = System.Drawing.Color.Lime;
-            this.btnIncludeSong.Location = new System.Drawing.Point(306, 116);
-            this.btnIncludeSong.Name = "btnIncludeSong";
-            this.btnIncludeSong.Size = new System.Drawing.Size(32, 23);
-            this.btnIncludeSong.TabIndex = 5;
-            this.btnIncludeSong.Text = "<<<";
-            this.btnIncludeSong.UseVisualStyleBackColor = false;
-            this.btnIncludeSong.Click += new System.EventHandler(this.btnIncludeSong_Click);
+            this.radioPvPModeLocal.AutoSize = true;
+            this.radioPvPModeLocal.Location = new System.Drawing.Point(135, 25);
+            this.radioPvPModeLocal.Name = "radioPvPModeLocal";
+            this.radioPvPModeLocal.Size = new System.Drawing.Size(111, 22);
+            this.radioPvPModeLocal.TabIndex = 1;
+            this.radioPvPModeLocal.TabStop = true;
+            this.radioPvPModeLocal.Text = "Local Host";
+            this.radioPvPModeLocal.UseVisualStyleBackColor = true;
+            this.radioPvPModeLocal.CheckedChanged += new System.EventHandler(this.radioPvPModeLocal_CheckedChanged);
+            // 
+            // radioPvPModeOnline
+            // 
+            this.radioPvPModeOnline.AutoSize = true;
+            this.radioPvPModeOnline.Location = new System.Drawing.Point(10, 25);
+            this.radioPvPModeOnline.Name = "radioPvPModeOnline";
+            this.radioPvPModeOnline.Size = new System.Drawing.Size(77, 22);
+            this.radioPvPModeOnline.TabIndex = 0;
+            this.radioPvPModeOnline.TabStop = true;
+            this.radioPvPModeOnline.Text = "Online";
+            this.radioPvPModeOnline.UseVisualStyleBackColor = true;
+            this.radioPvPModeOnline.CheckedChanged += new System.EventHandler(this.radioPvPModeOnline_CheckedChanged);
+            // 
+            // lblPvPModeIPAddresslabel
+            // 
+            this.lblPvPModeIPAddresslabel.AutoSize = true;
+            this.lblPvPModeIPAddresslabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPvPModeIPAddresslabel.Location = new System.Drawing.Point(5, 55);
+            this.lblPvPModeIPAddresslabel.Name = "lblPvPModeIPAddresslabel";
+            this.lblPvPModeIPAddresslabel.Size = new System.Drawing.Size(80, 15);
+            this.lblPvPModeIPAddresslabel.TabIndex = 3;
+            this.lblPvPModeIPAddresslabel.Text = "IP Address:";
+            this.lblPvPModeIPAddresslabel.Visible = false;
+            // 
+            // txtPvPModeIPAddress
+            // 
+            this.txtPvPModeIPAddress.Location = new System.Drawing.Point(91, 49);
+            this.txtPvPModeIPAddress.Name = "txtPvPModeIPAddress";
+            this.txtPvPModeIPAddress.Size = new System.Drawing.Size(97, 26);
+            this.txtPvPModeIPAddress.TabIndex = 4;
+            this.txtPvPModeIPAddress.Visible = false;
+            // 
+            // btnSaveIPAddress
+            // 
+            this.btnSaveIPAddress.BackColor = System.Drawing.Color.Black;
+            this.btnSaveIPAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnSaveIPAddress.Location = new System.Drawing.Point(194, 50);
+            this.btnSaveIPAddress.Name = "btnSaveIPAddress";
+            this.btnSaveIPAddress.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveIPAddress.TabIndex = 5;
+            this.btnSaveIPAddress.Text = "Save";
+            this.btnSaveIPAddress.UseVisualStyleBackColor = false;
+            this.btnSaveIPAddress.Visible = false;
+            this.btnSaveIPAddress.Click += new System.EventHandler(this.btnSaveIPAddress_Click);
             // 
             // SettingsMenu
             // 
@@ -239,6 +319,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.groupPvPConnectionMode);
             this.Controls.Add(this.GroupDuelMusic);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExit);
@@ -257,6 +338,8 @@
             this.GroupSFX.PerformLayout();
             this.GroupDuelMusic.ResumeLayout(false);
             this.GroupDuelMusic.PerformLayout();
+            this.groupPvPConnectionMode.ResumeLayout(false);
+            this.groupPvPConnectionMode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,5 +362,11 @@
         private System.Windows.Forms.ListBox ListIncludeMusic;
         private System.Windows.Forms.Button btnIncludeSong;
         private System.Windows.Forms.Button btnExcludeSong;
+        private System.Windows.Forms.GroupBox groupPvPConnectionMode;
+        private System.Windows.Forms.RadioButton radioPvPModeLocal;
+        private System.Windows.Forms.RadioButton radioPvPModeOnline;
+        private System.Windows.Forms.TextBox txtPvPModeIPAddress;
+        private System.Windows.Forms.Label lblPvPModeIPAddresslabel;
+        private System.Windows.Forms.Button btnSaveIPAddress;
     }
 }

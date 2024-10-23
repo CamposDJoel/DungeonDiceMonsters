@@ -1,4 +1,4 @@
-12
+14
 MusicON|True
 SFXON|True
 4|True
@@ -11,3 +11,5 @@ SFXON|True
 11|True
 12|True
 13|True
+PvPOnline|True
+LocalHostIPAddreess|127.0.0.1

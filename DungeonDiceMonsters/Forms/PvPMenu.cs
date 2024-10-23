@@ -66,8 +66,7 @@ namespace DungeonDiceMonsters
             //Connect
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
-            //IPAddress ip = IPAddress.Parse("192.168.0.220");
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
+            IPAddress ip = IPAddress.Parse(SettingsData.PvPIPAddress);
             int port = 5000;
             TcpClient client = new TcpClient();
 
