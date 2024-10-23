@@ -20,11 +20,13 @@ namespace DDMPvPServer
             InitializeComponent();
         }
 
+        static bool _ServerON = false;
         static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
         static readonly Dictionary<int, Match> list_Matches = new Dictionary<int, Match>();
         static int clinetcount = 1;
         static int matchcount = 1;
+        static bool _OnlineMode = true;
         static TcpListener? ServerSocket;
         Thread waitingforclients;
 
@@ -34,7 +36,7 @@ namespace DDMPvPServer
 
         public static void WaitForClients()
         {
-            while (true)
+            while (_ServerON)
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                 TcpClient ConnectingClient = ServerSocket.AcceptTcpClient();
@@ -73,9 +75,9 @@ namespace DDMPvPServer
                 }
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-                Thread t = new Thread(handle_clients);
+                Thread handleClients = new Thread(handle_clients);
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-                t.Start(clinetcount);
+                handleClients.Start(clinetcount);
                 clinetcount++;
             }
         }
@@ -100,9 +102,9 @@ namespace DDMPvPServer
                 }
             }
 
-            while (true)
+            while (_ServerON)
             {
-                
+
                 try
                 {
                     //Step 2: Extract the data received from this call (AKA var "data")
@@ -181,7 +183,7 @@ namespace DDMPvPServer
                                     break;
                             }
                         }
-                    }                   
+                    }
                 }
                 catch
                 {
@@ -222,7 +224,7 @@ namespace DDMPvPServer
                     }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
-                
+
             }
 
             lock (_lock) list_clients.Remove(id);
@@ -244,6 +246,7 @@ namespace DDMPvPServer
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            StopServer();
             Application.Exit();
         }
         private void UpdateConnectionLog(string message)
@@ -256,29 +259,66 @@ namespace DDMPvPServer
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
-            staticServerObject = this;
-            btnStart.Visible = false;
-            //ServerSocket = new TcpListener(IPAddress.Parse("192.168.0.220"), 5000);
-            ServerSocket = new TcpListener(IPAddress.Any, 5000);
-            ServerSocket.Start();
+            try
+            {
+                _ServerON = true;
+                staticServerObject = this;
+                btnStart.Visible = false;
+                GroupMode.Visible = false;
+                lblServerError.Visible = false;
+                string ipInUsed = "na";
+                //Set the server socket based on the mode
+                if (_OnlineMode)
+                {
+                    ServerSocket = new TcpListener(IPAddress.Parse("192.168.1.48"), 5000);
+                    ipInUsed = "192.168.1.48";
+                }
+                else
+                {
+                    string ipInput = txtIPaddress.Text;
+                    ServerSocket = new TcpListener(IPAddress.Parse(ipInput), 5000);
+                    ipInUsed = ipInput;
+                }
+                ServerSocket.Start();
+                this.Text = "DDM - Server - RUNNING ON IP:" + ipInUsed + "| Host: 5000";
 
-            //Start the first match
-            listMatches.Items.Add("ID: " + matchcount);
-            list_Matches.Add(matchcount, new Match(matchcount));
-            UpdateConnectionLog(string.Format("Match ID: {0} open for players.{1}", matchcount, Environment.NewLine));
-            waitingforclients = new Thread(WaitForClients);
-            waitingforclients.Start();
-            btnStop.Visible = true;
-            listMatches.SetSelected(0, true);
+                //Start the first match
+                listMatches.Items.Add("ID: " + matchcount);
+                list_Matches.Add(matchcount, new Match(matchcount));
+                UpdateConnectionLog(string.Format("Match ID: {0} open for players.{1}", matchcount, Environment.NewLine));
+                waitingforclients = new Thread(WaitForClients);
+                waitingforclients.Start();
+                btnStop.Visible = true;
+                listMatches.SetSelected(0, true);
+            }
+            catch 
+            {
+                lblServerError.Visible = true;
+                btnStart.Visible = true;
+                GroupMode.Visible = true;
+                _ServerON = false;
+            }           
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
+            StopServer();
+        }
+        private void StopServer()
+        {
+            _ServerON = false;
             btnStop.Visible = false;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            ServerSocket.Stop();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            //Disconect all clients in         
+            foreach (KeyValuePair<int, TcpClient> entry in list_clients)
+            {
+                SendMessage("[SERVER DISCONNECT]", entry.Value);
+            }
+            //waitingforclients.Join();
+            //handleClients.Join();
+            //ServerSocket.Stop();
             list_Matches.Clear();
             btnStart.Visible = true;
+            GroupMode.Visible = true;
+            Environment.Exit(0);
         }
         private void listMatches_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -300,6 +340,28 @@ namespace DDMPvPServer
                 txtMatchOutput.Text = "";
                 txtMatchOutput.Text = activeMatch.GetLogs();
             }));
+        }
+
+        private void radioModeOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioModeOnline.Checked)
+            {
+                _OnlineMode = true;
+                radioModeLocal.Checked = false;
+                lblIP.Visible = false;
+                txtIPaddress.Visible = false;
+            }
+        }
+
+        private void radioModeLocal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioModeLocal.Checked)
+            {
+                _OnlineMode = false;
+                radioModeOnline.Checked = false;
+                lblIP.Visible = true;
+                txtIPaddress.Visible = true;
+            }
         }
     }
 }
