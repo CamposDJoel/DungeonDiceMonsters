@@ -33,9 +33,6 @@ namespace DungeonDiceMonsters
             }
             void InitializeEventListeners()
             {
-                lblMenuArcade.MouseEnter += OnMouseEnterLabel;
-                lblMenuArcade.MouseLeave += OnMouseLeaveLabel;
-
                 lblMenuFreeDuel.MouseEnter += OnMouseEnterLabel;
                 lblMenuFreeDuel.MouseLeave += OnMouseLeaveLabel;
 
@@ -103,10 +100,6 @@ namespace DungeonDiceMonsters
             FreeDuelMenu FD = new FreeDuelMenu();
             Dispose();
             FD.Show();
-        }
-        private void lblMenuArcade_Click(object sender, EventArgs e)
-        {
-
         }
         private void lblPvPDuel_Click(object sender, EventArgs e)
         {

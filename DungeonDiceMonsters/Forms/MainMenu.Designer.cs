@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
-            this.lblMenuArcade = new System.Windows.Forms.Label();
             this.lblMenuFreeDuel = new System.Windows.Forms.Label();
             this.lblMenuDeckBuilder = new System.Windows.Forms.Label();
             this.lblMenuCardShop = new System.Windows.Forms.Label();
@@ -53,20 +52,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicProfilePic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicProfileDetailsButton)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lblMenuArcade
-            // 
-            this.lblMenuArcade.BackColor = System.Drawing.Color.Transparent;
-            this.lblMenuArcade.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblMenuArcade.Font = new System.Drawing.Font("Arial Rounded MT Bold", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMenuArcade.ForeColor = System.Drawing.Color.White;
-            this.lblMenuArcade.Location = new System.Drawing.Point(37, 230);
-            this.lblMenuArcade.Name = "lblMenuArcade";
-            this.lblMenuArcade.Size = new System.Drawing.Size(337, 40);
-            this.lblMenuArcade.TabIndex = 0;
-            this.lblMenuArcade.Text = "Arcade Mode";
-            this.lblMenuArcade.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblMenuArcade.Click += new System.EventHandler(this.lblMenuArcade_Click);
             // 
             // lblMenuFreeDuel
             // 
@@ -309,7 +294,6 @@
             this.Controls.Add(this.lblMenuCardShop);
             this.Controls.Add(this.lblMenuDeckBuilder);
             this.Controls.Add(this.lblMenuFreeDuel);
-            this.Controls.Add(this.lblMenuArcade);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -325,8 +309,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblMenuArcade;
         private System.Windows.Forms.Label lblMenuFreeDuel;
         private System.Windows.Forms.Label lblMenuDeckBuilder;
         private System.Windows.Forms.Label lblMenuCardShop;

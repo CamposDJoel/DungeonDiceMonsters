@@ -80,6 +80,7 @@ namespace DungeonDiceMonsters
         }
         private void OnMouseEnterPicture(object sender, EventArgs e)
         {
+            SoundServer.PlaySoundEffect(SoundEffect.Hover);
             PictureBox thisPicture = (PictureBox)sender;
             int id = Convert.ToInt32(thisPicture.Tag);
 
@@ -113,7 +114,8 @@ namespace DungeonDiceMonsters
             string characterName = GameData.CharacterName(thisCharacter);
 
             //TODO: Start a duel with this character
-
+            SoundServer.PlaySoundEffect(SoundEffect.InvalidClick);
+            /*
             //Generate the Player Objects
             PlayerData red = new PlayerData("Player", "1", "1", DecksData.GetDeckAtIndex(0).GetCopy());
             PlayerData blue = new PlayerData(characterName, "1", "1", DecksData.GetDeckAtIndex(0).GetCopy());
@@ -121,7 +123,7 @@ namespace DungeonDiceMonsters
             BoardForm BF = new BoardForm(red, blue);
             //BoardForm BF = new BoardForm(red, blue, true);
             Dispose();
-            BF.Show();
+            BF.Show();*/
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
