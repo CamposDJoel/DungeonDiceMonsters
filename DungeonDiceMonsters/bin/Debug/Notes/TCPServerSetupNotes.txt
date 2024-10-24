@@ -1,0 +1,17 @@
+Router External IP Address 24.2.153.141
+
+
+How did you get it working?
+
+1. Turn off all firewalls on your host pc
+2. Go to your router settings [https://www.routerlogin.net/GenieLogin.php] username: admin password: Eltlacua5!
+3. Find the advance options to Portforwarding
+4. You need to set the extranal IP address: [24.2.153.141] to service [TCP] to the specific port [1560] and to the internal IP address [192.168.1.48]
+5. Now the PC is ready  to host the server.
+
+
+Client:
+1. Must connect to the extranal ip address and port that was set in the port forwarding [24.2.153.141 | 1560]
+
+Server:
+1. Must run and listen to "any" IP address to the specific port [1560]

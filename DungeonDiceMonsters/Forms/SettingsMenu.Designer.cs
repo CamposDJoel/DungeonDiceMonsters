@@ -45,11 +45,11 @@
             this.ListExcludeMusic = new System.Windows.Forms.ListBox();
             this.ListIncludeMusic = new System.Windows.Forms.ListBox();
             this.groupPvPConnectionMode = new System.Windows.Forms.GroupBox();
+            this.btnSaveIPAddress = new System.Windows.Forms.Button();
+            this.txtPvPModeIPAddress = new System.Windows.Forms.TextBox();
+            this.lblPvPModeIPAddresslabel = new System.Windows.Forms.Label();
             this.radioPvPModeLocal = new System.Windows.Forms.RadioButton();
             this.radioPvPModeOnline = new System.Windows.Forms.RadioButton();
-            this.lblPvPModeIPAddresslabel = new System.Windows.Forms.Label();
-            this.txtPvPModeIPAddress = new System.Windows.Forms.TextBox();
-            this.btnSaveIPAddress = new System.Windows.Forms.Button();
             this.GroupMusic.SuspendLayout();
             this.GroupSFX.SuspendLayout();
             this.GroupDuelMusic.SuspendLayout();
@@ -251,10 +251,41 @@
             this.groupPvPConnectionMode.ForeColor = System.Drawing.SystemColors.Control;
             this.groupPvPConnectionMode.Location = new System.Drawing.Point(208, 141);
             this.groupPvPConnectionMode.Name = "groupPvPConnectionMode";
-            this.groupPvPConnectionMode.Size = new System.Drawing.Size(280, 83);
+            this.groupPvPConnectionMode.Size = new System.Drawing.Size(280, 117);
             this.groupPvPConnectionMode.TabIndex = 21;
             this.groupPvPConnectionMode.TabStop = false;
             this.groupPvPConnectionMode.Text = "PvP Connection Mode";
+            // 
+            // btnSaveIPAddress
+            // 
+            this.btnSaveIPAddress.BackColor = System.Drawing.Color.Black;
+            this.btnSaveIPAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnSaveIPAddress.Location = new System.Drawing.Point(205, 70);
+            this.btnSaveIPAddress.Name = "btnSaveIPAddress";
+            this.btnSaveIPAddress.Size = new System.Drawing.Size(63, 28);
+            this.btnSaveIPAddress.TabIndex = 5;
+            this.btnSaveIPAddress.Text = "Save";
+            this.btnSaveIPAddress.UseVisualStyleBackColor = false;
+            this.btnSaveIPAddress.Visible = false;
+            this.btnSaveIPAddress.Click += new System.EventHandler(this.btnSaveIPAddress_Click);
+            // 
+            // txtPvPModeIPAddress
+            // 
+            this.txtPvPModeIPAddress.Location = new System.Drawing.Point(82, 72);
+            this.txtPvPModeIPAddress.Name = "txtPvPModeIPAddress";
+            this.txtPvPModeIPAddress.Size = new System.Drawing.Size(117, 26);
+            this.txtPvPModeIPAddress.TabIndex = 4;
+            this.txtPvPModeIPAddress.Visible = false;
+            // 
+            // lblPvPModeIPAddresslabel
+            // 
+            this.lblPvPModeIPAddresslabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPvPModeIPAddresslabel.Location = new System.Drawing.Point(5, 55);
+            this.lblPvPModeIPAddresslabel.Name = "lblPvPModeIPAddresslabel";
+            this.lblPvPModeIPAddresslabel.Size = new System.Drawing.Size(99, 47);
+            this.lblPvPModeIPAddresslabel.TabIndex = 3;
+            this.lblPvPModeIPAddresslabel.Text = "Local IP Address of server:";
+            this.lblPvPModeIPAddresslabel.Visible = false;
             // 
             // radioPvPModeLocal
             // 
@@ -279,38 +310,6 @@
             this.radioPvPModeOnline.Text = "Online";
             this.radioPvPModeOnline.UseVisualStyleBackColor = true;
             this.radioPvPModeOnline.CheckedChanged += new System.EventHandler(this.radioPvPModeOnline_CheckedChanged);
-            // 
-            // lblPvPModeIPAddresslabel
-            // 
-            this.lblPvPModeIPAddresslabel.AutoSize = true;
-            this.lblPvPModeIPAddresslabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPvPModeIPAddresslabel.Location = new System.Drawing.Point(5, 55);
-            this.lblPvPModeIPAddresslabel.Name = "lblPvPModeIPAddresslabel";
-            this.lblPvPModeIPAddresslabel.Size = new System.Drawing.Size(80, 15);
-            this.lblPvPModeIPAddresslabel.TabIndex = 3;
-            this.lblPvPModeIPAddresslabel.Text = "IP Address:";
-            this.lblPvPModeIPAddresslabel.Visible = false;
-            // 
-            // txtPvPModeIPAddress
-            // 
-            this.txtPvPModeIPAddress.Location = new System.Drawing.Point(91, 49);
-            this.txtPvPModeIPAddress.Name = "txtPvPModeIPAddress";
-            this.txtPvPModeIPAddress.Size = new System.Drawing.Size(97, 26);
-            this.txtPvPModeIPAddress.TabIndex = 4;
-            this.txtPvPModeIPAddress.Visible = false;
-            // 
-            // btnSaveIPAddress
-            // 
-            this.btnSaveIPAddress.BackColor = System.Drawing.Color.Black;
-            this.btnSaveIPAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnSaveIPAddress.Location = new System.Drawing.Point(194, 50);
-            this.btnSaveIPAddress.Name = "btnSaveIPAddress";
-            this.btnSaveIPAddress.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveIPAddress.TabIndex = 5;
-            this.btnSaveIPAddress.Text = "Save";
-            this.btnSaveIPAddress.UseVisualStyleBackColor = false;
-            this.btnSaveIPAddress.Visible = false;
-            this.btnSaveIPAddress.Click += new System.EventHandler(this.btnSaveIPAddress_Click);
             // 
             // SettingsMenu
             // 

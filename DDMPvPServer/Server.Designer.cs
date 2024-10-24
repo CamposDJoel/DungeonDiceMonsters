@@ -39,15 +39,8 @@
             txtMatchOutput = new Label();
             panel2 = new Panel();
             txtConnectionLog = new Label();
-            GroupMode = new GroupBox();
-            txtIPaddress = new TextBox();
-            lblIP = new Label();
-            radioModeLocal = new RadioButton();
-            radioModeOnline = new RadioButton();
-            lblServerError = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            GroupMode.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -61,9 +54,9 @@
             // 
             // btnStart
             // 
-            btnStart.Location = new Point(12, 6);
+            btnStart.Location = new Point(12, 26);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(75, 35);
+            btnStart.Size = new Size(75, 68);
             btnStart.TabIndex = 2;
             btnStart.Text = "Start";
             btnStart.UseVisualStyleBackColor = true;
@@ -71,9 +64,9 @@
             // 
             // btnStop
             // 
-            btnStop.Location = new Point(104, 6);
+            btnStop.Location = new Point(104, 26);
             btnStop.Name = "btnStop";
-            btnStop.Size = new Size(75, 35);
+            btnStop.Size = new Size(75, 68);
             btnStop.TabIndex = 3;
             btnStop.Text = "Stop";
             btnStop.UseVisualStyleBackColor = true;
@@ -146,79 +139,11 @@
             txtConnectionLog.Size = new Size(0, 15);
             txtConnectionLog.TabIndex = 0;
             // 
-            // GroupMode
-            // 
-            GroupMode.Controls.Add(txtIPaddress);
-            GroupMode.Controls.Add(lblIP);
-            GroupMode.Controls.Add(radioModeLocal);
-            GroupMode.Controls.Add(radioModeOnline);
-            GroupMode.Location = new Point(12, 57);
-            GroupMode.Name = "GroupMode";
-            GroupMode.Size = new Size(167, 69);
-            GroupMode.TabIndex = 10;
-            GroupMode.TabStop = false;
-            GroupMode.Text = "Mode";
-            // 
-            // txtIPaddress
-            // 
-            txtIPaddress.Location = new Point(30, 43);
-            txtIPaddress.Name = "txtIPaddress";
-            txtIPaddress.Size = new Size(100, 23);
-            txtIPaddress.TabIndex = 6;
-            txtIPaddress.Text = "192.168.1.48";
-            txtIPaddress.Visible = false;
-            // 
-            // lblIP
-            // 
-            lblIP.AutoSize = true;
-            lblIP.Location = new Point(2, 48);
-            lblIP.Name = "lblIP";
-            lblIP.Size = new Size(20, 15);
-            lblIP.TabIndex = 5;
-            lblIP.Text = "IP:";
-            lblIP.Visible = false;
-            // 
-            // radioModeLocal
-            // 
-            radioModeLocal.AutoSize = true;
-            radioModeLocal.Location = new Point(92, 23);
-            radioModeLocal.Name = "radioModeLocal";
-            radioModeLocal.Size = new Size(53, 19);
-            radioModeLocal.TabIndex = 1;
-            radioModeLocal.Text = "Local";
-            radioModeLocal.UseVisualStyleBackColor = true;
-            radioModeLocal.CheckedChanged += radioModeLocal_CheckedChanged;
-            // 
-            // radioModeOnline
-            // 
-            radioModeOnline.AutoSize = true;
-            radioModeOnline.Checked = true;
-            radioModeOnline.Location = new Point(14, 23);
-            radioModeOnline.Name = "radioModeOnline";
-            radioModeOnline.Size = new Size(60, 19);
-            radioModeOnline.TabIndex = 0;
-            radioModeOnline.TabStop = true;
-            radioModeOnline.Text = "Online";
-            radioModeOnline.UseVisualStyleBackColor = true;
-            radioModeOnline.CheckedChanged += radioModeOnline_CheckedChanged;
-            // 
-            // lblServerError
-            // 
-            lblServerError.AutoSize = true;
-            lblServerError.Location = new Point(14, 44);
-            lblServerError.Name = "lblServerError";
-            lblServerError.Size = new Size(202, 15);
-            lblServerError.TabIndex = 7;
-            lblServerError.Text = "Error starting server; check IP address";
-            lblServerError.Visible = false;
-            // 
             // Server
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(730, 327);
-            Controls.Add(lblServerError);
-            Controls.Add(GroupMode);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(label3);
@@ -237,8 +162,6 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            GroupMode.ResumeLayout(false);
-            GroupMode.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -255,11 +178,5 @@
         private Label txtMatchOutput;
         private Panel panel2;
         private Label txtConnectionLog;
-        private GroupBox GroupMode;
-        private RadioButton radioModeLocal;
-        private RadioButton radioModeOnline;
-        private TextBox txtIPaddress;
-        private Label lblIP;
-        private Label lblServerError;
     }
 }

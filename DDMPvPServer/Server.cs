@@ -35,7 +35,7 @@ namespace DDMPvPServer
         static Server? staticServerObject;
 
         public static void WaitForClients()
-        {
+        {           
             while (_ServerON)
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -264,28 +264,14 @@ namespace DDMPvPServer
                 _ServerON = true;
                 staticServerObject = this;
                 btnStart.Visible = false;
-                GroupMode.Visible = false;
-                lblServerError.Visible = false;
-                string ipInUsed = "na";
-                //Set the server socket based on the mode
-                if (_OnlineMode)
-                {
-                    ServerSocket = new TcpListener(IPAddress.Parse("192.168.1.48"), 5000);
-                    ipInUsed = "192.168.1.48";
-                }
-                else
-                {
-                    string ipInput = txtIPaddress.Text;
-                    ServerSocket = new TcpListener(IPAddress.Parse(ipInput), 5000);
-                    ipInUsed = ipInput;
-                }
+                ServerSocket = new TcpListener(IPAddress.Any, 1560);
+                this.Text = "DDM - Server - Listening to any IP at Port: 1560";
                 ServerSocket.Start();
-                this.Text = "DDM - Server - RUNNING ON IP:" + ipInUsed + "| Host: 5000";
 
                 //Start the first match
                 listMatches.Items.Add("ID: " + matchcount);
                 list_Matches.Add(matchcount, new Match(matchcount));
-                UpdateConnectionLog(string.Format("Match ID: {0} open for players.{1}", matchcount, Environment.NewLine));
+                UpdateConnectionLog(string.Format("Match ID: {0} open for players.{1}", matchcount, Environment.NewLine));               
                 waitingforclients = new Thread(WaitForClients);
                 waitingforclients.Start();
                 btnStop.Visible = true;
@@ -293,9 +279,7 @@ namespace DDMPvPServer
             }
             catch 
             {
-                lblServerError.Visible = true;
                 btnStart.Visible = true;
-                GroupMode.Visible = true;
                 _ServerON = false;
             }           
         }
@@ -317,7 +301,6 @@ namespace DDMPvPServer
             //ServerSocket.Stop();
             list_Matches.Clear();
             btnStart.Visible = true;
-            GroupMode.Visible = true;
             Environment.Exit(0);
         }
         private void listMatches_SelectedIndexChanged(object sender, EventArgs e)
@@ -340,28 +323,6 @@ namespace DDMPvPServer
                 txtMatchOutput.Text = "";
                 txtMatchOutput.Text = activeMatch.GetLogs();
             }));
-        }
-
-        private void radioModeOnline_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioModeOnline.Checked)
-            {
-                _OnlineMode = true;
-                radioModeLocal.Checked = false;
-                lblIP.Visible = false;
-                txtIPaddress.Visible = false;
-            }
-        }
-
-        private void radioModeLocal_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioModeLocal.Checked)
-            {
-                _OnlineMode = false;
-                radioModeOnline.Checked = false;
-                lblIP.Visible = true;
-                txtIPaddress.Visible = true;
-            }
         }
     }
 }

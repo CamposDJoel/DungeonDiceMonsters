@@ -67,7 +67,7 @@ namespace DungeonDiceMonsters
             btnExit.Visible = false;
             btnFindMatch.Visible = false;
             IPAddress ip = IPAddress.Parse(SettingsData.PvPIPAddress);
-            int port = 5000;
+            int port = 1560;
             TcpClient client = new TcpClient();
 
             try

@@ -129,7 +129,7 @@ namespace DungeonDiceMonsters
         private static List<Song> _IncludeSongList = new List<Song>();
         private static List<Song> _ExcludeSongList = new List<Song>();
         private static bool _PvPModeOnline = true;
-        private static string _OnlineIPAddress = "192.168.1.48";
+        private static string _OnlineIPAddress = "24.2.153.141";
         private static string _LocalHostIPAddress = "invalid";
     }
 }
