@@ -11,5 +11,5 @@ SFXON|True
 11|True
 12|True
 13|True
-PvPOnline|True
-LocalHostIPAddreess|192.168.1.19
+PvPOnline|False
+LocalHostIPAddreess|24.2.153.141

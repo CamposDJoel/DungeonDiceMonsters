@@ -1,33 +1,42 @@
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [DARKSymbol] - Origin Card Board ID: [0].Controller: [RED]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [LIGHTSymbol] - Origin Card Board ID: [0].Controller: [RED]
 No Cards were affected by it.
 -----------------------------------------------------------------------------------------
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [EARTHSymbol] - Origin Card Board ID: [1].Controller: [BLUE]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [DARKSymbol] - Origin Card Board ID: [1].Controller: [BLUE]
 No Cards were affected by it.
 -----------------------------------------------------------------------------------------
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [Alien Skull] On Board ID: [17] Owned By: [RED]
-Reaction Check for Effect: [DARKSymbol] Origin Card Board ID: [0]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Summoned: [LALA Li-oon] On Board ID: [2] Owned By: [RED]
+Reaction Check for Effect: [LIGHTSymbol] Origin Card Board ID: [0]
 Effect did not react.
-Reaction Check for Effect: [EARTHSymbol] Origin Card Board ID: [1]
+Reaction Check for Effect: [DARKSymbol] Origin Card Board ID: [1]
 Effect did not react.
-[Alien Skull]'s Summon Monster Phase 2 start. On Board ID [17]
-[Alien Skull]'s Summon Monster Phase 3 start. On Board ID [17]
-[Alien Skull]'s Summon Monster Phase 4 start. On Board ID [17]
-SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: 1
------------------------------------------------------------------------------------------
-
+[LALA Li-oon]'s Summon Monster Phase 2 start. On Board ID [2]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Effect Activation: [LALALioon_OnSummon] - Origin Card Board ID: [2].Controller: [RED]
+[LALA Li-oon]'s Summon Monster Phase 3 start. On Board ID [2]
+[LALA Li-oon]'s Summon Monster Phase 4 start. On Board ID [2]
 -----   Checking for Cards with trigger effects by Monster Summons    ------
 No trigger effects could activate, entering the Main Phase now.
->>>>>>>>>>>>>>>>>>>>>>>Battle Damage Calculation Resolved, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #1] OG Damage Calculated: [2800]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #1] On Board ID: [11] Owned by: [BLUE]
-Checking for active effects that react to the Card destruction.
-Damage dealt to Symbol: [2050]
->>>>>>>>>>>>>>>>>>>>>>>Monster destroyed by battle, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #1]
->>>>>>>>>>>>>>>>>>>>>>>Battle Damage Calculation Resolved, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #2] OG Damage Calculated: [2800]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Card Destroyed: [M-Warrior #2] On Board ID: [10] Owned by: [BLUE]
-Checking for active effects that react to the Card destruction.
-Damage dealt to Symbol: [2050]
->>>>>>>>>>>>>>>>>>>>>>>Monster destroyed by battle, checking for active effects that react to it. | Attacker: [Twin-Headed Thunder Dragon] Defender: [M-Warrior #2]
-Damage dealt to Symbol: [2800]
-Damage dealt to Symbol: [1100]
+SUMMON SEQUENCE ENDS - Monster was removed from the CardsBeingSummonList. CardsBeingSummon Left: 0
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
+----------------------END PHAESE: Checking for Spellbound Counters Removal
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
+----------------------END PHAESE: Checking for Spellbound Counters Removal
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for 1 turn duration effects to be removed.
+No effects to remove.
+-----------------------------------------------------------------------------------------
+----------------------END PHAESE: Checking for Continuous Effects that react to the End Phase
+----------------------END PHAESE: Checking for Spellbound Counters Removal
+-----------------------------------------------------------------------------------------
